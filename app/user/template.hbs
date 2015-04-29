@@ -1,0 +1,28 @@
+<h3>My Account</h3>
+
+{{#if session.isAuthenticated}}
+  <div class="alert alert-info">
+    You are currently authenticated as <em>"{{session.user.realname}}"</em> (login <code>{{session.user.username}}</code>)
+  </div>
+{{else}}
+  <div class="alert alert-info">
+    You can {{#link-to 'login' classNames='alert-link'}}log in{{/link-to}} with login <code>letme</code> and password <code>in</code>.
+  </div>
+{{/if}}
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Real Name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{model.username}}</td>
+      <td>{{model.realname}}</td>
+      <td>{{model.email}}</td>
+    </tr>
+  </tbody>
+</table>
