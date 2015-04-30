@@ -4,7 +4,7 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp({
   fingerprint: {
-    prepend: 'https://s3.amazonaws.com/rugby-ember/'
+    prepend: 'https://dah9mm7p1hhc3.cloudfront.net/'
   }
 });
 
