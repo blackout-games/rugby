@@ -48,6 +48,7 @@ module.exports = function(environment) {
       // when it is created
       apiProtocol: apiProtocol,
       apiHost: apiHost,
+      apiBase: apiBase,
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
