@@ -79,6 +79,7 @@ module.exports = function(environment) {
     
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
+    ENV.APP.apiBase = devApiBase;
     ENV.contentSecurityPolicy['connect-src'] = "'self' "+devApiHost;
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
