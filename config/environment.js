@@ -7,12 +7,26 @@ module.exports = function(environment) {
   /* Blackout Settings */
   
   // Development API
+  var devApiBase = '';
   var devApiProtocol = 'http';
   var devApiHost = 'localhost:4444';
   
+  /*********************/
+  var devApiBase = '/v1';
+  var devApiProtocol = 'https';
+  var devApiHost = 'api.blackoutrugby.com';
+  /*********************/
+  
+  /*********************
+  var devApiBase = '/v1';
+  var devApiProtocol = 'http';
+  var devApiHost = 'apitest.blackoutrugby.com';
+  /*********************/
+  
   // Production API
+  var apiBase = '/v1';
   var apiProtocol = 'https';
-  var apiHost = 'api.blackoutrugby.com/v1';
+  var apiHost = 'api.blackoutrugby.com';
   
   /*********************/
   
@@ -53,7 +67,7 @@ module.exports = function(environment) {
   }
   
   ENV['simple-auth-oauth2'] = {
-    serverTokenEndpoint: apiProtocol+'://'+apiHost+'/token'
+    serverTokenEndpoint: apiProtocol+'://'+apiHost+apiBase+'/token'
   }
 
   if (environment === 'development') {
@@ -67,7 +81,7 @@ module.exports = function(environment) {
     ENV.APP.apiHost = devApiHost;
     ENV.contentSecurityPolicy['connect-src'] = "'self' "+devApiHost;
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
-    ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+'/token';
+    ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
     
   }
 
