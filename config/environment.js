@@ -2,25 +2,25 @@
 
 module.exports = function(environment) {
   
-  
-  /*********************/
-  /* Blackout Settings */
-  
-  // Development API
+  /*********************
+  // Local API
   var devApiBase = '';
   var devApiProtocol = 'http';
   var devApiHost = 'localhost:4444';
-  
-  /*********************/
-  var devApiBase = '/v1';
-  var devApiProtocol = 'https';
-  var devApiHost = 'api.blackoutrugby.com';
   /*********************/
   
-  /*********************
+  /*********************/
+  // Live Test API
   var devApiBase = '/v1';
   var devApiProtocol = 'http';
   var devApiHost = 'apitest.blackoutrugby.com';
+  /*********************/
+  
+  /*********************
+  // Live API
+  var devApiBase = '/v1';
+  var devApiProtocol = 'https';
+  var devApiHost = 'api.blackoutrugby.com';
   /*********************/
   
   // Production API
