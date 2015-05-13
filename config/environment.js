@@ -36,6 +36,9 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    
+    assetFilesPrepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
+    
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -70,12 +73,6 @@ module.exports = function(environment) {
   ENV['simple-auth-oauth2'] = {
     serverTokenEndpoint: apiProtocol+'://'+apiHost+apiBase+'/token'
   };
-  
-  ENV.sassOptions = {
-    includePaths: [
-      'app'
-    ]
-  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -84,6 +81,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     
+    ENV.assetFilesPrepend = '/';
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;

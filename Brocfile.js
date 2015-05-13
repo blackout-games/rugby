@@ -5,8 +5,15 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp({
   fingerprint: {
     prepend: 'https://dah9mm7p1hhc3.cloudfront.net/'
+  },
+  sassOptions: {
+    includePaths: [
+      'app'
+    ]
   }
 });
+
+
 
 // Use `app.import` to add additional libraries to the generated
 // output files.

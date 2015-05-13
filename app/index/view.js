@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import AfterRender from '../mixins/after-render';
+import config from '../config/environment';
 
 export default Ember.View.extend(AfterRender, {
   
@@ -13,15 +14,18 @@ export default Ember.View.extend(AfterRender, {
     this.setup();
   },
   
-  setup: function(){
-    
+  setSizes: function(){
     var viewHeight = $(window).height();
     $('#top-section').height(viewHeight);
+  },
+  
+  setup: function(){
     
+    this.setSizes();
+    $(window).on('resize',this.setSizes);
     this.initBackgroundImages();
     
   },
-  
   
   initBackgroundImages: function() {
     
@@ -37,7 +41,7 @@ export default Ember.View.extend(AfterRender, {
     var self = this;
     
     // Preload image first
-    var img = $('<img src="../../assets/images/backgrounds/home/' + backgrounds[this.bgCursor] + '.jpg" />');
+    var img = $('<img src="' + config.assetFilesPrepend + 'assets/images/backgrounds/home/' + backgrounds[this.bgCursor] + '.jpg" />');
     
     
     img.load(function() {

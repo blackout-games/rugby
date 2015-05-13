@@ -1,28 +1,36 @@
 
+$base-image-folder: "/assets/images/backgrounds/home/";
+
 #top-section {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   transition: background-image 2s ease-in-out;
 }
 
 #top-section.bg01 {
-  background: url('../../assets/images/backgrounds/home/01.jpg') no-repeat center center fixed; 
+  $file: "01";
+  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
 #top-section.bg02 {
-  background: url('../../assets/images/backgrounds/home/02.jpg') no-repeat center center fixed; 
+  $file: "02";
+  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
 #top-section.bg03 {
-  background: url('../../assets/images/backgrounds/home/03.jpg') no-repeat center center fixed; 
+  $file: "03";
+  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
 #top-section.bg04 {
-  background: url('../../assets/images/backgrounds/home/04.jpg') no-repeat center center fixed; 
+  $file: "04";
+  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
 #top-section.bg05 {
-  background: url('../../assets/images/backgrounds/home/05.jpg') no-repeat center center fixed; 
+  $file: "05";
+  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
 
+@for $i from 1 through 4 {
+  
+}
+  
+
 .logo {
-  @include retina-img("../../assets/images/logo.png", "../../assets/images/logo-2x.png", 265px, 87px);
+  @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", 265px, 87px);
 }
