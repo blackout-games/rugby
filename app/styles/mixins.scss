@@ -13,7 +13,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file-1x}"), "#{$file-1x}"));
-
+  /*
   @media
   only screen and (-webkit-min-device-pixel-ratio: 2),
   only screen and (   min--moz-device-pixel-ratio: 2),
@@ -22,5 +22,5 @@
   only screen and (                min-resolution: 192dpi),
   only screen and (                min-resolution: 2dppx) {
     background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file-2x}"), "#{$file-2x}"));
-  }
+  }*/
 }
