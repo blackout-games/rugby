@@ -5,23 +5,23 @@ $base-image-folder: "/assets/images/backgrounds/home/";
   transition: background-image 2s ease-in-out;
 }
 
-#top-section.bg01 {
+.bg01 {
   $file: "01";
   @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
-#top-section.bg02 {
+.bg02 {
   $file: "02";
   @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
-#top-section.bg03 {
+.bg03 {
   $file: "03";
   @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
-#top-section.bg04 {
+.bg04 {
   $file: "04";
   @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }
-#top-section.bg05 {
+.bg05 {
   $file: "05";
   @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
 }

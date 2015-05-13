@@ -27,6 +27,18 @@ class Blackout {
     return array;
   }
   
+  getCSSValue (prop, fromClass) {
+
+    var inspector = $("<div>").css('display', 'none').addClass(fromClass);
+    $("body").append(inspector); // add to DOM, in order to read the CSS property
+    try {
+      return inspector.css(prop);
+    } finally {
+      inspector.remove(); // and remove from DOM
+    }
+    
+  }
+  
 }
 
 export function initialize(/*container, application*/) {

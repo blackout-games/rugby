@@ -7,7 +7,8 @@ export default Ember.View.extend(AfterRender, {
   bgCursor: 0,
   backgrounds: ['01','02','03','04','05'],
   backgroundsStore: [],
-  backgroundDuration: 5000,
+  backgroundPaths: [],
+  backgroundDuration: 3000,
   
   afterRender: function() {
     if(!$('#top-section').length) return;
@@ -40,10 +41,18 @@ export default Ember.View.extend(AfterRender, {
     var backgrounds = this.get('backgrounds');
     var self = this;
     
+    // Get image path
+    if( ! this.backgroundPaths[self.bgCursor] ){
+      
+      // Must use DOM insertion to get fingerprinted file path
+      let url = Em.Blackout.getCSSValue('background-image','bg' + backgrounds[self.bgCursor]);
+      this.backgroundPaths[self.bgCursor] = url.substr(4,url.length-5);
+      
+    }
+    var path = this.backgroundPaths[self.bgCursor];
+    
     // Preload image first
-    var img = $('<img src="' + config.assetFilesPrepend + 'assets/images/backgrounds/home/' + backgrounds[this.bgCursor] + '.jpg" />');
-    
-    
+    var img = $('<img src="'+path+'" />');
     img.load(function() {
         
         // Remove old class
