@@ -1,1 +1,9 @@
-<h3>Sidestep and Fend Your Way To Glory</h3>
+<div id="top-section">
+
+    {{#if session.isAuthenticated}}
+      <a {{ action 'invalidateSession' }}>Logout</a>
+    {{else}}
+      {{#link-to 'login'}}Login{{/link-to}}
+    {{/if}}
+  
+</div>

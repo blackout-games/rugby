@@ -1,0 +1,6 @@
+@mixin retina-img ($url, $url2x, $w, $h) {
+    @include img-retina($url, $url2x, $w, $h);
+    width: $w;
+    height: $h;
+    background-repeat: no-repeat;
+}

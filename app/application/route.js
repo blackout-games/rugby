@@ -9,7 +9,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         attemptedTrans.retry();
         this.session.set('attemptedTransition',null);
       } else {
-        this.transitionTo('user');
+        this.transitionTo('manager');
       }
     },
     sessionAuthenticationFailed: function(error) {

@@ -3,21 +3,21 @@
 module.exports = function(environment) {
   
   /*********************
-  // Local API
+  // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
   var devApiHost = 'localhost:4444';
   /*********************/
   
   /*********************/
-  // Live Test API
+  // Development API (Live, Test)
   var devApiBase = '/v1';
   var devApiProtocol = 'http';
   var devApiHost = 'apitest.blackoutrugby.com';
   /*********************/
   
   /*********************
-  // Live API
+  // Development API (Live, Production)
   var devApiBase = '/v1';
   var devApiProtocol = 'https';
   var devApiHost = 'api.blackoutrugby.com';
@@ -52,11 +52,11 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' use.typekit.net connect.facebook.net", // 'unsafe-inline' 'unsafe-eval' 
+      'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
       'font-src': "'self' data: use.typekit.net",
       'connect-src': "'self' "+apiHost,
       'img-src': "'self' www.facebook.com p.typekit.net",
-      'style-src': "'self' use.typekit.net", //'unsafe-inline'
+      'style-src': "'self' 'unsafe-inline' use.typekit.net",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
   };
@@ -65,11 +65,17 @@ module.exports = function(environment) {
     store: 'simple-auth-session-store:local-storage',
     authorizer: 'simple-auth-authorizer:oauth2-bearer',
     crossOriginWhitelist: [apiProtocol+'://'+apiHost],
-  }
+  };
   
   ENV['simple-auth-oauth2'] = {
     serverTokenEndpoint: apiProtocol+'://'+apiHost+apiBase+'/token'
-  }
+  };
+  
+  ENV.sassOptions = {
+    includePaths: [
+      'app'
+    ]
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

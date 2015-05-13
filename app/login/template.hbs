@@ -9,17 +9,13 @@
 
 <form {{action "submit" on='submit'}}>
 
-  <div class="form-group">
-    {{validated-input type="text" placeholder="Username" value=identification errors=errors.identification }}
-  </div>
+  {{validated-input type="text" placeholder="Username" value=identification errors=errors.identification validationEvent=validationEvent }}
+
+  {{validated-input type="password" placeholder="Password" value=password errors=errors.password validationEvent=validationEvent }}
 
   <div class="form-group">
-    {{input type="password" placeholder="Password" value=password class="form-control" }}
-    {{errors.password}}
-  </div>
-
-  <div class="form-group">
-    <button {{action "submit"}} class="btn btn-default">Login</button>
+    <button {{action "submit"}} class="btn btn-default ">Login</button>
+    {{messages.logging-in}}
   </div>
 
 </form>
