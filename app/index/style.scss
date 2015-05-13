@@ -2,34 +2,17 @@
 $base-image-folder: "/assets/images/backgrounds/home/";
 
 #top-section {
+  -webkit-transition: background-image 2s ease-in-out;
   transition: background-image 2s ease-in-out;
 }
 
-.bg01 {
-  $file: "01";
-  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
-}
-.bg02 {
-  $file: "02";
-  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
-}
-.bg03 {
-  $file: "03";
-  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
-}
-.bg04 {
-  $file: "04";
-  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
-}
-.bg05 {
-  $file: "05";
-  @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
-}
+$backgrounds: "01" "02" "03" "04" "05";
 
-@for $i from 1 through 4 {
-  
+@each $file in $backgrounds {
+  .bg#{$file} {
+    @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
+  }
 }
-  
 
 .logo {
   @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", 265px, 87px);
