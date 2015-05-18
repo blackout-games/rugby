@@ -1,21 +1,25 @@
 
 html {
   font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   color: #222;
   margin: 0;
   padding: 0;
   background-color: white;
-  -webkit-font-smoothing: antialiased;
+  font-size:12px;
 }
 
 body {
   background-color: transparent;
+  font-family: "proxima-nova", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   padding: 0;
 }
 
 .container{
-  margin: 20px;
+  width:100%;
+  max-width: 1250px;
 }
 
 h1 {
@@ -25,4 +29,8 @@ h1 {
 
 p {
   font-family: "ff-tisa-web-pro",serif;
+}
+
+.inline-block {
+  display: inline-block;
 }

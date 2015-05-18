@@ -6,7 +6,7 @@ module.exports = function(environment) {
   // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
-  var devApiHost = 'localhost:4444';
+  var devApiHost = '192.168.20.5:4444';
   /*********************/
   
   /*********************/
@@ -85,7 +85,8 @@ module.exports = function(environment) {
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
-    ENV.contentSecurityPolicy['connect-src'] = "'self' "+devApiHost;
+    ENV.contentSecurityPolicy['script-src'] += " 192.168.20.5:35729 ws://192.168.20.5:35729";
+    ENV.contentSecurityPolicy['connect-src'] += " 192.168.20.5:35729 ws://192.168.20.5:35729";
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
     

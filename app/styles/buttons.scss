@@ -1,0 +1,53 @@
+$button-color: #24305b;
+$button-border-radius: 0px;
+
+@mixin button-link($bg-color){
+  background-color: $bg-color;
+}
+@mixin button-hover(){
+  color: #FFF;
+}
+@mixin button-active($bg-color){
+  background-color: darken($bg-color, 4%);
+  box-shadow: 0px 3px 8px -3px rgba(0,0,0,0.33) inset;
+  color: rgba(255,255,255,0.75);
+}
+@mixin button-focus(){
+  color: #FFF;
+}
+
+.button {
+  @extend .btn;
+  color:#FFF;
+  background-color: $button-color;
+  font-weight:600;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: $button-border-radius;
+}
+
+.button:link {
+  @include button-link($button-color);
+}
+.button:hover {
+  @include button-hover();
+}
+.button:active {
+  @include button-active($button-color);
+}
+.button:focus {
+  @include button-focus();
+}
+
+.big-button {
+  @extend .button;
+  padding:15px 22px;
+  @include font-size(29px);
+  @media #{$phone} {
+    font-size: 5vmin;
+    padding:3vmin 4vmin;
+  }
+  @media #{$tablet} {
+    @include font-size(24px);
+  }
+}

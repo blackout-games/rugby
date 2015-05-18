@@ -4,10 +4,21 @@
 
 class Blackout {
   
+  /**
+   * Rand function which mimic's PHP's rand function
+   * @param  {number} min The minimum number to return
+   * @param  {number} max The maximum number to return
+   * @return {number}     The random number.
+   */
   rand( min, max ){
     return Math.floor((Math.random() * (max-min+1)) + min)
   }
   
+  /**
+   * Shuffles an array
+   * @param  {array} array The array to shuffle.
+   * @return {array}       The shuffled array.
+   */
   shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex ;
 
@@ -27,6 +38,12 @@ class Blackout {
     return array;
   }
   
+  /**
+   * Gets the value of a CSS property based on a class.
+   * @param  {string} prop      The CSS property for the value you want.
+   * @param  {string} fromClass The CSS class containing the property.
+   * @return {string}           The CSS value.
+   */
   getCSSValue (prop, fromClass) {
 
     var inspector = $("<div>").css('display', 'none').addClass(fromClass);
@@ -50,3 +67,12 @@ export default {
   name: 'blackout',
   initialize: initialize
 };
+
+/**
+ * Misc shims
+ */
+
+// Fix date.now in IE8-
+if (!Date.now) {
+    Date.now = function() { return new Date().getTime(); }
+}

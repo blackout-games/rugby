@@ -1,4 +1,33 @@
 <div id="top-section">
+  
+  <div id="welcome"><span class="text-nowrap">WELCOME TO</span> <span class="text-nowrap">BLACKOUT RUGBY</span></div>
+  
+  <div id="subtitle">YOUR CLUB AWAITS.</div>
+  
+  <div class="fbcontinue-container">
+    <button class="fbcontinue-button" {{ action 'continueWithFacebook' }}>CONTINUE WITH FACEBOOK</button>
+  </div>
+  
+  <div class="signup-container">
+    <button class="signup-button" {{ action 'continueWithEmail' }}>OR SIGN UP WITH YOUR EMAIL</button>
+  </div>
+
+  <div id="testimony">
+    <div id="testimony-text">"the best rugby management game out there"</div>
+    <div id="testimony-writer-container">
+      <div id="testimony-writer">- Nick Bishop</div>
+      <div id="testimony-type">Author</div>
+    </div>
+  </div>
+
+  <div id="submenu">What is Blackout Rugby?</div>
+  
+</div>
+
+<footer>
+  <div class="container">
+  
+    <div class="logo" />
 
     {{#if session.isAuthenticated}}
       <a {{ action 'invalidateSession' }}>Logout</a>
@@ -6,6 +35,5 @@
       {{#link-to 'login'}}Login{{/link-to}}
     {{/if}}
     
-    <div class="logo" />
-  
-</div>
+  </div>
+</footer>

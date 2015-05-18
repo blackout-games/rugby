@@ -1,2 +1,4 @@
 # http://www.robotstxt.org
 User-agent: *
+# Don't allow search engines here yet.
+Disallow: /

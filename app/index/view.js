@@ -1,14 +1,17 @@
 import Ember from 'ember';
 import AfterRender from '../mixins/after-render';
+import Timers from '../mixins/timers';
 import config from '../config/environment';
 
-export default Ember.View.extend(AfterRender, {
+export default Ember.View.extend(AfterRender, Timers, {
   
   bgCursor: 0,
   backgrounds: ['01','02','03','04','05'],
+  //backgrounds: ['03'],
+  backgroundsThatCanStart: ['01','02','03'],
   backgroundsStore: [],
   backgroundPaths: [],
-  backgroundDuration: 3000,
+  backgroundDuration: 15000,
   
   afterRender: function() {
     if(!$('#top-section').length) return;
@@ -17,7 +20,7 @@ export default Ember.View.extend(AfterRender, {
   
   setSizes: function(){
     var viewHeight = $(window).height();
-    $('#top-section').height(viewHeight);
+    $('#top-section').css('min-height',viewHeight);
   },
   
   setup: function(){
@@ -31,7 +34,11 @@ export default Ember.View.extend(AfterRender, {
   initBackgroundImages: function() {
     
     this.set('bgCursor',0);
-    this.backgrounds = Em.Blackout.shuffle(this.backgrounds);
+    let canStart = false;
+    do {
+      this.backgrounds = Em.Blackout.shuffle(this.backgrounds);
+      canStart = this.backgroundsThatCanStart.indexOf(this.backgrounds[0]) >= 0;
+    } while(!canStart);
     this.updateBackgroundImage();
     
   },
@@ -71,7 +78,9 @@ export default Ember.View.extend(AfterRender, {
         }
         
         // Schedule next update
-        Ember.run.later(self,self.updateBackgroundImage,self.backgroundDuration);
+        self.addTimer(function(){
+          self.updateBackgroundImage();
+        },self.backgroundDuration,true);
 
     });
     

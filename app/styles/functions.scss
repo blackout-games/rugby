@@ -1,0 +1,7 @@
+@function scale($w,$h,$scale){
+  @return #{($w*$scale)+"px"} #{($h*$scale)+"px"};
+}
+
+@function scale-vmin($w,$h,$vmin){
+  @return #{$vmin+"vmin"} #{($vmin*($h/$w))+"vmin"};
+}

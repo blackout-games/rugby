@@ -1,0 +1,19 @@
+
+// Device media queries
+
+$phone: "(max-width: #{$screen-xs-max})";
+$phone-tall: "(max-width: #{$screen-xs-min})";
+$phone-wide: "(min-width: #{$screen-xs-min}) and (max-width: #{$screen-xs-max})";
+
+$tablet: "(min-width: #{$screen-sm-min}) and (max-width: #{$screen-sm-max})";
+$tablet-and-up: "(min-width: #{$screen-sm-min})";
+$tablet-and-down: "(max-width: #{$screen-sm-max})";
+
+$notebook: "(min-width: #{$screen-md-min}) and (max-width: #{$screen-md-max})";
+$notebook-and-up: "(min-width: #{$screen-md-min})";
+$notebook-and-down: "(max-width: #{$screen-md-max})";
+$laptop: $notebook;
+$laptop-and-up: $notebook-and-up;
+$laptop-and-down: $notebook-and-down;
+
+$desktop: "(min-width: #{$screen-lg-min})";

@@ -3,9 +3,30 @@
     width: $w;
     height: $h;
     background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-@mixin retina-background($file-1x, $file-2x) {
+@mixin retina-img-overlay ($url, $url2x, $size, $position) {
+  background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$url}"), "#{$url}"));
+  background-repeat: no-repeat;
+  background-size: $size;
+  background-position: $position;
+  
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (   min--moz-device-pixel-ratio: 2),
+  only screen and (     -o-min-device-pixel-ratio: 2/1),
+  only screen and (        min-device-pixel-ratio: 2),
+  only screen and (                min-resolution: 192dpi),
+  only screen and (                min-resolution: 2dppx) {
+    background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$url2x}"), "#{$url2x}"));
+  }
+}
+
+@mixin retina-cover-background($file-1x, $file-2x) {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -13,7 +34,7 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file-1x}"), "#{$file-1x}"));
-  /*
+  
   @media
   only screen and (-webkit-min-device-pixel-ratio: 2),
   only screen and (   min--moz-device-pixel-ratio: 2),
@@ -22,5 +43,25 @@
   only screen and (                min-resolution: 192dpi),
   only screen and (                min-resolution: 2dppx) {
     background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file-2x}"), "#{$file-2x}"));
-  }*/
+  }
+}
+
+@mixin cover-background($file){
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(if($bootstrap-sass-asset-helper, twbs-image-path("#{$file}"), "#{$file}"));
+}
+
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
 }

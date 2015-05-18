@@ -2,18 +2,183 @@
 $base-image-folder: "/assets/images/backgrounds/home/";
 
 #top-section {
-  -webkit-transition: background-image 2s ease-in-out;
-  transition: background-image 2s ease-in-out;
+  -webkit-transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
+  transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
+  text-align: center;
 }
 
 $backgrounds: "01" "02" "03" "04" "05";
 
 @each $file in $backgrounds {
   .bg#{$file} {
-    @include retina-background($base-image-folder + $file + ".jpg", $base-image-folder + $file + "-2x.jpg");
+    @include cover-background($base-image-folder + $file + ".jpg");
+    
+    @if $file == "01" { //-------------------------------- 01
+      
+      //background-position: 33% bottom;
+      background-position: 50% bottom;
+      
+    } @else if $file == "02" { //------------------------- 02
+      
+      background-position: 50% bottom;
+      
+    } @else if $file == "03" { //------------------------- 03
+      
+      background-position: 22% bottom;
+      @media #{$tablet-and-down} {
+        background-position: 18% bottom;
+      }
+      
+    } @else if $file == "04" { //------------------------- 04
+      
+      background-position: 50% top;
+      
+    } @else if $file == "05" { //------------------------- 05
+      
+      background-position: 50% top;
+      @media #{$phone} {
+        background-position: 59% top;
+      }
+      
+    }
   }
 }
 
-.logo {
-  @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", 265px, 87px);
+#welcome {
+  position:relative;
+  padding-top:12vh;
+  color:#FFF;
+  text-align: center;
+  font-weight:700;
+  @include font-size(70px);
+  letter-spacing: -1px;
+  line-height:120%;
+  @media #{$phone-tall} {
+    font-size: 10vw;
+    padding-top:7vh;
+  }
+  @media #{$phone-wide} {
+    font-size: 5.9vw;
+    padding-top:7vh;
+  }
+  @media #{$tablet} {
+    font-size: 7vw;
+    padding-top:9vh;
+  }
 }
+
+#subtitle {
+  position:relative;
+  padding-top:1.5vh;
+  color:#b4d564;
+  text-align: center;
+  font-weight:700;
+  @include font-size(59px);
+  letter-spacing: -1px;
+  @media #{$phone-tall} {
+    font-size: 8.5vw;
+  }
+  @media #{$phone-wide} {
+    font-size: 5vw;
+    padding-top:0.4vh;
+  }
+  @media #{$tablet} {
+    font-size: 5.5vw;
+  }
+}
+
+#submenu {
+  position:relative;
+  padding-top:4vh;
+  color:#FFF;
+  text-align: center;
+  font-weight:600;
+  @include font-size(25px);
+}
+
+#testimony {
+  font-family: "ff-tisa-web-pro";
+  position:relative;
+  margin-top:4vh;
+  background-color: rgba(14,20,26,0.85);
+  text-align: center;
+  font-weight:500;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+#testimony-text{
+  padding:12px 20px 20px 20px;
+  @include font-size(33px);
+  color:#c5ed59;
+  display: inline-block;
+  vertical-align: text-top;
+}
+
+#testimony-writer-container{
+  display: inline-block;
+  padding-right: 20px;
+  vertical-align: text-top;
+}
+
+#testimony-writer{
+  color: #FFF;
+  @include font-size(24px);
+  padding-top:10px;
+}
+
+#testimony-type{
+  color: #70ade0;
+  @include font-size(18px);
+}
+
+
+.fbcontinue-container {
+  margin-top:4vh;
+}
+
+$fb-button-color: #3b579d;
+
+.fbcontinue-button {
+  @extend .big-button;
+  background-color: $fb-button-color;
+  @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.85), 4% center );
+  padding-left:44px;
+  
+  @media #{$phone} {
+    background-size: scale-vmin(26,50,4.4);
+    padding-left:9vmin;
+  }
+  @media #{$tablet} {
+    background-size: scale(26,50,0.8);
+  }
+  
+}
+
+.fbcontinue-button:active {
+  @include button-active($fb-button-color);
+  @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.85), 4% center );
+}
+
+.signup-container {
+  margin-top:2vh;
+}
+
+.signup-button {
+  @extend .big-button;
+}
+
+.logo {
+  $logo-scale: 0.44;
+  @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", #{(265*$logo-scale)+"px"}, #{(87*$logo-scale)+"px"} );
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  height:59px;
+  width:100%;
+  background-color:rgba(255,255,255,0.75);
+  padding:11px;
+}
+
