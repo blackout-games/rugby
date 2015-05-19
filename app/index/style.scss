@@ -2,9 +2,15 @@
 $base-image-folder: "/assets/images/backgrounds/home/";
 
 #top-section {
+  background-color:#FFF;
   -webkit-transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
   transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
   text-align: center;
+}
+
+.bgwhite{
+  @include cover-background($base-image-folder + "white.jpg");
+  background-position:center center;
 }
 
 $backgrounds: "01" "02" "03" "04" "05";

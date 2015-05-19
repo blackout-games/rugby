@@ -39,6 +39,9 @@ export default Ember.View.extend(AfterRender, Timers, {
       this.backgrounds = Em.Blackout.shuffle(this.backgrounds);
       canStart = this.backgroundsThatCanStart.indexOf(this.backgrounds[0]) >= 0;
     } while(!canStart);
+    
+    $('#top-section').addClass( "bgwhite" );
+    
     this.updateBackgroundImage();
     
   },
