@@ -92,6 +92,29 @@ class Blackout {
     return !obj.get('media.isMobile');
   }
   
+  preloadImages (sources, callback) {
+    if(sources.length) {
+      var preloaderDiv = $('<div style="display: none;"></div>').prependTo(document.body);
+
+      $.each(sources, function(i,source) {
+        $("<img/>").attr("src", source).appendTo(preloaderDiv);
+
+        if(i === (sources.length-1)) {
+          $(preloaderDiv).imagesLoaded(function() {
+            $(this).remove();
+            if(callback){
+              callback();
+            }
+          });
+        }
+      });
+    } else {
+      if(callback){
+        callback();
+      }
+    }
+  }
+  
 }
 
 export function initialize(/*container, application*/) {

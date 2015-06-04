@@ -35,9 +35,11 @@ app.import('bower_components/perfect-scrollbar/css/perfect-scrollbar.css');
 
 
 /**
- * Wait for images
+ * Preload images
  */
-app.import('bower_components/waitForImages/src/jquery.waitforimages.js');
+app.import('bower_components/eventie/eventie.js');
+app.import('bower_components/eventEmitter/EventEmitter.js');
+app.import('bower_components/imagesloaded/imagesloaded.js');
 
 
 module.exports = app.toTree();

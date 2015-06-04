@@ -11,7 +11,6 @@ export default Ember.Component.extend(Timers, {
   backgrounds: ['01','02','03','04','05'],
   //backgrounds: ['03'],
   backgroundsThatCanStart: ['01','02','03'],
-  backgroundsStore: [],
   backgroundPaths: [],
   backgroundDuration: 15000,
   
@@ -63,12 +62,10 @@ export default Ember.Component.extend(Timers, {
     }
     var path = this.backgroundPaths[self.bgCursor];
     console.log("PATH",path);
-    
     print('started loading');
-    // Preload image first
-    var img = $('<div><img src="'+path+'" /></div>');
     
-    img.waitForImages(function() {
+    Ember.Blackout.preloadImages([path],function(){
+      
       // All descendant images have loaded, now slide up.
       print('image has loaded',"bg" + backgrounds[self.bgCursor]);
       
@@ -93,10 +90,6 @@ export default Ember.Component.extend(Timers, {
       },self.backgroundDuration,true);
       
     });
-    
-    if( this.backgroundsStore.length < backgrounds.length ){
-      this.backgroundsStore.push(img);
-    }
     
   },
 });
