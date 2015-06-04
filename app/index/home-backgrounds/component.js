@@ -57,11 +57,11 @@ export default Ember.Component.extend(Timers, {
       
       // Must use DOM insertion to get fingerprinted file path
       let url = B.getCSSValue('background-image','bg' + backgrounds[self.bgCursor]);
-      this.backgroundPaths[self.bgCursor] = url.substr(4,url.length-5);
+      this.backgroundPaths[self.bgCursor] = B.trimChar( url.substr(4,url.length-5), '"');
       
     }
     var path = this.backgroundPaths[self.bgCursor];
-    console.log("PATH",path);
+    
     print('started loading');
     
     Ember.Blackout.preloadImages([path],function(){

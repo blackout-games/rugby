@@ -49,11 +49,30 @@ class Blackout {
     var inspector = $("<div>").css('display', 'none').addClass(fromClass);
     $("body").append(inspector); // add to DOM, in order to read the CSS property
     try {
-      return inspector.css(prop);
+      return this.trimChar( inspector.css(prop), '\"' );
     } finally {
       inspector.remove(); // and remove from DOM
     }
     
+  }
+  
+  /**
+   * trimChar
+   * @param  {string} string       String to trim
+   * @param  {char} charToRemove   The character to trim
+   * @return {string}              Trimmed string
+   */
+  trimChar (string, charToRemove) {
+    
+    while(string.charAt(0)==charToRemove) {
+        string = string.substring(1);
+    }
+
+    while(string.charAt(string.length-1)==charToRemove) {
+        string = string.substring(0,string.length-1);
+    }
+
+    return string;
   }
   
   /**
@@ -84,14 +103,29 @@ class Blackout {
     
   }
   
+  /**
+   * If we're currently in responsive small mode
+   * @param  {Ember obj}  obj The current ember object with media injected, i.e. routes, controllers, components (this)
+   * @return {Boolean}
+   */
   isSmallMode( obj ) {
     return obj.get('media.isMobile');
   }
   
+  /**
+   * If we're currently in responsive big mode
+   * @param  {Ember obj}  obj The current ember object with media injected, i.e. routes, controllers, components (this)
+   * @return {Boolean}
+   */
   isBigMode( obj ) {
     return !obj.get('media.isMobile');
   }
   
+  /**
+   * Preloads an array of image paths, calls callback when they have loaded. Uses the imagesloaded plugin to handle browser quirks.
+   * @param  {array}   sources  An array of image paths
+   * @param  {Function} callback Function to call once images have loaded
+   */
   preloadImages (sources, callback) {
     if(sources.length) {
       var preloaderDiv = $('<div style="display: none;"></div>').prependTo(document.body);
