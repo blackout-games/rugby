@@ -1,39 +1,114 @@
-<div id="top-section">
+{{#responsive-nav}}
   
-  <div id="welcome"><span class="text-nowrap">WELCOME TO</span> <span class="text-nowrap">BLACKOUT RUGBY</span></div>
-  
-  <div id="subtitle">YOUR CLUB AWAITS.</div>
-  
-  <div class="fbcontinue-container">
-    <button class="fbcontinue-button" {{ action 'continueWithFacebook' }}>CONTINUE WITH FACEBOOK</button>
-  </div>
-  
-  <div class="signup-container">
-    <button class="signup-button" {{ action 'continueWithEmail' }}>OR SIGN UP WITH YOUR EMAIL</button>
-  </div>
-
-  <div id="testimony">
-    <div id="testimony-text">"the best rugby management game out there"</div>
-    <div id="testimony-writer-container">
-      <div id="testimony-writer">- Nick Bishop</div>
-      <div id="testimony-type">Author</div>
+  <div id="sidebar">
+    
+    <div class="sidebar-container">
+      
+      <div id="sidebar-logo" class="col-sm-3 lighting lighting-logo">
+        {{#scroll-to href='#home' }}<div class="logo" />{{/scroll-to}}
+      </div>
+      
+      <div class="col-sm-9 sidebar-child lighting lighting-sidebar">
+        
+          {{#perfect-scroll id="sidebar-body" wheelSpeed=2 suppressScrollX=true class="row"}}
+            <nav class="row">
+              <div class="col-sm-6">
+                <ul class="sidebar-links">
+                  <li id="link-home">{{#scroll-to href='#home' scroll-on='mousedown touchstart'}}Home{{/scroll-to}}</li>
+                  <li id="link-about">{{#scroll-to href='#about' scroll-on='mousedown touchstart' }}About{{/scroll-to}}</li>
+                  <li id="link-contact">{{#scroll-to href='#contact' scroll-on='mousedown touchstart' }}Contact{{/scroll-to}}</li>
+                </ul>
+              </div>
+              
+              <div class="col-sm-6">
+                <div class="menu-buttons-container">
+                  <button class="btn btn-menu no-outline">SIGN UP</button>
+                  <button class="btn btn-menu btn-alt no-outline">LOGIN</button>
+                </div>
+              </div>
+            </nav>
+              
+            <!--
+            {{#if session.isAuthenticated}}
+              <a {{ action 'invalidateSession' }}>Logout</a>
+            {{else}}
+              {{#link-to 'login'}}Login{{/link-to}}
+            {{/if}}
+            -->
+          {{/perfect-scroll}}
+        
+          
+      </div>
+      
     </div>
-  </div>
-
-  <div id="submenu">What is Blackout Rugby?</div>
-  
-</div>
-
-<footer>
-  <div class="container">
-  
-    <div class="logo" />
-
-    {{#if session.isAuthenticated}}
-      <a {{ action 'invalidateSession' }}>Logout</a>
-    {{else}}
-      {{#link-to 'login'}}Login{{/link-to}}
-    {{/if}}
     
   </div>
-</footer>
+    
+  {{#component 'index/home-page' id="body"}}
+    
+    <!-- So that #body can have transparent bg for sidebar gap-fill-->
+    <div class="bg-white">
+      
+      <div class="waypoint-parent">
+      
+        {{waypoint action="handleWaypoint" offset='50%' id="home" contextElementId=controller.scrollContextId class="waypoint"}}
+      
+        {{#component "index/home-backgrounds"}}
+        
+          <div class="container-fluid">
+            <div></div>
+            
+            <div id="welcome"><span class="text-nowrap">WELCOME TO</span> <span class="text-nowrap">BLACKOUT RUGBY</span></div>
+            
+            <div id="subtitle">YOUR CLUB AWAITS.</div>
+            
+            <div class="fbcontinue-container">
+              <button class="btn btn-big btn-fb no-outline" {{ action 'continueWithFacebook' }}>CONTINUE WITH FACEBOOK</button>
+            </div>
+            
+            <div class="signup-container">
+              <button class="btn btn-big no-outline" {{ action 'continueWithEmail' }}>OR SIGN UP WITH YOUR EMAIL</button>
+            </div>
+
+            <div id="testimony">
+              <div id="testimony-text">
+                <span class="iblock">&ldquo;the best rugby management</span>
+                <span class="iblock"> game out there&rdquo;</span>
+              </div>
+              <div id="testimony-writer-container">
+                <div id="testimony-writer">- Nick Bishop</div>
+                <div id="testimony-type">Author</div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        {{/component}}
+      </div>
+
+
+
+      <div class="home-content-block">
+
+        {{waypoint action="handleWaypoint" offset='50%' id="about" contextElementId=controller.scrollContextId class="waypoint"}}
+        
+        <h1>What is Blackout Rugby?</h1>
+        
+      </div>
+
+
+
+      <div class="home-content-block">
+        
+        {{waypoint action="handleWaypoint" offset='50%' id="contact" contextElementId=controller.scrollContextId class="waypoint"}}
+        
+        <h1>Contact</h1>
+        
+      </div>
+      
+    </div>
+    
+  {{/component}}
+  
+{{/responsive-nav}}

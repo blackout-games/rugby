@@ -1,53 +1,91 @@
-$button-color: #24305b;
-$button-border-radius: 0px;
+$button-color: #3b579d;
+$button-hover-color: lighten($button-color,3%);
+$button-border-radius: 4px;
 
-@mixin button-link($bg-color){
-  background-color: $bg-color;
-}
-@mixin button-hover(){
-  color: #FFF;
-}
-@mixin button-active($bg-color){
-  background-color: darken($bg-color, 4%);
-  box-shadow: 0px 3px 8px -3px rgba(0,0,0,0.33) inset;
-  color: rgba(255,255,255,0.75);
-}
-@mixin button-focus(){
-  color: #FFF;
-}
+$fb-button-color: #24305b;
+$fb-button-hover-color: lighten($fb-button-color,3%);
 
-.button {
-  @extend .btn;
+$alt-button-color: #7ba42a;
+$alt-button-hover-color: lighten($alt-button-color,3%);
+
+/**
+ * Override bootstrap css buttons
+ */
+
+.btn {
   color:#FFF;
   background-color: $button-color;
   font-weight:600;
   display: inline-block;
   cursor: pointer;
   border-radius: $button-border-radius;
+  border: none;
+  &:hover {
+    color: #FFF;
+    background-color: $button-hover-color;
+  }
+  &:focus {
+    color: #FFF;
+  }
+  &:active {
+    background-color: $button-hover-color;
+    box-shadow: 0px 44px 30px -44px rgba(0,0,0,0.444) inset;
+  }
 }
 
-.button:link {
-  @include button-link($button-color);
-}
-.button:hover {
-  @include button-hover();
-}
-.button:active {
-  @include button-active($button-color);
-}
-.button:focus {
-  @include button-focus();
-}
-
-.big-button {
-  @extend .button;
+.btn-big {
   padding:15px 22px;
   @include font-size(29px);
-  @media #{$phone} {
-    font-size: 5vmin;
-    padding:3vmin 4vmin;
+  @media #{$mobile} {
+    font-size: 4.4vmin;
+    padding:4vmin 4.4vmin 3.6vmin;
   }
   @media #{$tablet} {
-    @include font-size(24px);
+    @include font-size(28px);
+  }
+}
+
+.no-outline {
+  &:focus,&:active {
+    outline: none !important;
+  }
+}
+
+.btn-fb {
+  background-color: $fb-button-color;
+  @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.7), 4% center );
+  padding-left:44px;
+  
+  @media #{$mobile} {
+    background-size: scale-vmin(26,50,3.3);
+    background-position: 5% center;
+    padding-left:10vmin;
+  }
+  @media #{$tablet} {
+    background-size: scale(26,50,0.7);
+  }
+  
+  &:hover {
+    color: #FFF;
+    background-color: $fb-button-hover-color;
+  }
+  &:focus,&:active {
+    @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.7), 4% center );
+    @media #{$mobile} {
+      background-size: scale-vmin(26,50,3.3);
+      background-position: 5% center;
+      padding-left:10vmin;
+    }
+    @media #{$tablet} {
+      background-size: scale(26,50,0.7);
+    }
+  }
+}
+
+.btn-alt {
+  background-color: $alt-button-color;
+  &:hover {
+    //color: #FFF;
+    background-color: $alt-button-hover-color;
   }
 }

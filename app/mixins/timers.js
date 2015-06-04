@@ -1,4 +1,5 @@
 import Ember from 'ember';
+var  $ = Ember.$;
 
 /**
  * Timer wrapper library which supports waiting when window/tab is inactive
@@ -69,7 +70,7 @@ export default Ember.Mixin.create({
     
     if( timer ){
       window.clearTimeout(timer.currentTimeoutID);
-      this.timerStore.splice(timerID, 1);
+      this.timerStore.splice(timer.id, 1);
     }
     
   },
@@ -99,6 +100,19 @@ export default Ember.Mixin.create({
     if( timer ){
       this.addTimer( timer.callback, timer.delay, timer.waitOnBlur, timer.id );
     }
+    
+  },
+  
+  cancelTimers () {
+    
+    var timerStore = this.timerStore;
+    var self = this;
+    
+    timerStore.forEach(function(timer){
+      
+      self.cancelTimer(timer);
+      
+    });
     
   },
   
@@ -136,7 +150,7 @@ export default Ember.Mixin.create({
   },
   
   getTimer ( timerOrID ) {
-    if( typeof timerOrID == 'object' ){
+    if( typeof timerOrID === 'object' ){
       return timerOrID;
     } else {
       return this.timerStore[timerOrID];

@@ -1,12 +1,14 @@
 @mixin retina-img ($url, $url2x, $w, $h) {
-    @include img-retina($url, $url2x, $w, $h);
-    width: $w;
-    height: $h;
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  @include img-retina($url, $url2x, $w, $h);
+  width: $w;
+  height: $h;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  // So that it appears above borders (lighting)
+  position: relative;
 }
 
 @mixin retina-img-overlay ($url, $url2x, $size, $position) {
@@ -14,6 +16,8 @@
   background-repeat: no-repeat;
   background-size: $size;
   background-position: $position;
+  // So that it appears above borders (lighting)
+  position: relative;
   
   @media
   only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -64,4 +68,10 @@
 @mixin font-size($size) {
   font-size: $size;
   font-size: calculateRem($size);
+}
+
+@mixin smooth-animation {
+  -webkit-transform: rotateZ(360deg);
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
 }

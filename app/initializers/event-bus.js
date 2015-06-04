@@ -1,6 +1,7 @@
-//import eventBus from "../services/event-bus";
+import EventBus from '../services/event-bus';
 
-export function initialize(container, application) {
+export function initialize(registry, application) {
+  application.register('service:event-bus', EventBus);
   application.inject('component', 'EventBus', 'service:event-bus');
   application.inject('controller', 'EventBus', 'service:event-bus');
 }

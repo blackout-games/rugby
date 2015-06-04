@@ -1,53 +1,201 @@
 
-$base-image-folder: "/assets/images/backgrounds/home/";
+$top-menu-height: 70px;
 
-#top-section {
-  background-color:#FFF;
-  -webkit-transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
-  transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
-  text-align: center;
+$responsive-nav-small: $mobile;
+$responsive-nav-big: $tablet-and-up;
+
+.sidebar-container {
+  display: flex;
+  @media #{$responsive-nav-small} {
+    -webkit-flex-flow: column nowrap;
+    min-height:100%;
+  }
+  @media #{$responsive-nav-big} {
+    -webkit-flex-flow: row nowrap;
+    min-height:100%;
+  }
+}
+.sidebar-child {
+  @media #{$responsive-nav-small} {
+    position:relative;
+    flex:1 1 0;
+  }
+  @media #{$responsive-nav-big} {
+    position:relative;
+    flex:1 1 0;
+  }
 }
 
-.bgwhite{
-  @include cover-background($base-image-folder + "white.jpg");
-  background-position:center center;
+#sidebar-logo {
+  background-color: #7ba42a;
+  
+  @media #{$responsive-nav-small} {
+    height: 125px;
+    border-bottom: 7px solid #678a20;
+    flex:0 0 auto;
+  }
+  @media #{$responsive-nav-big} {
+    border-right: 7px solid #678a20;
+    flex:0 0 auto;
+  }
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }
 
-$backgrounds: "01" "02" "03" "04" "05";
+.logo {
+  $logo-w: 265;
+  $logo-h: 87;
+  $logo-scale: 0.64;
+  @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", #{($logo-w*$logo-scale)+"px"}, #{($logo-h*$logo-scale)+"px"} );
+  margin-top:3px;
+  display: inline-block;
+  @media #{$responsive-nav-small} {
+    $logo-scale: 0.75;
+    @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", #{($logo-w*$logo-scale)+"px"}, #{($logo-h*$logo-scale)+"px"} );
+    //margin-top:-8px;
+    margin-left:-4px;
+  }
+}
 
-@each $file in $backgrounds {
-  .bg#{$file} {
-    @include cover-background($base-image-folder + $file + ".jpg");
+#sidebar-body{
+  @media #{$responsive-nav-small} {
+    padding-top:11vh;
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+    // Position and overflow will trigger perfect scrollbar
+    position: absolute;
+    overflow:hidden;
     
-    @if $file == "01" { //-------------------------------- 01
-      
-      //background-position: 33% bottom;
-      background-position: 50% bottom;
-      
-    } @else if $file == "02" { //------------------------- 02
-      
-      background-position: 50% bottom;
-      
-    } @else if $file == "03" { //------------------------- 03
-      
-      background-position: 22% bottom;
-      @media #{$tablet-and-down} {
-        background-position: 18% bottom;
-      }
-      
-    } @else if $file == "04" { //------------------------- 04
-      
-      background-position: 50% top;
-      
-    } @else if $file == "05" { //------------------------- 05
-      
-      background-position: 50% top;
-      @media #{$phone} {
-        background-position: 59% top;
-      }
-      
+    > .container-fluid {
+      padding:0;
     }
   }
+  @media #{$responsive-nav-big} {
+    position:relative;
+    height:$top-menu-height;
+    overflow: visible !important;
+  }
+}
+
+.sidebar-links{
+  list-style: none;
+  margin:0;
+  padding:0;
+  
+  @media #{$responsive-nav-big} {
+    display: flex;
+    -webkit-flex-flow: row nowrap;
+  }
+  
+  > li {
+    margin:0;
+    padding:0;
+    @media #{$responsive-nav-big} {
+      display: inline-block;
+      flex: 1 1 auto;
+      text-align: center;
+    }
+    
+    > a {
+      display: block;
+      color: #d4d6de;
+      text-decoration: none;
+      font-weight:500;
+      
+      @media #{$responsive-nav-small} {
+        padding: 11px;
+        padding-left: 38px;
+        @include font-size(25px);
+      }
+      @media #{$responsive-nav-big} {
+        line-height: $top-menu-height;
+        @include font-size(25px);
+      }
+      
+      &:hover{
+        background-color: #2E2F3C;
+        color: #d4d6de;
+        text-decoration: none;
+      }
+    }
+  }
+  > li.active {
+    > a {
+      @media #{$responsive-nav-small} {
+        border-left: solid 7px #7da331;
+        padding-left: 31px;
+      }
+      @media #{$responsive-nav-big} {
+        //border-top: solid 5px #7da331;
+      }
+      background-color: #18181b;
+      position: relative;
+    }
+    > a:after {
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(38,39,44, 0);
+      @media #{$responsive-nav-small} {
+        right: 0%;
+        top: 50%;
+        border-right-color: #26272c;
+        border-width: 20px;
+        margin-top: -20px;
+      }
+      @media #{$responsive-nav-big} {
+        bottom: 0%;
+        left: 50%;
+        border-bottom-color: #26272c;
+        border-width: 20px;
+        margin-left: -20px;
+      }
+    }
+  }
+}
+
+.menu-buttons-container {
+  @media #{$responsive-nav-small} {
+    margin-top: 15px;
+    padding:10px 20px;
+  }
+  @media #{$responsive-nav-big} {
+    padding:10px 5px;
+  }
+}
+
+.btn-menu {
+  height: #{$top-menu-height - 20px};
+  display: block;
+  @media #{$responsive-nav-small} {
+    margin-bottom: 10px;
+    display:block;
+    width: 100%;
+  }
+  @media #{$responsive-nav-big} {
+    margin: 0 5px;
+    float: right;
+  }
+  @include font-size(25px);
+  padding:0 25px;
+}
+
+.bg-white {
+  // So that sidebar lighting doesn't bleed through
+  background-color: #FFF;
+}
+
+.home-content-block{
+  background-color: tomato;
+  height:1500px;
 }
 
 #welcome {
@@ -59,11 +207,11 @@ $backgrounds: "01" "02" "03" "04" "05";
   @include font-size(70px);
   letter-spacing: -1px;
   line-height:120%;
-  @media #{$phone-tall} {
+  @media #{$mobile-tall} {
     font-size: 10vw;
     padding-top:7vh;
   }
-  @media #{$phone-wide} {
+  @media #{$mobile-wide} {
     font-size: 5.9vw;
     padding-top:7vh;
   }
@@ -81,10 +229,10 @@ $backgrounds: "01" "02" "03" "04" "05";
   font-weight:700;
   @include font-size(59px);
   letter-spacing: -1px;
-  @media #{$phone-tall} {
+  @media #{$mobile-tall} {
     font-size: 8.5vw;
   }
-  @media #{$phone-wide} {
+  @media #{$mobile-wide} {
     font-size: 5vw;
     padding-top:0.4vh;
   }
@@ -105,20 +253,27 @@ $backgrounds: "01" "02" "03" "04" "05";
 #testimony {
   font-family: "ff-tisa-web-pro";
   position:relative;
-  margin-top:4vh;
+  margin:5vh;
   background-color: rgba(14,20,26,0.85);
   text-align: center;
   font-weight:500;
   display: inline-block;
-  white-space: nowrap;
+  //white-space: nowrap;
 }
 
 #testimony-text{
-  padding:12px 20px 20px 20px;
+  padding:12px 10px 0px 10px;
   @include font-size(33px);
   color:#c5ed59;
   display: inline-block;
   vertical-align: text-top;
+  
+  @media #{$mobile-tall} {
+    font-size:6vw;
+  }
+  @media #{$mobile-wide} {
+    font-size:4vw;
+  }
 }
 
 #testimony-writer-container{
@@ -131,39 +286,31 @@ $backgrounds: "01" "02" "03" "04" "05";
   color: #FFF;
   @include font-size(24px);
   padding-top:10px;
+  
+  @media #{$mobile-tall} {
+    font-size:5vw;
+  }
+  @media #{$mobile-wide} {
+    font-size:3vw;
+  }
 }
 
 #testimony-type{
   color: #70ade0;
   @include font-size(18px);
+  padding-bottom:15px;
+  
+  @media #{$mobile-tall} {
+    font-size:4vw;
+  }
+  @media #{$mobile-wide} {
+    font-size:2.5vw;
+  }
 }
 
 
 .fbcontinue-container {
   margin-top:4vh;
-}
-
-$fb-button-color: #3b579d;
-
-.fbcontinue-button {
-  @extend .big-button;
-  background-color: $fb-button-color;
-  @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.85), 4% center );
-  padding-left:44px;
-  
-  @media #{$phone} {
-    background-size: scale-vmin(26,50,4.4);
-    padding-left:9vmin;
-  }
-  @media #{$tablet} {
-    background-size: scale(26,50,0.8);
-  }
-  
-}
-
-.fbcontinue-button:active {
-  @include button-active($fb-button-color);
-  @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.85), 4% center );
 }
 
 .signup-container {
@@ -174,17 +321,28 @@ $fb-button-color: #3b579d;
   @extend .big-button;
 }
 
-.logo {
-  $logo-scale: 0.44;
-  @include retina-img("/assets/images/logo.png", "/assets/images/logo-2x.png", #{(265*$logo-scale)+"px"}, #{(87*$logo-scale)+"px"} );
+.footer {
+  //background-color:rgba(255,255,255,0.59);
+  box-shadow: 0 0 50px 0 rgba(0,0,0,0.22);
+  @media #{$tablet-and-up} {
+    //height:90px;
+  }
 }
 
+// Old
 footer {
   position: fixed;
   bottom: 0;
-  height:59px;
+  height:75px;
   width:100%;
-  background-color:rgba(255,255,255,0.75);
-  padding:11px;
+  background-color:rgba(255,255,255,0.59);
+  padding:0 10px;
+  @media #{$tablet} {
+    height:75px;
+  }
+  @media #{$mobile} {
+    height:50px;
+  }
+  box-shadow: 0 0 50px 0 rgba(0,0,0,0.22);
 }
 

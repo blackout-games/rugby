@@ -1,6 +1,6 @@
-/**
- * Adds helper functions for Blackout apps to Ember.Blackout
- */
+import Ember from 'ember';
+var  E = Ember;
+var  $ = E.$;
 
 class Blackout {
   
@@ -11,7 +11,7 @@ class Blackout {
    * @return {number}     The random number.
    */
   rand( min, max ){
-    return Math.floor((Math.random() * (max-min+1)) + min)
+    return Math.floor((Math.random() * (max-min+1)) + min);
   }
   
   /**
@@ -56,11 +56,47 @@ class Blackout {
     
   }
   
+  /**
+   * Updates the URL hash without triggering scroll
+   * @param  {string} hash The new hash
+   * @return {null}      
+   */
+  updateHashQuietly ( hash ) {
+    
+    hash = hash.replace( /^#/, '' );
+    var fx, node = $( '#' + hash );
+    if ( node.length ) {
+      node.attr( 'id', '' );
+      fx = $( '<div></div>' )
+              .css({
+                  position:'absolute',
+                  visibility:'hidden',
+                  top: $(document).scrollTop() + 'px'
+              })
+              .attr( 'id', hash )
+              .appendTo( document.body );
+    }
+    document.location.hash = hash;
+    if ( node.length ) {
+      fx.remove();
+      node.attr( 'id', hash );
+    }
+    
+  }
+  
+  isSmallMode( obj ) {
+    return obj.get('media.isMobile');
+  }
+  
+  isBigMode( obj ) {
+    return !obj.get('media.isMobile');
+  }
+  
 }
 
 export function initialize(/*container, application*/) {
   // application.inject('route', 'foo', 'service:foo');
-  Ember.Blackout = new Blackout();
+  E.Blackout = new Blackout();
 }
 
 export default {
@@ -74,5 +110,18 @@ export default {
 
 // Fix date.now in IE8-
 if (!Date.now) {
-    Date.now = function() { return new Date().getTime(); }
+    Date.now = function() { return new Date().getTime(); };
 }
+
+/**
+ * Jeremy's minimal os and browser detections
+ * Add as needed
+ */
+window.features = {};
+window.features.lockBody = /crios/i.test(navigator.userAgent); // Chrome on iOS
+//window.features.lockBody = false;
+
+/**
+ * Jeremy's print, so we don't have to type console.log
+ */
+window.print = console.log.bind( console );

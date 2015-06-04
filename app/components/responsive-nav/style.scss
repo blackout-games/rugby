@@ -1,0 +1,150 @@
+
+$responsive-nav-small: $mobile;
+$responsive-nav-big: $tablet-and-up;
+$sidebar-ease: 0.222s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$sidebar-ease: 0.222s ease;
+$sidebar-width: 270px;
+$sidebar-width: 75vmin;
+
+//$responsive-nav-small: $tablet-and-down;
+//$responsive-nav-big: $laptop-and-up;
+
+
+#responsive-nav {
+  overflow:hidden;
+}
+
+#sidebar {
+  
+  position: fixed;
+  background-color: #24252d;
+  transform:translateZ(1px);
+  
+  @media #{$responsive-nav-small} {
+    height: 100%;
+    width: #{$sidebar-width + 0.88vmin};
+    left: #{-$sidebar-width - 0.44vmin};
+    display: block;
+    
+    @include smooth-animation;
+    transition: transform $sidebar-ease;
+  }
+  
+  @media #{$responsive-nav-big} {
+    width:100%;
+    height: $top-menu-height;
+    z-index:2;
+    -webkit-transform: translateZ(0);
+  }
+  
+}
+
+#sidebar.open {
+  @media #{$responsive-nav-small} {
+    transform: translate3d($sidebar-width,0,0);
+  }
+}
+
+#body {
+  position:relative;
+  
+  @media #{$responsive-nav-small} {
+    left: 0;
+    transition: transform $sidebar-ease;
+  }
+  
+  @media #{$responsive-nav-big} {
+    padding-top: $top-menu-height;
+    z-index:1;
+    @include smooth-animation;
+  }
+  
+  // So that sidebar gap won't be white
+  background-color: transparent;
+  
+}
+
+#body.open {
+  @media #{$responsive-nav-small} {
+    transform: translate3d($sidebar-width,0,0);
+  }
+}
+
+$nav-button-diameter: 50px;
+.nav-btn{
+  position:fixed;
+  z-index:50;
+  right:4vmin;
+  bottom:5vh;
+  padding:0;
+  width: $nav-button-diameter;
+  height: $nav-button-diameter;
+  max-width:60px;
+  max-height:60px;
+  background-color: tomato;
+  border-radius: 50%;
+  border:0;
+  text-align: center;
+  box-shadow:0 10px 25px -4px rgba(0,0,0,0.33);
+  .icon-bar{
+    display: block;
+    margin: 3px auto;
+    width:44%;
+    height:4px;
+    background-color: #FFF;
+    border-radius: 2px;
+  }
+  &:focus,&:active {
+    outline: none !important;
+  }
+  &:hover {
+    background-color:darken(tomato,4%);
+  }
+  &:active{
+    box-shadow:0 100px 25px -100px darken(tomato,30%) inset;
+  }
+}
+
+
+.lighting {
+  position: relative;
+}
+.lighting:before {
+  top: 0%;
+  left: 0%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-width: 100px 100px 0 0;
+  border-color: #FFF transparent transparent transparent;
+}
+.lighting-sidebar:before {
+  @media #{$responsive-nav-small} {
+    border-width: 191px 280px 0 0;
+    border-color: #282a32 transparent transparent transparent;
+  }
+  @media #{$responsive-nav-big} {
+    border: none;
+  }
+}
+.lighting-logo:before {
+  @media #{$responsive-nav-small} {
+    border-width: 100px 155px 0 0;
+  }
+  @media #{$responsive-nav-big} {
+    border-width: #{$top-menu-height - 10px} 111px 0 0;
+  }
+  border-color: #88af3b transparent transparent transparent;
+}
+
+.waypoint{
+  
+  // Offset waypoints when top menu is visible
+  @media #{$responsive-nav-big} {
+    display: block; position: relative; top: -$top-menu-height; visibility: hidden;
+  }
+  
+}

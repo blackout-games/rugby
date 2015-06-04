@@ -1,0 +1,12 @@
+{{#if smallMode}}
+  {{#fast-button type="button" class="btn nav-btn" action="toggleMenu"}}
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  {{/fast-button}}
+{{/if}}
+
+<div id="responsive-nav">
+  {{yield}}
+</div>

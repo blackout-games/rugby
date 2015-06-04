@@ -5,12 +5,11 @@ export default Ember.Controller.extend(EmberValidations.Mixin,{
   loginErrorMessage: "",
   messages: [],
   validationEvent: 'loginSubmitted',
+  stuffToWatch: { submitted: "JEREMY" },
   actions: {
     submit: function(){
       
       // Let validated inputs know we're trying to submit
-      //this.set('submitting',true);
-      
       this.EventBus.publish(this.get('validationEvent'));
       
       let self = this;

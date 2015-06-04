@@ -2,14 +2,18 @@
 
 module.exports = function(environment) {
   
-  /*********************
+  var offlineMode = true;
+  var localIP = '192.168.20.5'; // Home
+  //var localIP = '192.168.1.150'; // Nat's parents
+  
+  /*********************/
   // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
-  var devApiHost = '192.168.20.5:4444';
+  var devApiHost = localIP + ':4444';
   /*********************/
   
-  /*********************/
+  /*********************
   // Development API (Live, Test)
   var devApiBase = '/v1';
   var devApiProtocol = 'http';
@@ -32,6 +36,7 @@ module.exports = function(environment) {
   
   
   var ENV = {
+    offlineMode: offlineMode,
     modulePrefix: 'rugby-ember',
     environment: environment,
     baseURL: '/',
@@ -58,7 +63,7 @@ module.exports = function(environment) {
       'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
       'font-src': "'self' data: use.typekit.net",
       'connect-src': "'self' "+apiHost,
-      'img-src': "'self' www.facebook.com p.typekit.net",
+      'img-src': "'self' data: www.facebook.com p.typekit.net",
       'style-src': "'self' 'unsafe-inline' use.typekit.net",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
@@ -85,8 +90,8 @@ module.exports = function(environment) {
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
-    ENV.contentSecurityPolicy['script-src'] += " 192.168.20.5:35729 ws://192.168.20.5:35729";
-    ENV.contentSecurityPolicy['connect-src'] += " 192.168.20.5:35729 ws://192.168.20.5:35729";
+    ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729";
+    ENV.contentSecurityPolicy['connect-src'] += " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729";
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
     

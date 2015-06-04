@@ -17,9 +17,23 @@ body {
   padding: 0;
 }
 
-.container{
+.page-container{
   width:100%;
   max-width: 1250px;
+}
+
+.relative{
+  position:relative;
+}
+
+.vertical-parent {
+  display: table;
+  width: 100%;
+}
+.vertical-child {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
 }
 
 h1 {
@@ -31,6 +45,11 @@ p {
   font-family: "ff-tisa-web-pro",serif;
 }
 
-.inline-block {
+.inline-block, .iblock {
   display: inline-block;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
 }
