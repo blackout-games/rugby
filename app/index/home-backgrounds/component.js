@@ -61,6 +61,44 @@ export default Ember.Component.extend(Timers, {
       
     }
     var path = this.backgroundPaths[self.bgCursor];
+    print('started loading',path);
+    
+    // Preload image first
+    var img = $('<img src="'+path+'" />');
+    img.load(function() {
+        print('image has loaded',"bg" + backgrounds[self.bgCursor]);
+        // Remove old class
+        self.$().removeClass (function (index, css) {
+          return (css.match (/(^|\s)bg\S+/g) || []).join(' ');
+        });
+        
+        // Add new class
+        self.$().addClass( "bg" + backgrounds[self.bgCursor] );
+        
+        // Increment cursor
+        if( self.bgCursor === backgrounds.length-1 ){
+          self.set('bgCursor',0);
+        } else {
+          self.incrementProperty('bgCursor');
+        }
+        
+        // Schedule next update
+        self.addTimer(function(){
+          self.updateBackgroundImage();
+        },self.backgroundDuration,true);
+
+    });
+    
+    /*
+    // Get image path
+    if( ! this.backgroundPaths[self.bgCursor] ){
+      
+      // Must use DOM insertion to get fingerprinted file path
+      let url = B.getCSSValue('background-image','bg' + backgrounds[self.bgCursor]);
+      this.backgroundPaths[self.bgCursor] = B.trimChar( url.substr(4,url.length-5), '"');
+      
+    }
+    var path = this.backgroundPaths[self.bgCursor];
     
     print('started loading');
     
@@ -90,6 +128,7 @@ export default Ember.Component.extend(Timers, {
       },self.backgroundDuration,true);
       
     });
-    
+    */
+   
   },
 });
