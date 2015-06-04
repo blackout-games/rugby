@@ -26,8 +26,18 @@ var app = new EmberApp({
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
+
+/**
+ * Perfect scrollbar
+ */
 app.import('bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js');
 app.import('bower_components/perfect-scrollbar/css/perfect-scrollbar.css');
+
+
+/**
+ * Wait for images
+ */
+app.import('bower_components/waitForImages/src/jquery.waitforimages.js');
 
 
 module.exports = app.toTree();

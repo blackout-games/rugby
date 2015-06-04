@@ -63,35 +63,35 @@ export default Ember.Component.extend(Timers, {
     }
     var path = this.backgroundPaths[self.bgCursor];
     console.log("PATH",path);
-    // Preload image first
-    var img = $('<img src="'+path+'" />');
     
-    //img.load(function() {
-    img.one("load", function() {
-        console.log("IMAGE LOADED");
-        // Remove old class
-        self.$().removeClass (function (index, css) {
-          return (css.match (/(^|\s)bg\S+/g) || []).join(' ');
-        });
-        
-        // Add new class
-        self.$().addClass( "bg" + backgrounds[self.bgCursor] );
-        
-        // Increment cursor
-        if( self.bgCursor === backgrounds.length-1 ){
-          self.set('bgCursor',0);
-        } else {
-          self.incrementProperty('bgCursor');
-        }
-        
-        // Schedule next update
-        self.addTimer(function(){
-          self.updateBackgroundImage();
-        },self.backgroundDuration,true);
-
-    //});
-    }).each(function() {
-      if(this.complete) $(this).load();
+    print('started loading');
+    // Preload image first
+    var img = $('<div><img src="'+path+'" /></div>');
+    
+    img.waitForImages(function() {
+      // All descendant images have loaded, now slide up.
+      print('image has loaded',"bg" + backgrounds[self.bgCursor]);
+      
+      // Remove old class
+      self.$().removeClass (function (index, css) {
+        return (css.match (/(^|\s)bg\S+/g) || []).join(' ');
+      });
+      
+      // Add new class
+      self.$().addClass( "bg" + backgrounds[self.bgCursor] );
+      
+      // Increment cursor
+      if( self.bgCursor === backgrounds.length-1 ){
+        self.set('bgCursor',0);
+      } else {
+        self.incrementProperty('bgCursor');
+      }
+      
+      // Schedule next update
+      self.addTimer(function(){
+        self.updateBackgroundImage();
+      },self.backgroundDuration,true);
+      
     });
     
     if( this.backgroundsStore.length < backgrounds.length ){
