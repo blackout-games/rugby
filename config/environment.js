@@ -60,7 +60,7 @@ module.exports = function(environment) {
     },
     contentSecurityPolicyHeader: 'Content-Security-Policy',
     contentSecurityPolicy: {
-      'default-src': "'none' dah9mm7p1hhc3.cloudfront.net",
+      'default-src': "'none'",
       'script-src': "'self' dah9mm7p1hhc3.cloudfront.net 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
       'font-src': "'self' dah9mm7p1hhc3.cloudfront.net use.typekit.net data: ",
       'connect-src': "'self' "+apiHost,

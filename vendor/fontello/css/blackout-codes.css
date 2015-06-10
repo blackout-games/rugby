@@ -15,3 +15,5 @@
 .icon-users:before { content: '\e80d'; } /* '' */
 .icon-info-circled:before { content: '\e80e'; } /* '' */
 .icon-info:before { content: '\e80f'; } /* '' */
+.icon-cog:before { content: '\e810'; } /* '' */
+.icon-sliders:before { content: '\e811'; } /* '' */
