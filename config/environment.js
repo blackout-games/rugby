@@ -58,15 +58,14 @@ module.exports = function(environment) {
       apiHost: apiHost,
       apiBase: apiBase,
     },
-    contentSecurityPolicyHeader: 'Content-Security-Policy',
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' dah9mm7p1hhc3.cloudfront.net 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
-      'font-src': "'self' dah9mm7p1hhc3.cloudfront.net use.typekit.net data: ",
+      'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
+      'font-src': "'self' use.typekit.net data: ",
       'connect-src': "'self' "+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
-      'style-src': "'self' 'unsafe-inline' use.typekit.net dah9mm7p1hhc3.cloudfront.net",
-      'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com dah9mm7p1hhc3.cloudfront.net"
+      'style-src': "'self' 'unsafe-inline' use.typekit.net",
+      'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
   };
   
