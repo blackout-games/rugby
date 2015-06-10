@@ -61,7 +61,7 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'default-src': "'none'",
       'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
-      'font-src': "'self' data: use.typekit.net",
+      'font-src': "'self' data: use.typekit.net dah9mm7p1hhc3.cloudfront.net",
       'connect-src': "'self' "+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
       'style-src': "'self' 'unsafe-inline' use.typekit.net",

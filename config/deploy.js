@@ -8,7 +8,8 @@ module.exports = {
     "assets": {
       "accessKeyId": "AKIAIPSBXKOJZPHTFHQA",
       "secretAccessKey": "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",
-      "bucket": "rugby-ember-dev"
+      "bucket": "rugby-ember-dev",
+      "exclude": ['.DS_Store', '*-test.js'],
     }
   },
 
@@ -22,6 +23,7 @@ module.exports = {
       "accessKeyId": "AKIAIPSBXKOJZPHTFHQA",
       "secretAccessKey": "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",
       "bucket": "rugby-ember",
+      "exclude": ['.DS_Store', '*-test.js'],
     }
   }
 }
