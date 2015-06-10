@@ -6,14 +6,29 @@ export default Ember.Component.extend({
   sidebarMinWait: 222,
   sidebarLastAction: 0,
   sidebarIsOpen: false,
+  selector: '#sidebar,#backboard,#top-nav,#body',
+  
+  startListening: function(){
+    this.get('EventBus').subscribe('showNav', this, Ember.run.bind(this,this.showSidebar));
+    this.get('EventBus').subscribe('hideNav', this, Ember.run.bind(this,this.hideSidebar));
+  }.on('didInsertElement'),
+  
+  stopListening: function(){
+    this.get('EventBus').unsubscribe('showNav', this, Ember.run.bind(this,this.showSidebar));
+    this.get('EventBus').unsubscribe('hideNav', this, Ember.run.bind(this,this.hideSidebar));
+  }.on('willDestroyElement'),
   
   setup: function(){
+    
+    // Add element behind body to show on scroll bounce
+    $('<div id="backboard"><div class="logo"></div></div>').insertBefore( $('#body') );
     
     // Always close sidebar on change
     this.media.tablet.onchange = Ember.run.bind(this, function(){
       this.get("controller").send('hideSidebar');
     });
     
+    // For testing
     if(this.get('testingSidebar')){
       this.get('controller').send('showSidebar');
       this.media.tablet.onchange = Ember.run.bind(this, function(){
@@ -38,13 +53,25 @@ export default Ember.Component.extend({
       this.$().before(Ember.$('#sidebar'));
     }
     
+    Ember.$(window).on('resize', Ember.run.bind(this, this.handleResize));
+    
   }.on('didInsertElement'),
   
   clean: function(){
     
     this.media.tablet.onchange = null;
     
+    Ember.$(window).off('resize', Ember.run.bind(this, this.handleResize));
+    
   }.on('willDestroyElement'),
+  
+  handleResize: function(){
+    $(this.get('selector')).addClass('resizing');
+    Ember.run.debounce(this,this.cleanResize,200);
+  },
+  cleanResize: function(){
+    $(this.get('selector')).removeClass('resizing');
+  },
   
   smallMode: function(){
     return Ember.Blackout.isSmallMode(this);
@@ -69,16 +96,11 @@ export default Ember.Component.extend({
       
       if( !this.get('sidebarIsOpen') && timeSinceLast>this.get('sidebarMinWait') ){
         
-        $('#sidebar').addClass('open');
-        $('#body').addClass('open').on('mousedown touchstart',Ember.run.bind(this,this.closeSidebar));
+        $(this.get('selector')).addClass('open');
+        $('#body').on('mousedown touchstart',Ember.run.bind(this,this.hideSidebar));
         this.set('sidebarLastAction',now);
         this.set('sidebarIsOpen',true);
-        //var sT = $(window).scrollTop();
-        $('#body').addClass('allowScrollTransition');
-        //$('#body').scrollTop(sT);
-        Ember.run.later(this,function(){
-          //$('html,body').removeClass('allowScrollTransition');
-        },300);
+        $('#navButton').addClass('nav-close');
       }
       
     },
@@ -88,22 +110,20 @@ export default Ember.Component.extend({
       var timeSinceLast = now-this.get('sidebarLastAction');
       
       if( this.get('sidebarIsOpen') && timeSinceLast>this.get('sidebarMinWait') ){
-        $('#sidebar').removeClass('open');
-        $('#body').removeClass('open').off('mousedown touchstart',Ember.run.bind(this,this.closeSidebar));
+        $(this.get('selector')).removeClass('open');
+        $('#body').off('mousedown touchstart',Ember.run.bind(this,this.hideSidebar));
         this.set('sidebarLastAction',now);
         this.set('sidebarIsOpen',false);
-        $('#body').addClass('allowScrollTransition');
-        Ember.run.later(this,function(){
-          // Sync scroll position
-          //var sT = $('#body').scrollTop();
-          $('#body').removeClass('allowScrollTransition');
-          //$(window).scrollTop(sT);
-        },300);
+        $('#navButton').removeClass('nav-close');
       }
       
     }
   },
-  closeSidebar: function(){
+  
+  showSidebar: function(){
+    this.send('showSidebar');
+  },
+  hideSidebar: function(){
     this.send('hideSidebar');
   },
   

@@ -7,11 +7,11 @@ $responsive-nav-big: $tablet-and-up;
 .sidebar-container {
   display: flex;
   @media #{$responsive-nav-small} {
-    -webkit-flex-flow: column nowrap;
+    flex-flow: column nowrap;
     min-height:100%;
   }
   @media #{$responsive-nav-big} {
-    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     min-height:100%;
   }
 }
@@ -82,6 +82,10 @@ $responsive-nav-big: $tablet-and-up;
   }
 }
 
+.menu-icon {
+  color: #50546c;
+}
+
 .sidebar-links{
   list-style: none;
   margin:0;
@@ -89,7 +93,7 @@ $responsive-nav-big: $tablet-and-up;
   
   @media #{$responsive-nav-big} {
     display: flex;
-    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
   }
   
   > li {
@@ -127,15 +131,20 @@ $responsive-nav-big: $tablet-and-up;
   > li.active {
     > a {
       @media #{$responsive-nav-small} {
-        border-left: solid 7px #7da331;
-        padding-left: 31px;
+        //border-left: solid 7px #7da331; // Too much like spotify
+        //padding-left: 31px;
       }
       @media #{$responsive-nav-big} {
         //border-top: solid 5px #7da331;
       }
       background-color: #18181b;
       position: relative;
+      
+      .menu-icon{
+        color: #8bb53b;
+      }
     }
+    /* // Arrow
     > a:after {
       border: solid transparent;
       content: " ";
@@ -158,7 +167,7 @@ $responsive-nav-big: $tablet-and-up;
         border-width: 20px;
         margin-left: -20px;
       }
-    }
+    }*/
   }
 }
 
@@ -188,9 +197,9 @@ $responsive-nav-big: $tablet-and-up;
   padding:0 25px;
 }
 
-.bg-white {
+.bg-preload {
   // So that sidebar lighting doesn't bleed through
-  background-color: #FFF;
+  background-color: #2f303b;
 }
 
 .home-content-block{
@@ -253,8 +262,8 @@ $responsive-nav-big: $tablet-and-up;
 #testimony {
   font-family: "ff-tisa-web-pro";
   position:relative;
-  margin:5vh;
-  background-color: rgba(14,20,26,0.85);
+  margin:7vh 2vh 0 2vh;
+  //background-color: rgba(14,20,26,0.85);
   text-align: center;
   font-weight:500;
   display: inline-block;
@@ -263,16 +272,16 @@ $responsive-nav-big: $tablet-and-up;
 
 #testimony-text{
   padding:12px 10px 0px 10px;
-  @include font-size(33px);
+  @include font-size(39px);
   color:#c5ed59;
   display: inline-block;
   vertical-align: text-top;
   
   @media #{$mobile-tall} {
-    font-size:6vw;
+    font-size:7vw;
   }
   @media #{$mobile-wide} {
-    font-size:4vw;
+    font-size:5vw;
   }
 }
 
@@ -285,7 +294,7 @@ $responsive-nav-big: $tablet-and-up;
 #testimony-writer{
   color: #FFF;
   @include font-size(24px);
-  padding-top:10px;
+  padding-top:14px;
   
   @media #{$mobile-tall} {
     font-size:5vw;

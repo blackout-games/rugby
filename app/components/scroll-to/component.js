@@ -3,6 +3,7 @@ var $ = Ember.$;
 
 var DURATION = 555;
 var EASING = 'easeOutExpo';
+//var EASING = 'easeInOutCubic';
 
 export default Ember.Component.extend({
   tagName: 'a',
@@ -10,13 +11,13 @@ export default Ember.Component.extend({
   duration: DURATION,
   easing: EASING,
   attributeBindings: ['href'],
+  closeMenu: false,
+  delayClose: 0,
+  scrollOn: 'click',
   
   setupEvent: function(){
-    if( this.get('scroll-on') ){
-      this.$().on(this.get('scroll-on'),Ember.run.bind(this,this.scroll));
-    } else {
-      this.$().on('click',Ember.run.bind(this,this.scroll));
-    }
+    
+    this.$().on(this.get('scrollOn'),Ember.run.bind(this,this.scroll));
     
   }.on('didInsertElement'),
 
@@ -26,22 +27,48 @@ export default Ember.Component.extend({
     } else {
       return Ember.$('html, body');
     }
-  }.property(),
+  }.property('window.features.lockBody'),
 
-  target: function() {
+  getTarget: function() {
     var maxScroll = this.get('scrollable')[0].scrollHeight - $(window).height();
-    return Math.min(Ember.$(this.get('href')).position().top + this.get('scrollable').scrollTop(),maxScroll);
-  }.property('href'),
+    
+    var target;
+    if( window.features.lockBody){
+      target = Ember.$(this.get('href')).position().top + this.get('scrollable').scrollTop();
+    } else {
+      target = Ember.$(this.get('href')).offset().top;
+    }
+    
+    return Math.min(target,maxScroll);
+  },
 
   scroll: function(e) {
     
     e.preventDefault();
     e.stopPropagation();
     
+    var self = this;
+    
     this.updateHashQuietly( this.get('href').substr(1) );
+    
+    var newTarget = this.getTarget();
+    var currentScrollTop = window.features.lockBody ? Ember.$('#body').scrollTop() : (Ember.$('html').scrollTop() || Ember.$('body').scrollTop());
+    var scrollDistance = Math.abs(currentScrollTop-newTarget);
+    
+    if( this.get('closeMenu') ){
+      if(scrollDistance > Ember.$(window).height()*0.33){
+        Ember.$('#body,#sidebar,#backboard').addClass('slow-transition');
+      }
+      this.get('EventBus').publish('hideNav');
+    }
+    
     this.get('scrollable').animate({
-      scrollTop: this.get('target')
-    }, this.get('duration'), this.get('easing'));
+      scrollTop: newTarget + 'px'
+    }, this.get('duration'), this.get('easing'), function(){
+      if( self.get('closeMenu') ){
+        Ember.$('#body,#sidebar,#backboard').removeClass('slow-transition');
+      }
+    });
     
   },
   
@@ -72,5 +99,12 @@ export default Ember.Component.extend({
     }
     
   },
+  
+  handleClick: function(e){
+    if( this.get('scrollOn') !== 'click' ){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }.on('click'),
   
 });

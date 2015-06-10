@@ -53,3 +53,26 @@ p {
     min-height: 100%;
     height: 100%;
 }
+
+#console {
+  position:fixed;
+  bottom:0px;
+  width:100%;
+  z-index:999;
+  height:22vh;
+  background-color: rgba(7,7,7,0.8);
+  overflow-y: scroll;
+  border-top: 1px solid rgba(50,50,50,0.8);
+  padding-bottom: 7px;
+}
+
+.console-entry {
+  color:#DDD;
+  @include font-size(14px);
+  margin: 5px 10px;
+}
+
+.console-date {
+  color: #4966FF;
+  font-weight: 700;
+}

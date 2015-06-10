@@ -5,14 +5,15 @@ var B = E.Blackout;
 var  $ = E.$;
 
 export default Ember.Component.extend(Timers, {
-  classNames: ['top-section'],
+  classNames: [],
   
   bgCursor: 0,
-  backgrounds: ['01','02','03','04','05'],
+  backgrounds: ['01','02','03','04','05','06'],
   //backgrounds: ['03'],
   backgroundsThatCanStart: ['01','02','03'],
   backgroundPaths: [],
-  backgroundDuration: 15000,
+  backgroundDuration: 3000,
+  topLayerIsShowing: false,
   
   setup: function(){
     this.setSizes();
@@ -29,7 +30,7 @@ export default Ember.Component.extend(Timers, {
   
   setSizes: function(){
     var viewHeight = $(window).height();
-    this.$().css('min-height',viewHeight);
+    Ember.$('#top-section').css('min-height',viewHeight);
   },
   
   initBackgroundImages: function() {
@@ -41,7 +42,7 @@ export default Ember.Component.extend(Timers, {
       canStart = this.backgroundsThatCanStart.indexOf(this.backgrounds[0]) >= 0;
     } while(!canStart);
     
-    this.$().addClass( "bgwhite" );
+    this.$('#top-section').addClass( "bgstart" );
     
     this.updateBackgroundImage();
     
@@ -61,19 +62,47 @@ export default Ember.Component.extend(Timers, {
       
     }
     var path = this.backgroundPaths[self.bgCursor];
-    print('started loading',path);
     
-    // Preload image first
-    var img = $('<img src="'+path+'" />');
-    img.load(function() {
-        print('image has loaded',"bg" + backgrounds[self.bgCursor]);
-        // Remove old class
-        self.$().removeClass (function (index, css) {
-          return (css.match (/(^|\s)bg\S+/g) || []).join(' ');
-        });
+    // Start with bottom visible
+    Ember.$('#top-section').addClass( "hide-top" );
+    
+    B.preloadImage(path,function() {
         
-        // Add new class
-        self.$().addClass( "bg" + backgrounds[self.bgCursor] );
+        if( self.get('topLayerIsShowing') ){
+        
+          // Remove old class from bottom layer
+          Ember.$('#top-section').removeClass (function (index, css) {
+            return (css.match (/(^|\s)bg-bottom\S+/g) || []).join(' ');
+          });
+          
+          // Place new image on bottom layer
+          Ember.$('#top-section').addClass( "bg-bottom" + backgrounds[self.bgCursor] );
+          
+          // Hide top layer
+          Ember.$('#top-section').removeClass( "show-top" );
+          Ember.$('#top-section').addClass( "hide-top" );
+          
+          // Track
+          self.set('topLayerIsShowing',false);
+          
+        } else { // top layer is hidden
+        
+          // Remove old class from top layer
+          Ember.$('#top-section').removeClass (function (index, css) {
+            return (css.match (/(^|\s)bg-top\S+/g) || []).join(' ');
+          });
+          
+          // Place new image on top layer
+          Ember.$('#top-section').addClass( "bg-top" + backgrounds[self.bgCursor] );
+          
+          // Show top layer
+          Ember.$('#top-section').addClass( "show-top" );
+          Ember.$('#top-section').removeClass( "hide-top" );
+          
+          // Track
+          self.set('topLayerIsShowing',true);
+          
+        }
         
         // Increment cursor
         if( self.bgCursor === backgrounds.length-1 ){
@@ -88,47 +117,6 @@ export default Ember.Component.extend(Timers, {
         },self.backgroundDuration,true);
 
     });
-    
-    /*
-    // Get image path
-    if( ! this.backgroundPaths[self.bgCursor] ){
-      
-      // Must use DOM insertion to get fingerprinted file path
-      let url = B.getCSSValue('background-image','bg' + backgrounds[self.bgCursor]);
-      this.backgroundPaths[self.bgCursor] = B.trimChar( url.substr(4,url.length-5), '"');
-      
-    }
-    var path = this.backgroundPaths[self.bgCursor];
-    
-    print('started loading');
-    
-    Ember.Blackout.preloadImages([path],function(){
-      
-      // All descendant images have loaded, now slide up.
-      print('image has loaded',"bg" + backgrounds[self.bgCursor]);
-      
-      // Remove old class
-      self.$().removeClass (function (index, css) {
-        return (css.match (/(^|\s)bg\S+/g) || []).join(' ');
-      });
-      
-      // Add new class
-      self.$().addClass( "bg" + backgrounds[self.bgCursor] );
-      
-      // Increment cursor
-      if( self.bgCursor === backgrounds.length-1 ){
-        self.set('bgCursor',0);
-      } else {
-        self.incrementProperty('bgCursor');
-      }
-      
-      // Schedule next update
-      self.addTimer(function(){
-        self.updateBackgroundImage();
-      },self.backgroundDuration,true);
-      
-    });
-    */
    
   },
 });

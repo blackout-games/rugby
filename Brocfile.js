@@ -33,13 +33,22 @@ var app = new EmberApp({
 app.import('bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js');
 app.import('bower_components/perfect-scrollbar/css/perfect-scrollbar.css');
 
-
 /**
- * Preload images
+ * Fontello custom blackout icons
  */
-app.import('bower_components/eventie/eventie.js');
-app.import('bower_components/eventEmitter/EventEmitter.js');
-app.import('bower_components/imagesloaded/imagesloaded.js');
+app.import('vendor/fontello/css/blackout.css');
+app.import('vendor/fontello/font/blackout.ttf', {
+  destDir: 'font'
+});
+app.import('vendor/fontello/font/blackout.eot', {
+  destDir: 'font'
+});
+app.import('vendor/fontello/font/blackout.svg', {
+  destDir: 'font'
+});
+app.import('vendor/fontello/font/blackout.woff', {
+  destDir: 'font'
+});
 
 
 module.exports = app.toTree();

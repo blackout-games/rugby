@@ -2,7 +2,10 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   actions: {
-    "handleWaypoint": function(direction,element){
+    continueWithEmail: function(){
+      this.get('controller').transitionToRoute('login');
+    },
+    handleWaypoint: function(direction,element){
       var section = element.get('id');
       
       if( direction === "up" ){

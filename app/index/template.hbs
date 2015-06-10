@@ -5,27 +5,49 @@
     <div class="sidebar-container">
       
       <div id="sidebar-logo" class="col-sm-3 lighting lighting-logo">
-        {{#scroll-to href='#home' }}<div class="logo" />{{/scroll-to}}
+        {{#scroll-to href='#home' closeMenu=true }}<div class="logo" />{{/scroll-to}}
       </div>
       
       <div class="col-sm-9 sidebar-child lighting lighting-sidebar">
         
           {{#perfect-scroll id="sidebar-body" wheelSpeed=2 suppressScrollX=true class="row"}}
+          
             <nav class="row">
               <div class="col-sm-6">
                 <ul class="sidebar-links">
-                  <li id="link-home">{{#scroll-to href='#home' scroll-on='mousedown touchstart'}}Home{{/scroll-to}}</li>
-                  <li id="link-about">{{#scroll-to href='#about' scroll-on='mousedown touchstart' }}About{{/scroll-to}}</li>
-                  <li id="link-contact">{{#scroll-to href='#contact' scroll-on='mousedown touchstart' }}Contact{{/scroll-to}}</li>
+                  
+                  <li id="link-home">
+                    {{#scroll-to href='#home' scrollOn='mousedown touchstart' closeMenu=true }}
+                      <i class="icon-home icon-lg icon-v menu-icon"></i>
+                      <span class="hidden-sm">Home</span>
+                    {{/scroll-to}}
+                  </li>
+                  
+                  <li id="link-about">
+                    {{#scroll-to href='#about' scrollOn='mousedown touchstart' closeMenu=true }}
+                      <i class="icon-logo icon-lg icon-v menu-icon"></i>
+                      <span class="hidden-sm">About</span>
+                    {{/scroll-to}}
+                  </li>
+                  
+                  <li id="link-contact">
+                    {{#scroll-to href='#contact' scrollOn='mousedown touchstart' closeMenu=true }}
+                      <i class="icon-mail-alt icon-md icon-v menu-icon"></i>
+                      <span class="hidden-sm">Contact</span>
+                    {{/scroll-to}}
+                  </li>
+                  
                 </ul>
               </div>
               
               <div class="col-sm-6">
                 <div class="menu-buttons-container">
-                  <button class="btn btn-menu no-outline">SIGN UP</button>
-                  <button class="btn btn-menu btn-alt no-outline">LOGIN</button>
+                  <button class="btn btn-menu no-outline" {{ action 'natIsCool' }}>SIGN UP</button>
+                  <button class="btn btn-menu btn-alt no-outline" {{ action 'natIsCool' }}>LOGIN</button>
+
                 </div>
               </div>
+              
             </nav>
               
             <!--
@@ -36,7 +58,6 @@
             {{/if}}
             -->
           {{/perfect-scroll}}
-        
           
       </div>
       
@@ -47,13 +68,13 @@
   {{#component 'index/home-page' id="body"}}
     
     <!-- So that #body can have transparent bg for sidebar gap-fill-->
-    <div class="bg-white">
+    <div class="bg-preload">
       
       <div class="waypoint-parent">
       
-        {{waypoint action="handleWaypoint" offset='50%' id="home" contextElementId=controller.scrollContextId class="waypoint"}}
+        {{waypoint action="handleWaypoint" offset=controller.waypointOffset id="home" contextElementId=controller.scrollContextId class="waypoint"}}
       
-        {{#component "index/home-backgrounds"}}
+        {{#component "index/home-backgrounds" id="top-section"}}
         
           <div class="container-fluid">
             <div></div>
@@ -91,7 +112,7 @@
 
       <div class="home-content-block">
 
-        {{waypoint action="handleWaypoint" offset='50%' id="about" contextElementId=controller.scrollContextId class="waypoint"}}
+        {{waypoint action="handleWaypoint" offset=controller.waypointOffset id="about" contextElementId=controller.scrollContextId class="waypoint"}}
         
         <h1>What is Blackout Rugby?</h1>
         
@@ -101,7 +122,7 @@
 
       <div class="home-content-block">
         
-        {{waypoint action="handleWaypoint" offset='50%' id="contact" contextElementId=controller.scrollContextId class="waypoint"}}
+        {{waypoint action="handleWaypoint" offset=controller.waypointOffset id="contact" contextElementId=controller.scrollContextId class="waypoint"}}
         
         <h1>Contact</h1>
         

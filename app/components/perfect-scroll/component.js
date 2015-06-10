@@ -40,6 +40,8 @@ export default Ember.Component.extend({
   
   updatePerfectScroll: function(){
     // Update on resize
-    this.$().perfectScrollbar('update');
+    if(this.$().perfectScrollbar){
+      this.$().perfectScrollbar('update');
+    }
   }
 });

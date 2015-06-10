@@ -64,11 +64,11 @@ class Blackout {
    */
   trimChar (string, charToRemove) {
     
-    while(string.charAt(0)==charToRemove) {
+    while(string.charAt(0)===charToRemove) {
         string = string.substring(1);
     }
 
-    while(string.charAt(string.length-1)==charToRemove) {
+    while(string.charAt(string.length-1)===charToRemove) {
         string = string.substring(0,string.length-1);
     }
 
@@ -125,18 +125,21 @@ class Blackout {
    * Preloads an array of image paths, calls callback when they have loaded. Uses the imagesloaded plugin to handle browser quirks.
    * @param  {array}   sources  An array of image paths
    * @param  {Function} callback Function to call once images have loaded
+   * NEEDS TESTING
    */
   preloadImages (sources, callback) {
     if(sources.length) {
-      var preloaderDiv = $('<div style="display: none;"></div>').prependTo(document.body);
+      var preloaderDiv = $('<div style="display: none;"></div>').prependTo(document.body).data('completed',0);
 
       $.each(sources, function(i,source) {
-        $("<img/>").attr("src", source).appendTo(preloaderDiv);
+        var img = $("<img/>").attr("src", source).appendTo(preloaderDiv);
 
         if(i === (sources.length-1)) {
-          $(preloaderDiv).imagesLoaded(function() {
+          img.load(function() {
+            preloaderDiv.data('completed',preloaderDiv.data('completed')+1);
             $(this).remove();
-            if(callback){
+            if(preloaderDiv.data('completed') === sources.length && callback){
+              preloaderDiv.remove();
               callback();
             }
           });
@@ -149,11 +152,48 @@ class Blackout {
     }
   }
   
+  /**
+   * Preloads an image, calls callback when loaded.
+   * @param  {array}   path  Path to the image
+   * @param  {Function} callback Function to call once images have loaded
+   */
+  preloadImage( path, callback ){
+    var img = $('<img src="'+path+'" />');
+    img.load(function() {
+      $(this).remove();
+      if(callback){
+        callback();
+      }
+    });
+  }
+  
+  log ( entry ) {
+    if ($('#console').length===0 ){
+      
+      // Create console viewport
+      $('body').prepend('<div id="console"></div>');
+      
+      $('#console').perfectScrollbar({
+          suppressScrollX: true,
+      });
+      
+      Ember.$(window).on('resize', $('#console').perfectScrollbar('update'));
+      
+    }
+    
+    $('#console').append('<div class="console-entry"><span class="console-date">' + Date.now() + ' > </span>' + entry + '</div>').scrollTop($('#console')[0].scrollHeight);
+  }
+  
 }
 
 export function initialize(/*container, application*/) {
   // application.inject('route', 'foo', 'service:foo');
   E.Blackout = new Blackout();
+
+  /**
+   * Shortcut to blackout console logging
+   */
+  window.log = E.Blackout.log;
 }
 
 export default {
@@ -182,3 +222,85 @@ window.features.lockBody = /crios/i.test(navigator.userAgent); // Chrome on iOS
  * Jeremy's print, so we don't have to type console.log
  */
 window.print = console.log.bind( console );
+
+
+/**
+ * Add functionality to the ember view class to manage hover states manually by applying a .hover class to .btn elements whenever a new section is rendered.
+ * 
+ * We do this so that we can do hovers on mobile properly (as opposed to the browser default for :hover which is to leave the hover state sticky after touch)
+ * 
+ * If you find yourself trying to just use :active, and/or :focus to remove hover state on mobile - the reason that doesn't work is because on desktop we then end up with buttons that lose hover state after a click. This is bad for buttons like the menu button which stay in place on screen.
+ */
+Ember.View.reopen({
+  didInsertElement : function(){
+    this._super();
+    Ember.run.scheduleOnce('afterRender', this, this.afterRenderEvent);
+  },
+  afterRenderEvent : function(){
+    
+    Ember.run.once('afterRender', this.setupWatchers, this);
+    
+  },
+  
+  setupWatchers: function( self ){
+    
+    // Hover
+    Ember.$('body').find('.btn').off('mouseenter touchstart',null,self,self.hover);
+    Ember.$('body').find('.btn').on('mouseenter touchstart',null,self,self.hover);
+    
+    // Leave
+    Ember.$('body').find('.btn').off('mouseleave touchend',null,self,self.leave);
+    Ember.$('body').find('.btn').on('mouseleave touchend',null,self,self.leave);
+    
+  },
+  
+  hover: function(e){
+    
+    //log('hover > ' + e.type);
+    
+    var self = e.data;
+    if( !self.get('endEvent')
+      
+        || (self.get('endEvent') === 'touchend'
+          && e.type === 'touchstart')
+      
+        || (self.get('endEvent') === 'mouseleave'
+          && e.type === 'mouseenter') ){
+      
+      if( !self.get('startEvent') ){
+        self.set('startEvent',e.type);
+      }
+      
+      if(e.type === 'touchstart'){
+        $(this).addClass('press');
+      } else {
+        $(this).addClass('hover');
+      }
+      
+    }
+    
+  },
+  
+  leave: function(e){
+    
+    //log('leave > ' + e.type);
+    
+    var self = e.data;
+    if( !self.get('startEvent')
+      
+        || (self.get('startEvent') === 'touchstart'
+          && e.type === 'touchend')
+      
+        || (self.get('startEvent') === 'mouseenter'
+          && e.type === 'mouseleave') ){
+      
+      if( !self.get('endEvent') ){
+        self.set('endEvent',e.type);
+      }
+      
+      $(this).removeClass('press hover');
+      
+    }
+  },
+  
+});

@@ -1,9 +1,6 @@
 {{#if smallMode}}
-  {{#fast-button type="button" class="btn nav-btn" action="toggleMenu"}}
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
+  {{#fast-button id="navButton" type="button" class="btn nav-btn nav-cross" action="toggleMenu" aria-label="Toggle Navigation"}}
+    <span class="lines"></span>
   {{/fast-button}}
 {{/if}}
 

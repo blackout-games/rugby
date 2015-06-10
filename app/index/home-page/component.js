@@ -14,5 +14,6 @@ export default Ember.Component.extend({
   handleLink: function(){
     Ember.$('[id^=link-]').data('ignore-link',false);
     Ember.$(this).parent().addClass('active').siblings().removeClass('active').data('ignore-link',true);
-  }
+  },
+  
 });

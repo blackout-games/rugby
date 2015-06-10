@@ -71,7 +71,7 @@
 }
 
 @mixin smooth-animation {
-  -webkit-transform: rotateZ(360deg);
+  //-webkit-transform: rotateZ(360deg);
   -webkit-backface-visibility: hidden;
   -webkit-perspective: 1000;
 }

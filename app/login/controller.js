@@ -5,7 +5,6 @@ export default Ember.Controller.extend(EmberValidations.Mixin,{
   loginErrorMessage: "",
   messages: [],
   validationEvent: 'loginSubmitted',
-  stuffToWatch: { submitted: "JEREMY" },
   actions: {
     submit: function(){
       
@@ -29,6 +28,9 @@ export default Ember.Controller.extend(EmberValidations.Mixin,{
       
       return false;
       
+    },
+    cancel: function(){
+      this.transitionToRoute('/');
     }
   },
   validations: {

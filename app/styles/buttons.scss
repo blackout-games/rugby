@@ -1,18 +1,32 @@
-$button-color: #3b579d;
-$button-hover-color: lighten($button-color,3%);
+
+@function hoverColor( $color, $lighten:true ){
+  @if $lighten {
+    @return saturate( lighten( $color, 5% ), 5% );
+  } @else {
+    @return darken( $color, 5% );
+  }
+}
+
+@function pressColor( $color ){
+  @return darken( $color, 5% );
+}
+
 $button-border-radius: 4px;
 
+$button-color: #3b579d;
 $fb-button-color: #24305b;
-$fb-button-hover-color: lighten($fb-button-color,3%);
-
 $alt-button-color: #7ba42a;
-$alt-button-hover-color: lighten($alt-button-color,3%);
+
+
 
 /**
  * Override bootstrap css buttons
  */
 
-.btn {
+/**
+ * :hover must include non-hover properties for touch devices where hover state 'sticks'
+ */
+.btn, .btn:hover {
   color:#FFF;
   background-color: $button-color;
   font-weight:600;
@@ -20,16 +34,22 @@ $alt-button-hover-color: lighten($alt-button-color,3%);
   cursor: pointer;
   border-radius: $button-border-radius;
   border: none;
-  &:hover {
+  user-select: none;
+  //transition: background-color 0.111s;
+  &.hover {
     color: #FFF;
-    background-color: $button-hover-color;
+    background-color: hoverColor($button-color);
+  }
+  &.press {
+    background-color: pressColor($button-color);
+    transform: translate3d(0,1px,0);
   }
   &:focus {
     color: #FFF;
   }
   &:active {
-    background-color: $button-hover-color;
-    box-shadow: 0px 44px 30px -44px rgba(0,0,0,0.444) inset;
+    transform: translate3d(0,1px,0);
+    //box-shadow: 0px 44px 30px -44px rgba(0,0,0,0.444) inset;
   }
 }
 
@@ -51,7 +71,7 @@ $alt-button-hover-color: lighten($alt-button-color,3%);
   }
 }
 
-.btn-fb {
+.btn-fb, .btn-fb:hover {
   background-color: $fb-button-color;
   @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.7), 4% center );
   padding-left:44px;
@@ -64,10 +84,13 @@ $alt-button-hover-color: lighten($alt-button-color,3%);
   @media #{$tablet} {
     background-size: scale(26,50,0.7);
   }
-  
-  &:hover {
+  &.hover {
     color: #FFF;
-    background-color: $fb-button-hover-color;
+    background-color: hoverColor($fb-button-color);
+  }
+  &.press {
+    color: #FFF;
+    background-color: pressColor($fb-button-color);
   }
   &:focus,&:active {
     @include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scale(26,50,0.7), 4% center );
@@ -82,10 +105,15 @@ $alt-button-hover-color: lighten($alt-button-color,3%);
   }
 }
 
-.btn-alt {
+.btn-alt, .btn-alt:hover {
   background-color: $alt-button-color;
-  &:hover {
-    //color: #FFF;
-    background-color: $alt-button-hover-color;
+  
+  &.hover {
+    color: #FFF;
+    background-color: hoverColor($alt-button-color);
+  }
+  &.press {
+    color: #FFF;
+    background-color: pressColor($alt-button-color);
   }
 }
