@@ -8,7 +8,7 @@ export default ResponsiveNav.extend({
   createBackboard: function() {
     
     // Add element behind body to show on scroll bounce
-    $('<div id="backboard" aria-hidden="true"><img src="/assets/images/global/full-logo.svg" alt="Blackout Rugby Logo" class="svg backboard-logo"></div>').insertBefore($('#nav-body'));
+    $('<div id="backboard" aria-hidden="true"><img src="assets/images/global/full-logo.svg" alt="Blackout Rugby Logo" class="svg backboard-logo"></div>').insertBefore($('#nav-body'));
     
   }.on('didInsertElement'),
 
