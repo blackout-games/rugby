@@ -5,7 +5,7 @@ $panel-width: 88vw;
 $max-panel-width: 333px;
 
 $arrows: true;
-$colored-tabs: false;
+$colored-tabs: true;
 
 $sidebar-width: $panel-width / 5;
 $max-sidebar-width: 333px / 5;
@@ -599,7 +599,7 @@ body.free{
       $tab-icon-color: $primary-darker;
     } @else {
       $tab-icon-color: $primary-master;
-      $tab-icon-color: desaturate(lighten($tabbar-color,29%),11%);
+      //$tab-icon-color: desaturate(lighten($tabbar-color,29%),11%);
     }
 
     .nav-tab-icon {
