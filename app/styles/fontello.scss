@@ -1,22 +1,50 @@
-
 /**
  * For icon sizing
  */
+.icon-sm {
+  font-size: 75%;
+}
+
 .icon-md {
   font-size: 125%;
 }
+
 .icon-lg {
   font-size: 150%;
 }
+
 .icon-2x {
   font-size: 200%;
+}
+
+.icon-2xl {
+  font-size: 250%;
+}
+
+.icon-3x {
+  font-size: 300%;
+}
+
+.icon-4x {
+  font-size: 400%;
 }
 
 /**
  * Vertically align icons
  */
-.icon-v {
+.icon-vcenter {
   vertical-align: middle;
-  line-height:100%;
-  display:inline-block;
+  line-height: 100%;
+  display: inline-block;
+  margin-top: -1px;
+  
+  // For icons taller than the parent
+  // Causes wierd jumping during resize (not a big deal)
+  //margin-top: -50%;
+  //margin-bottom: -49%; 
+}
+
+.icon-ios-back{
+  font-size: 140%;
+  @extend .icon-vcenter;
 }

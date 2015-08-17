@@ -1,0 +1,68 @@
+
+.menu-header {
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.menu-manager-image {
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+$color: desaturate(darken($secondary-master,9%),22%);
+
+.menu-manager-text {
+  color: $color;
+  cursor: default;
+  line-height: 70px;
+  
+  a {
+    color: $color;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    &:hover,&:active {
+      color: $primary-on-dark;
+      border: none;
+    }
+  }
+}
+
+.menu-club-image {
+  width:80px;
+  height:80px;
+  border-radius: 50%;
+  margin: -4px auto 0;
+  display: block;
+  position:relative;
+  @include cover-background('/assets/images/menu/club.png');
+  
+  &:before {
+    
+    position:absolute;
+    display: block;
+    z-index:-1;
+    width:97%;
+    height:97%;
+    top:1px;
+    left:1px;
+    right:0;
+    bottom:0;
+    content: " ";
+    border-radius: 50%;
+    @include cover-background('/assets/images/menu/no-logo.png');
+    
+  }
+}
+
+.menu-club-text {
+  text-align: center;
+  font-size: 1.5em;
+  color: $color;
+  cursor: default;
+}
+
+.menu-header-login {
+  padding: 30px;
+}

@@ -1,27 +1,41 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  actions: {
-    continueWithEmail: function(){
-      this.get('controller').transitionToRoute('login');
-    },
-    handleWaypoint: function(direction,element){
-      var section = element.get('id');
+  
+  model: function() {
+    return Ember.RSVP.hash({
       
-      if( direction === "up" ){
-        
-        // Determine previous item
-        var prevSection = element.$().parent().prev().children().first().attr('id');
-        if( prevSection ){
-          section = prevSection;
-        }
-        
-      }
+      countries: this.store.findAll('country'),
       
-      if( !Ember.$('#link-'+section).data('ignore-link') ){
-        Ember.$('#link-'+section).addClass('active').siblings().removeClass('active');
-        Ember.$('[id^=link-]').data('ignore-link',false);
-      }
-    }
-  }
+      stats: this.store.findAll('statistic').then(function(all) {
+        var Stats = Ember.Object.create();
+        all.forEach(function(item) {
+          Stats.set(item.get('id'), item.get('value'));
+        });
+        return Stats;
+      })
+      
+    }).then(function(data){
+      
+      // Add country stats to countries model
+      data.countries.forEach(function(country){
+        
+        country.set('activeTeams',parseInt(data.stats.get('countrySize' + country.id)));
+        
+      });
+      
+      // Finally sort countries biggest first
+      var sortedCountries = Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
+        content: data.countries,
+        sortProperties: ['activeTeams'],
+        sortAscending: false
+      });
+      
+      data.countries = sortedCountries;
+      
+      return data;
+      
+    });
+  },
+ 
 });

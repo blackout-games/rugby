@@ -4,6 +4,17 @@ export default Ember.Component.extend({
   tagName: 'button',
   classNames: ['button'],
   attributeBindings: ['aria-label'],
+  setup: function(){
+    
+    // This fixes a bug where the bottom tabs can receive touchstart events in upper areas of the page when scrolling about.
+    if( this.get('touchFix') ){
+      var offset = this.$().offset();
+      var posY = offset.top - Ember.$(window).scrollTop();
+      this.set('fixedY',posY);
+    }
+    
+  }.on('didInsertElement'),
+  
   mouseDown: function(e){
     this.runAction(e);
   },
@@ -18,7 +29,15 @@ export default Ember.Component.extend({
     }
     
     if( this.get('firstevent') === e.type ) {
-      this.sendAction(undefined,this.$(),e);
+      
+      if( e.type === 'touchstart' && this.get('fixedY') && this.get('fixedY') > e.originalEvent.changedTouches[0].clientY ){
+        
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+        
+      }
+      this.sendAction(undefined,this,e);
     }
     
   }

@@ -1,0 +1,42 @@
+{{page-header title=model.title images="rugby" route=model.title }}
+
+
+<div class="row">
+  <div class="col-lg-8 dash-col">
+    <div class="dash-box">
+            
+      {{back-button class="gap-md"}}
+      
+      <article>
+        
+        <div class="news-date gap-2x">
+          {{date-ui date=model.date class="news-date"}}
+          {{#if model.author}}
+            by 
+            {{#link-to "managers.manager" model.author.id class="nowrap"}}{{model.author.username}}{{/link-to}}
+          {{/if}}
+          {{#if model.country}}
+            in 
+            {{#link-to "countries.country" model.country.id class="nowrap"}}{{model.country.name}}{{/link-to}}
+          {{/if}}
+        </div>
+          
+        {{{model.fullBody}}}
+        
+      </article>
+      
+    </div>
+  </div>
+</div>
+
+  
+  
+  
+<div class="row">
+  <div class="col-md-8 dash-col">
+    <div class="dash-box">
+      <h2>Comments</h2>
+      Coming soon.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+.landscape-preventer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background-color: $primary-master;
+  color: white;
+  display: none;
+}
+.landscape-preventer-icons {
+  i {
+    font-size: 59px;
+    margin: 0 -22px;
+    color: $splash-logo-color;
+  }
+  .mobile-icon {
+    font-size: 73px;
+  }
+  margin-bottom: 10px;
+}
+.landscape-preventer-text {
+  font-size: 22px;
+  //font-weight: 300;
+}

@@ -8,6 +8,36 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.route('login');
   this.route('manager');
+  this.route('signup');
+  this.route('dashboard');
+  this.route('account');
+  this.route('store');
+  this.route('shortcuts');
+  this.route('more');
+  this.route('national-news', function() {
+    this.route('article', {
+      path: ':id'
+    });
+  });
+  this.route('news', function() {
+    this.route('article', {
+      path: ':id'
+    });
+  });
+  this.route('countries', function() {
+    this.route('country', {
+      path: ':id'
+    });
+  });
+
+  this.route('managers', {
+    path: ':id'
+  }, function() {
+    this.route('manager', {
+      path: ':id'
+    });
+  });
+  this.route('coming-soon');
 });
 
 export default Router;

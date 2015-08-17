@@ -2,7 +2,7 @@
 
 {{#if session.isAuthenticated}}
   <div class="alert alert-info">
-    You are currently authenticated as <em>"{{session.manager.realname}}"</em> (login <code>{{session.manager.username}}</code>)
+    You are currently authenticated as <em>"{{model.realname}}"</em> (login <code>{{model.username}}</code>)
   </div>
 {{else}}
   <div class="alert alert-info">
@@ -26,3 +26,9 @@
     </tr>
   </tbody>
 </table>
+
+{{#if session.isAuthenticated}}
+  <a {{ action 'invalidateSession' }}>Logout</a>
+{{else}}
+  {{#link-to 'login'}}Login{{/link-to}}
+{{/if}}

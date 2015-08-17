@@ -1,0 +1,157 @@
+
+
+$height: 11px;
+
+
+/**
+ * Bars spinner
+ */
+
+.spinner.bars {
+  margin: 0 auto;
+  width: 80px;
+  height: $height;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner.left {
+  text-align: left;
+}
+
+.spinner.right {
+  text-align: right;
+}
+
+.spinner.bars > div {
+  background-color: #333;
+  height: 100%;
+  width: 11px;
+  display: inline-block;
+  
+  animation: stretchdelay 0.777s infinite ease-in-out;
+}
+
+$between: 0.1s;
+
+.spinner.bars .rect1 {
+  animation-delay: #{-1 * $between};
+}
+
+.spinner.bars .rect2 {
+  animation-delay: #{0 * $between};
+}
+
+.spinner.bars .rect3 {
+  animation-delay: #{1 * $between};
+}
+
+.spinner.bars .rect4 {
+  animation-delay: #{3 * $between};
+}
+
+.spinner.bars .rect5 {
+  animation-delay: #{4 * $between};
+}
+
+$peak: 44%;
+$finish: 88%;
+$upper-scale: 2.2;
+
+@-webkit-keyframes stretchdelay {
+  0%, #{$finish}, 100% { -webkit-transform: scaleY(1.0) }  
+  #{$peak} { -webkit-transform: scaleY($upper-scale) }
+}
+
+@keyframes stretchdelay {
+  0%, #{$finish}, 100% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  } #{$peak} { 
+    transform: scaleY($upper-scale);
+    -webkit-transform: scaleY($upper-scale);
+  }
+}
+
+
+
+
+
+/**
+ * Circles spinner
+ */
+
+.spinner.circles {
+  margin: 2px auto 0;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner.circles > div {
+  width: 15px;
+  height: 15px;
+  background-color: #333;
+
+  border-radius: 100%;
+  display: inline-block;
+  animation: bouncedelay 1.0s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  animation-fill-mode: both;
+}
+
+.spinner.circles .bounce1 {
+  animation-delay: -0.32s;
+}
+
+.spinner.circles .bounce2 {
+  animation-delay: -0.16s;
+}
+
+$peak: 50%;
+$finish: 100%;
+
+@-webkit-keyframes bouncedelay {
+  0%, #{$finish}, 100% { -webkit-transform: scale(0.0) }
+  #{$peak} { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, #{$finish}, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } #{$peak} { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+
+
+
+/**
+ * Spinner colours
+ */
+
+.spinner.white > div {
+  background-color:white;
+}
+
+.spinner.dark > div {
+  background-color:desaturate(darken($secondary-master,33%),22%);
+}
+
+.spinner.light > div {
+  background-color:desaturate(lighten($secondary-master,40%),33%);
+}
+
+.spinner.primary > div {
+  background-color:saturate(lighten($primary-master,11%),22%);
+}
+
+.spinner.secondary > div {
+  background-color:saturate(lighten($secondary-master,15%),33%);
+}
+
+.spinner.fb > div {
+  background-color:saturate(lighten($secondary-master,15%),33%);
+}

@@ -1,0 +1,65 @@
+$base-image-folder: "/assets/images/login/";
+
+
+$bg-tint: linear-gradient(
+  to bottom,
+  $bg-color-dark,
+  $bg-color-dark 60%,
+  rgba($bg-color-dark,0.8) 80%,
+  rgba($bg-color-dark,0.8) 100%
+);
+
+.background {
+  height:100%;
+  @include cover-background-tinted($base-image-folder + "bg.jpg",$bg-tint);
+  &:before{
+    background-position: center bottom;
+  }
+}
+
+.login-container {
+  max-width:360px;
+  padding: 30px;
+  height:100%;
+}
+
+.login-logo-container {
+  text-align: center;
+  .icon-logo {
+    color: $primary-master;
+    font-size:80px;
+  }
+}
+
+.login-boxes {
+  padding-left: 44px !important;
+}
+
+.login-icons {
+  pointer-events: none;
+  color: $primary-master;
+  position:absolute;
+  top:4px;
+  left:6px;
+  font-size: 175%;
+}
+
+.key-icon {
+  font-size: 159%;
+  left:7px;
+  top:6px;
+}
+
+.login-button {
+  
+}
+
+.fb-login-button {
+  .icon-facebook {
+    position:absolute;
+    line-height:100%;
+    left:50%;
+    margin-left:-17px;
+    font-size:150%;
+  }
+}

@@ -1,7 +1,43 @@
-@function scale($w,$h,$scale){
-  @return #{($w*$scale)+"px"} #{($h*$scale)+"px"};
+/**
+ * Size
+ */
+
+@function scaleDimensions($w, $h, $scale) {
+  @return #{$w * $scale + "px"} #{$h * $scale + "px"};
 }
 
-@function scale-vmin($w,$h,$vmin){
-  @return #{$vmin+"vmin"} #{($vmin*($h/$w))+"vmin"};
+@function scale-vmin($w, $h, $vmin) {
+  @return #{$vmin + "vmin"} #{$vmin * $h / $w + "vmin"};
+}
+
+/**
+ * Color
+ */
+
+@function hsb($h-hsb, $s-hsb, $b-hsb) {
+  @return hsba($h-hsb, $s-hsb, $b-hsb, 1);
+}
+
+@function hsba($h-hsb, $s-hsb, $b-hsb, $a: 1) {
+  @if $b-hsb == 0 {
+    @return hsla(0, 0, 0, $a)
+  } @else {
+    $l-hsl: ($b-hsb/2) * (2 - ($s-hsb/100));
+    $s-hsl: ($b-hsb * $s-hsb) / if($l-hsl < 50, $l-hsl * 2, 200 - $l-hsl * 2);
+    @return hsla($h-hsb, $s-hsl, $l-hsl, $a);
+  }
+}
+
+@function hoverColor($color, $lighten: true) {
+  @if $lighten {
+    @return saturate(lighten($color, 5%), 10%);
+  }
+
+  @else {
+    @return darken($color, 5%);
+  }
+}
+
+@function pressColor($color) {
+  @return darken($color, 5%);
 }

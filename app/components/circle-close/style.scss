@@ -1,0 +1,19 @@
+.circle-close {
+  position: absolute;
+  top:0;
+  right:0;
+  width:auto;
+  font-size:27px;
+  
+  a,a:hover {
+    color: rgba(#FFF,0.59);
+    &.hover {
+      color: rgba(#FFF,0.9);
+      text-decoration: none;
+    }
+    &.press {
+      color: rgba(#FFF,0.25);
+      text-decoration: none;
+    }
+  }
+}

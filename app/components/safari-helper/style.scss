@@ -1,0 +1,25 @@
+.safari-helper {
+  display: none;
+  width: 100%;
+}
+.safari-message {
+  position:relative;
+  height:44px;
+  width:100%;
+  background-color: $warning-background-color;
+  display:none;
+  color: $warning-text-color;
+  padding-left:10px;
+  line-height:44px;
+  
+  a {
+    color: lighten($warning-text-color,22%);
+  }
+}
+
+.safari-content {
+  color: $warning-text-color;
+  background-color: lighten($warning-background-color,0%);
+  display: none;
+  padding:7px 15px 15px;
+}

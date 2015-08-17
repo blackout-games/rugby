@@ -1,9 +1,33 @@
-$nav-link-padding: 20px 15px;
-@import "bootstrap";
-@import "variables";
+
+/**
+ * Core
+ */
+@import "custom"; // bootstrap
+@import "grid"; // Flexboxgrid + bootstrap
+
+/**
+ * Functions and Mixins
+ */
 @import "functions";
 @import "mixins";
+
+/**
+ * Variables
+ */
+@import "variables";
+@import "colors";
+@import "tints";
+
+/**
+ * Specific stuff
+ */
+@import "text";
 @import "blackout";
+@import "forms";
 @import "buttons";
-@import "pods";
 @import "fontello";
+
+/**
+ * Components styles
+ */
+@import "pods";

@@ -4,6 +4,6 @@ import AuthenticatedRouteMixin from 'simple-auth/mixins/authenticated-route-mixi
 export default Ember.Route.extend(AuthenticatedRouteMixin,{
 //export default Ember.Route.extend({
   model: function() {
-    return this.store.find('manager',this.session.get('manager.id'));
+    return this.store.peekRecord('manager',this.session.get('managerId'));;
   },
 });

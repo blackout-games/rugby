@@ -1,0 +1,736 @@
+$animation-time: 0.333s;
+$topbar-height: 59px;
+$tabbar-height: 55px;
+$panel-width: 88vw;
+$max-panel-width: 333px;
+
+$arrows: true;
+$colored-tabs: false;
+
+$sidebar-width: $panel-width / 5;
+$max-sidebar-width: 333px / 5;
+
+$nav-xs: $mobile;
+$nav-sm: $tablet;
+$nav-md: $tablet-wide;
+$nav-lg: $desktop;
+$nav-sm-down: $tablet-and-down;
+$nav-md-down: $tablet-wide-and-down;
+$nav-sm-up: $tablet-and-up;
+$nav-md-up: $tablet-wide-and-up;
+
+$topbar-color: desaturate(darken($primary-master,4%),7%);
+//$topbar-color: desaturate(darken($primary-master,4%),12%);
+
+
+$panel-color: $background-dark-global;
+
+// Tabbar color
+@if $colored-tabs {
+  $tabbar-color: $primary-master;
+} @else {
+  $tabbar-color: desaturate(darken($secondary-master,37%),25%);
+}
+
+// Sidebar color
+@if $colored-tabs {
+  $sidebar-color: desaturate(darken($secondary-master,35%),25%);
+} @else {
+  $sidebar-color: $primary-master;
+}
+
+
+@if $colored-tabs {
+  $menu-selected-color: $primary-master;
+  $menu-selected-content-color: $primary-darker;
+  $tab-selected-color: $primary-dark;
+  $tab-selected-content-color: saturate(lighten($primary-master,15%),15%);
+} @else {
+  $menu-selected-color: $primary-dark;
+  $menu-selected-content-color: saturate(lighten($primary-master,15%),15%);
+  $tab-selected-color: $primary-master;
+  $tab-selected-content-color: $primary-darker;
+}
+
+
+
+#nav-topbar {
+  position: fixed;
+  z-index: 70;
+  width: 100%;
+  height:$topbar-height;
+  top:0;
+  background-color: $topbar-color;
+  //background-color: $tabbar-color;
+  padding-top:$topbar-height - 37px;
+  text-align: center;
+  color: #FFF;
+  //color: desaturate(darken($secondary-master,33%),33%);
+  font-size: 27px;
+  //box-shadow: 0 -10px 10px 10px rgba(black,0.7);
+  @media #{$mobile-wide} {
+    display:none;
+  }
+  .nav-topbar-logo {
+    //fill: darken(desaturate(adjust-hue($primary-master,6%),25%),33%);
+    fill: desaturate(darken($secondary-master,37%),25%);
+    height: 33px;
+  }
+  &.open {
+    @if not($colored-tabs) {
+      background-color: $panel-color;
+    }
+    @media #{$nav-sm-up} {
+      background-color: $panel-color;
+    }
+    //background-color: lighten($panel-color,7%);
+    //background-color: desaturate(darken($topbar-color,11%),7%);
+  }
+}
+.nav-topbar-standalone {
+  @media #{$nav-sm},#{$nav-md} {
+    z-index: 40 !important;
+    padding-left: $max-sidebar-width;
+  }
+}
+
+#nav-width-tester {
+  width: auto;
+  height: 100px;
+  background-color: rgba( black, 0.33 );
+  margin: 30px;
+}
+
+.nav-status-balloon {
+  width: 100%;
+  height: 22px;
+  background-color: transparent;
+  @media #{$mobile-wide} {
+    display:none;
+  }
+
+  &.nav-status-balloon-flex {
+    height: $topbar-height;
+  }
+
+  &.nav-status-balloon-full {
+    height: $topbar-height;
+  }
+}
+
+//$('#nav-panel').addClass('force-transition');
+#nav-touch-blocker {
+  position: fixed;
+  z-index: 45;
+  width: 100vw;
+  height: 100%; // Must be % for chrome iOS (after address bar hide)
+  top: 0;
+  left: 0;
+  background-color: rgba(black,0.333);
+  opacity: 0;
+  transition: opacity $animation-time;
+  visibility: hidden;
+  &.open {
+    visibility: visible;
+    opacity: 1;
+  }
+  @media #{$nav-lg} {
+    display:none;
+  }
+}
+
+#nav-body {
+  @extend .clearfix;
+  //background-color: desaturate(lighten($secondary-master,33%),44%);
+  background-color: desaturate(lighten($secondary-master,45%),44%);
+  overflow-x: hidden;
+  min-height: 100vh;
+
+  &.fixed {
+    height:100vh;
+
+    // Must be auto. 100% makes it too wide on safari ios
+    width:auto;
+
+    // Normal
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    // Balloon
+    #tabbar-balloon {
+      height: $tabbar-height - 1px;
+      //background-color: #F0F;
+    }
+  }
+
+  @media #{$nav-sm},#{$nav-md} {
+    margin-left: $max-sidebar-width;
+  }
+
+  @media #{$nav-lg} {
+
+    left:0;
+    margin-left: $max-sidebar-width;
+
+    transition: none;
+    &.open {
+      margin-left: $max-panel-width;
+    }
+    &.force-transition {
+      transition: margin-left $animation-time;
+    }
+  }
+  &.resizing {
+    transition: none;
+  }
+  &.nav-disabled {
+    transition: none;
+    margin-left: 0;
+  }
+  
+  // Blur
+  @media #{$nav-md-down} {
+    transition: filter $animation-time;
+    &.open {
+      filter: blur(10px);
+    }
+  }
+
+}
+
+body.fixed,html.fixed {
+  overflow:hidden;
+}
+
+body.free{
+  @media #{$nav-xs} {
+    padding-bottom: $tabbar-height - 1px;
+    &.nav-disabled {
+      padding-bottom: 0;
+    }
+  }
+}
+
+#nav-sidebar-and-tabs {
+
+  @media #{$nav-sm-up} {
+    position:fixed;
+    z-index: 51;
+    width: $sidebar-width;
+    max-width: $max-sidebar-width;
+    height:100%;
+    left: 0;
+    top: 0;
+    transition: none;
+  }
+  
+  // Maybe add when/if shadows come back into modern design
+  //box-shadow: 0px 0 7px 7px rgba(black,0.33);
+
+}
+
+#nav-tabbar {
+
+  background-color: $tabbar-color;
+
+  @media #{$nav-xs} {
+    position:fixed;
+    z-index:100;
+    width:100%;
+    bottom: -1px;
+    background-color: $tabbar-color;
+    box-sizing: border-box;
+    height: auto;
+  }
+
+  // Tabs wrapper (sits beside footer end logo)
+  .nav-tabs-col {
+    @media #{$nav-xs} {
+      width: $panel-width;
+      max-width: $max-panel-width;
+    }
+  }
+}
+
+#nav-sidebar {
+
+  background-color: $sidebar-color;
+
+  @media #{$nav-xs} {
+    position:fixed;
+    z-index: 51;
+    width: $sidebar-width;
+    max-width: $max-sidebar-width;
+    height:100%;
+    left:0;
+    top:101vh;
+    transition: transform $animation-time;
+
+    &.open {
+      transform: translate3d(0,-101vh,0);
+    }
+
+    &.alt {
+      left: -$tabbar-height;
+      top:0;
+
+      &.open {
+        transform: translate3d($tabbar-height,0,0);
+      }
+    }
+
+  }
+
+  &.resizing {
+    transition: none;
+  }
+
+  .sidebar-logo-wrapper {
+
+    height: auto;
+    text-align: center;
+    padding: 10px 0;
+
+    .sidebar-logo {
+      @if $colored-tabs {
+        color: lighten($panel-color,7%);
+      } @else {
+        color: rgba($panel-color,0.44);
+      }
+      //color: rgba(white,0.33);
+      //color: white;
+    }
+    
+    @media #{$limited-height-non-mobile} {
+      display: none;
+    }
+    
+  }
+
+  #nav-menu-buffer-mobile {
+    display:none;
+    @media #{$nav-xs} {
+      display:block;
+      width:100%;
+      height: $tabbar-height*1.5;
+    }
+  }
+}
+
+
+#nav-panel {
+  
+  .nav-panel-spacer {
+    width: $sidebar-width;
+    max-width: $max-sidebar-width;
+  }
+  
+  position:fixed;
+  top: 0;
+  z-index: 50;
+  left: -$panel-width;
+  height:100%;
+  width: $panel-width;
+  max-width: $max-panel-width;
+  background-color: rgba($panel-color,0.95);
+  background-color: $panel-color;
+
+  transition: transform $animation-time;
+
+  /**
+   * For small and medium, panel starts at right edge of sidebar
+   */
+  @media #{$nav-sm-up} {
+    width: $max-panel-width;
+    max-width: $max-panel-width;
+    left: $max-sidebar-width - $max-panel-width;
+  }
+  
+  // Maybe add when/if shadows come back into modern design
+  //box-shadow: 0px 0 22px 22px rgba(black,0.33);
+
+  @media #{$nav-lg} {
+    //left: -$max-panel-width;
+    transition: none;
+  }
+
+  &.open {
+    @media #{$nav-xs} {
+      transform: translate3d($panel-width,0,0);
+    }
+    @media #{$nav-sm-up} {
+      transform: translate3d( #{$max-panel-width - $max-sidebar-width} ,0,0);
+    }
+  }
+
+  &.force-transition {
+    transition: transform $animation-time;
+  }
+  &.resizing {
+    transition: none;
+  }
+  
+  .menu-panel {
+    padding: 0px;
+    
+    h5 {
+      color: $primary-master;
+      text-transform: uppercase;
+    }
+    .menu-link,.menu-link:hover {
+      display: block;
+      margin: 0;
+      padding:10px 30px;
+      font-size:17px;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: desaturate(lighten($panel-color,33%),4%);
+      &.press,&.hover {
+        //color: white;
+        background-color: lighten($panel-color,3%);
+      }
+      &.selected {
+        color: $primary-master;
+      }
+    }
+  }
+
+  .menu-fake {
+    @include cover-background('/assets/images/global/menu.jpg');
+    height: 150px;
+    margin-bottom: 15px;
+  }
+  
+  .tab-panel {
+    
+    h4 {
+      color: rgba(white,0.7);
+      text-transform: uppercase;
+      font-size: 29px;
+      font-weight: 300;
+    }
+    h5 {
+      color: $primary-master;
+    }
+    .tab-panel-header {
+      padding: 20px 30px;
+    }
+  }
+}
+
+.nav-tabs-end {
+  height: $tabbar-height;
+  line-height: $tabbar-height;
+  text-align: center;
+
+  @if $colored-tabs {
+    background-color: desaturate(darken($tabbar-color,5%),4%);
+  } @else {
+    background-color: darken($tabbar-color,3%);
+  }
+  
+  color: lighten($tabbar-color,7%);
+  i {
+    font-size: 35px;
+    margin: -3px -20px 0;
+  }
+
+}
+
+.nav-tab-filler {
+  height: $tabbar-height;
+  box-sizing: border-box;
+}
+
+.nav-tab {
+  text-align: center;
+
+  .nav-tab-btn,.nav-menu-btn {
+    height: $tabbar-height;
+    width:100%;
+    border-radius: 0;
+    box-sizing: border-box;
+    padding: 0;
+    position: relative;
+
+    @media #{$nav-sm-up} {
+      height: $max-sidebar-width - 4px;
+    }
+
+    .nav-icon-wrapper {
+      //height:10px;
+      margin-bottom: -2px;
+    }
+    .nav-tab-icon {
+      font-size: 20px;
+    }
+    .nav-tab-text {
+      font-size: 12px;
+    }
+
+    &.selected {
+      //background-color: $panel-color !important;
+      @if $arrows {
+        &:after {
+          left: 100%;
+          top: 50%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+          border-width: 11px;
+          margin-top: -11px;
+        }
+      }
+    }
+
+    &:active,&.press {
+      transform: none;
+    }
+    &:focus {
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+
+  $dark-color: desaturate(darken(adjust-hue($primary-master,6%),27%),22%);
+  $darker-color: desaturate(darken(adjust-hue($primary-master,6%),33%),22%);
+  $lighter-color: saturate(lighten($primary-master,7%),11%);
+
+  .nav-menu-btn {
+
+    background-color: transparent;
+    //background-color: $primary-master;
+
+    /*
+    border-bottom: 1px solid desaturate(darken($primary-master,8%),9%);
+    @media #{$retina-media} {
+      border-bottom-width: 0.5px;
+    }
+    //*/
+
+    .nav-tab-icon {
+      font-size: 22px;
+      color: $darker-color;
+
+      @if $colored-tabs {
+        color: $primary-master;
+      } @else {
+        color: $primary-darker;
+      }
+    }
+    .nav-tab-text {
+
+      @if $colored-tabs {
+        color: desaturate(lighten($sidebar-color,25%),11%);
+      } @else {
+        color: desaturate(darken($primary-master,22%),11%);
+      }
+      
+    }
+
+    &.hover {
+      background-color: desaturate(darken($primary-master,11%),11%);
+      @if $colored-tabs {
+        background-color: $panel-color;
+      } @else {
+        background-color: $lighter-color;
+      }
+    }
+
+    &.nav-menu-manager {
+      i {
+        font-size: 20px;
+      }
+    }
+    &.nav-menu-club {
+      i {
+        font-size: 25px;
+      }
+    }
+    &.nav-menu-support {
+      i {
+        font-size: 20px;
+      }
+    }
+
+    &.selected {
+
+      background-color: $menu-selected-color;
+      
+      @if $arrows {
+        &:after {
+          border-left-color: $menu-selected-color;
+        }
+      }
+
+      .nav-tab-text {
+        color: $menu-selected-content-color;
+      }
+      i {
+        color: $menu-selected-content-color;
+      }
+    }
+  }
+
+  .nav-tab-btn {
+    background-color: $tabbar-color;
+
+    &.press {
+      background-color: $tabbar-color;
+    }
+    
+    @if $colored-tabs {
+      $tab-text-color: desaturate(darken($primary-master,22%),11%);
+    } @else {
+      $tab-text-color: desaturate(lighten($tabbar-color,27%),11%);
+    }
+    
+    .nav-tab-text {
+      color: $tab-text-color;
+    }
+    
+    @if $colored-tabs {
+      $tab-icon-color: $primary-darker;
+    } @else {
+      $tab-icon-color: $primary-master;
+      $tab-icon-color: desaturate(lighten($tabbar-color,29%),11%);
+    }
+
+    .nav-tab-icon {
+      color: $tab-icon-color;
+    }
+
+    .lines {
+      background: $tab-icon-color;
+      width: 19px;
+      &:before, &:after {
+        background: $tab-icon-color;
+        width: 19px;
+      }
+    }
+
+    &.hover {
+      @if $colored-tabs {
+        background-color: $lighter-color;
+      } @else {
+        background-color: lighten($tabbar-color,4%);
+      }
+    }
+
+    &.nav-tab-chat {
+      i {
+        font-size: 16px;
+      }
+    }
+    &.nav-tab-timeline {
+      i {
+        font-size: 19px;
+      }
+    }
+    &.nav-tab-alerts {
+      i {
+        font-size: 16px;
+      }
+    }
+
+    &.selected, &.nav-close {
+      background-color: $tab-selected-color;
+
+      @media #{$nav-xs} {
+        //background-color: $primary-master;
+      }
+
+      @if $arrows {
+        &:after {
+          border-left-color: $tab-selected-color;
+
+          @media #{$nav-xs} {
+            border-left-color: transparent;
+            border-bottom-color: $tab-selected-color;
+            top: auto;
+            bottom: 100%;
+            left: 50%;
+            margin-top: 0;
+            margin-left: -11px;
+          }
+        }
+      }
+
+      .nav-tab-text {
+        color: $tab-selected-content-color;
+      }
+      i {
+        color: $tab-selected-content-color;
+      }
+      .lines {
+        &:before, &:after {
+          background: #FFF;
+        }
+      }
+    }
+
+    // Hide menu button when hidden on large
+    &.nav-tab-menu {
+      @media #{$nav-lg} {
+        //display: none;
+      }
+    }
+    &.nav-tab-menu.nav-close {
+      @media #{$nav-lg} {
+        //display: inline-block;
+      }
+    }
+
+
+    &.nav-close {
+      background-color: $sidebar-color;
+      
+      @if $colored-tabs {
+        $close-color: $tabbar-color;
+        $close-color: desaturate(lighten($sidebar-color,12%),5%);
+      } @else {
+        $close-color: white;
+        $close-color: $primary-dark;
+        //$close-color: $tabbar-color;
+      }
+      
+      .nav-tab-text {
+        color: $close-color;
+      }
+      .lines {
+        &:before, &:after {
+          background: $close-color;
+        }
+      }
+      &:after {
+        border: none;
+      }
+      @media #{$nav-lg} {
+        @if $colored-tabs {
+          $close-color: $primary-dark
+        } @else {
+          $close-color: desaturate(lighten($tabbar-color,11%),11%);
+        }
+        background-color: transparent;
+        .nav-tab-text {
+          color: $close-color;
+        }
+        .lines {
+          &:before, &:after {
+            background: $close-color;
+          }
+        }
+      }
+
+      &.hover {
+        //background-color: lighten($tabbar-color,4%);
+      }
+    }
+  }
+}

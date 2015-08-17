@@ -1,53 +1,55 @@
-$base-image-folder: "/assets/images/backgrounds/home/";
+$base-image-folder: "/assets/images/home/backgrounds/";
 
 #top-section {
   @include smooth-animation;
   //-webkit-transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
   //transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
   text-align: center;
-  
   // Required so bgs are visible in ff.
-  position:relative;
-  z-index:0;
+  position: relative;
+  z-index: 0;
 }
 
-.bgstart{
+.bgstart {
   //background-color: #2f303b;
   //@include cover-background($base-image-folder + "white.jpg");
   //background-position:center center;
 }
 
 #top-section:before, #top-section:after {
-    content: "";
-    position: absolute;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    left: 0%;
+  content: "";
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
 }
+
 #top-section:before {
-    //background-image: url(http://p-hold.com/1500/1000);
-    z-index: -1;
-    transition: opacity 2s ease-in-out, background-position 2s ease-in-out;
-    opacity: 0;
+  //background-image: url(http://p-hold.com/1500/1000);
+  z-index: -1;
+  transition: opacity 2s ease-in-out, background-position 2s ease-in-out;
+  opacity: 0;
 }
 
 #top-section:after {
-    //background-image: url(http://p-hold.com/1500/1001);
-    z-index: -2;
-    opacity: 1;
+  //background-image: url(http://p-hold.com/1500/1001);
+  z-index: -2;
+  opacity: 1;
 }
 
-#top-section:hover {
-}
+#top-section:hover {}
+
 #top-section:hover:before {
-    opacity: 0;
+  opacity: 0;
 }
+
 #top-section.show-top:before {
-    opacity: 1;
+  opacity: 1;
 }
+
 #top-section.hide-top:before {
-    opacity: 0;
+  opacity: 0;
 }
 
 $backgrounds: "01" "02" "03" "04" "05" "06";
@@ -55,74 +57,70 @@ $backgrounds: "01" "02" "03" "04" "05" "06";
 @each $file in $backgrounds {
   .bg-top#{$file}:before {
     @include cover-background($base-image-folder + $file + ".jpg");
-    
-    @if $file == "01" { //-------------------------------- 01
-      
+    @if $file == "01" {
+      //-------------------------------- 01
       //background-position: 33% bottom;
       background-position: 50% bottom;
-      
-    } @else if $file == "02" { //------------------------- 02
-      
+    }
+    @else if $file == "02" {
+      //------------------------- 02
       background-position: 50% bottom;
-      
-    } @else if $file == "03" { //------------------------- 03
-      
+    }
+    @else if $file == "03" {
+      //------------------------- 03
       background-position: 22% bottom;
       @media #{$tablet-and-down} {
         background-position: 18% bottom;
       }
-      
-    } @else if $file == "04" { //------------------------- 04
-      
+    }
+    @else if $file == "04" {
+      //------------------------- 04
       background-position: 50% top;
-      
-    } @else if $file == "05" { //------------------------- 05
-      
+    }
+    @else if $file == "05" {
+      //------------------------- 05
       background-position: 50% top;
       @media #{$mobile} {
         background-position: 59% top;
       }
-      
-    } @else if $file == "06" { //------------------------- 06
-      
+    }
+    @else if $file == "06" {
+      //------------------------- 06
       background-position: 50% bottom;
-      
     }
   }
   .bg-bottom#{$file}:after {
     @include cover-background($base-image-folder + $file + ".jpg");
-    
-    @if $file == "01" { //-------------------------------- 01
-      
+    @if $file == "01" {
+      //-------------------------------- 01
       //background-position: 33% bottom;
       background-position: 50% bottom;
-      
-    } @else if $file == "02" { //------------------------- 02
-      
+    }
+    @else if $file == "02" {
+      //------------------------- 02
       background-position: 50% bottom;
-      
-    } @else if $file == "03" { //------------------------- 03
-      
+    }
+    @else if $file == "03" {
+      //------------------------- 03
       background-position: 22% bottom;
       @media #{$tablet-and-down} {
         background-position: 18% bottom;
       }
-      
-    } @else if $file == "04" { //------------------------- 04
-      
+    }
+    @else if $file == "04" {
+      //------------------------- 04
       background-position: 50% top;
-      
-    } @else if $file == "05" { //------------------------- 05
-      
+    }
+    @else if $file == "05" {
+      //------------------------- 05
       background-position: 50% top;
       @media #{$mobile} {
         background-position: 59% top;
       }
-      
-    } @else if $file == "06" { //------------------------- 06
-      
+    }
+    @else if $file == "06" {
+      //------------------------- 06
       background-position: 50% bottom;
-      
     }
   }
   // Class needed on it's own for path lookup in js.

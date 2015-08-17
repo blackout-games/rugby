@@ -1,0 +1,94 @@
+
+/**
+ * Primaries
+ */
+
+$hue-adjust: 0; // Degrees
+$primary-master: adjust-hue(hsl(88, 55%, 57%),$hue-adjust);
+$primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
+$primary-master: adjust-hue(hsl(82, 54%, 53%),$hue-adjust);
+$secondary-master: adjust-hue(hsl(222,44%,50%),$hue-adjust);
+
+/**
+ * Primary Colors
+ */
+
+$primary-dark: adjust-hue(desaturate(darken($primary-master,15%),4%),4%);
+$primary-darker: desaturate(darken($primary-dark,10%),5%);
+
+$primary-color: $primary-master;
+$primary-on-light: darken($primary-master,4%);
+$primary-on-dark: $primary-color;
+$primary-on-image: $primary-color;
+
+
+/**
+ * Secondary Color
+ */
+$secondary-color: #405FCD; // OG Blue
+$secondary-on-dark: lighten(saturate($secondary-master,25%),15%);
+$secondary-dark: darken(desaturate($secondary-master,22%),22%);
+
+
+/**
+ * Background Colors
+ */
+
+$background-dark-global: desaturate(darken($secondary-master,29%),25%);
+$background-dark: desaturate(darken($secondary-color,35%),50%);
+$background-light: desaturate(lighten($secondary-color,33%),40%);
+$background-dark-lighter: desaturate(darken($secondary-color,22%),44%);
+$background-light-darker: darken($background-light,12%);
+
+$bg-color-dark: darken(desaturate($secondary-master,22%),35%);
+
+
+
+/**
+ * Text Colors
+ */
+
+$text-color: desaturate(darken($secondary-color,22%),33%);
+$text-lighter: desaturate(lighten($text-color,11%),11%);
+$text-lighter-2x: lighten($text-lighter,11%);
+$text-lighter-3x: lighten($text-lighter,22%);
+
+$dark-text-on-dark: desaturate(darken($secondary-master,22%),40%);
+
+$placeholder-color: darken(desaturate($secondary-master,39%),10%) !important;
+$text-on-dark: desaturate(lighten($secondary-master,44%),44%);
+
+// On primary background
+$notice-text-color: darken($primary-master,40%);
+
+$h1-on-dark: desaturate(darken($secondary-master,18%),44%);
+$h2-on-dark: $secondary-on-dark;
+$h3-on-dark: $primary-on-dark;
+
+/**
+ * Link Colors
+ */
+
+$links-color: $secondary-color;
+$links-on-dark: desaturate(lighten($secondary-color,20%),50%);
+
+
+/**
+ * Button Colors
+ */
+
+$button-color: $primary-master;
+$alt-button-color: $primary-master;
+
+/**
+ * Errors
+ */
+$error-color: #B73A4E;
+$error-color-on-dark: saturate(lighten($error-color,11%),33%);
+
+/**
+ * Warnings
+ */
+
+$warning-background-color: #e1c153;
+$warning-text-color: #4f3517;

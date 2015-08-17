@@ -1,0 +1,254 @@
+
+<div id="nav-body">
+  <div class="nav-status-balloon nav-status-balloon-full hidden"></div>
+  {{yield}}
+  <div id="tabbar-balloon" class="hidden-sm-up"></div>
+</div>
+
+<div id="nav-topbar" class="nav-topbar hidden">
+  {{!<i class="icon-logo nav-topbar-logo"></i>}}
+  <div id="nav-topbar-content">
+    {{#link-to "index"}}<img src="/assets/images/global/flat-logo.svg" alt="Blackout Rugby Logo" class="svg nav-topbar-logo">{{/link-to}}
+  </div>
+</div>
+
+<div id="nav-touch-blocker"></div>
+
+<div id="nav-panel">
+  <div class="nav-status-balloon hidden-sm-up hidden"></div>
+  
+  <div class="row fill">
+    <div class="col-fixed nav-panel-spacer"></div>
+    <div class="col-flex row">
+    
+      {{#side-switcher currentlyShowing=tabSwitcherSelected direction=tabSwitcherDirection identifier="tabSwitcher" class="col-flex" }}
+            
+        <div id="menuPanel" class="tab-panel">
+          {{menu-header}}
+          
+          {{#side-switcher currentlyShowing=menuSwitcherSelected direction=menuSwitcherDirection identifier="menuSwitcher" }}
+            
+            <div id="managerPanel" class="menu-panel">
+              
+            </div>
+            
+            <div id="clubPanel" class="menu-panel">
+              
+            </div>
+            
+            <div id="teamPanel" class="menu-panel">
+              
+            </div>
+            
+            <div id="countryPanel" class="menu-panel">
+              
+            </div>
+            
+            <div id="globalPanel" class="menu-panel">
+              
+            </div>
+            
+            <div id="supportPanel" class="menu-panel">
+              
+            </div>
+            
+          {{/side-switcher}}
+          
+        </div>
+        
+        <div id="chatPanel" class="tab-panel">
+          <div class="tab-panel-header">
+            <h4>Chat</h4>
+            <h5>Coming soon</h5>
+          </div>
+        </div>
+        
+        <div id="timelinePanel" class="tab-panel">
+          <div class="tab-panel-header">
+            <h4>Timeline</h4>
+            <h5>Coming soon</h5>
+          </div>
+        </div>
+        
+        <div id="alertsPanel" class="tab-panel">
+          <div class="tab-panel-header">
+            <h4>Alerts</h4>
+            <h5>Coming soon</h5>
+          </div>
+        </div>
+        
+        <div id="infoPanel" class="tab-panel">
+          <div class="tab-panel-header">
+            <h4>Info</h4>
+            <h5>Coming soon</h5>
+          </div>
+        </div>
+        
+      {{/side-switcher}}
+      
+    </div>
+  </div>
+</div>
+
+<div id="nav-sidebar-and-tabs" class="row-sm row-vertical-sm">
+
+  <div id="nav-sidebar" class="col-sm-8 col-md-7 row row-vertical">
+    
+    <div class="col-fixed nav-status-balloon hidden hidden-lg-up"></div>
+    
+    <div class="col-fixed sidebar-logo-wrapper">
+      {{#link-to "index" class="btn-a"}}<i class="icon-logo icon-3x sidebar-logo"></i>{{/link-to}}
+    </div>
+    
+    
+    <div id="nav-menu" class="col-flex col-center-sm row row-vertical row-end-xs row-center-sm">
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="manager" class="btn nav-menu-btn nav-menu-manager"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-torso nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Manager</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="club" class="btn nav-menu-btn nav-menu-club"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-home nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Club</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="team" class="btn nav-menu-btn nav-menu-team"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-group nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Team</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="country" class="btn nav-menu-btn nav-menu-country"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-flag-filled nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Country</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="global" class="btn nav-menu-btn nav-menu-global"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-globe nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Global</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div class="nav-tab">
+        {{#fast-button action="clickMenu" menuName="support" class="btn nav-menu-btn nav-menu-support"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper">
+              <i class="icon-heart nav-tab-icon icon-vcenter"></i>
+            </div>
+            <div class="nav-tab-text">Support</div>
+          </div>
+        {{/fast-button}}
+      </div>
+      
+      <div id="nav-menu-buffer-mobile"></div>
+      
+    </div>
+
+  </div>
+
+  <div id="nav-tabbar" class="col-sm-4 col-md-5 row">
+
+    <div class="col-flex-sm row">
+      <div class="col-flex col-max nav-tabs-col row">
+      
+        <div class="col-flex row row-center-sm row-nowrap-xs row-vertical-sm">
+        
+        
+          <div class="col-flex-xs col-fixed-sm nav-tab hidden-sm hidden-md col-last-lg">
+            {{#fast-button action="clickTab" tabName="menu" class="btn nav-tab-btn nav-tab-menu" touchFix=true }}
+              <div class="flex-col flex-col-center">
+                <div class="nav-icon-wrapper nav-burger nav-cross">
+                  <span class="lines"></span>
+                </div>
+                <div class="nav-tab-text">{{#if media.isJumbo}}{{menuLabelLarge}}{{else}}Menu{{/if}}</div>
+              </div>
+            {{/fast-button}}
+          </div>
+          
+          <div class="col-flex-xs col-fixed-sm nav-tab">
+            {{#fast-button action="clickTab" tabName="chat" class="btn nav-tab-btn nav-tab-chat" touchFix=true}}
+              <div class="flex-col flex-col-center">
+                <div class="nav-icon-wrapper">
+                  <i class="icon-chat nav-tab-icon icon-vcenter"></i>
+                </div>
+                <div class="nav-tab-text">Chat</div>
+              </div>
+            {{/fast-button}}
+          </div>
+          
+          <div class="col-flex-xs col-fixed-sm nav-tab">
+            {{#fast-button action="clickTab" tabName="timeline" class="btn nav-tab-btn nav-tab-timeline" touchFix=true }}
+              <div class="flex-col flex-col-center">
+                <div class="nav-icon-wrapper">
+                  <i class="icon-list-bullet nav-tab-icon icon-vcenter"></i>
+                </div>
+                <div class="nav-tab-text">Timeline</div>
+              </div>
+            {{/fast-button}}
+          </div>
+          
+          <div class="col-flex-xs col-fixed-sm nav-tab">
+            {{#fast-button action="clickTab" tabName="alerts" class="btn nav-tab-btn nav-tab-alerts" touchFix=true}}
+              <div class="flex-col flex-col-center">
+                <div class="nav-icon-wrapper">
+                  <i class="icon-attention nav-tab-icon icon-vcenter"></i>
+                </div>
+                <div class="nav-tab-text">Alerts</div>
+              </div>
+            {{/fast-button}}
+          </div>
+          
+          <div class="col-flex-xs col-fixed-sm nav-tab">
+            {{#fast-button action="clickTab" tabName="info" class="btn nav-tab-btn nav-tab-info" touchFix=true}}
+              <div class="flex-col flex-col-center">
+                <div class="nav-icon-wrapper">
+                  <i class="icon-cloud nav-tab-icon icon-vcenter"></i>
+                </div>
+                <div class="nav-tab-text">Info</div>
+              </div>
+            {{/fast-button}}
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="col-flex nav-tabs-end hidden-sm-up">
+        <i class="icon-logo icon-vcenter"></i>
+      </div>
+      
+    
+    </div>
+    {{safari-helper}}
+  </div>
+  
+</div>

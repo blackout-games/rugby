@@ -1,1 +1,380 @@
-{{yield}}
+<!-- So that #nav-body can have transparent bg for sidebar gap-fill-->
+<div class="bg-preload">
+
+  {{waypoint action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
+
+  <div id="top-section-wrapper">
+
+    <div id="top-section-balloon"></div>
+
+    {{#component "index/home-backgrounds" id="top-section"}}
+
+    <div class="container-fluid">
+
+      <div id="welcome"><span class="nowrap-sm">WELCOME TO</span> <span class="nowrap-sm">BLACKOUT RUGBY</span></div>
+
+      <div id="subtitle">YOUR CLUB AWAITS.</div>
+
+      <div class="fbcontinue-container">
+        {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline"   spinnerColor="fb" }}
+          <i class="icon-facebook btn-fb-icon"></i> CONTINUE WITH FACEBOOK{{/loader-button}}
+      </div>
+
+      <div class="signup-container">
+        {{#link-to 'signup' tagName='button' class="btn btn-big no-outline"}}OR SIGN UP WITH YOUR EMAIL{{/link-to}}
+      </div>
+      
+      <div id="testimony-container">
+        <div id="testimony" class="row row-nowrap">
+          <div id="testimony-text" class="col-xs-9">
+            <span class="iblock"><i class="icon-quote-left icon-md icon-vcenter"></i> the best rugby management</span>
+            <span class="iblock"> game out there</span>
+          </div>
+          <div id="testimony-writer-container" class="col-xs-3">
+            <a href="http://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Nick+Bishop&search-alias=books&field-author=Nick+Bishop&sort=relevancerank" target="_blank">
+              <div id="testimony-writer">- Nick Bishop</div>
+              <div id="testimony-type">Author</div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    {{/component}} 
+  </div>
+
+
+  {{waypoint action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}
+
+
+  <div class="home-content-block home-block-light about-container">
+
+    <div class="about-top-section">
+
+      <h1>What is Blackout Rugby?</h1>
+
+      <div class="col-md-8 center blurb">
+
+        <p>Blackout Rugby is an online multiplayer game, placing you in the shoes of a rugby union club manager.</p>
+
+        <h2>FREE TO PLAY</h2>
+
+        <p>Blackout Rugby is free to play for as long as you like. There is an optional premium package which costs real cold hard cash and provides 50+ extra features.</p>
+
+        <h2>NO PAY TO WIN FEATURES</h2>
+
+        <p>The premium package doesn't include any features which enhance a team in any way to be more competitive.</p>
+
+        {{!
+        <p>Many of the other clubs are owned by real people around the world. You'll play against others in your league, in the national cup, or organise a friendly with anyone you like. Then when you're done winning, pour yourself a beer and head to the clubrooms for a bit of social interaction with the community.</p>}}
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-xs-12 about-block a">
+        <div class="about-block-head a">
+          <h2>Craft a winning lineup</h2>
+        </div>
+        <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block b">
+        <div class="about-block-head b">
+          <h2>Train your players</h2>
+        </div>
+        <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block a">
+        <div class="about-block-head a">
+          <h2>Manage energy and injuries</h2>
+        </div>
+        <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block b">
+        <div class="about-block-head b">
+          <h2>Buy and sell players</h2>
+        </div>
+        <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block a">
+        <div class="about-block-head a">
+          <h2>Socialise</h2>
+        </div>
+        <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block b">
+        <div class="about-block-head b">
+          <h2>Take on the world</h2>
+        </div>
+        <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  {{waypoint action="handleWaypoint" offset=waypointOffset id="numbers" select="about" contextElementId=scrollContextId class="waypoint"}}
+
+  <div class="home-content-block home-block-dark stats-container">
+
+    <h1>Blackout Rugby in Numbers</h1>
+
+    <div class="row">
+      <div class="col-md-4 stats-block">
+
+        <h2>The People</h2>
+
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.activeManagers roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Active Managers
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.activeTeams roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Active Clubs
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.managersOnline roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Managers Online
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.hoursPlayedLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Hours Played Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.hoursPlayedYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Hours Played Yesterday
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.signupsLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Signups Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.signupsYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Signups Yesterday
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-4 stats-block">
+        <h2>The Nations</h2> {{#each countries key="@index" as |country index|}}
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number country.activeTeams roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            clubs in {{country.name}}
+          </div>
+        </div>
+
+        {{/each}}
+
+      </div>
+      <div class="col-md-4 stats-block">
+        <h2>The Rugby</h2>
+
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.triesLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Tries Scored Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.triesYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Tries Scored Yesterday
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.injuriesLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Injuries Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.injuriesYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Injuries Yesterday
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.popsLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Skill Pops Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.transfersLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Players Sold Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{number stats.transfersYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            Players Sold Yesterday
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{money stats.moneyTransferredLastWeek roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            In Player Sales Last Week
+          </div>
+        </div>
+
+        <div class="stat row">
+          <div class="stat-value">
+            {{money stats.moneyTransferredYesterday roundMillions=true}}
+          </div>
+          <div class="stat-label">
+            In Player Sales Yesterday
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  {{waypoint action="handleWaypoint" offset=waypointOffset id="contact" contextElementId=scrollContextId class="waypoint"}}
+
+  <div class="home-content-block home-block-light contact-container">
+
+    <div class="contact-header">
+      <h1>Get in contact</h1>
+      <div class="contact-location">
+        PO Box 12725, Chartwell 3248
+        <br> Hamilton, New Zealand</div>
+      <div class="contact-email"><i class="icon-mail icon-sm contact-icon"></i> <a href="mailto:support@blackoutrugby.com">support@blackoutrugby.com</a></div>
+    </div>
+
+  </div>
+
+
+
+  <footer class="home-content-block home-block-dark container footer-container">
+
+    <div class="row footer-main">
+
+      <div class="col-sm-4 text-left">
+
+        <h3>The Game</h3>
+
+        <div class="dark footer-links">
+          <span>{{#scroll-to href='#home'}}Home{{/scroll-to}}</span>
+          <span>{{#scroll-to href='#about'}}What is Blackout Rugby{{/scroll-to}}</span>
+          <span>{{#scroll-to href='#numbers'}}Blackout Rugby in Numbers{{/scroll-to}}</span>
+          <span>{{#scroll-to href='#contact'}}Get in Contact{{/scroll-to}}</span>
+        </div>
+
+      </div>
+
+
+      <div class="col-sm-3 text-left">
+
+        <h3>Social</h3>
+
+        <div class="dark footer-links">
+          <span>{{#facebook-link}}Facebook{{/facebook-link}}</span>
+          <span>{{#twitter-link}}Twitter{{/twitter-link}}</span>
+        </div>
+
+      </div>
+
+
+      <div class="col-sm-5">
+
+        <img src="/assets/images/global/full-logo.svg" alt="Blackout Rugby Logo" class="svg footer-logo">
+
+      </div>
+
+    </div>
+
+    <div class="footer-final">
+      &copy; {{currentYear}} Blackout Entertainment Ltd &bull; All Rights Reserved &bull; <a href="https://www.iubenda.com/privacy-policy/657214">Privacy</a>
+    </div>
+
+
+  </footer>
+
+</div>

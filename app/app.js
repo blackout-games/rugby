@@ -1,3 +1,4 @@
+Error.stackTraceLimit=100;
 import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
@@ -17,7 +18,16 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver: Resolver
+  Resolver: Resolver,
+  ready: function () {
+    Ember.run.later(function(){
+      Ember.$("#splash").fadeOut(444,function(){
+        //Ember.$(this).remove();
+        Ember.$(this).hide();
+      });
+    },1);
+    
+  }
 });
 
 loadInitializers(App, config.modulePrefix);

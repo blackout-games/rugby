@@ -2,130 +2,136 @@ import Ember from 'ember';
 var $ = Ember.$;
 
 export default Ember.Component.extend({
-  testingSidebar: true,
-  sidebarMinWait: 222,
-  sidebarLastAction: 0,
-  sidebarIsOpen: false,
-  selector: '#sidebar,#backboard,#top-nav,#body',
-  
-  startListening: function(){
-    this.get('EventBus').subscribe('showNav', this, Ember.run.bind(this,this.showSidebar));
-    this.get('EventBus').subscribe('hideNav', this, Ember.run.bind(this,this.hideSidebar));
+  testingSidebar: false,
+  navMinWait: 222,
+  navLastAction: 0,
+  navIsOpen: false,
+  selector: '',
+
+  startListening: function() {
+    
+    this.get('EventBus').subscribe('showNav', this, this.show);
+    this.get('EventBus').subscribe('hideNav', this, this.hide);
+
   }.on('didInsertElement'),
-  
-  stopListening: function(){
-    this.get('EventBus').unsubscribe('showNav', this, Ember.run.bind(this,this.showSidebar));
-    this.get('EventBus').unsubscribe('hideNav', this, Ember.run.bind(this,this.hideSidebar));
+
+  stopListening: function() {
+
+    this.get('EventBus').unsubscribe('showNav', this, this.show);
+    this.get('EventBus').unsubscribe('hideNav', this, this.hide);
+
   }.on('willDestroyElement'),
-  
-  setup: function(){
-    
-    // Add element behind body to show on scroll bounce
-    $('<div id="backboard"><div class="logo"></div></div>').insertBefore( $('#body') );
-    
-    // Always close sidebar on change
-    this.media.tablet.onchange = Ember.run.bind(this, function(){
-      this.get("controller").send('hideSidebar');
-    });
-    
+
+  setup: function() {
+
     // For testing
-    if(this.get('testingSidebar')){
-      this.get('controller').send('showSidebar');
-      this.media.tablet.onchange = Ember.run.bind(this, function(){
-        this.get("controller").send('showSidebar');
-      });
+    if (this.get('testingSidebar')) {
+      this.send('show');
     }
+
+    this.handleResizeBound = Ember.run.bind(this, this.handleResize);
+    Ember.$(window).on('resize', this.handleResizeBound);
     
-    // Implement own scrolling in Chrome on iOS
-    if(window.features.lockBody){
-      Ember.$('html, body').css({
-        height: '100%',
-        width: '100%',
-        overflow: 'hidden',
-      });
-      Ember.$('#body').css({
-        position: 'relative',
-        height: '100vh',
-        'overflow': 'scroll', /* has to be scroll, not auto */
-        '-webkit-overflow-scrolling': 'touch',
-      });
-      // Move sidebar out of main container so that css 'fixed' works properly
-      this.$().before(Ember.$('#sidebar'));
-    }
-    
-    Ember.$(window).on('resize', Ember.run.bind(this, this.handleResize));
-    
+    // Bound functions
+    this.hideBound = Ember.run.bind(this, this.hide);
+    this.bodyTouchBound = Ember.run.bind(this, this.bodyTouch);
+
   }.on('didInsertElement'),
   
-  clean: function(){
+  bodyTouch: function(){
     
-    this.media.tablet.onchange = null;
+    if( !this.get('media.isJumbo') ){
+      this.hideBound();
+    }
     
-    Ember.$(window).off('resize', Ember.run.bind(this, this.handleResize));
-    
-  }.on('willDestroyElement'),
-  
-  handleResize: function(){
-    $(this.get('selector')).addClass('resizing');
-    Ember.run.debounce(this,this.cleanResize,200);
   },
-  cleanResize: function(){
+
+  openSidebarOnChange: function() {
+    if (this.get('testingSidebar')) {
+      this.send('show');
+    } else {
+      this.send('hide');
+    }
+  }.observes('media.tablet'),
+
+  clean: function() {
+
+    if (this.handleResizeBound) {
+      Ember.$(window).off('resize', this.handleResizeBound);
+    }
+
+  }.on('willDestroyElement'),
+
+  handleResize: function() {
+    $(this.get('selector')).addClass('resizing');
+    Ember.run.debounce(this, this.cleanResize, 200);
+  },
+  cleanResize: function() {
     $(this.get('selector')).removeClass('resizing');
   },
-  
-  smallMode: function(){
+
+  smallMode: function() {
     return Ember.Blackout.isSmallMode(this);
   }.property('media.isMobile'),
-  
+
   actions: {
-    toggleMenu: function(){
-      
-      if(this.get('media.isTablet') || this.get('media.isMobile')){
-        if( this.get('sidebarIsOpen') ){
-          this.send('hideSidebar');
-        } else {
-          this.send('showSidebar');
-        }
+    toggle: function() {
+
+      if (this.get('navIsOpen')) {
+        this.send('hide');
+      } else {
+        this.send('show');
       }
-      
+
     },
-    showSidebar: function(){
-      
-      var now = Date.now();
-      var timeSinceLast = now-this.get('sidebarLastAction');
-      
-      if( !this.get('sidebarIsOpen') && timeSinceLast>this.get('sidebarMinWait') ){
-        
-        $(this.get('selector')).addClass('open');
-        $('#body').on('mousedown touchstart',Ember.run.bind(this,this.hideSidebar));
-        this.set('sidebarLastAction',now);
-        this.set('sidebarIsOpen',true);
-        $('#navButton').addClass('nav-close');
-      }
-      
+    show: function() {
+      this.show();
     },
-    hideSidebar: function(){
-      
-      var now = Date.now();
-      var timeSinceLast = now-this.get('sidebarLastAction');
-      
-      if( this.get('sidebarIsOpen') && timeSinceLast>this.get('sidebarMinWait') ){
-        $(this.get('selector')).removeClass('open');
-        $('#body').off('mousedown touchstart',Ember.run.bind(this,this.hideSidebar));
-        this.set('sidebarLastAction',now);
-        this.set('sidebarIsOpen',false);
-        $('#navButton').removeClass('nav-close');
-      }
-      
+    hide: function() {
+      this.hide();
     }
   },
-  
-  showSidebar: function(){
-    this.send('showSidebar');
+
+  show: function() {
+
+    var now = Date.now();
+    var timeSinceLast = now - this.get('navLastAction');
+
+    if (!this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
+
+      this.get('EventBus').publish("navAllowBodyScroll", false);
+
+      $(this.get('selector')).addClass('open');
+      $('#nav-body').on('mousedown touchstart', this.bodyTouchBound);
+      this.set('navLastAction', now);
+      this.set('navIsOpen', true);
+      
+      return true;
+    } else if(this.get('navIsOpen')){
+      // For switching tabs while open
+      // No, don't do this.
+      // Should only return true if menu was closed and is now opening. Otherwise we can't detect things like if topbar is open. If we check twice, the second time it thinks topbar is already closed, when it should be open (so it knows to open again when menu is closed)
+      //return true;
+    }
   },
-  hideSidebar: function(){
-    this.send('hideSidebar');
+  hide: function() {
+    
+    var now = Date.now();
+    var timeSinceLast = now - this.get('navLastAction');
+
+    if (this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
+
+      this.get('EventBus').publish("navAllowBodyScroll", true);
+
+      $(this.get('selector')).removeClass('open');
+      $('#nav-body').off('mousedown touchstart', this.bodyTouchBound);
+      this.set('navLastAction', now);
+      this.set('navIsOpen', false);
+      
+      return true;
+    }
+
   },
-  
-  
+
+
 });

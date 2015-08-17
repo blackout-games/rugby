@@ -4,23 +4,23 @@ module.exports = function(environment) {
   
   var offlineMode = true;
   var localIP = '192.168.20.5'; // Home
-  //var localIP = '192.168.1.150'; // Nat's parents
+  //var localIP = '192.168.1.150'; // Nat's + parents
   
-  /*********************/
+  /*********************
   // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
   var devApiHost = localIP + ':4444';
   /*********************/
   
-  /*********************
+  /********************* 
   // Development API (Live, Test)
   var devApiBase = '/v1';
   var devApiProtocol = 'http';
   var devApiHost = 'apitest.blackoutrugby.com';
   /*********************/
   
-  /*********************
+  /*********************/
   // Development API (Live, Production)
   var devApiBase = '/v1';
   var devApiProtocol = 'https';
@@ -41,6 +41,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    LOCALE: 'en',
     
     assetFilesPrepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
     
@@ -73,10 +74,21 @@ module.exports = function(environment) {
     store: 'simple-auth-session-store:local-storage',
     authorizer: 'simple-auth-authorizer:oauth2-bearer',
     crossOriginWhitelist: [apiProtocol+'://'+apiHost],
+    routeIfAlreadyAuthenticated: 'manager',//'dashboard',
+    session: 'session:blackout',
   };
   
   ENV['simple-auth-oauth2'] = {
     serverTokenEndpoint: apiProtocol+'://'+apiHost+apiBase+'/token'
+  };
+  
+  ENV['torii'] = {
+    providers: {
+      'facebook-oauth2': {
+        apiKey: '230716417077656',
+        //redirectUri: '/dashboard' // default is the current URL
+      }
+    }
   };
 
   if (environment === 'development') {
@@ -90,8 +102,8 @@ module.exports = function(environment) {
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
-    ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729";
-    ENV.contentSecurityPolicy['connect-src'] += " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729";
+    ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ember.blackoutrugby.com:49152";
+    ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ws://ember.blackoutrugby.com:49152";
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
     

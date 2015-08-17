@@ -1,0 +1,173 @@
+/**
+ * Variables
+ */
+
+$focus-border-thickness: 2px;
+$focus-border-color: $secondary-master;
+$focus-inset-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+$focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
+
+/**
+ * Mixins
+ */
+
+@mixin focus-outline {
+  &:focus {
+    -webkit-appearance: none;
+    outline: 0;
+    box-shadow: $focus-inset-shadow, $focus-shadow !important;
+  }
+}
+
+@mixin focus-form {
+  &:focus {
+    border: $focus-border-thickness $focus-border-color solid !important;
+    @include focus-outline;
+  }
+}
+
+@mixin focus-button {
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  @include focus-outline;
+
+  &:focus {
+    // Same as button
+    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
+    // Force focus color
+    //box-shadow: inset 0 0 0 $focus-border-thickness saturate(lighten($focus-border-color,15%),50%), $focus-shadow !important;
+ 
+  }
+}
+
+@mixin focus-button-fb {
+  @include focus-button;
+
+  &:focus {
+    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.5), 0 0 8px rgba(saturate($secondary-master, 11%), 0.8) !important;
+  }
+}
+
+$active-border-color: darken($secondary-master, 22%);
+
+@mixin active {
+  &:active {
+    border: $focus-border-thickness $active-border-color solid !important;
+    box-shadow: none !important;
+  }
+}
+
+/**
+ * Text box basics
+ */
+
+input[type="text"], input[type="password"] {
+  border-radius: $border-radius;
+  border-width: $focus-border-thickness !important;
+  height:48px;
+  padding: 7px 20px;
+  line-height:normal;
+
+  @media #{$mobile-tall} {
+    //padding-top: 6vmin;
+    //padding-bottom: 6vmin;
+  }
+  color: #111;
+  -webkit-appearance: none;
+  box-shadow: none;
+  @include focus-form;
+  @include active;
+  
+}
+
+/**
+ * Fix IE padding
+ * IE 9 and above
+ * http://stackoverflow.com/questions/20541306/how-to-write-a-css-hack-for-ie-11
+ */
+@media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+  // IE9+ CSS
+  input[type="text"], input[type="password"] {
+  //line-height:40px !important;
+  }
+}
+
+/**
+ * Fix IE ridiculousness
+ */
+::-ms-clear { display: none; }
+::-ms-reveal { display: none; }
+
+
+
+/**
+ * Override some bootstrap stuff
+ */
+
+.has-error .form-control {
+  box-shadow: none;
+  @include focus-form;
+  @include active;
+}
+
+.form-control-feedback {
+  top: 7px;
+  right: 7px;
+}
+.control-label {
+  line-height:250%;
+  padding: $border-radius;
+}
+.has-error {
+  .form-control-feedback, .control-label {
+    color:$error-color;
+  }
+}
+.dark .has-error {
+  .form-control-feedback, .control-label {
+    color:$error-color-on-dark;
+  }
+}
+
+.dark .alert-danger.alert-minimal {
+  color:$error-color-on-dark;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  //font-weight: normal;
+}
+
+/**
+ * Text box color modes
+ */
+
+$color: darken(desaturate($secondary-master, 15%), 40%);
+
+input[type="text"].dark, input[type="password"].dark {
+  background-color: $color;
+  border-color: $color;
+  color: #EEE;
+}
+// Chrome autofill yellow background fix
+input:-webkit-autofill.dark {
+  -webkit-box-shadow: 0 0 0px 1000px $color inset;
+}
+
+/**
+ * Placeholder color
+ */
+
+::-webkit-input-placeholder {
+   color: $placeholder-color;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: $placeholder-color;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: $placeholder-color;  
+}
+
+input:-ms-input-placeholder {  
+   color: $placeholder-color;  
+}

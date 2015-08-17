@@ -1,0 +1,48 @@
+{{page-header title=title images="news" route=storeType }}
+
+
+
+<div class="row">
+  <div class="col-lg-8 dash-col">
+    <div class="dash-box">
+      
+      {{back-button}}
+      
+      {{#each model key="id" as |article|}}
+      
+        <div class="gap-3x">
+          <h3>{{#link-to articleRoute article.id}}{{article.title}}{{/link-to}}</h3>
+          <p class="gap-sm">
+            
+            {{{article.short}}}
+            
+            {{#if article.hasMoreToRead}}
+              {{#link-to "news.article" article.id class="nowrap"}}Read more.{{/link-to}}
+            {{/if}}
+            
+          </p>
+          
+          <div class="news-date">
+            {{#if article.isNewToUser}}<b>NEW</b> &bullet;{{/if}}
+            {{date-ui date=article.date class="news-date"}}
+            {{#if article.author}}
+              by 
+              {{#link-to "managers.manager" article.author.id class="nowrap"}}{{article.author.username}}{{/link-to}}
+            {{/if}}
+            {{#if article.country}}
+              in 
+              {{#link-to "countries.country" article.country.id class="nowrap"}}{{article.country.name}}{{/link-to}}
+            {{/if}}
+          </div>
+          
+        </div>
+        
+      {{/each}}
+
+      {{#infinite-scroll content=model hasMore=hasMore scrollable=scrollerSelector}}
+        {{loading-spinner class="gap-2x" color="light"}}
+      {{/infinite-scroll}}
+      
+    </div>
+  </div>
+</div>

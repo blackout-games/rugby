@@ -1,0 +1,34 @@
+{{#if session.isAuthenticated}}
+  
+  
+  <div class="row">
+    <div class="col-fixed">
+      <img class="menu-manager-image" src="{{managerImageURL}}">
+    </div>
+    <div class="col-flex">
+      <div class="menu-manager-text">
+        {{session.manager.username}}
+        <a {{ action 'invalidateSession' }} class="menu-logout"> &bullet; Logout</a>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div>
+    <div class="menu-club-image"></div>
+    
+    <div class="menu-club-text">
+      {{currentClub.name}}
+    </div>
+  </div>
+  
+  
+{{else}}
+  
+  <div class="menu-header-login">
+    {{#link-to "login" class="btn btn-block btn-caps gap-sm" tagName="button"}}Login{{/link-to}}
+    
+    {{#loader-button action="loginWithFacebook" class="btn btn-fb btn-block fb-login-button" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
+  </div>
+  
+{{/if}}

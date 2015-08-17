@@ -1,0 +1,188 @@
+
+//$sidebar-ease: 0.222s ease(in-quad);
+//$sidebar-ease: 0.222s ease(in-expo);
+$sidebar-ease: $ease-time ease;
+$sidebar-slow-ease: 0.555s ease;
+
+$sidebar-width: 300px;
+$sidebar-width-extra: 1px;
+
+//$sidebar-width: 80vmin;
+//$sidebar-width-extra: 0.111vmin;
+
+//$responsive-nav-small: $tablet-and-down;
+//$responsive-nav-big: $tablet-wide-and-up;
+#responsive-nav {
+  overflow: hidden;
+}
+
+#sidebar {
+  position: fixed;
+  background-color: darken($background-dark,3%);
+  //transform:translateZ(1px);
+  overflow: hidden;
+  @media #{$responsive-nav-small} {
+    height: 100%;
+    width: #{$sidebar-width + $sidebar-width-extra};
+    //left: #{-$sidebar-width - $sidebar-width-extra};
+    display: block;
+    @include smooth-animation;
+    transition: transform $sidebar-ease;
+    &.slow-transition {
+      transition: transform $sidebar-slow-ease;
+    }
+    &.open {
+      @media #{$responsive-nav-small} {
+        //transform: translate3d($sidebar-width,0,0);
+      }
+    }
+    &.resizing {
+      transition: none;
+    }
+  }
+  @media #{$responsive-nav-big} {
+    width: 100%;
+    height: $top-menu-height;
+    z-index: 3;
+    -webkit-transform: translateZ(0);
+    box-shadow: 0 0 5px 2px rgba(11, 11, 11, 0.222);
+  }
+}
+
+.home-nav-body {
+  @media #{$responsive-nav-small} {
+    transform: translate3d(0, 0, 0);
+    transition: transform $sidebar-ease;
+    box-shadow: 0 0 5px 4px rgba(11, 11, 11, 0.33);
+    &.slow-transition {
+      transition: transform $sidebar-slow-ease;
+    }
+    &.open {
+      @media #{$responsive-nav-small} {
+        transform: translate3d($sidebar-width, 0, 0);
+        //left:$sidebar-width;
+      }
+    }
+    &.resizing {
+      transition: none;
+    }
+  }
+  @media #{$responsive-nav-big} {
+    padding-top: $top-menu-height;
+    z-index: 2;
+    @include smooth-animation;
+  }
+  // So that sidebar gap won't be white
+  background-color: transparent;
+}
+
+$nav-button-color: saturate(darken($primary-master,10%),1%);
+
+.nav-btn, .nav-btn:hover {
+  position: fixed;
+  z-index: 1000;
+  right: 2.5vmin;
+  bottom: 5vh;
+  cursor: pointer;
+  user-select: none;
+  padding: 0;
+  width: $nav-button-diameter;
+  height: $nav-button-diameter;
+  max-width: 60px;
+  max-height: 60px;
+  background-color: $nav-button-color;
+  border-radius: 50%;
+  border: 0;
+  text-align: center;
+  box-shadow: 0 7px 7px -2px rgba(0, 0, 0, 0.55);
+  &:focus, &:active {
+    outline: none !important;
+  }
+  &.hover {
+    background-color: hoverColor($nav-button-color);
+  }
+  &.press {
+    background-color: pressColor($nav-button-color);
+  }
+  &:active {
+    box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.55);
+    transition: 0;
+    //transform: translate3d(0,0,0);
+ 
+  }
+}
+
+.waypoint {
+  // Offset waypoints when top menu is visible
+  @media #{$responsive-nav-big} {
+    display: block;
+    position: relative;
+    top: -$top-menu-height;
+    visibility: hidden;
+  }
+}
+
+.lighting {
+  position: relative;
+}
+
+.lighting:before {
+  top: 0%;
+  left: 0%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-width: 100px 100px 0 0;
+  border-color: #FFF transparent transparent transparent;
+}
+
+.lighting-logo:before {
+  @media #{$responsive-nav-small} {
+    border-width: 100px 155px 0 0;
+  }
+  @media #{$responsive-nav-big} {
+    border: none;
+  }
+  border-color: rgba(255,255,255,0.17) transparent transparent transparent;
+}
+
+#backboard {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1e1f26;
+  text-align: center;
+  @media #{$responsive-nav-small} {
+    left: 0;
+    transition: transform $sidebar-ease;
+    //z-index: 1;
+    &.slow-transition {
+      transition: transform $sidebar-slow-ease;
+    }
+    &.open {
+      @media #{$responsive-nav-small} {
+        transform: translate3d($sidebar-width, 0, 0);
+      }
+    }
+    &.resizing {
+      transition: none;
+    }
+  }
+  @media #{$responsive-nav-big} {
+    display: none;
+  }
+}
+
+#backboard > .logo {
+  @media #{$responsive-nav-small} {
+    $logo-w: 265;
+    $logo-h: 87;
+    $logo-scale: 1;
+    @include retina-img("/assets/images/logo-backboard.png", "/assets/images/logo-backboard-2x.png", #{$logo-w * $logo-scale + "px"}, #{$logo-h * $logo-scale + "px"});
+    margin-top: 22px;
+    display: inline-block;
+  }
+}

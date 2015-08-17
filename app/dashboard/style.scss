@@ -1,0 +1,45 @@
+
+.dash-col {
+  box-sizing: border-box;
+  padding: 15px;
+  @media #{$mobile-tall} {
+    padding: 11px;
+  }
+}
+.dash-box{
+  width:100%;
+  background-color: white;
+  border-radius: $border-radius;
+  box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05);
+  padding: 20px 20px 30px;
+  @media #{$mobile-tall} {
+    padding: 11px 11px 16px;
+  }
+  overflow:hidden;
+  //line-height: 100%;
+  position:relative;
+  
+  h6 {
+    text-transform: uppercase;
+    color: rgba(desaturate($secondary-master,33%),0.5);
+  }
+  
+  h3 {
+  }
+}
+
+.news-date {
+  font-size: 0.95em;
+  color: $text-lighter-3x;
+}
+
+.new-news {
+  font-size: 0.95em;
+  font-weight: bold;
+  color: $text-lighter-2x;
+}
+
+.more-news{
+  position: absolute;
+  bottom:17px;
+}

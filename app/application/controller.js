@@ -1,10 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  actions: {
-    invalidateSession: function(){
-      this.transitionTo('/loading');
-      return true;
+  
+  primaryMaster: function(){
+    if (window.navigator.standalone) {
+      return Ember.Blackout.getCSSValue('color','loading-slider-standalone');
+    } else {
+      return Ember.Blackout.getCSSValue('color','loading-slider');
     }
-  }
+  }.property(),
+  
 });

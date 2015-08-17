@@ -1,0 +1,32 @@
+$switch-time: 0.444s;
+$switch-ease: ease('out-expo');
+
+.switcher-window {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.switcher-pane {
+  position: relative;
+  width: 200%;
+  top: 0;
+  left: 0;
+  transition: transform $switch-time $switch-ease;
+}
+.switcher-ready-left {
+  transition: none;
+  transform: translate3d(-50%,0,0);
+}
+.switcher-ready-right, .switcher-ready-disable {
+  transition: none;
+  transform: translate3d(0,0,0);
+}
+.switcher-move-left {
+  transform: translate3d(-50%,0,0);
+}
+.switcher-move-right {
+  transform: translate3d(0,0,0);
+}
+.switcher-panel {
+  width: 100%;
+}

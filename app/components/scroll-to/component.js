@@ -17,13 +17,22 @@ export default Ember.Component.extend({
   
   setupEvent: function(){
     
-    this.$().on(this.get('scrollOn'),Ember.run.bind(this,this.scroll));
+    this.scrollBound = Ember.run.bind(this,this.scroll);
+    this.$().on(this.get('scrollOn'),this.scrollBound);
     
   }.on('didInsertElement'),
+  
+  cleanup: function(){
+    
+    if(this.scrollBound){
+      this.$().off(this.get('scrollOn'),this.scrollBound);
+    }
+    
+  }.on('willDestroyElement'),
 
   scrollable: function() {
     if(window.features.lockBody){
-      return Ember.$('#body');
+      return Ember.$('#nav-body');
     } else {
       return Ember.$('html, body');
     }
@@ -52,12 +61,12 @@ export default Ember.Component.extend({
     this.updateHashQuietly( this.get('href').substr(1) );
     
     var newTarget = this.getTarget();
-    var currentScrollTop = window.features.lockBody ? Ember.$('#body').scrollTop() : (Ember.$('html').scrollTop() || Ember.$('body').scrollTop());
+    var currentScrollTop = window.features.lockBody ? Ember.$('#nav-body').scrollTop() : (Ember.$('html').scrollTop() || Ember.$('body').scrollTop());
     var scrollDistance = Math.abs(currentScrollTop-newTarget);
     
     if( this.get('closeMenu') ){
       if(scrollDistance > Ember.$(window).height()*0.33){
-        Ember.$('#body,#sidebar,#backboard').addClass('slow-transition');
+        Ember.$('#nav-body,#sidebar,#backboard').addClass('slow-transition');
       }
       this.get('EventBus').publish('hideNav');
     }
@@ -66,7 +75,7 @@ export default Ember.Component.extend({
       scrollTop: newTarget + 'px'
     }, this.get('duration'), this.get('easing'), function(){
       if( self.get('closeMenu') ){
-        Ember.$('#body,#sidebar,#backboard').removeClass('slow-transition');
+        Ember.$('#nav-body,#sidebar,#backboard').removeClass('slow-transition');
       }
     });
     

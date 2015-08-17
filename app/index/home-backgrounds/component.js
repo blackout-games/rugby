@@ -12,25 +12,79 @@ export default Ember.Component.extend(Timers, {
   //backgrounds: ['03'],
   backgroundsThatCanStart: ['01','02','03'],
   backgroundPaths: [],
-  backgroundDuration: 3000,
+  backgroundDuration: 15000,
   topLayerIsShowing: false,
+
+  scrollable: function() {
+    if(window.features.lockBody){
+      return Ember.$('#nav-body');
+    } else {
+      return Ember.$(window);
+    }
+  }.property('window.features.lockBody'),
   
   setup: function(){
     this.setSizes();
-    $(window).on('resize', Ember.run.bind(this, this.setSizes));
+    
+    this.setSizesBound = Ember.run.bind(this,this.setSizes);
+    $(window).on('resize', this.setSizesBound);
+    
     this.initBackgroundImages();
+    
+    // For parallax
+    if(window.features.canParallax){
+      
+      Ember.$('#top-section-wrapper').css('height',$(window).height());
+      this.inflateBalloonBound = Ember.run.bind(this,this.inflateBalloon);
+      this.get('scrollable').on('scroll',this.inflateBalloonBound);
+      $(window).on('resize', this.inflateBalloonBound);
+      
+    }
+    
+    
   }.on('didInsertElement'),
   
   clean: function(){
     
-    $(window).off('resize', Ember.run.bind(this, this.setSizes));
+    if(this.setSizesBound){
+      $(window).off('resize', this.setSizesBound);
+    }
+    
+    if(this.inflateBalloonBound){
+      $(window).off('resize', this.inflateBalloonBound);
+      this.get('scrollable').off('scroll', this.inflateBalloonBound);
+    }
+    
     this.cancelTimers();
     
   }.on('willDestroyElement'),
   
+  inflateBalloon: function(){
+  	// Inflate balloon as we scroll
+  	Ember.$('#top-section-balloon').css('height',this.get('scrollable').scrollTop()*0.4);
+  },
+  
   setSizes: function(){
-    var viewHeight = $(window).height();
-    Ember.$('#top-section').css('min-height',viewHeight);
+    
+    Ember.$('#top-section').css('height',$(window).height());
+    Ember.$('#top-section-wrapper').css('height',$(window).height());
+    
+    var testimonyBottom = Ember.$('#testimony').offset().top + Ember.$('#testimony').height();
+    
+    var welcomeTop = Ember.$('#welcome').offset().top;
+    var contentHeight = testimonyBottom - welcomeTop;
+    
+    
+    var menuHeight = parseInt(Ember.$('#nav-body').css('padding-top'));
+    
+    // Allow for bottom buttons on mobile
+    if(this.get('media.isMobile')){
+      menuHeight += 55;
+    }
+    var topMargin = ($(window).height() - contentHeight - menuHeight) * 0.5;
+    
+    Ember.$('#welcome').css('margin-top',topMargin+'px');
+    
   },
   
   initBackgroundImages: function() {

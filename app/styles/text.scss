@@ -1,0 +1,151 @@
+$primary-font: "proxima-nova", Helvetica, Arial, sans-serif;
+$font: $primary-font;
+
+$writing-font: $primary-font;
+
+$heading-font: "ff-zine-slab-display-web";
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-size:16px;
+  font-family: $primary-font;
+  color: $text-color;
+  line-height: 1.55;
+}
+
+a {
+  
+  cursor: pointer;
+  //color: #337ab7; // Bootstrap
+  color: darken($primary-master,11%);
+  
+  
+  &:hover {
+    color: darken($primary-master,11%);
+    //text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(darken($primary-master,11%),0.7);
+  }
+  
+  &.btn-a,&.btn-a:hover {
+    
+    // Increase touch area
+    display:inline-block;
+    border-box: content-box;
+    padding:5px 10px;
+    margin:-5px -10px;
+    border-bottom: none;
+    
+    color: $primary-master;
+    text-decoration: none;
+    &.hover {
+      color: saturate(lighten($primary-master,20%),30%);
+      text-decoration: none;
+    }
+    &.press {
+      color: rgba($primary-master,0.5);
+      text-decoration: none;
+    }
+  }
+  
+  &.btn-a-white,&.btn-a-white:hover {
+    color: #FFF;
+    &.hover {
+      color: rgba(#FFF,0.59);
+    }
+    &.press {
+      color: rgba(#FFF,0.5);
+    }
+  }
+  
+  &:active,&:focus {
+    text-decoration: none;
+  }
+}
+
+.dark {
+  color: $text-on-dark;
+  a {
+    color: $primary-on-dark;
+    
+    &:hover, &:active {
+      color: $primary-on-dark;
+    }
+  }
+}
+
+h1 {
+  color: desaturate(darken($secondary-master,22%),33%);
+  font-weight: 800;
+  font-size: 44px;
+}
+h2 {
+  color: desaturate(darken($secondary-master,22%),33%);
+  font-size: 29px;
+  font-family: $heading-font;
+  text-transform: uppercase;
+}
+h3 {
+  color: $secondary-master;
+  font-size: 25px;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-style: italic;
+  
+  a {
+    color: $secondary-dark;
+    font-weight: 800;
+    border-bottom: none;
+    text-decoration: none;
+    &:hover, &:active {
+      text-decoration: none;
+      color: $primary-master;
+      //color: darken(desaturate($secondary-master,22%),11%);
+      border-bottom: none;
+    }
+  }
+}
+h4 {
+  color: $secondary-master;
+}
+h5 {
+  color: $secondary-master;
+}
+h6 {
+  color: desaturate(darken($secondary-master,22%),33%);
+  font-size:14px;
+  font-weight: bold;
+}
+
+p {
+  font-family: $writing-font;
+}
+article {
+  p {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+}
+
+
+.nowrap-xs,.nowrap {
+  white-space: nowrap;
+}
+
+@media only screen and (min-width: $screen-sm-min) {
+  .nowrap-sm {
+    white-space: nowrap;
+  }
+}
+
+@media only screen and (min-width: $screen-md-min) {
+  .nowrap-md {
+    white-space: nowrap;
+  }
+}
+
+@media only screen and (min-width: $screen-lg-min) {
+  .nowrap-lg {
+    white-space: nowrap;
+  }
+}
