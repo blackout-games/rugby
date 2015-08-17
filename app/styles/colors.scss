@@ -6,7 +6,7 @@
 $hue-adjust: 0; // Degrees
 $primary-master: adjust-hue(hsl(88, 55%, 57%),$hue-adjust);
 $primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
-$primary-master: adjust-hue(hsl(82, 54%, 53%),$hue-adjust);
+$primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
 $secondary-master: adjust-hue(hsl(222,44%,50%),$hue-adjust);
 
 /**
