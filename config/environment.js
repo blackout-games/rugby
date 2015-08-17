@@ -103,7 +103,7 @@ module.exports = function(environment) {
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
     ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ember.blackoutrugby.com:49152";
-    ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ws://ember.blackoutrugby.com:49152";
+    ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ws://ember.blackoutrugby.com:49152 dah9mm7p1hhc3.cloudfront.net";
     ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
     

@@ -431,8 +431,9 @@ function _inlinizeSVG () {
     var $img = Ember.$(this);
     var imgID = $img.attr('id');
     var imgClass = $img.attr('class');
+    $img.attr('src','https://dah9mm7p1hhc3.cloudfront.net/' + $img.attr('src'));
     var imgURL = $img.attr('src');
-    print(imgURL);
+    
     Ember.$.get(imgURL, function(data) {
       // Get the SVG tag, ignore the rest
       var $svg = Ember.$(data).find('svg');
