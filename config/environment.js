@@ -87,9 +87,13 @@ module.exports = function(environment) {
       'facebook-oauth2': {
         apiKey: '230716417077656',
         //redirectUri: '/dashboard' // default is the current URL
+      },
+      'facebook-connect': {
+        appId:      '230716417077656'
       }
-    }
+    },
   };
+  
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

@@ -11,7 +11,7 @@ export default BlackoutAuth.extend({
   authenticate(options) {
     var _this = this;
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      var data = { grant_type: 'facebook', redirect_uri: options.redirect_uri, auth_code: options.auth_code };
+      var data = { grant_type: 'facebook-connect', access_token: options.accessToken };
       if (!Ember.isEmpty(options.scope)) {
         var scopesString = Ember.makeArray(options.scope).join(' ');
         Ember.merge(data, { scope: scopesString });

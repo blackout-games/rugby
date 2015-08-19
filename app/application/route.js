@@ -54,7 +54,51 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, {
       //this.transitionTo('login');
       return false;
     },
+    
     loginWithFacebook: function(button){
+      
+      var self = this;
+      this.get('torii').open('facebook-connect').then(function(authData){
+        
+        self.get('session').authenticate('authenticator:facebook', authData
+        ).then(function(){
+          
+          // Successful login is handled above
+          self.send('sessionAuthenticationSucceeded');
+          
+        },function(response){
+          
+          if( response.error === 'facebookEmailNotFound' ){
+            
+            // Redirect to signup
+            // TODO: Signup user up at this point using their email
+            self.transitionTo('/signup');
+            
+          } else {
+            
+            self.modal.show({
+              'type': 'error',
+              'title': 'Facebook Login Failed',
+              'message': response.message,
+              'showAction': true,
+            });
+            
+            button.reset();
+            
+          }
+          
+        });
+        
+        
+        
+      }, function(error){
+        button.reset();
+      });
+      
+    },
+      
+    loginWithFacebookOld: function(button){
+      
       var self = this;
       this.get('session').authenticate('simple-auth-authenticator:torii', 'facebook-oauth2').then(function(){
         
