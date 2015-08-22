@@ -9,3 +9,4 @@ if (strpos($last_line, 'Uploaded revision:') !== false) {
     system('ember deploy:activate --revision ' . $revision . ' -prod');
     
 }
+
