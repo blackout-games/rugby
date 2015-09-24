@@ -11,4 +11,4 @@ export function number(val, params/*, hash*/) {
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export default Ember.HTMLBars.makeBoundHelper(number);
+export default Ember.Helper.helper(number);

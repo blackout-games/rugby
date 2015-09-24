@@ -14,6 +14,7 @@ $nav-xs: $mobile;
 $nav-sm: $tablet;
 $nav-md: $tablet-wide;
 $nav-lg: $desktop;
+$nav-vs: $vertically-small;
 $nav-sm-down: $tablet-and-down;
 $nav-md-down: $tablet-wide-and-down;
 $nav-sm-up: $tablet-and-up;
@@ -460,6 +461,10 @@ body.free{
       height: $max-sidebar-width - 4px;
     }
 
+    @media #{$nav-vs} {
+      height: 9.5vh;
+    }
+
     .nav-icon-wrapper {
       //height:10px;
       margin-bottom: -2px;
@@ -516,6 +521,9 @@ body.free{
 
     .nav-tab-icon {
       font-size: 22px;
+      @media #{$nav-vs} {
+        font-size: 3.5vh;
+      }
       color: $darker-color;
 
       @if $colored-tabs {
@@ -546,16 +554,25 @@ body.free{
     &.nav-menu-manager {
       i {
         font-size: 20px;
+        @media #{$nav-vs} {
+          font-size: 3.2vh;
+        }
       }
     }
     &.nav-menu-club {
       i {
         font-size: 25px;
+        @media #{$nav-vs} {
+          font-size: 4vh;
+        }
       }
     }
     &.nav-menu-support {
       i {
         font-size: 20px;
+        @media #{$nav-vs} {
+          font-size: 3.2vh;
+        }
       }
     }
 
@@ -604,6 +621,10 @@ body.free{
 
     .nav-tab-icon {
       color: $tab-icon-color;
+      font-size: 20px;
+      @media #{$nav-vs} {
+        font-size: 3.3vh;
+      }
     }
 
     .lines {
@@ -626,16 +647,25 @@ body.free{
     &.nav-tab-chat {
       i {
         font-size: 16px;
+        @media #{$nav-vs} {
+          font-size: 2.6vh;
+        }
       }
     }
     &.nav-tab-timeline {
       i {
         font-size: 19px;
+        @media #{$nav-vs} {
+          font-size: 3.1vh;
+        }
       }
     }
     &.nav-tab-alerts {
       i {
-        font-size: 16px;
+        font-size: 18px;
+        @media #{$nav-vs} {
+          font-size: 2.7vh;
+        }
       }
     }
 
@@ -733,4 +763,9 @@ body.free{
       }
     }
   }
+}
+
+#sidebar-scroller {
+  width: $panel-width - $sidebar-width;
+  max-width: $max-panel-width - $max-sidebar-width;
 }

@@ -1,12 +1,11 @@
 import Ember from 'ember';
-import Local from '../../models/local';
 
 export default Ember.Component.extend({
-  locals: Local.create(),
+  locals: Ember.inject.service(),
   
   showMessage: function(){
     
-    if(!this.get('locals.welcomeMessageShown')){
+    if(!this.get('locals').read('welcomeMessageShown')){
       
       var self = this;
       
@@ -20,7 +19,7 @@ export default Ember.Component.extend({
             'showAction': false,
           });
           
-          self.set('locals.welcomeMessageShown',true);
+          self.get('locals').put('welcomeMessageShown',true);
           
         },5000);
       });

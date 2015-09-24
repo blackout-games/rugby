@@ -1,8 +1,5 @@
 import Ember from 'ember';
-import Manager from '../manager/model';
 import NewsMixin from '../mixins/news';
-
-var $ = Ember.$;
 
 export default Ember.Route.extend(NewsMixin,{
   prefs: Ember.inject.service('preferences'),
@@ -23,6 +20,7 @@ export default Ember.Route.extend(NewsMixin,{
     };
     
     var nationalNewsQuery = {
+      me: true,
       page: {
         size: 3,
         number: 1
@@ -30,14 +28,6 @@ export default Ember.Route.extend(NewsMixin,{
       sort: '-date',
       include: 'author,country',
     };
-    
-    var follows = this.session.get('managerMeta.news-follows');
-    
-    if(follows){
-      nationalNewsQuery['filter'] = {
-        'country.id': follows
-      };
-    }
     
     return Ember.RSVP.hash({
       

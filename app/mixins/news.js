@@ -44,15 +44,16 @@ export default Ember.Mixin.create({
     
     var body = article.get('body');
     var wasSplit = false;
+    var parts;
     
     if(body.indexOf('[split]')>=0){
       
-      var parts = body.split('[split]');
+      parts = body.split('[split]');
       wasSplit = true;
       
     } else {
       
-      var parts = [];
+      parts = [];
       
       var shortFound = false;
       var bodyCopy = body.toString();
@@ -64,7 +65,7 @@ export default Ember.Mixin.create({
           shortFound = true;
           parts[0] = body.substr(0,realPos+1);
           parts[1] = body.substr(realPos+1);
-        } else if(pos == -1){
+        } else if(pos === -1){
           shortFound = true;
           parts[0] = body;
         } else {
@@ -89,7 +90,7 @@ export default Ember.Mixin.create({
         ];
         
         $.each(phrases,function(index,phrase){
-          if( intro.substr( -(phrase.length) ) == phrase ){
+          if( intro.substr( -(phrase.length) ) === phrase ){
             
             // Remove everything between end and specified characters - if short enough
             var lastMost = -1;
@@ -126,7 +127,7 @@ export default Ember.Mixin.create({
       if(!introOnly||wasSplit){
         
         // Clean up body
-        var body = Ember.Blackout.trimBr(parts[1]);
+        body = Ember.Blackout.trimBr(parts[1]);
         body = intro + '<br><br>' + body;
         
         // Switch to paragraphs
@@ -137,7 +138,7 @@ export default Ember.Mixin.create({
       } else {
         
         intro = intro.replace(/<br>/gi,' ');
-        var body = intro;
+        body = intro;
         
       }
       
@@ -147,7 +148,7 @@ export default Ember.Mixin.create({
       
     } else if( parts.length === 1 ) {
       
-      var body = Ember.Blackout.trimBr(parts[0]);
+      body = Ember.Blackout.trimBr(parts[0]);
       
       if(!introOnly){
         

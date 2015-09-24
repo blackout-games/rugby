@@ -1,12 +1,16 @@
 /* jshint node: true */
 
+/**
+ * XMLHttpRequest cannot load https://dah9mm7p1hhc3.cloudfront.net/assets/images/global/full-logo.svg. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://ember.blackoutrugby.com' is therefore not allowed access.
+ */
+
 module.exports = function(environment) {
   
   var offlineMode = true;
   var localIP = '192.168.20.5'; // Home
   //var localIP = '192.168.1.150'; // Nat's + parents
   
-  /*********************
+  /*********************/
   // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
@@ -43,7 +47,8 @@ module.exports = function(environment) {
     locationType: 'auto',
     LOCALE: 'en',
     
-    assetFilesPrepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
+    //assetFilesHost: 'https://s3.amazonaws.com/rugby-ember/',
+    assetFilesHost: 'https://dah9mm7p1hhc3.cloudfront.net/',
     
     EmberENV: {
       FEATURES: {
@@ -63,35 +68,19 @@ module.exports = function(environment) {
       'default-src': "'none'",
       'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
       'font-src': "'self' use.typekit.net data: ",
-      'connect-src': "'self' "+apiHost,
+      'connect-src': "'self' "+apiHost+" https://"+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
       'style-src': "'self' 'unsafe-inline' use.typekit.net",
       'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
     },
   };
-  
-  ENV['simple-auth'] = {
-    store: 'simple-auth-session-store:local-storage',
-    authorizer: 'simple-auth-authorizer:oauth2-bearer',
-    crossOriginWhitelist: [apiProtocol+'://'+apiHost],
-    routeIfAlreadyAuthenticated: 'manager',//'dashboard',
-    session: 'session:blackout',
-  };
-  
-  ENV['simple-auth-oauth2'] = {
-    serverTokenEndpoint: apiProtocol+'://'+apiHost+apiBase+'/token'
-  };
-  
-  ENV['torii'] = {
-    providers: {
-      'facebook-oauth2': {
-        apiKey: '230716417077656',
-        //redirectUri: '/dashboard' // default is the current URL
-      },
-      'facebook-connect': {
-        appId:      '230716417077656'
-      }
-    },
+
+  ENV['ember-simple-auth'] = {
+    base: {
+      store: 'session-store:local-storage',
+      crossOriginWhitelist: [apiProtocol+'://'+apiHost],
+      routeIfAlreadyAuthenticated: 'dashboard',
+    }
   };
   
 
@@ -102,14 +91,13 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     
-    ENV.assetFilesPrepend = '/';
+    ENV.assetFilesHost = '/';
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
     ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ember.blackoutrugby.com:49152";
     ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ws://ember.blackoutrugby.com:49152 dah9mm7p1hhc3.cloudfront.net";
-    ENV['simple-auth'].crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
-    ENV['simple-auth-oauth2'].serverTokenEndpoint = devApiProtocol+'://'+devApiHost+devApiBase+'/token';
+    ENV['ember-simple-auth'].base.crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     
   }
 

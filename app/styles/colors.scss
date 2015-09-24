@@ -23,7 +23,7 @@ $primary-on-image: $primary-color;
 
 
 /**
- * Secondary Color
+ * Secondary Color OLD
  */
 $secondary-color: #405FCD; // OG Blue
 $secondary-on-dark: lighten(saturate($secondary-master,25%),15%);
@@ -53,7 +53,7 @@ $text-lighter: desaturate(lighten($text-color,11%),11%);
 $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
 
-$dark-text-on-dark: desaturate(darken($secondary-master,22%),40%);
+$dark-text-on-dark: desaturate(darken($secondary-master,22%),27%);
 
 $placeholder-color: darken(desaturate($secondary-master,39%),10%) !important;
 $text-on-dark: desaturate(lighten($secondary-master,44%),44%);

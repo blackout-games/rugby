@@ -5,6 +5,7 @@ var $ = Ember.$;
 
 export default ResponsiveNav.extend({
   testSidebar: false,
+  prefs: Ember.inject.service('preferences'),
   
   // Settings
   
@@ -13,7 +14,22 @@ export default ResponsiveNav.extend({
   disableClassSelector: 'body,#nav-body',
   topBarHeight: 59,
   topBarBuffer: 100,
-  menuLabelLarge: 'Menu',
+  
+  // Computed
+  
+  menuButtonText: Ember.computed('media.isJumbo','navIsOpen',function(){
+    if( this.get('media.isJumbo') ){
+      
+      if( this.get('navIsOpen') ){
+        return 'Hide';
+      } else {
+        return 'Show';
+      }
+      
+    }
+    return 'Menu';
+    
+  }),
   
   // Variables
   
@@ -26,14 +42,20 @@ export default ResponsiveNav.extend({
   
 
   uiEvents: [
-    /*
     {
       eventName: 'resize',
-      callbackName: 'updateMenuHeight',
+      callbackName: 'updateSidebarScrollerHeight',
       selector: window,
     }
-    */
   ],
+  
+  updateSidebarScrollerHeight: function(){
+    var windowHeight = $(window).height() - 15;
+    if(this.get('media.isMobile')){
+      windowHeight -= $('#nav-tabbar').height();
+    }
+    $('#sidebar-scroller-parent').height(windowHeight);
+  },
 
   startListening: function() {
     
@@ -233,10 +255,15 @@ export default ResponsiveNav.extend({
       $('#nav-body').on('scroll', this.updateTopBarBound);
     }
     
-    this.autoShowOnLarge();
+    // Ember deprecation prevents us from using .set on didInsertElement
+    Ember.run.scheduleOnce('afterRender', this, function(){
+      this.autoShowOnLarge();
+    });
+    
     this.updateUIOnLandscapeTablet();
     this.createMenus();
     this.selectCurrentMenu();
+    this.updateSidebarScrollerHeight();
 
     // For testing
     if (this.get('testSidebar')) {
@@ -277,7 +304,6 @@ export default ResponsiveNav.extend({
     if( this.get('media.isJumbo') ){
       this.show();
       this.selectCurrentMenu();
-      this.set('menuLabelLarge','Hide');
     } else {
       this.hide();
     }
@@ -304,19 +330,19 @@ export default ResponsiveNav.extend({
     $.each(MenuData.menus, function( menuName, menuItems ){
       $.each(menuItems,function( index, item ){
         
-        var realRoute;
+        var realRoute,itemLink,action;
         
         if(item.tempRoute){
-          var itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
-          var action = 'transitionAction';
+          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
+          action = 'transitionAction';
           realRoute = item.tempRoute;
         } else if(item.route){
-          var itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
-          var action = 'transitionAction';
+          itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
+          action = 'transitionAction';
           realRoute = item.route;
         } else if(item.action) {
-          var itemLink = $('<a class="btn-a menu-link">'+item.label+'</a>');
-          var action = 'menuAction';
+          itemLink = $('<a class="btn-a menu-link">'+item.label+'</a>');
+          action = 'menuAction';
           self.set('menuAction',item.action);
         }
         
@@ -498,7 +524,7 @@ export default ResponsiveNav.extend({
         // Close menu on large
         $('#nav-panel,#nav-body').addClass('force-transition');
         if( this.hide() ){
-          this.set('menuLabelLarge','Menu');
+          
         }
         
       }
@@ -507,7 +533,6 @@ export default ResponsiveNav.extend({
       
       this.show();
       this.selectCurrentMenu();
-      this.set('menuLabelLarge','Hide');
       
     } else {
       

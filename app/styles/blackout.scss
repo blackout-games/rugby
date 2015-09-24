@@ -36,6 +36,25 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
     }
   }
   
+  &.blocked {
+    background-color: $bg-color-dark;
+    .blocked-content {
+      line-height: normal;
+      display: inline-block;
+      height: auto;
+      max-width: 250px;
+      font-size: 22px;
+      color: $dark-text-on-dark;
+      .blocked-logo {
+        color: $dark-text-on-dark;
+        font-size:100px;
+      }
+      h1 {
+        color: $dark-text-on-dark;
+        margin-bottom:50px;
+      }
+    }
+  }
   
 }
 
@@ -88,7 +107,20 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 /**
- * Trying using flex box instead
+ * Vertical Fill
+ */
+.vf-parent {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.vf-child {
+  height: 100%;
+}
+
+/**
+ * Vertical align
  */
 .va-parent {
   height: 100%;
@@ -97,7 +129,21 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 .va-child {
+  //
+}
+
+/**
+ * Vertical align
+ */
+.center-parent {
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-child {
+  //
 }
 
 .backboard-logo {
@@ -159,6 +205,12 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 .hidden-md-up {
   @media #{$tablet-wide-and-up} {
     display: none !important;
+  }
+}
+
+.visible-vs {
+  @media #{$vertically-small} {
+    display: block !important;
   }
 }
 

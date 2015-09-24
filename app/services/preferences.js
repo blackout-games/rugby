@@ -3,23 +3,22 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   store: Ember.inject.service(),
   
-  getDefaults: function(){
+  /**
+   * This should be called after session is built
+   * If the user is logged in, it will load their preferences
+   * If not, defaults are loaded
+   */
+  loadPreferences: function(){
     
-    var App = this.container.lookup('application:main');
-    
-    var session = this.container.lookup('session:blackout');
+    // We need to make the session available
+    var session = this.container.lookup('service:session');
     this.set('session',session);
     
-    if(!session.get('isRestoring')){
-      this.get('store').findAll('preference').then(function(data){
-        App.advanceReadiness();
-      });
-    } else {
-      App.advanceReadiness();
-    }
+    // Load preferences into store, return promise if we need to wait
+    // Must catch, so that user-blocking works (anything loaded during initialization)
+    return this.get('store').findAll('preference').catch(function(){});
     
-    
-  }.on('init'),
+  },
   
   getPref: function( id,options ){
     var pref = this.getPrefRecord(id);
@@ -46,7 +45,8 @@ export default Ember.Service.extend({
   },
   
   setPref: function( id, value ){
-    if( this.get('session').isAuthenticated){
+    if( this.get('session.isAuthenticated')){
+      //print(this.get('session').isAuthenticated,this.get('session'));
       var pref = this.getPrefRecord(id);
       if(pref){
         pref.set('value',value);

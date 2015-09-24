@@ -24,6 +24,9 @@ $image-folder: "/assets/images/";
 
 $limited-height-non-mobile: "(max-height: 800px) and (min-width: #{$screen-xs-min})";
 
+$vertically-small: "(max-height: 639px) and #{$tablet-and-up}";
+$not-vertically-small: "(min-height: 640px), #{$mobile}";
+
 /**
  * UI
  */

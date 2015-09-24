@@ -1,8 +1,10 @@
 import DS from 'ember-data';
 import config from '../config/environment';
 import Ember from 'ember';
+import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-export default DS.JSONAPIAdapter.extend({
+export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
+  authorizer: 'authorizer:application',
   host: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase,
   
   /**
@@ -20,8 +22,44 @@ export default DS.JSONAPIAdapter.extend({
   shouldReloadAll: function(){
   	return true;
   },
+  shouldBackgroundReloadRecord: function(){
+    return true;
+  },
   shouldBackgroundReloadAll: function(){
     return true;
+  },
+  
+  /*
+  buildURL: function(){
+    var url = this._super.apply(this, arguments);
+    //print(url);
+    return url;
+  },
+  */
+  
+  /**
+   * Override query so we can support /me
+   * Add me: true to the query object
+   */
+  query: function(store, type, query) {
+    var url = this.buildURL(type.modelName, null, null, 'query', query);
+    
+    if( query.me === true ){
+      
+      var session = this.container.lookup('service:session');
+      
+      if(session.get('isAuthenticated')){
+        url += '/me';
+      }
+      delete query.me;
+      
+    }
+
+    if (this.sortQueryParams) {
+      query = this.sortQueryParams(query);
+    }
+
+    return this.ajax(url, 'GET', { data: query });
   },
   
 });

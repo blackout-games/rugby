@@ -17,12 +17,14 @@ export default Ember.Component.extend({
   
   onResize: function(){
     
+    var preventerShowing = this.get('preventerShowing');
+    var textsWithFocus = $('input[type=text]:focus,input[type=password]:focus,textarea:focus').length;
+    
     // Detect landscape on mobile, and show preventer
-    if(this.get('media.isMobile')){
+    if(this.get('media.isMobile') && textsWithFocus===0){
       
       var viewportWidth = $(window).width();
       var viewportHeight = $(window).height();
-      var preventerShowing = this.get('preventerShowing');
       
       if( viewportHeight < viewportWidth ){
         if( !preventerShowing ){
@@ -34,6 +36,9 @@ export default Ember.Component.extend({
         this.set('preventerShowing',false);
       }
       
+    } else if(preventerShowing) {
+      $('.landscape-preventer').hide();
+      this.set('preventerShowing',false);
     }
     
   },

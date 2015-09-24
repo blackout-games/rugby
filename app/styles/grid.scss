@@ -271,7 +271,7 @@
   order: 1;
 }
 
-.col-reset-xs, .col-reset {
+.col-reset-order-xs, .col-reset-order {
   order: 0;
 }
 
@@ -572,7 +572,7 @@
     order: 1;
   }
 
-  .col-reset-sm {
+  .col-reset-order-sm {
     order: 0;
   }
   
@@ -886,7 +886,7 @@
     order: 1;
   }
 
-  .col-reset-md {
+  .col-reset-order-md {
     order: 0;
   }
   
@@ -1200,7 +1200,7 @@
     order: 1;
   }
 
-  .col-reset-lg {
+  .col-reset-order-lg {
     order: 0;
   }
   
@@ -1454,3 +1454,10 @@
 .col-no-gutter-right {
   padding-right: 0;
 }
+  
+.col-reset {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+

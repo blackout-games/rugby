@@ -1,9 +1,11 @@
-$primary-font: "proxima-nova", Helvetica, Arial, sans-serif;
+$primary-font: "lato", Helvetica, Arial ,sans-serif;
 $font: $primary-font;
 
 $writing-font: $primary-font;
 
 $heading-font: "ff-zine-slab-display-web";
+
+$sports-font: "proxima-nova", Helvetica, Arial, sans-serif;
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -91,6 +93,7 @@ h3 {
   font-weight: 800;
   text-transform: uppercase;
   font-style: italic;
+  font-family: $sports-font;
   
   a {
     color: $secondary-dark;

@@ -30,15 +30,16 @@ export default Ember.Component.extend({
     var direction = this.get('direction');
     var oldObj = this.get('previouslyShowing');
     var currentlyShowing = this.get('currentlyShowing');
+    var newObj;
     
     if( typeof(currentlyShowing) === 'string' ){
-      var newObj = $('#'+currentlyShowing);
+      newObj = $('#'+currentlyShowing);
     } else {
-      var newObj = $(currentlyShowing);
+      newObj = $(currentlyShowing);
     }
     
     // Don't do anything if there's no change
-    if( oldObj && newObj[0] == oldObj[0] ){
+    if( oldObj && newObj[0] === oldObj[0] ){
       return;
     }
     
@@ -48,7 +49,7 @@ export default Ember.Component.extend({
     var currentOldObj = this.get('currentOldObj');
     var currentDirection = this.get('currentDirection');
     
-    if( currentOldObj && newObj[0] == currentOldObj[0] ){
+    if( currentOldObj && newObj[0] === currentOldObj[0] ){
       
       // Run in opposition direction, without resetting
       if( currentDirection === 'left' ){

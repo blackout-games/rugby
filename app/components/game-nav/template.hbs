@@ -20,71 +20,79 @@
   <div class="row fill">
     <div class="col-fixed nav-panel-spacer"></div>
     <div class="col-flex row">
-    
-      {{#side-switcher currentlyShowing=tabSwitcherSelected direction=tabSwitcherDirection identifier="tabSwitcher" class="col-flex" }}
-            
-        <div id="menuPanel" class="tab-panel">
-          {{menu-header}}
+      
+      <div id="sidebar-scroller-parent">
+        
+        {{#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
           
-          {{#side-switcher currentlyShowing=menuSwitcherSelected direction=menuSwitcherDirection identifier="menuSwitcher" }}
-            
-            <div id="managerPanel" class="menu-panel">
+          {{#side-switcher currentlyShowing=tabSwitcherSelected direction=tabSwitcherDirection identifier="tabSwitcher" class="col-flex" }}
+                
+            <div id="menuPanel" class="tab-panel">
+              {{menu-header}}
+              
+              {{#side-switcher currentlyShowing=menuSwitcherSelected direction=menuSwitcherDirection identifier="menuSwitcher" }}
+                
+                <div id="managerPanel" class="menu-panel">
+                  
+                </div>
+                
+                <div id="clubPanel" class="menu-panel">
+                  
+                </div>
+                
+                <div id="teamPanel" class="menu-panel">
+                  
+                </div>
+                
+                <div id="countryPanel" class="menu-panel">
+                  
+                </div>
+                
+                <div id="globalPanel" class="menu-panel">
+                  
+                </div>
+                
+                <div id="supportPanel" class="menu-panel">
+                  
+                </div>
+                
+              {{/side-switcher}}
               
             </div>
             
-            <div id="clubPanel" class="menu-panel">
-              
+            <div id="chatPanel" class="tab-panel">
+              <div class="tab-panel-header">
+                <h4>Chat</h4>
+                <h5>Coming soon</h5>
+              </div>
             </div>
             
-            <div id="teamPanel" class="menu-panel">
-              
+            <div id="timelinePanel" class="tab-panel">
+              <div class="tab-panel-header">
+                <h4>Timeline</h4>
+                <h5>Coming soon</h5>
+              </div>
             </div>
             
-            <div id="countryPanel" class="menu-panel">
-              
+            <div id="alertsPanel" class="tab-panel">
+              <div class="tab-panel-header">
+                <h4>Alerts</h4>
+                <h5>Coming soon</h5>
+              </div>
             </div>
             
-            <div id="globalPanel" class="menu-panel">
-              
-            </div>
-            
-            <div id="supportPanel" class="menu-panel">
-              
+            <div id="infoPanel" class="tab-panel">
+              <div class="tab-panel-header">
+                <h4>Info</h4>
+                <h5>Coming soon</h5>
+              </div>
             </div>
             
           {{/side-switcher}}
           
-        </div>
+        {{/perfect-scroll}}
         
-        <div id="chatPanel" class="tab-panel">
-          <div class="tab-panel-header">
-            <h4>Chat</h4>
-            <h5>Coming soon</h5>
-          </div>
-        </div>
-        
-        <div id="timelinePanel" class="tab-panel">
-          <div class="tab-panel-header">
-            <h4>Timeline</h4>
-            <h5>Coming soon</h5>
-          </div>
-        </div>
-        
-        <div id="alertsPanel" class="tab-panel">
-          <div class="tab-panel-header">
-            <h4>Alerts</h4>
-            <h5>Coming soon</h5>
-          </div>
-        </div>
-        
-        <div id="infoPanel" class="tab-panel">
-          <div class="tab-panel-header">
-            <h4>Info</h4>
-            <h5>Coming soon</h5>
-          </div>
-        </div>
-        
-      {{/side-switcher}}
+      </div>
       
     </div>
   </div>
@@ -189,7 +197,7 @@
                 <div class="nav-icon-wrapper nav-burger nav-cross">
                   <span class="lines"></span>
                 </div>
-                <div class="nav-tab-text">{{#if media.isJumbo}}{{menuLabelLarge}}{{else}}Menu{{/if}}</div>
+                <div class="nav-tab-text">{{#if media.isJumbo}}{{menuButtonText}}{{else}}Menu{{/if}}</div>
               </div>
             {{/fast-button}}
           </div>

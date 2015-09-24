@@ -11,4 +11,4 @@ export function money(val, params/*, hash*/) {
   return '$' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export default Ember.HTMLBars.makeBoundHelper(money);
+export default Ember.Helper.helper(money);

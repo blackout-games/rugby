@@ -1,6 +1,14 @@
 import Ember from 'ember';
 import config from './config/environment';
 
+Ember.Router.reopen({
+  history: Ember.inject.service(),
+  
+  doSomethingOnUrlChange: function() {
+    this.get('history').update(this.get('url'));
+  }.on('didTransition')
+});
+
 var Router = Ember.Router.extend({
   location: config.locationType
 });
@@ -38,6 +46,7 @@ Router.map(function() {
     });
   });
   this.route('coming-soon');
+  this.route('blocked');
 });
 
 export default Router;

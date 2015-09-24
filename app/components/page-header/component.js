@@ -25,10 +25,12 @@ export default Ember.Component.extend({
       
       if( images[key] ){
         
-        var session = this.container.lookup('session:blackout');
+        var session = this.get('session');
         
         var route = this.get('route');
-        if(!route) route = key;
+        if(!route){
+          route = key;
+        }
         
         // Check if we've been here
         var sessionKey = route+'-header-image';

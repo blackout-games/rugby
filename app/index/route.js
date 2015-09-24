@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   
+  sortProps: ['activeTeams'],
+  
   model: function() {
     return Ember.RSVP.hash({
       
@@ -24,14 +26,19 @@ export default Ember.Route.extend({
         
       });
       
-      // Finally sort countries biggest first
-      var sortedCountries = Ember.ArrayProxy.createWithMixins(Ember.SortableMixin, {
-        content: data.countries,
-        sortProperties: ['activeTeams'],
-        sortAscending: false
-      });
       
-      data.countries = sortedCountries;
+      
+      
+      /**
+       * Ember.computed.sort looks for the two provided string arguments within it's parent.
+       * In this case, the data variable in this very scope
+       */
+      
+      data.countrySortProps = ['activeTeams:desc'];
+      
+      data.countriesSorted = Ember.computed.sort('countries','countrySortProps');
+      
+      
       
       return data;
       

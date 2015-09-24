@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../config/environment';
 var E = Ember;
 var $ = E.$;
 
@@ -431,29 +432,97 @@ function _inlinizeSVG () {
     var $img = Ember.$(this);
     var imgID = $img.attr('id');
     var imgClass = $img.attr('class');
-    $img.attr('src','https://dah9mm7p1hhc3.cloudfront.net/' + $img.attr('src'));
     var imgURL = $img.attr('src');
+    var imgHost = config.assetFilesHost;
+    //imgHost = 'https://s3.amazonaws.com/rugby-ember/';
+    //imgHost = 'https://dah9mm7p1hhc3.cloudfront.net/';
     
-    Ember.$.get(imgURL, function(data) {
-      // Get the SVG tag, ignore the rest
-      var $svg = Ember.$(data).find('svg');
+    // Add cloudfront?
+    if(imgURL.substr(0,4)!=='http'){
+      $img.attr('src',imgHost + $img.attr('src'));
+      imgURL = $img.attr('src');
+    }
+    
+    // Add svg rebuilder as function
+    var rebuildSVG = function(){
+      
+      if(!$img.data('hasLoadedSVG')){
+        
+        $.ajax({
+          url: imgURL,
+          headers: {
+          },
+          dataType: 'xml',
+        }).then(function(data){ //---------------- Success
+          
+          $img.data('hasLoadedSVG',true);
+          
+          // Get the SVG tag, ignore the rest
+          var $svg = Ember.$(data).find('svg');
 
-      // Add replaced image's ID to the new SVG
-      if (typeof imgID !== 'undefined') {
-        $svg = $svg.attr('id', imgID);
+          // Add replaced image's ID to the new SVG
+          if (typeof imgID !== 'undefined') {
+            $svg = $svg.attr('id', imgID);
+          }
+          // Add replaced image's classes to the new SVG
+          if (typeof imgClass !== 'undefined') {
+            $svg = $svg.attr('class', imgClass + ' replaced-svg');
+          }
+
+          // Remove any invalid XML tags as per http://validator.w3.org
+          $svg = $svg.removeAttr('xmlns:a');
+
+          // Replace image with new SVG
+          $img.replaceWith($svg);
+          
+          if($img.data('ajaxCacheOff')){
+            
+            // Turn on cache
+            $.ajaxSetup({ cache: true });
+            
+            // Track that cache has been turned off
+            $img.data('ajaxCacheOff',false);
+            
+          }
+          
+        },function(xhr){ //---------------- Error
+          
+          if(!$img.data('ajaxCacheOff')){
+            
+            // Assume CORS issues from a cached SVG 
+            // So we try again without cache
+            
+            
+            // Turn off cache
+            $.ajaxSetup({ cache: false });
+            
+            // Track that cache has been turned off
+            $img.data('ajaxCacheOff',true);
+            
+            // Get SVG again
+            rebuildSVG();
+            
+          } else {
+            
+            // Turn on cache
+            $.ajaxSetup({ cache: true });
+            
+            // Track that cache has been turned off
+            $img.data('ajaxCacheOff',false);
+            
+            // Don't go again
+            
+          }
+          
+        });
+        
+        
       }
-      // Add replaced image's classes to the new SVG
-      if (typeof imgClass !== 'undefined') {
-        $svg = $svg.attr('class', imgClass + ' replaced-svg');
-      }
-
-      // Remove any invalid XML tags as per http://validator.w3.org
-      $svg = $svg.removeAttr('xmlns:a');
-
-      // Replace image with new SVG
-      $img.replaceWith($svg);
-
-    }, 'xml');
+      
+      
+    }
+    
+    rebuildSVG();
 
   });
 }
@@ -468,10 +537,12 @@ function _inlinizeSVG () {
       $currentSet = this.children(); // Current place
     while ($currentSet.length) {
       $found = $currentSet.filter(filter);
-      if ($found.length) break; // At least one match: break loop
+      if ($found.length){
+        break; // At least one match: break loop
+      }
       // Get all children of the current set
       $currentSet = $currentSet.children();
     }
     return $found.first(); // Return first match of the collection
-  }
-})(jQuery);
+  };
+})(Ember.$);

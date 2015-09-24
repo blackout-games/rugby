@@ -368,13 +368,17 @@ $responsive-nav-big: $tablet-and-up;
 .fbcontinue-container {
   margin-top: 5vh;
 }
-.fbcontinue-button {
-  padding-left: 42px;
+.fbcontinue-button,.fbcontinue-button:hover {
+  padding-left: 22px;
   .btn-fb-icon {
     position:absolute;
     line-height:100%;
-    left:2px;
+    left:15px;
     font-size:150%;
+  }
+
+  &.press {
+    padding-left: 22px;
   }
 }
 
@@ -382,8 +386,12 @@ $responsive-nav-big: $tablet-and-up;
   margin-top: 2vh;
 }
 
-.signup-button {
-  @extend .big-button;
+.home-signup-buttons {
+  width: 300px;
+  
+  @media #{$mobile} {
+    width: 270px;
+  }
 }
 
 .home-login-btn {

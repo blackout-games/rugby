@@ -36,12 +36,14 @@ export default Ember.Mixin.create(EmberValidations,{
   
   displayServerErrors: function(response){
     
-    if(response.item){
-      this.set('serverErrors.'+response.item, response.message);
-      Ember.$('#'+response.item).focus();
+    var errors = response.errors;
+    print("ERRORS",response);
+    if(errors.item){
+      this.set('serverErrors.'+errors.item, errors.message);
+      Ember.$('#'+errors.item).focus();
       this.set('refocusButton',false);
     } else {
-      this.set('formErrorMessage',response.message);
+      this.set('formErrorMessage',errors.message);
     }
     
     this.get('submitButton').reset(this.get('refocusButton'));

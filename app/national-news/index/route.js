@@ -5,6 +5,7 @@ export default Ember.Route.extend(NewsMixin,{
   prefs: Ember.inject.service('preferences'),
     
   query: {
+    me: true,
     sort: '-date',
     page: {
       size: 10,
@@ -16,14 +17,7 @@ export default Ember.Route.extend(NewsMixin,{
   model: function(){
     
     var self = this;
-    var follows = this.session.get('managerMeta.news-follows');
     var query = this.get('query');
-    
-    if(follows){
-      query['filter'] = {
-        'country.id': follows
-      };
-    }
     
     return this.store.query('national-news',query).then(function(data){
       self.processNews(data,null,true);
@@ -32,7 +26,7 @@ export default Ember.Route.extend(NewsMixin,{
     
   },
   
-  afterModel: function(data){
+  afterModel: function(){
     
     var prefs = this.get('prefs');
     

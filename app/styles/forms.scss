@@ -27,7 +27,7 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
 }
 
 @mixin focus-button {
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
   @include focus-outline;
 
   &:focus {
@@ -141,15 +141,25 @@ input[type="text"], input[type="password"] {
  */
 
 $color: darken(desaturate($secondary-master, 15%), 40%);
+$text-color: #EEE;
 
 input[type="text"].dark, input[type="password"].dark {
   background-color: $color;
   border-color: $color;
-  color: #EEE;
+  color: $text-color;
 }
 // Chrome autofill yellow background fix
 input:-webkit-autofill.dark {
+  background-color: $color;
   -webkit-box-shadow: 0 0 0px 1000px $color inset;
+  -webkit-text-fill-color: $text-color;
+  border-radius: $border-radius;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /**

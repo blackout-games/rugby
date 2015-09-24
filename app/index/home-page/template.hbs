@@ -1,7 +1,7 @@
 <!-- So that #nav-body can have transparent bg for sidebar gap-fill-->
 <div class="bg-preload">
 
-  {{waypoint action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
+  {{!waypoint action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
 
   <div id="top-section-wrapper">
 
@@ -16,12 +16,12 @@
       <div id="subtitle">YOUR CLUB AWAITS.</div>
 
       <div class="fbcontinue-container">
-        {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline"   spinnerColor="fb" }}
-          <i class="icon-facebook btn-fb-icon"></i> CONTINUE WITH FACEBOOK{{/loader-button}}
+        {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline home-signup-buttons"   spinnerColor="fb" }}
+          <i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
       </div>
 
       <div class="signup-container">
-        {{#link-to 'signup' tagName='button' class="btn btn-big no-outline"}}OR SIGN UP WITH YOUR EMAIL{{/link-to}}
+        {{#link-to 'signup' tagName='button' class="btn btn-big no-outline home-signup-buttons"}}Sign up with your email{{/link-to}}
       </div>
       
       <div id="testimony-container">
@@ -46,7 +46,7 @@
   </div>
 
 
-  {{waypoint action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}
+  {{!waypoint action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}
 
 
   <div class="home-content-block home-block-light about-container">
@@ -134,7 +134,7 @@
 
   </div>
 
-  {{waypoint action="handleWaypoint" offset=waypointOffset id="numbers" select="about" contextElementId=scrollContextId class="waypoint"}}
+  {{!waypoint action="handleWaypoint" offset=waypointOffset id="numbers" select="about" contextElementId=scrollContextId class="waypoint"}}
 
   <div class="home-content-block home-block-dark stats-container">
 
@@ -316,7 +316,7 @@
   </div>
 
 
-  {{waypoint action="handleWaypoint" offset=waypointOffset id="contact" contextElementId=scrollContextId class="waypoint"}}
+  {{!waypoint action="handleWaypoint" offset=waypointOffset id="contact" contextElementId=scrollContextId class="waypoint"}}
 
   <div class="home-content-block home-block-light contact-container">
 

@@ -4,8 +4,12 @@ export function initialize( application ) {
   // Just looking up the service will initiate it
   // Otherwise it will only lazy load when needed
   // But we need to load in default preferences
-  application.container.lookup('service:preferences');
-  application.container.lookup('service:blur');
+  
+  // Watches for unfocus from a browser window or tab
+  application.container.lookup('service:blur'); 
+  
+  // Handles local bites, which are sent with all ajax requests as a header
+  application.container.lookup('service:bites'); 
   
 }
 

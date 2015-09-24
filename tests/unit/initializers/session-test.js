@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import { initialize } from '../../../initializers/defer';
+import { initialize } from '../../../initializers/session';
 import { module, test } from 'qunit';
 
 var registry, application;
 
-module('Unit | Initializer | defer', {
+module('Unit | Initializer | session', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();

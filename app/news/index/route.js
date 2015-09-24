@@ -23,7 +23,7 @@ export default Ember.Route.extend(NewsMixin,{
     
   },
   
-  afterModel: function(data){
+  afterModel: function(){
     
     var prefs = this.get('prefs');
     

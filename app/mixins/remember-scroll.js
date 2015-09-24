@@ -3,7 +3,9 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   windowBlur: Ember.inject.service('blur'),
   
-  inactiveTime: 180,
+  inactiveTime: 111,
+  //minScrollNeeded: 777,
+  minScrollNeeded: 0,
   canRemember: false,
   
   scrollSelector: function(){
@@ -18,11 +20,11 @@ export default Ember.Mixin.create({
     this.set('canRemember',true);
   },
   
-  activate: function() {
+  setupRememberScroll: function() {
     
-    this._super.apply(this, arguments);
     var self = this;
-    if( this.get('canRemember') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') ){
+    
+    if( this.get('canRemember') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
       
       Ember.run.next(function(){
         Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
@@ -35,12 +37,14 @@ export default Ember.Mixin.create({
       });
       
     }
-  },
+    
+  }.on('activate'),
   
-  deactivate: function() {
-    this._super.apply(this, arguments);
+  cleanupRememberScroll: function() {
+    
     this.set('lastScroll',Ember.$(this.get('scrollSelector')).scrollTop());
     this.set('lastScrollTime',Date.now());
-  },
+    
+  }.on('deactivate'),
   
 });

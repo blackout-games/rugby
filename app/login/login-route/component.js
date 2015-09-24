@@ -22,6 +22,7 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
     data.client_id = 'rugby-ember';
     
     // simple-auth-authenticator:oauth2-password-grant 
+    // authenticator:password
     return self.get('session').authenticate('authenticator:password', data
     ).then(function(){
       

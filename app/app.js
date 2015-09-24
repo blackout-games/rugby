@@ -13,7 +13,7 @@ import toriiLoadInitializers from 'torii/load-initializers';
  * 
  * Allow this on update day only, so that we can fix any deprecations in our own code
  */
-Ember.deprecate = function(){};
+//Ember.deprecate = function(){};
 
 var App;
 

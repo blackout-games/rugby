@@ -193,6 +193,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0133387f2069a1b3168942b84d81dd3a",
+      "css": "gamepad",
+      "code": 59447,
+      "src": "fontawesome"
+    },
+    {
       "uid": "c76b7947c957c9b78b11741173c8349b",
       "css": "attention",
       "code": 59423,
@@ -262,6 +268,18 @@
       "uid": "28f308aa0a07a67433f54c089c400d82",
       "css": "gift",
       "code": 59445,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9e8430ce95f56720ae8e7afba291df88",
+      "css": "user-md",
+      "code": 59448,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "af95ef0ddda80a78828c62d386506433",
+      "css": "cubes",
+      "code": 59449,
       "src": "fontawesome"
     },
     {
