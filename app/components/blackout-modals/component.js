@@ -67,13 +67,14 @@ export default Ember.Component.extend({
    * Show modal
    */
   
-  show: function(options){
-    if( !options ){
-      options = {};
+  show: function(btnOptions){
+    if( !btnOptions ){
+      btnOptions = {};
     }
     
     // Merge new options over defaults
-    options = Ember.Object.create(this.get('defaults')).setProperties(options);
+    var options = Ember.Object.create(this.get('defaults'));
+    options.setProperties(btnOptions);
     
     // Add extra buttons
     if( options.extraButtons ){
@@ -146,24 +147,28 @@ export default Ember.Component.extend({
   
   createButtons: function(buttons){
     
-    var self = this;
-    
-    self.$().find('.modal-buttons').html(null);
-    
-    $.each(buttons,function(index,button){
+    if(buttons){
       
-      Ember.$('<a class="modal-button btn-a btn-a-white">' + button.label + '</a>').appendTo(self.$().find('.modal-buttons')).on('click',function(){
+      var self = this;
+      
+      self.$().find('.modal-buttons').html(null);
+      
+      $.each(buttons,function(index,button){
         
-        if( button.action === 'hide' ){
-          self.send('hide');
-        } else {
-          let actionName = button.action + 'Name';
-          self.set(actionName,button.action);
-          self.sendAction(actionName);
-        }
+        Ember.$('<a class="modal-button btn-a btn-a-white">' + button.label + '</a>').appendTo(self.$().find('.modal-buttons')).on('click',function(){
+          
+          if( button.action === 'hide' ){
+            self.send('hide');
+          } else {
+            let actionName = button.action + 'Name';
+            self.set(actionName,button.action);
+            self.sendAction(actionName);
+          }
+        });
+        
       });
       
-    });
+    }
     
   },
   
