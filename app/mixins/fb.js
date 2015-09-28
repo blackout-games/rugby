@@ -66,6 +66,12 @@ export default Ember.Mixin.create({
       
       // Successful login is handled above
       
+      // Added this so that if user's lastRoute was home page, button would stop loading after logging in
+      // Removed after forcing dashboard to load in this case
+      if(button){
+        //button.reset();
+      }
+      
     },function(response){
       
       if( response.error === 'facebookEmailNotFound' ){

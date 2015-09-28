@@ -47,6 +47,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
         // Use last route if last login was within 10 days
         if(now-lastRouteDate.getTime() < 10*24*60*60*1000){
           newPath = lastRoute;
+          if( newPath === '/' ){
+            newPath = '/dashboard';
+          }
         }
         
       }
