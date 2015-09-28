@@ -5,6 +5,8 @@ export default Ember.Component.extend({
   myContext: { name: "loadingButtonState" },
   spinnerColor: "primary",
   classNames: ['loader-button'],
+  isAnimating: false,
+  whoAmI: 'loaderButton', // To verify this is a loader button component.
   
   setAction: function(){
     this.set('clickAction',this.get('action'));
@@ -12,6 +14,21 @@ export default Ember.Component.extend({
   }.on('init'),
   
   click: function(){
+    
+    // NOTE, The first button in the form receives a click event when enter is pressed.
+    
+    // Animate and disable
+    this.animate();
+    
+    // Send action
+    this.sendAction('clickAction',this);
+    
+    // Don't bubble
+    return false;
+    
+  },
+  
+  animate: function(){
     var self = this;
     
     // Save button content
@@ -38,12 +55,7 @@ export default Ember.Component.extend({
     // Disable button
     this.$().attr('disabled',true);
     
-    // Send action
-    this.sendAction('clickAction',this);
-    
-    // Don't bubble
-    return false;
-    
+    this.set('isAnimating',true);
   },
   
   reset: function(allowFocus = true){
@@ -58,6 +70,8 @@ export default Ember.Component.extend({
         self.$().focus();
       },1);
     }
+    
+    this.set('isAnimating',false);
   },
   
 });
