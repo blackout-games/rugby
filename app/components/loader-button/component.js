@@ -41,7 +41,9 @@ export default Ember.Component.extend({
     // Send action
     this.sendAction('clickAction',this);
     
+    // Don't bubble
     return false;
+    
   },
   
   reset: function(allowFocus = true){

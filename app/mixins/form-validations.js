@@ -4,18 +4,22 @@ import EmberValidations from 'ember-validations';
 export default Ember.Mixin.create(EmberValidations,{
   serverErrors: {},
   formErrorMessage: null,
-  validationEvent: 'loginSubmitted',
+  validationEvent: 'formSubmitted', // Should override where mixin is used
   
   actions: {
+    
     submit: function(button){
+      
+      // Button should always be available
+      if(!button){
+        Ember.warn("A button was not provided for form-validation.");
+      }
+      
       var self = this;
       this.set('refocusButton',true);
       
       // Save button for later
       this.set('submitButton',button);
-      
-      // Let validated inputs know we're trying to submit
-      this.EventBus.publish(self.get('validationEvent'));
       
       // Reset server errors
       this.set('serverErrors',{});
@@ -23,21 +27,35 @@ export default Ember.Mixin.create(EmberValidations,{
       // Client validations
       this.validate().then(function(){
         //Ember.run.later(function(){
-          self.requestFromServer();
+        self.requestFromServer();
         //},4000);
-      },function(){
-        button.reset();
+      
+      
+      /**
+       * WARNING!!!!!!
+       * MUST PROVIDE .catch() here, otherwise when validation fails, validate() causes "undefined" error output in console with no good information on what's causing it - resulting in long debugging sessions.
+       */
+      
+      }).catch(function(){}).finally(function(){
+        if(button){
+          button.reset();
+        }
+        
+        Ember.run.next(self,function(){
+          // Let validated inputs know we've submitted
+          self.EventBus.publish(self.get('validationEvent'));
+        });
       });
       
       return false;
-      
     },
+    
   },
   
   displayServerErrors: function(response){
     
     var errors = response.errors;
-    print("ERRORS",response);
+    
     if(errors.item){
       this.set('serverErrors.'+errors.item, errors.message);
       Ember.$('#'+errors.item).focus();
@@ -46,7 +64,9 @@ export default Ember.Mixin.create(EmberValidations,{
       this.set('formErrorMessage',errors.message);
     }
     
-    this.get('submitButton').reset(this.get('refocusButton'));
+    if(this.get('submitButton')){
+      this.get('submitButton').reset(this.get('refocusButton'));
+    }
     
   }
   

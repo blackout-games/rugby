@@ -35,8 +35,6 @@ export default Ember.Component.extend({
       // Test image availability
       var tmpImg = Ember.$("<img/>")
         .on('load', function() {
-          console.log("image loaded correctly");
-          
           // Remove temp image
           tmpImg.remove();
         })

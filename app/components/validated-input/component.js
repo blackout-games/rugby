@@ -18,7 +18,6 @@ export default Ember.Component.extend({
     'blur': 'updateOnBlur',
   },
   
-  
   classes: function(){
     return this.get('inputClass') + ' form-control';
   }.property(),

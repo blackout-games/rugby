@@ -4,6 +4,7 @@ import FormValidations from '../../mixins/form-validations';
 
 export default Ember.Component.extend(FullHeight,FormValidations,{
   Modal: Ember.inject.service('modal'),
+  validationEvent: 'loginSubmitted',
   
   arrive: function(){
     this.get('EventBus').publish('disableGameNav');
@@ -17,7 +18,7 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
     
     var self = this;
     
-    var data = self.getProperties('username', 'password');
+    var data = self.getProperties('username','password');
     data.identification = data.username;
     data.client_id = 'rugby-ember';
     
@@ -48,10 +49,10 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   },
   
   validations: {
-    username: {
+    'username': {
       presence: { message: 'Please provide your username.' },
     },
-    password: {
+    'password': {
       presence: { message: 'Please provide your password.' },
     },
   },
