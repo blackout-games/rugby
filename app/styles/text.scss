@@ -20,6 +20,9 @@ a {
   cursor: pointer;
   //color: #337ab7; // Bootstrap
   color: darken($primary-master,11%);
+  &:visited {
+    color: darken($primary-master,11%);
+  }
   
   
   &:hover {
@@ -100,6 +103,9 @@ h3 {
     font-weight: 800;
     border-bottom: none;
     text-decoration: none;
+    &:visited {
+      color: $secondary-dark;
+    }
     &:hover, &:active {
       text-decoration: none;
       color: $primary-master;
