@@ -51,8 +51,7 @@
     "ember-infinite-scroll": "0.2.4",
     "ember-local-storage": "0.0.10",
     "ember-moment": "3.6.4",
-    "ember-simple-auth": "simplabs/ember-simple-auth#jj-abrams",
-    "torii": "0.5.1"
+    "ember-simple-auth": "simplabs/ember-simple-auth#jj-abrams"
   },
   "dependencies": {
     "ember-responsive": "^1.1.1",

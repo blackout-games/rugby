@@ -4,10 +4,6 @@ import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
 
-// Temporary fix
-// https://github.com/Vestorly/torii/issues/210
-import toriiLoadInitializers from 'torii/load-initializers'; 
-
 /**
  * Remove deprecations, so that we don't have them spamming the console due to code in dependencies which hasn't been fixed yet.
  * 
@@ -35,9 +31,5 @@ App = Ember.Application.extend({
 });
 
 loadInitializers(App, config.modulePrefix);
-
-// Temporary fix
-// https://github.com/Vestorly/torii/issues/210
-toriiLoadInitializers(App, config.modulePrefix);
 
 export default App;
