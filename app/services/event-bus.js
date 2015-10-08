@@ -1,13 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend(Ember.Evented,{
-  publish: function() {
+  publish() {
     return this.trigger.apply(this, arguments);
   },
-  subscribe: function() {
+  subscribe() {
     return this.on.apply(this, arguments);
   },
-  unsubscribe: function() {
+  unsubscribe() {
     return this.off.apply(this, arguments);
   }
 });

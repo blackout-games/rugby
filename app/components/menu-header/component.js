@@ -16,12 +16,18 @@ export default Ember.Component.extend({
     }
   }),
 
-  initClubImage: function() {
+  initClubImage: Ember.on('didInsertElement', function() {
     this.updateClubImage();
-  }.on('didInsertElement'),
+    
+    // Listen for new user logging in
+    this.EventBus.subscribe('sessionBuilt',this,this.updateClubImage);
+  }),
 
+  /**
+   * No way to not use an observer here
+   */
   updateClubImage: function() {
-
+    
     var self = this;
     Ember.run.next(function() {
       
@@ -30,7 +36,7 @@ export default Ember.Component.extend({
       //self.$('.menu-club-image').css('border', '2px solid '+Ember.$('.menu-club-text').css('color'));
       
       // Set image
-      self.$('.menu-club-image').css('background-image', 'url(' + self.clubImageURL() + ')');
+      self.$('.menu-club-image').css('background-image', 'url(' + self.get('clubImageURL') + ')');
       
       // Test image availability
       var tmpImg = Ember.$("<img/>")
@@ -47,13 +53,13 @@ export default Ember.Component.extend({
           // Remove temp image
           tmpImg.remove();
         })
-        .attr("src", self.clubImageURL());
+        .attr("src", self.get('clubImageURL'));
           
     });
 
-  }.observes('session.sessionBuilt'),
+  },
 
-  clubImageURL: function() {
+  clubImageURL: Ember.computed('session.sessionBuilt', function() {
 
     if (this.get('session.isAuthenticated') && this.get('session.manager.currentClub')) {
 
@@ -74,7 +80,7 @@ export default Ember.Component.extend({
 
     }
 
-  },
+  }),
 
   currentClub: Ember.computed('session.sessionBuilt', function() {
     if (this.get('session.isAuthenticated') && this.get('session.manager.currentClub')) {
@@ -86,10 +92,10 @@ export default Ember.Component.extend({
   fbLoginAction: 'loginWithFacebook',
 
   actions: {
-    invalidateSession: function() {
+    invalidateSession() {
       this.sendAction('logoutAction');
     },
-    loginWithFacebook: function(button) {
+    loginWithFacebook(button) {
       this.sendAction('fbLoginAction', button);
     },
   }

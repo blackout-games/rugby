@@ -39,6 +39,17 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
   }
 }
 
+@mixin no-focus-button {
+  transition: none;
+
+  &:focus {
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+    outline: 0 none !important;
+    border: none !important;
+  }
+}
+
 @mixin focus-button-fb {
   @include focus-button;
 

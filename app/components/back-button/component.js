@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   default: "dashboard",
   
   actions: {
-    goBack: function(){
+    goBack() {
       
       var lastRoute = this.get('history.previous');
       
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
       app.transitionTo(lastRoute);
       
     },
-    goBackTo: function( to ){
+    goBackTo(to) {
       
       var app = this.container.lookup('route:application');
       app.transitionTo(to);

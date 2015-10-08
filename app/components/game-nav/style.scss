@@ -1,3 +1,14 @@
+/**
+ * Z-INDEXES
+ * 
+ * 100  => Tab bar
+ * 70   => Top bar
+ * 51   => Sidebar (and tabs when all vertical)
+ * 50   => Sidebar panel
+ * 45   => Touch blocker
+ * 40   => Back to top button (in own component)
+ */
+
 $animation-time: 0.333s;
 $topbar-height: 59px;
 $tabbar-height: 55px;
@@ -127,7 +138,7 @@ $panel-color: $background-dark-global;
   height: 100%; // Must be % for chrome iOS (after address bar hide)
   top: 0;
   left: 0;
-  background-color: rgba(black,0.333);
+  background-color: rgba(black,0.444);
   opacity: 0;
   transition: opacity $animation-time;
   visibility: hidden;
@@ -191,11 +202,13 @@ $panel-color: $background-dark-global;
     margin-left: 0;
   }
   
-  // Blur
-  @media #{$nav-md-down} {
-    transition: filter $animation-time;
-    &.open {
-      filter: blur(10px);
+  &.allow-blur {
+    // Blur
+    @media #{$nav-md-down} {
+      transition: filter $animation-time;
+      &.open {
+        filter: blur(10px);
+      }
     }
   }
 
@@ -274,11 +287,11 @@ body.free{
     }
 
     &.alt {
-      left: -$tabbar-height;
+      left: -$sidebar-width;
       top:0;
 
       &.open {
-        transform: translate3d($tabbar-height,0,0);
+        transform: translate3d($sidebar-width,0,0);
       }
     }
 

@@ -6,7 +6,7 @@ export default Ember.Service.extend({
   current: null,
   previous: null,
   
-  update: function( url ){
+  update(url) {
     
     // Update last location
     this.set('previous',this.get('current'));

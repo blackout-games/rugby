@@ -9,7 +9,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
   
-  listenForEvents: function(){
+  listenForEvents: Ember.on('init', function(){
 
     /**
      * May need to remove this.
@@ -21,7 +21,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
     });
      */
     
-  }.on('init'),
+  }),
   
   sessionAuthenticated() {
     
@@ -76,11 +76,11 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       this.transitionTo('login');
     },
     
-    sessionCouldNotBeRefreshed: function( /*error*/ ) {
+    sessionCouldNotBeRefreshed() /*error*/ {
       this.send('invalidateSession');
     },
 
-    invalidateSession: function() {
+    invalidateSession() {
       var self = this;
       
       Ember.$("#splash").fadeIn(222, function() {
@@ -94,15 +94,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       return false;
     },
 
-    loginWithFacebook: function(button) {
+    loginWithFacebook(button) {
       this.loginToFB(button);
     },
 
-    transitionToRoute: function(route) {
+    transitionToRoute(route) {
       this.transitionTo(route);
     },
     
-    error: function(error, transition) {
+    error(error, transition) {
       
       if(error.errors){
         return this.handleError(error.errors,transition);
@@ -124,7 +124,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
     
   },
 
-  buildSession: function() {
+  buildSession() {
 
     var session = this.get('session');
     var store = this.get('store');
@@ -163,6 +163,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
       // Signify that the session has been built
       session.set('sessionBuilt', true);
+      
+      // Let the world know user has logged in and session is complete
+      this.EventBus.publish('sessionBuilt');
 
     } else {
 
@@ -172,7 +175,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
   },
 
-  model: function() {
+  model() {
 
     /**
      * We don't actually load and return a model for use in the "application route".

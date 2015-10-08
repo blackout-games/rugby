@@ -8,7 +8,7 @@ export default Ember.Mixin.create(EmberValidations,{
   
   actions: {
     
-    submit: function(button){
+    submit(button) {
       
       // NOTE, The first button in the form receives a click event when enter is pressed.
       
@@ -62,7 +62,7 @@ export default Ember.Mixin.create(EmberValidations,{
     
   },
   
-  displayServerErrors: function(response){
+  displayServerErrors(response) {
     
     var errors = response.errors;
     

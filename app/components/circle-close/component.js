@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   classNames: ["circle-close"],
   action: 'close',
   actions: {
-    primary: function(){
+    primary() {
       this.sendAction('action');
     }
   }

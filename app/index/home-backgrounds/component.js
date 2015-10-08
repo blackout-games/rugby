@@ -15,15 +15,15 @@ export default Ember.Component.extend(Timers, {
   backgroundDuration: 15000,
   topLayerIsShowing: false,
 
-  scrollable: function() {
+  scrollable: Ember.computed('window.features.lockBody', function() {
     if(window.features.lockBody){
       return Ember.$('#nav-body');
     } else {
       return Ember.$(window);
     }
-  }.property('window.features.lockBody'),
+  }),
   
-  setup: function(){
+  setup: Ember.on('didInsertElement', function(){
     this.setSizes();
     
     this.setSizesBound = Ember.run.bind(this,this.setSizes);
@@ -42,9 +42,9 @@ export default Ember.Component.extend(Timers, {
     }
     
     
-  }.on('didInsertElement'),
+  }),
   
-  clean: function(){
+  clean: Ember.on('willDestroyElement', function(){
     
     if(this.setSizesBound){
       $(window).off('resize', this.setSizesBound);
@@ -57,14 +57,14 @@ export default Ember.Component.extend(Timers, {
     
     this.cancelTimers();
     
-  }.on('willDestroyElement'),
+  }),
   
-  inflateBalloon: function(){
+  inflateBalloon() {
   	// Inflate balloon as we scroll
   	Ember.$('#top-section-balloon').css('height',this.get('scrollable').scrollTop()*0.4);
   },
   
-  setSizes: function(){
+  setSizes() {
     
     Ember.$('#top-section').css('height',$(window).height());
     Ember.$('#top-section-wrapper').css('height',$(window).height());
@@ -87,7 +87,7 @@ export default Ember.Component.extend(Timers, {
     
   },
   
-  initBackgroundImages: function() {
+  initBackgroundImages() {
     
     this.set('bgCursor',0);
     let canStart = false;
@@ -102,7 +102,7 @@ export default Ember.Component.extend(Timers, {
     
   },
   
-  updateBackgroundImage: function(){
+  updateBackgroundImage() {
     
     var backgrounds = this.get('backgrounds');
     var self = this;

@@ -375,6 +375,10 @@ $responsive-nav-big: $tablet-and-up;
     line-height:100%;
     left:15px;
     font-size:150%;
+  
+    @media #{$mobile} {
+      left:3px;
+    }
   }
 
   &.press {

@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     ],
   },
   
-  defaultActionElement: function(){
+  defaultActionElement() {
     this.set('letUsKnowActionName','letUsKnow');
     var el = $('<span>Please <a>let us know</a>.</span>');
     var self = this;
@@ -43,7 +43,7 @@ export default Ember.Component.extend({
    * Setup
    */
   
-  setup: function(){
+  setup: Ember.on('didInsertElement', function(){
     var bus = this.get('EventBus');
     
     this.$().hide();
@@ -61,13 +61,13 @@ export default Ember.Component.extend({
       'showAction': true,
     });
     */
-  }.on('didInsertElement'),
+  }),
   
   /**
    * Show modal
    */
   
-  show: function(btnOptions){
+  show(btnOptions) {
     if( !btnOptions ){
       btnOptions = {};
     }
@@ -108,7 +108,7 @@ export default Ember.Component.extend({
   /**
    * Hide modal
    */
-  hide: function(){
+  hide() {
     this.send('hide');
   },
   
@@ -116,9 +116,10 @@ export default Ember.Component.extend({
    * Creation
    */
   
-  setType: function(newType){
+  setType(newType) {
     
     var self = this;
+    if(newType==='warning') newType = 'error';
     
     $.each(this.get('types'),function(index,type){
       self.set('is' + type.ucFirst() + 'Modal',type===newType);
@@ -145,7 +146,7 @@ export default Ember.Component.extend({
    * Buttons
    */
   
-  createButtons: function(buttons){
+  createButtons(buttons) {
     
     if(buttons){
       
@@ -177,7 +178,7 @@ export default Ember.Component.extend({
    */
   
   actions: {
-    show: function(){
+    show() {
       this.cancelHideTimer();
       this.cancelShowLater();
       this.$().show().find('.modal-panel-wrapper,.modal-panel').removeClass('going').addClass('coming');
@@ -192,7 +193,7 @@ export default Ember.Component.extend({
       self.set('showLater',showLater);
       
     },
-    hide: function(){
+    hide() {
       this.cancelHideTimer();
       this.$().show().find('.modal-panel-wrapper,.modal-panel').removeClass('coming').addClass('going');
       var self = this;
@@ -207,7 +208,7 @@ export default Ember.Component.extend({
     },
   },
   
-  cancelHideTimer: function(){
+  cancelHideTimer() {
     var runLater = this.get('runLater');
     if( runLater ){
       Ember.run.cancel(runLater);
@@ -215,7 +216,7 @@ export default Ember.Component.extend({
     }
   },
   
-  cancelShowLater: function(){
+  cancelShowLater() {
     var showLater = this.get('showLater');
     if( showLater ){
       Ember.run.cancel(showLater);

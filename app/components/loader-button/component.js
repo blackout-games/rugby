@@ -8,12 +8,12 @@ export default Ember.Component.extend({
   isAnimating: false,
   whoAmI: 'loaderButton', // To verify this is a loader button component.
   
-  setAction: function(){
+  setAction: Ember.on('init', function(){
     this.set('clickAction',this.get('action'));
     this.set('action',null);
-  }.on('init'),
+  }),
   
-  click: function(){
+  click() {
     
     // NOTE, The first button in the form receives a click event when enter is pressed.
     
@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     
   },
   
-  animate: function(){
+  animate() {
     var self = this;
     
     // Save button content
@@ -58,7 +58,7 @@ export default Ember.Component.extend({
     this.set('isAnimating',true);
   },
   
-  reset: function(allowFocus = true){
+  reset(allowFocus = true) {
     this.$().html(this.get('originalContent'));
     this.$().attr('disabled',false);
     this.$().removeClass('loading');

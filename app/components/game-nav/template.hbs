@@ -25,12 +25,12 @@
         
         {{#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
           
-          {{#side-switcher currentlyShowing=tabSwitcherSelected direction=tabSwitcherDirection identifier="tabSwitcher" class="col-flex" }}
+          {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected identifier="tabSwitcher" class="col-flex" }}
                 
             <div id="menuPanel" class="tab-panel">
               {{menu-header}}
               
-              {{#side-switcher currentlyShowing=menuSwitcherSelected direction=menuSwitcherDirection identifier="menuSwitcher" }}
+              {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected identifier="menuSwitcher" }}
                 
                 <div id="managerPanel" class="menu-panel">
                   

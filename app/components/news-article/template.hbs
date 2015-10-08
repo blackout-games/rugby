@@ -20,8 +20,11 @@
             {{#link-to "countries.country" model.country.id class="nowrap"}}{{model.country.name}}{{/link-to}}
           {{/if}}
         </div>
-          
-        {{{model.fullBody}}}
+        
+        {{markdown-to-html markdown=model.fullBody 
+          strikethrough=true
+          literalMidWordUnderscores=true
+          simplifiedAutoLink=true}}
         
       </article>
       

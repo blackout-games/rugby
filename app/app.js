@@ -19,7 +19,7 @@ App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
-  ready: function () {
+  ready() {
     Ember.run.later(function(){
       Ember.$("#splash").fadeOut(444,function(){
         //Ember.$(this).remove();

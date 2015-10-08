@@ -12,6 +12,15 @@ export default ResponsiveNav.extend({
   selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
+  
+  // Visual settings
+  alternativeAnimationMode: true,
+  allowBlur: false,
+  blockerDarkness: 0.444,
+  
+  
+  // Top bar (Removed since iOS9 has bad support)
+  allowTopbar: false,
   topBarHeight: 59,
   topBarBuffer: 100,
   
@@ -49,7 +58,7 @@ export default ResponsiveNav.extend({
     }
   ],
   
-  updateSidebarScrollerHeight: function(){
+  updateSidebarScrollerHeight() {
     var windowHeight = $(window).height() - 15;
     if(this.get('media.isMobile')){
       windowHeight -= $('#nav-tabbar').height();
@@ -57,28 +66,41 @@ export default ResponsiveNav.extend({
     $('#sidebar-scroller-parent').height(windowHeight);
   },
 
-  startListening: function() {
+  startListening: Ember.on('init', 'didInsertElement', function() {
     
     this._super.apply(this, arguments);
     this.get('EventBus').subscribe('disableGameNav', this, this.disable);
     this.get('EventBus').subscribe('enableGameNav', this, this.enable);
     this.get('EventBus').subscribe('selectMenuLink', this, this.selectMenuLink);
 
-  }.on('init','didInsertElement'),
+  }),
 
-  stopListening: function() {
+  stopListening: Ember.on('willDestroyElement', function() {
     
     this._super.apply(this, arguments);
     this.get('EventBus').unsubscribe('disableGameNav', this, this.disable);
     this.get('EventBus').unsubscribe('enableGameNav', this, this.enable);
     this.get('EventBus').unsubscribe('selectMenuLink', this, this.selectMenuLink);
 
-  }.on('willDestroyElement'),
+  }),
 
-  setup: function() {
+  setup: Ember.on('didInsertElement', function() {
     this._super();
 
     var self = this;
+    
+    // Alternative animation mode?
+    if(this.get('alternativeAnimationMode')){
+      $('#nav-sidebar').addClass('alt');
+    }
+    
+    // Allow blur?
+    if(this.get('allowBlur')){
+      $('#nav-body').addClass('allow-blur');
+    }
+    
+    // Touch blocker darkness
+    $('#nav-touch-blocker').css('background-color','rgba(0,0,0,'+this.get('blockerDarkness')+')');
     
     // Lock body on landscape tablets
     if( !window.features.lockBody && (this.get('media.isTablet') || this.get('media.isDesktop')) && ( window.os.iOS || window.os.android ) ){
@@ -122,7 +144,7 @@ export default ResponsiveNav.extend({
     $('#nav-touch-blocker').on('touchstart touchmove', this.touchBlocker).on('click');
 
     // Top bar for standalone app
-    if (window.navigator.standalone) {
+    if (this.get('allowTopbar') && window.navigator.standalone) {
       
       // Show topbar
       $('.nav-topbar').removeClass('hidden');
@@ -270,9 +292,9 @@ export default ResponsiveNav.extend({
       this.send('show');
     }
 
-  }.on('didInsertElement'),
+  }),
 
-  clean: function() {
+  clean: Ember.on('willDestroyElement', function() {
     this._super();
 
     // Touch blocker
@@ -286,7 +308,7 @@ export default ResponsiveNav.extend({
     if (this.touchMoveHandler) {
       $(document).off('touchmove', this.touchMoveHandler);
     }
-
+    
     if (window.touchStartForTopBar) {
       $('#nav-body,#nav-topbar').off('touchstart', this.touchStartForTopBar);
     }
@@ -297,9 +319,12 @@ export default ResponsiveNav.extend({
       $('#nav-body').off('scroll', this.updateTopBarBound);
     }
 
-  }.on('willDestroyElement'),
+  }),
   
-  autoShowOnLarge: function() {
+  /**
+   * No way to not use an observer here
+   */
+  autoShowOnLarge: Ember.observer('media.isJumbo', function() {
     
     if( this.get('media.isJumbo') ){
       this.show();
@@ -308,9 +333,12 @@ export default ResponsiveNav.extend({
       this.hide();
     }
     
-  }.observes('media.isJumbo'),
+  }),
   
-  updateUIOnLandscapeTablet: function() {
+  /**
+   * No way to not use an observer here
+   */
+  updateUIOnLandscapeTablet: Ember.observer('media.isDesktop', function() {
     
     // Different sidebar spacing for standalone
     if( this.get('media.isDesktop') && window.navigator.standalone ){
@@ -321,7 +349,7 @@ export default ResponsiveNav.extend({
       $('#nav-tabbar').removeClass('col-4');
     }
     
-  }.observes('media.isDesktop'), // isDesktop = landscape tablet
+  }), // isDesktop = landscape tablet
   
   createMenus (){
     
@@ -417,7 +445,7 @@ export default ResponsiveNav.extend({
     
   },
 
-  updateTopBar: function() {
+  updateTopBar() {
 
     var self = this;
 
@@ -475,14 +503,14 @@ export default ResponsiveNav.extend({
 
   },
 
-  preventBodyScroll: function() {
+  preventBodyScroll() {
     this.bodyScrollPreventer = function(e) {
       e.preventDefault();
     };
     $('#nav-sidebar,#nav-panel').on('touchstart touchmove', this.bodyScrollPreventer);
   },
 
-  allowBodyScroll: function() {
+  allowBodyScroll() {
     $('#nav-sidebar,#nav-panel').off('touchstart touchmove', this.bodyScrollPreventer);
   },
 
@@ -491,21 +519,21 @@ export default ResponsiveNav.extend({
   logoutAction: 'invalidateSession',
   
   actions: {
-    clickTab: function(button) {
+    clickTab(button) {
       this.selectTab(button.get('tabName'), 'tab');
     },
-    clickMenu: function(button) {
+    clickMenu(button) {
       this.selectTab(button.get('menuName'), 'menu');
     },
-    invalidateSession: function(){
+    invalidateSession() {
       this.sendAction('logoutAction');
     },
-    loginWithFacebook: function(button){
+    loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
   },
 
-  selectTab: function(tabName, type, programatic) {
+  selectTab(tabName, type, programatic) {
     
     // Don't select tab if menu panel is not showing
     if( programatic && !this.get('navIsOpen') ){
@@ -557,13 +585,11 @@ export default ResponsiveNav.extend({
       var lastTab = this.get('lastTab');
       
       if(!menuOpened){
-        
         if( this.tabIsBefore(tabName,lastTab) ){
           direction = 'right';
         } else {
           direction = 'left';
         }
-        
       }
       
       if( type === 'tab' ){
@@ -585,6 +611,7 @@ export default ResponsiveNav.extend({
         } else {
           this.set('menuSwitcherDirection',direction);
         }
+        
         this.set('menuSwitcherSelected',tabName+'Panel');
         this.set('lastTabSelected','menu');
         
@@ -620,11 +647,27 @@ export default ResponsiveNav.extend({
     
   },
 
-  deselectAllTabs: function() {
+  deselectAllTabs() {
     $('.nav-tab-btn,.nav-menu-btn').removeClass('selected');
   },
+      
+  updateLoadingSlider(menuOpened) {
+    
+    var $slider = $('.loading-slider');
+    
+    if(menuOpened){
+      $slider.data('menuOpen',true);
+      $slider.css('top','0px');
+    } else {
+      $slider.data('menuOpen',false);
+      if($slider.data('normalLocation')){
+        $slider.css('top',$slider.data('normalLocation'));
+      }
+    }
+    
+  },
 
-  show: function() {
+  show() {
     
     if (this._super()) {
       
@@ -642,12 +685,14 @@ export default ResponsiveNav.extend({
         var wasShowing = this.hideTopBar(true);
         this.set('topbarWasShowing',wasShowing);
       }
+      
+      this.updateLoadingSlider(true);
 
       return true;
     }
   },
 
-  hide: function() {
+  hide() {
     if (this._super()) {
       
       this.deselectAllTabs();
@@ -660,6 +705,8 @@ export default ResponsiveNav.extend({
       if (this.get('topbarWasShowing')) {
         this.showTopBar(true);
       }
+      
+      this.updateLoadingSlider(false);
 
       return true;
     }

@@ -133,6 +133,20 @@
       ]
     },
     {
+      "uid": "074db0d9842b1cb38d31d138b233f76f",
+      "css": "ios-backtotop",
+      "code": 59450,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M792.2 859L890.6 760.7 404.3 275.4 404.3 275.4 404.3 275.4-82 760.7 16.4 859 404.3 472.1 792.2 859Z",
+        "width": 1000
+      },
+      "search": [
+        "ios-backtotop"
+      ]
+    },
+    {
       "uid": "bf882b30900da12fca090d9796bc3030",
       "css": "mail",
       "code": 59392,

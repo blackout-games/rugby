@@ -15,30 +15,30 @@ export default Ember.Component.extend({
   delayClose: 0,
   scrollOn: 'click',
   
-  setupEvent: function(){
+  setupEvent: Ember.on('didInsertElement', function(){
     
     this.scrollBound = Ember.run.bind(this,this.scroll);
     this.$().on(this.get('scrollOn'),this.scrollBound);
     
-  }.on('didInsertElement'),
+  }),
   
-  cleanup: function(){
+  cleanup: Ember.on('willDestroyElement', function(){
     
     if(this.scrollBound){
       this.$().off(this.get('scrollOn'),this.scrollBound);
     }
     
-  }.on('willDestroyElement'),
+  }),
 
-  scrollable: function() {
+  scrollable: Ember.computed('window.features.lockBody', function() {
     if(window.features.lockBody){
       return Ember.$('#nav-body');
     } else {
       return Ember.$('html, body');
     }
-  }.property('window.features.lockBody'),
+  }),
 
-  getTarget: function() {
+  getTarget() {
     var maxScroll = this.get('scrollable')[0].scrollHeight - $(window).height();
     
     var target;
@@ -51,7 +51,7 @@ export default Ember.Component.extend({
     return Math.min(target,maxScroll);
   },
 
-  scroll: function(e) {
+  scroll(e) {
     
     e.preventDefault();
     e.stopPropagation();
@@ -109,11 +109,11 @@ export default Ember.Component.extend({
     
   },
   
-  handleClick: function(e){
+  handleClick: Ember.on('click', function(e){
     if( this.get('scrollOn') !== 'click' ){
       e.preventDefault();
       e.stopPropagation();
     }
-  }.on('click'),
+  }),
   
 });

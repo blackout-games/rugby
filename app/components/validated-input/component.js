@@ -18,38 +18,51 @@ export default Ember.Component.extend({
     'blur': 'updateOnBlur',
   },
   
-  classes: function(){
+  classes: Ember.computed(function(){
     return this.get('inputClass') + ' form-control';
-  }.property(),
+  }),
   
-  setupValidation: function(){
+  setupValidation: Ember.on('didInsertElement', function(){
     
     this.get('EventBus').subscribe(this.get('validationEvent'), this, this.showErrors);
     
     Ember.$('input[name="password"]').attr('autocomplete', 'off');
     
-  }.on('didInsertElement'),
+  }),
   
-  showErrors: function(){
+  showErrors() {
     this.send('showErrors'); 
   },
 
-  cleanup: function(){
+  cleanup: Ember.on('willDestroyElement', function(){
     
     this.get('EventBus').unsubscribe(this.get('validationEvent'), this, this.showErrors);
     
-  }.on('willDestroyElement'),
+  }),
   
-  updateClientError: function(){
+  didUpdateAttrs( options ) {
+    var o = options.oldAttrs;
+    var n = options.newAttrs;
+
+    if( n.clientError !== o.clientError ){
+      this.updateClientError();
+    }
+
+    if( n.serverError !== o.serverError ){
+      this.updateServerError();
+    }
+  },
+  
+  updateClientError() {
     if( !Ember.isEmpty(this.get('clientError')) ){
       this.set('error',this.get('clientError'));
       this.set('errorType','client');
     } else if(this.get('errorType') === "client"){
       this.set('error',null);
     }
-  }.observes('clientError'),
+  },
   
-  updateServerError: function(){
+  updateServerError() {
     if( !Ember.isEmpty(this.get('serverError')) ){
       this.set('error',this.get('serverError'));
       this.set('errorType','server');
@@ -57,29 +70,29 @@ export default Ember.Component.extend({
     } else if(this.get('errorType') === "server"){
       this.set('error',null);
     }
-  }.observes('serverError'),
+  },
   
-  updateOnFocus: function(){
+  updateOnFocus() {
     if(this.get('errorType') === "client"){
       this.set("showError", false);
     }
   },
   
-  updateOnBlur: function(){
+  updateOnBlur() {
     if(this.get('errorType') === "client"){
       this.send('showErrors');
     }
   },
   
   actions: {
-    showErrors: function() {
+    showErrors() {
       if( ! Ember.isEmpty(this.get('error') ) ){
         this.set("showError", true);
       } else {
         this.set("showError", false);
       }
     },
-    hideErrors: function() {
+    hideErrors() {
       this.set("showError", false);
     },
   },

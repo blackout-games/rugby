@@ -14,7 +14,7 @@ export default Ember.Route.extend(NewsMixin,{
     include: 'author,country',
   },
   
-  model: function(){
+  model() {
     
     var self = this;
     var query = this.get('query');
@@ -26,7 +26,7 @@ export default Ember.Route.extend(NewsMixin,{
     
   },
   
-  afterModel: function(){
+  afterModel() {
     
     var prefs = this.get('prefs');
     

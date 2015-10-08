@@ -8,14 +8,14 @@ import Local from '../models/local';
 export default Ember.Service.extend({
   locals: Local.create(),
   
-  read: function( key ){
+  read(key) {
     
     let locals = this.get('locals');
     return locals.get(key);
     
   },
   
-  put: function(key,val){
+  put(key, val) {
     
     let locals = this.get('locals');
     locals.set(key,val);

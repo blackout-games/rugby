@@ -5,7 +5,7 @@ var bitesName = 'bites';
 export default Ember.Service.extend({
   locals: Ember.inject.service(),
   
-  loadItems: function(){
+  loadItems: Ember.on('init', function(){
     
     var items = this.get('locals',true).read(bitesName);
     if(typeof(items)==='object'){
@@ -16,9 +16,9 @@ export default Ember.Service.extend({
     
     this.updateAJAX();
     
-  }.on('init'),
+  }),
   
-  saveItems: function(){
+  saveItems() {
     
     var items = this.get(bitesName,true);
     this.get('locals',true).put(bitesName,items);
@@ -26,7 +26,7 @@ export default Ember.Service.extend({
     
   },
   
-  setupAJAXSuccessListener: function(){
+  setupAJAXSuccessListener: Ember.on('init', function(){
     
     var self = this;
     /*
@@ -54,9 +54,9 @@ export default Ember.Service.extend({
       }
     });*/
     
-  }.on('init'),
+  }),
   
-  updateAJAX: function(){
+  updateAJAX() {
     //print(this.header());
     /*
     $.ajaxSetup({
@@ -67,7 +67,7 @@ export default Ember.Service.extend({
     */
   },
   
-  header: function(){
+  header() {
     
     var items = this.get( bitesName, true );
     var keyvals = [];
@@ -78,7 +78,7 @@ export default Ember.Service.extend({
     
   },
   
-  get: function( key, internal ){
+  get(key, internal) {
     
     if( internal ){
       return this._super( key );
@@ -90,7 +90,7 @@ export default Ember.Service.extend({
     
   },
   
-  set: function( key, val, internal ){
+  set(key, val, internal) {
     
     if( internal ){
       this._super( key, val );
@@ -110,7 +110,7 @@ export default Ember.Service.extend({
     
   },
   
-  remove: function( key ){
+  remove(key) {
     
     var items = this.get( bitesName, true );
     delete items[key];
@@ -122,7 +122,7 @@ export default Ember.Service.extend({
   /**
    * Supports multiple headers of the same key, returned as an object
    */
-  getMultiResponseHeaders: function (headerStr,header) {
+  getMultiResponseHeaders(headerStr, header) {
     var headers = [];
     if (!headerStr) {
       return headers;

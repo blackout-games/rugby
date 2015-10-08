@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   color: 'primary',
   align: 'center',
   
-  startup: function(){
+  startup: Ember.on('init', function(){
     
     // Type
     if( this.get('spinner') === 'circles' ){
@@ -24,11 +24,11 @@ export default Ember.Component.extend({
       this.$().addClass('right');
     }
     
-  }.on('init'),
+  }),
   
-  setup: function(){
+  setup: Ember.on('didInsertElement', function(){
     this.$().addClass(this.get('spinner'));
     this.$().addClass(this.get('color'));
-  }.on('didInsertElement'),
+  }),
   
 });

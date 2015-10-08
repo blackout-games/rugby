@@ -1,0 +1,47 @@
+.backtotop-button-wrapper {
+  position: fixed;
+  z-index: 40;
+  bottom: $tabbar-height;
+
+  @media #{$nav-sm-up} {
+    bottom: 0;
+  }
+  right: 0;
+}
+
+.backtotop-icon {
+  color: white;
+  font-size: 27px;
+}
+
+$size: 44px;
+$gap: 5vh;
+$arrow-height: $size * 0.64;
+$arrow-width: $size * 0.64;
+
+$color: rgba($primary-master, 0.88);
+
+.backtotop-button, .backtotop-button:hover {
+  position: absolute;
+  z-index: 40;
+  bottom: $gap;
+  right: $gap;
+  width: $size;
+  height: $size;
+  background-color: $color;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: 0 11px 11px rgba(black, 0.222);
+  text-align: center;
+  padding: 0 0 5px 2px;
+
+  // ---- States
+  &.hover {
+    height: $size;
+    background-color: hoverColor($primary-master);
+  }
+
+  &.press, &:active {
+    background-color: pressColor($primary-master);
+  }
+}

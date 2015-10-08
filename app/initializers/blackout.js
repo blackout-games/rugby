@@ -89,13 +89,22 @@ class Blackout {
   }
   
   /**
+   * Remove all newlines \n
+   * @param  {string} string The string to strip
+   * @return {string}        The trimmed string
+   */
+  stripNewlines(string){
+    return string.trim().replace(/\r?\n|\r?/g,"");
+  }
+  
+  /**
    * Trim all html <br> (and variants) along with whitespace
    * Also replaces any inline breaks with <br> instead of variants
    * @param  {string} string The string to trim
    * @return {string}        The trimmed string
    */
   trimBr(string){
-    return string.trim().replace(/\r?\n|\r?/g,"").replace(/ *<br ?\/?> */gi,'<br>').replace(/(^([\.\-\_\=\#\*\{\}\[\]\,\\\/]|<br>)*|(<br>)*$)/gi, "").trim();
+    return string.replace(/ *<br ?\/?> */gi,'<br>').replace(/(^([\.\-\_\=\#\*\{\}\[\]\,\\\/]|<br>)*|(<br>)*$)/gi, "").trim();
   }
   
   /**
@@ -105,6 +114,15 @@ class Blackout {
    */
   br2p(string){
     return '<p>' + string.replace(/(?:<br\s*\/?>\s*?){2,}/gi, '</p><p>') + '</p>';
+  }
+  
+  /**
+   * Convert a <br> based string into \n where appropriate.
+   * @param  {string} string The string to convert
+   * @return {string}        The converted string
+   */
+  br2nl(string){
+    return string.replace(/(?:<br\s*\/?>\s*?){2,}/gi, "\n");
   }
 
   /**
@@ -350,14 +368,14 @@ String.prototype.ucFirst = function() {
  */
 Ember.Component.reopen({
   
-  _scheduleHoverWatcher: function() {
+  _scheduleHoverWatcher: Ember.on('didInsertElement', function() {
     
     //log('setup watchers');
     
     Ember.run.once('_refreshWatchers', _refreshWatchers );
     Ember.run.once('inlinizeSVG', _inlinizeSVG );
 
-  }.on('didInsertElement'),
+  }),
 
 });
 

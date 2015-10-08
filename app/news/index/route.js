@@ -9,10 +9,10 @@ export default Ember.Route.extend(NewsMixin,{
     page: {
       size: 10,
       number: 1
-    },
+    }
   },
   
-  model: function(){
+  model() {
     
     var self = this;
     
@@ -23,7 +23,7 @@ export default Ember.Route.extend(NewsMixin,{
     
   },
   
-  afterModel: function(){
+  afterModel() {
     
     var prefs = this.get('prefs');
     

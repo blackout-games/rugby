@@ -4,12 +4,12 @@ import NewsMixin from '../mixins/news';
 export default Ember.Route.extend(NewsMixin,{
   prefs: Ember.inject.service('preferences'),
   
-  rememberRouteScroll: function(){
+  rememberRouteScroll: Ember.on('init', function(){
     this._super();
     this.rememberScroll();
-  }.on('init'),
+  }),
   
-  model: function(){
+  model() {
     
     var newsQuery = {
       sort: '-date',
@@ -38,7 +38,7 @@ export default Ember.Route.extend(NewsMixin,{
     });
   },
   
-  afterModel: function(data){
+  afterModel(data) {
     
     var prefs = this.get('prefs');
     var lastViewedNews = prefs.pref('lastViewedNews',{ type:'date' });

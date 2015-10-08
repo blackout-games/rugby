@@ -41,7 +41,6 @@ $transition-duration: 0.277s;
 .modal-panel {
   height:auto;
   width:280px;
-  background-color: #FFF;
   box-sizing: border-box;
   border-radius: $border-radius*2;
   
@@ -64,29 +63,9 @@ $transition-duration: 0.277s;
   }
   
   &.notice {
-    background-color: $primary-master;
-    
-    .modal-title, .modal-message {
-      color: $notice-text-color;
-      
-      a {
-        color: $secondary-master;
-      }
-    }
     
     .modal-icon {
       color: desaturate(darken($secondary-master,29%),22%);
-    }
-  }
-  &.error {
-    background-color: $warning-background-color;
-    
-    .modal-title, .modal-message {
-      color: $warning-text-color;
-      
-      a {
-        color: lighten($warning-text-color,22%);
-      }
     }
   }
 
@@ -114,6 +93,16 @@ $transition-duration: 0.277s;
       font-weight: $button-text-weight;
       padding: 10px;
       text-transform: uppercase;
+      
+      color: white;
+      &:hover,&:visited {
+        color: white;
+        border: none;
+      }
+      &:active {
+        color: rgba(white,0.7);
+      }
+      
     }
   }
 }

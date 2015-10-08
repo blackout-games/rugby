@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   fbLoginAction: 'loginWithFacebook',
   
   actions: {
-    handleWaypoint: function(direction,element){
+    handleWaypoint(direction, element) {
       var section = element.get('id');
       
       if( direction === "up" ){
@@ -30,37 +30,37 @@ export default Ember.Component.extend({
         Ember.$('[id^=link-]').data('ignore-link',false);
       }
     },
-    loginWithFacebook: function(button){
+    loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
   },
   
-  setupLinks: function(){
+  setupLinks: Ember.on('didInsertElement', function(){
     
     this.handleLinkBound = Ember.run.bind(this,this.handleLink);
     Ember.$('[id^=link-] > a').on('mousedown touchstart',this.handleLinkBound);
     
-  }.on('didInsertElement'),
+  }),
   
-  cleanLinks: function(){
+  cleanLinks: Ember.on('willDestroy', function(){
     
     if(this.handleLinkBound){
       Ember.$('[id^=link-] > a').off('mousedown touchstart',this.handleLinkBound);
     }
     
-  }.on('willDestroy'),
+  }),
   
-  handleLink: function(){
+  handleLink() {
     Ember.$('[id^=link-]').data('ignore-link',false);
     Ember.$(this).parent().addClass('active').siblings().removeClass('active').data('ignore-link',true);
   },
   
-  waypointOffset: function(){
+  waypointOffset: Ember.computed(function(){
     return Math.round(Ember.$(window).height()*0.5);
-  }.property(),
+  }),
   
-  scrollContextId: function(){
+  scrollContextId: Ember.computed('window.features.lockBody', function(){
     return window.features.lockBody ? 'body' : null;
-  }.property('window.features.lockBody'),
+  }),
   
 });

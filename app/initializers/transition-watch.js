@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 var transitionWatch = {
   
-  closeNavigation: function(){
+  closeNavigation: Ember.on('deactivate', function(){
     if(!this.get('media.isJumbo')){
       
       /**
@@ -13,11 +13,11 @@ var transitionWatch = {
       this.get('EventBus').publish('hideNav');
       
     }
-  }.on('deactivate'),
+  }),
   
-  selectMenuItem: function(){
+  selectMenuItem: Ember.on('activate', function(){
       this.get('EventBus').publish('selectMenuLink',this.get('routeName'));
-  }.on('activate'),
+  }),
   
 };
 

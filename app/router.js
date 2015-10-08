@@ -4,9 +4,9 @@ import config from './config/environment';
 Ember.Router.reopen({
   history: Ember.inject.service(),
   
-  doSomethingOnUrlChange: function() {
+  doSomethingOnUrlChange: Ember.on('didTransition', function() {
     this.get('history').update(this.get('url'));
-  }.on('didTransition')
+  })
 });
 
 var Router = Ember.Router.extend({

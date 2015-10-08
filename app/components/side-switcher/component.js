@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   currentlyShowing: '', // #id or element
   currentOldObj: null,
   
-  setup: function(){
+  setup: Ember.on('didInsertElement', function(){
     
     // Force child panels to full width
     this.$().findClosest('.switcher-children').children().addClass('switcher-panel');
@@ -23,9 +23,9 @@ export default Ember.Component.extend({
     // Bind functions
     this.afterAnimationBound = Ember.run.bind(this,this.afterAnimation);
     
-  }.on('didInsertElement'),
+  }),
   
-  show: function(){
+  show() {
     
     var direction = this.get('direction');
     var oldObj = this.get('previouslyShowing');
@@ -88,7 +88,18 @@ export default Ember.Component.extend({
     
     this.set('previouslyShowing',newObj);
     
-  }.observes('currentlyShowing'),
+  },
+  
+  //showNewMenu: Ember.on('didUpdateAttrs',function(options){
+  didUpdateAttrs(options){
+    
+    if(options.newAttrs.currentlyShowing !== options.oldAttrs.currentlyShowing){
+      
+      this.show();
+      
+    }
+    
+  },
   
   disableAnimation() {
     var pane = this.$().findClosest('.switcher-pane');
@@ -159,7 +170,7 @@ export default Ember.Component.extend({
     }
   },
   
-  resetPane: function(){
+  resetPane() {
     var pane = this.$().findClosest('.switcher-pane');
   
     pane.removeClass(function (index, css) {

@@ -233,9 +233,18 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  */
 
 .loading-slider {
-  color: $primary-master;
-}
-.loading-slider-standalone {
-  color: desaturate(darken($primary-master,4%),7%);
-  //color: saturate(lighten($primary-master,27%),50%);
+  /**
+   * COLOR
+   * Must be light enough to be visible on darks, but dark enough to be visible on lights and whites.
+   */
+  color: saturate(darken($primary-master,1%),1%); // Primary
+  
+  // Dark doesn't work well when menu is showing
+  //color: desaturate(darken($secondary-master,35%),25%); // Dark
+  
+  // Override
+  height:3px;
+  span {
+    height:3px;
+  }
 }

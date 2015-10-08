@@ -7,7 +7,7 @@ export default OAuth2.extend({
   locals: Ember.inject.service(),
   serverTokenEndpoint: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/token?official',
   
-  saveSessionData: function(response){
+  saveSessionData(response) {
     
     // Save basic auth data. Ember simple auth has forgotten it in the past
     this.get('locals').put('authRecover',response);
@@ -72,7 +72,7 @@ export default OAuth2.extend({
   },
   
   
-  restore: function(data){
+  restore(data) {
     var self = this;
     
     // Auth recover
@@ -97,7 +97,7 @@ export default OAuth2.extend({
     
   },
   
-  invalidate: function(data) {
+  invalidate(data) {
     this.get('locals').put('authRecover',null);
     return this._super(data);
   },

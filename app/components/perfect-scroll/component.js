@@ -23,7 +23,7 @@ export default Ember.Component.extend({
   includePadding: false,
   allowScrollEvent: false,
 
-  renderPerfectScroll: function() {
+  renderPerfectScroll: Ember.on('didInsertElement', function() {
     var self = this;
 
     // Don't do this on iOS, because there perfect scrollbar doesn't play well with fastclick
@@ -64,25 +64,25 @@ export default Ember.Component.extend({
 
     }
 
-  }.on('didInsertElement'),
+  }),
 
-  updateClickWatcher: function() {
+  updateClickWatcher: Ember.on('didRender', function() {
 
     this.$().off('touchstart', this.trackTouchStart);
     this.$().on('touchstart', null, this, this.trackTouchStart);
     this.$().off('touchend', this.checkForClick);
     this.$().on('touchend', null, this, this.checkForClick);
 
-  }.on('didRender'),
+  }),
 
-  trackTouchStart: function(e) {
+  trackTouchStart(e) {
 
     var self = e.data;
     self.set('scrollStart', self.$()[0].scrollTop);
 
   },
 
-  checkForClick: function(e) {
+  checkForClick(e) {
 
     var self = e.data;
     var touch = e.originalEvent.changedTouches[0];
@@ -95,7 +95,7 @@ export default Ember.Component.extend({
 
   },
 
-  changeAllowBodyScroll: function(canBodyScroll) {
+  changeAllowBodyScroll(canBodyScroll) {
 
     if (canBodyScroll) {
       this.stopPreventingBodyScroll();
@@ -104,7 +104,7 @@ export default Ember.Component.extend({
     }
   },
 
-  startPreventingBodyScroll: function() {
+  startPreventingBodyScroll() {
 
     // Prevent scrolling of body
     Ember.$('#sidebar-body').on('touchstart', this.handleTouchStart);
@@ -120,7 +120,7 @@ export default Ember.Component.extend({
 
   },
 
-  stopPreventingBodyScroll: function() {
+  stopPreventingBodyScroll() {
 
     // Prevent scrolling of body
     Ember.$('#sidebar-body').off('touchstart', this.handleTouchStart);
@@ -137,7 +137,7 @@ export default Ember.Component.extend({
 
   },
 
-  handleTouchStart: function(e) {
+  handleTouchStart(e) {
     
     this.allowUp = (this.scrollTop > 0);
     this.allowDown = (this.scrollTop < this.scrollHeight - this.clientHeight);
@@ -147,7 +147,7 @@ export default Ember.Component.extend({
 
   },
 
-  handleTouchMove: function(e) {
+  handleTouchMove(e) {
 
 
     var pageY = e.originalEvent.touches[0].pageY;
@@ -169,7 +169,7 @@ export default Ember.Component.extend({
 
   },
 
-  cleanPerfectScroll: function() {
+  cleanPerfectScroll: Ember.on('willDestroyElement', function() {
 
     if (this.updatePerfectScrollBound) {
       Ember.$(window).off('resize', this.updatePerfectScrollBound);
@@ -177,9 +177,9 @@ export default Ember.Component.extend({
 
     Ember.$(this.get('scrollElementId')).perfectScrollbar('destroy');
 
-  }.on('willDestroyElement'),
+  }),
 
-  updatePerfectScroll: function() {
+  updatePerfectScroll() {
     // Update on resize
     if (Ember.$(this.get('scrollElementId')).perfectScrollbar) {
 

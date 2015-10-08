@@ -80,7 +80,7 @@ export default Ember.Mixin.create({
     if( parts.length === 2 ){
       
       // Clean up the intro
-      var intro = Ember.Blackout.trimBr(parts[0]);
+      var intro = parts[0];
       
       if(wasSplit){
         
@@ -126,18 +126,18 @@ export default Ember.Mixin.create({
       
       if(!introOnly||wasSplit){
         
-        // Clean up body
-        body = Ember.Blackout.trimBr(parts[1]);
-        body = intro + '<br><br>' + body;
+        body = intro + '<br><br>' + parts[1];
         
         // Switch to paragraphs
         if(!wasSplit){
-          body = Ember.Blackout.br2p(body);
+          //body = Ember.Blackout.br2p(body);
+          //body = Ember.Blackout.br2nl(body);
         }
         
       } else {
         
-        intro = intro.replace(/<br>/gi,' ');
+        //intro = intro.replace(/<br>/gi,' ');
+        intro = intro.replace(/\n/gi,' ');
         body = intro;
         
       }
@@ -148,15 +148,17 @@ export default Ember.Mixin.create({
       
     } else if( parts.length === 1 ) {
       
-      body = Ember.Blackout.trimBr(parts[0]);
+      body = parts[0];
       
       if(!introOnly){
         
         // Switch to paragraphs
-        body = Ember.Blackout.br2p(body);
+        //body = Ember.Blackout.br2p(body);
+        //body = Ember.Blackout.br2nl(body);
         
       } else {
-        body = body.replace(/<br>/gi,' ');
+        //body = body.replace(/<br>/gi,' ');
+        body = body.replace(/\n/gi,' ');
       }
       
     }

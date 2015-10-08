@@ -5,15 +5,15 @@ export default Ember.Service.extend({
   lastWindowBlurTime: 0,
   lastWindowFocusTime: 0,
   
-  lastBlurTime: function(){
+  lastBlurTime() {
     return this.get('lastWindowBlurTime');
   },
   
-  lastFocusTime: function(){
+  lastFocusTime() {
     return this.get('lastWindowFocusTime');
   },
   
-  watchWindowBlur: function(){
+  watchWindowBlur: Ember.on('init', function(){
     
     var self = this;
     
@@ -23,6 +23,6 @@ export default Ember.Service.extend({
       self.set('lastWindowFocusTime',Date.now());
     });
     
-  }.on('init'),
+  }),
   
 });

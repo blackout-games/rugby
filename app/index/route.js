@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   
   sortProps: ['activeTeams'],
   
-  model: function() {
+  model() {
     return Ember.RSVP.hash({
       
       countries: this.store.findAll('country'),

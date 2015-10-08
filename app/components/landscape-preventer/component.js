@@ -6,16 +6,16 @@ export default Ember.Component.extend({
   
   preventerShowing: false,
 
-  watchUI: function(){
+  watchUI: Ember.on('didInsertElement', function(){
     
     this.onResizeBound = Ember.run.bind( this, this.onResize );
     $(window).on('resize', this.onResizeBound);
     
     this.onResize();
     
-  }.on('didInsertElement'),
+  }),
   
-  onResize: function(){
+  onResize() {
     
     var preventerShowing = this.get('preventerShowing');
     var textsWithFocus = $('input[type=text]:focus,input[type=password]:focus,textarea:focus').length;

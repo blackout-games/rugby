@@ -9,10 +9,11 @@ export default Ember.Component.extend({
   messageHeight: 44,
   round: Math.round,
   min: Math.min,
+  testing: false,
   
-  setup:function(){
+  setup:Ember.on('didInsertElement', function(){
     
-    if( window.browsers.safariOS && !window.navigator.standalone && this.media.isMobile /*&& this.get('session.isAuthenticated')*/ ){
+    if( this.get('testing') || (window.browsers.safariOS && !window.navigator.standalone && this.media.isMobile) /*&& this.get('session.isAuthenticated')*/ ){
       
       this.checkHeight();
       
@@ -27,11 +28,15 @@ export default Ember.Component.extend({
       
       this.$().show();
       
+      if(this.get('testing')){
+        this.send('showMessage');
+      }
+      
     }
     
-  }.on('didInsertElement'),
+  }),
   
-  clean: function(){
+  clean: Ember.on('willDestroyElement', function(){
     
     if( this.checkHeightBound ){
       $(window).off('scroll',this.checkHeightBound);
@@ -45,9 +50,9 @@ export default Ember.Component.extend({
       $(document).off('touchend',this.stopWatchingBound);
     }
     
-  }.on('willDestroyElement'),
+  }),
   
-  startWatching: function(e){
+  startWatching(e) {
     
     if($(e.target).parents('.safari-helper').length > 0){
       
@@ -56,7 +61,7 @@ export default Ember.Component.extend({
     }
   },
   
-  stopWatching: function(){
+  stopWatching() {
     var watchEvent = this.get('watchEvent');
     if(watchEvent){
       Ember.run.cancel(watchEvent);
@@ -64,7 +69,7 @@ export default Ember.Component.extend({
     }
   },
   
-  checkHeight: function(e){
+  checkHeight(e) {
     
     var minSeenHeight = this.get('minSeenHeight');
     var maxSeenHeight = this.get('maxSeenHeight');
@@ -84,7 +89,7 @@ export default Ember.Component.extend({
       
       //this.$().find('.safari-message').css('height',this.get('messageHeight') + 'px');
       
-      this.$().find('.safari-message').slideDown(150,'linear');
+      this.send('showMessage');
       
     } else if(e === 'watch' || e === 'lag') {
       var barHeight = this.min(44,this.round((currentHeight - minSeenHeight)*(44/69)));
@@ -92,9 +97,9 @@ export default Ember.Component.extend({
       //this.$().find('.safari-message').css('height',barHeight + 'px');
       
       if(barHeight === 44){
-        this.$().find('.safari-message').slideDown(150,'linear');
+        this.send('showMessage');
       } else if(barHeight === 0 && !this.get('contentIsShowing')){
-        this.$().find('.safari-message').slideUp(150,'linear');
+        this.send('hideMessage');
       }
     }
     
@@ -116,18 +121,49 @@ export default Ember.Component.extend({
   },
   
   actions: {
-    close: function(){
-      this.clean();
-      this.$().slideUp('fast');
+    
+    // ----------- Message
+    
+    showMessage() {
+      if(!this.get('showingMessage')){
+        this.$().find('.safari-message').slideDown(150,'linear');
+        print('showing message');
+        var yOffset = parseInt(Ember.Blackout.getCSSValue('height','safari-message'));
+        this.EventBus.publish('fixedItemsShift',{x:0,y:-yOffset},200);
+        this.set('showingMessage',true);
+      }
     },
-    showContent: function(){
+    
+    hideMessage() {
+      if(this.get('showingMessage')){
+        this.$().find('.safari-message').slideUp(150,'linear');
+        print('hiding message');
+        this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
+        this.set('showingMessage',false);
+      }
+    },
+    
+    // ----------- Full information
+    
+    close() {
+      this.clean();
+      this.$().slideUp(200);
+      print('shifting bak');
+      this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
+    },
+    showContent() {
       
       if( this.get('contentIsShowing') ){
-        this.$().find('.safari-content').slideUp('fast');
+        this.$().find('.safari-content').slideUp(200);
         this.set('contentIsShowing',false);
+        
+        // Let other fixed elements know to move
+        print('shifting bak');
+        this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
       } else {
-        this.$().find('.safari-content').slideDown('fast');
+        this.$().find('.safari-content').slideDown(200);
         this.set('contentIsShowing',true);
+        var yOffset = Ember.Blackout.getCSSValue('height','safari-content');
       }
       
     },

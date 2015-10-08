@@ -8,21 +8,21 @@ export default Ember.Component.extend({
   navIsOpen: false,
   selector: '',
 
-  startListening: function() {
+  startListening: Ember.on('didInsertElement', function() {
     
     this.get('EventBus').subscribe('showNav', this, this.show);
     this.get('EventBus').subscribe('hideNav', this, this.hide);
 
-  }.on('didInsertElement'),
+  }),
 
-  stopListening: function() {
+  stopListening: Ember.on('willDestroyElement', function() {
 
     this.get('EventBus').unsubscribe('showNav', this, this.show);
     this.get('EventBus').unsubscribe('hideNav', this, this.hide);
 
-  }.on('willDestroyElement'),
+  }),
 
-  setup: function() {
+  setup: Ember.on('didInsertElement', function() {
 
     // For testing
     if (this.get('testingSidebar')) {
@@ -36,46 +36,49 @@ export default Ember.Component.extend({
     this.hideBound = Ember.run.bind(this, this.hide);
     this.bodyTouchBound = Ember.run.bind(this, this.bodyTouch);
 
-  }.on('didInsertElement'),
+  }),
   
-  bodyTouch: function(){
+  bodyTouch() {
     
     if( !this.get('media.isJumbo') ){
       this.hideBound();
     }
     
   },
-
-  openSidebarOnChange: function() {
+  
+  /**
+   * No way to not use an observer here
+   */
+  openSidebarOnChange: Ember.observer('media.tablet', function() {
     if (this.get('testingSidebar')) {
       this.send('show');
     } else {
       this.send('hide');
     }
-  }.observes('media.tablet'),
+  }),
 
-  clean: function() {
+  clean: Ember.on('willDestroyElement', function() {
 
     if (this.handleResizeBound) {
       Ember.$(window).off('resize', this.handleResizeBound);
     }
 
-  }.on('willDestroyElement'),
+  }),
 
-  handleResize: function() {
+  handleResize() {
     $(this.get('selector')).addClass('resizing');
     Ember.run.debounce(this, this.cleanResize, 200);
   },
-  cleanResize: function() {
+  cleanResize() {
     $(this.get('selector')).removeClass('resizing');
   },
 
-  smallMode: function() {
+  smallMode: Ember.computed('media.isMobile', function() {
     return Ember.Blackout.isSmallMode(this);
-  }.property('media.isMobile'),
+  }),
 
   actions: {
-    toggle: function() {
+    toggle() {
 
       if (this.get('navIsOpen')) {
         this.send('hide');
@@ -84,15 +87,15 @@ export default Ember.Component.extend({
       }
 
     },
-    show: function() {
+    show() {
       this.show();
     },
-    hide: function() {
+    hide() {
       this.hide();
     }
   },
 
-  show: function() {
+  show() {
 
     var now = Date.now();
     var timeSinceLast = now - this.get('navLastAction');
@@ -114,7 +117,7 @@ export default Ember.Component.extend({
       //return true;
     }
   },
-  hide: function() {
+  hide() {
     
     var now = Date.now();
     var timeSinceLast = now - this.get('navLastAction');

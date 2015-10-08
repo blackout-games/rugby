@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  manage: function() {
+  
+  didUpdateAttrs(){
     if(!this.get('isLoading') && !this.get('media.isJumbo')){
       
       /**
@@ -12,5 +13,6 @@ export default Ember.Component.extend({
       this.get('EventBus').publish('hideNav');
       
     }
-  }.observes('isLoading'),
+  }
+  
 });

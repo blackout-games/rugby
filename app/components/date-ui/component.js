@@ -20,19 +20,19 @@ export default Ember.Component.extend({
 
   }),
 
-  setTitle: function() {
+  setTitle: Ember.on('didInsertElement', function() {
 
     this.$().findClosest('.relative-date').attr('title', this.get('fullDate'));
     this.$().findClosest('.full-date').attr('title', this.get('relativeDate')).hide();
     
 
-  }.on('didInsertElement'),
+  }),
 
   relativeDate: Ember.computed('date', function() {
     return moment(this.get('date')).fromNow();
   }),
 
-  toggleFullDate: function() {
+  toggleFullDate: Ember.on('click', function() {
     
     var self = this;
     
@@ -48,6 +48,6 @@ export default Ember.Component.extend({
       self.set('mode','relativeDate');
     }
 
-  }.on('click'),
+  }),
 
 });

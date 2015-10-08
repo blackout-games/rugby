@@ -2,24 +2,24 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   
-  setupComponent: function() {
+  setupComponent: Ember.on('didInsertElement', function() {
     
     this.adjustFullHeight();
     
     this.adjustFullHeightBound = Ember.run.bind(this, this.adjustFullHeight);
     Ember.$(window).on('resize', this.adjustFullHeightBound);
     
-  }.on('didInsertElement'),
+  }),
 
-  adjustFullHeight: function() {
+  adjustFullHeight() {
     this.$().height(Ember.$(window).height());
   },
 
 
-  cleanFullHeight: function() {
+  cleanFullHeight: Ember.on('willDestroyElement', function() {
     if(this.adjustFullHeightBound){
       Ember.$(window).off('resize', this.adjustFullHeightBound);
     }
-  }.on('willDestroyElement'),
+  }),
 
 });

@@ -6,15 +6,15 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   Modal: Ember.inject.service('modal'),
   validationEvent: 'loginSubmitted',
   
-  arrive: function(){
+  arrive: Ember.on('didInsertElement', function(){
     this.get('EventBus').publish('disableGameNav');
-  }.on('didInsertElement'),
+  }),
   
-  leave: function(){
+  leave: Ember.on('willDestroyElement', function(){
     this.get('EventBus').publish('enableGameNav');
-  }.on('willDestroyElement'),
+  }),
   
-  requestFromServer: function() {
+  requestFromServer() {
     
     var self = this;
     
@@ -40,10 +40,10 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   'fbLoginAction': 'loginWithFacebook',
   
   actions: {
-    goHome: function(){
+    goHome() {
       this.sendAction('goHome');
     },
-    loginWithFacebook: function(button){
+    loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
   },

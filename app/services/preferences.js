@@ -8,7 +8,7 @@ export default Ember.Service.extend({
    * If the user is logged in, it will load their preferences
    * If not, defaults are loaded
    */
-  loadPreferences: function(){
+  loadPreferences() {
     
     // We need to make the session available
     var session = this.container.lookup('service:session');
@@ -20,7 +20,7 @@ export default Ember.Service.extend({
     
   },
   
-  getPref: function( id,options ){
+  getPref(id, options) {
     var pref = this.getPrefRecord(id);
     if(pref){
       var val = pref.get('value');
@@ -35,7 +35,7 @@ export default Ember.Service.extend({
     }
   },
   
-  getPrefRecord: function( id ){
+  getPrefRecord(id) {
     var pref =  this.get('store').peekRecord('preference',id);
     if(pref){
       return pref;
@@ -44,7 +44,7 @@ export default Ember.Service.extend({
     }
   },
   
-  setPref: function( id, value ){
+  setPref(id, value) {
     if( this.get('session.isAuthenticated')){
       //print(this.get('session').isAuthenticated,this.get('session'));
       var pref = this.getPrefRecord(id);
@@ -55,7 +55,7 @@ export default Ember.Service.extend({
     }
   },
   
-  pref: function( id, options ){
+  pref(id, options) {
     return this.getPref(id,options);
   },
   

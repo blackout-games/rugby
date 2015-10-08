@@ -6,7 +6,7 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin,{
 //export default Ember.Route.extend({
 
   actions: {
-    goHome: function(){
+    goHome() {
       this.transitionTo('/');
     },
   },

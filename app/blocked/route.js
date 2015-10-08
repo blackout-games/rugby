@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   
   isReallyBlocked: false,
   
-  beforeModel: function(){
+  beforeModel() {
     
     // Don't allow users here unless they're actually blocked
     if(this.get('isReallyBlocked')){

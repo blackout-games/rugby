@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   
-  setupUIEvents: function(){
+  setupUIEvents: Ember.on('didInsertElement', function(){
     
     if(!this.get('uiEvents')){
       return;
@@ -16,6 +16,7 @@ export default Ember.Mixin.create({
     }
     
     Ember.$.each(this.get('uiEvents'),function(eventName, callbackName){
+      
       if(eventName==="selector"){
         return true;
       }
@@ -24,7 +25,13 @@ export default Ember.Mixin.create({
         let uiEvent = callbackName;
         eventName = uiEvent.eventName;
         callbackName = uiEvent.callbackName;
-        obj = Ember.$(uiEvent.selector);
+        if(uiEvent.selectorFunction){
+          var func = Ember.run.bind(self,self[uiEvent.selectorFunction]);
+          var selector = func();
+          obj = Ember.$(selector);
+        } else {
+          obj = Ember.$(uiEvent.selector);
+        }
       }
       
       self[callbackName + 'Bound'] = Ember.run.bind(self,self[callbackName]);
@@ -34,9 +41,9 @@ export default Ember.Mixin.create({
     
     this.set('uiEventsObj',obj);
     
-  }.on('didInsertElement'),
+  }),
   
-  cleanUIEvents: function(){
+  cleanUIEvents: Ember.on('willDestroyElement', function(){
     
     if(!this.get('uiEvents')){
       return;
@@ -66,6 +73,6 @@ export default Ember.Mixin.create({
       
     });
     
-  }.on('willDestroyElement'),
+  }),
   
 });

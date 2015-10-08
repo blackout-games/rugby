@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   allowAppLink: false,
   canAppLink: null,
 
-  setup: function() {
+  setup: Ember.on('didInsertElement', function() {
     
     var isFirefox = /firefox/i.test(navigator.userAgent);
     /firefox/i.test(navigator.userAgent);
@@ -18,13 +18,13 @@ export default Ember.Component.extend({
     // Detect events so social links can communicate with each other
     this.get('EventBus').subscribe('appLinksAbilityChange', this, this.handleAbilityChange );
     
-  }.on('didInsertElement'),
+  }),
   
-  cleanup: function(){
+  cleanup: Ember.on('willDestroyElement', function(){
     
     this.get('EventBus').unsubscribe('appLinksAbilityChange', this, this.handleAbilityChange );
     
-  }.on('willDestroyElement'),
+  }),
   
   handleAbilityChange( ability ){
     this.set('canAppLink',ability);

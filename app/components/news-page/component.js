@@ -6,19 +6,19 @@ export default Ember.Component.extend(NewsMixin, {
   scrollerSelector: null,
   articleRoute: 'news.article',
 
-  setTitle: function() {
+  setTitle: Ember.on('didInitAttrs', function() {
     if (this.get('storeType') === 'news') {
       this.set('title', 'News');
     } else {
       this.set('title', 'National News');
     }
-  }.on('didInitAttrs'),
+  }),
 
   meta: Ember.computed('model', function() {
     return this.get('model.meta');
   }),
 
-  setScrollSelector: function() {
+  setScrollSelector: Ember.on('didReceiveAttrs', function() {
     if (typeof window.features.lockBodyScroller !== 'undefined') {
       this.set('scrollerSelector', window.features.lockBodyScroller);
     }
@@ -29,12 +29,12 @@ export default Ember.Component.extend(NewsMixin, {
       },
     });
     this.set('articleRoute', this.get('storeType') + '.article');
-  }.on('didReceiveAttrs'),
+  }),
 
-  setup: function() {
+  setup: Ember.on('didReceiveAttrs', function() {
     this.set('page', this.get('meta.page'));
     this.set('pages', this.get('meta.num-pages'));
-  }.on('didReceiveAttrs'),
+  }),
 
   hasMore: Ember.computed('page', 'pages', function() {
 
@@ -45,7 +45,7 @@ export default Ember.Component.extend(NewsMixin, {
 
   }),
 
-  fetchMoreItems: function() {
+  fetchMoreItems() {
 
     var self = this;
     var page = this.get('page');
@@ -72,7 +72,7 @@ export default Ember.Component.extend(NewsMixin, {
   },
 
   actions: {
-    fetchMore: function(callback) {
+    fetchMore(callback) {
       var promise = this.fetchMoreItems();
       callback(promise);
     }

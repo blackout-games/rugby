@@ -8,19 +8,19 @@ export default Ember.Mixin.create({
   minScrollNeeded: 0,
   canRemember: false,
   
-  scrollSelector: function(){
+  scrollSelector: Ember.computed(function(){
     if( window.features.lockBody ){
       return '#nav-body';
     } else {
       return window;
     }
-  }.property(),
+  }),
   
-  rememberScroll: function(){
+  rememberScroll() {
     this.set('canRemember',true);
   },
   
-  setupRememberScroll: function() {
+  setupRememberScroll: Ember.on('activate', function() {
     
     var self = this;
     
@@ -38,13 +38,13 @@ export default Ember.Mixin.create({
       
     }
     
-  }.on('activate'),
+  }),
   
-  cleanupRememberScroll: function() {
+  cleanupRememberScroll: Ember.on('deactivate', function() {
     
     this.set('lastScroll',Ember.$(this.get('scrollSelector')).scrollTop());
     this.set('lastScrollTime',Date.now());
     
-  }.on('deactivate'),
+  }),
   
 });

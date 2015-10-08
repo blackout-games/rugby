@@ -3,7 +3,7 @@ var $ = Ember.$;
 
 export default Ember.Mixin.create({
   
-  loadFB: function(){
+  loadFB: Ember.on('activate', function(){
     
     var self = this;
     
@@ -18,9 +18,9 @@ export default Ember.Mixin.create({
       
     });
     
-  }.on('activate'),
+  }),
   
-  loginToFB: function(button){
+  loginToFB(button) {
     
     var self = this;
     var response = FB.getAuthResponse();
@@ -57,7 +57,7 @@ export default Ember.Mixin.create({
     
   },
   
-  loginToBlackoutWithFB: function(authResponse,button){
+  loginToBlackoutWithFB(authResponse, button) {
     
     var self = this;
     
@@ -99,7 +99,7 @@ export default Ember.Mixin.create({
     
   },
   
-  checkFBLoginStatus: function(){
+  checkFBLoginStatus() {
     
     var self = this;
     

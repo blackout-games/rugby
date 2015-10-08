@@ -9,6 +9,14 @@ $primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
 $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
 $secondary-master: adjust-hue(hsl(222,44%,50%),$hue-adjust);
 
+
+// More colour in secondary
+$secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust);
+
+// On release?
+//$secondary-master: adjust-hue(hsl(224,55%,50%),$hue-adjust);
+
+
 /**
  * Primary Colors
  */
@@ -79,6 +87,9 @@ $links-on-dark: desaturate(lighten($secondary-color,20%),50%);
 
 $button-color: $primary-master;
 $alt-button-color: $primary-master;
+
+$dark-button-color: darken($secondary-master,33%);
+$dark-button-content-color: darken($secondary-master,22%);
 
 /**
  * Errors
