@@ -3,45 +3,28 @@ var $ = Ember.$;
 
 export default Ember.Mixin.create({
   
-  maxLength: 600,
+  maxIntroLength: 125,
   
-  processNews( articles, lastViewed, enforceMaxLength ){
+  processNews( articles, lastViewed, enforcemaxIntroLength ){
     
     var self = this;
     
     articles.forEach(function(article){
       
-      self.processShortArticle( article, lastViewed, enforceMaxLength );
+      self.processArticle( article, lastViewed, enforcemaxIntroLength );
       
     });
     
   },
   
-  processShortArticle( article, lastViewed, enforceMaxLength ){
+  processArticle(article, lastViewed, enforcemaxIntroLength){
     
-    // Splits
-    var intro = this.processBody(article, true);
-      
-    if( !enforceMaxLength || intro.length <= this.maxLength){
-      article.set('short',intro);
-    } else {
-      article.set('short',intro.substr(0,this.maxLength) + "...");
+    // No need if already processed
+    if( article.get('short') ){
+      return;
     }
     
-    // Is news new?
-    article.set('lastViewed',lastViewed);
-    
-  },
-  
-  processArticle(article){
-    
-    // Set full
-    article.set('fullBody', this.processBody(article) );
-    
-  },
-  
-  processBody(article,introOnly=false){
-    
+    var intro;
     var body = article.get('body');
     var wasSplit = false;
     var parts;
@@ -52,14 +35,14 @@ export default Ember.Mixin.create({
       wasSplit = true;
       
     } else {
-      
       parts = [];
       
       var shortFound = false;
       var bodyCopy = body.toString();
       var cursor = 0;
       do {
-        var pos = bodyCopy.search(/[\.\!\?\:][ <]/);
+        var pos = bodyCopy.search(/[\.\!\?\:][ <\n]/);
+        
         var realPos = pos + cursor;
         if( realPos >= 22 ){
           shortFound = true;
@@ -76,11 +59,10 @@ export default Ember.Mixin.create({
       
     }
     
-    
     if( parts.length === 2 ){
       
       // Clean up the intro
-      var intro = parts[0];
+      intro = parts[0].trim();
       
       if(wasSplit){
         
@@ -90,6 +72,7 @@ export default Ember.Mixin.create({
         ];
         
         $.each(phrases,function(index,phrase){
+          
           if( intro.substr( -(phrase.length) ) === phrase ){
             
             // Remove everything between end and specified characters - if short enough
@@ -123,53 +106,74 @@ export default Ember.Mixin.create({
         intro = intro + '.';
         
       }
+        
+      article.set('body',intro + parts[1]);
       
-      if(!introOnly||wasSplit){
+      if(wasSplit){
         
-        body = intro + '<br><br>' + parts[1];
+        // Process again to find first sentence, now that [split] is gone, and sentence end has been cleaned up.
         
-        // Switch to paragraphs
-        if(!wasSplit){
-          //body = Ember.Blackout.br2p(body);
-          //body = Ember.Blackout.br2nl(body);
-        }
+        this.processArticle(article, lastViewed, enforcemaxIntroLength);
+        
+        return;
         
       } else {
         
-        //intro = intro.replace(/<br>/gi,' ');
-        intro = intro.replace(/\n/gi,' ');
-        body = intro;
-        
-      }
-      
-      if(!wasSplit){
         article.set('hasMoreToRead',true);
+        
       }
       
-    } else if( parts.length === 1 ) {
+    } else {
       
-      body = parts[0];
-      
-      if(!introOnly){
-        
-        // Switch to paragraphs
-        //body = Ember.Blackout.br2p(body);
-        //body = Ember.Blackout.br2nl(body);
-        
-      } else {
-        //body = body.replace(/<br>/gi,' ');
-        body = body.replace(/\n/gi,' ');
-      }
+      intro = parts[0];
       
     }
     
-    if(wasSplit){
-      article.set('body',body);
-      return this.processBody(article,introOnly);
+    // Remove newlines for short version
+    intro = intro.stripMarkdown().replace(/\n/gi,' ');
+    
+    if( !enforcemaxIntroLength || intro.length <= this.maxIntroLength){
+      article.set('short',intro);
     } else {
-      return body;
+      article.set('short',intro.substr(0,this.maxIntroLength) + "…");
     }
+    
+    // Is news new?
+    article.set('lastViewed',lastViewed);
+    
+    // Check for image usable as primary
+    var primaryImg;
+    
+    var images = article.get('body').match(/(!)?!\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g);
+    if(images){
+      $.each(images,function(i,img){
+        
+        // First two characters
+        var indicator = img.substr(0,2);
+        
+        // Can we use this image
+        if(indicator!=='!!'){
+          
+          // Get url
+          var details = img.match(/!\[.*?]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/);
+          primaryImg = details[1];
+          
+          // Remove image from article body
+          // This allows journos to have an image used as primary, but not in the body
+          // If they want to have the image in the body as well, they simply need to add it twice.
+          article.set('body',article.get('body').replace(details[0],''));
+          
+          return false;
+        }
+        
+      });
       
+      if(primaryImg){
+        article.set('img',primaryImg);
+      }
+    }
+    
+    
   },
   
 });

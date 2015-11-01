@@ -44,7 +44,7 @@ export default Ember.Route.extend(NewsMixin,{
     var lastViewedNews = prefs.pref('lastViewedNews',{ type:'date' });
     var lastViewedNationalNews = prefs.pref('lastViewedNationalNews',{ type:'date' });
     
-    this.processNews(data.news,lastViewedNews);
+    this.processNews(data.news,lastViewedNews,true);
     this.processNews(data.nationalNews,lastViewedNationalNews,true);
     
     // Update last viewed
