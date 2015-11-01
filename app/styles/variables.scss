@@ -48,6 +48,8 @@ $retina-media: only screen and (-webkit-min-device-pixel-ratio: 2),
 
 /**
  * Easing
+ * 
+ * Use: transition: item duration ease(in-quad);
  */
 
 $ease: (

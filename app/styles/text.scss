@@ -3,15 +3,17 @@ $font: $primary-font;
 
 $writing-font: $primary-font;
 
+$serif-font: "ff-zine-slab-display-web";
 $heading-font: "ff-zine-slab-display-web";
 
 $sports-font: "proxima-nova", Helvetica, Arial, sans-serif;
+$hover-animation-time: 0.150s ease(out-quad);
 
 body {
   -webkit-font-smoothing: antialiased;
   font-size: 16px;
   font-family: $primary-font;
-  color: $text-color;
+  color: $primary-text-color;
   line-height: 1.55;
 }
 
@@ -23,12 +25,15 @@ a {
   &:visited {
     color: darken($primary-master, 11%);
   }
+  
+  transition: border-color $hover-animation-time;
+  border-bottom: 2px solid rgba(darken($primary-master, 11%),0);
 
   &:hover {
     color: darken($primary-master, 11%);
     //text-decoration: underline;
     text-decoration: none;
-    border-bottom: 2px solid rgba(darken($primary-master, 11%), 0.7);
+    border-color: rgba(darken($primary-master, 11%), 0.7);
   }
 
   &.btn-a, &.btn-a:hover {
@@ -81,21 +86,22 @@ a {
   }
 }
 
+/**
+ * In the parent level of H* styles only size, font, and weight should be specified. Not color. 
+ * In child classes, or a styles, color is fine
+ */
+
 h1 {
-  color: desaturate(darken($secondary-master, 22%), 33%);
-  font-weight: 800;
+  
+  font-family: $heading-font;
   font-size: 44px;
+  font-weight: 900;
+  
 }
 
 h2 {
-  color: desaturate(darken($secondary-master, 22%), 33%);
-  font-size: 29px;
-  font-family: $heading-font;
-  text-transform: uppercase;
-}
-
-h3 {
-  color: $secondary-master;
+  
+  //color: $secondary-master;
   font-size: 25px;
   font-weight: 800;
   text-transform: uppercase;
@@ -107,6 +113,7 @@ h3 {
     font-weight: 800;
     border-bottom: none;
     text-decoration: none;
+    transition: color $hover-animation-time;
 
     &:visited {
       color: $secondary-dark;
@@ -119,30 +126,48 @@ h3 {
       border-bottom: none;
     }
   }
+  
+}
+
+h3 {
 }
 
 h4 {
-  color: $secondary-master;
 }
 
 h5 {
-  color: $secondary-master;
+  font-family: $heading-font;
+  text-transform: uppercase;
+  font-size: 27px;
+  font-weight: 900;
+  margin: 22px 0 11px;
 }
 
 h6 {
-  color: desaturate(darken($secondary-master, 22%), 33%);
-  font-size: 14px;
-  font-weight: bold;
+  font-family: $heading-font;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 20px 0 4px;
+}
+
+.panel-title {
+  display: block;
+  font-family: $sports-font;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: -5px 0 0 0;
 }
 
 p {
   font-family: $writing-font;
+  margin-bottom: 11px;
 }
 
 article {
   p {
     font-size: 17px;
-    line-height: 1.75;
+    line-height: 1.55;
   }
 }
 
@@ -215,4 +240,13 @@ article {
       border-bottom: 2px solid rgba($color, 0.7);
     }
   }
+}
+
+.text-loader {
+  vertical-align: middle;
+  line-height: 100%;
+  display: inline-block;
+  margin: 4px;
+  height: auto;
+  width:33px;
 }

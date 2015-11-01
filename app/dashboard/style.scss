@@ -19,12 +19,8 @@
   //line-height: 100%;
   position:relative;
   
-  h6 {
-    text-transform: uppercase;
+  .panel-title {
     color: rgba(desaturate($secondary-master,33%),0.5);
-  }
-  
-  h3 {
   }
 }
 

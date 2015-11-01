@@ -49,6 +49,7 @@ $background-dark-lighter: desaturate(darken($secondary-color,22%),44%);
 $background-light-darker: darken($background-light,12%);
 
 $bg-color-dark: darken(desaturate($secondary-master,22%),35%);
+$bg-color-dark-lighter: darken(desaturate($secondary-master,22%),30%);
 
 
 
@@ -56,8 +57,8 @@ $bg-color-dark: darken(desaturate($secondary-master,22%),35%);
  * Text Colors
  */
 
-$text-color: desaturate(darken($secondary-color,22%),33%);
-$text-lighter: desaturate(lighten($text-color,11%),11%);
+$primary-text-color: desaturate(darken($secondary-color,22%),40%);
+$text-lighter: desaturate(lighten($primary-text-color,11%),11%);
 $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
 
