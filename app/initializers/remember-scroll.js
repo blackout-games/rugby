@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import RememberScroll from '../mixins/remember-scroll';
 
-export function initialize(/* container, application */) {
+export function initialize(/*application*/) {
   Ember.Route.reopen(RememberScroll);
 }
 

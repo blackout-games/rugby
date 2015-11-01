@@ -37,6 +37,11 @@ module.exports = function(defaults) {
   app.import('bower_components/perfect-scrollbar/css/perfect-scrollbar.css');
 
   /**
+   * Animate.css
+   */
+  app.import('bower_components/animate.css/animate.css');
+
+  /**
    * Fontello custom blackout icons
    */
   app.import('vendor/fontello/css/blackout.css');

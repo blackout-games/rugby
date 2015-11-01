@@ -1,7 +1,7 @@
 import uiEvents from '../mixins/ui-events';
 import Ember from 'ember';
 
-export function initialize(/*container, application*/) {
+export function initialize(/*application*/) {
   Ember.Component = Ember.Component.extend(uiEvents);
 }
 

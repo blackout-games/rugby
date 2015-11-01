@@ -21,7 +21,7 @@ var transitionWatch = {
   
 };
 
-export function initialize(/* container, application */) {
+export function initialize(/* application */) {
   Ember.Route.reopen(transitionWatch);
 }
 
