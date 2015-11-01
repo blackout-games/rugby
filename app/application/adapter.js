@@ -69,3 +69,4 @@ var inflector = Ember.Inflector.inflector;
 
 // Irregular plurals
 inflector.irregular('country', 'countries');
+inflector.irregular('category', 'categories');

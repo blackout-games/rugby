@@ -68,6 +68,15 @@ class Blackout {
     }
 
   }
+  
+  /**
+   * Allows us to manipulate pseudo rules
+   * @param {string} selector CSS selector, i.e. .some-class:before
+   * @param {string} css      CSS rules, i.e. background-image: url(...); ...
+   */
+  addCSSRule(selector,css) {
+    document.styleSheets[0].addRule(selector,css);
+  }
 
   /**
    * trimChar
@@ -152,6 +161,110 @@ class Blackout {
     }
 
   }
+  
+  /**
+   * Converts old style format tags like [b][/b] to markdown.
+   * @param  {string} str The string to convert
+   * @return {string}     The markdown string
+   */
+  toMarkdown(str){
+    
+    // ------------------------------------------- Bold
+    
+    str = str.replace(/\[b\]((.|[\r\n?])*?)\[\/b\]/g,function(fullMatch,text){
+      return '**' + text + '**';
+    });
+    
+    // ------------------------------------------- Italic
+    
+    str = str.replace(/\[i\]((.|[\r\n?])*?)\[\/i\]/g,function(fullMatch,text){
+      return '*' + text + '*';
+    });
+    
+    // ------------------------------------------- Striked
+    
+    str = str.replace(/\[t\]((.|[\r\n?])*?)\[\/t\]/g,function(fullMatch,text){
+      return '~~' + text + '~~';
+    });
+    
+    // ------------------------------------------- Underline
+    
+    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,function(fullMatch,text){
+      return text;
+    });
+    
+    // ------------------------------------------- Underline
+    
+    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,function(fullMatch,text){
+      
+      return text;
+      
+    });
+    
+    // ------------------------------------------- Code
+    
+    str = str.replace(/\[code\]((.|[\r\n?])*?)\[\/code\]/g,function(fullMatch,code){
+      
+      return '```' + "\n" + code + "\n" + '```';
+      
+    });
+    
+    // ------------------------------------------- Links
+    
+    str = str.replace(/\[(?:link|url)(?:=(.*?))?\](.*?)\[\/(?:link|url)\]/g,function(fullMatch,link,text){
+      
+      if(!link){
+        link = text;
+      }
+      
+      if(link.substr(0,1)==='!'){
+        link = 'https://www.blackoutrugby.com/game/' + link.substr(1);
+      }
+      
+      return '[' + text + '](' + link + ')';
+      
+    });
+    
+    // ------------------------------------------- Quotes
+    
+    str = str.replace(/\[quote(?:=(.*?))?\]((.|[\r\n?])*?)\[\/quote\]/g,function(fullMatch,quoteUser,quote){
+      
+      // Break into lines
+      let lines = quote.split("\n");
+      quote = '';
+      
+      // Process lines, adding '>' if not empty
+      $.each(lines,function(i,line){
+        
+        // Add > if line is not empty
+        if( line.trim() !== '' || i===0 ){
+          
+          // Add > and user to first line
+          lines[i] = '> ' + (i===0&&quoteUser?'@['+quoteUser+'] ':'') + line;
+          
+        }
+        
+        // Add newline at end of line except the last line
+        quote += lines[i] + (lines.length===i+1?"":"\n");
+        
+      });
+      
+      return quote;
+      
+    });
+    
+    return str;
+    
+  }
+  
+  assertURL(url) {
+    
+    if( url.search(/\/\/[^\/]|https?:\/\/|ftps?:\/\/|mailto:/) !== 0 ){
+      url = '//' + url;
+    }
+    return url;
+    
+  }
 
   /**
    * If we're currently in responsive small mode
@@ -216,7 +329,19 @@ class Blackout {
       }
     });
   }
-
+  
+  /**
+   * Pass a jquery item to this function to have it fade in
+   * Uses animate.css library
+   * @param  {jquery object} $jqueryItem The item to fade in
+   */
+  fadeIn($jqueryItem){
+    $jqueryItem.addClass('animated fadeIn');
+  }
+  
+  /**
+   * Logs a string, or strings to a visible on screen console (helpful for debugging on mobile)
+   */
   log() {
     if ($('#console').length === 0) {
 
@@ -258,6 +383,16 @@ class Blackout {
     });
     return isFixed;
   }
+  
+  /**
+   * Deprecated. Youth names are generated at API level to allow for future feature allowing renaming of youth clubs
+   * @param  {[type]} name [description]
+   * @return {[type]}      [description]
+   */
+  juniorClubName(name){
+    Ember.warn('juniorClubName() deprecated. Youth names are generated at API level');
+    return 'Jr ' + name;
+  }
 
 }
 
@@ -275,7 +410,7 @@ Blackout.prototype.store = {
 
 };
 
-export function initialize( /*container, application*/ ) {
+export function initialize( /*application*/ ) {
   // application.inject('route', 'foo', 'service:foo');
   E.Blackout = new Blackout();
 
@@ -312,6 +447,11 @@ if (!Date.now) {
 Ember.FormContext = {
   name: 'currentForm'
 };
+
+/**
+ * Jeremy's blackout namespace (used elsewhere)
+ */
+window.blackout = {};
 
 /**
  * Jeremy's minimal OS detection
@@ -355,6 +495,111 @@ String.prototype.ucFirst = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+String.prototype.regexIndexOf = function(regex, startpos) {
+    var indexOf = this.substring(startpos || 0).search(regex);
+    return (indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf;
+};
+
+String.prototype.regexLastIndexOf = function(regex, startpos) {
+    regex = (regex.global) ? regex : new RegExp(regex.source, "g" + (regex.ignoreCase ? "i" : "") + (regex.multiLine ? "m" : ""));
+    if(typeof (startpos) === "undefined") {
+        startpos = this.length;
+    } else if(startpos < 0) {
+        startpos = 0;
+    }
+    var stringToWorkWith = this.substring(0, startpos + 1);
+    var lastIndexOf = -1;
+    var nextStop = 0;
+    let result;
+    while((result = regex.exec(stringToWorkWith)) != null) {
+        lastIndexOf = result.index;
+        regex.lastIndex = ++nextStop;
+    }
+    return lastIndexOf;
+};
+
+
+  
+String.prototype.rtrim = function(charlist) {
+  //  discuss at: http://phpjs.org/functions/rtrim/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //    input by: Erkekjetter
+  //    input by: rem
+  // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // bugfixed by: Onno Marsman
+  // bugfixed by: Brett Zamir (http://brett-zamir.me)
+  //   example 1: rtrim('    Kevin van Zonneveld    ');
+  //   returns 1: '    Kevin van Zonneveld'
+  var str = this;
+  charlist = !charlist ? ' \\s\u00A0' : (charlist + '').replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '\\$1');
+  var re = new RegExp('[' + charlist + ']+$', 'g');
+  
+  return (str + '').replace(re, '');
+};
+  
+/**
+ * Replace a specified part of a string
+ * @param  {string} str     The subject string to act upon
+ * @param  {string} replace The new sub string
+ * @param  {int} start      The start point in the subject string
+ * @param  {int} length     The length of the subject string to replace
+ * @return {string}         The new string
+ * 
+ * Discuss at: http://phpjs.org/functions/substr_replace/
+ * Original by: Brett Zamir (http://brett-zamir.me)
+ */
+String.prototype.substrReplace = function(replace, start, length) {
+  
+  var str = this;
+  if (start < 0) { // start position in str
+    start = start + str.length;
+  }
+  length = length !== undefined ? length : str.length;
+  if (length < 0) {
+    length = length + str.length - start;
+  }
+
+  return str.slice(0, start) + replace.substr(0, length) + replace.slice(length) + str.slice(start + length);
+};
+
+String.prototype.stripMarkdown = function(options) {
+  
+  let md = this;
+  options = options || {};
+  options.stripListLeaders = options.hasOwnProperty('stripListLeaders') ? options.stripListLeaders : false;
+
+  var output = md;
+  try {
+    if (options.stripListLeaders) {
+      output = output.replace(/^([\s\t]*)([\*\-\+]|\d\.)\s+/gm, '$1');
+    }
+    output = output
+      // Remove HTML tags
+      .replace(/<(.*?)>/g, '$1')
+      // Remove setext-style headers
+      .replace(/^[=\-]{2,}\s*$/g, '')
+      // Remove footnotes?
+      .replace(/\[\^.+?\](\: .*?$)?/g, '')
+      .replace(/\s{0,2}\[.*?\]: .*?$/g, '')
+      // Remove images
+      .replace(/\!\[.*?\][\[\(].*?[\]\)]/g, '')
+      // Remove inline links
+      .replace(/\[(.*?)\][\[\(].*?[\]\)]/g, '$1')
+      // Remove reference-style links?
+      .replace(/^\s{1,2}\[(.*?)\]: (\S+)( ".*?")?\s*$/g, '')
+      // Remove atx-style headers
+      .replace(/^\#{1,6}\s*([^#]*)\s*(\#{1,6})?/gm, '$1')
+      .replace(/([\*_]{1,2})(\S.*?\S)\1/g, '$2')
+      .replace(/(`{3,})(.*?)\1/gm, '$2')
+      .replace(/^-{3,}\s*$/g, '')
+      .replace(/`(.+?)`/g, '$1')
+      .replace(/\n{2,}/g, '\n\n');
+  } catch(e) {
+    console.error(e);
+    return md;    
+  }
+  return output;
+};
 
 
 
@@ -503,7 +748,7 @@ function _inlinizeSVG () {
             
           }
           
-        },function(xhr){ //---------------- Error
+        },function(/*xhr*/){ //---------------- Error
           
           if(!$img.data('ajaxCacheOff')){
             
@@ -538,7 +783,7 @@ function _inlinizeSVG () {
       }
       
       
-    }
+    };
     
     rebuildSVG();
 

@@ -5,6 +5,10 @@
   font-size: 75%;
 }
 
+.icon-smd {
+  font-size: 90%;
+}
+
 .icon-md {
   font-size: 125%;
 }
@@ -47,4 +51,28 @@
 .icon-ios-back{
   font-size: 140%;
   @extend .icon-vcenter;
+}
+
+/**
+ * Special settings per icon
+ */
+
+.icon-logo {
+  margin-left: -4px;
+  margin-right: -4px;
+  
+  &.icon-md {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+}
+
+.icon-chat {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.icon-list-numbered {
+  margin-left: 0;
+  margin-right: 4px;
 }
