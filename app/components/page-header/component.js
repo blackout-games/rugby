@@ -1,5 +1,5 @@
 import Ember from 'ember';
-var $ = Ember.$;
+//var $ = Ember.$;
 
 var images = {
   "dashboard": 8,
@@ -10,17 +10,38 @@ var images = {
 /**
  * Attributes:
  * 
- * images: image list to choose from
- * route: the route name to use to remember the image picked (allows multiple routes to use the same images list, but not have the same image)
+ * image: [optional] image URL
+ * images: [optional] image list to choose from
+ * route: [optional] the route name to use to remember the image picked (allows multiple routes to use the same images list, but not have the same image)
+ * height: [optional] min-height for the header
  * 
  */
 
 export default Ember.Component.extend({
-  classNames: ['page-header','clearfix'],
+  classNames: ['page-header','clearfix','vb-parent'],
+  height: '25vh',
+  
+  setHeight: Ember.on( 'didInsertElement', function(){
+    
+    // Adjust
+    this.$().css({
+      'min-height': this.get('height'),
+      'padding-top': '33px',
+    });
+    
+  }),
   
   pickOne: Ember.on('didInsertElement', function(){
     
-    if( this.get('images') ){
+    if( this.get('image') ){
+      
+      var url = Ember.Blackout.assertURL(this.get('image'));
+      
+      // image should be a URL
+      Ember.Blackout.addCSSRule( '.page-header.specified:before', 'background-image: url('+url+') !important;');
+      this.$().addClass('specified');
+      
+    } else if( this.get('images') ){
       
       var key = this.get('images');
       
@@ -49,56 +70,6 @@ export default Ember.Component.extend({
       }
       
     }
-    
-    this.updateLoadingSlider();
-    
-  }),
-  
-  
-  /*uiEvents: [
-    {
-      eventName: 'scroll',
-      callbackName: 'updateLoadingSlider',
-      selector: window,
-    }
-  ],*/
-  updateLoadingSlider(e) {
-    
-    // Too hard to get right while scrolling, especially since chrome iOS doesn't report scrolling events instantly
-    
-    /*
-    var $slider = $('.loading-slider');
-    var isScroll = e && e.type && e.type==='scroll';
-    
-    var eTop = this.$('#under-header').offset().top; //get the offset top of the element
-    var sliderLocation = eTop - $(window).scrollTop();
-    
-    if(isScroll){
-      if(!$slider.data('menuOpen')){
-        $slider.css('top',sliderLocation);
-      }
-    } else {
-      Ember.run.later(function(){
-        if(!$slider.data('menuOpen')){
-          $slider.css('top',sliderLocation);
-        }
-      },400);
-    }
-    $slider.data('normalLocation',sliderLocation);
-    */
-   
-  },
-  
-  resetLoadingSlider: Ember.on('willDestroyElement', function(){
-    
-    /*
-    var $slider = $('.loading-slider');
-    
-    if(!$slider.data('menuOpen')){
-      $slider.css('top','0px');
-    }
-    $slider.data('normalLocation','0px');
-    */
     
   }),
   

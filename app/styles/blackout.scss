@@ -120,20 +120,33 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 /**
- * Vertical align
+ * Vertical align center
  */
-.va-parent {
+.vc-parent {
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.va-child {
+.vc-child {
   //
 }
 
 /**
- * Vertical align
+ * Vertical align bottom
+ */
+.vb-parent {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.vb-child {
+  //
+}
+
+/**
+ * Center horizontal and vertical
  */
 .center-parent {
   height: 100%;

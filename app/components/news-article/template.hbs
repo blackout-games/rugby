@@ -1,8 +1,8 @@
-{{page-header title=model.title images="rugby" route=model.title }}
+{{page-header title=model.title images="rugby" route=model.title height="22vh" image=model.img }}
 
 
 <div class="row">
-  <div class="col-lg-8 dash-col">
+  <div class="col-md-8 col-lg-8 dash-col">
     <div class="dash-box">
             
       {{back-button default="dashboard" class="gap-md"}}
@@ -21,10 +21,7 @@
           {{/if}}
         </div>
         
-        {{markdown-to-html markdown=model.fullBody 
-          strikethrough=true
-          literalMidWordUnderscores=true
-          simplifiedAutoLink=true}}
+        {{markdown-parsed markdown=model.body }}
         
       </article>
       
