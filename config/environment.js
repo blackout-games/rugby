@@ -24,7 +24,7 @@ module.exports = function(environment) {
   var devApiHost = 'apitest.blackoutrugby.com';
   /*********************/
   
-  /*********************/
+  /*********************
   // Development API (Live, Production)
   var devApiBase = '/v1';
   var devApiProtocol = 'https';
@@ -66,12 +66,12 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' use.typekit.net connect.facebook.net", //  'unsafe-eval' 
+      'script-src': "'self' 'unsafe-inline' use.typekit.net https://use.typekit.net connect.facebook.net https://connect.facebook.net", //  'unsafe-eval' 
       'font-src': "'self' use.typekit.net data: ",
       'connect-src': "'self' "+apiHost+" https://"+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
-      'style-src': "'self' 'unsafe-inline' use.typekit.net",
-      'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
+      'style-src': "'self' 'unsafe-inline' use.typekit.net https://use.typekit.net",
+      'frame-src': "s-static.ak.facebook.com https://s-static.ak.facebook.com www.facebook.com static.ak.facebook.com https://static.ak.facebook.com https://www.facebook.com *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com"
     },
   };
 
