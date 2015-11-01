@@ -119,7 +119,9 @@ export default Ember.Component.extend({
   setType(newType) {
     
     var self = this;
-    if(newType==='warning') newType = 'error';
+    if(newType==='warning'){
+      newType = 'error';
+    }
     
     $.each(this.get('types'),function(index,type){
       self.set('is' + type.ucFirst() + 'Modal',type===newType);

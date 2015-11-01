@@ -163,7 +163,6 @@ export default Ember.Component.extend({
       } else {
         this.$().find('.safari-content').slideDown(200);
         this.set('contentIsShowing',true);
-        var yOffset = Ember.Blackout.getCSSValue('height','safari-content');
       }
       
     },
