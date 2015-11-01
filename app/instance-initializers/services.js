@@ -5,11 +5,14 @@ export function initialize( application ) {
   // Otherwise it will only lazy load when needed
   // But we need to load in default preferences
   
+  // Handles the current i18n locale
+  application.lookup('service:locale');
+  
   // Watches for unfocus from a browser window or tab
-  application.container.lookup('service:blur'); 
+  application.lookup('service:blur'); 
   
   // Handles local bites, which are sent with all ajax requests as a header
-  application.container.lookup('service:bites'); 
+  application.lookup('service:bites'); 
   
 }
 
