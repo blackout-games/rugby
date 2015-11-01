@@ -29,7 +29,7 @@ export default Ember.Service.extend({
   setupAJAXSuccessListener: Ember.on('init', function(){
     
     var self = this;
-    /*
+    
     $( document ).ajaxSuccess(function( event, xhr ) {
       var setBites = xhr.getResponseHeader('Set-Bites');
       
@@ -52,19 +52,19 @@ export default Ember.Service.extend({
           }
         });
       }
-    });*/
+    });
     
   }),
   
   updateAJAX() {
     //print(this.header());
-    /*
+    
     $.ajaxSetup({
         headers: {
           'Bites': this.header(),
         },
     });
-    */
+    
   },
   
   header() {
