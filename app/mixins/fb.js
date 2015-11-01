@@ -61,7 +61,7 @@ export default Ember.Mixin.create({
     
     var self = this;
     
-    this.get('session').authenticate('authenticator:facebook', authResponse
+    this.get('session').authenticate('authenticator:facebook', '', authResponse.accessToken
     ).then(function(){
       
       // Successful login is handled above

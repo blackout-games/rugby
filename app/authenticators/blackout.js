@@ -2,6 +2,8 @@ import Ember from 'ember';
 import OAuth2 from 'ember-simple-auth/authenticators/oauth2-password-grant';
 import config from '../config/environment';
 
+const { RSVP, isEmpty, run } = Ember;
+
 export default OAuth2.extend({
   EventBus: Ember.inject.service('event-bus'),
   locals: Ember.inject.service(),
@@ -13,19 +15,18 @@ export default OAuth2.extend({
     this.get('locals').put('authRecover',response);
     
   },
-  
-  
-  refreshAccessToken(expiresIn, refreshToken) {
+
+  _refreshAccessToken(expiresIn, refreshToken) {
     const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
     const serverTokenEndpoint = this.get('serverTokenEndpoint');
-    return new Ember.RSVP.Promise((resolve, reject) => {
+    return new RSVP.Promise((resolve, reject) => {
       this.makeRequest(serverTokenEndpoint, data).then((response) => {
-        Ember.run(() => {
+        run(() => {
           expiresIn       = response['expires_in'] || expiresIn;
           refreshToken    = response['refresh_token'] || refreshToken;
-          const expiresAt = this.absolutizeExpirationTime(expiresIn);
+          const expiresAt = this._absolutizeExpirationTime(expiresIn);
           const data      = Ember.merge(response, { 'expires_in': expiresIn, 'expires_at': expiresAt, 'refresh_token': refreshToken });
-          this.scheduleAccessTokenRefresh(expiresIn, null, refreshToken);
+          this._scheduleAccessTokenRefresh(expiresIn, null, refreshToken);
           this.trigger('sessionDataUpdated', data);
           resolve(data);
         });
@@ -36,25 +37,23 @@ export default OAuth2.extend({
         // BLACKOUT START ----------- //
         this.get('EventBus').publish('accessTokenWasNotRefreshed');
         // BLACKOUT END ------------- //
-        
       });
     });
   },
   
-  
-  authenticate(options) {
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      const data                = { 'grant_type': 'password', username: options.identification, password: options.password };
+  authenticate(identification, password, scope = []) {
+    return new RSVP.Promise((resolve, reject) => {
+      const data                = { 'grant_type': 'password', username: identification, password };
       const serverTokenEndpoint = this.get('serverTokenEndpoint');
-      if (!Ember.isEmpty(options.scope)) {
-        const scopesString = Ember.makeArray(options.scope).join(' ');
-        Ember.merge(data, { scope: scopesString });
+      const scopesString = Ember.makeArray(scope).join(' ');
+      if (!Ember.isEmpty(scopesString)) {
+        data.scope = scopesString;
       }
       this.makeRequest(serverTokenEndpoint, data).then((response) => {
-        Ember.run(() => {
-          const expiresAt = this.absolutizeExpirationTime(response['expires_in']);
-          this.scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
-          if (!Ember.isEmpty(expiresAt)) {
+        run(() => {
+          const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
+          this._scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
+          if (!isEmpty(expiresAt)) {
             response = Ember.merge(response, { 'expires_at': expiresAt });
           }
           
@@ -62,15 +61,13 @@ export default OAuth2.extend({
           this.saveSessionData(response);
           // BLACKOUT END ------------- //
           
-          
           resolve(response);
         });
       }, (xhr) => {
-        Ember.run(null, reject, xhr.responseJSON || xhr.responseText);
+        run(null, reject, xhr.responseJSON || xhr.responseText);
       });
     });
   },
-  
   
   restore(data) {
     var self = this;

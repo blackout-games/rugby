@@ -19,12 +19,10 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
     var self = this;
     
     var data = self.getProperties('username','password');
-    data.identification = data.username;
-    data.client_id = 'rugby-ember';
     
     // simple-auth-authenticator:oauth2-password-grant 
     // authenticator:password
-    return self.get('session').authenticate('authenticator:password', data
+    return self.get('session').authenticate('authenticator:password', data.username, data.password
     ).then(function(){
       
       // Successful login is handled at upper levels
