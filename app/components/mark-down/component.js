@@ -10,6 +10,7 @@ const { Blackout, $ } = Ember;
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
+  'user-images': Ember.inject.service(),
 
   extendMarkdown: Ember.on('didReceiveAttrs', function() {
 
@@ -27,11 +28,24 @@ export default Ember.Component.extend({
     markdown = this.processImages(markdown);
     markdown = this.processQuotes(markdown);
     markdown = this.detectLinks(markdown);
+    markdown = this.detectUsers(markdown);
     //print(markdown);
     
     this.set('markdown', markdown);
 
   }),
+  
+  detectUsers(markdown){
+    
+    var self = this;
+    
+    return markdown.replace(/@([a-zA-Z0-9\-_]+)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,function( fullMatch, unquotedUsername, quotedUsername){
+      
+      return self.decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
+      
+    });
+    
+  },
   
   detectLinks(markdown){
     
@@ -476,8 +490,59 @@ export default Ember.Component.extend({
         return 'error';
     }
   },
+    
+  decorateUsername(username) {
+    
+    let store = this.get('store');
+    let className = 'md_manager_'+username.alphaNumeric();
+    let wasPeeked = false;
+    let self = this;
+    
+    // Decorate
+    let buildUsernameHTML = function(manager){
+      let imageClassName = 'md_manager_img_'+username.alphaNumeric();
+      let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+manager.get('id');
+      
+      let html = '<div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + manager.get('username') + '</a>';
+      
+      self.get('user-images').updateImage('.'+imageClassName,manager.get('imageUrl'),'transparent');
+      
+      return html;
+    };
+    
+    let query = {
+      filter: {
+        'username': username,
+      },
+    };
+    
+    // Get manager
+    let html = store.queryRecord('manager',query).then(function(data){
+      
+      let item = data.get('firstObject');
+      if(item){
+        let html = buildUsernameHTML(item);
         
-  
+        // Update HTML
+        $('.'+className).html(html);
+        wasPeeked = true;
+        return html;
+      } else {
+        return false;
+      }
+      
+    },function(){});
+    
+    if(wasPeeked){
+      return html;
+    } else {
+      
+      // Return base html
+      return '<span class="'+className+'">'+username+'</span>';
+      
+    }
+    
+  },
   
   /**
    * Supports BR style quotes with titles
@@ -495,6 +560,15 @@ export default Ember.Component.extend({
     
     var quoteLocation,lastQuoteLocation = null;
     var cursor = 0;
+    
+    let checkAllLinesEmpty = function(i,line){
+      if( i > 0 && i < lines.length-1 ){
+        if(line.trim()!==''){
+          allLinesEmpty = false;
+          return false;
+        }
+      }
+    };
 
     do {
       
@@ -523,15 +597,7 @@ export default Ember.Component.extend({
           // Check each line, if not empty then there is a quote break
           var lines = inBetween.split("\n");
           var allLinesEmpty = true;
-          let loopFunc = function(i,line){
-            if( i > 0 && i < lines.length-1 ){
-              if(line.trim()!==''){
-                allLinesEmpty = false;
-                return false;
-              }
-            }
-          };
-          $.each(lines,loopFunc);
+          $.each(lines,checkAllLinesEmpty);
           
           // If one or more lines contain non-quote content, this is a new quote
           isNewQuote = !allLinesEmpty;
@@ -579,9 +645,7 @@ export default Ember.Component.extend({
             // Make sure username exists
             if (usernameLength > 0) {
 
-              let username = markdown.substr(usernameStart, usernameLength);
-
-              // TODO: Decorate username
+              let username = this.decorateUsername(markdown.substr(usernameStart, usernameLength));
 
               let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">Quoting:</span> <span class="quote-user">' + username + '</span></div>';
 

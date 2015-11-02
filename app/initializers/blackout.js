@@ -601,6 +601,14 @@ String.prototype.stripMarkdown = function(options) {
   return output;
 };
 
+/**
+ * Strings any non-alphanumeric characters
+ * @param  {[type]} options [description]
+ * @return {[type]}         [description]
+ */
+String.prototype.alphaNumeric = function(options) {
+  return this.replace(/[^a-zA-Z0-9]/g,'');
+};
 
 
 

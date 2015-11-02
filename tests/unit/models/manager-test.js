@@ -1,9 +1,6 @@
-import {
-  moduleForModel,
-  test
-} from 'ember-qunit';
+import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('manager', {
+moduleForModel('manager', 'Unit | Model | manager', {
   // Specify the other units that are required for this test.
   needs: []
 });

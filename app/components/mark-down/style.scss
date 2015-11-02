@@ -1,0 +1,11 @@
+.manager-avatar-inline {
+  
+  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png' );
+  
+  display: inline-block;
+  width:27px;
+  height:27px;
+  vertical-align: middle;
+  margin: -4px 4px 0 0;
+  
+}
