@@ -18,28 +18,37 @@ var images = {
  */
 
 export default Ember.Component.extend({
-  classNames: ['page-header','clearfix','vb-parent'],
+  baseClasses: ['page-header-bg'],
   height: '25vh',
+  
+  defaultColor: Ember.computed( function(){
+    return Ember.Blackout.getCSSValue('background-color','bg-dark');
+  }),
   
   setHeight: Ember.on( 'didInsertElement', function(){
     
     // Adjust
-    this.$().css({
+    this.$().findClosest('.page-header').css({
       'min-height': this.get('height'),
       'padding-top': '33px',
     });
     
   }),
   
-  pickOne: Ember.on('didInsertElement', function(){
+  imageClass: Ember.computed('imageURL','images', function(){
     
-    if( this.get('image') ){
-      
-      var url = Ember.Blackout.assertURL(this.get('image'));
+    if( this.get('imageURL') ){
       
       // image should be a URL
-      Ember.Blackout.addCSSRule( '.page-header.specified:before', 'background-image: url('+url+') !important;');
-      this.$().addClass('specified');
+      var url = Ember.Blackout.assertURL(this.get('imageURL'));
+      
+      // Get a unique className
+      var className = 'page-header-' + url.hashCode();
+      
+      // Create a fresh css pseudo rule
+      Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
+      
+      return this.get('baseClasses').join(' ') + ' ' + className;
       
     } else if( this.get('images') ){
       
@@ -65,7 +74,8 @@ export default Ember.Component.extend({
           session.set(sessionKey,imageClass);
         }
         
-        this.$().addClass(imageClass);
+        return this.get('baseClasses').join(' ') + ' ' + imageClass;
+        //this.$().addClass(imageClass);
         
       }
       

@@ -5,12 +5,12 @@ $bg-tint: linear-gradient(
   to bottom,
   transparent,
   transparent 44%,
-  rgba($bg-color-dark,0.99) 100%
+  rgba($bg-dark,0.99) 100%
 );
 
 @mixin header-background( $url, $bg-position: center center ){
   
-  @include cover-background-tinted($url,$bg-tint,$bg-position, $bg-color-dark-lighter);
+  @include cover-background-tinted($url,$bg-tint,$bg-position, $bg-dark-lighter);
   
 }
 
@@ -18,7 +18,6 @@ $bg-tint: linear-gradient(
 .page-header {
   min-height: 222px;
   border: none;
-  position:relative;
   padding: 33px 33px 0;
   margin: 0;
   @media #{$mobile-tall} {
@@ -41,13 +40,19 @@ $bg-tint: linear-gradient(
     //font-style: italic;
   }
   
+}
+
+
+.page-header-bg {
+  position:relative;
+  
   /**
    * Default
    */
   @include header-background( '', center center );
   
   /**
-   *  Specified
+   * Specified
    */
   &.specified {
     @include header-background('', center center);
@@ -56,7 +61,7 @@ $bg-tint: linear-gradient(
   /**
    *  Dashboard
    */
-  
+   
   &.dashboard-1 {
     @include header-background($image-folder + "stock/dashboard-fancy.jpg", center center);
   }
