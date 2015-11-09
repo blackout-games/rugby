@@ -153,11 +153,16 @@ export default Ember.Service.extend({
   },
 
   managerImageURL: Ember.computed('session.manager', function() {
+    print('getting manager url');
     if (this.get('session.isAuthenticated')) {
+      print('is authenticated');
       let imageUrl = this.get('session.manager.imageUrl');
+      print('imageUrl',imageUrl);
       if (imageUrl) {
+        print('a');
         return imageUrl;
       } else {
+        print('b');
         return 'assets/images/user/manager.png';
       }
     }

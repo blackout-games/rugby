@@ -100,7 +100,7 @@ export default Ember.Component.extend({
       } else if(e.target.scrollingElement && typeof(e.target.scrollingElement.scrollTop)!=='undefined') {
         scrollTop = e.target.scrollingElement.scrollTop;
       } else {
-        print(e);
+        //print(e);
       }
       
       if(scrollTop && scrollTop>=threshold+50){

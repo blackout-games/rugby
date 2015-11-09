@@ -726,7 +726,7 @@ function _hover (e) {
     if (!_hoverStartEvent) {
       _hoverStartEvent = e.type;
     }
-    print(e);
+    
     _hoverEventObj = e;
 
     if (e.type === 'touchstart') {
