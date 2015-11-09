@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { $ } = Ember;
+
 /**
  * Doesn't play well with fastclick
  * But when attempting to implement default browser powered div scrolling on mobile, nothing worked quite as well as perfect scroll.
@@ -76,21 +78,40 @@ export default Ember.Component.extend({
   }),
 
   trackTouchStart(e) {
-
+    
     var self = e.data;
+    var touch = e.originalEvent.changedTouches[0];
+    
     self.set('scrollStart', self.$()[0].scrollTop);
+    self.set('scrollStartTouchX', touch.clientX);
+    self.set('scrollStartTouchY', touch.clientY);
 
   },
 
   checkForClick(e) {
 
     var self = e.data;
-    var touch = e.originalEvent.changedTouches[0];
-    var newTarget = document.elementFromPoint(touch.pageX, touch.pageY);
-
-    if (self.$()[0].scrollTop === self.get('scrollStart') && e.target === newTarget) {
-      Ember.$(e.target).trigger('click');
-      e.preventDefault();
+    
+    // Make sure touch is still on the same element
+    let startTouchX = self.get('scrollStartTouchX');
+    let startTouchY = self.get('scrollStartTouchY');
+    let touch = e.originalEvent.changedTouches[0];
+    let movementThreshold = 11;
+    
+    // elementFromPoint is too unreliable on fixed elements.
+    // So we just monitor if the finger has moved too much.
+    //var newTarget = document.elementFromPoint(touch.pageX, touch.pageY);
+    //if(e.target === newTarget){
+    if(Math.abs(touch.clientX - startTouchX) <= movementThreshold
+      && Math.abs(touch.clientY - startTouchY) <= movementThreshold){
+    
+      // Make sure scroll position hasn't changed
+      
+      if (self.$()[0].scrollTop === self.get('scrollStart')) {
+        
+        Ember.$(e.target).trigger('click');
+        e.preventDefault();
+      }
     }
 
   },
@@ -180,6 +201,7 @@ export default Ember.Component.extend({
   }),
 
   updatePerfectScroll() {
+    
     // Update on resize
     if (Ember.$(this.get('scrollElementId')).perfectScrollbar) {
 

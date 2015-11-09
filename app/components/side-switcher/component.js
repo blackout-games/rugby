@@ -7,6 +7,8 @@ export default Ember.Component.extend({
   direction: 'right',
   currentlyShowing: '', // #id or element
   currentOldObj: null,
+  switchCallback: null,
+  afterSwitchCallback: null,
   
   setup: Ember.on('didInsertElement', function(){
     
@@ -90,7 +92,6 @@ export default Ember.Component.extend({
     
   },
   
-  //showNewMenu: Ember.on('didUpdateAttrs',function(options){
   didUpdateAttrs(options){
     
     if(options.newAttrs.currentlyShowing !== options.oldAttrs.currentlyShowing){
@@ -137,10 +138,10 @@ export default Ember.Component.extend({
     
     if( !dontReset ){
       
-      // Set left
+      // Set ready
       pane.addClass('switcher-ready-' + ready);
       
-      // Move right
+      // Move
       Ember.run.next(function(){
         pane.addClass('switcher-move-' + direction);
         pane.removeClass('switcher-ready-' + ready);
@@ -148,9 +149,14 @@ export default Ember.Component.extend({
       
     } else {
       
-      // Move right
+      // Move
       pane.addClass('switcher-move-' + direction);
       
+    }
+    
+    // Run callback if exists
+    if(this.get('switchCallback')){
+      this.get('switchCallback')();
     }
     
     // Detect end of animation
@@ -167,6 +173,11 @@ export default Ember.Component.extend({
       this.putAway( this.get('currentOldObj') );
       this.set('currentOldObj',null);
       this.set('currentDirection',null);
+    }
+    
+    // Run callback if exists
+    if(this.get('afterSwitchCallback')){
+      this.get('afterSwitchCallback')();
     }
   },
   

@@ -43,22 +43,63 @@ export default Ember.Component.extend({
     
     var target;
     if( window.features.lockBody){
-      target = Ember.$(this.get('href')).position().top + this.get('scrollable').scrollTop();
+      target = Ember.$(this.get('linkId')).position().top + this.get('scrollable').scrollTop();
     } else {
-      target = Ember.$(this.get('href')).offset().top;
+      target = Ember.$(this.get('linkId')).offset().top;
     }
     
     return Math.min(target,maxScroll);
   },
-
+  
   scroll(e) {
-    
     e.preventDefault();
     e.stopPropagation();
     
     var self = this;
     
-    this.updateHashQuietly( this.get('href').substr(1) );
+    // Check for url
+    let href = this.get('href');
+    let parts = href.split('#');
+    let linkId = href;
+    
+    if(parts.length>1 && !Ember.isEmpty(parts[0])){
+      
+      // Get current route
+      let currentPath = window.location.pathname;
+      
+      // Get target route
+      let targetPath = parts[0];
+      
+      // Get hash
+      linkId = '#' + parts[1];
+      
+      // If route is different
+      if(targetPath!==currentPath){
+        
+        let routeCheck = function(){
+          if(window.location.pathname==targetPath){
+            Ember.run.later(function(){
+              window.location.hash = linkId;
+            },100);
+          } else {
+            Ember.run.next(routeCheck);
+          }
+        };
+      
+        // Go to route
+        this.get('router').transitionTo(targetPath);
+        Ember.run.next(routeCheck);
+        
+        return;
+        
+      }
+      
+    }
+    
+    this.set('linkId',linkId);
+    
+    // This should be done via waypoints
+    //this.updateHashQuietly( linkId.substr(1) );
     
     var newTarget = this.getTarget();
     var currentScrollTop = window.features.lockBody ? Ember.$('#nav-body').scrollTop() : (Ember.$('html').scrollTop() || Ember.$('body').scrollTop());
@@ -78,34 +119,6 @@ export default Ember.Component.extend({
         Ember.$('#nav-body,#sidebar,#backboard').removeClass('slow-transition');
       }
     });
-    
-  },
-  
-  /**
-   * Updates the URL hash without triggering scroll
-   * @param  {string} hash The new hash
-   * @return {null}      
-   */
-  updateHashQuietly ( hash ) {
-    
-    hash = hash.replace( /^#/, '' );
-    var fx, node = $( '#' + hash );
-    if ( node.length ) {
-      node.attr( 'id', '' );
-      fx = $( '<div></div>' )
-              .css({
-                  position:'absolute',
-                  visibility:'hidden',
-                  top: $(document).scrollTop() + 'px'
-              })
-              .attr( 'id', hash )
-              .appendTo( document.body );
-    }
-    document.location.hash = hash;
-    if ( node.length ) {
-      fx.remove();
-      node.attr( 'id', hash );
-    }
     
   },
   

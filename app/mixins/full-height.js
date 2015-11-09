@@ -12,7 +12,7 @@ export default Ember.Mixin.create({
   }),
 
   adjustFullHeight() {
-    this.$().height(Ember.$(window).height());
+    this.$().css('min-height',Ember.$(window).height()+'px');
   },
 
 

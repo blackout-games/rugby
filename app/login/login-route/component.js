@@ -5,13 +5,16 @@ import FormValidations from '../../mixins/form-validations';
 export default Ember.Component.extend(FullHeight,FormValidations,{
   Modal: Ember.inject.service('modal'),
   validationEvent: 'loginSubmitted',
+  classNames: ['login-background', 'tint-dark', 'clearfix', 'vf-parent'],
   
   arrive: Ember.on('didInsertElement', function(){
-    this.get('EventBus').publish('disableGameNav');
+    //this.get('EventBus').publish('disableGameNav');
+    this.get('EventBus').publish('hideBottomTabBar');
   }),
   
   leave: Ember.on('willDestroyElement', function(){
-    this.get('EventBus').publish('enableGameNav');
+    //this.get('EventBus').publish('enableGameNav');
+    this.get('EventBus').publish('showBottomTabBar');
   }),
   
   requestFromServer() {

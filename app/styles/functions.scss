@@ -41,3 +41,12 @@
 @function pressColor($color) {
   @return darken($color, 5%);
 }
+
+/**
+ * SVG fills don't appear quite the same for some reason, so we adjust here
+ * @param  {color} $color The color we're trying to hit
+ * @return {color}        The adjusted color
+ */
+@function svgColor($color) {
+  @return saturate(lighten($color, 5%),2%);
+}

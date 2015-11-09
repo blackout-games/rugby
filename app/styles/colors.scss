@@ -23,33 +23,25 @@ $secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust);
 
 $primary-dark: adjust-hue(desaturate(darken($primary-master,15%),4%),4%);
 $primary-darker: desaturate(darken($primary-dark,10%),5%);
-
-$primary-color: $primary-master;
-$primary-on-light: darken($primary-master,4%);
-$primary-on-dark: $primary-color;
-$primary-on-image: $primary-color;
+$primary-on-dark: $primary-master;
+$primary-on-image: saturate(lighten($primary-master,1%),3%);
 
 
 /**
- * Secondary Color OLD
+ * Secondary Colors
  */
-$secondary-color: #405FCD; // OG Blue
-$secondary-on-dark: lighten(saturate($secondary-master,25%),15%);
-$secondary-dark: darken(desaturate($secondary-master,22%),22%);
+$secondary-on-dark: lighten(saturate($secondary-master,1%),15%);
+$secondary-dark: darken(desaturate($secondary-master,11%),22%);
+$secondary-dark-on-dark: darken(desaturate($secondary-master,11%),17%);
 
 
 /**
  * Background Colors
  */
 
-$background-dark-global: desaturate(darken($secondary-master,29%),25%);
-$background-dark: desaturate(darken($secondary-color,35%),50%);
-$background-light: desaturate(lighten($secondary-color,33%),40%);
-$background-dark-lighter: desaturate(darken($secondary-color,22%),44%);
-$background-light-darker: darken($background-light,12%);
-
-$bg-color-dark: darken(desaturate($secondary-master,22%),35%);
-$bg-color-dark-lighter: darken(desaturate($secondary-master,22%),30%);
+$bg-dark: desaturate(darken($secondary-master,35%),22%);
+$bg-dark-lighter: desaturate(darken($secondary-master,29%),22%);
+$bg-light: lighten($secondary-master,44%);
 
 
 
@@ -57,15 +49,17 @@ $bg-color-dark-lighter: darken(desaturate($secondary-master,22%),30%);
  * Text Colors
  */
 
-$primary-text-color: desaturate(darken($secondary-color,22%),40%);
+$primary-text-color: desaturate(darken($secondary-master,22%),40%);
 $text-lighter: desaturate(lighten($primary-text-color,11%),11%);
 $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
+$primary-text-on-dark: desaturate(lighten($secondary-master,44%),44%);
 
-$dark-text-on-dark: desaturate(darken($secondary-master,22%),27%);
+/**
+ * Forms
+ */
 
 $placeholder-color: darken(desaturate($secondary-master,39%),10%) !important;
-$text-on-dark: desaturate(lighten($secondary-master,44%),44%);
 
 // On primary background
 $notice-text-color: darken($primary-master,40%);
@@ -73,14 +67,6 @@ $notice-text-color: darken($primary-master,40%);
 $h1-on-dark: desaturate(darken($secondary-master,18%),44%);
 $h2-on-dark: $secondary-on-dark;
 $h3-on-dark: $primary-on-dark;
-
-/**
- * Link Colors
- */
-
-$links-color: $secondary-color;
-$links-on-dark: desaturate(lighten($secondary-color,20%),50%);
-
 
 /**
  * Button Colors
@@ -104,3 +90,10 @@ $error-color-on-dark: saturate(lighten($error-color,11%),33%);
 
 $warning-background-color: #e1c153;
 $warning-text-color: #4f3517;
+
+/**
+ * Classes which can be read dynamically within JS later
+ */
+.bg-dark {
+  background-color: $bg-dark;
+}

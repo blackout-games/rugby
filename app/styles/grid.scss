@@ -353,6 +353,80 @@
   flex-flow: column nowrap;
 }
 
+/**
+ * Special case: Mobile portrait
+ */
+
+@media only screen and (max-width: $screen-xs-min) {
+
+  .col-xxs {
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+  }
+
+  .col-xxs-1 {
+    flex-basis: 8.333%;
+    max-width: 8.333%;
+  }
+
+  .col-xxs-2 {
+    flex-basis: 16.667%;
+    max-width: 16.667%;
+  }
+
+  .col-xxs-3 {
+    flex-basis: 25%;
+    max-width: 25%;
+  }
+
+  .col-xxs-4 {
+    flex-basis: 33.333%;
+    max-width: 33.333%;
+  }
+
+  .col-xxs-5 {
+    flex-basis: 41.667%;
+    max-width: 41.667%;
+  }
+
+  .col-xxs-6 {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  .col-xxs-7 {
+    flex-basis: 58.333%;
+    max-width: 58.333%;
+  }
+
+  .col-xxs-8 {
+    flex-basis: 66.667%;
+    max-width: 66.667%;
+  }
+
+  .col-xxs-9 {
+    flex-basis: 75%;
+    max-width: 75%;
+  }
+
+  .col-xxs-10 {
+    flex-basis: 83.333%;
+    max-width: 83.333%;
+  }
+
+  .col-xxs-11 {
+    flex-basis: 91.667%;
+    max-width: 91.667%;
+  }
+
+  .col-xxs-12 {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  
+}
+
 @media only screen and (min-width: $screen-sm-min) {
   .container {
     //width: 46rem;
@@ -1299,68 +1373,68 @@
  * Javascript overrides
  */
 
-.col {
+.col-override {
   flex-grow: 1;
   flex-basis: 0;
   max-width: 100%;
 }
 
-.col-1 {
+.col-override-1 {
   flex-basis: 8.333%;
   max-width: 8.333%;
 }
 
-.col-2 {
+.col-override-2 {
   flex-basis: 16.667%;
   max-width: 16.667%;
 }
 
-.col-3 {
+.col-override-3 {
   flex-basis: 25%;
   max-width: 25%;
 }
 
-.col-4 {
+.col-override-4 {
   flex-basis: 33.333%;
   max-width: 33.333%;
 }
 
-.col-5 {
+.col-override-5 {
   flex-basis: 41.667%;
   max-width: 41.667%;
 }
 
-.col-6 {
+.col-override-6 {
   flex-basis: 50%;
   max-width: 50%;
 }
 
-.col-7 {
+.col-override-7 {
   flex-basis: 58.333%;
   max-width: 58.333%;
 }
 
-.col-8 {
+.col-override-8 {
   flex-basis: 66.667%;
   max-width: 66.667%;
 }
 
-.col-9 {
+.col-override-9 {
   flex-basis: 75%;
   max-width: 75%;
 }
 
-.col-10 {
+.col-override-10 {
   flex-basis: 83.333%;
   max-width: 83.333%;
 }
 
-.col-11 {
+.col-override-11 {
   flex-basis: 91.667%;
   max-width: 91.667%;
 }
 
-.col-12 {
+.col-override-12 {
   flex-basis: 100%;
   max-width: 100%;
 }

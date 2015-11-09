@@ -26,9 +26,9 @@
 {{else}}
   
   <div class="menu-header-login">
-    {{#link-to "login" class="btn btn-block gap-sm" tagName="button"}}Login{{/link-to}}
+    {{#link-to "login" class="btn btn-ghost white menu-login-buttons" tagName="button"}}Login{{/link-to}}
     
-    {{#loader-button action="loginWithFacebook" class="btn btn-fb btn-block fb-login-button" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
+    {{#loader-button action="loginWithFacebook" class="btn btn-fb menu-fb-login-button menu-login-buttons" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
   </div>
   
 {{/if}}

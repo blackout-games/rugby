@@ -31,22 +31,26 @@ export default {
       {
         label: 'Account',
         route: 'account',
-        tempRoute: 'coming-soon'
+        tempRoute: 'coming-soon',
+        hideIfNotAuthenticated: true,
       },
       {
         label: 'Store',
         route: 'store',
-        tempRoute: 'coming-soon'
+        tempRoute: 'coming-soon',
+        hideIfNotAuthenticated: true,
       },
       {
         label: 'Shortcuts',
         route: 'shortcuts',
-        tempRoute: 'coming-soon'
+        tempRoute: 'coming-soon',
+        hideIfNotAuthenticated: true,
       },
       {
         label: 'More',
         route: 'more',
-        tempRoute: 'coming-soon'
+        tempRoute: 'coming-soon',
+        hideIfNotAuthenticated: true,
       },
     
     ],
@@ -189,7 +193,7 @@ export default {
         tempRoute: 'coming-soon'
       },
       {
-        label: 'U20 National Team',
+        label: 'U20 Team',
         route: 'u20',
         tempRoute: 'coming-soon'
       },

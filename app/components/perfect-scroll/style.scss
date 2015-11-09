@@ -175,3 +175,8 @@ $rail-width: 8px;
   /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
+
+.always-visible.ps-container > .ps-scrollbar-x-rail,
+.always-visible.ps-container > .ps-scrollbar-y-rail {
+  opacity: 0.6;
+}

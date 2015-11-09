@@ -13,7 +13,7 @@ $color: desaturate(darken($secondary-master,9%),22%);
 .menu-manager-text {
   color: $color;
   cursor: default;
-  line-height: 70px;
+  line-height: 59px;
   
   a {
     color: $color;
@@ -27,18 +27,39 @@ $color: desaturate(darken($secondary-master,9%),22%);
 }
 
 .club-avatar-menu {
-  width:80px;
-  height:80px;
+  width:77px;
+  height:77px;
   margin: -4px auto 0;
 }
 
 .menu-club-text {
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.4em;
   color: $color;
   cursor: default;
 }
 
 .menu-header-login {
   padding: 30px;
+}
+
+.menu-login-buttons {
+  margin:0 7px 7px 0;
+}
+
+.menu-fb-login-button {
+  .icon-facebook {
+    position:absolute;
+    line-height:100%;
+    left:50%;
+    margin-left:-19px;
+    font-size:150%;
+  }
+  
+  padding: 0 44px;
+  &.hover,&:focus,&.press {
+    padding: 0 44px;
+  }
+  margin-right:0;
+  
 }

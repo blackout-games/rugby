@@ -1,7 +1,7 @@
 <!-- So that #nav-body can have transparent bg for sidebar gap-fill-->
 <div class="bg-preload">
 
-  {{!waypoint action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
+  {{way-point action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
 
   <div id="top-section-wrapper">
 
@@ -11,34 +11,75 @@
 
     <div class="container-fluid">
 
-      <div id="welcome"><span class="nowrap-sm">WELCOME TO</span> <span class="nowrap-sm">BLACKOUT RUGBY</span></div>
+      <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}"><span class="nowrap-sm">WELCOME TO</span> <span class="nowrap-sm">BLACKOUT RUGBY</span></div>
+
+      {{#if session.isAuthenticated}}
+        
+        <div class="row-center">
+          <div class="col white home-welcome-back">
+            Welcome back, <span class="home-username">{{session.manager.username}}</span>.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-flex"></div>
+              <div class="col-fixed">
+                <div class="manager-avatar manager-avatar-home"></div>
+              </div>
+              <div class="col-flex"></div>
+            </div>
+          </div>
+        </div>
+        
+      {{/if}}
 
       <div id="subtitle">YOUR CLUB AWAITS.</div>
 
-      <div class="fbcontinue-container">
-        {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline home-signup-buttons"   spinnerColor="fb" }}
-          <i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
-      </div>
+      {{#unless session.isAuthenticated}}
+      
+        <div class="fbcontinue-container">
+          {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline home-signup-buttons"   spinnerColor="fb" }}
+            <i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
+        </div>
 
-      <div class="signup-container">
-        {{#link-to 'signup' tagName='button' class="btn btn-big no-outline home-signup-buttons"}}Sign up with your email{{/link-to}}
-      </div>
+        <div class="signup-container">
+          {{#link-to 'signup' tagName='button' class="btn btn-big no-outline home-signup-buttons gap-md"}}Sign up with your email{{/link-to}}
+        </div>
+        
+      {{/unless}}
       
       <div id="testimony-container">
         <div id="testimony" class="row row-nowrap">
           <div id="testimony-text" class="col-xs-9">
-            <span class="iblock"><i class="icon-quote-left icon-md icon-vcenter"></i> the best rugby management</span>
+            <span class="iblock"><i class="icon-quote-left icon-md icon-vcenter" id="testimony-quote"></i> the best rugby management</span>
             <span class="iblock"> game out there</span>
           </div>
           <div id="testimony-writer-container" class="col-xs-3">
             <a href="http://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Nick+Bishop&search-alias=books&field-author=Nick+Bishop&sort=relevancerank" target="_blank">
-              <div id="testimony-writer">- Nick Bishop</div>
+              <div id="testimony-writer">Nick Bishop</div>
               <div id="testimony-type">Author</div>
             </a>
           </div>
 
         </div>
       </div>
+      
+      {{#fast-button action="showMenu" id="home-menu-button" class="btn nav-tab-btn nav-tab-menu no-focus" }}
+        <div class="flex-col flex-col-center">
+          <div class="nav-icon-wrapper nav-burger nav-cross">
+            <span class="lines"></span>
+          </div>
+        </div>
+      {{/fast-button}}
+      
+      <div id="home-more-button" class="{{if session.isAuthenticated "is-authenticated"}}">
+        {{#scroll-to href='#about' class="btn-a"}}<i class="icon-more"></i>{{/scroll-to}}
+      </div>
+      
+      {{#unless session.isAuthenticated}}
+        {{#link-to "login" id="home-login-button" class="btn btn-ghost white btn-small"}}Login{{/link-to}}
+      {{/unless}}
 
     </div>
 
@@ -46,8 +87,7 @@
   </div>
 
 
-  {{!waypoint action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}
-
+  {{way-point action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}
 
   <div class="home-content-block home-block-light about-container">
 
@@ -59,11 +99,11 @@
 
         <p>Blackout Rugby is an online multiplayer game, placing you in the shoes of a rugby union club manager.</p>
 
-        <h3>FREE TO PLAY</h3>
+        <h2>FREE TO PLAY</h2>
 
         <p>Blackout Rugby is free to play for as long as you like. There is an optional premium package which costs real cold hard cash and provides 50+ extra features.</p>
 
-        <h3>NO PAY TO WIN FEATURES</h3>
+        <h2>NO PAY TO WIN FEATURES</h2>
 
         <p>The premium package doesn't include any features which enhance a team in any way to be more competitive.</p>
 
@@ -78,7 +118,7 @@
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h3>Craft a winning lineup</h3>
+          <h5>Craft a winning lineup</h5>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
           <br>Coming soon.
@@ -87,7 +127,7 @@
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h3>Train your players</h3>
+          <h5>Train your players</h5>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
           <br>Coming soon.
@@ -96,7 +136,7 @@
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h3>Manage energy and injuries</h3>
+          <h5>Manage energy and injuries</h5>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
           <br>Coming soon.
@@ -105,7 +145,7 @@
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h3>Buy and sell players</h3>
+          <h5>Buy and sell players</h5>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
           <br>Coming soon.
@@ -114,7 +154,7 @@
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h3>Socialise</h3>
+          <h5>Socialise</h5>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
           <br>Coming soon.
@@ -123,9 +163,18 @@
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h3>Take on the world</h3>
+          <h5>Take on the world</h5>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
+          <br>Coming soon.
+        </div>
+      </div>
+
+      <div class="col-xs-12 about-block a">
+        <div class="about-block-head a">
+          <h5>Play on any device</h5>
+        </div>
+        <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
           <br>Coming soon.
         </div>
       </div>
@@ -134,8 +183,8 @@
 
   </div>
 
-  {{!waypoint action="handleWaypoint" offset=waypointOffset id="numbers" select="about" contextElementId=scrollContextId class="waypoint"}}
-
+  {{way-point action="handleWaypoint" offset=waypointOffset id="numbers" select="about" contextElementId=scrollContextId class="waypoint"}}
+  
   <div class="home-content-block home-block-dark stats-container">
 
     <h1>Blackout Rugby in Numbers</h1>
@@ -143,7 +192,7 @@
     <div class="row">
       <div class="col-md-4 stats-block">
 
-        <h3>The People</h3>
+        <h5>The People</h5>
 
 
         <div class="stat row">
@@ -211,7 +260,9 @@
 
       </div>
       <div class="col-md-4 stats-block">
-        <h3>The Nations</h3> {{#each countries key="@index" as |country index|}}
+        <h5>The Nations</h5>
+        
+        {{#each countries key="@index" as |country index|}}
 
         <div class="stat row">
           <div class="stat-value">
@@ -226,7 +277,7 @@
 
       </div>
       <div class="col-md-4 stats-block">
-        <h3>The Rugby</h3>
+        <h5>The Rugby</h5>
 
 
         <div class="stat row">
@@ -316,53 +367,58 @@
   </div>
 
 
-  {{!waypoint action="handleWaypoint" offset=waypointOffset id="contact" contextElementId=scrollContextId class="waypoint"}}
+  {{way-point action="handleWaypoint" offset=waypointOffset id="contact" contextElementId=scrollContextId class="waypoint"}}
 
   <div class="home-content-block home-block-light contact-container">
 
     <div class="contact-header">
       <h1>Get in contact</h1>
+      <div class="contact-email"><i class="icon-mail icon-sm contact-icon"></i> <a href="mailto:support@blackoutrugby.com">support@blackoutrugby.com</a></div>
       <div class="contact-location">
         PO Box 12725, Chartwell 3248
         <br> Hamilton, New Zealand</div>
-      <div class="contact-email"><i class="icon-mail icon-sm contact-icon"></i> <a href="mailto:support@blackoutrugby.com">support@blackoutrugby.com</a></div>
     </div>
 
   </div>
 
 
 
-  <footer class="home-content-block home-block-dark container footer-container">
+  <footer class="dark home-content-block home-block-dark container footer-container">
 
+    {{#unless session.isAuthenticated}}
+    <div class="gap-2x">
+      
+      {{#loader-button action="loginWithFacebook" class="home-footer-button btn btn-small btn-fb fbcontinue-button fbcontinue-small no-outline" spinnerColor="fb" }}<i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
+      
+      {{#link-to "signup" class="home-footer-button btn btn-ghost white btn-small"}}Signup{{/link-to}}
+      
+      {{#link-to "login" class="home-footer-button btn btn-ghost white btn-small"}}Login{{/link-to}}
+    
+    </div>
+    {{/unless}}
+    
     <div class="row footer-main">
 
-      <div class="col-sm-4 text-left">
+      <div class="col-xxs-12 col-xs-3 text-left text-center-xxs">
 
-        <h3>The Game</h3>
-
-        <div class="dark footer-links">
-          <span>{{#scroll-to href='#home'}}Home{{/scroll-to}}</span>
-          <span>{{#scroll-to href='#about'}}What is Blackout Rugby{{/scroll-to}}</span>
-          <span>{{#scroll-to href='#numbers'}}Blackout Rugby in Numbers{{/scroll-to}}</span>
-          <span>{{#scroll-to href='#contact'}}Get in Contact{{/scroll-to}}</span>
-        </div>
+        {{#scroll-to href='#home' class="scroll-link-home"}}Home{{/scroll-to}}<br>
+        {{#scroll-to href='#about' class="scroll-link-about"}}About{{/scroll-to}}<br>
+        {{#scroll-to href='#numbers' class="scroll-link-numbers"}}Statistics{{/scroll-to}}<br>
+        {{#scroll-to href='#contact' class="scroll-link-contact"}}Contact{{/scroll-to}}
 
       </div>
 
 
-      <div class="col-sm-3 text-left">
+      <div class="col-xxs-12 col-xs-4 text-center social-buttons-container">
 
-        <h3>Social</h3>
-
-        <div class="dark footer-links">
-          <span>{{#facebook-link}}Facebook{{/facebook-link}}</span>
-          <span>{{#twitter-link}}Twitter{{/twitter-link}}</span>
-        </div>
+        <span>{{#facebook-link class="social-buttons facebook-button"}}<i class="icon-facebook icon-2x "></i>{{/facebook-link}}</span>
+        
+        <span>{{#twitter-link class="social-buttons twitter-button"}}<i class="icon-twitter icon-2x"></i>{{/twitter-link}}</span>
 
       </div>
 
 
-      <div class="col-sm-5">
+      <div class="col-xxs-12 col-xs-5 text-center-xxs text-right-xs">
 
         <img src="assets/images/global/full-logo.svg" alt="Blackout Rugby Logo" class="svg footer-logo">
 

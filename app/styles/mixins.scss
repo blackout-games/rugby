@@ -63,7 +63,7 @@
 @mixin cover-background-tinted($file,$tint,$bg-position: center center,$default-bg-color: #FFF){
   
   position:relative;
-  z-index:0;
+  z-index:2;
   background:none;
   
   // Place bg image in before
@@ -80,12 +80,14 @@
     background-color: $default-bg-color;
     @include cover-background($file);
     background-position: $bg-position;
+    content: ""; // Necessary
   }
   
   // Place tint after
   &:after {
     position:absolute;
     display: block;
+    z-index: -1;
     width:100%;
     height:100%;
     top:0;
@@ -93,8 +95,7 @@
     right:0;
     bottom:0;
     background: $tint;
-    content: "";
-    z-index: -1;
+    content: ""; // Necessary
   }
   
 }

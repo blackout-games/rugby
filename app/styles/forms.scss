@@ -2,7 +2,7 @@
  * Variables
  */
 
-$focus-border-thickness: 2px;
+$focus-border-thickness: 1px;
 $focus-border-color: $secondary-master;
 $focus-inset-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
@@ -33,9 +33,15 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
   &:focus {
     // Same as button
     box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
-    // Force focus color
-    //box-shadow: inset 0 0 0 $focus-border-thickness saturate(lighten($focus-border-color,15%),50%), $focus-shadow !important;
- 
+  }
+}
+
+@mixin focus-button-ghost {
+  transition: background-color 0.222s, color 0.222s, border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
+  
+  &:focus {
+    // Same as button
+    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.11), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
   }
 }
 

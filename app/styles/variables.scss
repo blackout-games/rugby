@@ -14,6 +14,7 @@ $tablet-tall: "(min-width: #{$screen-sm-min}) and (max-width: #{$screen-sm-max})
 $tablet-tall-and-up: "(min-width: #{$screen-sm-min})";
 $tablet-tall-and-down: "(max-width: #{$screen-sm-max})";
 
+// Tablet-wide and Laptops
 $tablet-wide: "(min-width: #{$screen-md-min}) and (max-width: #{$screen-md-max})";
 $tablet-wide-and-up: "(min-width: #{$screen-md-min})";
 $tablet-wide-and-down: "(max-width: #{$screen-md-max})";
@@ -22,10 +23,15 @@ $desktop: "(min-width: #{$screen-lg-min})";
 
 $image-folder: "/assets/images/";
 
-$limited-height-non-mobile: "(max-height: 800px) and (min-width: #{$screen-xs-min})";
+// For hiding the top left logo when height is limited
+$limited-height-non-mobile: "(max-height: 700px) and (min-width: #{$screen-xs-min})";
 
+// For netbooks (possibly not used any more after adding own version in game-nav)
 $vertically-small: "(max-height: 639px) and #{$tablet-and-up}";
 $not-vertically-small: "(min-height: 640px), #{$mobile}";
+
+// For landscape mobile
+$mobile-landscape: "(max-height: 479px) and #{$mobile}";
 
 /**
  * UI

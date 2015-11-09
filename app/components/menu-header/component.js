@@ -7,12 +7,8 @@ export default Ember.Component.extend({
   classNames: ['menu-header'],
 
   initUserImages: Ember.on('didInsertElement', function() {
-    this.get('user-images').updateManagerImage(Ember.$('#nav-sidebar').css('background-color'));
-    this.get('user-images').updateClubImage(Ember.$('#nav-sidebar').css('background-color'));
-    
-    // Listen for new user logging in
-    this.EventBus.subscribe('sessionBuilt',this,this.updateManagerImage);
-    this.EventBus.subscribe('sessionBuilt',this,this.updateClubImage);
+    this.get('user-images').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
+    this.get('user-images').registerClubImage('.club-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
   }),
 
   currentClub: Ember.computed('session.sessionBuilt', function() {

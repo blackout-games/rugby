@@ -11,31 +11,43 @@
 
 $animation-time: 0.333s;
 $topbar-height: 59px;
-$tabbar-height: 55px;
+$tabbar-height: 50px;
+$min-tabbar-height: 44px;
 $panel-width: 88vw;
+
+// Fluid
 $max-panel-width: 333px;
 
 $arrows: true;
 $colored-tabs: true;
 
-$sidebar-width: $panel-width / 5;
-$max-sidebar-width: 333px / 5;
+$sidebar-width: 10vh;
+$max-block-size: 59px;
+$max-sidebar-block-height:55px;
 
+// Fluid for mobile landscape
+$sidebar-width-mobile-landscape: 15vh;
+$sidebar-block-height-mobile-landscape: 12.4vh;
+
+$nav-xxs: $mobile-tall;
 $nav-xs: $mobile;
 $nav-sm: $tablet;
 $nav-md: $tablet-wide;
 $nav-lg: $desktop;
-$nav-vs: $vertically-small;
 $nav-sm-down: $tablet-and-down;
 $nav-md-down: $tablet-wide-and-down;
 $nav-sm-up: $tablet-and-up;
 $nav-md-up: $tablet-wide-and-up;
 
+$nav-vs: (max-height: #{($max-block-size * 10) + 20px});
+$nav-vs-not-mobile: "#{$nav-vs} and #{$nav-sm-up}";
+$nav-ls: $mobile-landscape;
+
 $topbar-color: desaturate(darken($primary-master,4%),7%);
 //$topbar-color: desaturate(darken($primary-master,4%),12%);
 
 
-$panel-color: $background-dark-global;
+$panel-color: $bg-dark-lighter;
 
 // Tabbar color
 @if $colored-tabs {
@@ -102,7 +114,7 @@ $panel-color: $background-dark-global;
 .nav-topbar-standalone {
   @media #{$nav-sm},#{$nav-md} {
     z-index: 40 !important;
-    padding-left: $max-sidebar-width;
+    padding-left: $max-block-size;
   }
 }
 
@@ -113,24 +125,6 @@ $panel-color: $background-dark-global;
   margin: 30px;
 }
 
-.nav-status-balloon {
-  width: 100%;
-  height: 22px;
-  background-color: transparent;
-  @media #{$mobile-wide} {
-    display:none;
-  }
-
-  &.nav-status-balloon-flex {
-    height: $topbar-height;
-  }
-
-  &.nav-status-balloon-full {
-    height: $topbar-height;
-  }
-}
-
-//$('#nav-panel').addClass('force-transition');
 #nav-touch-blocker {
   position: fixed;
   z-index: 45;
@@ -169,31 +163,34 @@ $panel-color: $background-dark-global;
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-
-    // Balloon
-    #tabbar-balloon {
-      height: $tabbar-height - 1px;
-      //background-color: #F0F;
-    }
   }
 
   @media #{$nav-sm},#{$nav-md} {
-    margin-left: $max-sidebar-width;
+    margin-left: $max-block-size;
   }
 
   @media #{$nav-lg} {
 
     left:0;
-    margin-left: $max-sidebar-width;
+    margin-left: $max-block-size;
 
     transition: none;
     &.open {
       margin-left: $max-panel-width;
+      @media #{$nav-vs} {
+        margin-left: calc(#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size});
+      }
     }
     &.force-transition {
       transition: margin-left $animation-time;
     }
+  
   }
+  
+  @media #{$nav-vs-not-mobile} {
+    margin-left: $sidebar-width;
+  }
+  
   &.resizing {
     transition: none;
   }
@@ -214,36 +211,37 @@ $panel-color: $background-dark-global;
 
 }
 
+// Balloon
+#tabbar-balloon {
+  
+  height: calc( #{$sidebar-width} - 2px );
+  max-height: calc( #{$tabbar-height} - 2px );
+  min-height: calc( #{$min-tabbar-height} - 2px );
+  
+  &.bottom-nav-disabled {
+    display: none;
+  }
+  
+  //background-color: #F0F;
+}
+
 body.fixed,html.fixed {
   overflow:hidden;
 }
 
+/* This was for moving the body up above the tab bar, but we should used a balloon *inside* the body instead.
 body.free{
   @media #{$nav-xs} {
     padding-bottom: $tabbar-height - 1px;
     &.nav-disabled {
       padding-bottom: 0;
     }
+    &.bottom-nav-disabled {
+      padding-bottom: 0;
+    }
   }
 }
-
-#nav-sidebar-and-tabs {
-
-  @media #{$nav-sm-up} {
-    position:fixed;
-    z-index: 51;
-    width: $sidebar-width;
-    max-width: $max-sidebar-width;
-    height:100%;
-    left: 0;
-    top: 0;
-    transition: none;
-  }
-  
-  // Maybe add when/if shadows come back into modern design
-  //box-shadow: 0px 0 7px 7px rgba(black,0.33);
-
-}
+*/
 
 #nav-tabbar {
 
@@ -263,9 +261,45 @@ body.free{
   .nav-tabs-col {
     @media #{$nav-xs} {
       width: $panel-width;
+      
+      // In general
       max-width: $max-panel-width;
+      // When on portrait mobile, allow panel to always take most of screen
+      @media #{$mobile-tall} {
+        max-width: none;
+      }
     }
   }
+}
+
+#nav-sidebar-and-tabs {
+
+  @media #{$nav-sm-up} {
+    position:fixed;
+    z-index: 51;
+    
+    
+    // Old
+    //width: $sidebar-width;
+    //max-width: $max-block-size;
+    
+    // Fluid
+    width: $sidebar-width;
+    max-width: $max-block-size;
+    
+    
+    height:100%;
+    left: 0;
+    top: 0;
+    transition: none;
+  }
+  @media #{$nav-vs} {
+    max-width: none;
+  }
+  
+  // Maybe add when/if shadows come back into modern design
+  //box-shadow: 0px 0 7px 7px rgba(black,0.33);
+
 }
 
 #nav-sidebar {
@@ -275,8 +309,12 @@ body.free{
   @media #{$nav-xs} {
     position:fixed;
     z-index: 51;
+    
+    // Fluid
     width: $sidebar-width;
-    max-width: $max-sidebar-width;
+    max-width: $max-block-size;
+    
+    
     height:100%;
     left:0;
     top:101vh;
@@ -296,6 +334,18 @@ body.free{
     }
 
   }
+  @media #{$nav-ls} {
+    width: $sidebar-width-mobile-landscape;
+    max-width: $max-block-size;
+
+    &.alt {
+      left: -$sidebar-width-mobile-landscape;
+      top:0;
+      &.open {
+        transform: translate3d(#{$sidebar-width-mobile-landscape - 0.1vh},0,0);
+      }
+    }
+  }
 
   &.resizing {
     transition: none;
@@ -305,7 +355,7 @@ body.free{
 
     height: auto;
     text-align: center;
-    padding: 10px 0;
+    padding: 0 0 10px 0;
 
     .sidebar-logo {
       @if $colored-tabs {
@@ -315,6 +365,10 @@ body.free{
       }
       //color: rgba(white,0.33);
       //color: white;
+      margin: 0 -22px;
+      @media #{$nav-vs} {
+        font-size: 7.7vh;
+      }
     }
     
     @media #{$limited-height-non-mobile} {
@@ -325,10 +379,19 @@ body.free{
 
   #nav-menu-buffer-mobile {
     display:none;
-    @media #{$nav-xs} {
+    @media #{$nav-xxs} {
       display:block;
       width:100%;
-      height: $tabbar-height*1.5;
+      height: $max-block-size;
+    }
+  }
+  
+  #nav-sidebar-close {
+    display:none;
+    @media #{$nav-xs} {
+      &.bottom-nav-disabled {
+        display:block;
+      }
     }
   }
 }
@@ -336,9 +399,16 @@ body.free{
 
 #nav-panel {
   
-  .nav-panel-spacer {
-    width: $sidebar-width;
-    max-width: $max-sidebar-width;
+  #nav-panel-spacer {
+    width: $max-block-size;
+    max-width: $max-block-size;
+    @media #{$nav-xs} {
+      width: $sidebar-width;
+    }
+    @media #{$nav-ls} {
+      width: $sidebar-width-mobile-landscape;
+      max-width: $sidebar-width-mobile-landscape;
+    }
   }
   
   position:fixed;
@@ -347,7 +417,14 @@ body.free{
   left: -$panel-width;
   height:100%;
   width: $panel-width;
+  
+  // In general
   max-width: $max-panel-width;
+  // When on portrait mobile, allow panel to always take most of screen
+  @media #{$mobile-tall} {
+    max-width: none;
+  }
+  
   background-color: rgba($panel-color,0.95);
   background-color: $panel-color;
 
@@ -359,7 +436,10 @@ body.free{
   @media #{$nav-sm-up} {
     width: $max-panel-width;
     max-width: $max-panel-width;
-    left: $max-sidebar-width - $max-panel-width;
+    left: $max-block-size - $max-panel-width;
+  }
+  @media #{$nav-vs-not-mobile} {
+    left: calc(#{$sidebar-width} - #{$max-panel-width});
   }
   
   // Maybe add when/if shadows come back into modern design
@@ -375,7 +455,7 @@ body.free{
       transform: translate3d($panel-width,0,0);
     }
     @media #{$nav-sm-up} {
-      transform: translate3d( #{$max-panel-width - $max-sidebar-width} ,0,0);
+      transform: translate3d( #{$max-panel-width - $max-block-size} ,0,0);
     }
   }
 
@@ -396,8 +476,8 @@ body.free{
     .menu-link,.menu-link:hover {
       display: block;
       margin: 0;
-      padding:10px 30px;
-      font-size:17px;
+      padding:9px 27px;
+      font-size:15.9px;
       font-weight: 500;
       text-transform: uppercase;
       text-decoration: none;
@@ -433,25 +513,11 @@ body.free{
       padding: 20px 30px;
     }
   }
-}
-
-.nav-tabs-end {
-  height: $tabbar-height;
-  line-height: $tabbar-height;
-  text-align: center;
-
-  @if $colored-tabs {
-    background-color: desaturate(darken($tabbar-color,5%),4%);
-  } @else {
-    background-color: darken($tabbar-color,3%);
-  }
   
-  color: lighten($tabbar-color,7%);
-  i {
-    font-size: 35px;
-    margin: -3px -20px 0;
+  .panel-logo {
+    height: 44px;
+    fill: $bg-dark;
   }
-
 }
 
 .nav-tab-filler {
@@ -463,16 +529,20 @@ body.free{
   text-align: center;
 
   .nav-tab-btn,.nav-menu-btn {
-    height: $tabbar-height;
+    
+    // Fluid
+    height:$sidebar-width;
+    max-height: $max-sidebar-block-height;
+    
+    @media #{$nav-sm-up} {
+      //height: $max-block-size - 4px;
+    }
+    
     width:100%;
     border-radius: 0;
     box-sizing: border-box;
     padding: 0;
     position: relative;
-
-    @media #{$nav-sm-up} {
-      height: $max-sidebar-width - 4px;
-    }
 
     @media #{$nav-vs} {
       height: 9.5vh;
@@ -483,10 +553,32 @@ body.free{
       margin-bottom: -2px;
     }
     .nav-tab-icon {
-      font-size: 20px;
+      
+      // Fluid
+      font-size: 18px;
+      @media #{$nav-vs} {
+        font-size: 3.2vh;
+      }
+      
     }
     .nav-tab-text {
-      font-size: 12px;
+      font-size: 11px;
+      @media #{$nav-vs} {
+        &.nav-tabbar-text {
+          font-size: 9px;
+        }
+      }
+      @media #{$nav-vs-not-mobile} {
+        font-size: 1.9vh;
+        &.nav-tabbar-text {
+          font-size: 1.9vh;
+        }
+      }
+      @media #{$nav-ls} {
+        &.nav-tabbar-text, &.nav-menu-text {
+          font-size: 9.5px;
+        }
+      }
     }
 
     &.selected {
@@ -519,8 +611,18 @@ body.free{
   $dark-color: desaturate(darken(adjust-hue($primary-master,6%),27%),22%);
   $darker-color: desaturate(darken(adjust-hue($primary-master,6%),33%),22%);
   $lighter-color: saturate(lighten($primary-master,7%),11%);
+  
+  // Icon sizing
+  $base-icon-pixels: 20px;
+  $base-icon-viewport: 3.5vh;
 
   .nav-menu-btn {
+    
+    // Heights for mobile landscape only
+    @media #{$nav-ls} {
+      height: $sidebar-block-height-mobile-landscape;
+      max-height: none;
+    }
 
     background-color: transparent;
     //background-color: $primary-master;
@@ -533,10 +635,20 @@ body.free{
     //*/
 
     .nav-tab-icon {
-      font-size: 22px;
+      
+      // Old
+      //font-size: 20px;
+      //@media #{$nav-vs} {
+      //  font-size: 3.5vh;
+      //}
+      
+      // Fluid
+      font-size: $base-icon-pixels;
       @media #{$nav-vs} {
-        font-size: 3.5vh;
+        font-size: $base-icon-viewport;
       }
+      
+      
       color: $darker-color;
 
       @if $colored-tabs {
@@ -566,26 +678,78 @@ body.free{
 
     &.nav-menu-manager {
       i {
-        font-size: 20px;
+        font-size: #{$base-icon-pixels*(21/20)};
         @media #{$nav-vs} {
-          font-size: 3.2vh;
+          font-size: #{$base-icon-viewport*(3.5/3.5)};
+        }
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*1.44};
         }
       }
     }
     &.nav-menu-club {
       i {
-        font-size: 25px;
+        font-size: #{$base-icon-pixels*(25/20)};
         @media #{$nav-vs} {
-          font-size: 4vh;
+          font-size: #{$base-icon-viewport*(4.3/3.5)};
+        }
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*(4.3/3.5)*1.44};
         }
       }
     }
-    &.nav-menu-support {
+    &.nav-menu-team {
       i {
-        font-size: 20px;
+        font-size: #{$base-icon-pixels*(20/20)};
         @media #{$nav-vs} {
-          font-size: 3.2vh;
+          font-size: #{$base-icon-viewport*(3.5/3.5)};
         }
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*(3.5/3.5)*1.44};
+        }
+      }
+    }
+    &.nav-menu-country {
+      i {
+        font-size: #{$base-icon-pixels*(22/20)};
+        @media #{$nav-vs} {
+          font-size: #{$base-icon-viewport*(3.8/3.5)};
+        }
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*(3.8/3.5)*1.44};
+        }
+      }
+    }
+    &.nav-menu-global {
+      i {
+        font-size: #{$base-icon-pixels*(22/20)};
+        @media #{$nav-vs} {
+          font-size: #{$base-icon-viewport*(3.9/3.5)};
+        }
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*(3.9/3.5)*1.44};
+        }
+      }
+    }
+    &.nav-menu-support, &.nav-menu-info {
+      i {
+        @media #{$nav-ls} {
+          font-size: #{$base-icon-viewport*1.44};
+        }
+      }
+    }
+    
+    
+    
+    &.nav-menu-close {
+      .lines {
+        background-color: transparent;
+        &:before, &:after {
+          background: lighten($sidebar-color,22%);
+        }
+      }
+      &.press {
+        background-color: transparent;
       }
     }
 
@@ -610,6 +774,10 @@ body.free{
 
   .nav-tab-btn {
     background-color: $tabbar-color;
+    
+    height:$sidebar-width;
+    max-height: $tabbar-height;
+    min-height: $min-tabbar-height;
 
     &.press {
       background-color: $tabbar-color;
@@ -633,11 +801,11 @@ body.free{
     }
 
     .nav-tab-icon {
-      color: $tab-icon-color;
-      font-size: 20px;
+      font-size: $base-icon-pixels;
       @media #{$nav-vs} {
-        font-size: 3.3vh;
+        font-size: $base-icon-viewport;
       }
+      color: $tab-icon-color;
     }
 
     .lines {
@@ -659,25 +827,33 @@ body.free{
 
     &.nav-tab-chat {
       i {
-        font-size: 16px;
-        @media #{$nav-vs} {
-          font-size: 2.6vh;
+        font-size: #{$base-icon-pixels*(17/20)};
+        @media #{$nav-vs-not-mobile} {
+          font-size: #{$base-icon-viewport*(3.0/3.5)};
         }
       }
     }
     &.nav-tab-timeline {
       i {
-        font-size: 19px;
-        @media #{$nav-vs} {
-          font-size: 3.1vh;
+        font-size: #{$base-icon-pixels*(19/20)};
+        @media #{$nav-vs-not-mobile} {
+          font-size: #{$base-icon-viewport*(3.2/3.5)};
         }
       }
     }
     &.nav-tab-alerts {
       i {
-        font-size: 18px;
-        @media #{$nav-vs} {
-          font-size: 2.7vh;
+        font-size: #{$base-icon-pixels*(19/20)};
+        @media #{$nav-vs-not-mobile} {
+          font-size: #{$base-icon-viewport*(3.0/3.5)};
+        }
+      }
+    }
+    &.nav-tab-info {
+      i {
+        font-size: #{$base-icon-pixels*(21/20)};
+        @media #{$nav-vs-not-mobile} {
+          font-size: #{$base-icon-viewport*(3.7/3.5)};
         }
       }
     }
@@ -778,7 +954,70 @@ body.free{
   }
 }
 
+.nav-tabs-end {
+  
+  height:$sidebar-width;
+  max-height: $tabbar-height;
+  min-height: $min-tabbar-height;
+  
+  @media #{$nav-vs} {
+    height: $sidebar-width;
+    line-height: $sidebar-width;
+  }
+  
+  text-align: center;
+
+  @if $colored-tabs {
+    background-color: desaturate(darken($tabbar-color,5%),4%);
+  } @else {
+    background-color: darken($tabbar-color,3%);
+  }
+  
+  i {
+    color: darken($tabbar-color,14%);
+    font-size: 35px;
+    //margin: -3px -20px 0;
+    @media #{$mobile-tall} {
+      font-size: 7vw;
+    }
+    @media #{$nav-vs} {
+      font-size: 29px;
+    }
+  }
+
+}
+
+    
+#menu-tab {
+  
+  width: $sidebar-width;
+  max-width: $max-block-size;
+  
+  @media #{$nav-xs} {
+    max-width: $max-block-size;
+  }
+  @media #{$nav-vs} {
+    width: $sidebar-width;
+  }
+  @media #{$nav-ls} {
+    width: $sidebar-width-mobile-landscape;
+  }
+}
+
+#sidebar-scroller-parent {
+  width:100%;
+}
+
 #sidebar-scroller {
-  width: $panel-width - $sidebar-width;
-  max-width: $max-panel-width - $max-sidebar-width;
+  //padding-left: $sidebar-width;
+  width: 100%;
+  //max-width: $max-panel-width - $max-block-size;
+}
+
+
+.sidebar-social-buttons {
+  margin: 0 -10px;
+  @media #{$nav-vs} {
+    font-size: 2.59vh;
+  }
 }

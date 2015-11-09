@@ -1,6 +1,5 @@
 
 <div id="nav-body">
-  <div class="nav-status-balloon nav-status-balloon-full hidden"></div>
   {{yield}}
   <div id="tabbar-balloon" class="hidden-sm-up"></div>
 </div>
@@ -15,80 +14,103 @@
 <div id="nav-touch-blocker"></div>
 
 <div id="nav-panel">
-  <div class="nav-status-balloon hidden-sm-up hidden"></div>
   
   <div class="row fill">
-    <div class="col-fixed nav-panel-spacer"></div>
+    <div class="col-fixed" id="nav-panel-spacer"></div>
     <div class="col-flex row">
       
-      <div id="sidebar-scroller-parent">
+      <div id="sidebar-scroller-parent" style="position:relative;">
         
-        {{#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
+        {{#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar always-visible" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
           
-          {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected identifier="tabSwitcher" class="col-flex" }}
+          <div class="full-height row row-vertical">
+            
+            <div class="col-flex gap-2x">
+            {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected identifier="tabSwitcher" class="col-flex" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
+                  
+              <div id="menuPanel" class="tab-panel">
                 
-            <div id="menuPanel" class="tab-panel">
-              {{menu-header}}
+                {{menu-header}}
+                
+                {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected identifier="menuSwitcher" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
+                  
+                  <div id="managerPanel" class="menu-panel">
+                    {{#unless session.isAuthenticated}}
+                      {{#scroll-to href='/#home' class="btn-a menu-link scroll-link-home" closeMenu=closeMenuOnScrollTo }}Home{{/scroll-to}}
+                      {{#scroll-to href='/#about' class="btn-a menu-link scroll-link-about" closeMenu=closeMenuOnScrollTo}}About{{/scroll-to}}
+                      {{#scroll-to href='/#numbers' class="btn-a menu-link scroll-link-numbers" closeMenu=closeMenuOnScrollTo}}Statistics{{/scroll-to}}
+                      {{#scroll-to href='/#contact' class="btn-a menu-link scroll-link-contact" closeMenu=closeMenuOnScrollTo}}Contact{{/scroll-to}}
+                    {{/unless}}
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="clubPanel" class="menu-panel">
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="teamPanel" class="menu-panel">
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="countryPanel" class="menu-panel">
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="globalPanel" class="menu-panel">
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="supportPanel" class="menu-panel">
+                    <div class="menu-links"></div>
+                  </div>
+                  
+                {{/side-switcher}}
+                
+              </div>
               
-              {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected identifier="menuSwitcher" }}
-                
-                <div id="managerPanel" class="menu-panel">
-                  
+              <div id="chatPanel" class="tab-panel">
+                <div class="tab-panel-header">
+                  <h4>Chat</h4>
+                  <h5>Coming soon</h5>
                 </div>
-                
-                <div id="clubPanel" class="menu-panel">
-                  
-                </div>
-                
-                <div id="teamPanel" class="menu-panel">
-                  
-                </div>
-                
-                <div id="countryPanel" class="menu-panel">
-                  
-                </div>
-                
-                <div id="globalPanel" class="menu-panel">
-                  
-                </div>
-                
-                <div id="supportPanel" class="menu-panel">
-                  
-                </div>
-                
-              {{/side-switcher}}
+              </div>
               
+              <div id="timelinePanel" class="tab-panel">
+                <div class="tab-panel-header">
+                  <h4>Timeline</h4>
+                  <h5>Coming soon</h5>
+                </div>
+              </div>
+              
+              <div id="alertsPanel" class="tab-panel">
+                <div class="tab-panel-header">
+                  <h4>Alerts</h4>
+                  <h5>Coming soon</h5>
+                </div>
+              </div>
+              
+              <div id="infoPanel" class="tab-panel">
+                <div class="tab-panel-header">
+                  <h4>Info</h4>
+                  <h5>Coming soon</h5>
+                </div>
+              </div>
+              
+            {{/side-switcher}}
             </div>
             
-            <div id="chatPanel" class="tab-panel">
-              <div class="tab-panel-header">
-                <h4>Chat</h4>
-                <h5>Coming soon</h5>
+            
+            <div class="col-fixed row hidden-xxs">
+              <div class="col-xs-12 gap-md text-center">
+              
+                <span>{{#facebook-link class="social-buttons facebook-button no-extra-hitarea"}}<i class="icon-facebook icon-lg"></i>{{/facebook-link}}</span>
+        
+                <span>{{#twitter-link class="social-buttons twitter-button no-extra-hitarea"}}<i class="icon-twitter icon-lg"></i>{{/twitter-link}}</span>
+                
               </div>
             </div>
             
-            <div id="timelinePanel" class="tab-panel">
-              <div class="tab-panel-header">
-                <h4>Timeline</h4>
-                <h5>Coming soon</h5>
-              </div>
-            </div>
-            
-            <div id="alertsPanel" class="tab-panel">
-              <div class="tab-panel-header">
-                <h4>Alerts</h4>
-                <h5>Coming soon</h5>
-              </div>
-            </div>
-            
-            <div id="infoPanel" class="tab-panel">
-              <div class="tab-panel-header">
-                <h4>Info</h4>
-                <h5>Coming soon</h5>
-              </div>
-            </div>
-            
-          {{/side-switcher}}
+          </div>
           
         {{/perfect-scroll}}
         
@@ -96,16 +118,28 @@
       
     </div>
   </div>
+  
 </div>
 
 <div id="nav-sidebar-and-tabs" class="row-sm row-vertical-sm">
 
-  <div id="nav-sidebar" class="col-sm-8 col-md-7 row row-vertical">
-    
-    <div class="col-fixed nav-status-balloon hidden hidden-lg-up"></div>
+  <div id="nav-sidebar" class="col-sm-7 col-md-7 row row-vertical">
     
     <div class="col-fixed sidebar-logo-wrapper">
-      {{#link-to "index" class="btn-a"}}<i class="icon-logo icon-3x sidebar-logo"></i>{{/link-to}}
+      {{#link-to "index" class="btn-a no-extra-hitarea"}}<i class="icon-logo icon-3x sidebar-logo"></i>{{/link-to}}
+      
+      <div class="row hidden-sm-up">
+        <div class="col-xs-6 text-center">
+        
+          <span>{{#facebook-link class="social-buttons sidebar-social-buttons facebook-button no-extra-hitarea"}}<i class="icon-facebook icon-lg"></i>{{/facebook-link}}</span>
+          
+        </div>
+        <div class="col-xs-6 text-center">
+        
+          <span>{{#twitter-link class="social-buttons sidebar-social-buttons twitter-button no-extra-hitarea"}}<i class="icon-twitter icon-lg"></i>{{/twitter-link}}</span>
+          
+        </div>
+      </div>
     </div>
     
     
@@ -115,9 +149,9 @@
         {{#fast-button action="clickMenu" menuName="manager" class="btn nav-menu-btn nav-menu-manager"}}
           <div class="flex-col flex-col-center">
             <div class="nav-icon-wrapper">
-              <i class="icon-torso nav-tab-icon icon-vcenter"></i>
+              <i class="{{if session.isAuthenticated "icon-torso" "icon-logo"}} nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Manager</div>
+            <div class="nav-tab-text nav-menu-text">{{if session.isAuthenticated "Manager" "Home"}}</div>
           </div>
         {{/fast-button}}
       </div>
@@ -128,7 +162,7 @@
             <div class="nav-icon-wrapper">
               <i class="icon-home nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Club</div>
+            <div class="nav-tab-text nav-menu-text">Club</div>
           </div>
         {{/fast-button}}
       </div>
@@ -137,9 +171,9 @@
         {{#fast-button action="clickMenu" menuName="team" class="btn nav-menu-btn nav-menu-team"}}
           <div class="flex-col flex-col-center">
             <div class="nav-icon-wrapper">
-              <i class="icon-group nav-tab-icon icon-vcenter"></i>
+              <i class="icon-ball nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Team</div>
+            <div class="nav-tab-text nav-menu-text">Team</div>
           </div>
         {{/fast-button}}
       </div>
@@ -150,7 +184,7 @@
             <div class="nav-icon-wrapper">
               <i class="icon-flag-filled nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Country</div>
+            <div class="nav-tab-text nav-menu-text">Country</div>
           </div>
         {{/fast-button}}
       </div>
@@ -161,7 +195,7 @@
             <div class="nav-icon-wrapper">
               <i class="icon-globe nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Global</div>
+            <div class="nav-tab-text nav-menu-text">Global</div>
           </div>
         {{/fast-button}}
       </div>
@@ -172,76 +206,104 @@
             <div class="nav-icon-wrapper">
               <i class="icon-heart nav-tab-icon icon-vcenter"></i>
             </div>
-            <div class="nav-tab-text">Support</div>
+            <div class="nav-tab-text nav-menu-text">Support</div>
           </div>
         {{/fast-button}}
       </div>
+          
+      {{#unless session.isAuthenticated}}
+        
+        <div class="nav-tab hidden-sm-up" id="sidebar-info-tab">
+          {{#fast-button action="clickMenu" menuName="info" class="btn nav-menu-btn nav-menu-info"}}
+            <div class="flex-col flex-col-center">
+              <div class="nav-icon-wrapper">
+                <i class="icon-cloud nav-tab-icon icon-vcenter"></i>
+              </div>
+              <div class="nav-tab-text nav-menu-text">Info</div>
+            </div>
+          {{/fast-button}}
+        </div>
+        
+      {{else}}
+        
+        <div id="nav-menu-buffer-mobile"></div>
+        
+      {{/unless}}
       
-      <div id="nav-menu-buffer-mobile"></div>
+      <div class="nav-tab" id="nav-sidebar-close">
+        {{#fast-button action="hide" class="btn nav-menu-btn nav-menu-close"}}
+          <div class="flex-col flex-col-center">
+            <div class="nav-icon-wrapper nav-burger nav-cross">
+              <span class="lines"></span>
+            </div>
+            <div class="nav-tab-text nav-menu-text">Close</div>
+          </div>
+        {{/fast-button}}
+      </div>
       
     </div>
 
   </div>
 
-  <div id="nav-tabbar" class="col-sm-4 col-md-5 row">
+  <div id="nav-tabbar" class="col-sm-5 col-md-5 row">
 
     <div class="col-flex-sm row">
       <div class="col-flex col-max nav-tabs-col row">
       
         <div class="col-flex row row-center-sm row-nowrap-xs row-vertical-sm">
+          
         
-        
-          <div class="col-flex-xs col-fixed-sm nav-tab hidden-sm hidden-md col-last-lg">
-            {{#fast-button action="clickTab" tabName="menu" class="btn nav-tab-btn nav-tab-menu" touchFix=true }}
+          <div id="menu-tab" class="col-fixed-xs nav-tab hidden-sm hidden-md col-last-lg">
+            {{#fast-button action="clickTab" tabName="menu" class="btn nav-tab-btn nav-tab-menu" applyFixedPositionTouchFix=true }}
               <div class="flex-col flex-col-center">
                 <div class="nav-icon-wrapper nav-burger nav-cross">
                   <span class="lines"></span>
                 </div>
-                <div class="nav-tab-text">{{#if media.isJumbo}}{{menuButtonText}}{{else}}Menu{{/if}}</div>
+                <div class="nav-tab-text nav-tabbar-text">{{#if media.isJumbo}}{{menuButtonText}}{{else}}Menu{{/if}}</div>
               </div>
             {{/fast-button}}
           </div>
           
           <div class="col-flex-xs col-fixed-sm nav-tab">
-            {{#fast-button action="clickTab" tabName="chat" class="btn nav-tab-btn nav-tab-chat" touchFix=true}}
+            {{#fast-button action="clickTab" tabName="chat" class="btn nav-tab-btn nav-tab-chat" applyFixedPositionTouchFix=true}}
               <div class="flex-col flex-col-center">
                 <div class="nav-icon-wrapper">
                   <i class="icon-chat nav-tab-icon icon-vcenter"></i>
                 </div>
-                <div class="nav-tab-text">Chat</div>
+                <div class="nav-tab-text nav-tabbar-text">Chat</div>
               </div>
             {{/fast-button}}
           </div>
           
           <div class="col-flex-xs col-fixed-sm nav-tab">
-            {{#fast-button action="clickTab" tabName="timeline" class="btn nav-tab-btn nav-tab-timeline" touchFix=true }}
+            {{#fast-button action="clickTab" tabName="timeline" class="btn nav-tab-btn nav-tab-timeline" applyFixedPositionTouchFix=true }}
               <div class="flex-col flex-col-center">
                 <div class="nav-icon-wrapper">
                   <i class="icon-list-bullet nav-tab-icon icon-vcenter"></i>
                 </div>
-                <div class="nav-tab-text">Timeline</div>
+                <div class="nav-tab-text nav-tabbar-text">Timeline</div>
               </div>
             {{/fast-button}}
           </div>
           
           <div class="col-flex-xs col-fixed-sm nav-tab">
-            {{#fast-button action="clickTab" tabName="alerts" class="btn nav-tab-btn nav-tab-alerts" touchFix=true}}
+            {{#fast-button action="clickTab" tabName="alerts" class="btn nav-tab-btn nav-tab-alerts" applyFixedPositionTouchFix=true}}
               <div class="flex-col flex-col-center">
                 <div class="nav-icon-wrapper">
                   <i class="icon-attention nav-tab-icon icon-vcenter"></i>
                 </div>
-                <div class="nav-tab-text">Alerts</div>
+                <div class="nav-tab-text nav-tabbar-text">Alerts</div>
               </div>
             {{/fast-button}}
           </div>
           
           <div class="col-flex-xs col-fixed-sm nav-tab">
-            {{#fast-button action="clickTab" tabName="info" class="btn nav-tab-btn nav-tab-info" touchFix=true}}
+            {{#fast-button action="clickTab" tabName="info" class="btn nav-tab-btn nav-tab-info" applyFixedPositionTouchFix=true}}
               <div class="flex-col flex-col-center">
                 <div class="nav-icon-wrapper">
                   <i class="icon-cloud nav-tab-icon icon-vcenter"></i>
                 </div>
-                <div class="nav-tab-text">Info</div>
+                <div class="nav-tab-text nav-tabbar-text">Info</div>
               </div>
             {{/fast-button}}
           </div>
@@ -250,10 +312,9 @@
         
       </div>
       
-      <div class="col-flex nav-tabs-end hidden-sm-up">
-        <i class="icon-logo icon-vcenter"></i>
+      <div class="col-flex nav-tabs-end hidden-sm-up center-parent">
+        {{#link-to "index" class="btn-a"}}<i class="icon-logo center-child"></i>{{/link-to}}
       </div>
-      
     
     </div>
     {{safari-helper}}

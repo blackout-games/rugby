@@ -3,11 +3,11 @@ html {
   -webkit-text-size-adjust: 100%;
   margin: 0;
   padding: 0;
-  background-color: $background-dark-global;
+  background-color: $bg-dark-lighter;
 }
 
 body {
-  background-color: $background-dark-global;
+  background-color: $bg-dark-lighter;
   margin: 0;
   padding: 0;
 }
@@ -37,20 +37,20 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   }
   
   &.blocked {
-    background-color: $bg-color-dark;
+    background-color: $bg-dark;
     .blocked-content {
       line-height: normal;
       display: inline-block;
       height: auto;
       max-width: 250px;
       font-size: 22px;
-      color: $dark-text-on-dark;
+      color: $secondary-dark-on-dark;
       .blocked-logo {
-        color: $dark-text-on-dark;
+        color: $secondary-dark-on-dark;
         font-size:100px;
       }
       h1 {
-        color: $dark-text-on-dark;
+        color: $secondary-dark-on-dark;
         margin-bottom:50px;
       }
     }
@@ -110,13 +110,19 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Vertical Fill
  */
 .vf-parent {
-  height: 100%;
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
   display: flex;
-  align-items: center;
+  flex-direction: column;
 }
 
-.vf-child {
-  height: 100%;
+.vf-child, .full-height {
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
+  flex: 1;
+}
+.full-height-99 {
+  min-height: 99%;
 }
 
 /**
@@ -197,6 +203,12 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Hiding stuff
  */
 
+.hidden-xxs {
+  @media #{$mobile-tall} {
+    display: none !important;
+  }
+}
+
 .hidden-sm-down {
   @media #{$tablet-and-down} {
     display: none !important;
@@ -225,6 +237,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   @media #{$vertically-small} {
     display: block !important;
   }
+}
+
+.hide-overflow {
+  overflow: hidden;
 }
 
 /**

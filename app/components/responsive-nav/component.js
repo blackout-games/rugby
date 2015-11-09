@@ -96,7 +96,6 @@ export default Ember.Component.extend({
   },
 
   show() {
-
     var now = Date.now();
     var timeSinceLast = now - this.get('navLastAction');
 

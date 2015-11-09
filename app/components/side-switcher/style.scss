@@ -12,6 +12,7 @@ $switch-ease: ease('out-expo');
   top: 0;
   left: 0;
   transition: transform $switch-time $switch-ease;
+  overflow-y: visible;
 }
 .switcher-ready-left {
   transition: none;

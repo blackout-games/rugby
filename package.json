@@ -53,7 +53,8 @@
     "ember-local-storage": "0.1.0",
     "ember-moment": "4.1.0",
     "ember-simple-auth": "^1.0.0",
-    "ember-watson": "^0.7.0"
+    "ember-watson": "^0.7.0",
+    "ember-waypoints": "0.1.0"
   },
   "dependencies": {
     "ember-export-application-global": "^1.0.5",

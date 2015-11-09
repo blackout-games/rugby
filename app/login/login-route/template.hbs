@@ -1,75 +1,71 @@
-<div class="background tint-dark clearfix">
+<div class="login-container center vf-child">
   
-  <div class="login-container container">
+  {{#sticky-footer widthOnly='xs'}}
     
-    {{#sticky-footer footerHeight="18px"}}
+    <div class="dark">
       
-      <div class="sticky-footer-content dark">
-        
-        <div class="login-back-container gap-md">
-          {{back-button to="index"}}
-        </div>
-        
-        <div class="login-logo-container gap-2x">
-          <i class="icon-logo"></i>
-        </div>
-
-        <div class={{if formErrorMessage '' 'hidden'}}>
-          <div class="alert alert-danger alert-minimal" role="alert">
-            {{formErrorMessage}}
-          </div>
-        </div>
-
-        <form>
-          
-          <div class="has-feedback dark">
-          
-            {{validated-input type="text" inputId="username" placeholder="Username" value=username clientError=errors.username serverError=serverErrors.username validationEvent=validationEvent inputClass="dark login-boxes" }}
-            
-            <i class="icon-manager login-icons"></i>
-            
-          </div>
-          
-          <div class="has-feedback dark gap-lg">
-            
-            {{validated-input type="password" inputId="password" placeholder="Password" value=password clientError=errors.password serverError=serverErrors.password validationEvent=validationEvent inputClass="dark login-boxes" }}
-            
-            <i class="icon-key login-icons key-icon"></i>
-            
-          </div>
-
-          <div class="form-group gap-5x">
-          
-            {{#loader-button action="submit" class="btn btn-block btn-2x login-button gap-sm"}}Login{{/loader-button}}
-            
-            {{#loader-button action="loginWithFacebook" class="btn btn-fb btn-block btn-2x fb-login-button" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
-            
-          </div>
-          
-        </form>
-        
+      <div class="login-back-container gap-md">
+        {{back-button to="index"}}
       </div>
       
-      <div class="sticky-footer">
+      <div class="login-logo-container gap-2x">
+        <i class="icon-logo"></i>
+      </div>
+
+      <div class={{if formErrorMessage '' 'hidden'}}>
+        <div class="alert alert-danger alert-minimal" role="alert">
+          {{formErrorMessage}}
+        </div>
+      </div>
+
+      <form>
         
-        <div class="login-link-container dark">
-          <div class="row">
-            
-            <div class="col-xs-6 text-left">
-              {{#link-to "index"}}Forgot password?{{/link-to}}
-            </div>
-            
-            <div class="col-xs-6 text-right">
-              No account? {{#link-to "index"}}Signup{{/link-to}}
-            </div>
-            
-          </div>
+        <div class="has-feedback dark">
+        
+          {{validated-input type="text" inputId="username" placeholder="Username" value=username clientError=errors.username serverError=serverErrors.username validationEvent=validationEvent inputClass="dark login-boxes" }}
+          
+          <i class="icon-user login-icons"></i>
+          
         </div>
         
+        <div class="has-feedback dark gap-lg">
+          
+          {{validated-input type="password" inputId="password" placeholder="Password" value=password clientError=errors.password serverError=serverErrors.password validationEvent=validationEvent inputClass="dark login-boxes" }}
+          
+          <i class="icon-key login-icons key-icon"></i>
+          
+        </div>
+
+        <div class="form-group gap-5x">
+        
+          {{#loader-button action="submit" class="btn btn-block btn-2x login-button gap-sm"}}Login{{/loader-button}}
+          
+          {{#loader-button action="loginWithFacebook" class="btn btn-fb btn-block btn-2x fb-login-button" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
+          
+        </div>
+        
+      </form>
+      
+    </div>
+    
+    <div class="sticky-footer">
+      
+      <div class="login-link-container dark colored-links">
+        <div class="row">
+          
+          <div class="col-xs-6 text-left">
+            {{#link-to "index"}}Forgot password?{{/link-to}}
+          </div>
+          
+          <div class="col-xs-6 text-right">
+            No account? {{#link-to "index"}}Signup{{/link-to}}
+          </div>
+          
+        </div>
       </div>
       
-    {{/sticky-footer}}
+    </div>
     
-  </div>
-
+  {{/sticky-footer}}
+  
 </div>

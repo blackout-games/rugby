@@ -31,10 +31,12 @@ export default Ember.Component.extend(Timers, {
     
     this.initBackgroundImages();
     
+    let overScroll = this.get('topSectionHeight') - $(window).height();
+    
     // For parallax
-    if(window.features.canParallax){
+    if(window.features.canParallax && overScroll<=5){
       
-      Ember.$('#top-section-wrapper').css('height',$(window).height());
+      Ember.$('#top-section-wrapper').css('height',this.get('topSectionHeight'));
       this.inflateBalloonBound = Ember.run.bind(this,this.inflateBalloon);
       this.get('scrollable').on('scroll',this.inflateBalloonBound);
       $(window).on('resize', this.inflateBalloonBound);
@@ -66,14 +68,20 @@ export default Ember.Component.extend(Timers, {
   
   setSizes() {
     
-    Ember.$('#top-section').css('height',$(window).height());
-    Ember.$('#top-section-wrapper').css('height',$(window).height());
+    let bottomObject = '#testimony';
+    //let bottomObject = '#subtitle';
+    //let bottomObject = '.signup-container';
     
-    var testimonyBottom = Ember.$('#testimony').offset().top + Ember.$('#testimony').height();
+    var bottom = Ember.$(bottomObject).offset().top + Ember.$('#testimony').height();
     
     var welcomeTop = Ember.$('#welcome').offset().top;
-    var contentHeight = testimonyBottom - welcomeTop;
+    var contentHeight = bottom - welcomeTop;
     
+    var topSectionHeight = Math.max((contentHeight + 100), $(window).height());
+    this.set('topSectionHeight',topSectionHeight);
+    
+    Ember.$('#top-section').css('height',topSectionHeight);
+    Ember.$('#top-section-wrapper').css('height',topSectionHeight);
     
     var menuHeight = parseInt(Ember.$('#nav-body').css('padding-top'));
     
@@ -81,7 +89,7 @@ export default Ember.Component.extend(Timers, {
     if(this.get('media.isMobile')){
       menuHeight += 55;
     }
-    var topMargin = ($(window).height() - contentHeight - menuHeight) * 0.5;
+    var topMargin = (topSectionHeight - contentHeight - menuHeight) * 0.5;
     
     Ember.$('#welcome').css('margin-top',topMargin+'px');
     

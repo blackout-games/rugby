@@ -3,14 +3,13 @@ $base-image-folder: "/assets/images/login/";
 
 $bg-tint: linear-gradient(
   to bottom,
-  $bg-color-dark,
-  $bg-color-dark 60%,
-  rgba($bg-color-dark,0.8) 80%,
-  rgba($bg-color-dark,0.8) 100%
+  $bg-dark,
+  $bg-dark 60%,
+  rgba($bg-dark,0.8) 80%,
+  rgba($bg-dark,0.8) 100%
 );
 
-.background {
-  height:100%;
+.login-background {
   @include cover-background-tinted($base-image-folder + "bg.jpg",$bg-tint);
   &:before{
     background-position: center bottom;
@@ -18,9 +17,9 @@ $bg-tint: linear-gradient(
 }
 
 .login-container {
+  width:100%;
   max-width:360px;
   padding: 30px;
-  height:100%;
 }
 
 .login-logo-container {
@@ -37,11 +36,15 @@ $bg-tint: linear-gradient(
 
 .login-icons {
   pointer-events: none;
-  color: $primary-master;
+  color: $bg-dark-lighter;
+  color: $secondary-dark-on-dark;
   position:absolute;
   top:4px;
   left:6px;
   font-size: 175%;
+  &.icon-user {
+    font-size: 170%;
+  }
 }
 
 .key-icon {
@@ -55,7 +58,13 @@ $bg-tint: linear-gradient(
     position:absolute;
     line-height:100%;
     left:50%;
-    margin-left:-17px;
+    margin-left:-20px;
     font-size:150%;
   }
+  
+  padding: 0 44px;
+  &.hover,&:focus,&.press {
+    padding: 0 44px;
+  }
+  
 }

@@ -1,4 +1,17 @@
 
+/**
+ * White
+ */
+
+.white {
+  
+  color: #FFF;
+  
+  a {
+    color: $primary-master;
+  }
+  
+}
 
 /**
  * Code, quotes, other markdown
@@ -7,7 +20,7 @@
 pre {
   display: block;
   padding:11px;
-  background-color: lighten($secondary-master,44%);
+  background-color: $bg-light;
   border-radius: $border-radius;
   border: none;
   font-size: 14px;
@@ -16,7 +29,7 @@ pre {
 }
 
 pre code, code {
-  background-color: lighten($secondary-master,44%);
+  background-color: $bg-light;
   color: darken($secondary-master,33%);
 }
 
@@ -163,8 +176,8 @@ table.light {
  */
 
 @mixin user-image ( $defaultImg, $notFoundImg ) {
-  width:50px;
-  height:50px;
+  width:44px;
+  height:44px;
   border-radius: 50%;
   display: block;
   position:relative;

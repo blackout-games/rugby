@@ -11,23 +11,10 @@ $hover-animation-time: 0.150s ease(out-quad);
 
 body {
   -webkit-font-smoothing: antialiased;
-  font-size: 16px;
+  font-size: 15.5px; //16px
   font-family: $primary-font;
   color: $primary-text-color;
   line-height: 1.55;
-  
-  
-  /**
-   * Wrap long words
-   * https://justmarkup.com/log/2015/07/31/dealing-with-long-words-in-css/?mc_cid=ce70bb0280&mc_eid=3837bdf41e
-   */
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  hyphens: auto;
-
 }
 
 a {
@@ -39,7 +26,7 @@ a {
     color: darken($primary-master, 11%);
   }
   
-  transition: border-color $hover-animation-time;
+  transition: border-color $hover-animation-time, color $hover-animation-time;
   border-bottom: 2px solid rgba(darken($primary-master, 11%),0);
 
   &:hover {
@@ -88,15 +75,34 @@ a {
 }
 
 .dark {
-  color: $text-on-dark;
+  color: $primary-text-on-dark;
 
   a {
-    color: $primary-on-dark;
+    color: white;
+    border-bottom: none;
 
     &:hover, &:active {
       color: $primary-on-dark;
+      border-bottom: none;
     }
   }
+  
+  &.colored-links, .colored-links {
+    a {
+      color: $primary-on-dark;
+      border-bottom: none;
+
+      &:hover, &:active {
+        color: white;
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+.no-extra-hitarea .btn-a, .no-extra-hitarea.btn-a {
+  padding: 0;
+  margin: 0;
 }
 
 /**
@@ -107,7 +113,7 @@ a {
 h1 {
   
   font-family: $heading-font;
-  font-size: 44px;
+  font-size: 40px;
   font-weight: 900;
   
 }
@@ -115,7 +121,7 @@ h1 {
 h2 {
   
   //color: $secondary-master;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 800;
   text-transform: uppercase;
   font-style: italic;
@@ -151,7 +157,7 @@ h4 {
 h5 {
   font-family: $heading-font;
   text-transform: uppercase;
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 900;
   margin: 22px 0 11px;
 }
@@ -159,7 +165,7 @@ h5 {
 h6 {
   font-family: $heading-font;
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
   margin: 20px 0 4px;
 }
@@ -175,34 +181,92 @@ h6 {
 p {
   font-family: $writing-font;
   margin-bottom: 11px;
+  
+  
+  /**
+   * Wrap long words
+   * https://justmarkup.com/log/2015/07/31/dealing-with-long-words-in-css/?mc_cid=ce70bb0280&mc_eid=3837bdf41e
+   */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
 }
 
-article {
+article, blockquote {
+  font-size: 15.9px;
   p {
-    font-size: 17px;
+    font-size: 15.9px;
     line-height: 1.55;
   }
 }
 
+/**
+ * Styles per screen size
+ */
+
+// Mobile
 .nowrap-xs, .nowrap {
   white-space: nowrap;
 }
+.text-center-xs {
+  text-align: center;
+}
+.text-right-xs {
+  text-align: right;
+}
 
+// Mobile portrait only
+@media only screen and (max-width: $screen-xs-min) {
+  .nowrap-xxs {
+    white-space: nowrap;
+  }
+  .text-center-xxs {
+    text-align: center;
+  }
+  .text-right-xxs {
+    text-align: right;
+  }
+}
+
+// Tablets
 @media only screen and (min-width: $screen-sm-min) {
   .nowrap-sm {
     white-space: nowrap;
   }
+  .text-center-sm {
+    text-align: center;
+  }
+  .text-right-sm {
+    text-align: right;
+  }
 }
 
+// Laptops
 @media only screen and (min-width: $screen-md-min) {
   .nowrap-md {
     white-space: nowrap;
   }
+  .text-center-md {
+    text-align: center;
+  }
+  .text-right-md {
+    text-align: right;
+  }
 }
 
+// Large screens
 @media only screen and (min-width: $screen-lg-min) {
   .nowrap-lg {
     white-space: nowrap;
+  }
+  .text-center-lg {
+    text-align: center;
+  }
+  .text-right-lg {
+    text-align: right;
   }
 }
 

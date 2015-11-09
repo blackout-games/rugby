@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   classNames: ['backtotop-button-wrapper'],
   scrollElementSelector: null,
   showButtonAt: 1000,
+  'tabbar-height': 55,
 
   uiEvents: [
     {
@@ -17,6 +18,7 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement', function(){
     
     this.get('EventBus').subscribe('fixedItemsShift', this, this.updatePosition);
+    this.updatePosition();
     this.$().hide();
     
   }),
@@ -27,9 +29,14 @@ export default Ember.Component.extend({
     
   }),
   
-  updatePosition(newPos, duration) {
+  updatePosition(newPos={x:0,y:0}, duration=400) {
     
     var normalBottom = parseInt(Ember.Blackout.getCSSValue('bottom','backtotop-button-wrapper'));
+    
+    // Check if tab-bar is hidden
+    if(!$('#nav-tabbar:visible').length){
+      normalBottom -= this.get('tabbar-height');
+    }
     
     this.$().css({
       'transition': 'bottom '+duration+'ms',
@@ -68,7 +75,7 @@ export default Ember.Component.extend({
           }
         }
         
-        Ember.$(scrollSelector).animate({ scrollTop: 0 }, 'slow', function () {
+        Ember.$(scrollSelector).animate({ scrollTop: 0 }, 777, 'easeOutExpo', function () {
           self.set('isScrolling',false);
         });
         
@@ -78,7 +85,7 @@ export default Ember.Component.extend({
         
       }
       
-    }
+    },
   },
   
   checkScroll(e) {

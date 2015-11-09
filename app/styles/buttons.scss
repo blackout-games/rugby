@@ -22,13 +22,12 @@ $button-text-weight: 600;
   font-weight: $button-text-weight;
   //text-transform: uppercase;
   //
+  padding: 0 11px 2px;
 
   &.hover {
     color: #FFF;
     background-color: hoverColor($button-color);
     cursor: pointer;
-    //box-shadow: 0px -2px 0px 0px darken($button-color,22%) inset;
-    //transition-duration: 0,0;
   }
 
   &.press {
@@ -43,9 +42,6 @@ $button-text-weight: 600;
 
   &:active {
     background-color: pressColor($button-color);
-    //transform: translate3d(0, 1px, 0);
-    //box-shadow: 0px 2px 0px 0px darken($button-color,22%) inset;
-    //transition-duration: 0,0;
   }
   
   &:disabled{
@@ -60,6 +56,29 @@ $button-text-weight: 600;
   &.no-focus {
     @include no-focus-button;
   }
+}
+
+.btn-small,
+.btn-small:hover {
+  padding: 5px 11px 1px;
+  font-size: 14px;
+  height:33px;
+
+  @media #{$mobile} {
+    //font-size: 4.8vmin;
+    padding: 5px 11px;
+  }
+  &.hover,&.press {
+    //font-size: 19px;
+    //height:48px;
+    @media #{$mobile} {
+      //font-size: 4.4vmin;
+    }
+  }
+}
+
+.btn-inline {
+  display: inline-block;
 }
 
 .btn-big,
@@ -78,6 +97,47 @@ $button-text-weight: 600;
     @media #{$mobile} {
       //font-size: 4.4vmin;
     }
+  }
+}
+
+.btn-ghost,
+.btn-ghost:hover {
+  background-color: transparent;
+  border: 1px solid $button-color;
+  color: $button-color;
+  box-sizing: border-box;
+  
+  &.btn-small {
+    border: 1px solid $button-color;
+  }
+  
+  transition: background-color 0.222s, color 0.222s, border-color 0.222s;
+  
+  .hover,.press {
+    background-color: $button-color;
+    color: #FFF;
+  }
+  
+  &:focus {
+    background-color: $button-color;
+    border-color: $button-color;
+  }
+  
+  &.white,&.white:hover {
+    border-color: rgba(white,0.777);
+    color: rgba(white,0.777);
+    
+    &.hover,&.press {
+      border-color: $button-color;
+      background-color: $button-color;
+      color: #FFF;
+    }
+  }
+  
+  @include focus-button-ghost;
+    
+  &.press {
+    transition: none;
   }
 }
 

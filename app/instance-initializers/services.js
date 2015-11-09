@@ -14,10 +14,13 @@ export function initialize( application ) {
   // Handles local bites, which are sent with all ajax requests as a header
   application.lookup('service:bites'); 
   
+  // Handles user images like manager avatars
+  application.lookup('service:user-images'); 
+  
 }
 
 export default {
   name: 'services',
-  //before: 'simple-auth',
+  //after: 'event-bus',
   initialize: initialize
 };

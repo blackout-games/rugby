@@ -1,16 +1,3 @@
 .sticky-footer-wrapper {
-  @media #{$mobile} {
-    height: 100%;
-  }
-}
-.sticky-footer-content {
-  @extend .clearfix;
-  min-height: 100%;
-}
-.sticky-footer-content:after {
-  content: "";
-  display: block;
-}
-.sticky-footer {
-  @extend .clearfix;
+  height:auto;
 }

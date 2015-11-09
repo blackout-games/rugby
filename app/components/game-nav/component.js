@@ -12,6 +12,7 @@ export default ResponsiveNav.extend({
   selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
+  disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon',
   
   // Visual settings
   alternativeAnimationMode: true,
@@ -40,9 +41,14 @@ export default ResponsiveNav.extend({
     
   }),
   
+  closeMenuOnScrollTo: Ember.computed('media.isJumbo',function(){
+    return !this.get('media.isJumbo');
+  }),
+  
   // Variables
   
   topBarIsShowing: true,
+  bottomTabBarIsShowing: true,
   topBarCollapseAmount: 0,
   tabSwitcherDirection: 'immediate',
   tabSwitcherSelected: 'menuPanel',
@@ -59,34 +65,47 @@ export default ResponsiveNav.extend({
   ],
   
   updateSidebarScrollerHeight() {
-    var windowHeight = $(window).height() - 15;
-    if(this.get('media.isMobile')){
+    var windowHeight = $(window).height();
+    
+    if(this.get('media.isMobile') && this.get('bottomTabBarIsShowing')){
       windowHeight -= $('#nav-tabbar').height();
     }
-    $('#sidebar-scroller-parent').height(windowHeight);
+    $('#sidebar-scroller-parent,#sidebar-scroller').height(windowHeight);
   },
 
   startListening: Ember.on('init', 'didInsertElement', function() {
     
-    this._super.apply(this, arguments);
+    // Call this on responsive nav
+    this._super();
+    
     this.get('EventBus').subscribe('disableGameNav', this, this.disable);
     this.get('EventBus').subscribe('enableGameNav', this, this.enable);
     this.get('EventBus').subscribe('selectMenuLink', this, this.selectMenuLink);
-
+    this.get('EventBus').subscribe('hideBottomTabBar', this, this.hideBottomTabBar);
+    this.get('EventBus').subscribe('showBottomTabBar', this, this.showBottomTabBar);
+    this.get('EventBus').subscribe('sessionBuilt', this, this.createMenus);
+    
   }),
 
   stopListening: Ember.on('willDestroyElement', function() {
     
-    this._super.apply(this, arguments);
+    // Call this on responsive nav
+    this._super();
+    
     this.get('EventBus').unsubscribe('disableGameNav', this, this.disable);
     this.get('EventBus').unsubscribe('enableGameNav', this, this.enable);
     this.get('EventBus').unsubscribe('selectMenuLink', this, this.selectMenuLink);
+    this.get('EventBus').unsubscribe('hideBottomTabBar', this, this.hideBottomTabBar);
+    this.get('EventBus').unsubscribe('showBottomTabBar', this, this.showBottomTabBar);
+    this.get('EventBus').unsubscribe('sessionBuilt', this, this.createMenus);
 
   }),
 
   setup: Ember.on('didInsertElement', function() {
+    
+    // Call this on responsive nav
     this._super();
-
+    
     var self = this;
     
     // Alternative animation mode?
@@ -148,7 +167,6 @@ export default ResponsiveNav.extend({
       
       // Show topbar
       $('.nav-topbar').removeClass('hidden');
-      $('.nav-status-balloon').removeClass('hidden');
       
       // Style topbar
       $('#nav-topbar').addClass('nav-topbar-standalone');
@@ -181,11 +199,6 @@ export default ResponsiveNav.extend({
           $('#nav-topbar-content').stop().animate({
             opacity: 0,
           }, animateTime);
-
-          // Update balloons
-          $('.nav-status-balloon-flex').animate({
-            'height': '22px'
-          }, animateTime);
           
           $('.loading-slider').css('top','22px');
           
@@ -213,11 +226,6 @@ export default ResponsiveNav.extend({
           // Show content
           $('#nav-topbar-content').stop().animate({
             opacity: 1,
-          }, animateTime);
-
-          // Update balloons
-          $('.nav-status-balloon-flex').animate({
-            'height': self.get('topBarHeight')
           }, animateTime);
           
           $('.loading-slider').css('top',self.get('topBarHeight')+'px');
@@ -342,11 +350,11 @@ export default ResponsiveNav.extend({
     
     // Different sidebar spacing for standalone
     if( this.get('media.isDesktop') && window.navigator.standalone ){
-      $('#nav-sidebar').addClass('col-8');
-      $('#nav-tabbar').addClass('col-4');
+      $('#nav-sidebar').addClass('col-override-8');
+      $('#nav-tabbar').addClass('col-override-4');
     } else {
-      $('#nav-sidebar').removeClass('col-8');
-      $('#nav-tabbar').removeClass('col-4');
+      $('#nav-sidebar').removeClass('col-override-8');
+      $('#nav-tabbar').removeClass('col-override-4');
     }
     
   }), // isDesktop = landscape tablet
@@ -356,9 +364,16 @@ export default ResponsiveNav.extend({
     var self = this;
     
     $.each(MenuData.menus, function( menuName, menuItems ){
+      
+      $('#'+menuName+'Panel > .menu-links').html('');
+      
       $.each(menuItems,function( index, item ){
         
         var realRoute,itemLink,action;
+        
+        if(item.hideIfNotAuthenticated && !self.get('session.isAuthenticated')){
+          return true;
+        }
         
         if(item.tempRoute){
           itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
@@ -381,7 +396,7 @@ export default ResponsiveNav.extend({
             self.selectMenuLink(item.route);
             return false;
           });
-          $('#'+menuName+'Panel').append(itemLink);
+          $('#'+menuName+'Panel > .menu-links').append(itemLink);
         }
         
       });
@@ -439,9 +454,19 @@ export default ResponsiveNav.extend({
       selectPath = path.split('/')[1];
     }
     
-    $('a.menu-link').removeClass('selected');
-    //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
-    $('#menuItem'+selectPath).addClass('selected');
+    // Only select a new menu link if it's not empty (otherwise it breaks home page scroll-to links)
+    if(! Ember.isEmpty(selectPath) ){
+      
+      //log('deselecting all menu links');
+      
+      $('a.menu-link').removeClass('selected');
+      //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
+      
+      //log('selecting menu link ('+selectPath+')');
+      
+      $('#menuItem'+selectPath).addClass('selected');
+      
+    }
     
   },
 
@@ -467,9 +492,6 @@ export default ResponsiveNav.extend({
     // Update visibility of bar content
     var collapse = (self.get('topBarHeight') - newHeight) / (self.get('topBarHeight') - 22);
     $('#nav-topbar-content').css('opacity', 1 - Math.min(1, collapse * 1.33));
-
-    // Update balloons
-    $('.nav-status-balloon-flex').css('height', newHeight);
 
     self.set('topBarCollapseAmount', collapse);
 
@@ -569,6 +591,12 @@ export default ResponsiveNav.extend({
       var newButton = $('.nav-' + type + '-' + tabName);
       $('.nav-tab-btn,.nav-menu-btn').removeClass('selected');
       newButton.addClass('selected');
+      
+      // Munges
+      if(type=='menu' && tabName=='info'){
+        // For showing info tab on left in home page menu on mobile
+        type = 'tab';
+      }
       
       if( type === 'menu' ){
         
@@ -686,6 +714,11 @@ export default ResponsiveNav.extend({
         this.set('topbarWasShowing',wasShowing);
       }
       
+      $('#sidebar-scroller')[0].scrollTop = 0;
+      Ember.run.next(function(){
+        $('#sidebar-scroller').perfectScrollbar('update');
+      });
+      
       this.updateLoadingSlider(true);
 
       return true;
@@ -725,5 +758,49 @@ export default ResponsiveNav.extend({
       Ember.$(self.get('disableClassSelector')).removeClass('resizing');
     });
   },
+  
+  /**
+   * Only when tab bar is at the bottom of the screen do these functions apply, i.e. mobile only
+   */
+  hideBottomTabBar() {
+    $('#nav-tabbar').addClass('hidden-xs');
+    $(this.get('disableBottomClassSelector')).addClass('bottom-nav-disabled');
+    this.get('EventBus').publish('fixedItemsShift');
+    this.set('bottomTabBarIsShowing',false);
+    this.updateSidebarScrollerHeight();
+  },
+  showBottomTabBar() {
+    $('#nav-tabbar').removeClass('hidden-xs');
+    $(this.get('disableBottomClassSelector')).removeClass('bottom-nav-disabled');
+    this.get('EventBus').publish('fixedItemsShift');
+    this.set('bottomTabBarIsShowing',true);
+    this.updateSidebarScrollerHeight();
+  },
+  
+  /**
+   * Callback when menu is switched
+   */
+  
+  scrollMenuBackToTop(){
+    
+    var handleScrollStop = function(){
+      $(this).stop().off('touchstart wheel',handleScrollStop);
+    };
+      
+    if($('#sidebar-scroller')[0].scrollTop!==0){
+      $('#sidebar-scroller').animate({ scrollTop: 0 }, 400, 'easeOutExpo').off('touchstart wheel',handleScrollStop).on('touchstart wheel',handleScrollStop);
+    }
+  
+  },
+  
+  /**
+   * Callback after menu is switched
+   */
+  
+  updateMenuScrollArea(){
+    
+    $('#sidebar-scroller').perfectScrollbar('update');
+    
+  }
 
 });

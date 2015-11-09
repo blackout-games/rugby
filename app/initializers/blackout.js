@@ -52,19 +52,44 @@ class Blackout {
   }
 
   /**
-   * Gets the value of a CSS property based on a class.
-   * @param  {string} prop      The CSS property for the value you want.
-   * @param  {string} fromClass The CSS class containing the property.
-   * @return {string}           The CSS value.
+   * Gets the value of a CSS property based on a class that hasn't been used yet (if it's been used you can just read the property using $.css() ).
+   * @param  {string} prop             The CSS property for the value you want.
+   * @param  {string} classOrjQueryObj The CSS class containing the property.
+   * @return {string}                  The CSS value.
    */
-  getCSSValue(prop, fromClass) {
-
-    var inspector = $("<div>").css('display', 'none').addClass(fromClass);
+  getCSSValue(prop, className) {
+    
+    var inspector = $("<div>").css('display', 'none').addClass(className);
     $("body").append(inspector); // add to DOM, in order to read the CSS property
     try {
       return this.trimChar(inspector.css(prop), '\"');
     } finally {
       inspector.remove(); // and remove from DOM
+    }
+
+  }
+
+  /**
+   * Gets the value of a CSS pseudo property based on a class.
+   * @param  {string} prop             The CSS property for the value you want.
+   * @param  {string} classOrjQueryObj The CSS class containing the pseudo property, or a jquery element with the class already applied.
+   * @return {string}                  The pseudo CSS value.
+   */
+  getCSSPseudoValue(prop, classOrjQueryObj, pseudoSelector=':before') {
+
+    var inspector;
+    if(typeof(classOrjQueryObj)==='string'){
+      inspector = $("<div>").css('display', 'none').addClass(classOrjQueryObj);
+      $("body").append(inspector); // add to DOM, in order to read the CSS property
+    } else {
+      inspector = classOrjQueryObj;
+    }
+    try {
+      return window.getComputedStyle(inspector[0], pseudoSelector).getPropertyValue(prop);
+    } finally {
+      if(typeof(classOrjQueryObj)==='string'){
+        inspector.remove(); // and remove from DOM
+      }
     }
 
   }
@@ -602,13 +627,46 @@ String.prototype.stripMarkdown = function(options) {
 };
 
 /**
- * Strings any non-alphanumeric characters
- * @param  {[type]} options [description]
- * @return {[type]}         [description]
+ * Strips any non-alphanumeric characters
  */
-String.prototype.alphaNumeric = function(options) {
+String.prototype.alphaNumeric = function() {
   return this.replace(/[^a-zA-Z0-9]/g,'');
 };
+
+/**
+ * Generate a hash integer from a string
+ * (Faster than md5)
+ */
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0){
+    return hash;
+  }
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
+
+
+
+
+/**
+ * Array extensions
+ */
+
+// adds an element to the array if it does not already exist using a comparer 
+// function
+Array.prototype.pushUnique = function (item){
+    if(this.indexOf(item) === -1) {
+        this.push(item);
+        return true;
+    }
+    return false;
+}; 
 
 
 
@@ -632,7 +690,7 @@ Ember.Component.reopen({
 
 });
 
-var _hoverStartEvent,_hoverEndEvent;
+var _hoverStartEvent,_hoverEventObj,_hoverEndEvent;
 
 function _refreshWatchers() {
   
@@ -645,6 +703,10 @@ function _refreshWatchers() {
   // Leave
   Ember.$('body').find('.btn,.btn-a').off('mouseleave touchend', _leave);
   Ember.$('body').find('.btn,.btn-a').on('mouseleave touchend', _leave);
+  
+  // Click
+  Ember.$('body').find('.btn').off('click', _click);
+  Ember.$('body').find('.btn').on('click', _click);
 
 }
 
@@ -659,10 +721,13 @@ function _hover (e) {
 
     (_hoverEndEvent === 'mouseleave' &&
       e.type === 'mouseenter')) {
-
+    
+    // For determining touch screen
     if (!_hoverStartEvent) {
       _hoverStartEvent = e.type;
     }
+    print(e);
+    _hoverEventObj = e;
 
     if (e.type === 'touchstart') {
       $(this).addClass('press');
@@ -690,8 +755,19 @@ function _leave (e) {
     }
 
     $(this).removeClass('press hover');
+    
+    /**
+     *   NOTICE: If CLICK events are not working, see the perfect scroll component
+     */
 
   }
+}
+
+function _click () {
+  
+  // Remove focus after click so buttons don't just sit there in the 'focused' state event after clicking. e.e. login button > sidebar > home screen > desktop.
+  $(this).blur();
+  
 }
 
 /*
