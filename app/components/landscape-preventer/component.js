@@ -8,11 +8,15 @@ export default Ember.Component.extend({
 
   watchUI: Ember.on('didInsertElement', function(){
     
-    return;
-    this.onResizeBound = Ember.run.bind( this, this.onResize );
-    $(window).on('resize', this.onResizeBound);
-    
-    this.onResize();
+    // Landscape is now supported
+    if(false){
+      
+      this.onResizeBound = Ember.run.bind( this, this.onResize );
+      $(window).on('resize', this.onResizeBound);
+      
+      this.onResize();
+      
+    }
     
   }),
   

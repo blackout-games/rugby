@@ -8,7 +8,7 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement',function(){
     
     var $fadeBg = this.$().findClosest('.fade-bg');
-    var self = this;
+    //var self = this;
     
     // Set default background color
     this.$().css('background-color',this.get('defaultColor'));

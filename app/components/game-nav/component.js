@@ -593,7 +593,7 @@ export default ResponsiveNav.extend({
       newButton.addClass('selected');
       
       // Munges
-      if(type=='menu' && tabName=='info'){
+      if(type==='menu' && tabName==='info'){
         // For showing info tab on left in home page menu on mobile
         type = 'tab';
       }

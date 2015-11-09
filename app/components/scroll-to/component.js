@@ -77,7 +77,7 @@ export default Ember.Component.extend({
       if(targetPath!==currentPath){
         
         let routeCheck = function(){
-          if(window.location.pathname==targetPath){
+          if(window.location.pathname===targetPath){
             Ember.run.later(function(){
               window.location.hash = linkId;
             },100);

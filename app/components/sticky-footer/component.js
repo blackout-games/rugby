@@ -29,11 +29,11 @@ export default Ember.Component.extend({
       
       let nextWidth;
       
-      if(this.get('widthOnly')=='xs'){
+      if(this.get('widthOnly')==='xs'){
         nextWidth = 'sm';
-      } else if(this.get('widthOnly')=='sm'){
+      } else if(this.get('widthOnly')==='sm'){
         nextWidth = 'md';
-      } else if(this.get('widthOnly')=='md'){
+      } else if(this.get('widthOnly')==='md'){
         nextWidth = 'lg';
       }
       

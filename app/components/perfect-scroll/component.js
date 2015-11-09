@@ -1,6 +1,5 @@
 import Ember from 'ember';
-
-const { $ } = Ember;
+//const { $ } = Ember;
 
 /**
  * Doesn't play well with fastclick
@@ -102,7 +101,7 @@ export default Ember.Component.extend({
     // So we just monitor if the finger has moved too much.
     //var newTarget = document.elementFromPoint(touch.pageX, touch.pageY);
     //if(e.target === newTarget){
-    if(Math.abs(touch.clientX - startTouchX) <= movementThreshold
+    if(Math.abs(touch.clientX - startTouchX) <= movementThreshold 
       && Math.abs(touch.clientY - startTouchY) <= movementThreshold){
     
       // Make sure scroll position hasn't changed

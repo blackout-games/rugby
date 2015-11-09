@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { $ } = Ember;
 
 export default Ember.Component.extend({
   tagName: 'button',
@@ -10,7 +11,7 @@ export default Ember.Component.extend({
     if( this.get('applyFixedPositionTouchFix') ){
       
       var isFixed = this.$().parents().filter(function() {
-        return $(this).css('position') == 'fixed';
+        return $(this).css('position') === 'fixed';
       }).length;
       
       if(isFixed){
