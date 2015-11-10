@@ -134,6 +134,10 @@ $button-text-weight: 600;
     }
   }
   
+  &.on-image {
+    background-color: rgba($bg-dark,0.444);
+  }
+  
   @include focus-button-ghost;
     
   &.press {

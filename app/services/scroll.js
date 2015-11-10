@@ -14,6 +14,9 @@ export default Ember.Service.extend({
   
   scrollElementSelector: null,
   
+  /**
+   * This returns the selector for the item when you need to manipulate the page scroll position
+   */
   getScrollSelector() {
     var scrollSelector = this.get('scrollElementSelector');
     
@@ -22,6 +25,23 @@ export default Ember.Service.extend({
         scrollSelector = '#nav-body';
       } else {
         scrollSelector = 'html,body';
+      }
+    }
+    
+    return scrollSelector;
+  },
+  
+  /**
+   * This returns a selector when you need to get events when the page is scrolled
+   */
+  getScrollEventsSelector() {
+    var scrollSelector = this.get('scrollElementSelector');
+    
+    if(!scrollSelector){
+      if (window.features.lockBody) {
+        scrollSelector = '#nav-body';
+      } else {
+        scrollSelector = window;
       }
     }
     

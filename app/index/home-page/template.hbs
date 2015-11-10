@@ -44,7 +44,7 @@
         </div>
 
         <div class="signup-container">
-          {{#link-to 'signup' tagName='button' class="btn btn-big no-outline home-signup-buttons gap-md"}}Sign up with your email{{/link-to}}
+          {{#link-to 'signup' tagName='button' class="btn btn-big btn-ghost white on-image no-outline home-signup-buttons gap-md"}}Sign up with your email{{/link-to}}
         </div>
         
       {{/unless}}
@@ -78,7 +78,7 @@
       </div>
       
       {{#unless session.isAuthenticated}}
-        {{#link-to "login" id="home-login-button" class="btn btn-ghost white btn-small"}}Login{{/link-to}}
+        {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}Login{{/link-to}}
       {{/unless}}
 
     </div>
