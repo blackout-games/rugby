@@ -4,6 +4,10 @@ export default Ember.Route.extend({
   
   sortProps: ['activeTeams'],
   
+  removeBackground: Ember.on('activate', function(){
+    this.get('EventBus').publish('removeBackground');
+  }),
+  
   model() {
     return Ember.RSVP.hash({
       

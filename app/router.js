@@ -9,10 +9,6 @@ Ember.Router.reopen({
     this.get('history').update(this.get('url'));
   }),
   
-  doSomethingOnUrlChangeStart: Ember.on('willTransition', function(){
-    this.get('EventBus').publish('removeBackground');
-  }),
-  
 });
 
 var Router = Ember.Router.extend({

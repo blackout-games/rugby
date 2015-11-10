@@ -18,6 +18,7 @@ export default Ember.Component.extend({
   
   bindFunctions: Ember.on('init',function(){
     this.afterFadeoutBound = Ember.run.bind(this,this.afterFadeout);
+    this.setupBound = Ember.run.bind(this,this.setup);
   }),
   
   setup(){
@@ -46,6 +47,7 @@ export default Ember.Component.extend({
           $fadeBg.addClass('fade-bg-show');
         },50);
       });
+      
     }
     
   },
@@ -54,19 +56,28 @@ export default Ember.Component.extend({
     var o = options.oldAttrs;
     var n = options.newAttrs;
     
+    var $fadeBg = this.$().findClosest('.fade-bg');
+    
     // -------------------------- Check for new image
     
     if( Blackout.isEmpty(o.imageClass) && Blackout.isEmpty(o.imageUrl) && (!Blackout.isEmpty(n.imageClass) || !Blackout.isEmpty(n.imageUrl)) ){
       
       this.setup();
       
-    }
-    
-    // -------------------------- Check for remove image
-    
-    if(Ember.isEmpty(this.get('imageClass'))){
       
-      var $fadeBg = this.$().findClosest('.fade-bg');
+    // -------------------------- Check for updated image
+    
+    } else if( o.imageClass !== n.imageClass || o.imageUrl !== n.imageUrl ){
+      
+      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
+      
+      $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.setupBound);
+      
+      
+    // -------------------------- Check for removed image
+    
+    } else if(Ember.isEmpty(this.get('imageClass'))){
+      
       $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
       
       $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterFadeoutBound);

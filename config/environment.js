@@ -10,7 +10,7 @@ module.exports = function(environment) {
   var localIP = '192.168.20.5'; // Home
   //var localIP = '192.168.1.150'; // Nat's + parents
   
-  /*********************/
+  /*********************
   // Development API (Local)
   var devApiBase = '';
   var devApiProtocol = 'http';
@@ -24,7 +24,7 @@ module.exports = function(environment) {
   var devApiHost = 'apitest.blackoutrugby.com';
   /*********************/
   
-  /*********************
+  /*********************/
   // Development API (Live, Production)
   var devApiBase = '/v1';
   var devApiProtocol = 'https';

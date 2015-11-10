@@ -516,16 +516,13 @@ export default Ember.Component.extend({
     //    'username': username,
     //  },
     //};
-    print(username);
+    //let html = store.queryRecord('manager',query).then(function(data){
+    
     // Get manager
     let html = store.findRecord('manager',username.pkString()).then(function(data){
-    //let html = store.queryRecord('manager',query).then(function(data){
       
-      //let item = data.get('firstObject');
-      let item = data;
-      print(username,item);
-      if(item){
-        let html = buildUsernameHTML(item);
+      if(data){
+        let html = buildUsernameHTML(data);
         
         // Update HTML
         $('.'+className).html(html);

@@ -4,6 +4,10 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 
 export default Ember.Route.extend(UnauthenticatedRouteMixin,{
 //export default Ember.Route.extend({
+  
+  removeBackground: Ember.on('activate', function(){
+    this.get('EventBus').publish('removeBackground');
+  }),
 
   actions: {
     goHome() {

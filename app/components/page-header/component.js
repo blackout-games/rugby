@@ -35,8 +35,4 @@ export default Ember.Component.extend({
     
   }),
   
-  cleanup: Ember.on('willDestroyElement',function(){
-    //this.get('EventBus').publish('removeBackground');
-  }),
-  
 });
