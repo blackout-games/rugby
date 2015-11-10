@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     
     var self = this;
     
-    return markdown.replace(/@([a-zA-Z0-9\-_]+)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,function( fullMatch, unquotedUsername, quotedUsername){
+    return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,function( fullMatch, unquotedUsername, quotedUsername){
       
       return self.decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
       
@@ -501,7 +501,7 @@ export default Ember.Component.extend({
     // Decorate
     let buildUsernameHTML = function(manager){
       let imageClassName = 'md_manager_img_'+username.alphaNumeric();
-      let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+manager.get('id');
+      let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+manager.get('numberId');
       
       let html = '<div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + manager.get('username') + '</a>';
       
@@ -510,16 +510,20 @@ export default Ember.Component.extend({
       return html;
     };
     
-    let query = {
-      filter: {
-        'username': username,
-      },
-    };
-    
+    // Don't use query since it prevents ember data from grouping requests
+    //let query = {
+    //  filter: {
+    //    'username': username,
+    //  },
+    //};
+    print(username);
     // Get manager
-    let html = store.queryRecord('manager',query).then(function(data){
+    let html = store.findRecord('manager',username.pkString()).then(function(data){
+    //let html = store.queryRecord('manager',query).then(function(data){
       
-      let item = data.get('firstObject');
+      //let item = data.get('firstObject');
+      let item = data;
+      print(username,item);
       if(item){
         let html = buildUsernameHTML(item);
         

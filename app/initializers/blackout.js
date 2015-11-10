@@ -677,6 +677,14 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
+/**
+ * Prepare a string id for use with API requests using a unique string instead of the normal number ID. Used for example, when reqiesting managers via their username
+ * @return {string} The prepared string.
+ */
+String.prototype.pkString = function() {
+  return this.toLowerCase().replace(/ /g,'_sp_');
+};
+
 
 
 
