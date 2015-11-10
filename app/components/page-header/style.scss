@@ -18,6 +18,7 @@ $bg-tint: linear-gradient(
 .page-header {
   min-height: 222px;
   border: none;
+  position:relative;
   padding: 33px 33px 0;
   margin: 0;
   @media #{$mobile-tall} {
@@ -38,95 +39,5 @@ $bg-tint: linear-gradient(
       max-width:300px;
     }
     //font-style: italic;
-  }
-  
-}
-
-
-.page-header-bg {
-  position:relative;
-  
-  /**
-   * Default
-   */
-  @include header-background( '', center center );
-  
-  /**
-   * Specified
-   */
-  &.specified {
-    @include header-background('', center center);
-  }
-  
-  /**
-   *  Dashboard
-   */
-   
-  &.dashboard-1 {
-    @include header-background($image-folder + "stock/dashboard-fancy.jpg", center center);
-  }
-  &.dashboard-2 {
-    @include header-background($image-folder + "stock/dashboard-club-office.jpg", left 59%);
-  }
-  &.dashboard-3 {
-    @include header-background($image-folder + "stock/dashboard-design.jpg", left center);
-  }
-  &.dashboard-4 {
-    @include header-background($image-folder + "stock/dashboard-glass.jpg", left 59%);
-  }
-  &.dashboard-5 {
-    @include header-background($image-folder + "stock/dashboard-green.jpg", left 44%);
-  }
-  &.dashboard-6 {
-    @include header-background($image-folder + "stock/dashboard-lamps.jpg", left center);
-  }
-  &.dashboard-7 {
-    @include header-background($image-folder + "stock/dashboard-loft.jpg", left 73%);
-  }
-  &.dashboard-8 {
-    @include header-background($image-folder + "stock/dashboard-plant.jpg", left 60%);
-  }
-  
-  /**
-   *  News
-   */
-  
-  &.news-1 {
-    @include header-background($image-folder + "stock/news-boss.jpg", left 30%);
-  }
-  &.news-2 {
-    @include header-background($image-folder + "stock/news-desks.jpg", left 60%);
-  }
-  &.news-3 {
-    @include header-background($image-folder + "stock/news-hq.jpg", center 59%);
-  }
-  &.news-4 {
-    @include header-background($image-folder + "stock/news-office.jpg", center 55%);
-  }
-  &.news-5 {
-    @include header-background($image-folder + "stock/news-two-desk.jpg", left 80%);
-  }
-  &.news-6 {
-    @include header-background($image-folder + "stock/news-wood.jpg", left 65%);
-  }
-  
-  /**
-   *  Rugby
-   */
-  
-  &.rugby-1 {
-    @include header-background($image-folder + "stock/stadium-blue-seats.jpg", left bottom);
-  }
-  &.rugby-2 {
-    @include header-background($image-folder + "stock/stadium-club-at-night.jpg", left 88%);
-  }
-  &.rugby-3 {
-    @include header-background($image-folder + "stock/stadium-industrial.jpg", center 70%);
-  }
-  &.rugby-4 {
-    @include header-background($image-folder + "stock/stadium-olympic.jpg", center 44%);
-  }
-  &.rugby-5 {
-    @include header-background($image-folder + "stock/stadium-skylights.jpg", center 35%);
   }
 }

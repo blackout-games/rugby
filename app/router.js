@@ -3,10 +3,16 @@ import config from './config/environment';
 
 Ember.Router.reopen({
   history: Ember.inject.service(),
+  EventBus: Ember.inject.service('event-bus'),
   
   doSomethingOnUrlChange: Ember.on('didTransition', function() {
     this.get('history').update(this.get('url'));
-  })
+  }),
+  
+  doSomethingOnUrlChangeStart: Ember.on('willTransition', function(){
+    this.get('EventBus').publish('removeBackground');
+  }),
+  
 });
 
 var Router = Ember.Router.extend({

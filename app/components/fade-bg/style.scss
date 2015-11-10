@@ -1,12 +1,18 @@
 .fade-bg-ready {
   &:before {
     opacity:0;
-    transition: opacity 1s;
+    transition: opacity 0.444s;
   }
 }
 
 .fade-bg-show {
   &:before {
     opacity: 1;
+  }
+}
+
+.fade-bg-out {
+  &:before {
+    transition: opacity 0.111s;
   }
 }

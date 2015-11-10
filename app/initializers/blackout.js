@@ -4,6 +4,21 @@ var E = Ember;
 var $ = E.$;
 
 class Blackout {
+  
+  /**
+   * Same as Ember.isEmpty, except also supports options attributes passed to didUpdateAttrs
+   * @param  {any}  item Item to check if empty
+   * @return {Boolean}
+   */
+  isEmpty( item ) {
+    
+    if(typeof(item)==='object' && "value" in item && item.value===undefined){
+      return true;
+    } else {
+      return Ember.isEmpty(item);
+    }
+    
+  }
 
   /**
    * Rand function which mimic's PHP's rand function
@@ -98,9 +113,21 @@ class Blackout {
    * Allows us to manipulate pseudo rules
    * @param {string} selector CSS selector, i.e. .some-class:before
    * @param {string} css      CSS rules, i.e. background-image: url(...); ...
+   * @param {number} index    An integer index for the rule
+   * http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleSheet
    */
-  addCSSRule(selector,css) {
+  addCSSRule(selector,css/*,index=0*/) {
     document.styleSheets[0].addRule(selector,css);
+    //document.styleSheets[0].insertRule(selector + ' { ' + css + ' }',index);
+  }
+  
+  /**
+   * Allows us to remove a previously added pseudo rule
+   * @param {number} index    An integer index for the rule to delete
+   * http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleSheet
+   */
+  deleteCSSRule(index) {
+    document.styleSheets[0].deleteRule(index);
   }
 
   /**
