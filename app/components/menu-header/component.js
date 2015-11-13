@@ -27,6 +27,9 @@ export default Ember.Component.extend({
     loginWithFacebook(button) {
       this.sendAction('fbLoginAction', button);
     },
+    goAction(){
+      // Used for testing some random action
+    }
   }
 
 });

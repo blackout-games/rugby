@@ -116,9 +116,9 @@ class Blackout {
    * @param {number} index    An integer index for the rule
    * http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleSheet
    */
-  addCSSRule(selector,css/*,index=0*/) {
+  addCSSRule(selector,css,index=0) {
     document.styleSheets[0].addRule(selector,css);
-    //document.styleSheets[0].insertRule(selector + ' { ' + css + ' }',index);
+    document.styleSheets[0].insertRule(selector + ' { ' + css + ' }',index);
   }
   
   /**
@@ -215,11 +215,79 @@ class Blackout {
   }
   
   /**
+   * Encode any oldstyle characters.
+   */
+  encodeOldStyleChars(str){
+      
+    return str.replace(/\[/g,'&#91;');
+    
+  }
+  
+  /**
+   * Decode any oldstyle characters.
+   */
+  decodeOldstyleChars(str){
+    
+    return str.replace(/&#91;/g,'[');
+    
+  }
+  
+  /**
+   * The point of this isn't to find and format code (the main markdown parser will do that).
+   * Here we just need to encode any markdown characters within code blocks so that they don't get picked up by our custom markdown parsing stuff.
+   */
+  encodeMarkdownCode(markdown){
+    
+    return markdown.replace(/```([^`]*)```|`([^`\n]*)`/g,function( fullMatch, codeBlock, inlineCode){
+      
+      if(codeBlock){
+        return '```' + codeBlock.encodeMarkdownChars() + '```';
+      } else if(inlineCode){
+        return '`' + inlineCode.encodeMarkdownChars() + '`';
+      } else {
+        return fullMatch;
+      }
+      
+    });
+    
+  }
+  
+  /**
    * Converts old style format tags like [b][/b] to markdown.
    * @param  {string} str The string to convert
    * @return {string}     The markdown string
    */
   toMarkdown(str){
+    
+    let self = this;
+    
+    // ------------------------------------------- Pre-code
+    
+    // We must process code blocks that are already markdown to ensure they won't be touched either.
+    
+    str = str.replace(/```([^`]*)```|`([^`\n]*)`/g,function( fullMatch, codeBlock, inlineCode){
+      
+      if(codeBlock){
+        return '```' + self.encodeOldStyleChars(codeBlock) + '```';
+      } else if(inlineCode){
+        return '`' + self.encodeOldStyleChars(inlineCode) + '`';
+      } else {
+        return fullMatch;
+      }
+      
+    });
+    
+    // ------------------------------------------- Code
+    
+    str = str.replace(/\[(i?code)\]((.|[\r\n?])*?)\[\/i?code\]/g,function(fullMatch,tag,code){
+      
+      if(tag==='icode'){
+        return '`' + self.encodeOldStyleChars(code) + '`';
+      } else {
+        return '```' + "\n" + self.encodeOldStyleChars(code) + "\n" + '```';
+      }
+      
+    });
     
     // ------------------------------------------- Bold
     
@@ -250,14 +318,6 @@ class Blackout {
     str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,function(fullMatch,text){
       
       return text;
-      
-    });
-    
-    // ------------------------------------------- Code
-    
-    str = str.replace(/\[code\]((.|[\r\n?])*?)\[\/code\]/g,function(fullMatch,code){
-      
-      return '```' + "\n" + code + "\n" + '```';
       
     });
     
@@ -304,6 +364,9 @@ class Blackout {
       return quote;
       
     });
+    
+    // Decode any oldstyle chars
+    str = this.decodeOldstyleChars(str);
     
     return str;
     
@@ -372,12 +435,16 @@ class Blackout {
    * @param  {array}   path  Path to the image
    * @param  {Function} callback Function to call once images have loaded
    */
-  preloadImage(path, callback) {
+  preloadImage(path, callback, errorCallback=null) {
     var img = $('<img src="' + path + '" />');
-    img.load(function() {
+    img.on('load',function() {
       $(this).remove();
       if (callback) {
         callback();
+      }
+    }).on('error', function() {
+      if(errorCallback){
+        errorCallback();
       }
     });
   }
@@ -674,7 +741,7 @@ String.prototype.hashCode = function() {
     hash  = ((hash << 5) - hash) + chr;
     hash |= 0; // Convert to 32bit integer
   }
-  return hash;
+  return Math.abs(hash);
 };
 
 /**
@@ -683,6 +750,110 @@ String.prototype.hashCode = function() {
  */
 String.prototype.pkString = function() {
   return this.toLowerCase().replace(/ /g,'_sp_');
+};
+
+/**
+ * php.js version of str_replace
+ * @param  {string|array} search  The string or array of strings to search for
+ * @param  {string|array} replace The string or array of strings to use as replacements
+ * @param  {number} count         Optional, Limit the replacements to this number
+ * @return {string}               The final string.
+ */
+String.prototype.str_replace = function(search, replace, count) {
+
+  let subject = this;
+
+  var i = 0,
+    j = 0,
+    temp = '',
+    repl = '',
+    sl = 0,
+    fl = 0,
+    f = [].concat(search),
+    r = [].concat(replace),
+    s = subject,
+    ra = Object.prototype.toString.call(r) === '[object Array]',
+    sa = Object.prototype.toString.call(s) === '[object Array]';
+  s = [].concat(s);
+  if (count) {
+    this.window[count] = 0;
+  }
+
+  for (i = 0, sl = s.length; i < sl; i++) {
+    if (s[i] === '') {
+      continue;
+    }
+    for (j = 0, fl = f.length; j < fl; j++) {
+      temp = s[i] + '';
+      repl = ra ? (r[j] !== undefined ? r[j] : '') : r[0];
+      s[i] = (temp)
+        .split(f[j])
+        .join(repl);
+      if (count && s[i] !== temp) {
+        this.window[count] += (temp.length - s[i].length) / f[j].length;
+      }
+    }
+  }
+  return sa ? s : s[0];
+};
+
+/**
+ * Encode any markdown special characters into html codes
+ * @param  {boolean} decode Set to true to reverse the process
+ * @return {string}         The encoded string
+ */
+String.prototype.encodeMarkdownChars = function(decode=false){
+  
+  let markdownChars = [
+    '#', // must be first html etities have hash in them
+    '*',
+    '_',
+    '~',
+    '=',
+    '[',
+    ']',
+    '(',
+    ')',
+    '>',
+    '!',
+    '@',
+    '.',
+    ':',
+  ];
+  
+  let htmlCodes = [
+    '&#35;', // #
+    '&#42;', // *
+    '&#95;', // _
+    '&#126;', // ~
+    '&#61;', // =
+    '&#91;', // [
+    '&#93;', // ]
+    '&#40;', // (
+    '&#41;', // )
+    '&gt;', // >
+    '&#33;', // !
+    '&#64;', // @
+    '&#46;', // .
+    '&#58;', // :
+  ];
+  
+  if(!decode){
+    return this.str_replace(markdownChars,htmlCodes);
+  } else {
+    return this.str_replace(htmlCodes.reverse(),markdownChars.reverse());
+  }
+  
+};
+
+/**
+ * Decode any markdown special characters
+ * @return {string}         The encoded string
+ */
+String.prototype.decodeMarkdownChars = function(){
+  
+  return this.encodeMarkdownChars(true);
+  
 };
 
 

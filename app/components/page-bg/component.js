@@ -1,9 +1,13 @@
 import Ember from 'ember';
 
-var images = {
-  "dashboard": 8,
-  "news": 6,
-  "rugby": 5,
+var imagesList = {
+  //"dashboard": ['fancy','club-office','design','glass','green','lamps','loft','plant'],
+  "dashboard": ['green','design','glass','design2'],
+  //"dashboard": ['green'],
+  "news": ['boss','desks','hq','office','two-desk'],
+  //"news": ['wood'],
+  "rugby": ['blue-seats','club-at-night','industrial','olympic','skylights'],
+  //"rugby": ['skylights'],
 };
 
 export default Ember.Component.extend({
@@ -23,19 +27,19 @@ export default Ember.Component.extend({
   },
   
   newBackgrounds( group ){
-    this.set('images',group);
+    this.set('imagesGroup',group);
   },
   
   removeBackground(){
     this.set('imageURL',false);
-    this.set('images',false);
+    this.set('imagesGroup',false);
   },
   
   defaultColor: Ember.computed( function(){
     return Ember.Blackout.getCSSValue('background-color','bg-dark');
   }),
   
-  imageClass: Ember.computed('imageURL','images', function(){
+  imageClass: Ember.computed('imageURL','imagesGroup', function(){
     
     if( this.get('imageURL') ){
       
@@ -50,28 +54,32 @@ export default Ember.Component.extend({
       
       return this.get('baseClasses').join(' ') + ' ' + className;
       
-    } else if( this.get('images') ){
+    } else if( this.get('imagesGroup') ){
       
-      var key = this.get('images');
+      let key = this.get('imagesGroup');
       
-      if( images[key] ){
+      if( imagesList[key] ){
         
-        var session = this.get('session');
+        let session = this.get('session');
+        let images = imagesList[key];
         
-        var route = this.get('route');
+        let route = this.get('route');
         if(!route){
           route = key;
         }
         
         // Check if we've been here
-        var sessionKey = route+'-header-image';
-        var imageClass = session.get(sessionKey);
+        let sessionKey = route+'-header-image';
+        let imageClass = session.get(sessionKey);
         
         if(!imageClass){
-          var available = images[this.get('images')];
-          var image = Ember.Blackout.rand(1,available);
+          
+          let available = images.length;
+          let image = images[Ember.Blackout.rand(1,available)-1];
+          
           imageClass = key + '-' + image;
           session.set(sessionKey,imageClass);
+          
         }
         
         return this.get('baseClasses').join(' ') + ' ' + imageClass;

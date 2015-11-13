@@ -155,3 +155,7 @@ $finish: 100%;
 .spinner.fb > div {
   background-color:saturate(lighten($secondary-master,15%),33%);
 }
+
+.spinner.placeholder > div {
+  background-color:#a1abd2;
+}

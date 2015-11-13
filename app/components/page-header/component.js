@@ -12,7 +12,7 @@ import Ember from 'ember';
  */
 
 export default Ember.Component.extend({
-  height: '25vh',
+  height: '20vh',
   
   setup: Ember.on( 'didInsertElement', function(){
     

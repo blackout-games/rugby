@@ -126,16 +126,18 @@ h2 {
   text-transform: uppercase;
   font-style: italic;
   font-family: $sports-font;
-
+  
+  $a-color: desaturate($secondary-dark,7%);
+  
   a {
-    color: $secondary-dark;
+    color: $a-color;
     font-weight: 800;
     border-bottom: none;
     text-decoration: none;
     transition: color $hover-animation-time;
 
     &:visited {
-      color: $secondary-dark;
+      color: $a-color;
     }
 
     &:hover, &:active {
@@ -152,22 +154,27 @@ h3 {
 }
 
 h4 {
+  font-family: $heading-font;
+  text-transform: uppercase;
+  font-size: 27px;
+  font-weight: 900;
+  margin: 27px 0 7px;
 }
 
 h5 {
   font-family: $heading-font;
   text-transform: uppercase;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 900;
-  margin: 22px 0 11px;
+  margin: 22px 0 7px;
 }
 
 h6 {
-  font-family: $heading-font;
-  text-transform: uppercase;
-  font-size: 18px;
+  font-family: $sports-font;
+  //text-transform: uppercase;
+  font-size: 19px;
   font-weight: 900;
-  margin: 20px 0 4px;
+  margin: 20px 0 7px;
 }
 
 .panel-title {

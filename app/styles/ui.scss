@@ -208,3 +208,15 @@ table.light {
 .manager-avatar {
   @include user-image( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
 }
+
+
+/**
+ * Placeholders
+ */
+
+.placeholder-logo {
+  @include placholder-image( '/assets/images/global/placeholders/logo.png' );
+}
+.placeholder-circle-logo {
+  @include placholder-image( '/assets/images/global/placeholders/logo-circle.png' );
+}

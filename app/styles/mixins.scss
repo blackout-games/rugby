@@ -100,6 +100,28 @@
   
 }
 
+@mixin cover-background-tinted-min($file,$tint,$bg-position: center center){
+  
+  // Place bg image in before
+  &:before {
+    @include cover-background($file);
+    background-position: $bg-position;
+  }
+  
+  // Place tint after
+  &:after {
+    background: $tint;
+  }
+  
+}
+
+@mixin placholder-image($file){
+  
+  position:relative;
+  @include cover-background($file);
+  
+}
+
 @function calculateRem($size) {
   $remSize: $size / 16px;
   @return $remSize * 1rem;

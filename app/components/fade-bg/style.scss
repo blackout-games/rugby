@@ -1,4 +1,7 @@
 .fade-bg-ready {
+  
+  @include cover-background-tinted('',$no-tint,center center,transparent);
+  
   &:before {
     opacity:0;
     transition: opacity 0.444s;

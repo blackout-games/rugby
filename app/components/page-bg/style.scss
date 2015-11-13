@@ -1,16 +1,95 @@
 
-
-
-
 .page-bg {
   position:fixed;
   z-index:0;
   top:0;
-  left:0;
+  right:0;
   width:100%;
   height:100%;
+
+  @media #{$nav-sm},#{$nav-md} {
+    width: calc( 100% - #{$max-block-size});
+  }
+
+  @media #{$nav-lg} {
+
+    width: calc( 100% - #{$max-block-size});
+    transition: none;
+    
+    &.open {
+      width: calc( 100% - #{$max-panel-width});
+      @media #{$nav-vs} {
+        width: calc(100% - ( #{$sidebar-width} + #{$max-panel-width} - #{$max-block-size} ));
+      }
+    }
+    &.force-transition {
+      transition: width $animation-time;
+    }
+  
+  }
+  
+  @media #{$nav-vs-not-mobile} {
+    width: calc( 100% - #{$sidebar-width});
+  }
+  
+  @media #{$tablet-tall-and-down} {
+    height:#{$page-header-height + 50px};
+  }
 }
 
+$tint-fade-out-bottom: linear-gradient(
+  to bottom,
+  rgba($bg-dark,0.88),
+  rgba($bg-dark,0.22) 44%,
+  $bg-dark 100%
+);
+
+$tint-dark-at-bottom: linear-gradient(
+  to bottom,
+  transparent,
+  transparent 44%,
+  rgba($bg-dark,0.7) 100%
+);
+
+$tint-dark-at-top: linear-gradient(
+  to bottom,
+  rgba($bg-dark,0.88),
+  transparent 33%,
+  transparent 50%,
+  rgba($bg-dark,0.77) 100%
+);
+
+$tint-darkish-at-top: linear-gradient(
+  to bottom,
+  rgba($bg-dark,0.44),
+  transparent 33%,
+  transparent 50%,
+  rgba($bg-dark,0.77) 100%
+);
+
+$tint-dark-at-top-and-bottom: linear-gradient(
+  to bottom,
+  rgba($bg-dark,0.99),
+  //transparent,
+  transparent 44%,
+  rgba($bg-dark,0.99) 100%
+);
+
+@mixin header-background(){
+  
+  @include cover-background-tinted('',$tint-dark-at-top,center center,$bg-dark-lighter);
+  
+}
+
+@mixin header-background-image( $url, $bg-position: center center, $tint: $tint-dark-at-top, $mobile-tint: $tint-fade-out-bottom ){
+  
+  @include cover-background-tinted-min($url,$tint,$bg-position);
+  
+  @media #{$tablet-tall-and-down} {
+    @include cover-background-tinted-min($url,$mobile-tint,$bg-position);
+  }
+  
+}
 
 .page-header-bg {
   position:relative;
@@ -19,84 +98,90 @@
   /**
    * Default
    */
-  @include header-background( '', center center );
+  @include cover-background-tinted('',$tint-dark-at-top,center center,$bg-dark-lighter);
+  
+  @media #{$tablet-tall-and-down} {
+    @include cover-background-tinted('',$tint-fade-out-bottom, center center,$bg-dark);
+  }
   
   /**
    * Specified
    */
   &.specified {
-    @include header-background('', center center);
+    // Reserved for a specified single url
   }
   
   /**
    *  Dashboard
    */
-   
-  &.dashboard-1 {
-    @include header-background($image-folder + "stock/dashboard-fancy.jpg", center center);
+  &.dashboard-fancy {
+    @include header-background-image($image-folder + "stock/dashboard-fancy.jpg", center center);
   }
-  &.dashboard-2 {
-    @include header-background($image-folder + "stock/dashboard-club-office.jpg", left 59%);
+  &.dashboard-club-office {
+    @include header-background-image($image-folder + "stock/dashboard-club-office.jpg", left 59%);
   }
-  &.dashboard-3 {
-    @include header-background($image-folder + "stock/dashboard-design.jpg", left center);
+  &.dashboard-design {
+    @include header-background-image($image-folder + "stock/dashboard-design.jpg", 80% center);
   }
-  &.dashboard-4 {
-    @include header-background($image-folder + "stock/dashboard-glass.jpg", left 59%);
+  &.dashboard-design2 {
+    @include header-background-image($image-folder + "stock/dashboard-design2.jpg", 80% center);
   }
-  &.dashboard-5 {
-    @include header-background($image-folder + "stock/dashboard-green.jpg", left 44%);
+  &.dashboard-glass {
+    @include header-background-image($image-folder + "stock/dashboard-glass.jpg", left 59%);
   }
-  &.dashboard-6 {
-    @include header-background($image-folder + "stock/dashboard-lamps.jpg", left center);
+  &.dashboard-green {
+    @include header-background-image($image-folder + "stock/dashboard-green.jpg", center 44%);
   }
-  &.dashboard-7 {
-    @include header-background($image-folder + "stock/dashboard-loft.jpg", left 73%);
+  &.dashboard-lamps {
+    @include header-background-image($image-folder + "stock/dashboard-lamps.jpg", left center);
   }
-  &.dashboard-8 {
-    @include header-background($image-folder + "stock/dashboard-plant.jpg", left 60%);
+  &.dashboard-loft {
+    @include header-background-image($image-folder + "stock/dashboard-loft.jpg", left 73%);
+  }
+  &.dashboard-plant {
+    @include header-background-image($image-folder + "stock/dashboard-plant.jpg", left 60%);
   }
   
   /**
    *  News
    */
   
-  &.news-1 {
-    @include header-background($image-folder + "stock/news-boss.jpg", left 30%);
+  &.news-boss {
+    @include header-background-image($image-folder + "stock/news-boss.jpg", left 30%);
   }
-  &.news-2 {
-    @include header-background($image-folder + "stock/news-desks.jpg", left 60%);
+  &.news-desks {
+    @include header-background-image($image-folder + "stock/news-desks.jpg", left 60%);
   }
-  &.news-3 {
-    @include header-background($image-folder + "stock/news-hq.jpg", center 59%);
+  &.news-hq {
+    @include header-background-image($image-folder + "stock/news-hq.jpg", center 59%);
   }
-  &.news-4 {
-    @include header-background($image-folder + "stock/news-office.jpg", center 55%);
+  &.news-office {
+    @include header-background-image($image-folder + "stock/news-office.jpg", center 55%);
   }
-  &.news-5 {
-    @include header-background($image-folder + "stock/news-two-desk.jpg", left 80%);
+  &.news-two-desk {
+    @include header-background-image($image-folder + "stock/news-two-desk.jpg", 44% 80%);
   }
-  &.news-6 {
-    @include header-background($image-folder + "stock/news-wood.jpg", left 65%);
+  &.news-wood {
+    @include header-background-image($image-folder + "stock/news-wood.jpg", left 65%);
   }
   
   /**
    *  Rugby
    */
   
-  &.rugby-1 {
-    @include header-background($image-folder + "stock/stadium-blue-seats.jpg", left bottom);
+  &.rugby-blue-seats {
+    @include header-background-image($image-folder + "stock/stadium-blue-seats.jpg", left bottom);
   }
-  &.rugby-2 {
-    @include header-background($image-folder + "stock/stadium-club-at-night.jpg", left 88%);
+  &.rugby-club-at-night {
+    @include header-background-image($image-folder + "stock/stadium-club-at-night.jpg", left 88%);
   }
-  &.rugby-3 {
-    @include header-background($image-folder + "stock/stadium-industrial.jpg", center 70%);
+  &.rugby-industrial {
+    @include header-background-image($image-folder + "stock/stadium-industrial.jpg", center 70%, $tint-darkish-at-top);
   }
-  &.rugby-4 {
-    @include header-background($image-folder + "stock/stadium-olympic.jpg", center 44%);
+  &.rugby-olympic {
+    @include header-background-image($image-folder + "stock/stadium-olympic.jpg", center 44%);
   }
-  &.rugby-5 {
-    @include header-background($image-folder + "stock/stadium-skylights.jpg", center 35%);
+  &.rugby-skylights {
+    @include header-background-image($image-folder + "stock/stadium-skylights.jpg", center 35%);
   }
 }

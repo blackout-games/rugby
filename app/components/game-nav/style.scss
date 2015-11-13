@@ -479,7 +479,10 @@ body.free{
       padding:9px 27px;
       font-size:15.9px;
       font-weight: 500;
+      
+      font-family: $sports-font;
       text-transform: uppercase;
+      
       text-decoration: none;
       color: desaturate(lighten($panel-color,33%),4%);
       &.press,&.hover {

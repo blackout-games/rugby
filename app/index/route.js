@@ -26,6 +26,7 @@ export default Ember.Route.extend({
       // Add country stats to countries model
       data.countries.forEach(function(country){
         
+        // notifyPropertyChange bug happens here
         country.set('activeTeams',parseInt(data.stats.get('countrySize' + country.id)));
         
       });

@@ -1,25 +1,11 @@
 
-
-
-$bg-tint: linear-gradient(
-  to bottom,
-  transparent,
-  transparent 44%,
-  rgba($bg-dark,0.99) 100%
-);
-
-@mixin header-background( $url, $bg-position: center center ){
-  
-  @include cover-background-tinted($url,$bg-tint,$bg-position, $bg-dark-lighter);
-  
-}
-
+$page-header-height: 177px;
 
 .page-header {
-  min-height: 222px;
+  min-height: $page-header-height;
   border: none;
   position:relative;
-  padding: 33px 33px 0;
+  padding: 22px 22px 0;
   margin: 0;
   @media #{$mobile-tall} {
     padding: 24px 24px 0;

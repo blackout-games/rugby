@@ -4,12 +4,22 @@ html {
   margin: 0;
   padding: 0;
   background-color: $bg-dark-lighter;
+  
+  // Force vertical scroll bar
+  overflow-y: scroll;
 }
 
 body {
   background-color: $bg-dark-lighter;
+  
+  // For mobile, where the bg image sits at top and fades to darkness
+  @media #{$tablet-tall-and-down} {
+    background-color: $bg-dark;
+  }
+  
   margin: 0;
   padding: 0;
+  overflow-y: initial; /* avoid the double scroll */
 }
 
 $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);

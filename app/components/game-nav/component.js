@@ -9,7 +9,7 @@ export default ResponsiveNav.extend({
   
   // Settings
   
-  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar',
+  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,.page-bg',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
   disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon',
@@ -572,8 +572,10 @@ export default ResponsiveNav.extend({
       } else if (tab.hasClass('nav-close') ){
         
         // Close menu on large
-        $('#nav-panel,#nav-body').addClass('force-transition');
+        $('#nav-panel,#nav-body,.page-bg').addClass('force-transition');
         if( this.hide() ){
+          
+          // Do successful hide stuff
           
         }
         

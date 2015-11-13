@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   bars: false,
   circles: false,
   spinner: 'bars',
-  color: 'primary',
+  color: 'placeholder',
   align: 'center',
   
   startup: Ember.on('init', function(){

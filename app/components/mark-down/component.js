@@ -19,6 +19,9 @@ export default Ember.Component.extend({
     // Convert old style format tags to markdown
     markdown = Blackout.toMarkdown(markdown);
     
+    // Encode any markdown chars inside code blocks
+    markdown = Ember.Blackout.encodeMarkdownCode(markdown);
+    
     // Disable html, so we can add our own
     markdown = this.disableHTML(markdown);
     
@@ -30,6 +33,9 @@ export default Ember.Component.extend({
     markdown = this.detectLinks(markdown);
     markdown = this.detectUsers(markdown);
     //print(markdown);
+    
+    // Unencode special chars
+    markdown = markdown.decodeMarkdownChars();
     
     this.set('markdown', markdown);
 
@@ -51,19 +57,19 @@ export default Ember.Component.extend({
     
     var self = this;
     
-    return markdown.replace(/(?:!{0,2}\$?\[(.+)\]([\(\:]) *)?((http(s)?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=\]\[]*))(?:\))?/gi,function( fullMatch, altTextOrRefKey, mdOrRef, url){
+    return markdown.replace(/(?:!{0,2}\$?\[(.+)\]([\(\:]) *)?((?:http(s)?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:(?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\))?/gi,function( fullMatch, altTextOrRefKey, normalUrlOrRef, url){
       
       var store = self.get('store'),
           res,youth,nat,u20,ext,className,
           visibleText = '<img src="/assets/loaders/text-loader.gif" class="text-loader">';
       
       // Determine alt text
-      var altText = mdOrRef!==':' ? altTextOrRefKey : null;
+      var altText = normalUrlOrRef!==':' ? altTextOrRefKey : null;
       
       // Ensure not a markdown image or video
       // Ensure not a reference URL
       var first = fullMatch.substr(0,1);
-      if(first === '!' || first === '$' || mdOrRef === ':'){
+      if(first === '!' || first === '$' || normalUrlOrRef === ':'){
         return fullMatch;
       }
       
