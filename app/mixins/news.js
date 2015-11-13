@@ -144,7 +144,10 @@ export default Ember.Mixin.create({
     // Check for image usable as primary
     var primaryImg;
     
-    var images = article.get('body').match(/(!)?!\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g);
+    // Obfuscate any markdown chars in code blocks
+    let tmpBody = Ember.Blackout.encodeMarkdownCode(article.get('body'));
+    
+    var images = tmpBody.match(/(!)?!\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g);
     if(images){
       $.each(images,function(i,img){
         

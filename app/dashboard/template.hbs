@@ -1,8 +1,8 @@
 {{page-header title="Dashboard" images="dashboard"}}
 
 <div class="row">
-  <div class="col-md-4 col-sm-6 dash-col row">
-    <div class="dash-box">
+  <div class="col-md-4 col-sm-6 dash-box-container row">
+    <div class="dash-box dash-col">
       
       <div class="panel-title">Game News</div>
     
@@ -10,6 +10,13 @@
         
         <div class="gap-3x">
           <h2>{{#link-to "news.article" article.id}}{{article.title}}{{/link-to}}</h2>
+          
+          {{#if article.img}}
+            
+            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+          
+          {{/if}}
+          
           <p class="gap-sm">
           
             {{{article.short}}}
@@ -33,8 +40,8 @@
       
     </div>
   </div>
-  <div class="col-md-4 col-sm-6 dash-col row">
-    <div class="dash-box">
+  <div class="col-md-4 col-sm-6 dash-box-container row">
+    <div class="dash-box dash-col">
       
       <div class="panel-title">National News</div>
     
