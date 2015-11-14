@@ -61,9 +61,7 @@ export default Ember.Component.extend({
       },function(){ // Error
         
         // Hide
-        $img.slideUp(function(){
-          $img.remove();
-        });
+        $img.slideUp();
         
       });
       
@@ -99,13 +97,13 @@ export default Ember.Component.extend({
     if(w<minRes && h<minRes) {
       
       // Hide
-      self.$().slideUp(function(){
-        Ember.$(this).remove();
-      });
+      self.$().slideUp();
       
       return false;
       
     }
+    
+    self.$().slideDown();
     
     return true;
     

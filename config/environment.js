@@ -71,7 +71,7 @@ module.exports = function(environment) {
       'connect-src': "'self' "+apiHost+" https://"+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
       'style-src': "'self' 'unsafe-inline' use.typekit.net https://use.typekit.net",
-      'frame-src': "s-static.ak.facebook.com https://s-static.ak.facebook.com www.facebook.com static.ak.facebook.com https://static.ak.facebook.com https://www.facebook.com *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com"
+      'frame-src': "*.facebook.com https://*.facebook.com  *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com"
     },
   };
 

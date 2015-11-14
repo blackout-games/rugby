@@ -90,6 +90,7 @@ export default Ember.Component.extend({
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     var self = this;
+    this.set('imageIsImmediatelyFadingOut',false);
     
     // Add any extra classes
     if(this.get('bgClass')){
@@ -118,6 +119,7 @@ export default Ember.Component.extend({
       if(this.get('fadeOutImmediately') && self.get('thereIsACurrentImage')){
         this.set('imageIsImmediatelyFadingOut',true);
         this.fadeOutImage( $fadeBg, self.fadeInImageBound );
+        
       }
       
       // Load image
@@ -139,6 +141,7 @@ export default Ember.Component.extend({
             }
             
           } else {
+            
             self.set('imageIsImmediatelyFadingOut',false);
           }
           
@@ -185,9 +188,7 @@ export default Ember.Component.extend({
       },function(){ // Error
         
         // Hide
-        $fadeBg.slideUp(function(){
-          Ember.$(this).remove();
-        });
+        $fadeBg.slideUp();
         
       });
       
@@ -197,11 +198,17 @@ export default Ember.Component.extend({
   
   fadeOutImage($fadeBg,callback=null) {
     
+    let self = this;
+    
     Ember.run.next(function(){
       
-      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
+      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show fade-bg-immediate');
+      
       
       $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', $fadeBg, callback);
+      
+      // Track state (MUST happen here, otherwise things can get messy, leaving imageIsImmediatelyFadingOut to always be set to true, and fadeouts being attempted even when there is no current image)
+      self.set('thereIsACurrentImage',false);
       
     });
     //},1000);
@@ -225,10 +232,12 @@ export default Ember.Component.extend({
       return;
     }
     
+    
     if(this.get('imageIsImmediatelyFadingOut')){
       this.set('imageIsImmediatelyFadingOut',false);
       return;
     }
+    
     
     // The background may not have been completely faded out from last fade-out when we reset, so it may seem like a quick fade-in from here. But I think that works well i.e. fast transition = fast fades (Jeremy)
     this.resetFade();
@@ -282,38 +291,24 @@ export default Ember.Component.extend({
   },
   
   didUpdateAttrs( options ) {
-    var o = options.oldAttrs;
+    //var o = options.oldAttrs;
     var n = options.newAttrs;
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     
-    // -------------------------- Check for new image
-    
-    if( Blackout.isEmpty(o.imageClass) && Blackout.isEmpty(o.imageUrl) && (!Blackout.isEmpty(n.imageClass) || !Blackout.isEmpty(n.imageUrl)) ){
-      
-      this.setup();
-      
-      
-    // -------------------------- Check for updated image
-    
-    } else if( o.imageClass !== n.imageClass || o.imageUrl !== n.imageUrl ){
-      
-      this.setup();
-      
-    // -------------------------- Check for removed image
-    
-    } else if(Ember.isEmpty(this.get('imageClass'))){
+    if(Blackout.isEmpty(n.imageClass) && Blackout.isEmpty(n.imageUrl)){
       
       this.fadeOutImage( $fadeBg, this.afterFadeoutBound );
+    
+    } else {
       
+      this.setup();
+    
     }
     
   },
   
   resetFade(){
-    
-    // Track state
-    this.set('thereIsACurrentImage',false);
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     
@@ -327,7 +322,7 @@ export default Ember.Component.extend({
       this.set('lastImageUrl',false);
     }
     
-    $fadeBg.removeClass('fade-bg-out fade-bg-show fade-bg-out fade-bg-show');
+    $fadeBg.removeClass('fade-bg-out fade-bg-show fade-bg-out fade-bg-show fade-bg-immediate');
     
     $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterFadeoutBound);
     $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.fadeInImageBound);
@@ -349,19 +344,19 @@ export default Ember.Component.extend({
   assertImageRes(w,h) {
     
     let minRes = this.get('minResolution');
+    let $fadeBg = this.$().findClosest('.fade-bg');
     
     if(w<minRes && h<minRes) {
       
-      var $fadeBg = this.$().findClosest('.fade-bg');
-      
       // Hide
-      $fadeBg.slideUp(function(){
-        Ember.$(this).remove();
-      });
+      $fadeBg.slideUp();
       
       return false;
       
     }
+      
+    // Show
+    $fadeBg.slideDown();
     
     return true;
     
