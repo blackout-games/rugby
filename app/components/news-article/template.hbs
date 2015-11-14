@@ -21,6 +21,12 @@
           {{/if}}
         </div>
         
+        {{#if model.img}}
+          
+          {{fade-img url=model.img}}
+        
+        {{/if}}
+        
         {{mark-down markdown=model.body }}
         
       </article>
