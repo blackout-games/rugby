@@ -150,6 +150,7 @@ $panel-color: $bg-dark-lighter;
   //background-color: desaturate(lighten($secondary-master,33%),44%);
   //background-color: desaturate(lighten($secondary-master,45%),44%);
   overflow-x: hidden;
+  overflow-y: hidden;
   min-height: 100vh;
 
   &.fixed {

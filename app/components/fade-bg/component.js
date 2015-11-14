@@ -11,7 +11,7 @@ export default Ember.Component.extend({
    * CSS color to use as the underlying color before the image loads and fades in
    * @type {CSS Color}
    */
-  defaultColor: '#e8ebf8',
+  defaultColor: '',
   
   /**
    * If using an image URL, set imageUrl
@@ -56,16 +56,24 @@ export default Ember.Component.extend({
   // Internal
   classNames: ['fade-bg-default'],
   lastImageClass: '',
+  firstImageHasLoaded: false,
+  thereIsACurrentImage: false,
+  imageCachedTime: 100, // Milliseconds in whcih an image loads to be considered available immediately
   
   bindFunctions: Ember.on('init',function(){
     this.afterFadeoutBound = Ember.run.bind(this,this.afterFadeout);
-    this.setupBound = Ember.run.bind(this,this.setup);
+    this.fadeInImageBound = Ember.run.bind(this,this.fadeInImage);
   }),
   
   addLoader: Ember.on('didInsertElement',function(){
+    var self = this;
     
     if(this.get('showLoader')){
-      this.$().findClosest('.spinner').removeClass('hidden');
+      Ember.run.later(function(){
+        if(!self.get('firstImageHasLoaded')){
+          self.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
+        }
+      },this.get('imageCachedTime'));
     }
     
   }),
@@ -85,7 +93,7 @@ export default Ember.Component.extend({
       // Set placeholder
       this.$().addClass(this.get('placeholderClass'));
       
-    } else {
+    } else if(this.get('defaultColor')) {
       
       // Set default background color
       this.$().css('background-color',this.get('defaultColor'));
@@ -97,16 +105,22 @@ export default Ember.Component.extend({
       // Get image url
       let url = Ember.Blackout.getCSSPseudoValue('background-image',this.get('imageClass'),':before').replace(/url\(/,'').rtrim(')');
       
+      let startTime = Date.now();
+      
       // Load image
       Ember.Blackout.preloadImage(url,function() {
         
-        // The background may not have been completely faded out from last fade-out when we reset, so it may seem like a quick fade-in from here. But I think that works well i.e. fast transition = fast fades (Jeremy)
-        self.resetFade();
+        if(self.get('thereIsACurrentImage')){
+            
+          self.fadeOutImage( $fadeBg, self.fadeInImageBound );
         
-        $fadeBg.addClass(self.get('imageClass') + ' fade-bg-ready');
-        self.set('lastImageClass',self.get('imageClass'));
+        } else {
+          
+          let loadTime = Date.now() - startTime;
+          self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+          
+        }
         
-        self.fadeInImage( $fadeBg );
       });
       
     } else if(this.get('imageUrl')){
@@ -114,22 +128,21 @@ export default Ember.Component.extend({
       // Get image url
       let url = this.get('imageUrl');
       
+      let startTime = Date.now();
+      
       // Load image
       Ember.Blackout.preloadImage(url,function() {
         
-        // The background may not have been completely faded out from last fade-out when we reset, so it may seem like a quick fade-in from here. But I think that works well i.e. fast transition = fast fades (Jeremy)
-        self.resetFade();
+        if(self.get('thereIsACurrentImage')){
+            
+          self.fadeOutImage( $fadeBg, self.fadeInImageBound );
         
-        // Get a unique className
-        let className = 'fade-bg-' + url.hashCode();
-        
-        // Create a fresh css pseudo rule
-        Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
-        
-        $fadeBg.addClass('fade-bg-ready' + ' ' + className);
-        self.set('lastImageUrl',url);
-        
-        self.fadeInImage( $fadeBg );
+        } else {
+          
+          let loadTime = Date.now() - startTime;
+          self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+          
+        }
         
       },function(){ // Error
         
@@ -142,26 +155,84 @@ export default Ember.Component.extend({
     
   },
   
-  fadeInImage($fadeBg) {
+  fadeOutImage($fadeBg,callback=null) {
     
-    let self = this;
-    
-    Ember.run.later(function(){
+    Ember.run.next(function(){
       
-      $fadeBg.addClass('fade-bg-show');
+      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
       
-      if(self.get('showLoader')){
-        self.$().findClosest('.spinner').fadeOut('fast',function(){
-          self.$().findClosest('.spinner').remove();
-        });
-      }
+      $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', $fadeBg, callback);
       
-    },11);
+    });
     //},1000);
     
   },
   
-  didReceiveAttrs() {
+  fadeInImage(e,$fadeBg=null,showImmediately=false) {
+    
+    if(e){
+      $fadeBg = e.data;
+    }
+    
+    // Ensure jquery event callback runs only once
+    if(!e || !this.get('animationEndType') || this.get('animationEndType')===e.type){
+      
+      if(e){
+        this.set('animationEndType',e.type);
+      }
+      
+    } else {
+      return;
+    }
+    
+    // The background may not have been completely faded out from last fade-out when we reset, so it may seem like a quick fade-in from here. But I think that works well i.e. fast transition = fast fades (Jeremy)
+    this.resetFade();
+    
+    if(this.get('imageClass')){
+      
+      $fadeBg.addClass(this.get('imageClass') + ' fade-bg-ready');
+      this.set('lastImageClass',this.get('imageClass'));
+      
+    } else if(this.get('imageUrl')){
+      
+      // Get image url
+      let url = this.get('imageUrl');
+      
+      // Get a unique className
+      let className = 'fade-bg-' + url.hashCode();
+      
+      // Create a fresh css pseudo rule
+      Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
+      
+      $fadeBg.addClass('fade-bg-ready' + ' ' + className);
+      this.set('lastImageUrl',url);
+      
+    }
+  
+    if(showImmediately){
+      $fadeBg.addClass('fade-bg-immediate');
+    }
+    
+    let self = this;
+    
+    Ember.run.next(function(){
+    //Ember.run.later(function(){ // For simulating a slow image
+      
+      self.set('firstImageHasLoaded',true);
+      self.set('thereIsACurrentImage',true);
+      
+      if(self.get('showLoader')){
+        self.$().findClosest('.spinner').remove();
+      }
+      
+      $fadeBg.addClass('fade-bg-show');
+      
+    });
+    //},2000);
+    
+  },
+  
+  didInitAttrs() {
     Ember.run.scheduleOnce('afterRender', this, this.setup);
   },
   
@@ -182,24 +253,22 @@ export default Ember.Component.extend({
     
     } else if( o.imageClass !== n.imageClass || o.imageUrl !== n.imageUrl ){
       
-      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
-      
-      $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.setupBound);
-      
+      this.setup();
       
     // -------------------------- Check for removed image
     
     } else if(Ember.isEmpty(this.get('imageClass'))){
       
-      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show');
-      
-      $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterFadeoutBound);
+      this.fadeOutImage( $fadeBg, this.afterFadeoutBound );
       
     }
     
   },
   
   resetFade(){
+    
+    // Track state
+    this.set('thereIsACurrentImage',false);
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     
@@ -216,7 +285,7 @@ export default Ember.Component.extend({
     $fadeBg.removeClass('fade-bg-out fade-bg-show fade-bg-out fade-bg-show');
     
     $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterFadeoutBound);
-    $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.setupBound);
+    $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.fadeInImageBound);
     
   },
   

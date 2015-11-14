@@ -1,0 +1,16 @@
+.fade-img-placeholder {
+  background-color: $placeholder-bg-color;
+}
+
+.fade-img-ready {
+  opacity:0;
+  transition: opacity 0.444s;
+}
+
+.fade-img-show {
+  opacity: 1;
+}
+
+.fade-img-immediate {
+  transition: none;
+}

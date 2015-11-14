@@ -1,3 +1,7 @@
+.fade-bg-default {
+  background-color: $placeholder-bg-color;
+}
+
 .fade-bg-ready {
   
   @include cover-background-tinted('',$no-tint,center center,transparent);
@@ -17,5 +21,11 @@
 .fade-bg-out {
   &:before {
     transition: opacity 0.111s;
+  }
+}
+
+.fade-bg-immediate {
+  &:before {
+    transition: none;
   }
 }
