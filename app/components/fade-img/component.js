@@ -21,12 +21,6 @@ export default Ember.Component.extend({
     let self = this;
     let $img = this.$('img');
     
-    // Add classes to the image itself
-    if(this.get('class')){
-      $img.addClass(this.get('class'));
-      this.$().removeClass(this.get('class'));
-    }
-    
     if(this.get('url')){
       
       let startTime = Date.now();
@@ -57,7 +51,7 @@ export default Ember.Component.extend({
           $img.addClass('fade-img-show');
           
         });
-        //},2000);
+        //},5000);
         
         
       },function(){ // Error
@@ -69,10 +63,12 @@ export default Ember.Component.extend({
         
       });
       
-      // Set placeholder height temporarily
-      let w = this.$().width();
-      let h = w * (9/16);
-      this.$().css('height',h+'px');
+      Ember.run.next(function(){
+        // Set placeholder height temporarily
+        let w = self.$().width();
+        let h = w * (9/16);
+        self.$().css('height',h+'px');
+      });
       
       // If image isn't immediately available
       Ember.run.later(function(){
