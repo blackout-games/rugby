@@ -1,0 +1,29 @@
+$distance: 22px;
+
+.animated {
+  animation-duration: 0.777s;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d($distance, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, $distance, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

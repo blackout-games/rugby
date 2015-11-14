@@ -7,6 +7,7 @@ export default Ember.Mixin.create({
   //minScrollNeeded: 777,
   minScrollNeeded: 0,
   canRemember: false,
+  disableRemember: true,
   
   scrollSelector: Ember.computed(function(){
     if( window.features.lockBody ){
@@ -24,17 +25,19 @@ export default Ember.Mixin.create({
     
     var self = this;
     
-    if( this.get('canRemember') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
+    if( !this.get('disableRemember') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
       
       Ember.run.next(function(){
         Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
       });
+      Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
       
     } else {
       
       Ember.run.next(function(){
         Ember.$(self.get('scrollSelector')).scrollTop(0);
       });
+      Ember.$(self.get('scrollSelector')).scrollTop(0);
       
     }
     
