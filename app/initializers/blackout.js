@@ -440,7 +440,7 @@ class Blackout {
     img.on('load',function() {
       $(this).remove();
       if (callback) {
-        callback();
+        callback(this.width,this.height);
       }
     }).on('error', function() {
       if(errorCallback){

@@ -66,6 +66,7 @@ export default Ember.Component.extend({
   firstImageHasLoaded: false,
   thereIsACurrentImage: false,
   imageCachedTime: 100, // Milliseconds in whcih an image loads to be considered available immediately
+  minResolution: 700, // At least one dimension of the image must be 700px to be displayed
   
   bindFunctions: Ember.on('init',function(){
     this.afterFadeoutBound = Ember.run.bind(this,this.afterFadeout);
@@ -120,23 +121,27 @@ export default Ember.Component.extend({
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url,function() {
+      Ember.Blackout.preloadImage(url,function(w,h) {
         
-        if(!self.get('imageIsImmediatelyFadingOut')){
+        if(self.assertImageRes(w,h)){
           
-          if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+          if(!self.get('imageIsImmediatelyFadingOut')){
+            
+            if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+                
+              self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+            
+            } else {
               
-            self.fadeOutImage( $fadeBg, self.fadeInImageBound );
-          
+              let loadTime = Date.now() - startTime;
+              self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+              
+            }
+            
           } else {
-            
-            let loadTime = Date.now() - startTime;
-            self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
-            
+            self.set('imageIsImmediatelyFadingOut',false);
           }
           
-        } else {
-          self.set('imageIsImmediatelyFadingOut',false);
         }
         
       });
@@ -154,29 +159,35 @@ export default Ember.Component.extend({
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url,function() {
+      Ember.Blackout.preloadImage(url,function(w,h) {
         
-        if(!self.get('imageIsImmediatelyFadingOut')){
+        if(self.assertImageRes(w,h)){
           
-          if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+          if(!self.get('imageIsImmediatelyFadingOut')){
+            
+            if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+                
+              self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+            
+            } else {
               
-            self.fadeOutImage( $fadeBg, self.fadeInImageBound );
-          
+              let loadTime = Date.now() - startTime;
+              self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+              
+            }
+            
           } else {
-            
-            let loadTime = Date.now() - startTime;
-            self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
-            
+            self.set('imageIsImmediatelyFadingOut',false);
           }
           
-        } else {
-          self.set('imageIsImmediatelyFadingOut',false);
         }
         
       },function(){ // Error
         
         // Hide
-        $fadeBg.slideUp();
+        $fadeBg.slideUp(function(){
+          Ember.$(this).remove();
+        });
         
       });
       
@@ -333,6 +344,27 @@ export default Ember.Component.extend({
       
     }
     
-  }
+  },
+  
+  assertImageRes(w,h) {
+    
+    let minRes = this.get('minResolution');
+    
+    if(w<minRes && h<minRes) {
+      
+      var $fadeBg = this.$().findClosest('.fade-bg');
+      
+      // Hide
+      $fadeBg.slideUp(function(){
+        Ember.$(this).remove();
+      });
+      
+      return false;
+      
+    }
+    
+    return true;
+    
+  },
   
 });

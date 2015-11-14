@@ -15,6 +15,7 @@ export default Ember.Component.extend({
   classNames: ['fade-img-placeholder center-parent'],
   tagName: 'div',
   imageCachedTime: 100, // Milliseconds in whcih an image loads to be considered available immediately
+  minResolution: 700, // At least one dimension of the image must be 700px to be displayed
   
   setup: Ember.on('didInsertElement',function(){
     
@@ -29,30 +30,33 @@ export default Ember.Component.extend({
       let url = this.get('url');
       
       // Preload image
-      Ember.Blackout.preloadImage(url,function() {
+      Ember.Blackout.preloadImage(url,function(w,h) {
         
-        let loadTime = Date.now() - startTime;
-      
-        if(loadTime <= self.get('imageCachedTime')){
-          $img.addClass('fade-img-immediate');
+        if(self.assertImageRes(w,h)){
+          
+          let loadTime = Date.now() - startTime;
+        
+          if(loadTime <= self.get('imageCachedTime')){
+            $img.addClass('fade-img-immediate');
+          }
+          
+          Ember.run.next(function(){
+          //Ember.run.later(function(){ // For simulating a slow image
+            
+            // Add image url
+            $img.attr('src',url);
+            
+            // Allow height to be auto
+            self.$().css('height','auto');
+            
+            self.$().findClosest('.spinner').remove();
+            
+            $img.addClass('fade-img-show');
+            
+          });
+          //},5000);
+        
         }
-        
-        Ember.run.next(function(){
-        //Ember.run.later(function(){ // For simulating a slow image
-          
-          // Add image url
-          $img.attr('src',url);
-          
-          // Allow height to be auto
-          self.$().css('height','auto');
-          
-          self.$().findClosest('.spinner').remove();
-          
-          $img.addClass('fade-img-show');
-          
-        });
-        //},5000);
-        
         
       },function(){ // Error
         
@@ -86,5 +90,25 @@ export default Ember.Component.extend({
     
     
   }),
+  
+  assertImageRes(w,h) {
+    
+    let minRes = this.get('minResolution');
+    let self = this;
+    
+    if(w<minRes && h<minRes) {
+      
+      // Hide
+      self.$().slideUp(function(){
+        Ember.$(this).remove();
+      });
+      
+      return false;
+      
+    }
+    
+    return true;
+    
+  },
   
 });
