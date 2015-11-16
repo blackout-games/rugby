@@ -1,5 +1,6 @@
 $button-border-radius: $border-radius;
 $button-text-weight: 600;
+$button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
 
 /**
  * Override bootstrap css buttons
@@ -23,6 +24,8 @@ $button-text-weight: 600;
   //text-transform: uppercase;
   //
   padding: 0 11px 2px;
+  
+  @include focus-button;
 
   &.hover {
     color: #FFF;
@@ -33,7 +36,6 @@ $button-text-weight: 600;
   &.press {
     background-color: pressColor($button-color);
     //transform: translate3d(0, 1px, 0);
-    //
   }
 
   &:focus {
@@ -42,20 +44,30 @@ $button-text-weight: 600;
 
   &:active {
     background-color: pressColor($button-color);
+    transform: translate3d(0, 1px, 0);
   }
   
   &:disabled{
     //background-color:rgba($button-color,0.7);
-    background-color:rgba(desaturate(darken($button-color,11%),11%),1);
+    background-color:$button-disabled-color;
+    border: 1px solid $button-disabled-color;
     opacity:1;
     cursor: default;
   }
   
-  @include focus-button;
-  
   &.no-focus {
-    @include no-focus-button;
+    @include no-focus;
   }
+}
+
+form .btn {
+  
+  /**
+   * By default buttons have no focus properties so that they don't 'flash' just from clicking them, however buttons in forms should have a focusable state
+   */
+  
+  @include form-focus-button;
+  
 }
 
 .btn-small,
@@ -104,45 +116,52 @@ $button-text-weight: 600;
 .btn-ghost:hover {
   background-color: transparent;
   border: 1px solid $button-color;
-  color: $button-color;
+  color: white;
   box-sizing: border-box;
+  
+  @include focus-button-ghost;
   
   &.btn-small {
     border: 1px solid $button-color;
-  }
-  
-  transition: background-color 0.222s, color 0.222s, border-color 0.222s;
-  
-  .hover,.press {
-    background-color: $button-color;
-    color: #FFF;
-  }
-  
-  &:focus {
-    background-color: $button-color;
-    border-color: $button-color;
   }
   
   &.white,&.white:hover {
     border-color: rgba(white,0.777);
     color: rgba(white,0.777);
     
-    &.hover,&.press {
-      border-color: $button-color;
+    &.hover,&.press,&:active {
+      border: 1px solid $button-color;
       background-color: $button-color;
       color: #FFF;
     }
   }
   
+  // Just feels too darn slow
+  //transition: background-color 0.222s, color 0.222s, border-color 0.222s;
+  
+  &.hover,&.press,&:active {
+    background-color: $button-color;
+    color: #FFF;
+  }
+  
+  &:disabled{
+    //background-color:rgba($button-color,0.7);
+    background-color: $button-disabled-color;
+    opacity:1;
+    cursor: default;
+  }
+  
   &.on-image {
     background-color: rgba($bg-dark,0.444);
   }
-  
-  @include focus-button-ghost;
     
   &.press {
     transition: none;
   }
+}
+
+form .btn-ghost {
+  @include form-focus-button-ghost;
 }
 
 .no-outline {
@@ -170,6 +189,10 @@ $fb-button-color: hsl(225,55%,50%);
   @media #{$tablet} {
     background-size: scaleDimensions(26, 50, 0.7);
   }
+  
+  &:active {
+    background-color: $fb-button-color;
+  }
 
   &.hover {
     color: #FFF;
@@ -189,6 +212,10 @@ $fb-button-color: hsl(225,55%,50%);
   @include focus-button-fb;
 }
 
+form .btn-fb {
+  @include form-focus-button-fb;
+}
+
 .btn-alt,
 .btn-alt:hover {
   background-color: $alt-button-color;
@@ -201,10 +228,4 @@ $fb-button-color: hsl(225,55%,50%);
     color: #FFF;
     background-color: pressColor($alt-button-color);
   }
-}
-
-.btn-2x,.btn-2x:hover {
-  padding: 11px;
-  height:44px;
-  //line-height: 40px;
 }

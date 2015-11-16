@@ -11,41 +11,22 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
  * Mixins
  */
 
-@mixin focus-outline {
+@mixin reset-focus {
+  transition: none;
+
   &:focus {
-    -webkit-appearance: none;
-    outline: 0;
-    box-shadow: $focus-inset-shadow, $focus-shadow !important;
+    /**
+     * Note
+     * Overrides of box-shadow will need to be !important
+     */
+    -webkit-appearance: none !important;
+    outline: 0 none !important;
+    box-shadow: none;
+    border: none;
   }
 }
 
-@mixin focus-form {
-  &:focus {
-    border: $focus-border-thickness $focus-border-color solid !important;
-    @include focus-outline;
-  }
-}
-
-@mixin focus-button {
-  transition: border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
-  @include focus-outline;
-
-  &:focus {
-    // Same as button
-    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
-  }
-}
-
-@mixin focus-button-ghost {
-  transition: background-color 0.222s, color 0.222s, border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
-  
-  &:focus {
-    // Same as button
-    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.11), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
-  }
-}
-
-@mixin no-focus-button {
+@mixin no-focus {
   transition: none;
 
   &:focus {
@@ -56,11 +37,57 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
   }
 }
 
+@mixin focus-form {
+  &:focus {
+    border: $focus-border-thickness $focus-border-color solid !important;
+    box-shadow: $focus-inset-shadow, $focus-shadow !important;
+  }
+}
+
+@mixin focus-button {
+  
+  @include reset-focus;
+  
+}
+
+@mixin form-focus-button {
+  
+  @include reset-focus;
+  
+  //transition: border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
+
+  &:focus {
+    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
+  }
+}
+
+@mixin focus-button-ghost {
+  
+  @include reset-focus;
+  
+  &.white:focus {
+    border: 1px solid white;
+  }
+  
+}
+
+@mixin form-focus-button-ghost {
+  
+  &:focus {
+    background-color: $button-color;
+  }
+  
+}
+
 @mixin focus-button-fb {
+  @include focus-button;
+}
+
+@mixin form-focus-button-fb {
   @include focus-button;
 
   &:focus {
-    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.5), 0 0 8px rgba(saturate($secondary-master, 11%), 0.8) !important;
+    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.5), 0 0 11px lighten(saturate($secondary-master, 50%),15%) !important;
   }
 }
 
