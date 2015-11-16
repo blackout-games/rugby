@@ -3,7 +3,7 @@
 
 
 <div class="row">
-  <div class="col-md-8 dash-box-container">
+  <div class="col-md-7 dash-box-container news-page-container">
     <div class="dash-box">
       
       {{back-button to="dashboard"}}
@@ -12,6 +12,13 @@
       
         <div class="gap-3x">
           <h2>{{#link-to articleRoute article.id}}{{article.title}}{{/link-to}}</h2>
+          
+          {{#if article.img}}
+            
+            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+          
+          {{/if}}
+          
           <p class="gap-sm">
             
             {{{article.short}}}

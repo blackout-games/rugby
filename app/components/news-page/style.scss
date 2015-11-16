@@ -1,0 +1,5 @@
+.news-page-container {
+  @media #{$nav-md-up} {
+    max-width: 590px;
+  }
+}
