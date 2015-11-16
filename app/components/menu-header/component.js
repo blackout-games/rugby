@@ -2,13 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
-  'user-images': Ember.inject.service(),
+  userImages: Ember.inject.service(),
 
   classNames: ['menu-header'],
 
   initUserImages: Ember.on('didInsertElement', function() {
-    this.get('user-images').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
-    this.get('user-images').registerClubImage('.club-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
+    this.get('userImages').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
+    this.get('userImages').registerClubImage('.club-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
   }),
 
   currentClub: Ember.computed('session.sessionBuilt', function() {

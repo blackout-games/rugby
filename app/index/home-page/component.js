@@ -4,7 +4,7 @@ const { $ } = Ember;
 export default Ember.Component.extend({
   contextElementId: '',
   currentYear: new Date().getFullYear(),
-  'user-images': Ember.inject.service(),
+  userImages: Ember.inject.service(),
   
   fbLoginAction: 'loginWithFacebook',
   
@@ -27,8 +27,8 @@ export default Ember.Component.extend({
     
     if(this.get('session.isAuthenticated')){
       
-      this.get('user-images').registerManagerImage('.manager-avatar-home',$('#nav-sidebar').css('background-color'));
-      this.get('user-images').registerClubImage('.club-avatar-home',$('#nav-sidebar').css('background-color'));
+      this.get('userImages').registerManagerImage('.manager-avatar-home',$('#nav-sidebar').css('background-color'));
+      this.get('userImages').registerClubImage('.club-avatar-home',$('#nav-sidebar').css('background-color'));
       
     }
     

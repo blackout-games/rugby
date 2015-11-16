@@ -10,7 +10,7 @@ const { Blackout, $ } = Ember;
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
-  'user-images': Ember.inject.service(),
+  userImages: Ember.inject.service(),
 
   extendMarkdown: Ember.on('didReceiveAttrs', function() {
 
@@ -503,18 +503,7 @@ export default Ember.Component.extend({
     let className = 'md_manager_'+username.alphaNumeric();
     let wasPeeked = false;
     let self = this;
-    
-    // Decorate
-    let buildUsernameHTML = function(manager){
-      let imageClassName = 'md_manager_img_'+username.alphaNumeric();
-      let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+manager.get('numberId');
-      
-      let html = '<div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + manager.get('username') + '</a>';
-      
-      self.get('user-images').updateImage('.'+imageClassName,manager.get('imageUrl'),'transparent');
-      
-      return html;
-    };
+    let userImages = self.get('userImages');
     
     // Don't use query since it prevents ember data from grouping requests
     //let query = {
@@ -528,7 +517,7 @@ export default Ember.Component.extend({
     let html = store.findRecord('manager',username.pkString()).then(function(data){
       
       if(data){
-        let html = buildUsernameHTML(data);
+        let html = userImages.getManagerHTML(data);
         
         // Update HTML
         $('.'+className).html(html);
