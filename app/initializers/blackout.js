@@ -93,13 +93,20 @@ class Blackout {
   getCSSPseudoValue(prop, classOrjQueryObj, pseudoSelector=':before') {
 
     var inspector;
+    
     if(typeof(classOrjQueryObj)==='string'){
-      inspector = $("<div>").css('display', 'none').addClass(classOrjQueryObj);
+      
+      // Note cannot use display: none, otherwise it doesn't work on safari
+      
+      inspector = $("<div>").css('visibility', 'hidden').addClass(classOrjQueryObj);
+      
       $("body").append(inspector); // add to DOM, in order to read the CSS property
     } else {
       inspector = classOrjQueryObj;
     }
+    
     try {
+      
       return window.getComputedStyle(inspector[0], pseudoSelector).getPropertyValue(prop);
     } finally {
       if(typeof(classOrjQueryObj)==='string'){
