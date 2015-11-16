@@ -163,6 +163,29 @@ export default Ember.Service.extend({
       }
     }
   }),
+  
+  /**
+   * Generates manager html for decorate username locations
+   * @param  {object} manager Manager object
+   * @return {string}         Html
+   */
+  getManagerHTML( manager ){
+    
+    // Vars
+    let username = manager.get('username');
+    let imageClassName = 'md_manager_img_'+username.alphaNumeric();
+    let managerId = manager.get('numberId') || manager.get('id');
+    let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+managerId;
+    
+    // Create HTML
+    let html = '<div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + username + '</a>';
+    
+    // Load image, check if available, etc.
+    this.updateImage('.'+imageClassName,manager.get('imageUrl'),'transparent');
+    
+    return html;
+    
+  },
 
   clubImageURL: Ember.computed('session.sessionBuilt', function() {
 
