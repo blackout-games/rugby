@@ -4,7 +4,7 @@
 
 .fade-bg-ready {
   
-  @include cover-background-tinted('',$no-tint,center center,transparent);
+  @include cover-background-tinted-for-animation('',$no-tint,center center,transparent);
   
   &:before {
     opacity:0;

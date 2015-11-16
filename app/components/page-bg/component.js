@@ -24,23 +24,29 @@ export default Ember.Component.extend({
   
   newBackground( url ){
     this.set('imageURL',url);
+    this.updateImageClass();
   },
   
   newBackgrounds( group ){
     this.set('imagesGroup',group);
+    this.updateImageClass();
   },
   
   removeBackground(){
-    this.set('imageURL',false);
-    this.set('imagesGroup',false);
+    if(!Ember.isEmpty(this.get('imageURL'))){
+      this.set('imageURL',false);
+    }
+    if(!Ember.isEmpty(this.get('imagesGroup'))){
+      this.set('imagesGroup',false);
+    }
+    this.updateImageClass();
   },
   
   defaultColor: Ember.computed( function(){
     return Ember.Blackout.getCSSValue('background-color','bg-dark');
   }),
   
-  imageClass: Ember.computed('imageURL','imagesGroup', function(){
-    
+  updateImageClass(){
     if( this.get('imageURL') ){
       
       // image should be a URL
@@ -52,7 +58,7 @@ export default Ember.Component.extend({
       // Create a fresh css pseudo rule
       Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
       
-      return this.get('baseClasses').join(' ') + ' ' + className;
+      this.set('imageClass',this.get('baseClasses').join(' ') + ' ' + className);
       
     } else if( this.get('imagesGroup') ){
       
@@ -82,12 +88,13 @@ export default Ember.Component.extend({
           
         }
         
-        return this.get('baseClasses').join(' ') + ' ' + imageClass;
+        this.set('imageClass',this.get('baseClasses').join(' ') + ' ' + imageClass);
         //this.$().addClass(imageClass);
         
       }
       
     }
     
-  }),
+  },
+
 });

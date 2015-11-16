@@ -63,7 +63,7 @@
 @mixin cover-background-tinted($file,$tint,$bg-position: center center,$default-bg-color: #FFF){
   
   position:relative;
-  z-index:2;
+  z-index:0;
   background:none;
   
   // Place bg image in before
@@ -96,6 +96,27 @@
     bottom:0;
     background: $tint;
     content: ""; // Necessary
+  }
+  
+}
+
+/**
+ * This version fixes animation bugs on Safari where if the background is faded, the image would fade in on top of the tint, and then retreat back under it once finished.
+ */
+@mixin cover-background-tinted-for-animation($file,$tint,$bg-position: center center,$default-bg-color: #FFF){
+  
+  @include cover-background-tinted($file,$tint,$bg-position,$default-bg-color);
+  
+  z-index:0;
+  
+  // Place bg image in before
+  &:before {
+    z-index:1;
+  }
+  
+  // Place tint after
+  &:after {
+    z-index: 2;
   }
   
 }

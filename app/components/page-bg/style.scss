@@ -75,12 +75,6 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   rgba($bg-dark,0.99) 100%
 );
 
-@mixin header-background(){
-  
-  @include cover-background-tinted('',$tint-dark-at-top,center center,$bg-dark-lighter);
-  
-}
-
 @mixin header-background-image( $url, $bg-position: center center, $tint: $tint-dark-at-top, $mobile-tint: $tint-fade-out-bottom ){
   
   @include cover-background-tinted-min($url,$tint,$bg-position);
@@ -98,10 +92,10 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   /**
    * Default
    */
-  @include cover-background-tinted('',$tint-dark-at-top,center center,$bg-dark-lighter);
+  @include cover-background-tinted-for-animation('',$tint-dark-at-top,center center,$bg-dark-lighter);
   
   @media #{$tablet-tall-and-down} {
-    @include cover-background-tinted('',$tint-fade-out-bottom, center center,$bg-dark);
+    @include cover-background-tinted-for-animation('',$tint-fade-out-bottom, center center,$bg-dark);
   }
   
   /**

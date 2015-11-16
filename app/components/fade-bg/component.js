@@ -258,7 +258,7 @@ export default Ember.Component.extend({
       // Create a fresh css pseudo rule
       Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
       
-      $fadeBg.addClass('fade-bg-ready' + ' ' + className);
+      $fadeBg.addClass('fade-bg-ready ' + className);
       this.set('lastImageUrl',url);
       
     }
@@ -269,8 +269,7 @@ export default Ember.Component.extend({
     
     let self = this;
     
-    Ember.run.next(function(){
-    //Ember.run.later(function(){ // For simulating a slow image
+    Ember.run.later(function(){ // Use later to ensure no image flashing on safari
       
       self.set('firstImageHasLoaded',true);
       self.set('thereIsACurrentImage',true);
@@ -281,7 +280,7 @@ export default Ember.Component.extend({
       
       $fadeBg.addClass('fade-bg-show');
       
-    });
+    },11);
     //},2000);
     
   },

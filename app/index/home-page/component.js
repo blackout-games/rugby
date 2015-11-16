@@ -8,11 +8,14 @@ export default Ember.Component.extend({
   
   fbLoginAction: 'loginWithFacebook',
   
+  setup: Ember.on('didInitAttrs',function(){
+    this.get('EventBus').publish('removeBackground');
+  }),
+  
   arrive: Ember.on('didInsertElement', function(){
     this.get('EventBus').publish('hideBottomTabBar');
     $('#sidebar-info-tab').removeClass('hidden');
     
-    this.get('EventBus').publish('removeBackground');
   }),
   
   leave: Ember.on('willDestroyElement', function(){
