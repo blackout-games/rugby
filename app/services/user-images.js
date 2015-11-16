@@ -178,7 +178,7 @@ export default Ember.Service.extend({
     let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+managerId;
     
     // Create HTML
-    let html = '<div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + username + '</a>';
+    let html = '<span class="nowrap"><div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + username + '</a></span>';
     
     // Load image, check if available, etc.
     this.updateImage('.'+imageClassName,manager.get('imageUrl'),'transparent');
