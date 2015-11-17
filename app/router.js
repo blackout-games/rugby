@@ -19,10 +19,6 @@ Router.map(function() {
   this.route('login');
   this.route('signup');
   this.route('dashboard');
-  this.route('account');
-  this.route('store');
-  this.route('shortcuts');
-  this.route('more');
   this.route('national-news', function() {
     this.route('article', {
       path: ':id'
