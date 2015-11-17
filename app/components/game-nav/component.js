@@ -379,14 +379,16 @@ export default ResponsiveNav.extend({
           itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
           action = 'transitionAction';
           realRoute = item.tempRoute;
+          
         } else if(item.route){
           itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
           action = 'transitionAction';
           realRoute = item.route;
         } else if(item.action) {
           itemLink = $('<a class="btn-a menu-link">'+item.label+'</a>');
-          action = 'menuAction';
-          self.set('menuAction',item.action);
+          let actionName = 'menuAction'+item.label.alphaNumeric();
+          action = actionName;
+          self.set(actionName,item.action);
         }
         
         if(itemLink){
@@ -454,6 +456,11 @@ export default ResponsiveNav.extend({
       selectPath = path.split('/')[1];
     }
     
+    // tmp
+    if(selectPath==='coming-soon'){
+      return;
+    }
+    
     // Only select a new menu link if it's not empty (otherwise it breaks home page scroll-to links)
     if(! Ember.isEmpty(selectPath) ){
       
@@ -463,7 +470,6 @@ export default ResponsiveNav.extend({
       //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
       
       //log('selecting menu link ('+selectPath+')');
-      
       $('#menuItem'+selectPath).addClass('selected');
       
     }
