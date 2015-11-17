@@ -112,7 +112,7 @@ export default Ember.Component.extend({
           
         }
         
-        return first+'<i class="icon-logo icon-md icon-vcenter"></i><a href="'+url+'" class="'+className+'">'+visibleText+'</a>'+last;
+        return first+'<i class="icon-logo icon-md icon-vcenter"></i><a href="'+url+'" class="'+className+'">'+visibleText+'</a>'+last;// CT
         
       }
       
@@ -643,7 +643,7 @@ export default Ember.Component.extend({
 
               let username = this.decorateUsername(markdown.substr(usernameStart, usernameLength));
 
-              let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">Quoting:</span> <span class="quote-user">' + username + '</span></div>';
+              let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">Quoting:</span> <span class="quote-user">' + username + '</span></div>'; // CT
 
               // Replace in markdown
               markdown = markdown.substrReplace(html, realStart, realLength );
@@ -662,7 +662,7 @@ export default Ember.Component.extend({
              * General quotes
              */
             
-            let html = '<div class="quote-header"><span class="quote-title">Quote</span></div>';
+            let html = '<div class="quote-header"><span class="quote-title">Quote</span></div>'; // CT
             
             // Replace in markdown
             markdown = markdown.substrReplace(html, realStart + 1, 0);

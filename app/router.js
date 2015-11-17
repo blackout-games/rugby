@@ -17,7 +17,6 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('login');
-  this.route('manager');
   this.route('signup');
   this.route('dashboard');
   this.route('account');
@@ -29,21 +28,13 @@ Router.map(function() {
       path: ':id'
     });
   });
-  this.route('news', function() {
-    this.route('article', {
-      path: ':id'
-    });
-  });
   this.route('countries', function() {
     this.route('country', {
       path: ':id'
     });
   });
-
-  this.route('managers', {
-    path: ':id'
-  }, function() {
-    this.route('manager', {
+  this.route('news', function() {
+    this.route('article', {
       path: ':id'
     });
   });
