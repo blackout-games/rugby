@@ -50,7 +50,6 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
   &:disabled{
     //background-color:rgba($button-color,0.7);
     background-color:$button-disabled-color;
-    border: 1px solid $button-disabled-color;
     opacity:1;
     cursor: default;
   }
@@ -145,8 +144,8 @@ form .btn {
   }
   
   &:disabled{
-    //background-color:rgba($button-color,0.7);
     background-color: $button-disabled-color;
+    border: 1px solid $button-disabled-color;
     opacity:1;
     cursor: default;
   }
