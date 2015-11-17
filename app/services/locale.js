@@ -4,22 +4,27 @@ const { $ } = Ember;
 
 export default Ember.Service.extend({
   locals: Ember.inject.service(),
+  i18n: Ember.inject.service(),
   
   supportedLocales: {
     
     'en-gb': { label: 'English', fb: 'en_GB', jquery: 'en-GB' },
-    'fr-fr': { label: 'Français', fb: 'fr_FR', jquery: 'fr' },
-    'it-it': { label: 'Italiano', fb: 'it_IT', jquery: 'it' },
-    'es-es': { label: 'Español', fb: 'es_ES', jquery: 'es' },
-    'af-af': { label: 'Afrikaans', fb: 'af_ZA', jquery: 'af' },
+    'fr': { label: 'Français', fb: 'fr_FR', jquery: 'fr' },
+    'it': { label: 'Italiano', fb: 'it_IT', jquery: 'it' },
+    'es': { label: 'Español', fb: 'es_ES', jquery: 'es' },
+    'af': { label: 'Afrikaans', fb: 'af_ZA', jquery: 'af' },
     'es-ar': { label: 'Español Argentina', fb: 'es_ES', jquery: 'es' },
-    'ru-ru': { label: 'Русский', fb: 'ru_RU', jquery: 'ru' },
+    'ru': { label: 'Русский', fb: 'ru_RU', jquery: 'ru' },
     
-    default: 'en-gb',
+    default: 'en',
     
   },
   
   currentLocale: null,
+  
+  getCurrent(){
+    return this.get('currentLocale');
+  },
   
   /**
    * Language should be a localisation string, e.g. 'en-gb', or 'fr-fr'
@@ -72,7 +77,8 @@ export default Ember.Service.extend({
     }
     
     this.change(locale);
-    //this.change('fr-fr');
+    //this.change('it');
+    //this.change('en-gb'); // Must manually change back to english since locales are remembered
     this.getUIContent();
     
   }),
@@ -90,10 +96,11 @@ export default Ember.Service.extend({
       
       this.get('locals').put('locale',locale);
       this.set('currentLocale',locale);
+      this.set('i18n.locale', locale); // ember-i18n
       this.updateAJAX();
       
     } else {
-      Ember.warn( 'Tried to set unknown locale: ' + locale );
+      Ember.warn( 'Tried to set unknown locale: ' + locale, false, {id:'blackout.unknown-locale'} );
     }
     
   },

@@ -81,7 +81,7 @@ export default Ember.Component.extend({
       
     } else {
       
-      Ember.warn("Blackout: fade-img component was created without a URL");
+      Ember.warn("fade-img component was created without a URL",false,{id:'blackout.fade-img-component-missing-url'});
       $img.remove();
       
     }

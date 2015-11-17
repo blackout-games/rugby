@@ -74,6 +74,10 @@ module.exports = function(environment) {
       'frame-src': "s-static.ak.facebook.com https://s-static.ak.facebook.com www.facebook.com static.ak.facebook.com https://static.ak.facebook.com https://www.facebook.com *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com"
     },
   };
+  
+  ENV.i18n = {
+    defaultLocale: 'en-gb'
+  };
 
   ENV['ember-simple-auth'] = {
     base: {

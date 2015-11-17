@@ -516,7 +516,7 @@ class Blackout {
    * @return {[type]}      [description]
    */
   juniorClubName(name){
-    Ember.warn('juniorClubName() deprecated. Youth names are generated at API level');
+    Ember.warn('juniorClubName() deprecated. Youth names are generated at API level',false,{id:'blackout.junior-club-name-deprecation'});
     return 'Jr ' + name;
   }
 

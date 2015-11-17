@@ -14,7 +14,7 @@ export default Ember.Mixin.create(EmberValidations,{
       
       // Button should always be available
       if(!button||button.get('whoAmI')!=='loaderButton'){
-        Ember.warn("A button was not provided for form-validation.");
+        Ember.warn("A button was not provided for form-validation.",false,{id:'blackout.form-validation-no-button'});
       }
       
       // Make sure animating

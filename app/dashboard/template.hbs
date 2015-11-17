@@ -49,6 +49,13 @@
         
         <div class="gap-3x">
           <h2>{{#link-to "national-news.article" article.id}}{{article.title}}{{/link-to}}</h2>
+          
+          {{#if article.img}}
+            
+            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+          
+          {{/if}}
+          
           <p class="gap-sm">
             {{{article.short}}}
             

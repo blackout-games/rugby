@@ -3,11 +3,14 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 import LoadingSliderMixin from '../mixins/loading-slider';
 import FBMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
+import config from '../config/environment';
 
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBMixin, RouteHistoryMixin, {
   locals: Ember.inject.service(),
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
+  locale: Ember.inject.service(),
+  i18n: Ember.inject.service(),
   
   listenForEvents: Ember.on('init', function(){
 
@@ -169,18 +172,28 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
     } else {
 
-      Ember.warn('Session build was attempted, but manager was not available in session.secure');
+      Ember.warn('Session build was attempted, but manager was not available in session.secure',false,{id:'blackout.session-built-without-manager'});
 
     }
 
   },
 
   model() {
+    
+    let self = this;
 
     /**
-     * We don't actually load and return a model for use in the "application route".
-     * We use this opportunity (while the app waits for us to resolve data) to check if the user is logged in, and if so, load the manager and club into ember data, along with user preferences, etc.
+     * At this stage we don't actually load and return a model for use in the "application route".
+     * We use this opportunity (while the app waits for us to resolve data) to run other data retrieval tasks while the app boots up. This is recommended by ember to be done here instead of during app initializers with deferAppReadiness etc.
+     * http://guides.emberjs.com/v2.1.0/applications/initializers/
+     *
      */
+    
+    
+    /**
+     * check if the user is logged in, and if so, load the manager and club into ember data, along with user preferences, etc.
+     */
+    
     if (this.get('session.isAuthenticated')) {
 
       this.buildSession();
@@ -190,9 +203,38 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       // Else just let the app load straight away
 
     }
-
-    // Load and wait for preferences promise whether logged in or not
-    return this.get('preferences').loadPreferences();
+    
+    //i18n locale
+    let locale = this.get('locale').getCurrent();
+    
+    // i18n url
+    // Locale header should have already been set
+    let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
+    
+    /**
+     * Promise hash
+     */
+    
+    return Ember.RSVP.hash({
+      
+      // Load and wait for preferences promise whether logged in or not
+      preferences: this.get('preferences').loadPreferences(),
+      
+      // Load general i18n document
+      translation: Ember.$.getJSON(url),
+      
+    }).then(function(data){
+      
+      // Process i18n
+      //let doc = Ember.Object.create(data.i18n.get('document'));
+      
+      let i18n = self.get('i18n');
+      i18n.addTranslations(locale, data.translation);
+      
+      
+      return data;
+      
+    });
 
   },
 

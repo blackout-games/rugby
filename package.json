@@ -49,6 +49,7 @@
     "ember-deploy-redis": "0.0.7",
     "ember-deploy-s3": "0.0.5",
     "ember-disable-proxy-controllers": "^1.0.1",
+    "ember-i18n": "4.1.4",
     "ember-infinite-scroll": "0.2.4",
     "ember-local-storage": "0.1.0",
     "ember-moment": "4.1.0",
