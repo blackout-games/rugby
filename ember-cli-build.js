@@ -1,10 +1,12 @@
+/*jshint node:true*/
 /* global require, module */
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   
-  var app = new EmberApp(defaults,{
+  var app = new EmberApp(defaults, {
+    // Add options here
     fingerprint: {
       prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
       extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico'],
@@ -28,8 +30,8 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-
-
+  
+  
   /**
    * Perfect scrollbar
    */

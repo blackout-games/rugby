@@ -19,7 +19,7 @@
   "newcap": true,
   "noarg": true,
   "noempty": false,
-  "nonew": true,
+  "nonew": false,
   "nomen": false,
   "onevar": false,
   "plusplus": false,

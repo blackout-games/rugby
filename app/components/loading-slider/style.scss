@@ -1,0 +1,43 @@
+
+
+/**
+ * Loading slider bar
+ */
+
+.loading-slider {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  z-index: 999;
+  
+  /**
+   * COLOR
+   * Must be light enough to be visible on darks, but dark enough to be visible on lights and whites.
+   */
+  color: saturate(darken($primary-master,1%),1%); // Primary
+  
+  // Dark doesn't work well when menu is showing
+  //color: desaturate(darken($secondary-master,35%),25%); // Dark
+  
+  // Override
+  height:3px;
+  span {
+    height:3px;
+  }
+}
+
+.loading-slider.expanding {
+  text-align: center;
+}
+
+.loading-slider.expanding span {
+}
+
+.loading-slider span {
+  position: inherit;
+  height: 2px;
+  background-color: red;
+}

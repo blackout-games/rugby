@@ -11,7 +11,7 @@ Ember.Router.reopen({
   
 });
 
-var Router = Ember.Router.extend({
+const Router = Ember.Router.extend({
   location: config.locationType
 });
 

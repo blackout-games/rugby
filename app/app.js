@@ -11,14 +11,14 @@ import config from './config/environment';
  */
 //Ember.deprecate = function(){};
 
-var App;
+let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver: Resolver,
+  Resolver,
   ready() {
     Ember.run.later(function(){
       Ember.$("#splash").fadeOut(444,function(){

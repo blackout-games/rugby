@@ -1,139 +1,141 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Blackout Rugby</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link rel="icon" href="assets/icons/favicon.ico">
-  
-  <!-- Android Web App Capable -->
-  
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="manifest" href="manifest.json">
-  
-  <!-- Apple Web App Capable -->
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
-  <!-- Web App Title -->
-  
-  <meta name="apple-mobile-web-app-title" content="Rugby">
-  
-  <!-- Web App Status bar -->
-        
-  
-  <!-- Web App Icon -->
-  
-  <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/Icon-60.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/Icon-60@2x.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/Icon-72.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/Icon-72@2x.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/Icon-76.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/Icon-76@2x.png">
-  
-  <!-- Web App Flash Screen -->
- 
-  <!-- iPad retina portrait startup image -->
-  <link href="assets/splash/1536x2008.png"
-        media="(device-width: 768px) and (device-height: 1024px)
-               and (-webkit-device-pixel-ratio: 2)
-               and (orientation: portrait)"
-        rel="apple-touch-startup-image">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Blackout Rugby</title>
+    <meta name="description" content="Blackout Rugby is a free multiplayer online rugby management game populated by a community of thousands of people from all over the world.">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" href="assets/icons/favicon.ico">
+    
+    <!-- Android Web App Capable -->
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Web App Capable -->
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Web App Title -->
+    
+    <meta name="apple-mobile-web-app-title" content="Rugby">
+    
+    <!-- Web App Status bar -->
+          
+    
+    <!-- Web App Icon -->
+    
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/icons/Icon-60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/icons/Icon-60@2x.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/icons/Icon-72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/icons/Icon-72@2x.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/icons/Icon-76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/Icon-76@2x.png">
+    
+    <!-- Web App Flash Screen -->
+   
+    <!-- iPad retina portrait startup image -->
+    <link href="assets/splash/1536x2008.png"
+          media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 2)
+                 and (orientation: portrait)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPad retina landscape startup image -->
-  <link href="assets/splash/1496x2048.png"
-        media="(device-width: 768px) and (device-height: 1024px)
-               and (-webkit-device-pixel-ratio: 2)
-               and (orientation: landscape)"
-        rel="apple-touch-startup-image">
+    <!-- iPad retina landscape startup image -->
+    <link href="assets/splash/1496x2048.png"
+          media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 2)
+                 and (orientation: landscape)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPad non-retina portrait startup image -->
-  <link href="assets/splash/768x1004.png"
-        media="(device-width: 768px) and (device-height: 1024px)
-               and (-webkit-device-pixel-ratio: 1)
-               and (orientation: portrait)"
-        rel="apple-touch-startup-image">
+    <!-- iPad non-retina portrait startup image -->
+    <link href="assets/splash/768x1004.png"
+          media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 1)
+                 and (orientation: portrait)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPad non-retina landscape startup image -->
-  <link href="assets/splash/748x1024.png"
-        media="(device-width: 768px) and (device-height: 1024px)
-               and (-webkit-device-pixel-ratio: 1)
-               and (orientation: landscape)"
-        rel="apple-touch-startup-image">
+    <!-- iPad non-retina landscape startup image -->
+    <link href="assets/splash/748x1024.png"
+          media="(device-width: 768px) and (device-height: 1024px)
+                 and (-webkit-device-pixel-ratio: 1)
+                 and (orientation: landscape)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone 6 Plus startup image -->
-  <link href="assets/splash/1242x2148.png"
-        media="(device-width: 414px) and (device-height: 736px)
-               and (-webkit-device-pixel-ratio: 3)
-               and (orientation: portrait)"
-        rel="apple-touch-startup-image">
+    <!-- iPhone 6 Plus startup image -->
+    <link href="assets/splash/1242x2148.png"
+          media="(device-width: 414px) and (device-height: 736px)
+                 and (-webkit-device-pixel-ratio: 3)
+                 and (orientation: portrait)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone 6 Plus landscape startup image -->
-  <link href="assets/splash/1182x2208.png"
-        media="(device-width: 414px) and (device-height: 736px)
-               and (-webkit-device-pixel-ratio: 3)
-               and (orientation: landscape)"
-        rel="apple-touch-startup-image">
+    <!-- iPhone 6 Plus landscape startup image -->
+    <link href="assets/splash/1182x2208.png"
+          media="(device-width: 414px) and (device-height: 736px)
+                 and (-webkit-device-pixel-ratio: 3)
+                 and (orientation: landscape)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone 6 startup image -->
-  <link href="assets/splash/750x1294.png"
-        media="(device-width: 375px) and (device-height: 667px)
-               and (-webkit-device-pixel-ratio: 2)"
-        rel="apple-touch-startup-image">
+    <!-- iPhone 6 startup image -->
+    <link href="assets/splash/750x1294.png"
+          media="(device-width: 375px) and (device-height: 667px)
+                 and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone 5 startup image -->
-  <link href="assets/splash/640x1096.png"
-        media="(device-width: 320px) and (device-height: 568px)
-               and (-webkit-device-pixel-ratio: 2)"
-        rel="apple-touch-startup-image">
+    <!-- iPhone 5 startup image -->
+    <link href="assets/splash/640x1096.png"
+          media="(device-width: 320px) and (device-height: 568px)
+                 and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone < 5 retina startup image -->
-  <link href="assets/splash/640x920.png"
-        media="(device-width: 320px) and (device-height: 480px)
-               and (-webkit-device-pixel-ratio: 2)"
-        rel="apple-touch-startup-image">
+    <!-- iPhone < 5 retina startup image -->
+    <link href="assets/splash/640x920.png"
+          media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 2)"
+          rel="apple-touch-startup-image">
 
-  <!-- iPhone < 5 non-retina startup image -->
-  <link href="assets/splash/320x460.png"
-        media="(device-width: 320px) and (device-height: 480px)
-               and (-webkit-device-pixel-ratio: 1)"
-        rel="apple-touch-startup-image">
-  
-  
-  
-  {{content-for 'head'}}
+    <!-- iPhone < 5 non-retina startup image -->
+    <link href="assets/splash/320x460.png"
+          media="(device-width: 320px) and (device-height: 480px)
+                 and (-webkit-device-pixel-ratio: 1)"
+          rel="apple-touch-startup-image">
+    
+    
+    
+    {{content-for 'head'}}
 
-  <script src="//use.typekit.net/jsh2urr.js"></script>
-  <script>
-  try {
-    Typekit.load();
-  } catch (e) {}
-  </script>
+    <script src="//use.typekit.net/jsh2urr.js"></script>
+    <script>
+    try {
+      Typekit.load();
+    } catch (e) {}
+    </script>
 
-  <link rel="stylesheet" href="assets/vendor.css">
-  <link rel="stylesheet" href="assets/rugby-ember.css"> {{content-for 'head-footer'}}
-</head>
+    <link rel="stylesheet" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/rugby-ember.css">
+    
+    {{content-for 'head-footer'}}
+  </head>
 
-<body>
-  {{content-for 'body'}}
-  
-  <div id="splash"><i class="icon-logo splash-logo"></i></div>
-  
-  <script>
-  // Splash management
-  if( !window.navigator.standalone ){
-    document.getElementById('splash').classList.add('non-standalone');
-  }
-  </script>
-  
-  <script src="assets/vendor.js"></script>
-  <script src="assets/rugby-ember.js"></script>
+  <body>
+    {{content-for 'body'}}
+    
+    <div id="splash"><i class="icon-logo splash-logo"></i></div>
+    
+    <script>
+    // Splash management
+    if( !window.navigator.standalone ){
+      document.getElementById('splash').classList.add('non-standalone');
+    }
+    </script>
+    
+    <script src="assets/vendor.js"></script>
+    <script src="assets/rugby-ember.js"></script>
 
-  {{content-for 'body-footer'}}
-</body>
+    {{content-for 'body-footer'}}
+  </body>
 
 </html>

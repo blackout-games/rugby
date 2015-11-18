@@ -266,24 +266,3 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 .flex-col-center {
   justify-content: center;
 }
-
-/**
- * Loading slider bar
- */
-
-.loading-slider {
-  /**
-   * COLOR
-   * Must be light enough to be visible on darks, but dark enough to be visible on lights and whites.
-   */
-  color: saturate(darken($primary-master,1%),1%); // Primary
-  
-  // Dark doesn't work well when menu is showing
-  //color: desaturate(darken($secondary-master,35%),25%); // Dark
-  
-  // Override
-  height:3px;
-  span {
-    height:3px;
-  }
-}
