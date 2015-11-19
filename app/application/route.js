@@ -223,14 +223,24 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       // Load general i18n document
       translation: Ember.$.getJSON(url),
       
-    }).then(function(data){
+    }).then((data) => {
       
       // Process i18n
       //let doc = Ember.Object.create(data.i18n.get('document'));
       
       let i18n = self.get('i18n');
+      let test = false; // Set all translations as CT. Makes it easy to spot anything that's been missed
+      
+      if( test ){
+        Ember.$.each(data.translation,(index) => {
+          data.translation[index] = 'CT';
+        });
+      }
       i18n.addTranslations(locale, data.translation);
       
+      /*i18n.addTranslations('it',{
+        'login.errors.no-username': 'si no username',
+      });*/
       
       return data;
       

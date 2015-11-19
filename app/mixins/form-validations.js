@@ -5,6 +5,7 @@ export default Ember.Mixin.create(EmberValidations,{
   serverErrors: {},
   formErrorMessage: null,
   validationEvent: 'formSubmitted', // Should override where mixin is used
+  i18n: Ember.inject.service(),
   
   actions: {
     
@@ -40,7 +41,7 @@ export default Ember.Mixin.create(EmberValidations,{
       
       /**
        * WARNING!!!!!!
-       * MUST PROVIDE .catch() here, otherwise when validation fails, validate() causes "undefined" error output in console with no good information on what's causing it - resulting in long debugging sessions.
+       * MUST PROVIDE .catch(()=>{}) here, otherwise when validation fails, validate() causes "undefined" error output in console with no good information on what's causing it - resulting in long debugging sessions.
        */
       
       }).catch(function(){
@@ -78,6 +79,48 @@ export default Ember.Mixin.create(EmberValidations,{
       this.get('submitButton').reset(this.get('refocusButton'));
     }
     
-  }
+  },
+  
+  initValidationMessages: Ember.on('init',function() {
+    
+    this.updateValidationMessages();
+    this.get('EventBus').subscribe('localeChanged', this, this.updateValidationMessages);
+    
+  }),
+  
+  cleanUpListeners: Ember.on('deactivate','willDestroyElement',function(){
+    
+    this.get('EventBus').unsubscribe('localeChanged', this, this.updateValidationMessages);
+    
+  }),
+  
+  updateValidationMessages: Ember.on('init',function() {
+    
+    let validations = this.get('validations');
+    let self = this;
+    
+    if(validations){
+      
+      Ember.$.each(validations,(itemName,itemRules) => {
+        
+        Ember.$.each(itemRules,(ruleName,rule) => {
+          
+          if(rule.tMessage){
+            let translation = self.get('i18n').t(rule.tMessage);
+            
+            self.set('validations.' + itemName + '.' + ruleName + '.message',translation);
+            
+            // Re-render any showing messages
+            self.validate().catch(()=>{}); // Must provide catch
+            
+          }
+          
+        });
+        
+      });
+      
+    }
+    
+  }),
   
 });

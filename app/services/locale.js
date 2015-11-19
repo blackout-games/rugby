@@ -5,6 +5,7 @@ const { $ } = Ember;
 export default Ember.Service.extend({
   locals: Ember.inject.service(),
   i18n: Ember.inject.service(),
+  EventBus: Ember.inject.service(),
   
   supportedLocales: {
     
@@ -78,8 +79,13 @@ export default Ember.Service.extend({
     
     this.change(locale);
     //this.change('it');
-    //this.change('en-gb'); // Must manually change back to english since locales are remembered
+    this.change('en-gb'); // Must manually change back to english since locales are remembered
     this.getUIContent();
+    
+    /*let self = this;
+    Ember.run.later(function(){
+      self.change('it');
+    },5000);*/
     
   }),
   
@@ -98,6 +104,9 @@ export default Ember.Service.extend({
       this.set('currentLocale',locale);
       this.set('i18n.locale', locale); // ember-i18n
       this.updateAJAX();
+      
+      // Broadcast event
+      this.get('EventBus').publish('localeChanged', locale);
       
     } else {
       Ember.Logger.warn( 'Tried to set unknown locale: ' + locale );
