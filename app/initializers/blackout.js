@@ -1084,6 +1084,7 @@ function _inlinizeSVG () {
     var $img = Ember.$(this);
     var imgID = $img.attr('id');
     var imgClass = $img.attr('class');
+    var imgAlt = $img.attr('aria-label');
     var imgURL = $img.attr('src');
     var imgHost = config.assetFilesHost;
     //imgHost = 'https://s3.amazonaws.com/rugby-ember/';
@@ -1119,6 +1120,10 @@ function _inlinizeSVG () {
           // Add replaced image's classes to the new SVG
           if (typeof imgClass !== 'undefined') {
             $svg = $svg.attr('class', imgClass + ' replaced-svg');
+          }
+          // Add replaced image's alt text to the new SVG
+          if (typeof imgAlt !== 'undefined') {
+            $svg = $svg.attr('aria-label', imgAlt);
           }
 
           // Remove any invalid XML tags as per http://validator.w3.org
