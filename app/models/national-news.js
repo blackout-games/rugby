@@ -5,8 +5,8 @@ export default DS.Model.extend({
   date: DS.attr('date'),
   title: DS.attr('string'),
   body: DS.attr('string'),
-  country: DS.belongsTo('country',{ async: true }),
-  author: DS.belongsTo('manager',{ async: false }), // Get straight away so we can decorate users
+  country: DS.belongsTo('country',{ async: false }), // async tells ember data what to expect. It doesn't tell ember data how to make requests. true: ember will not expect data to be included, and will send a separate aync request. false: ember will expect data to be included in primary response.
+  author: DS.belongsTo('manager',{ async: false }), 
   lastViewed: DS.attr('date'),
   isNewToUser: Ember.computed('lastViewed', function() {
     return this.get('lastViewed') && this.get('lastViewed') < this.get('date');

@@ -24,11 +24,6 @@ Router.map(function() {
       path: ':id'
     });
   });
-  this.route('countries', function() {
-    this.route('country', {
-      path: ':id'
-    });
-  });
   this.route('news', function() {
     this.route('article', {
       path: ':id'

@@ -100,7 +100,7 @@ export default Ember.Service.extend({
       this.updateAJAX();
       
     } else {
-      Ember.warn( 'Tried to set unknown locale: ' + locale, false, {id:'blackout.unknown-locale'} );
+      Ember.Logger.warn( 'Tried to set unknown locale: ' + locale );
     }
     
   },

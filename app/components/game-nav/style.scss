@@ -39,7 +39,7 @@ $nav-md-down: $tablet-wide-and-down;
 $nav-sm-up: $tablet-and-up;
 $nav-md-up: $tablet-wide-and-up;
 
-$nav-vs: (max-height: #{($max-block-size * 10) + 20px});
+$nav-vs: "(max-height: #{($max-block-size * 10) + 20px})";
 $nav-vs-not-mobile: "#{$nav-vs} and #{$nav-sm-up}";
 $nav-ls: $mobile-landscape;
 

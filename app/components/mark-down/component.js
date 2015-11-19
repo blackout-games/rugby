@@ -14,7 +14,11 @@ export default Ember.Component.extend({
 
   extendMarkdown: Ember.on('didReceiveAttrs', function() {
 
-    var markdown = this.get('markdown');
+    var markdown = Ember.Blackout.String(this.get('markdown'));
+    
+    if(typeof(markdown)!=='string'){
+      return;
+    }
     
     // Convert old style format tags to markdown
     markdown = Blackout.toMarkdown(markdown);

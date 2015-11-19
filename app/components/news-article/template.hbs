@@ -12,11 +12,11 @@
         <div class="news-date gap-2x">
           {{date-ui date=model.date class="news-date"}}
           {{#if model.author}}
-            by {{manager-name manager=model.author}}
+            by {{manager model.author}}
           {{/if}}
           {{#if model.country}}
             in 
-            {{#link-to "countries.country" model.country.id class="nowrap"}}{{model.country.name}}{{/link-to}}
+            {{country model.country class="nowrap"}}
           {{/if}}
         </div>
         

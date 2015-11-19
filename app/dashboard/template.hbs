@@ -1,10 +1,10 @@
-{{page-header title="Dashboard" images="dashboard"}}
+{{page-header title=(t 'dashboard.title') images="dashboard"}}
 
 <div class="row">
   <div class="col-md-4 col-sm-6 dash-box-container row">
     <div class="dash-box dash-col">
       
-      <div class="panel-title">Game News</div>
+      <div class="panel-title">{{t 'dashboard.news.game-news'}}</div>
     
       {{#each model.news key="id" as |article|}}
         
@@ -22,12 +22,12 @@
             {{{article.short}}}
             
             {{#if article.hasMoreToRead}}
-              {{#link-to "news.article" article.id class="nowrap"}}Read more.{{/link-to}}
+              {{#link-to "news.article" article.id class="nowrap"}}{{t 'dashboard.news.read-more'}}{{/link-to}}
             {{/if}}
             
           </p>
           <div class="news-date">
-            {{#if article.isNewToUser}}<b>NEW</b> &bullet;{{/if}}
+            {{#if article.isNewToUser}}<b>{{t 'dashboard.news.new'}}</b> &bullet;{{/if}}
             {{date-ui date=article.date class="news-date"}}
           </div>
         </div>
@@ -35,7 +35,7 @@
       {{/each}}
 
       <div class="more-news">
-        {{#link-to "news"}}More news{{/link-to}}
+        {{#link-to "news"}}{{t 'dashboard.news.more-news'}}{{/link-to}}
       </div>
       
     </div>
@@ -43,7 +43,7 @@
   <div class="col-md-4 col-sm-6 dash-box-container row">
     <div class="dash-box dash-col">
       
-      <div class="panel-title">National News</div>
+      <div class="panel-title">{{t 'dashboard.news.national-news'}}</div>
     
       {{#each model.nationalNews key="id" as |article|}}
         
@@ -60,23 +60,30 @@
             {{{article.short}}}
             
             {{#if article.hasMoreToRead}}
-              {{#link-to "national-news.article" article.id class="nowrap"}}Read more.{{/link-to}}
+              {{#link-to "national-news.article" article.id class="nowrap"}}{{t 'dashboard.news.read-more'}}{{/link-to}}
             {{/if}}
           </p>
           <div class="news-date">
-            {{#if article.isNewToUser}}<b>NEW</b> &bullet;{{/if}}
+            {{#if article.isNewToUser}}<b>{{t 'dashboard.news.new'}}</b> &bullet;{{/if}}
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
-              by {{manager-name manager=article.author}}
+            
+              {{t 'dashboard.news.by-manager' manager=(manager article.author)}}
+              
             {{/if}}
-            in {{#link-to "countries.country" article.country.id class="nowrap"}}{{article.country.name}}{{/link-to}}
+            
+            {{t 'dashboard.news.in-country' country=(country article.country class="nowrap")}}
+            
+            <!-- Keep to show how to use concat, until we need it somewhere else -->
+            {{!t 'dashboard.news.in-country' country=(link value=article.country.name route=(concat '/countries/' article.country.id) class="nowrap")}}
+            
           </div>
         </div>
         
       {{/each}}
       
       <div class="more-news">
-        {{#link-to "national-news"}}More national news{{/link-to}}
+        {{#link-to "national-news"}}{{t 'dashboard.news.more-national-news'}}{{/link-to}}
       </div>
       
     </div>

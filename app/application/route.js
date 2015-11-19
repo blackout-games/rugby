@@ -172,7 +172,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
     } else {
 
-      Ember.warn('Session build was attempted, but manager was not available in session.secure',false,{id:'blackout.session-built-without-manager'});
+      Ember.Logger.warn('Session build was attempted, but manager was not available in session.secure');
 
     }
 

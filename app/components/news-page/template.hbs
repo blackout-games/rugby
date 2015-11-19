@@ -33,11 +33,11 @@
             {{#if article.isNewToUser}}<b>NEW</b> &bullet;{{/if}}
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
-              by {{manager-name manager=article.author}}
+              by {{manager article.author}}
             {{/if}}
             {{#if article.country}}
               in 
-              {{#link-to "countries.country" article.country.id class="nowrap"}}{{article.country.name}}{{/link-to}}
+              {{country article.country class="nowrap"}}
             {{/if}}
           </div>
           

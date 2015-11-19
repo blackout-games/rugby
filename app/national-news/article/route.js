@@ -3,10 +3,6 @@ import NewsMixin from '../../mixins/news';
 
 export default Ember.Route.extend(NewsMixin,{
   
-  query: {
-    include: 'author,country',
-  },
-  
   model( params ){
     
     var self = this;

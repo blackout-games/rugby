@@ -11,7 +11,6 @@ export default Ember.Route.extend(NewsMixin,{
       size: 10,
       number: 1
     },
-    include: 'author,country',
   },
   
   model() {

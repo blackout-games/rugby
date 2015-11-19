@@ -26,7 +26,6 @@ export default Ember.Route.extend(NewsMixin,{
         number: 1
       },
       sort: '-date',
-      include: 'author,country',
     };
     
     return Ember.RSVP.hash({

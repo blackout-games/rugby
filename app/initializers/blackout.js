@@ -6,6 +6,98 @@ var $ = E.$;
 class Blackout {
   
   /**
+   * This fills the gap where sometimes we need to wait for a promise to resolve, but we're already in the view layer which isn't promise aware (i.e. helpers).
+   * 
+   * Give this function a potential promise and a callback function which receives the resolved item, builds and returns the real HTML.
+   * 
+   * This function returns a basic html wrapper with an id, which will be filled with your provided html when the promise resolves.
+   * 
+   * @param  {object} potentialPromise A potential promise like what you would provide to assertPromise()
+   * @param  {object} potentialPromise 
+   * @return {string}  HTML object which will be filled when the promise resolves
+   */
+  promiseHTML( potentialPromise, callback ){
+    
+    // Generate an id (promise placeholder)
+    let id = 'blackout-pp-' + this.generateId();
+    
+    // Run the promise
+    this.assertPromise( potentialPromise ).then(function(data){
+      
+      let html = callback(data);
+      
+      $('#'+id).replaceWith(html);
+      
+    });
+    
+    // Return placeholder html
+    return '<span id="' + id + '"></span>';
+    
+  }
+  
+  /**
+   * Ensures whatever is passed in, even if not a promise, is turned into a promise. This allows us to process data returned by ember data which may not have resolved yet, i.e. a relationship. We can then process the data in only one place, whereas checking is something is a promise can result in code being repeated
+   * 
+   * Use: assertPromise( potentialPromise ).then( function(data){ // Process } )
+   *  
+   * @param  {object} potentialPromise Generally something passed in from ember data, e.g. in a template 
+   * @return {promise}  A promise
+   */
+  assertPromise( potentialPromise ){
+    
+    return new Ember.RSVP.Promise(function(resolve) {
+      
+      // Check for array of items
+      let data;
+      if(Ember.isArray(potentialPromise)){
+        data = potentialPromise.get('firstObject');
+      } else {
+        data = potentialPromise;
+      }
+      
+      // Check for promise
+      let type = Ember.inspect(data);
+      
+      if(type.indexOf('DS.PromiseObject')>=0){
+        
+        data.then(function(data){
+          resolve(data);
+        });
+        
+      } else {
+        
+        // Not a promise
+        resolve(data);
+        
+      }
+      
+    });
+    
+  }
+  
+  /**
+   * Converts htmlBars.safeString to normal string if applicable
+   * @param {stringy} maybeStr Anything really.
+   */
+  String( maybeStr ){
+    
+    if(typeof(maybeStr)==='string'){
+      
+      return maybeStr;
+      
+    // Check for safestring
+    // http://emberjs.com/api/classes/Ember.String.html#method_htmlSafe
+    } else if(typeof(maybeStr)==='object' && maybeStr.toString){
+      
+      return maybeStr.toString();
+      
+    } else {
+      return null;
+    }
+    
+  }
+  
+  /**
    * Same as Ember.isEmpty, except also supports options attributes passed to didUpdateAttrs
    * @param  {any}  item Item to check if empty
    * @return {Boolean}
@@ -516,7 +608,7 @@ class Blackout {
    * @return {[type]}      [description]
    */
   juniorClubName(name){
-    Ember.warn('juniorClubName() deprecated. Youth names are generated at API level',false,{id:'blackout.junior-club-name-deprecation'});
+    Ember.Logger.warn('juniorClubName() deprecated. Youth names are generated at API level');
     return 'Jr ' + name;
   }
 
