@@ -11,6 +11,7 @@ const { Blackout, $ } = Ember;
 export default Ember.Component.extend({
   store: Ember.inject.service(),
   userImages: Ember.inject.service(),
+  locale: Ember.inject.service(),
 
   extendMarkdown: Ember.on('didReceiveAttrs', function() {
 
@@ -116,7 +117,7 @@ export default Ember.Component.extend({
           
         }
         
-        return first+'<i class="icon-logo icon-md icon-vcenter"></i><a href="'+url+'" class="'+className+'">'+visibleText+'</a>'+last;// CT
+        return first+'<i class="icon-logo icon-md icon-vcenter"></i><a href="'+url+'" class="'+className+'">'+visibleText+'</a>'+last;
         
       }
       
@@ -192,7 +193,7 @@ export default Ember.Component.extend({
             
           },function(){
             
-            let text = 'Private Conversation'; // CT
+            let text = self.get('locale').htmlT('clubrooms.private-conv');
             isPrivateConv = true;
             
             // Conversation was not found or inaccessible (assume latter)
@@ -647,7 +648,7 @@ export default Ember.Component.extend({
 
               let username = this.decorateUsername(markdown.substr(usernameStart, usernameLength));
 
-              let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">Quoting:</span> <span class="quote-user">' + username + '</span></div>'; // CT
+              let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">'+this.get('locale').htmlT('markdown.quoting')+'</span> <span class="quote-user">' + username + '</span></div>';
 
               // Replace in markdown
               markdown = markdown.substrReplace(html, realStart, realLength );
@@ -666,7 +667,7 @@ export default Ember.Component.extend({
              * General quotes
              */
             
-            let html = '<div class="quote-header"><span class="quote-title">Quote</span></div>'; // CT
+            let html = '<div class="quote-header"><span class="quote-title">'+this.get('locale').htmlT('markdown.quote')+'</span></div>';
             
             // Replace in markdown
             markdown = markdown.substrReplace(html, realStart + 1, 0);

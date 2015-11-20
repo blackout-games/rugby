@@ -24,20 +24,19 @@
             {{{article.short}}}
             
             {{#if article.hasMoreToRead}}
-              {{#link-to articleRoute article.id class="nowrap"}}Read more.{{/link-to}}
+              {{#link-to articleRoute article.id class="nowrap"}}{{t 'dashboard.news.read-more'}}{{/link-to}}
             {{/if}}
             
           </p>
           
           <div class="news-date">
-            {{#if article.isNewToUser}}<b>NEW</b> &bullet;{{/if}}
+            {{#if article.isNewToUser}}<b>{{t 'dashboard.news.new'}}</b> &bullet;{{/if}}
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
-              by {{manager article.author}}
+              {{t 'dashboard.news.by-manager' manager=(manager article.author)}}
             {{/if}}
             {{#if article.country}}
-              in 
-              {{country article.country class="nowrap"}}
+              {{t 'dashboard.news.in-country' country=(country article.country class="nowrap")}}
             {{/if}}
           </div>
           

@@ -8,11 +8,35 @@
       
       <div class="modal-title"><i class="modal-icon"></i>{{title}}</div>
       
-      <div class="modal-message">{{{message}}} <span class="modal-action"></span></div>
+      <div class="modal-message">{{{message}}}
+      
+        <span class="modal-action">
+          
+          {{#if modal.actionHTML}}
+            {{modal.actionHTML}}
+          {{else}}
+            {{#if modal.showDefaultAction}}
+              <span><a {{action letUsKnowActionName}}>{{t 'modals.default-action'}}</a>.</span>
+            {{/if}}
+          {{/if}}
+          
+        </span>
+        
+      </div>
       
     </div>
     
-    <div class="modal-buttons"></div>
+    <div class="modal-buttons">
+      
+      {{#each modal.buttons as |button|}}
+      
+        <a {{action button.action}} class="modal-button btn-a btn-a-white">
+          {{button.label}}
+        </a>
+        
+      {{/each}}
+      
+    </div>
 
   </div>
 </div>

@@ -5,12 +5,12 @@ export default Ember.Component.extend(NewsMixin, {
   store: Ember.inject.service(),
   scrollerSelector: null,
   articleRoute: 'news.article',
-
-  setTitle: Ember.on('didInitAttrs', function() {
+  
+  title: Ember.computed('storeType','i18n.locale',function(){
     if (this.get('storeType') === 'news') {
-      this.set('title', 'News');
+      return this.get('i18n').t('dashboard.news.game-news');
     } else {
-      this.set('title', 'National News');
+      return this.get('i18n').t('dashboard.news.national-news');
     }
   }),
 

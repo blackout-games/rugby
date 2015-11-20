@@ -1,37 +1,36 @@
 import Ember from 'ember';
 var $ = Ember.$;
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Component.extend({
   
   animationDuration: 277, // Mimic CSS
+  letUsKnowActionName: 'letUsKnow', // TODO
   
   /**
-   * Basic properties
+   * Default properties
    */
   defaults: {
     type: 'notice',
-    title: 'Notice',
+    title: t('modals.notice.title'),
     message: 'Hello, this is a modal',
-    actionElement: '',
+    actionHtml: '',
     buttons: [
       {
-        'label': 'OK',
+        'label': t('modals.buttons.ok'),
         'action': 'hide'
       },
     ],
     extraButtons: [
     ],
+    showDefaultAction: true, // Shows 'Please let us know' link
   },
   
-  defaultActionElement() {
-    this.set('letUsKnowActionName','letUsKnow');
-    var el = $('<span>Please <a>let us know</a>.</span>');
-    var self = this;
-    $(el).find('a').on('click',function(){
-      self.sendAction('letUsKnowActionName');
-    });
-    return el;
-  },
+  /**
+   * Actual properties
+   * Setting this makes the magic happen
+   */
+  modal: {},
   
   /**
    * Modal types (one at a time)
@@ -52,8 +51,6 @@ export default Ember.Component.extend({
     bus.subscribe('showModal',this,this.show);
     bus.subscribe('hideModal',this,this.hide);
     
-    this.set('defaults.actionElement',this.defaultActionElement());
-    
     /*
     this.show({
       'type': 'error',
@@ -72,8 +69,10 @@ export default Ember.Component.extend({
       btnOptions = {};
     }
     
+    let self = this;
+    
     // Merge new options over defaults
-    var options = Ember.Object.create(this.get('defaults'));
+    var options = Ember.Object.extend(this.get('defaults')).create();
     options.setProperties(btnOptions);
     
     // Add extra buttons
@@ -81,22 +80,14 @@ export default Ember.Component.extend({
       options.buttons = options.extraButtons.concat(options.buttons);
     }
     
-    // Add action HTML
-    if( options.showAction ){
-      if(options.message){
-        options.message = options.message.trim();
-        if( options.message.slice(-1) !== "." ){
-          options.message += ".";
-        }
-      }
-      this.$().find('.modal-action').prepend(options.actionElement);
-    } else {
-      this.$().find('.modal-action').html('');
-    }
+    $.each(options.buttons,function(index){
+      options.buttons[index].i18n = self.get('i18n');
+    });
+    
+    // Magic!
+    this.set('modal',options);
     
     this.setType( options.type );
-    
-    this.createButtons( options.buttons );
     
     this.setProperties(options);
     
@@ -140,37 +131,6 @@ export default Ember.Component.extend({
       self.$().find('.modal-icon').addClass('icon-info icon-2x');
     } else if ( newType === 'error' ){
       self.$().find('.modal-icon').addClass('icon-attention  icon-lg');
-    }
-    
-  },
-  
-  /**
-   * Buttons
-   */
-  
-  createButtons(buttons) {
-    
-    if(buttons){
-      
-      var self = this;
-      
-      self.$().find('.modal-buttons').html(null);
-      
-      $.each(buttons,function(index,button){
-        
-        Ember.$('<a class="modal-button btn-a btn-a-white">' + button.label + '</a>').appendTo(self.$().find('.modal-buttons')).on('click',function(){
-          
-          if( button.action === 'hide' ){
-            self.send('hide');
-          } else {
-            let actionName = button.action + 'Name';
-            self.set(actionName,button.action);
-            self.sendAction(actionName);
-          }
-        });
-        
-      });
-      
     }
     
   },

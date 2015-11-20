@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Component.extend({
   locals: Ember.inject.service(),
@@ -13,10 +14,10 @@ export default Ember.Component.extend({
         Ember.run.later(function(){
               
           self.modal.show({
-            'type': 'notice',
-            'title': 'Welcome',
-            'message': "Hello! Welcome to the new Blackout Rugby. Please be aware that this is a pre-release version. Most features are not implemented yet. However the features here are intended to eventually be production ready, so feel free to report bugs on the main website BlackoutRugby.com. Enjoy.",
-            'showAction': false,
+            type: 'notice',
+            title: t('modals.welcome.title'),
+            message: t('modals.welcome.message'),
+            showDefaultAction: false,
           });
           
           self.get('locals').put('welcomeMessageShown',true);

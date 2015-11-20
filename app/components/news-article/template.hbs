@@ -12,11 +12,10 @@
         <div class="news-date gap-2x">
           {{date-ui date=model.date class="news-date"}}
           {{#if model.author}}
-            by {{manager model.author}}
+            {{t 'dashboard.news.by-manager' manager=(manager model.author)}}
           {{/if}}
           {{#if model.country}}
-            in 
-            {{country model.country class="nowrap"}}
+            {{t 'dashboard.news.in-country' country=(country model.country class="nowrap")}}
           {{/if}}
         </div>
         
@@ -34,9 +33,9 @@
     
     
     <div class="dash-box">
-      <h4 class="top">Comments</h4>
+      <h4 class="top">{{t 'comments.title'}}</h4>
       
-      <p>Coming soon.</p>
+      <p>{{t 'comments.coming-soon'}}</p>
     </div>
     
   </div>

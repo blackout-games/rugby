@@ -235,6 +235,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       /*i18n.addTranslations('it',{
         'login.errors.no-username': 'si no username',
         'menu.manager.dashboard': 'si dashboard',
+        'menu.hide': 'si hide',
+        'clubrooms.private-conv': 'si private conv',
       });*/
       
       return data;

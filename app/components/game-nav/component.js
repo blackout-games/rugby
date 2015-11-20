@@ -2,6 +2,7 @@ import Ember from 'ember';
 import ResponsiveNav from '../responsive-nav/component';
 import MenuData from '../../utils/menu';
 var $ = Ember.$;
+import { translationMacro as t } from "ember-i18n";
 
 export default ResponsiveNav.extend({
   testSidebar: false,
@@ -27,17 +28,18 @@ export default ResponsiveNav.extend({
   
   // Computed
   
-  menuButtonText: Ember.computed('media.isJumbo','navIsOpen',function(){
+  menuButtonText: Ember.computed('media.isJumbo','navIsOpen','i18n.locale',function(){
+    
     if( this.get('media.isJumbo') ){
       
       if( this.get('navIsOpen') ){
-        return 'Hide';
+        return this.get('i18n').t('menu.hide');
       } else {
-        return 'Show';
+        return this.get('i18n').t('menu.show');
       }
       
     }
-    return 'Menu';
+    return this.get('i18n').t('menu.menu');
     
   }),
   
