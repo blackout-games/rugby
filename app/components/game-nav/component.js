@@ -84,6 +84,7 @@ export default ResponsiveNav.extend({
     this.get('EventBus').subscribe('hideBottomTabBar', this, this.hideBottomTabBar);
     this.get('EventBus').subscribe('showBottomTabBar', this, this.showBottomTabBar);
     this.get('EventBus').subscribe('sessionBuilt', this, this.createMenus);
+    this.get('EventBus').subscribe('localeChanged', this, this.createMenus);
     
   }),
 
@@ -98,6 +99,7 @@ export default ResponsiveNav.extend({
     this.get('EventBus').unsubscribe('hideBottomTabBar', this, this.hideBottomTabBar);
     this.get('EventBus').unsubscribe('showBottomTabBar', this, this.showBottomTabBar);
     this.get('EventBus').unsubscribe('sessionBuilt', this, this.createMenus);
+    this.get('EventBus').unsubscribe('localeChanged', this, this.createMenus);
 
   }),
 
@@ -375,17 +377,21 @@ export default ResponsiveNav.extend({
           return true;
         }
         
+        // Translate item label
+        let key = "menu."+Ember.String.dasherize(menuName)+"."+Ember.String.dasherize(item.label);
+        item.tLabel = self.get('i18n').t(key);
+        
         if(item.tempRoute){
-          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
+          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.tempRoute;
           
         } else if(item.route){
-          itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.label+'</a>');
+          itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.route;
         } else if(item.action) {
-          itemLink = $('<a class="btn-a menu-link">'+item.label+'</a>');
+          itemLink = $('<a class="btn-a menu-link">'+item.tLabel+'</a>');
           let actionName = 'menuAction'+item.label.alphaNumeric();
           action = actionName;
           self.set(actionName,item.action);
