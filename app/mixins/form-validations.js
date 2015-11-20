@@ -5,7 +5,6 @@ export default Ember.Mixin.create(EmberValidations,{
   serverErrors: {},
   formErrorMessage: null,
   validationEvent: 'formSubmitted', // Should override where mixin is used
-  i18n: Ember.inject.service(),
   
   actions: {
     

@@ -10,7 +10,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
   locale: Ember.inject.service(),
-  i18n: Ember.inject.service(),
   
   listenForEvents: Ember.on('init', function(){
 
