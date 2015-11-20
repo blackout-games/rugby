@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   
+  
   var offlineMode = true;
   var localIP = '192.168.20.5'; // Home
   //var localIP = '192.168.1.150'; // Nat's + parents
@@ -82,6 +83,11 @@ module.exports = function(environment) {
     }
   };
   
+  ENV.moment = {
+    // To cherry-pick specific locale support into your application.
+    // Full list of locales: https://github.com/moment/moment/tree/2.10.3/locale
+    includeLocales: ['fr','it','es','af','ru']
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

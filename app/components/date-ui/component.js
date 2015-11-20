@@ -15,9 +15,13 @@ export default Ember.Component.extend({
     //'mouseout': 'hideHover',
   },
 
-  fullDate: Ember.computed('date', function() {
+  fullDate: Ember.computed('date','i18n.locale', function() {
     return moment(this.get('date')).format('dddd Do MMM YYYY, h:mm a'); // Monday 14th Aug 2015, 11:33 am
 
+  }),
+
+  relativeDate: Ember.computed('date','i18n.locale', function() {
+    return moment(this.get('date')).fromNow();
   }),
 
   setTitle: Ember.on('didInsertElement', function() {
@@ -26,10 +30,6 @@ export default Ember.Component.extend({
     this.$().findClosest('.full-date').attr('title', this.get('relativeDate')).hide();
     
 
-  }),
-
-  relativeDate: Ember.computed('date', function() {
-    return moment(this.get('date')).fromNow();
   }),
 
   toggleFullDate: Ember.on('click', function() {

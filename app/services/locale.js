@@ -1,14 +1,22 @@
 import Ember from 'ember';
 //import config from '../config/environment';
 const { $ } = Ember;
+import moment from 'moment';
 
 export default Ember.Service.extend({
   locals: Ember.inject.service(),
   i18n: Ember.inject.service(),
   EventBus: Ember.inject.service(),
+  moment: Ember.inject.service(),
   
   supportedLocales: {
     
+    /**
+     * Should mimic locales table in database
+     * 
+     * Also change in:
+     *   environment.js -> ENV.moment
+     */
     'en-gb': { label: 'English', fb: 'en_GB', jquery: 'en-GB' },
     'fr': { label: 'Français', fb: 'fr_FR', jquery: 'fr' },
     'it': { label: 'Italiano', fb: 'it_IT', jquery: 'it' },
@@ -25,6 +33,10 @@ export default Ember.Service.extend({
   
   getCurrent(){
     return this.get('currentLocale');
+  },
+  
+  getLocale(){
+    return this.get('supportedLocales.'+this.get('currentLocale'));
   },
   
   /**
@@ -79,7 +91,7 @@ export default Ember.Service.extend({
     
     this.change(locale);
     //this.change('it');
-    this.change('en-gb'); // Must manually change back to english since locales are remembered
+    //this.change('en-gb'); // Must manually change back to english since locales are remembered
     this.getUIContent();
     
     /*let self = this;
@@ -100,10 +112,22 @@ export default Ember.Service.extend({
     
     if( !Ember.isEmpty( this.get('supportedLocales.'+locale) ) ){
       
+      // Update browser locals
       this.get('locals').put('locale',locale);
+      
+      // Update local variable
       this.set('currentLocale',locale);
-      this.set('i18n.locale', locale); // ember-i18n
+      
+      // Update API requests
       this.updateAJAX();
+      
+      // Update moment
+      let momentLocale = locale==='es-ar' ? 'es' : locale;
+      //this.get('moment').changeLocale(momentLocale); // moment
+      moment.locale(momentLocale); // moment
+      
+      // Update libraries (Do this last so that other libs can rely on it's locale property for computed properties)
+      this.set('i18n.locale', locale); // ember-i18n
       
       // Broadcast event
       this.get('EventBus').publish('localeChanged', locale);
