@@ -51,10 +51,10 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   
   validations: {
     'username': {
-      presence: { message: 'Please provide your username.' },
+      presence: { tMessage: 'login.errors.no-username' },
     },
     'password': {
-      presence: { message: 'Please provide your password.' },
+      presence: { tMessage: 'login.errors.no-password' },
     },
   },
   

@@ -22,7 +22,7 @@
         
         <div class="has-feedback dark">
         
-          {{validated-input type="text" inputId="username" placeholder="Username" value=username clientError=errors.username serverError=serverErrors.username validationEvent=validationEvent inputClass="dark login-boxes" }}
+          {{validated-input type="text" inputId="username" placeholder=(t 'login.username') value=username clientError=errors.username serverError=serverErrors.username validationEvent=validationEvent inputClass="dark login-boxes" }}
           
           <i class="icon-user login-icons"></i>
           
@@ -30,7 +30,7 @@
         
         <div class="has-feedback dark gap-lg">
           
-          {{validated-input type="password" inputId="password" placeholder="Password" value=password clientError=errors.password serverError=serverErrors.password validationEvent=validationEvent inputClass="dark login-boxes" }}
+          {{validated-input type="password" inputId="password" placeholder=(t 'login.password') value=password clientError=errors.password serverError=serverErrors.password validationEvent=validationEvent inputClass="dark login-boxes" }}
           
           <i class="icon-key login-icons key-icon"></i>
           
@@ -38,7 +38,7 @@
 
         <div class="form-group gap-5x">
         
-          {{#loader-button action="submit" class="btn btn-block btn-ghost btn-big login-button gap-sm"}}Login{{/loader-button}}
+          {{#loader-button action="submit" class="btn btn-block btn-ghost btn-big login-button gap-sm"}}{{t 'buttons.login'}}{{/loader-button}}
           
           {{#loader-button action="loginWithFacebook" class="btn btn-fb btn-block btn-big fb-login-button" spinnerColor="fb"}}<i class="icon-facebook"></i>&nbsp;{{/loader-button}}
           
@@ -54,11 +54,11 @@
         <div class="row">
           
           <div class="col-xs-6 text-left">
-            {{#link-to "index"}}Forgot password?{{/link-to}}
+            {{#link-to "index"}}{{t 'login.forgot-password'}}{{/link-to}}
           </div>
           
           <div class="col-xs-6 text-right">
-            No account? {{#link-to "index"}}Signup{{/link-to}}
+            {{t 'login.no-account'}} {{#link-to "index"}}{{t 'buttons.signup'}}{{/link-to}}
           </div>
           
         </div>

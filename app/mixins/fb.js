@@ -1,5 +1,6 @@
 import Ember from 'ember';
 var $ = Ember.$;
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Mixin.create({
   
@@ -7,11 +8,13 @@ export default Ember.Mixin.create({
     
     var self = this;
     
-    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+    let locale = this.get('locale').getLocale();
+    
+    $.getScript('//connect.facebook.net/'+locale.fb+'/sdk.js', function(){
       FB.init({
         appId: '230716417077656',
         xfbml      : true,
-        version: 'v2.4',
+        version: 'v2.5',
       });
       
       self.checkFBLoginStatus();
@@ -31,12 +34,14 @@ export default Ember.Mixin.create({
       
     } else {
       
+      let locale = this.get('locale').getLocale();
+      
       if(window.navigator.standalone||window.browsers.chromeiOS){
         
         // Save a local indicator so that when we come back, we can automatically log the user in.
         this.set('locals.standaloneFacebookDialogue',Date.now());
         
-        var permissionUrl = "https://m.facebook.com/v2.4/dialog/oauth?app_id=230716417077656&response_type=token&redirect_uri=" + window.location + "&scope=email";
+        var permissionUrl = "https://m.facebook.com/v2.5/dialog/oauth?app_id=230716417077656&response_type=token&redirect_uri=" + window.location + "&scope=email&locale=" + locale.fb + "&locale2=" + locale.fb;
         
         window.location = permissionUrl;
         
@@ -49,7 +54,7 @@ export default Ember.Mixin.create({
             // User cancelled login or did not fully authorize
             button.reset();
           }
-        },{redirect_uri: window.location, scope: 'email'});
+        },{redirect_uri: window.location, scope: 'email' });
         
       }
       
@@ -84,7 +89,7 @@ export default Ember.Mixin.create({
         
         self.modal.show({
           'type': 'error',
-          'title': 'Facebook Login Failed',
+          'title': t('modals.facebook-login-failed.title'),
           'message': response.message,
           'showAction': true,
         });

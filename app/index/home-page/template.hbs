@@ -11,13 +11,13 @@
 
     <div class="container-fluid">
 
-      <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}"><span class="nowrap-sm">WELCOME TO</span> <span class="nowrap-sm">BLACKOUT RUGBY</span></div>
+      <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}">{{t 'home-page.welcome'}}</div>
 
       {{#if session.isAuthenticated}}
         
         <div class="row-center">
           <div class="col white home-welcome-back">
-            Welcome back, <span class="home-username">{{session.manager.username}}</span>.
+            {{t 'home-page.welcome-back' manager=session.manager.username}}
           </div>
         </div>
         <div class="row">
@@ -34,17 +34,17 @@
         
       {{/if}}
 
-      <div id="subtitle">YOUR CLUB AWAITS.</div>
+      <div id="subtitle">{{t 'home-page.your-club-awaits'}}</div>
 
       {{#unless session.isAuthenticated}}
       
         <div class="fbcontinue-container">
           {{#loader-button action="loginWithFacebook" class="btn btn-big btn-fb fbcontinue-button no-outline home-signup-buttons"   spinnerColor="fb" }}
-            <i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
+            <i class="icon-facebook btn-fb-icon"></i> {{t 'home-page.continue-with-fb'}}{{/loader-button}}
         </div>
 
         <div class="signup-container">
-          {{#link-to 'signup' tagName='button' class="btn btn-big btn-ghost white on-image no-outline home-signup-buttons gap-md"}}Sign up with your email{{/link-to}}
+          {{#link-to 'signup' tagName='button' class="btn btn-big btn-ghost white on-image no-outline home-signup-buttons gap-md"}}{{t 'home-page.signup-with-email'}}{{/link-to}}
         </div>
         
       {{/unless}}
@@ -52,13 +52,12 @@
       <div id="testimony-container">
         <div id="testimony" class="row row-nowrap">
           <div id="testimony-text" class="col-xs-9">
-            <span class="iblock"><i class="icon-quote-left icon-md icon-vcenter" id="testimony-quote"></i> the best rugby management</span>
-            <span class="iblock"> game out there</span>
+            {{t 'home-page.testimony'}}
           </div>
           <div id="testimony-writer-container" class="col-xs-3">
             <a href="http://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Nick+Bishop&search-alias=books&field-author=Nick+Bishop&sort=relevancerank" target="_blank">
               <div id="testimony-writer">Nick Bishop</div>
-              <div id="testimony-type">Author</div>
+              <div id="testimony-type">{{t 'home-page.testimony-author'}}</div>
             </a>
           </div>
 
@@ -78,7 +77,7 @@
       </div>
       
       {{#unless session.isAuthenticated}}
-        {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}Login{{/link-to}}
+        {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}{{t 'buttons.login'}}{{/link-to}}
       {{/unless}}
 
     </div>
@@ -93,22 +92,14 @@
 
     <div class="about-top-section">
 
-      <h1>What is Blackout Rugby?</h1>
+      <h1>{{t 'home-page.about.title'}}</h1>
 
       <div class="col-md-8 center blurb">
 
-        <p>Blackout Rugby is an online multiplayer game, placing you in the shoes of a rugby union club manager.</p>
-
-        <h2>FREE TO PLAY</h2>
-
-        <p>Blackout Rugby is free to play for as long as you like. There is an optional premium package which costs real cold hard cash and provides 50+ extra features.</p>
-
-        <h2>NO PAY TO WIN FEATURES</h2>
-
-        <p>The premium package doesn't include any features which enhance a team in any way to be more competitive.</p>
+        {{t 'home-page.about.blurb'}}
 
         {{!
-        <p>Many of the other clubs are owned by real people around the world. You'll play against others in your league, in the national cup, or organise a friendly with anyone you like. Then when you're done winning, pour yourself a beer and head to the clubrooms for a bit of social interaction with the community.</p>}}
+        <p>Many of the other clubs are owned by real people around the world. You'll play against others in your league, in the national cup, or organise a friendly with anyone you like. Then when you're done winning, head to the clubrooms, pour yourself a beer and for a bit of social interaction with the community.</p>}}
 
       </div>
 
@@ -118,64 +109,64 @@
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h4>Craft a winning lineup</h4>
+          <h4>{{t 'home-page.about.lineup-title'}}</h4>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.lineup-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h4>Train your players</h4>
+          <h4>{{t 'home-page.about.training-title'}}</h4>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.training-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h4>Manage energy and injuries</h4>
+          <h4>{{t 'home-page.about.energy-title'}}</h4>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.energy-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h4>Buy and sell players</h4>
+          <h4>{{t 'home-page.about.market-title'}}</h4>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.market-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h4>Socialise</h4>
+          <h4>{{t 'home-page.about.social-title'}}</h4>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.social-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block b">
         <div class="about-block-head b">
-          <h4>Take on the world</h4>
+          <h4>{{t 'home-page.about.world-title'}}</h4>
         </div>
         <div class="about-block-body b"><i class="icon-logo logo-placeholder b"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.world-blurb'}}
         </div>
       </div>
 
       <div class="col-xs-12 about-block a">
         <div class="about-block-head a">
-          <h4>Play on any device</h4>
+          <h4>{{t 'home-page.about.devices-title'}}</h4>
         </div>
         <div class="about-block-body a"><i class="icon-logo logo-placeholder a"></i>
-          <br>Coming soon.
+          <br>{{t 'home-page.about.devices-blurb'}}
         </div>
       </div>
 
@@ -187,12 +178,12 @@
   
   <div class="home-content-block home-block-dark stats-container">
 
-    <h1>Blackout Rugby in Numbers</h1>
+    <h1>{{t 'home-page.stats.title'}}</h1>
 
     <div class="row">
       <div class="col-md-4 stats-block">
 
-        <h4 class="text-center">The People</h4>
+        <h4 class="text-center">{{t 'home-page.stats.people'}}</h4>
 
 
         <div class="stat row">
@@ -200,7 +191,7 @@
             {{number stats.activeManagers roundMillions=true}}
           </div>
           <div class="stat-label">
-            Active Managers
+            {{t 'home-page.stats.people.managers'}}
           </div>
         </div>
 
@@ -209,7 +200,7 @@
             {{number stats.activeTeams roundMillions=true}}
           </div>
           <div class="stat-label">
-            Active Clubs
+            {{t 'home-page.stats.people.clubs'}}
           </div>
         </div>
 
@@ -218,7 +209,7 @@
             {{number stats.managersOnline roundMillions=true}}
           </div>
           <div class="stat-label">
-            Managers Online
+            {{t 'home-page.stats.people.online'}}
           </div>
         </div>
 
@@ -227,7 +218,7 @@
             {{number stats.hoursPlayedLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Hours Played Last Week
+            {{t 'home-page.stats.people.hours-week'}}
           </div>
         </div>
 
@@ -236,7 +227,7 @@
             {{number stats.hoursPlayedYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            Hours Played Yesterday
+            {{t 'home-page.stats.people.hours-day'}}
           </div>
         </div>
 
@@ -245,7 +236,7 @@
             {{number stats.signupsLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Signups Last Week
+            {{t 'home-page.stats.people.signups-week'}}
           </div>
         </div>
 
@@ -254,14 +245,14 @@
             {{number stats.signupsYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            Signups Yesterday
+            {{t 'home-page.stats.people.signups-day'}}
           </div>
         </div>
 
       </div>
       <div class="col-md-4 stats-block">
         
-        <h4 class="text-center">The Nations</h4>
+        <h4 class="text-center">{{t 'home-page.stats.nations'}}</h4>
         
         {{#each countries key="@index" as |country index|}}
 
@@ -270,7 +261,7 @@
             {{number country.activeTeams roundMillions=true}}
           </div>
           <div class="stat-label">
-            clubs in {{country.name}}
+            {{t 'home-page.stats.nations.clubs-in' country=country.name}}
           </div>
         </div>
 
@@ -279,14 +270,14 @@
       </div>
       <div class="col-md-4 stats-block">
         
-        <h4 class="text-center">The Rugby</h4>
+        <h4 class="text-center">{{t 'home-page.stats.rugby'}}</h4>
 
         <div class="stat row">
           <div class="stat-value">
             {{number stats.triesLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Tries Scored Last Week
+            {{t 'home-page.stats.rugby.tries-week'}}
           </div>
         </div>
 
@@ -295,7 +286,7 @@
             {{number stats.triesYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            Tries Scored Yesterday
+            {{t 'home-page.stats.rugby.tries-day'}}
           </div>
         </div>
 
@@ -304,7 +295,7 @@
             {{number stats.injuriesLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Injuries Last Week
+            {{t 'home-page.stats.rugby.injuries-week'}}
           </div>
         </div>
 
@@ -313,7 +304,7 @@
             {{number stats.injuriesYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            Injuries Yesterday
+            {{t 'home-page.stats.rugby.injuries-day'}}
           </div>
         </div>
 
@@ -322,7 +313,7 @@
             {{number stats.popsLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Skill Pops Last Week
+            {{t 'home-page.stats.rugby.pops-week'}}
           </div>
         </div>
 
@@ -331,7 +322,7 @@
             {{number stats.transfersLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            Players Sold Last Week
+            {{t 'home-page.stats.rugby.transfers-week'}}
           </div>
         </div>
 
@@ -340,7 +331,7 @@
             {{number stats.transfersYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            Players Sold Yesterday
+            {{t 'home-page.stats.rugby.transfers-day'}}
           </div>
         </div>
 
@@ -349,7 +340,7 @@
             {{money stats.moneyTransferredLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
-            In Player Sales Last Week
+            {{t 'home-page.stats.rugby.sales-week'}}
           </div>
         </div>
 
@@ -358,7 +349,7 @@
             {{money stats.moneyTransferredYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
-            In Player Sales Yesterday
+            {{t 'home-page.stats.rugby.sales-day'}}
           </div>
         </div>
 
@@ -373,7 +364,7 @@
   <div class="home-content-block home-block-light contact-container">
 
     <div class="contact-header">
-      <h1>Get in contact</h1>
+      <h1>{{t 'home-page.contact.title'}}</h1>
       <div class="contact-email"><i class="icon-mail icon-sm contact-icon"></i> <a href="mailto:support@blackoutrugby.com">support@blackoutrugby.com</a></div>
       <div class="contact-location">
         PO Box 12725, Chartwell 3248
@@ -389,11 +380,11 @@
     {{#unless session.isAuthenticated}}
     <div class="gap-2x">
       
-      {{#loader-button action="loginWithFacebook" class="home-footer-button btn btn-small btn-fb fbcontinue-button fbcontinue-small no-outline" spinnerColor="fb" }}<i class="icon-facebook btn-fb-icon"></i> Continue with facebook{{/loader-button}}
+      {{#loader-button action="loginWithFacebook" class="home-footer-button btn btn-small btn-fb fbcontinue-button fbcontinue-small no-outline" spinnerColor="fb" }}<i class="icon-facebook btn-fb-icon"></i> {{t 'home-page.continue-with-fb'}}{{/loader-button}}
       
-      {{#link-to "signup" class="home-footer-button btn btn-ghost white btn-small"}}Signup{{/link-to}}
+      {{#link-to "signup" class="home-footer-button btn btn-ghost white btn-small"}}{{t 'buttons.signup'}}{{/link-to}}
       
-      {{#link-to "login" class="home-footer-button btn btn-ghost white btn-small"}}Login{{/link-to}}
+      {{#link-to "login" class="home-footer-button btn btn-ghost white btn-small"}}{{t 'buttons.login'}}{{/link-to}}
     
     </div>
     {{/unless}}
@@ -402,10 +393,10 @@
 
       <div class="col-xxs-12 col-xs-3 text-left text-center-xxs">
 
-        {{#scroll-to href='#home' class="scroll-link-home"}}Home{{/scroll-to}}<br>
-        {{#scroll-to href='#about' class="scroll-link-about"}}About{{/scroll-to}}<br>
-        {{#scroll-to href='#numbers' class="scroll-link-numbers"}}Statistics{{/scroll-to}}<br>
-        {{#scroll-to href='#contact' class="scroll-link-contact"}}Contact{{/scroll-to}}
+        {{#scroll-to href='#home' class="scroll-link-home"}}{{t 'buttons.home'}}{{/scroll-to}}<br>
+        {{#scroll-to href='#about' class="scroll-link-about"}}{{t 'buttons.about'}}{{/scroll-to}}<br>
+        {{#scroll-to href='#numbers' class="scroll-link-numbers"}}{{t 'buttons.statistics'}}{{/scroll-to}}<br>
+        {{#scroll-to href='#contact' class="scroll-link-contact"}}{{t 'buttons.contact'}}{{/scroll-to}}
 
       </div>
 
@@ -421,16 +412,15 @@
 
       <div class="col-xxs-12 col-xs-5 text-center-xxs text-right-xs">
 
-        <img src="assets/images/global/full-logo.svg" alt="Blackout Rugby Logo" class="svg footer-logo">
+        <img src="assets/images/global/full-logo.svg" aria-label={{t 'home-page.logo'}} class="svg footer-logo">
 
       </div>
 
     </div>
 
     <div class="footer-final">
-      &copy; {{currentYear}} Blackout Entertainment Ltd &bull; All Rights Reserved &bull; <a href="https://www.iubenda.com/privacy-policy/657214">Privacy</a>
+      &copy; {{currentYear}} Blackout Entertainment Ltd &bull; {{t 'home-page.all-rights-reserved'}} &bull; <a href="https://www.iubenda.com/privacy-policy/657214">{{t 'home-page.privacy'}}</a>
     </div>
-
 
   </footer>
 
