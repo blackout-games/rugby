@@ -35,7 +35,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       this.session.set('attemptedTransition', null);
     } else {
 
-      var currentPath = window.location.pathname;
       var newPath = '/dashboard';
       
       var lastRoute = this.get('preferences').getPref('lastRoute');
@@ -56,11 +55,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
         
       }
 
-      if (currentPath === newPath) {
-        this.refresh();
-      } else {
-        this.transitionTo(newPath);
-      }
+      Ember.Blackout.transitionTo(newPath);
 
     }
     
@@ -239,6 +234,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       
       /*i18n.addTranslations('it',{
         'login.errors.no-username': 'si no username',
+        'menu.manager.dashboard': 'si dashboard',
       });*/
       
       return data;

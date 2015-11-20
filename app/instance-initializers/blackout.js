@@ -8,8 +8,41 @@ export function initialize( application ) {
   // Create global transitionTo
   Ember.Blackout.transitionTo = function( route ){
     
-    var appRoute = application.lookup('route:application');
-    appRoute.transitionTo(route);
+    let parts = route.split('#');
+    let hash;
+    
+    if(parts.length>1){
+      route = parts[0];
+      hash = parts[1];
+    }
+    
+    // Support routes with hashes, i.e. when user logs in and lastRoute includes a hash
+    // To reproduce issue which this fixes, while logged in, go to home page and refresh it completely so /#home is saved as lastRoute
+    if(hash){
+      let router = application.lookup('router:main');
+      router.one('didTransition', function() {
+        window.location.hash = hash;
+      });
+    }
+    
+    let currentPath = window.location.pathname;
+    let appRoute = application.lookup('route:application');
+    let EventBus = application.lookup('service:event-bus');
+    let rawRoute = Ember.Blackout.trimChar(route,'/');
+    
+    // Select menu link
+    // (Selects dashboard link after logging in when already on dashboard)
+    if(rawRoute.indexOf('/')===-1){
+      Ember.run.next(function(){
+        EventBus.publish('selectMenuLink',rawRoute);
+      });
+    }
+    
+    if (currentPath === route) {
+      appRoute.refresh();
+    } else {
+      appRoute.transitionTo(route);
+    }
     
   };
   
