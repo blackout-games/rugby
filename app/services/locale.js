@@ -97,7 +97,7 @@ export default Ember.Service.extend({
     /*let self = this;
     Ember.run.later(function(){
       self.change('it');
-    },5000);*/
+    },7000);*/
     
   }),
   
@@ -126,8 +126,11 @@ export default Ember.Service.extend({
       //this.get('moment').changeLocale(momentLocale); // moment
       moment.locale(momentLocale); // moment
       
-      // Update libraries (Do this last so that other libs can rely on it's locale property for computed properties)
+      // Update libraries (Do this after other self sustained libs so they can rely on it's locale property for computed properties)
       this.set('i18n.locale', locale); // ember-i18n
+      
+      // Update registered html snippets
+      this.updateRegisteredTranslations();
       
       // Broadcast event
       this.get('EventBus').publish('localeChanged', locale);
@@ -145,6 +148,75 @@ export default Ember.Service.extend({
           'Accept-Language': this.get('currentLocale'),
         },
     });
+    
+  },
+  
+  
+  /**
+   * Store for html keys registered below
+   * @type {Array}
+   */
+  registeredHtmlKeys: [],
+  
+  /**
+   * Provides html containing the text for the translation key given, which will update whenever the locale changes. If the html later disappears (i.e. user goes elsewhere), this is ok. The watcher will recognise that it's gone on the next update, and stop watching.
+   * 
+   * This should be used when these two conditions are met:
+   * 1. i18n.t() won't work due to it being a computed property
+   * 2. You're supplying static html straight to rendering
+   * 
+   * @param  {string} key The i18n key for the translated text
+   * @return {string}     Html which will house the translation, and be updated if the local changes.
+   */
+  htmlT(key){
+    
+    // Get an id
+    let id = 'blackout-t-' + Ember.Blackout.generateId();
+    
+    // Store keys
+    this.get('registeredHtmlKeys').push({ id: id, key: key });
+    
+    // Build and return html
+    return '<span id="' + id + '">' + this.get('i18n').t(key) + '</span>';
+    
+  },
+  
+  /**
+   * Called when locale changes, and updates any registered html translations. If the item no longer exists in the dom, it is removed from the store.
+   * @return {[type]} [description]
+   */
+  updateRegisteredTranslations(){
+    
+    let keys = this.get('registeredHtmlKeys');
+    let indexesToRemove = [];
+    let self = this;
+    
+    $.each(keys,function(i,item){
+      
+      // Check for item in dom
+      let $item = $('#'+item.id);
+      if($item.length){
+        
+        // Update translation
+        $item.html(self.get('i18n').t(item.key).toString());
+        
+      } else {
+        
+        // Mark for removal
+        indexesToRemove.push(i);
+        
+      }
+      
+    });
+    
+    if(!Ember.isEmpty(indexesToRemove)){
+      
+      // Remove old keys
+      for(let i=indexesToRemove.length-1; i>=0; i--){
+        this.get('registeredHtmlKeys').splice(i,1);
+      }
+      
+    }
     
   },
   
