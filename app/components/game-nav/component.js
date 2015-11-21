@@ -2,7 +2,6 @@ import Ember from 'ember';
 import ResponsiveNav from '../responsive-nav/component';
 import MenuData from '../../utils/menu';
 var $ = Ember.$;
-import { translationMacro as t } from "ember-i18n";
 
 export default ResponsiveNav.extend({
   testSidebar: false,
@@ -411,6 +410,9 @@ export default ResponsiveNav.extend({
         
       });
     });
+
+    // Manually update hover watchers
+    Ember.Blackout.refreshHoverWatchers();
     
   },
 

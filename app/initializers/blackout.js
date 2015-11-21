@@ -638,6 +638,10 @@ class Blackout {
     Ember.Logger.warn('juniorClubName() deprecated. Youth names are generated at API level');
     return 'Jr ' + name;
   }
+  
+  refreshHoverWatchers(){
+    _refreshWatchers();
+  }
 
 }
 
@@ -1021,6 +1025,8 @@ Ember.Component.reopen({
   }),
 
 });
+
+
 
 var _hoverStartEvent,_hoverEventObj,_hoverEndEvent;
 
