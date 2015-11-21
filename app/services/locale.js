@@ -139,6 +139,8 @@ export default Ember.Service.extend({
       
       let updateLocale = (data) => {
         
+        Ember.Blackout.stopLoading();
+        
         if(!self.get('supportedLocales.' + locale + '.loaded')){
           self.addTranslation(locale,data);
         }
@@ -174,6 +176,8 @@ export default Ember.Service.extend({
           
         // i18n url
         let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
+        
+        Ember.Blackout.startLoading();
         
         return Ember.$.getJSON(url).then(updateLocale);
         

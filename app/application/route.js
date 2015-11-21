@@ -173,8 +173,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
   },
 
   model() {
-    
-    let self = this;
 
     /**
      * At this stage we don't actually load and return a model for use in the "application route".

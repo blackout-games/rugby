@@ -46,6 +46,18 @@ export function initialize( application ) {
     
   };
   
+  Ember.Blackout.startLoading = () => {
+    
+    application.lookup('controller:application').set('loading',true);
+    
+  };
+  
+  Ember.Blackout.stopLoading = () => {
+    
+    application.lookup('controller:application').set('loading',false);
+    
+  };
+  
 }
 
 export default {
