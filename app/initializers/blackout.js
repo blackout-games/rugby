@@ -10,23 +10,50 @@ class Blackout {
    * 
    * Give this function a potential promise and a callback function which receives the resolved item, builds and returns the real HTML.
    * 
+   * Optionally provide an event name too (listens from eventbus), and the html will be replaced again any time this event is broadcast. This supports areas like helpers with i18n because the i18n 't' component caches helper output meaning when the locale gets changed, the html is returned to the initial holder html we return from this function.
+   * 
    * This function returns a basic html wrapper with an id, which will be filled with your provided html when the promise resolves.
    * 
    * @param  {object} potentialPromise A potential promise like what you would provide to assertPromise()
    * @param  {object} potentialPromise 
    * @return {string}  HTML object which will be filled when the promise resolves
    */
-  promiseHTML( potentialPromise, callback ){
+  promiseHTML( potentialPromise, callback, eventName=null ){
     
     // Generate an id (promise placeholder)
     let id = 'blackout-pp-' + this.generateId();
+    let self = this;
+    let eventBus = self.App.lookup('service:event-bus');
     
     // Run the promise
     this.assertPromise( potentialPromise ).then(function(data){
       
-      let html = callback(data);
+      let watcher = () => {
+        Ember.run.next(() => {
+          
+          // Must generate html from callback again so that updaters get run e.g. see manager helper
+          let html = callback(data);
+          let $holder = $('#'+id);
+          
+          if($holder.length){
+            $holder.html(html);
+          } else if(eventName) {
+            print('destoryed');
+            eventBus.unsubscribe(eventName,watcher);
+          }
+          
+        });
+      };
       
-      $('#'+id).replaceWith(html);
+      watcher();
+      
+      if(eventName){
+        
+        // Listen for the given event name, and on publishing of this event, we update the html again.
+        
+        eventBus.subscribe(eventName,watcher);
+        
+      }
       
     });
     

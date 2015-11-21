@@ -17,7 +17,7 @@ export function manager(params) {
     
     return userImages.getManagerHTML( data );
     
-  });
+  },'localeChanged');
   
   return Ember.String.htmlSafe(html);
   

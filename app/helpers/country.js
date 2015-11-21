@@ -18,7 +18,7 @@ export function country(params, options) {
     // For later
     //return html = bindRouteLink(route, html);
     
-  });
+  },'localeChanged');
   
   return Ember.String.htmlSafe(html);
   
