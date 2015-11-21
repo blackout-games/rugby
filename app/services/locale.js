@@ -89,12 +89,12 @@ export default Ember.Service.extend({
       
     }
     
-    let self = this;
+    /*let self = this;
     Ember.run.later(function(){
       self.change('es');
-    },5000);
+    },5000);*/
     
-    locale = 'en-gb'; // Must manually change back to english since locales are remembered
+    //locale = 'en-gb'; // Must manually change back to english since locales are remembered
     //locale = 'it'; 
     
     return this.change(locale);
