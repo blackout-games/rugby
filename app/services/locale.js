@@ -1,5 +1,5 @@
 import Ember from 'ember';
-//import config from '../config/environment';
+import config from '../config/environment';
 const { $ } = Ember;
 import moment from 'moment';
 
@@ -43,7 +43,7 @@ export default Ember.Service.extend({
    * Language should be a localisation string, e.g. 'en-gb', or 'fr-fr'
    */
   
-  initLocale: Ember.on('init',function(){
+  initLocale(){
     
     let locale = this.get('locals').read('locale');
     
@@ -89,22 +89,41 @@ export default Ember.Service.extend({
       
     }
     
-    this.change(locale);
-    //this.change('it');
-    //this.change('en-gb'); // Must manually change back to english since locales are remembered
-    this.getUIContent();
-    
-    /*let self = this;
+    let self = this;
     Ember.run.later(function(){
-      self.change('it');
-    },7000);*/
+      self.change('es');
+    },5000);
     
-  }),
+    locale = 'en-gb'; // Must manually change back to english since locales are remembered
+    //locale = 'it'; 
+    
+    return this.change(locale);
+    
+  },
   
-  getUIContent(){
+  /**
+   * Wrapper for i18n.addTranslation so we can manage which translations are loaded and which aren't
+   * @param {json} data A JSON translation document
+   */
+  addTranslation( locale, data ){
     
-    // TODO
-    // Load general UI content items from API, and load them into ember-i18n
+    let test = false; // Set all translations as CT. Makes it easy to spot anything that's been missed
+    
+    if( test ){
+      Ember.$.each(data.translation,(index) => {
+        data.translation[index] = 'CT';
+      });
+    }
+    
+    /*this.get('locale').addTranslations('it',{
+      'login.errors.no-username': 'si no username',
+      'menu.manager.dashboard': 'si dashboard',
+      'menu.hide': 'si hide',
+      'clubrooms.private-conv': 'si private conv',
+    });*/
+    
+    this.get('i18n').addTranslations(locale, data);
+    this.set('supportedLocales.' + locale + '.loaded',true);
     
   },
   
@@ -112,28 +131,55 @@ export default Ember.Service.extend({
     
     if( !Ember.isEmpty( this.get('supportedLocales.'+locale) ) ){
       
-      // Update browser locals
-      this.get('locals').put('locale',locale);
-      
-      // Update local variable
-      this.set('currentLocale',locale);
-      
       // Update API requests
-      this.updateAJAX();
+      this.updateAJAX(locale);
       
-      // Update moment
-      let momentLocale = locale==='es-ar' ? 'es' : locale;
-      //this.get('moment').changeLocale(momentLocale); // moment
-      moment.locale(momentLocale); // moment
+      // Request new translation document(s)
+      let self = this;
       
-      // Update libraries (Do this after other self sustained libs so they can rely on it's locale property for computed properties)
-      this.set('i18n.locale', locale); // ember-i18n
+      let updateLocale = (data) => {
+        
+        if(!self.get('supportedLocales.' + locale + '.loaded')){
+          self.addTranslation(locale,data);
+        }
+          
+        // Update browser locals
+        self.get('locals').put('locale',locale);
+        
+        // Update local variable
+        self.set('currentLocale',locale);
+        
+        // Update moment
+        let momentLocale = locale==='es-ar' ? 'es' : locale;
+        //self.get('moment').changeLocale(momentLocale); // moment
+        moment.locale(momentLocale); // moment
+        
+        // Update libraries (Do this after other self sustained libs so they can rely on it's locale property for computed properties)
+        self.set('i18n.locale', locale); // ember-i18n
+        
+        // Update registered html snippets
+        self.updateRegisteredTranslations();
+        
+        // Broadcast event
+        self.get('EventBus').publish('localeChanged', locale);
+        
+        print('changed locale to '+locale);
+        
+      };
       
-      // Update registered html snippets
-      this.updateRegisteredTranslations();
-      
-      // Broadcast event
-      this.get('EventBus').publish('localeChanged', locale);
+      // Has this locale been loaded yet?
+      if(!self.get('supportedLocales.' + locale + '.loaded')){
+        
+        print('loading new locale '+locale);
+          
+        // i18n url
+        let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
+        
+        return Ember.$.getJSON(url).then(updateLocale);
+        
+      } else {
+        updateLocale();
+      }
       
     } else {
       Ember.Logger.warn( 'Tried to set unknown locale: ' + locale );
@@ -141,11 +187,11 @@ export default Ember.Service.extend({
     
   },
   
-  updateAJAX() {
+  updateAJAX( forceLocale ) {
     
     $.ajaxSetup({
         headers: {
-          'Accept-Language': this.get('currentLocale'),
+          'Accept-Language': (forceLocale ? forceLocale : this.get('currentLocale')),
         },
     });
     

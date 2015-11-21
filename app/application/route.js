@@ -3,7 +3,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 import LoadingSliderMixin from '../mixins/loading-slider';
 import FBMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
-import config from '../config/environment';
+//import config from '../config/environment';
 
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBMixin, RouteHistoryMixin, {
   locals: Ember.inject.service(),
@@ -198,13 +198,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
     }
     
-    //i18n locale
-    let locale = this.get('locale').getCurrent();
-    
-    // i18n url
-    // Locale header should have already been set
-    let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
-    
     /**
      * Promise hash
      */
@@ -215,29 +208,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
       preferences: this.get('preferences').loadPreferences(),
       
       // Load general i18n document
-      translation: Ember.$.getJSON(url),
+      translation: this.get('locale').initLocale(),
       
     }).then((data) => {
-      
-      // Process i18n
-      //let doc = Ember.Object.create(data.i18n.get('document'));
-      
-      let i18n = self.get('i18n');
-      let test = false; // Set all translations as CT. Makes it easy to spot anything that's been missed
-      
-      if( test ){
-        Ember.$.each(data.translation,(index) => {
-          data.translation[index] = 'CT';
-        });
-      }
-      i18n.addTranslations(locale, data.translation);
-      
-      /*i18n.addTranslations('it',{
-        'login.errors.no-username': 'si no username',
-        'menu.manager.dashboard': 'si dashboard',
-        'menu.hide': 'si hide',
-        'clubrooms.private-conv': 'si private conv',
-      });*/
       
       return data;
       
