@@ -214,6 +214,15 @@ p {
   hyphens: auto;
 }
 
+/**
+ * Truncate long works with ellipses
+ */
+.ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 article, blockquote {
   font-size: 15.9px;
   p {
