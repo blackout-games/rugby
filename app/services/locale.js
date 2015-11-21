@@ -165,14 +165,10 @@ export default Ember.Service.extend({
         // Broadcast event
         self.get('EventBus').publish('localeChanged', locale);
         
-        print('changed locale to '+locale);
-        
       };
       
       // Has this locale been loaded yet?
       if(!self.get('supportedLocales.' + locale + '.loaded')){
-        
-        print('loading new locale '+locale);
           
         // i18n url
         let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
