@@ -21,3 +21,4 @@ testem.log
 sftp-config.json
 *.sublime-workspace
 *.sublime-project
+go.php
