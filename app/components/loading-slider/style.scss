@@ -4,40 +4,55 @@
  * Loading slider bar
  */
 
+$height: 4px;
+
 .loading-slider {
   position: fixed;
   overflow: hidden;
   top: 0;
   left: 0;
-  height: 2px;
-  width: 100%;
   z-index: 999;
+  height: $height;
+  width: 100%;
   
   /**
-   * COLOR
-   * Must be light enough to be visible on darks, but dark enough to be visible on lights and whites.
+   * Ready
    */
-  color: saturate(darken($primary-master,1%),1%); // Primary
   
-  // Dark doesn't work well when menu is showing
-  //color: desaturate(darken($secondary-master,35%),25%); // Dark
-  
-  // Override
-  height:3px;
   span {
-    height:3px;
+    position: inherit;
+    
+    height: $height;
+    width: 0%;
+    opacity: 1;
+    
+    /**
+     * COLOR
+     * Must be light enough to be visible on darks, but dark enough to be visible on lights and whites.
+     * Dark doesn't work well when menu is showing
+     */
+    background-color: saturate(darken($primary-master,1%),1%); // Primary;
+    
+    /**
+     * States
+     */
+    
+    &.animate {
+      transition: width 1.5s ease(out-quad);
+      width: 30%;
+    }
+    
+    &.wait {
+      transition: width 111s ease(out-quad);
+      width: 99%;
+    }
+    
+    &.complete {
+      transition: width 0.777s ease(out-expo), opacity 0.777s;
+      width: 100%;
+      opacity: 0;
+    }
+    
   }
-}
-
-.loading-slider.expanding {
-  text-align: center;
-}
-
-.loading-slider.expanding span {
-}
-
-.loading-slider span {
-  position: inherit;
-  height: 2px;
-  background-color: red;
+  
 }
