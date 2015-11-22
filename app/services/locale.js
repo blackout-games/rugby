@@ -12,6 +12,11 @@ export default Ember.Service.extend({
   supportedLocales: {
     
     /**
+     * For testing, causes all translated items to be 'CT' to easily find untranslated stuff
+     */
+    'test': { label: 'Test', fb: 'en_GB', jquery: 'en-GB' },
+    
+    /**
      * Should mimic locales table in database
      * 
      * Also change in:
@@ -96,6 +101,7 @@ export default Ember.Service.extend({
     
     //locale = 'en-gb'; // Must manually change back to english since locales are remembered
     //locale = 'it'; 
+    //locale = 'test'; 
     
     return this.change(locale);
     
@@ -107,11 +113,9 @@ export default Ember.Service.extend({
    */
   addTranslation( locale, data ){
     
-    let test = false; // Set all translations as CT. Makes it easy to spot anything that's been missed
-    
-    if( test ){
-      Ember.$.each(data.translation,(index) => {
-        data.translation[index] = 'CT';
+    if( locale==='test' ){
+      Ember.$.each(data,(index) => {
+        data[index] = 'CT';
       });
     }
     
@@ -129,7 +133,7 @@ export default Ember.Service.extend({
   
   change( locale ) {
     
-    if( !Ember.isEmpty( this.get('supportedLocales.'+locale) ) ){
+    if( !Ember.isEmpty( this.get('supportedLocales.'+locale) ) || locale==='test' ){
       
       // Update API requests
       this.updateAJAX(locale);
