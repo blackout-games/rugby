@@ -15,7 +15,9 @@
           
           {{#if article.img}}
             
-            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+            {{#link-to articleRoute article.id}}
+              {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+            {{/link-to}}
           
           {{/if}}
           

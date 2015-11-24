@@ -13,7 +13,9 @@
           
           {{#if article.img}}
             
-            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+            {{#link-to "news.article" article.id}}
+              {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+            {{/link-to}}
           
           {{/if}}
           
@@ -52,8 +54,10 @@
           
           {{#if article.img}}
             
-            {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
-          
+            {{#link-to "national-news.article" article.id}}
+              {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
+            {{/link-to}}
+            
           {{/if}}
           
           <p class="gap-sm">
