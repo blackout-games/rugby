@@ -1,13 +1,14 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  numberId: DS.attr(), // Used for username based requests
+  numberId: DS.attr(),
   username: DS.attr(),
-  realname: DS.attr(),
   email: DS.attr(),
-  facebookId: DS.attr(),
-  imageUrl: DS.attr(),
+  dateRegistered: DS.attr(),
+  lastActive: DS.attr(),
   mainClub: DS.attr(),
   currentClub: DS.attr(),
+  imageUrl: DS.attr(),
+  facebookId: DS.attr(),
   clubs: DS.hasMany('club'),
 });
