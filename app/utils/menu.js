@@ -110,7 +110,6 @@ export default {
       {
         label: 'Squad',
         route: 'squad',
-        tempRoute: 'coming-soon'
       },
       {
         label: 'Academy',

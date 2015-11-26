@@ -31,6 +31,7 @@ Router.map(function() {
   });
   this.route('coming-soon');
   this.route('blocked');
+  this.route('squad');
 });
 
 export default Router;
