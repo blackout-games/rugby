@@ -53,6 +53,19 @@ $full-real-estate-on-mobile: false;
     padding: 30px 30px 22px;
   }
   
+  /**
+   * Should negate paddings above
+   */
+  .dash-box-no-padding {
+    margin: 0 -14px;
+    @media #{$mobile-wide-and-up} {
+      margin: 0 -19px;
+    }
+    @media #{$tablet-and-up} {
+      margin: 0 -30px;
+    }
+  }
+  
   // Default margin below to make gap between multiple boxes in same container
   margin-bottom:30px;
   

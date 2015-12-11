@@ -124,6 +124,7 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .vf-child, .full-height {
@@ -139,13 +140,14 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Vertical align center
  */
 .vc-parent {
-  height: 100%;
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
   display: flex;
   align-items: center;
 }
 
 .vc-child {
-  //
+  flex: 1;
 }
 
 /**
@@ -165,7 +167,9 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Center horizontal and vertical
  */
 .center-parent {
-  height: 100%;
+  //height: 100%;
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,6 +184,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   margin-top: 11vw;
   fill: #363742;
 }
+
+/**
+ * Bottom gaps
+ */
 
 .gap-sm {
   margin-bottom: 5px !important;
@@ -210,11 +218,49 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 /**
+ * Top gaps
+ */
+
+.top-gap-sm {
+  margin-top: 5px !important;
+}
+
+.top-gap-md {
+  margin-top: 10px !important;
+}
+
+.top-gap-lg,.top-gap-1x {
+  margin-top: 15px !important;
+}
+
+.top-gap-2x {
+  margin-top: 20px !important;
+}
+
+.top-gap-3x {
+  margin-top: 30px !important;
+}
+
+.top-gap-4x {
+  margin-top: 40px !important;
+}
+
+.top-gap-5x {
+  margin-top: 50px !important;
+}
+
+/**
  * Hiding stuff
  */
 
 .hidden-xxs {
   @media #{$mobile-tall} {
+    display: none !important;
+  }
+}
+
+.hidden-xs-up {
+  @media #{$mobile-wide-and-up} {
     display: none !important;
   }
 }
@@ -251,6 +297,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 .hide-overflow {
   overflow: hidden;
+}
+
+.show-overflow {
+  overflow: visible !important;
 }
 
 /**

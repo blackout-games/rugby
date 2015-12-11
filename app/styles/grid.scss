@@ -41,6 +41,13 @@
   @include row;
 }
 
+// For making a child flex item, also be a parent to a new row
+// (i.e. normal row without width: 100%)
+.row-flex {
+  @include row;
+  width:auto;
+}
+
 .row-nowrap {
   flex-flow: row nowrap;
 }
@@ -353,6 +360,17 @@
   flex-flow: column nowrap;
 }
 
+.pad-right {
+  padding-right: 7px;
+  @media #{$tablet-tall-and-up} {
+    padding-right: 15px;
+  }
+}
+
+.pad-right-xs {
+  padding-right: 5px;
+}
+
 /**
  * Special case: Mobile portrait
  */
@@ -423,6 +441,10 @@
   .col-xxs-12 {
     flex-basis: 100%;
     max-width: 100%;
+  }
+
+  .pad-right-xxs {
+    padding-right: 7px;
   }
   
 }
@@ -739,6 +761,10 @@
     align-items: stretch;
     text-align: left;
   }
+
+  .pad-right-sm {
+    padding-right: 15px;
+  }
 }
 
 @media only screen and (min-width: $screen-md-min) {
@@ -1052,6 +1078,10 @@
     align-content: stretch;
     align-items: stretch;
     text-align: left;
+  }
+
+  .pad-right-md {
+    padding-right: 15px;
   }
 }
 
@@ -1367,6 +1397,10 @@
     align-items: stretch;
     text-align: left;
   }
+
+  .pad-right-lg {
+    padding-right: 15px;
+  }
 }
 
 /**
@@ -1533,5 +1567,9 @@
   box-sizing: border-box;
   flex: 0 0 auto;
   max-width: 100%;
+}
+
+.col-auto-width {
+  flex-basis: auto;
 }
 

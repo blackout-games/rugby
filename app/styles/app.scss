@@ -3,7 +3,6 @@
  * Core
  */
 @import "custom"; // bootstrap
-@import "grid"; // Flexboxgrid + bootstrap
 
 /**
  * Functions and Mixins
@@ -21,6 +20,7 @@
 /**
  * Specific stuff
  */
+@import "grid"; // Flexboxgrid + bootstrap
 @import "text";
 @import "blackout";
 @import "forms";

@@ -338,8 +338,8 @@ export default ResponsiveNav.extend({
   autoShowOnLarge: Ember.observer('media.isJumbo', function() {
     
     if( this.get('media.isJumbo') ){
-      this.show();
-      this.selectCurrentMenu();
+      let menuOpenedOnThisClick = this.show();
+      this.selectCurrentMenu( menuOpenedOnThisClick );
     } else {
       this.hide();
     }
@@ -416,17 +416,17 @@ export default ResponsiveNav.extend({
     
   },
 
-  selectCurrentMenu () {
+  selectCurrentMenu ( menuOpenedOnThisClick ) {
     
     var self = this;
     
     if( self.get('media.isJumbo') && self.get('lastTab') ){
       
-      self.selectTab( self.get('lastTab'), self.get('lastTabType'), true );
+      self.selectTab( self.get('lastTab'), self.get('lastTabType'), true, menuOpenedOnThisClick );
       
     } else if( self.get('lastMenu') ){
       
-      self.selectTab( self.get('lastMenu'), 'menu', true );
+      self.selectTab( self.get('lastMenu'), 'menu', true, menuOpenedOnThisClick );
       
     } else {
       
@@ -438,7 +438,7 @@ export default ResponsiveNav.extend({
         $.each(items, function(index, item) {
 
           if ('/'+item.route === path) {
-            self.selectTab(menu, 'menu', true);
+            self.selectTab(menu, 'menu', true, menuOpenedOnThisClick );
             selected = true;
             return false;
           }
@@ -447,7 +447,7 @@ export default ResponsiveNav.extend({
       });
       
       if(!selected){
-        self.selectTab('manager', 'menu', true);
+        self.selectTab('manager', 'menu', true, menuOpenedOnThisClick );
       }
       
     }
@@ -571,7 +571,7 @@ export default ResponsiveNav.extend({
     },
   },
 
-  selectTab(tabName, type, programatic) {
+  selectTab(tabName, type, programatic, menuOpenedOnThisClick) {
     
     // Don't select tab if menu panel is not showing
     if( programatic && !this.get('navIsOpen') ){
@@ -599,12 +599,16 @@ export default ResponsiveNav.extend({
 
     } else if( tabName === 'menu' ) {
       
-      this.show();
-      this.selectCurrentMenu();
+      if( menuOpenedOnThisClick === undefined ){
+        menuOpenedOnThisClick = this.show();
+      }
+      this.selectCurrentMenu( menuOpenedOnThisClick );
       
     } else {
       
-      var menuOpened = this.show();
+      if( menuOpenedOnThisClick === undefined ){
+        menuOpenedOnThisClick = this.show();
+      }
       
       var newButton = $('.nav-' + type + '-' + tabName);
       $('.nav-tab-btn,.nav-menu-btn').removeClass('selected');
@@ -630,7 +634,7 @@ export default ResponsiveNav.extend({
       var direction = 'immediate';
       var lastTab = this.get('lastTab');
       
-      if(!menuOpened){
+      if(!menuOpenedOnThisClick){
         if( this.tabIsBefore(tabName,lastTab) ){
           direction = 'right';
         } else {
@@ -644,7 +648,7 @@ export default ResponsiveNav.extend({
       } else {
         
         // Select menu tab
-        if(!menuOpened){
+        if(!menuOpenedOnThisClick){
           this.set('tabSwitcherDirection','right');
         } else {
           this.set('tabSwitcherDirection','immediate');
@@ -718,7 +722,7 @@ export default ResponsiveNav.extend({
     if (this._super()) {
       
       if( !$('.nav-tab-btn,.nav-menu-btn').hasClass('selected') ){
-        this.selectCurrentMenu();
+        this.selectCurrentMenu( true );
       }
       
       $('.nav-burger,.nav-tab-menu').addClass('nav-close');

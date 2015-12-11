@@ -36,4 +36,9 @@ export default DS.Model.extend({
   name: Ember.computed('firstName','lastName',function(){
     return `${this.get('firstName')} ${this.get('lastName')}`;
   }),
+  wage: Ember.computed('salary',function(){
+    //return (this.get('salary')/16).toFixed(2);
+    return this.get('salary')/16;
+  }),
+  csrChange: DS.attr(),
 });

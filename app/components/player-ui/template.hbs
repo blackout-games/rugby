@@ -1,0 +1,211 @@
+
+<div class="player-ui-title-panel"><h2 class="player-ui-title">{{player.name}}</h2></div><div class="player-avatar player-avatar-ui"></div>
+
+<div class="row player-ui-top gap-md">
+  <div class="col-flex">
+    
+    <div class="row">
+    
+      <div class="row col-flex">
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.age}}</div>
+          <div class="player-ui-info-label">y/o</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{money player.wage}}</div>
+          <div class="player-ui-info-label">per week</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{number player.form}}%</div>
+          <div class="player-ui-info-label">Form</div>
+        </div>
+        
+      </div>
+    
+      <div class="hidden-xxs row col-flex">
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.height}}</div>
+          <div class="player-ui-info-label">cm</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.weight}}</div>
+          <div class="player-ui-info-label">kg</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.handed}}</div>
+          <div class="player-ui-info-label">handed</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.footed}}</div>
+          <div class="player-ui-info-label">footed</div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="hidden-xxs gap-2x"></div>
+
+<div class="dash-box-no-padding player-ui-infobar hidden-xs-up gap-3x">
+  
+  <div class="row">
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.height}}</div>
+      <div class="player-ui-info-label">cm</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.weight}}</div>
+      <div class="player-ui-info-label">kg</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.handed}}</div>
+      <div class="player-ui-info-label">handed</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.footed}}</div>
+      <div class="player-ui-info-label">footed</div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="row gap-2x">
+  <div class="col-xxs-9 col-xs-6 pad-right vc-parent">
+    
+    <div class="col-xs-12">
+      
+      <div class="row">
+        
+        <div class="col-xs-6 pad-right-xs pad-right-sm">
+          
+          {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">Aggression</div>
+          
+          {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">Discipline</div>
+          
+        </div>
+        
+        <div class="col-xs-6"> 
+          
+          {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">Leadership</div> 
+          
+          {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">Experience</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="player-ui-help-text">Traits max level is 20</div>
+      
+      <div class="row hidden-xs-up top-gap-2x">
+        <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
+        <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">CSR</div>
+        <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
+      </div>
+      
+    </div>
+    
+  </div>
+  <div class="col-xxs-3 col-xs-6">
+  
+    <div class="row">
+      
+      <div class="col-xxs-12 col-xs-6 text-center">
+        
+        <div class="player-ui-energy-wrapper">
+          
+          {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
+          
+          <div class="player-ui-energy">
+            {{player.energy}}%
+          </div>
+          
+          {{ember-chart type='Doughnut' data=energyChartData width=(if media.isMobile 77 120) height=(if media.isMobile 77 120) options=energyChartOptions class="player-ui-energy-chart"}}
+          
+          <div id="chartjs-tooltip"></div>
+          
+          <div class="player-ui-big-label text-center ellipses">
+            Energy
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="col-xs-6 hidden-xxs">
+        
+        <div class="player-ui-csr-wrapper">
+          <div class="player-ui-csr-value">{{number player.csr}}</div>
+          <div class="player-ui-csr-change">{{number player.csrChange prefix=true}}</div>
+          <div class="player-ui-big-label">CSR</div>
+        </div>
+        
+      </div>
+      
+    </div>
+      
+      
+      
+  </div>
+</div>
+
+<div class="row">
+  
+  <div class="col-xs-6 pad-right">
+  
+    {{skill-bar level=player.stamina max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Stamina</div>
+  
+    {{skill-bar level=player.attack max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Attack</div>
+  
+    {{skill-bar level=player.technique max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Technique</div>
+  
+    {{skill-bar level=player.jumping max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Jumping</div>
+  
+    {{skill-bar level=player.agility max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Agility</div>
+    
+  </div>
+  
+  <div class="col-xs-6">
+  
+    {{skill-bar level=player.handling max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Handling</div>
+  
+    {{skill-bar level=player.defence max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Defence</div>
+  
+    {{skill-bar level=player.strength max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Strength</div>
+  
+    {{skill-bar level=player.speed max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Speed</div>
+  
+    {{skill-bar level=player.kicking max=100 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars }}
+    <div class="player-ui-label ellipses">Kicking</div>
+    
+  </div>
+  
+</div>
+
+<div class="player-ui-help-text">Skills max level is 100</div>

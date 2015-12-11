@@ -23,7 +23,7 @@ $secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust);
 
 $primary-dark: adjust-hue(desaturate(darken($primary-master,15%),4%),4%);
 $primary-darker: desaturate(darken($primary-dark,10%),5%);
-$primary-on-dark: $primary-master;
+$primary-on-dark: saturate(lighten($primary-master,5%),5%);
 $primary-on-image: saturate(lighten($primary-master,1%),3%);
 
 
@@ -41,6 +41,7 @@ $secondary-dark-on-dark: darken(desaturate($secondary-master,11%),17%);
 
 $bg-dark: desaturate(darken($secondary-master,35%),22%);
 $bg-dark-lighter: desaturate(darken($secondary-master,29%),22%);
+$bg-dark-lighter-2x: desaturate(darken($secondary-master,19%),29%);
 $bg-light: lighten($secondary-master,44%);
 
 
@@ -53,6 +54,7 @@ $primary-text-color: desaturate(darken($secondary-master,22%),40%);
 $text-lighter: desaturate(lighten($primary-text-color,11%),11%);
 $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
+$text-lighter-4x: lighten($text-lighter,33%);
 $primary-text-on-dark: desaturate(lighten($secondary-master,44%),44%);
 
 /**
@@ -96,6 +98,9 @@ $warning-text-color: #4f3517;
  */
 .bg-dark {
   background-color: $bg-dark;
+}
+.bg-light {
+  background-color: $bg-light;
 }
 
 /**

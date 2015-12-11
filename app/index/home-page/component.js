@@ -96,8 +96,4 @@ export default Ember.Component.extend({
     return Math.round($(window).height()*0.5);
   }),
   
-  scrollContextId: Ember.computed('window.features.lockBody', function(){
-    return window.features.lockBody ? 'nav-body' : null;
-  }),
-  
 });

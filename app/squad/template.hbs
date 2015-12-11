@@ -1,9 +1,19 @@
 {{page-header title=(t 'squad.title') images="squad"}}
 
-<div class="row">
-  <div class="col-md-9 dash-box-container">
-    <div class="dash-box">
-      I r player
+{{#each model as |player|}}
+
+  <div class="row show-overflow">
+    <div class="col-md-8 dash-box-container show-overflow">
+      <div class="dash-box gap-lg top-gap-3x show-overflow">
+      
+        {{player-ui player=player}}
+        
+      </div>
     </div>
   </div>
-</div>
+  
+  {{#if @last}}
+  <div class="">LAST</div>
+  {{/if}}
+
+{{/each}}

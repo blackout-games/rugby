@@ -8,6 +8,10 @@ export function number(val, params/*, hash*/) {
     }
   } 
   
+  if( params.prefix ){
+    val = val>=0 ? '+' + val : val;
+  }
+  
   return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 

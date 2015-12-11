@@ -606,6 +606,16 @@ class Blackout {
     }
 
     var args = Array.prototype.slice.call(arguments);
+    $.each(args,(i,val) => {
+      if(typeof(val) === 'undefined'){
+        args[i] = 'undefined';
+      } else if(typeof(val) === 'boolean'){
+        args[i] = val ? 'true' : 'false';
+      } else if( typeof(val) === 'object'){
+        args[i] = JSON.stringify(val);
+      }
+    });
+    
     var entry = args.join(', ');
 
     $('#console').append('<div class="console-entry"><span class="console-date">' + Date.now() + ' > </span>' + entry + '</div>').scrollTop($('#console')[0].scrollHeight);
@@ -725,7 +735,7 @@ window.features = {};
 //window.navigator.standalone = true;
 window.features.canParallax = !window.os.iOS&&!window.os.android;
 window.features.lockBody = window.browsers.safariOS && window.navigator.standalone;
-//window.features.lockBody = true;
+//window.features.lockBody = false;
 
 
 /**

@@ -30,7 +30,7 @@ export default Ember.Service.extend({
     'es-ar': { label: 'Español Argentina', fb: 'es_ES', jquery: 'es' },
     'ru': { label: 'Русский', fb: 'ru_RU', jquery: 'ru' },
     
-    default: 'en',
+    default: 'en-gb',
     
   },
   
