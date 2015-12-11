@@ -38,17 +38,17 @@ $height: 4px;
      */
     
     &.animate {
-      transition: width 1.5s ease(out-quad);
-      width: 30%;
+      transition: width 2.2s ease(out-quad);
+      width: 70%;
     }
     
     &.wait {
-      transition: width 111s ease(out-quad);
+      transition: width 44s ease(out-quad);
       width: 99%;
     }
     
     &.complete {
-      transition: width 0.777s ease(out-expo), opacity 0.777s;
+      transition: width 0.777s ease(out-expo), opacity 1.111s ease(in-quad);
       width: 100%;
       opacity: 0;
     }
