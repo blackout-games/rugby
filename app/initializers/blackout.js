@@ -718,6 +718,7 @@ window.blackout = {};
 window.os = {};
 window.os.iOS = navigator.userAgent.match( /iPad/i ) || navigator.userAgent.match( /iPhone/i ) || navigator.userAgent.match( /iPod/i );
 window.os.android = navigator.userAgent.match( /Android/i );
+window.os.touchOS = window.os.iOS || window.os.android;
 
 /**
  * Jeremy's minimal browser detections
@@ -734,7 +735,12 @@ window.browsers.safariOS = /(iPod|iPhone|iPad)/.test(navigator.userAgent) && /Ap
 window.features = {};
 //window.navigator.standalone = true;
 window.features.canParallax = !window.os.iOS&&!window.os.android;
-window.features.lockBody = window.browsers.safariOS && window.navigator.standalone;
+
+
+//window.features.lockBody = window.browsers.safariOS && window.navigator.standalone;
+// Performance is too slow in Chrome, Safari when page resizes on vertical scroll.
+// So we just lock auto scrolling on ios and android.
+window.features.lockBody = window.os.iOS || window.os.android;
 //window.features.lockBody = false;
 
 

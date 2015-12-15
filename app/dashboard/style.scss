@@ -29,7 +29,8 @@ $full-real-estate-on-mobile: false;
 
 .dash-box{
   width:100%;
-  background-color: rgba(white,0.99);
+  //background-color: rgba(white,0.5);
+  background-color: white;
   border-radius: $border-radius;
   
   @if $full-real-estate-on-mobile {

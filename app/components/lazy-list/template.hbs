@@ -1,0 +1,12 @@
+{{#each list as |item index|}}
+  
+  {{way-point action="waypointDown" offset=waypointDownOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
+  {{way-point action="waypointUp" offset=waypointUpOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
+  
+  <div class="{{compare index ">" showFirst hideClass}} make3d" id="list-item-{{token}}-{{index}}">
+  
+    {{yield item}}
+    
+  </div>
+  
+{{/each}}

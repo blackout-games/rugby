@@ -40,16 +40,16 @@ export default Ember.Component.extend({
   
   hasAppeared: false,
   
-  hasAppearedBars: Ember.computed('media.isMobile','hasAppeared',function(){
-    if(this.get('hasAppeared') || this.get('media.isMobile')){
+  hasAppearedBars: Ember.computed('media.isMobile','media.isTablet','hasAppeared',function(){
+    if(this.get('hasAppeared') || window.os.touchOS){
       return true;
     } else {
       return false;
     }
   }),
   
-  animateBars: Ember.computed('media.isMobile',function(){
-    return !this.get('media.isMobile');
+  animateBars: Ember.computed('media.isMobile','media.isTablet',function(){
+    return !window.os.touchOS;
   }),
   
   attrBarHeight: Ember.computed('media.isMobile',function(){
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
    */
   waypointOffset: Ember.computed(function(){
     // Full window height means as soon as the waypoint appears at the *bottom* of the screen, the waypoint will fire.
-    return Math.round($(window).height()) - (this.get('media.isMobile') ? 111 : 333);
+    return Math.round($(window).height()) - (window.os.touchOS ? 111 : 333);
   }),
   
   actions: {
@@ -87,19 +87,29 @@ export default Ember.Component.extend({
     },
   },
   
+  setup: Ember.on('init',function(){
+    
+    if( window.os.touchOS ){
+      this.set('energyChartOptions.animation',false);
+    }
+    
+  }),
+  
   energyChartOptions: {
+    
+    animation: true,
 
     // Number - Number of animation steps
     animationSteps: 50,
     
-    animationEasing: "easeOutBounce",
-    //animationEasing: "easeOutExpo",
+    //animationEasing: "easeOutBounce",
+    animationEasing: "easeOutExpo",
     
   },
   
   energyChartData: Ember.computed( 'player.energy', 'hasAppeared', function(){
     
-    if(!this.get('hasAppeared')){
+    if(!this.get('hasAppeared') && !window.os.touchOS){
       return;
     }
     

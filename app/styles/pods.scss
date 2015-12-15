@@ -1,15 +1,15 @@
 @import "application/style";
+@import "components/responsive-nav/style";
+@import "components/game-nav/style";
 @import "index/style";
 @import "login/style";
 @import "components/perfect-scroll/style";
-@import "components/responsive-nav/style";
 @import "index/home-backgrounds/style";
 @import "components/scroll-tester/style";
 @import "components/sticky-footer/style";
 @import "components/loading-spinner/style";
 @import "components/loader-button/style";
 @import "components/blackout-modals/style";
-@import "components/game-nav/style";
 @import "dashboard/style";
 @import "components/safari-helper/style";
 @import "components/circle-close/style";
@@ -28,3 +28,4 @@
 @import "app/components/loading-slider/style";
 @import "app/components/player-ui/style";
 @import "app/components/skill-bar/style";
+@import "app/components/lazy-list/style";

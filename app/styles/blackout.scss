@@ -316,3 +316,13 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 .flex-col-center {
   justify-content: center;
 }
+
+/**
+ * Performance
+ */
+
+// Overuse can cause crios to crash
+.make3d {
+  -webkit-transform: translate3d(0,0,0);
+  //transform:translateZ(1px);
+}

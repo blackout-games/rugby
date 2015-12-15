@@ -7,10 +7,10 @@
   
 .player-avatar-ui {
   position: absolute;
-  width:80px;
-  height:80px;
   top:-31px;
   left:-17px;
+  width:80px;
+  height:80px;
   margin-right: 11px;
   @media #{$tablet-tall-and-up} {
     width:100px;
@@ -30,7 +30,6 @@ $bg-tint: linear-gradient(
 );
 
 .player-ui-title-panel {
-  //background-color: tomato;
   position: absolute;
   top: -11px;
   left: 22px;

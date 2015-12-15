@@ -8,7 +8,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin,{
     let query = {
       
       filter: {
-        'club.id': this.get('session.manager.currentClub')
+        'club.id': this.get('session.manager.currentClub'),// + ',57630',
+        //'club.id': '57630',
       }
       
     };

@@ -164,6 +164,7 @@ $panel-color: $bg-dark-lighter;
     overflow-y: scroll;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    //-webkit-overflow-scrolling: auto;
   }
 
   @media #{$nav-sm},#{$nav-md} {
@@ -233,6 +234,9 @@ $panel-color: $bg-dark-lighter;
 
 body.fixed,html.fixed {
   overflow:hidden;
+  height: 100%;
+  margin:0;
+  padding:0;
 }
 
 /* This was for moving the body up above the tab bar, but we should used a balloon *inside* the body instead.

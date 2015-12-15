@@ -155,7 +155,11 @@
 
 @mixin smooth-animation {
   //-webkit-transform: rotateZ(360deg);
-  -webkit-backface-visibility: hidden;
+  
+  // Removed during squad page optimisations and removal of crashing.
+  // Unsure if this removal has had any significant effect.
+  //-webkit-backface-visibility: hidden;
+  
   -webkit-perspective: 1000;
 }
 

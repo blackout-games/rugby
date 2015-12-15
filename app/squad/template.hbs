@@ -1,6 +1,7 @@
 {{page-header title=(t 'squad.title') images="squad"}}
 
-{{#each model as |player|}}
+
+{{#lazy-list list=model as |player|}}
 
   <div class="row show-overflow">
     <div class="col-md-8 dash-box-container show-overflow">
@@ -11,9 +12,5 @@
       </div>
     </div>
   </div>
-  
-  {{#if @last}}
-  <div class="">LAST</div>
-  {{/if}}
 
-{{/each}}
+{{/lazy-list}}

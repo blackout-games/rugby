@@ -28,11 +28,16 @@ $image-folder: "/assets/images/";
 $limited-height-non-mobile: "(max-height: 700px) and (min-width: #{$screen-xs-min})";
 
 // For netbooks (possibly not used any more after adding own version in game-nav)
-$vertically-small: "(max-height: 639px) and #{$tablet-and-up}";
-$not-vertically-small: "(min-height: 640px), #{$mobile}";
+$vertically-small: "(max-height: 629px) and #{$tablet-and-up}";
+$not-vertically-small: "(min-height: 630px), #{$mobile}";
 
 // For landscape mobile
 $mobile-landscape: "(max-height: 479px) and #{$mobile}";
+
+//$limited-height-non-mobile: "(max-width: 0)";
+//$vertically-small: "(max-width: 0)";
+//$not-vertically-small: "(max-width: 0)";
+//$mobile-landscape: "(max-width: 0)";
 
 /**
  * UI
