@@ -25,6 +25,7 @@ $height: 4px;
     height: $height;
     width: 0%;
     opacity: 1;
+    will-change: width;
     
     /**
      * COLOR
@@ -48,8 +49,11 @@ $height: 4px;
     }
     
     &.complete {
-      transition: width 0.777s ease(out-expo), opacity 1.111s ease(in-quad);
+      transition: width 0.444s ease(out-cubic), opacity 0.444s;
       width: 100%;
+    }
+    
+    &.fadeout {
       opacity: 0;
     }
     

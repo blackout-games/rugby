@@ -14,6 +14,7 @@ export default Ember.Component.extend({
     
     this.waitBound = Ember.run.bind(this,this.wait);
     this.resetBound = Ember.run.bind(this,this.reset);
+    this.fadeOutBound = Ember.run.bind(this,this.fadeOut);
     
   }),
   
@@ -45,6 +46,7 @@ export default Ember.Component.extend({
   animate() {
     
     this.resetListeners();
+    this.$('span').removeClass('complete');
     this.$('span').addClass('animate').one(this.get('cssAfterAnimation'), this, this.waitBound);
 
   },
@@ -64,7 +66,17 @@ export default Ember.Component.extend({
   complete() {
     
     this.resetListeners();
-    this.$('span').removeClass('wait').addClass('complete').one(this.get('cssAfterAnimation'), this, this.resetBound);
+    this.$('span').removeClass('wait').addClass('complete').one(this.get('cssAfterAnimation'), this, this.fadeOutBound);
+    
+  },
+  
+  /**
+   * Called when slider has slidden to 100%
+   */
+  fadeOut() {
+    
+    this.resetListeners();
+    this.$('span').removeClass('wait').addClass('fadeout').one(this.get('cssAfterAnimation'), this, this.resetBound);
     
   },
   
@@ -75,6 +87,7 @@ export default Ember.Component.extend({
     
     this.$('span').off(this.get('cssAfterAnimation'), this, this.waitBound);
     this.$('span').off(this.get('cssAfterAnimation'), this, this.resetBound);
+    this.$('span').off(this.get('cssAfterAnimation'), this, this.fadeOutBound);
     
   },
   
@@ -84,7 +97,7 @@ export default Ember.Component.extend({
   reset() {
     
     this.resetListeners();
-    this.$('span').removeClass('animate wait complete');
+    this.$('span').removeClass('animate wait complete fadeout');
     
   },
 
