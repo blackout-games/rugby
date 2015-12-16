@@ -562,17 +562,24 @@ class Blackout {
    * @param  {Function} callback Function to call once images have loaded
    */
   preloadImage(path, callback, errorCallback=null) {
-    var img = $('<img src="' + path + '" />');
+    
+    // Trim any potential quotes
+    path = path.trim('"');
+    
+    var img = $('<img src="'+path+'" />');
+    
     img.on('load',function() {
       $(this).remove();
       if (callback) {
         callback(this.width,this.height);
       }
-    }).on('error', function() {
+    }).on('error', function(e,other) {
+      print('error',path,e,other);
       if(errorCallback){
         errorCallback();
       }
     });
+    
   }
   
   /**
@@ -781,6 +788,59 @@ String.prototype.regexLastIndexOf = function(regex, startpos) {
         regex.lastIndex = ++nextStop;
     }
     return lastIndexOf;
+};
+
+
+  
+String.prototype.trim = function(charlist) {
+  //  discuss at: http://phpjs.org/functions/trim/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // improved by: mdsjack (http://www.mdsjack.bo.it)
+  // improved by: Alexander Ermolaev (http://snippets.dzone.com/user/AlexanderErmolaev)
+  // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // improved by: Steven Levithan (http://blog.stevenlevithan.com)
+  // improved by: Jack
+  //    input by: Erkekjetter
+  //    input by: DxGx
+  // bugfixed by: Onno Marsman
+  //   example 1: trim('    Kevin van Zonneveld    ');
+  //   returns 1: 'Kevin van Zonneveld'
+  //   example 2: trim('Hello World', 'Hdle');
+  //   returns 2: 'o Wor'
+  //   example 3: trim(16, 1);
+  //   returns 3: 6
+
+  var whitespace, l = 0,
+    i = 0;
+  var str = this;
+
+  if (!charlist) {
+    // default list
+    whitespace =
+      ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
+  } else {
+    // preg_quote custom list
+    charlist += '';
+    whitespace = charlist.replace(/([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])/g, '$1');
+  }
+
+  l = str.length;
+  for (i = 0; i < l; i++) {
+    if (whitespace.indexOf(str.charAt(i)) === -1) {
+      str = str.substring(i);
+      break;
+    }
+  }
+
+  l = str.length;
+  for (i = l - 1; i >= 0; i--) {
+    if (whitespace.indexOf(str.charAt(i)) === -1) {
+      str = str.substring(0, i + 1);
+      break;
+    }
+  }
+
+  return whitespace.indexOf(str.charAt(0)) === -1 ? str : '';
 };
 
 
@@ -1252,3 +1312,16 @@ function _inlinizeSVG () {
     return $found.first(); // Return first match of the collection
   };
 })(Ember.$);
+
+/**
+ * Fixes bug in IE Edge (and maybe 10 and 11) where fixed items would scroll a little bit when scrolling with mouse wheel before returning to where they should be.
+ * https://social.msdn.microsoft.com/Forums/ie/en-US/9567fc32-016e-48e9-86e2-5fe51fd67402/new-bug-in-ie11-scrolling-positionfixed-backgroundimage-elements-jitters-badly?forum=iewebdevelopment
+ */
+if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/12\./)) {
+  $('body').on("mousewheel", function () {
+    event.preventDefault();
+    var wd = event.wheelDelta;
+    var csp = window.pageYOffset;
+    window.scrollTo(0, csp - wd);
+  });
+}
