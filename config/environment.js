@@ -68,7 +68,7 @@ module.exports = function(environment) {
       'connect-src': "'self' "+apiHost+" https://"+apiHost,
       'img-src': "'self' data: www.facebook.com p.typekit.net *",
       'style-src': "'self' 'unsafe-inline' use.typekit.net https://use.typekit.net",
-      'frame-src': "web.facebook.com https://web.facebook.com s-static.ak.facebook.com https://s-static.ak.facebook.com www.facebook.com static.ak.facebook.com https://static.ak.facebook.com https://www.facebook.com *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com"
+      'frame-src': "web.facebook.com https://web.facebook.com s-static.ak.facebook.com https://s-static.ak.facebook.com www.facebook.com static.ak.facebook.com https://static.ak.facebook.com staticxx.facebook.com https://staticxx.facebook.com https://www.facebook.com *.youtube.com https://*.youtube.com *.vimeo.com https://*.vimeo.com *.youtube-nocookie.com https://*.youtube-nocookie.com *.facebook.com https://*.facebook.com"
     },
   };
   
@@ -101,8 +101,8 @@ module.exports = function(environment) {
     ENV.APP.apiProtocol = devApiProtocol;
     ENV.APP.apiHost = devApiHost;
     ENV.APP.apiBase = devApiBase;
-    ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ember.blackoutrugby.com:49152";
-    ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":49152 ws://" + localIP + ":49152 ws://ember.blackoutrugby.com:49152 dah9mm7p1hhc3.cloudfront.net";
+    ENV.contentSecurityPolicy['script-src'] += " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729 ember.blackoutrugby.com:35729";
+    ENV.contentSecurityPolicy['connect-src'] += " " + devApiHost + " " + localIP + ":4444 " + localIP + ":35729 ws://" + localIP + ":35729 ws://ember.blackoutrugby.com:35729 dah9mm7p1hhc3.cloudfront.net";
     ENV['ember-simple-auth'].base.crossOriginWhitelist = [devApiProtocol+'://'+devApiHost];
     
   }
