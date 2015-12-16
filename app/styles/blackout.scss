@@ -140,7 +140,7 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Vertical align center
  */
 .vc-parent {
-  min-height: 100%;
+  //min-height: 100%; // DO NOT SET THIS HERE, OTHERWISE IT BREAKS FIREFOX AND IE
   //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
   display: flex;
   align-items: center;
