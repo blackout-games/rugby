@@ -75,6 +75,9 @@ a {
 
   &:active, &:focus {
     text-decoration: none;
+    
+    // Fix border outline on click in Firefox
+    outline: none;
   }
 }
 
