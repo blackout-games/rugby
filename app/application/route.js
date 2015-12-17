@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import LoadingSliderMixin from '../mixins/loading-slider';
-import FBMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
-//import config from '../config/environment';
+import config from '../config/environment';
 
-export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBMixin, RouteHistoryMixin, {
+export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, {
   locals: Ember.inject.service(),
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
@@ -172,7 +171,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
 
   },
 
-  model() {
+  beforeModel() {
 
     /**
      * At this stage we don't actually load and return a model for use in the "application route".
@@ -180,6 +179,34 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
      * http://guides.emberjs.com/v2.1.0/applications/initializers/
      *
      */
+    
+    let hash = {
+      
+      // Load and wait for preferences promise whether logged in or not
+      preferences: this.get('preferences').loadPreferences(),
+      
+      // Load general i18n document
+      translation: this.get('locale').initLocale(),
+      
+    };
+    
+    let locale = this.get('locals').read('locale');
+    
+    // If a locale has not been set before
+    if(Ember.isEmpty(locale)){
+      
+      // Check browser locale
+      let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/headers/Accept-Language';
+      
+      hash.browserLocale = Ember.$.getJSON(url,function(data){
+        console.log('LOCALE LOADED',data);
+        if( data && data.data && data.data.id === 'Accept-Language' ){
+          window.blackout.languageHeader = data.data.attributes.value;
+        }
+        
+      });
+      
+    }
     
     
     /**
@@ -200,15 +227,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, FBM
      * Promise hash
      */
     
-    return Ember.RSVP.hash({
-      
-      // Load and wait for preferences promise whether logged in or not
-      preferences: this.get('preferences').loadPreferences(),
-      
-      // Load general i18n document
-      translation: this.get('locale').initLocale(),
-      
-    }).then((data) => {
+    return Ember.RSVP.hash(hash).then((data) => {
       
       return data;
       

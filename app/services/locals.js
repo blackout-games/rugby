@@ -2,7 +2,10 @@ import Ember from 'ember';
 import Local from '../models/local';
 
 /**
- * We need to do this via a service, otherwise we have a different 'locals' object every time it's .create()'d
+ * 
+ * MUST ALWAYS USE THIS SERVICE FOR LOCAL STORAGE!
+ * 
+ * We need to do this via a service, otherwise we have a different 'locals' object every time it's .create()'d (which can also break IE11)
  */
 
 export default Ember.Service.extend({
