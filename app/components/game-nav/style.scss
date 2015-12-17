@@ -400,6 +400,9 @@ body.free{
       width:100%;
       height: $max-block-size;
     }
+    &.bottom-nav-disabled{
+      display:none;
+    }
   }
   
   #nav-sidebar-close {

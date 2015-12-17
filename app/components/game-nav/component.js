@@ -12,7 +12,7 @@ export default ResponsiveNav.extend({
   selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,.page-bg',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
-  disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon',
+  disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon,#nav-menu-buffer-mobile',
   
   // Visual settings
   alternativeAnimationMode: true,
