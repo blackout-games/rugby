@@ -224,3 +224,12 @@ table.light {
 .placeholder-circle-logo {
   @include placholder-image( '/assets/images/global/placeholders/logo-circle.png' );
 }
+
+/**
+ * Images
+ */
+
+// Extend bootstrap responsive images
+.img-responsive {
+  width:100%;
+}

@@ -17,6 +17,12 @@ export default Ember.Component.extend({
       this.set('bars',true);
     }
     
+  }),
+  
+  setup: Ember.on('didInsertElement', function(){
+    this.$().addClass(this.get('spinner'));
+    this.$().addClass(this.get('color'));
+    
     // ALignment
     if( this.get('align') === 'left' ){
       this.$().addClass('left');
@@ -24,11 +30,6 @@ export default Ember.Component.extend({
       this.$().addClass('right');
     }
     
-  }),
-  
-  setup: Ember.on('didInsertElement', function(){
-    this.$().addClass(this.get('spinner'));
-    this.$().addClass(this.get('color'));
   }),
   
 });

@@ -279,13 +279,14 @@ export default Ember.Component.extend({
       }
       
       // Must wait again or else firefox doesn't fade
-      Ember.run.next(function(){
+      // Can't use run.next
+      Ember.run.later(function(){
         $fadeBg.addClass('fade-bg-show');
-      });
+      },111);
       
       
     },11);
-    //},20000);
+    //},200000);
     
   },
   

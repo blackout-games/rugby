@@ -22,6 +22,14 @@ export default Ember.Component.extend({
     
   }),
   
+  stopListening: Ember.on('willDestroyElement',function(){
+    
+    this.get('EventBus').unsubscribe('setNewBackground', this, this.newBackground);
+    this.get('EventBus').unsubscribe('setNewBackgrounds', this, this.newBackgrounds);
+    this.get('EventBus').unsubscribe('removeBackground', this, this.removeBackground);
+    
+  }),
+  
   newBackground( url ){
     this.set('imageURL',url);
     this.updateImageClass();

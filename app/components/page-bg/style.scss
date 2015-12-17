@@ -1,11 +1,18 @@
 
+.page-bg-height {
+  height: 100vh;
+  
+  @media #{$tablet-tall-and-down} {
+    height: calc(#{$page-header-height} + 50px);
+  }
+}
+
 .page-bg {
   position:fixed;
   z-index:0;
   top:0;
   right:0;
   width:100%;
-  height:100%;
 
   @media #{$nav-sm},#{$nav-md} {
     width: calc( 100% - #{$max-block-size});
@@ -32,9 +39,7 @@
     width: calc( 100% - #{$sidebar-width});
   }
   
-  @media #{$tablet-tall-and-down} {
-    height: calc(#{$page-header-height} + 50px);
-  }
+  
 }
 
 $tint-fade-out-bottom: linear-gradient(
