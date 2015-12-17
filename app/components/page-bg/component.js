@@ -8,6 +8,8 @@ var imagesList = {
   //"news": ['wood'],
   "rugby": ['blue-seats','club-at-night','industrial','olympic','skylights'],
   //"rugby": ['skylights'],
+  "squad": ['green2','green3','lockers','training'],
+  //"squad": ['training'],
 };
 
 export default Ember.Component.extend({

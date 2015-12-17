@@ -184,3 +184,20 @@ $tint-dark-at-top-and-bottom: linear-gradient(
     @include header-background-image($image-folder + "stock/stadium-skylights.jpg", center 35%);
   }
 }
+  
+  /**
+   *  Squad
+   */
+  
+  &.squad-green2 {
+    @include header-background-image($image-folder + "stock/squad-green2.jpg", center center);
+  }
+  &.squad-green3 {
+    @include header-background-image($image-folder + "stock/squad-green3.jpg", center center);
+  }
+  &.squad-lockers {
+    @include header-background-image($image-folder + "stock/squad-lockers.jpg", center center);
+  }
+  &.squad-training {
+    @include header-background-image($image-folder + "stock/squad-training.jpg", center bottom);
+  }
