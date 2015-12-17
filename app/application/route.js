@@ -190,6 +190,10 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       
     };
     
+    /**
+     * Check for browser default locale using the server
+     */
+    
     let locale = this.get('locals').read('locale');
     
     // If a locale has not been set before

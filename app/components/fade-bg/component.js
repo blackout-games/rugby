@@ -278,10 +278,14 @@ export default Ember.Component.extend({
         self.$().findClosest('.spinner').remove();
       }
       
-      $fadeBg.addClass('fade-bg-show');
+      // Must wait again or else firefox doesn't fade
+      Ember.run.next(function(){
+        $fadeBg.addClass('fade-bg-show');
+      });
+      
       
     },11);
-    //},2000);
+    //},20000);
     
   },
   
