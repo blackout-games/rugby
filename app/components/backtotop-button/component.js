@@ -21,6 +21,12 @@ export default Ember.Component.extend({
     this.get('EventBus').subscribe('fixedItemsShift', this, this.updatePosition);
     this.updatePosition();
     this.$().hide();
+    this.set('previousPath',this.get('currentPath'));
+    
+    /*let self = this;
+    window.setInterval(function(){
+      log(self.get('currentPath'));
+    },1000);*/
     
   }),
 
@@ -29,6 +35,25 @@ export default Ember.Component.extend({
     this.get('EventBus').unsubscribe('fixedItemsShift', this, this.updatePosition);
     
   }),
+  
+  pathRoot(){
+    return this.get('currentPath').split('.')[0];
+  },
+  
+  didUpdateAttrs(options){
+    if(options.newAttrs.currentPath.value !== options.oldAttrs.currentPath.value){
+    
+      this.detectRouteChange();
+      
+    }
+  },
+  
+  detectRouteChange(){
+    if(this.get('currentPath') !== this.get('previousPath')){
+      this.hideButton();
+      this.set('previousPath',this.get('currentPath'));
+    }
+  },
   
   updatePosition(newPos={x:0,y:0}, duration=400) {
     
