@@ -8,5 +8,9 @@
   "disableAnalytics": false,
   "usePods": true,
   "liveReload": true,
-  "watcher": "polling"
+  "watcher": "polling",
+  /**
+   * Set this so it can't change, so we can allow it in content security policies
+   */
+  "live-reload-port": 35729
 }
