@@ -44,11 +44,11 @@ export default Ember.Component.extend({
     var o = options.oldAttrs;
     var n = options.newAttrs;
 
-    if( n.clientError !== o.clientError ){
+    if( n.clientError.value !== o.clientError.value ){
       this.updateClientError();
     }
 
-    if( n.serverError !== o.serverError ){
+    if( n.serverError.value !== o.serverError.value ){
       this.updateServerError();
     }
   },

@@ -94,7 +94,7 @@ export default Ember.Component.extend({
   
   didUpdateAttrs(options){
     
-    if(options.newAttrs.currentlyShowing !== options.oldAttrs.currentlyShowing){
+    if(options.newAttrs.currentlyShowing.value !== options.oldAttrs.currentlyShowing.value){
       
       this.show();
       
