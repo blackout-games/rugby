@@ -1,5 +1,6 @@
 import Ember from 'ember';
 var $ = Ember.$;
+const { Blackout } = Ember;
 
 /**
  * This service handles manager images and club images for the currently logged in manager, as well as general user images, like manager and club images for other managers around the game.
@@ -62,7 +63,10 @@ export default Ember.Service.extend({
         $(selector).css('background-color', defaultBgColor);
         
         // Set image
-        $(selector).css('background-image', 'url(' + imgUrl + ')');
+        Blackout.preloadImage(imgUrl,() => {
+          $(selector).css('background-image', 'url(' + imgUrl + ')');
+        });
+        
         
         // Ensure parent has z-index of more than 0
         $(selector).each(function(){
