@@ -107,7 +107,7 @@ export default Ember.Mixin.create({
         
       }
         
-      article.set('body',intro + parts[1]);
+      article.set('body',intro + "\n\n" + parts[1]);
       
       if(wasSplit){
         
