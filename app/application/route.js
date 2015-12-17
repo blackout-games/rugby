@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 import LoadingSliderMixin from '../mixins/loading-slider';
+import FbMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
 import config from '../config/environment';
 
-export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, {
+export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, FbMixin, {
   locals: Ember.inject.service(),
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
