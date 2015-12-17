@@ -243,8 +243,11 @@ class Blackout {
    * http://www.w3.org/TR/DOM-Level-2-Style/css.html#CSS-CSSStyleSheet
    */
   addCSSRule(selector,css,index=0) {
-    document.styleSheets[0].addRule(selector,css);
-    document.styleSheets[0].insertRule(selector + ' { ' + css + ' }',index);
+    if(document.styleSheets[0].addRule){
+      document.styleSheets[0].addRule(selector,css);
+    } else if(document.styleSheets[0].insertRule){
+      document.styleSheets[0].insertRule(selector + ' { ' + css + ' }',index);
+    }
   }
   
   /**
