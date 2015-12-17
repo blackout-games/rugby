@@ -279,7 +279,7 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 .hidden-sm-down {
-  @media #{$tablet-and-down} {
+  @media #{$tablet-tall-and-down} {
     display: none !important;
   }
 }

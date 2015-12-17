@@ -131,6 +131,10 @@ export default ResponsiveNav.extend({
 
     if (window.features.lockBody) {
       $('html,body,#nav-body').addClass('fixed');
+      
+      if(window.browsers.safariOS && !window.navigator.standalone && this.media.isMobile){
+        $('#tabbar-balloon').addClass('safari-ios');
+      }
 
       // Touch start
       this.touchStartHandler = function(e) {

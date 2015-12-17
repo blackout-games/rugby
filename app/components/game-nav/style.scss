@@ -31,12 +31,12 @@ $sidebar-block-height-mobile-landscape: 12.4vh;
 
 $nav-xxs: $mobile-tall;
 $nav-xs: $mobile;
-$nav-sm: $tablet;
+$nav-sm: $tablet-tall;
 $nav-md: $tablet-wide;
 $nav-lg: $desktop;
-$nav-sm-down: $tablet-and-down;
+$nav-sm-down: $tablet-tall-and-down;
 $nav-md-down: $tablet-wide-and-down;
-$nav-sm-up: $tablet-and-up;
+$nav-sm-up: $tablet-tall-and-up;
 $nav-md-up: $tablet-wide-and-up;
 
 $nav-vs: "(max-height: #{($max-block-size * 10) + 20px})";
@@ -223,13 +223,19 @@ $panel-color: $bg-dark-lighter;
   
   height: calc( #{$sidebar-width} - 2px );
   max-height: calc( #{$tabbar-height} - 2px );
+  
+  &.safari-ios {
+    height: calc( #{$sidebar-width} - 2px + 70px );
+    max-height: calc( #{$tabbar-height} - 2px + 70px );
+  }
+  
   min-height: calc( #{$min-tabbar-height} - 2px );
   
   &.bottom-nav-disabled {
     display: none;
   }
   
-  //background-color: #F0F;
+  //background-color: tomato;
 }
 
 body.fixed,html.fixed {
@@ -1032,5 +1038,12 @@ body.free{
   margin: 0 -10px;
   @media #{$nav-vs} {
     font-size: 2.59vh;
+  }
+}
+
+#desktop-foot-bumper {
+  height: 22px;
+  @media #{$nav-lg} {
+    height: 33px;
   }
 }
