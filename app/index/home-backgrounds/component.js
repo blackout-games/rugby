@@ -129,6 +129,8 @@ export default Ember.Component.extend(Timers, {
     Ember.$('#top-section').addClass( "hide-top" );
     
     B.preloadImage(path,function() {
+      
+      if(self.assertComponentStillExists()){
         
         if( self.get('topLayerIsShowing') ){
         
@@ -177,6 +179,8 @@ export default Ember.Component.extend(Timers, {
         self.addTimer(function(){
           self.updateBackgroundImage();
         },self.backgroundDuration,true);
+        
+      }
 
     });
    

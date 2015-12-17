@@ -125,24 +125,28 @@ export default Ember.Component.extend({
       // Load image
       Ember.Blackout.preloadImage(url,function(w,h) {
         
-        if(self.assertImageRes(w,h)){
+        if(self.assertComponentStillExists()){
           
-          if(!self.get('imageIsImmediatelyFadingOut')){
+          if(self.assertImageRes(w,h)){
             
-            if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+            if(!self.get('imageIsImmediatelyFadingOut')){
+              
+              if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+                  
+                self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+              
+              } else {
                 
-              self.fadeOutImage( $fadeBg, self.fadeInImageBound );
-            
+                let loadTime = Date.now() - startTime;
+                self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+                
+              }
+              
             } else {
               
-              let loadTime = Date.now() - startTime;
-              self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
-              
+              self.set('imageIsImmediatelyFadingOut',false);
             }
             
-          } else {
-            
-            self.set('imageIsImmediatelyFadingOut',false);
           }
           
         }
@@ -164,23 +168,27 @@ export default Ember.Component.extend({
       // Load image
       Ember.Blackout.preloadImage(url,function(w,h) {
         
-        if(self.assertImageRes(w,h)){
+        if(self.assertComponentStillExists()){
           
-          if(!self.get('imageIsImmediatelyFadingOut')){
+          if(self.assertImageRes(w,h)){
             
-            if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+            if(!self.get('imageIsImmediatelyFadingOut')){
+              
+              if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+                  
+                self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+              
+              } else {
                 
-              self.fadeOutImage( $fadeBg, self.fadeInImageBound );
-            
+                let loadTime = Date.now() - startTime;
+                self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+                
+              }
+              
             } else {
-              
-              let loadTime = Date.now() - startTime;
-              self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
-              
+              self.set('imageIsImmediatelyFadingOut',false);
             }
             
-          } else {
-            self.set('imageIsImmediatelyFadingOut',false);
           }
           
         }

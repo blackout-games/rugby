@@ -10,6 +10,10 @@ var blackoutComponent = {
     return window.features.lockBody ? '#nav-body' : window;
   }),
   
+  assertComponentStillExists(){
+    return !this.get('isDestroyed') && !this.get('isDestroying');
+  },
+  
 };
 
 export function initialize(/* application */) {
