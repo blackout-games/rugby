@@ -127,6 +127,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   justify-content: center;
 }
 
+.full-window-height {
+  height: 100vh;
+}
+
 .vf-child, .full-height {
   min-height: 100%;
   //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
