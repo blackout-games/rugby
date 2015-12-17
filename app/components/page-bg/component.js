@@ -1,11 +1,8 @@
 import Ember from 'ember';
 
 var imagesList = {
-  //"dashboard": ['fancy','club-office','design','glass','green','lamps','loft','plant'],
-  "dashboard": ['green','design','glass','design2'],
-  //"dashboard": ['green'],
-  "news": ['boss','desks','hq','office','two-desk'],
-  //"news": ['wood'],
+  "dash": ['boss','design','design2','desks','glass','green','hq','office'],
+  //"dash": ['green'],
   "rugby": ['blue-seats','club-at-night','industrial','olympic','skylights'],
   //"rugby": ['skylights'],
   "squad": ['green2','green3','lockers','training'],

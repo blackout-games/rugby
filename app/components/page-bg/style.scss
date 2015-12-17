@@ -113,55 +113,29 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   /**
    *  Dashboard
    */
-  &.dashboard-fancy {
-    @include header-background-image($image-folder + "stock/dashboard-fancy.jpg", center center);
+  &.dash-design {
+    @include header-background-image($image-folder + "stock/dash-design.jpg", 80% center);
   }
-  &.dashboard-club-office {
-    @include header-background-image($image-folder + "stock/dashboard-club-office.jpg", left 59%);
+  &.dash-design2 {
+    @include header-background-image($image-folder + "stock/dash-design2.jpg", 80% center);
   }
-  &.dashboard-design {
-    @include header-background-image($image-folder + "stock/dashboard-design.jpg", 80% center);
+  &.dash-glass {
+    @include header-background-image($image-folder + "stock/dash-glass.jpg", left 59%);
   }
-  &.dashboard-design2 {
-    @include header-background-image($image-folder + "stock/dashboard-design2.jpg", 80% center);
+  &.dash-green {
+    @include header-background-image($image-folder + "stock/dash-green.jpg", center 44%);
   }
-  &.dashboard-glass {
-    @include header-background-image($image-folder + "stock/dashboard-glass.jpg", left 59%);
+  &.dash-boss {
+    @include header-background-image($image-folder + "stock/dash-boss.jpg", left 30%);
   }
-  &.dashboard-green {
-    @include header-background-image($image-folder + "stock/dashboard-green.jpg", center 44%);
+  &.dash-desks {
+    @include header-background-image($image-folder + "stock/dash-desks.jpg", left 60%);
   }
-  &.dashboard-lamps {
-    @include header-background-image($image-folder + "stock/dashboard-lamps.jpg", left center);
+  &.dash-hq {
+    @include header-background-image($image-folder + "stock/dash-hq.jpg", center 59%);
   }
-  &.dashboard-loft {
-    @include header-background-image($image-folder + "stock/dashboard-loft.jpg", left 73%);
-  }
-  &.dashboard-plant {
-    @include header-background-image($image-folder + "stock/dashboard-plant.jpg", left 60%);
-  }
-  
-  /**
-   *  News
-   */
-  
-  &.news-boss {
-    @include header-background-image($image-folder + "stock/news-boss.jpg", left 30%);
-  }
-  &.news-desks {
-    @include header-background-image($image-folder + "stock/news-desks.jpg", left 60%);
-  }
-  &.news-hq {
-    @include header-background-image($image-folder + "stock/news-hq.jpg", center 59%);
-  }
-  &.news-office {
-    @include header-background-image($image-folder + "stock/news-office.jpg", center 55%);
-  }
-  &.news-two-desk {
-    @include header-background-image($image-folder + "stock/news-two-desk.jpg", 44% 80%);
-  }
-  &.news-wood {
-    @include header-background-image($image-folder + "stock/news-wood.jpg", left 65%);
+  &.dash-office {
+    @include header-background-image($image-folder + "stock/dash-office.jpg", center 55%);
   }
   
   /**
