@@ -802,8 +802,12 @@ body.free{
     background-color: $tabbar-color;
     
     height:$sidebar-width;
-    max-height: $tabbar-height;
+    max-height: $max-sidebar-block-height;
     min-height: $min-tabbar-height;
+    
+    @media #{$nav-xs} {
+      max-height: $tabbar-height;
+    }
 
     &.press {
       background-color: $tabbar-color;
