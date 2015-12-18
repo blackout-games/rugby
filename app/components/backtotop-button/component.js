@@ -129,9 +129,9 @@ export default Ember.Component.extend({
         //print(e);
       }
       
-      if(scrollTop && scrollTop>=threshold+50){
+      if(!isNaN(scrollTop) && scrollTop>=threshold+50){
         this.showButton();
-      } else if(scrollTop && scrollTop<threshold){
+      } else if(!isNaN(scrollTop) && scrollTop<threshold){
         this.hideButton();
       }
       
