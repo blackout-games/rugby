@@ -1107,7 +1107,7 @@ Ember.Component.reopen({
 
 
 
-var _hoverStartEvent,_hoverEventObj,_hoverEndEvent;
+var _hoverStartEvent,_hoverEventObj,_hoverEndEvent,_mouseDownTime=0,_clickTimeout;
 
 function _refreshWatchers() {
   
@@ -1124,7 +1124,40 @@ function _refreshWatchers() {
   // Click
   Ember.$('body').find('.btn').off('click', _click);
   Ember.$('body').find('.btn').on('click', _click);
+  
+  // Detect clicks on btn-a
+  // First click doesn't work when inside perfect-scrollbar on safari os x
+  Ember.$('body').find('.btn-a').off('mousedown mouseup click', _mouse);
+  Ember.$('body').find('.btn-a').on('mousedown mouseup click', _mouse);
 
+}
+
+/**
+ * First click doesn't work when inside perfect-scrollbar on safari os x
+ * This runs a manual click in this case.
+ */
+function _mouse (e) {
+  
+  if( e.type === 'mousedown' ){
+    _mouseDownTime = Date.now();
+  }
+  
+  if( e.type === 'mouseup' && Date.now()-_mouseDownTime<222 ){
+  
+    // Run a click shortly
+    _clickTimeout = window.setTimeout(() => {
+      $(this).click();
+      _clickTimeout = null;
+    },11);
+    
+  }
+  
+  if( e.type === 'click' ){
+    if(_clickTimeout){
+      window.clearTimeout(_clickTimeout);
+    }
+  }
+  
 }
 
 function _hover (e) {
