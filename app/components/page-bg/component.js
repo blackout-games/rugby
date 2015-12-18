@@ -100,6 +100,8 @@ export default Ember.Component.extend({
         
       }
       
+    } else {
+      this.set('imageClass',false);
     }
     
   },

@@ -131,8 +131,10 @@ class Blackout {
    */
   isEmpty( item ) {
     
-    if(typeof(item)==='object' && "value" in item && item.value===undefined){
+    if(typeof(item)==='object' && "value" in item && (item.value===undefined || item.value===null || item.value===false)){
       return true;
+    } else if(typeof(item)==='object' && "value" in item){
+      return Ember.isEmpty(item.value);
     } else {
       return Ember.isEmpty(item);
     }
