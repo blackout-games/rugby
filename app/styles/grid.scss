@@ -1403,8 +1403,171 @@
   }
 }
 
+.row-vertical,.row-vertical-sm {
+  
+  > .col-1 {
+    max-width: none;
+    max-height: 8.333%;
+  }
+
+  > .col-2 {
+    max-width: none;
+    max-height: 16.667%;
+  }
+
+  > .col-3 {
+    max-width: none;
+    max-height: 25%;
+  }
+
+  > .col-4 {
+    max-width: none;
+    max-height: 33.333%;
+  }
+
+  > .col-5 {
+    max-width: none;
+    max-height: 41.667%;
+  }
+
+  > .col-6 {
+    max-width: none;
+    max-height: 50%;
+  }
+
+  > .col-7 {
+    max-width: none;
+    max-height: 58.333%;
+  }
+
+  > .col-8 {
+    max-width: none;
+    max-height: 66.667%;
+  }
+
+  > .col-9 {
+    max-width: none;
+    max-height: 75%;
+  }
+
+  > .col-10 {
+    max-width: none;
+    max-height: 83.333%;
+  }
+
+  > .col-11 {
+    max-width: none;
+    max-height: 91.667%;
+  }
+
+  > .col-12 {
+    max-width: none;
+    max-height: 100%;
+  }
+  
+  > .col-override-1 {
+    max-width: none;
+    max-height: 8.333%;
+  }
+
+  > .col-override-2 {
+    max-width: none;
+    max-height: 16.667%;
+  }
+
+  > .col-override-3 {
+    max-width: none;
+    max-height: 25%;
+  }
+
+  > .col-override-4 {
+    max-width: none;
+    max-height: 33.333%;
+  }
+
+  > .col-override-5 {
+    max-width: none;
+    max-height: 41.667%;
+  }
+
+  > .col-override-6 {
+    max-width: none;
+    max-height: 50%;
+  }
+
+  > .col-override-7 {
+    max-width: none;
+    max-height: 58.333%;
+  }
+
+  > .col-override-8 {
+    max-width: none;
+    max-height: 66.667% !important;
+  }
+
+  > .col-override-9 {
+    max-width: none;
+    max-height: 75%;
+  }
+
+  > .col-override-10 {
+    max-width: none;
+    max-height: 83.333%;
+  }
+
+  > .col-override-11 {
+    max-width: none;
+    max-height: 91.667%;
+  }
+
+  > .col-override-12 {
+    max-width: none;
+    max-height: 100%;
+  }
+  
+}
+
+.row-gutter,.row-gutters {
+  
+  // Bootstrap
+  margin-left:  ceil(($grid-gutter-width / -2));
+  margin-right: floor(($grid-gutter-width / -2));
+
+  div[class^="col-"] {
+    padding-left:  ($grid-gutter-width / 2);
+    padding-right: ($grid-gutter-width / 2);
+  }
+  
+}
+
+.col-no-gutter {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.col-no-gutter-left {
+  padding-left: 0;
+}
+
+.col-no-gutter-right {
+  padding-right: 0;
+}
+  
+.col-reset {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+.col-auto-width {
+  flex-basis: auto;
+}
+
+
+
 /**
  * Javascript overrides
+ * SHOULD ALWAYS BE LAST
  */
 
 .col-override {
@@ -1472,104 +1635,3 @@
   flex-basis: 100%;
   max-width: 100%;
 }
-
-.row-vertical,.row-vertical-sm {
-  
-  > .col-1 {
-    max-width: none;
-    max-height: 8.333%;
-  }
-
-  > .col-2 {
-    max-width: none;
-    max-height: 16.667%;
-  }
-
-  > .col-3 {
-    max-width: none;
-    max-height: 25%;
-  }
-
-  > .col-4 {
-    max-width: none;
-    max-height: 33.333%;
-  }
-
-  > .col-5 {
-    max-width: none;
-    max-height: 41.667%;
-  }
-
-  > .col-6 {
-    max-width: none;
-    max-height: 50%;
-  }
-
-  > .col-7 {
-    max-width: none;
-    max-height: 58.333%;
-  }
-
-  > .col-8 {
-    max-width: none;
-    max-height: 66.667%;
-  }
-
-  > .col-9 {
-    max-width: none;
-    max-height: 75%;
-  }
-
-  > .col-10 {
-    max-width: none;
-    max-height: 83.333%;
-  }
-
-  > .col-11 {
-    max-width: none;
-    max-height: 91.667%;
-  }
-
-  > .col-12 {
-    max-width: none;
-    max-height: 100%;
-  }
-  
-}
-
-.row-gutter,.row-gutters {
-  
-  // Bootstrap
-  margin-left:  ceil(($grid-gutter-width / -2));
-  margin-right: floor(($grid-gutter-width / -2));
-
-  div[class^="col-"] {
-    padding-left:  ($grid-gutter-width / 2);
-    padding-right: ($grid-gutter-width / 2);
-  }
-  
-}
-
-.col-no-gutter {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.col-no-gutter-left {
-  padding-left: 0;
-}
-
-.col-no-gutter-right {
-  padding-right: 0;
-}
-  
-.col-reset {
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  max-width: 100%;
-}
-
-.col-auto-width {
-  flex-basis: auto;
-}
-
