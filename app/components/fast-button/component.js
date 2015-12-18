@@ -15,14 +15,31 @@ export default Ember.Component.extend({
       }).length;
       
       if(isFixed){
-        var offset = this.$().offset();
-        var posY = offset.top - Ember.$(window).scrollTop();
-        this.set('fixedY',posY);
+        this.updateFixedY();
+        this.resizeHandlerBound = Ember.run.bind(this,this.resizeHandler);
+        Ember.$(window).on('resize', this.resizeHandlerBound);
       }
       
     }
     
   }),
+  
+  cleanup: Ember.on('willDestroyElement',function(){
+    if(this.resizeHandlerBound){
+      Ember.$(window).off('resize', this.resizeHandlerBound);
+      this.resizeHandlerBound = null;
+    }
+  }),
+  
+  resizeHandler(){
+    Ember.run.debounce(this, this.updateFixedY, 222);
+  },
+  
+  updateFixedY(){
+    var offset = this.$().offset();
+    var posY = offset.top - Ember.$(window).scrollTop();
+    this.set('fixedY',posY);
+  },
   
   mouseDown(e) {
     this.runAction(e);
