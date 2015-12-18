@@ -797,6 +797,7 @@ export default ResponsiveNav.extend({
     $(this.get('disableBottomClassSelector')).addClass('bottom-nav-disabled');
     this.get('EventBus').publish('fixedItemsShift');
     this.set('bottomTabBarIsShowing',false);
+    $('#nav-body-inner').addClass('full-body');
     this.updateSidebarScrollerHeight();
   },
   showBottomTabBar() {
@@ -804,6 +805,7 @@ export default ResponsiveNav.extend({
     $(this.get('disableBottomClassSelector')).removeClass('bottom-nav-disabled');
     this.get('EventBus').publish('fixedItemsShift');
     this.set('bottomTabBarIsShowing',true);
+    $('#nav-body-inner').removeClass('full-body');
     this.updateSidebarScrollerHeight();
   },
   

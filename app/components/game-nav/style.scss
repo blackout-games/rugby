@@ -216,6 +216,10 @@ $panel-color: $bg-dark-lighter;
 #nav-body-inner {
   max-width:1222px;
   margin: 0 auto;
+  &.full-body {
+    max-width: none;
+    margin: 0;
+  }
 }
 
 // Balloon
