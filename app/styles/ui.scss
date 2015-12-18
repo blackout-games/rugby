@@ -33,6 +33,10 @@ pre code, code {
   color: darken($secondary-master,33%);
 }
 
+code {
+  white-space: nowrap;
+}
+
 blockquote {
   background-color: desaturate(lighten($secondary-master,48%),22%);
   border-left: 5px solid desaturate(lighten($secondary-master,33%),22%);
