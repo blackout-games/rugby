@@ -21,10 +21,12 @@ b, strong {
   font-weight: 800;
 }
 
+$default-link-color: darken($primary-master, 11%);
+
 a {
   cursor: pointer;
   //color: #337ab7; // Bootstrap
-  color: darken($primary-master, 11%);
+  color: $default-link-color;
 
   &:visited {
     color: darken($primary-master, 11%);
@@ -78,6 +80,29 @@ a {
     
     // Fix border outline on click in Firefox
     outline: none;
+  }
+  
+}
+
+/**
+ * Different press state on touch devices
+ */
+.touch a {
+  &:hover {
+    background-color: desaturate(rgba($secondary-master,0.14),11%);
+    border-radius: 3px;
+    display: inline-block;
+    margin: 0 -3px;
+    padding: 0 3px;
+    color: $default-link-color;
+    border: none;
+  }
+  &.non-text:hover, &.btn-a:hover {
+    background-color: transparent;
+    border-radius: 0;
+    display:inline;
+    margin: 0;
+    padding: 0;
   }
 }
 

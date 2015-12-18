@@ -13,7 +13,7 @@
           
           {{#if article.img}}
             
-            {{#link-to "news.article" article.id}}
+            {{#link-to "news.article" article.id class="non-text"}}
               {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
             {{/link-to}}
           
@@ -54,7 +54,7 @@
           
           {{#if article.img}}
             
-            {{#link-to "national-news.article" article.id}}
+            {{#link-to "national-news.article" article.id class="non-text"}}
               {{fade-bg showLoader=true imageUrl=article.img bgClass="dash-news-image" class="gap-md" }}
             {{/link-to}}
             

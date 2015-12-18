@@ -111,6 +111,10 @@ export default ResponsiveNav.extend({
     
     var self = this;
     
+    if(window.os.touchOS){
+      $('body').addClass('touch');
+    }
+    
     // Alternative animation mode?
     if(this.get('alternativeAnimationMode')){
       $('#nav-sidebar').addClass('alt');
