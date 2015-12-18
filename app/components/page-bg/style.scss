@@ -5,6 +5,9 @@
   @media #{$tablet-tall-and-down} {
     height: calc(#{$page-header-height} + 50px);
   }
+  @media #{$mobile-landscape} {
+    height: 50vh;
+  }
 }
 
 .page-bg {
