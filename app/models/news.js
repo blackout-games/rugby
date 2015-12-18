@@ -6,6 +6,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   body: DS.attr('string'),
   lastViewed: DS.attr('date'),
+  author: DS.belongsTo('manager',{ async: false }), 
   isNewToUser: Ember.computed('lastViewed', function() {
     return this.get('lastViewed') && this.get('lastViewed') < this.get('date');
   }),
