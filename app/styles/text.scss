@@ -88,7 +88,7 @@ a {
  * Different press state on touch devices
  */
 .touch a {
-  &:hover {
+  &:not(.non-text,.btn,.btn-a):hover {
     background-color: desaturate(rgba($secondary-master,0.14),11%);
     border-radius: 3px;
     display: inline-block;
@@ -96,13 +96,6 @@ a {
     padding: 0 3px;
     color: $default-link-color;
     border: none;
-  }
-  &.non-text:hover, &.btn-a:hover {
-    background-color: transparent;
-    border-radius: 0;
-    display:inline;
-    margin: 0;
-    padding: 0;
   }
 }
 
