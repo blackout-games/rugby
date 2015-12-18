@@ -587,7 +587,10 @@ export default ResponsiveNav.extend({
     }
 
     var tab = $('.nav-' + type + '-' + tabName);
-    if (tab.hasClass('selected') || tab.hasClass('nav-close')) {
+    
+    // Repeated tap on same tab should just leave menu open?
+    //if (!menuOpenedOnThisClick && (tab.hasClass('selected') || tab.hasClass('nav-close'))) {
+    if (!menuOpenedOnThisClick && tab.hasClass('nav-close')) {
       
       if( !this.get('media.isJumbo') ){
         
