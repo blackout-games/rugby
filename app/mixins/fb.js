@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../config/environment';
 var $ = Ember.$;
 import { translationMacro as t } from "ember-i18n";
 
@@ -11,11 +12,18 @@ export default Ember.Mixin.create({
     let locale = this.get('locale').getLocale();
     
     $.getScript('//connect.facebook.net/'+locale.fb+'/sdk.js', function(){
-      FB.init({
+      
+      let fbInit = {
         appId: '230716417077656',
         xfbml      : true,
         version: 'v2.5',
-      });
+      };
+      
+      if(config.environment === 'production'){
+        fbInit.channelUrl = '//'+location.hostname+'/channel.html';
+      }
+      
+      FB.init(fbInit);
       
       self.checkFBLoginStatus();
       
@@ -26,6 +34,22 @@ export default Ember.Mixin.create({
   loginToFB(button) {
     
     var self = this;
+    
+    if(typeof(FB)==='undefined'){
+      self.modal.show({
+        'type': 'error',
+        'title': t('modals.facebook-login-failed.title'),
+        'message': 'Sorry, facebook is not available right now.',
+        'showAction': true,
+      });
+      
+      if(button){
+        button.reset();
+      }
+      
+      return;
+    }
+    
     var response = FB.getAuthResponse();
     
     if(response){
