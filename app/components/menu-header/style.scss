@@ -48,6 +48,7 @@ $color: desaturate(darken($secondary-master,9%),22%);
 }
 
 .menu-fb-login-button {
+  
   .icon-facebook {
     position:absolute;
     line-height:100%;
@@ -56,10 +57,14 @@ $color: desaturate(darken($secondary-master,9%),22%);
     font-size:150%;
   }
   
-  padding: 0 44px;
+  // Set width on the button so that when loader comes it doesn't mess anything up.
+  //padding: 0 44px;
+  width: 100px;
   &.hover,&:focus,&.press {
-    padding: 0 44px;
+    //padding: 0 44px;
+    width: 100px;
   }
+  
   margin-right:0;
   
 }
