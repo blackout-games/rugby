@@ -5,8 +5,8 @@ var imagesList = {
   //"dash": ['green'],
   "rugby": ['blue-seats','club-at-night','industrial','olympic','skylights'],
   //"rugby": ['skylights'],
-  "squad": ['green2','green3','lockers','training'],
-  //"squad": ['training'],
+  //"squad": ['green2','green3','lockers','training'],
+  "squad": ['training'], // Leave this bg, since it's the best. Fow now.
 };
 
 export default Ember.Component.extend({

@@ -369,7 +369,7 @@ class Blackout {
    */
   encodeMarkdownCode(markdown){
     
-    return markdown.replace(/```([^`]*)```|`([^`\n]*)`/g,function( fullMatch, codeBlock, inlineCode){
+    return markdown.replace(/```([^`][^]+?)```|`([^`\n]+?)`/g,function( fullMatch, codeBlock, inlineCode){
       
       if(codeBlock){
         return '```' + codeBlock.encodeMarkdownChars() + '```';
@@ -396,7 +396,7 @@ class Blackout {
     
     // We must process code blocks that are already markdown to ensure they won't be touched either.
     
-    str = str.replace(/```([^`]*)```|`([^`\n]*)`/g,function( fullMatch, codeBlock, inlineCode){
+    str = str.replace(/```([^`][^]+?)```|`([^`\n]+?)`/g,function( fullMatch, codeBlock, inlineCode){
       
       if(codeBlock){
         return '```' + self.encodeOldStyleChars(codeBlock) + '```';

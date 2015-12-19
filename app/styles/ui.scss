@@ -26,6 +26,9 @@ pre {
   font-size: 14px;
   margin-bottom: 15px;
   //border-left: 5px dashed desaturate(lighten($secondary-master,33%),22%);
+  
+  // Wrap
+  overflow-x:hidden;
 }
 
 pre code, code {
