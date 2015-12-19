@@ -1,7 +1,14 @@
-# Rugby-ember
+# Blackout Rugby
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This is the ember.js app for Blackout Rugby. The app can be found at https://v2.blackoutrugby.com.
+
+Be warned that this version is in development, so changes are being made direct to Master (for now) and may break your local copy.
+
+If you have any trouble or just want to chat feel free to contact us at [support@blackoutrugby.com](mailto:support@blackoutrugby.com). We'd love to hear from anyone interested in developing for Blackout Rugby.
+
+## Ember 101
+
+If any of the below is new to you. The best place to start is to read through the [Ember CLI E-book](https://leanpub.com/ember-cli-101). This will give you a solid understanding of ember.js. After you've been through the book, come back here to continue.
 
 ## Prerequisites
 
@@ -11,14 +18,27 @@ You will need the following things properly installed on your computer.
 * [Node.js](http://nodejs.org/) (with NPM)
 * [Bower](http://bower.io/)
 * [Ember CLI](http://www.ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* change into the new directory
+In terminal/command prompt:
+
+* `git clone https://github.com/blackout-games/rugby.git`
+* `cd rugby`
 * `npm install`
 * `bower install`
+
+## Environment
+
+You'll need to make some changes to `config/environment.js` to suit your local setup.
+
+* Uncomment `var localIP = 'localhost';`
+* Uncomment the block containing `Development API (Live, Production)` to ensure you'll be connecting to the Live API.
+* Comment out other variables/blocks of the same name.
+
+### Code accuracy
+
+Make sure you're using `jshint` in your code editor, this will show you any syntax imperfections. We recommend [Sublime Text](http://www.sublimetext.com/) with the [Sublime​Linter-jshint](https://packagecontrol.io/packages/SublimeLinter-jshint) package.
 
 ## Running / Development
 
@@ -29,19 +49,9 @@ You will need the following things properly installed on your computer.
 
 Make use of the many generators for code, try `ember help generate` for more details
 
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
 ### Deploying
 
-Specify what it takes to deploy your app.
+Unless you've been given permission, you will not be deploying Blackout Rugby. You can make changes and submit pull requests. Then we will deploy the app to production.
 
 ## Further Reading / Useful Links
 
