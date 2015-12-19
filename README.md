@@ -1,10 +1,10 @@
 # Blackout Rugby
 
-This is the ember.js app for Blackout Rugby. The app can be found at https://v2.blackoutrugby.com.
+This is the ember.js app for Blackout Rugby. The live app can be found at https://v2.blackoutrugby.com.
 
-Be warned that this version is in development, so changes are being made direct to Master (for now) and may break your local copy.
+Be warned that this version is in development, so changes are being made often, and direct to Master (for now) so may break your local copy.
 
-If you have any trouble or just want to chat feel free to contact us at [support@blackoutrugby.com](mailto:support@blackoutrugby.com). We'd love to hear from anyone interested in developing for Blackout Rugby.
+If you have any trouble or just want to chat feel free to [contact us](mailto:support@blackoutrugby.com). We'd love to hear from anyone interested in developing for Blackout Rugby.
 
 ## Ember 101
 
@@ -28,7 +28,7 @@ In terminal/command prompt:
 * `npm install`
 * `bower install`
 
-## Environment
+### Environment
 
 You'll need to make some changes to `config/environment.js` to suit your local setup.
 
@@ -51,7 +51,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Unless you've been given permission, you will not be deploying Blackout Rugby. You can make changes and submit pull requests. Then we will deploy the app to production.
+You will not be deploying Blackout Rugby. You can make changes and submit pull requests, then we will deploy to production.
+
+### API
+
+The API documentation can be found [here](http://docs.blackoutrugby.apiary.io/). If you need any changes please [create a new issue](https://github.com/blackout-games/rugby/issues/new).
 
 ## Further Reading / Useful Links
 
