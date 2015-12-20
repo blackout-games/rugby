@@ -2,9 +2,9 @@
 
 This is the ember.js app for Blackout Rugby. The live app can be found at https://v2.blackoutrugby.com.
 
-Be warned that this version is in development, so changes are being made often, and direct to Master (for now) so may break your local copy.
+Be warned that this version is in heavy development. Changes are being made often, directly to the Master branch (for now). If you would like a copy which is guaranteed to be working, please checkout one of the [releases](https://github.com/blackout-games/rugby/releases) during install.
 
-If you have any trouble or just want to chat feel free to [contact us](mailto:support@blackoutrugby.com). We'd love to hear from anyone interested in developing for Blackout Rugby.
+If you have any trouble or just want to chat, feel free to [contact us](mailto:support@blackoutrugby.com). We'd love to hear from anyone interested in developing for Blackout Rugby.
 
 ## Ember 101
 
@@ -65,3 +65,9 @@ The API documentation can be found [here](http://docs.blackoutrugby.apiary.io/).
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+## Licensing
+
+© 2015-Present Blackout Entertainment Limited (NZ)
+All Rights Reserved
+
+If you are interested in licensing the app for a new sport, please [contact us](mailto:support@blackoutrugby.com).
