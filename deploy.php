@@ -1,4 +1,4 @@
 <?php
 
-system('ember deploy -prod', $output);
+system('ember deploy production', $output);
 

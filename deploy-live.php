@@ -1,12 +1,23 @@
 <?php
 
-$last_line = system('ember deploy -prod', $output);
+echo "Deploying...\n";
 
-if (strpos($last_line, 'Uploaded revision:') !== false) {
+exec('ember deploy production', $output);
+$output = implode("\n",$output);
+
+preg_match("/activate revision ([a-z0-9]+)\\./", $output, $matches);
+
+if(isset($matches[1]) && !empty($matches[1])){
   
-    $revision = trim(explode(": ", $last_line)[1]);
-    echo "Activating revision: " . $revision . "\n";
-    system('ember deploy:activate --revision ' . $revision . ' -prod');
-    
+  $revision = $matches[1];
+  echo "Activating revision: " . $revision . "\n";
+  system('ember deploy:activate production --revision=' . $revision);
+  
+} else {
+  
+  echo "A valid revision was not detected\n";
+  echo "------------------\n";
+  echo $output . "\n";
+  echo "------------------\n";
+  
 }
-
