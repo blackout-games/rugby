@@ -67,7 +67,8 @@ The API documentation can be found [here](http://docs.blackoutrugby.apiary.io/).
 
 ## Licensing
 
-© 2015-Present Blackout Entertainment Limited (NZ)
+© 2015-Present  
+Blackout Entertainment Limited (NZ)  
 All Rights Reserved
 
 If you are interested in licensing the app for a new sport, please [contact us](mailto:support@blackoutrugby.com).
