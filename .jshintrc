@@ -4,7 +4,9 @@
     "window",
     "-Promise",
     "moment",
-    "FB"
+    "FB",
+    "process",
+    "module"
   ],
   "browser": true,
   "boss": true,

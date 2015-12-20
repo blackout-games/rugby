@@ -9,7 +9,6 @@ module.exports = function(defaults) {
   var isProductionLikeBuild = ['production', 'staging'].indexOf(env) > -1;
 
   var fingerprintOptions = {
-    enabled: true,
     prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
     extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico'],
   };
