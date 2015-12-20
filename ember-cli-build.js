@@ -5,13 +5,27 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
  
 
 module.exports = function(defaults) {
+  var env = EmberApp.env()|| 'development';
+  var isProductionLikeBuild = ['production', 'staging'].indexOf(env) > -1;
+
+  var fingerprintOptions = {
+    enabled: true,
+    prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
+    extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico'],
+  };
   
   var app = new EmberApp(defaults, {
     // Add options here
-    fingerprint: {
-      prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
-      extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico'],
+    fingerprint: fingerprintOptions,
+    emberCLIDeploy: {
+      runOnPostBuild: (env === 'development') ? 'development-postbuild' : false,
+      shouldActivate: false
     },
+    sourcemaps: {
+      enabled: !isProductionLikeBuild,
+    },
+    minifyCSS: { enabled: isProductionLikeBuild },
+    minifyJS: { enabled: isProductionLikeBuild },
     sassOptions: {
       includePaths: [
         'app'
