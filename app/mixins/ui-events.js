@@ -14,7 +14,7 @@ export default Ember.Mixin.create({
   
   setupUIEvents: Ember.on('didInsertElement', function(){
     
-    if(!this.get('uiEvents') || this.get('uiEventsHasBeenSetup') || (typeof(this.get('uiEventsActive'))==='boolean' && !this.get('uiEventsActive'))){
+    if(!this.get('uiEvents') || this.get('uiEventsHasBeenSetup')){
       return;
     }
     

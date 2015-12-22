@@ -69,6 +69,7 @@ export default Ember.Component.extend({
     } else {
       this.updateSubNavMobile();
     }
+    this.updateScrollArea();
   },
   
   getScrollSelectorToWatch() {
@@ -109,6 +110,9 @@ export default Ember.Component.extend({
     // Add content to sub-nav panel
     Ember.$('#sub-nav-scroller').html(content);
     
+    // Manually update hover watchers
+    Ember.Blackout.refreshHoverWatchers();
+    
     // Save elements for use later
     this.set('$subNavContent',$subNavContent);
     this.set('$innerContent',$innerContent);
@@ -132,7 +136,7 @@ export default Ember.Component.extend({
       $subNavContent.hide();
       
       // Clear any element level styles
-      $panel.removeAttr('style');
+      this.resetStyle($panel);
       
       Ember.run.next(() => {
         this.updateSubNavMobile();
@@ -154,11 +158,13 @@ export default Ember.Component.extend({
       Ember.Blackout.fadeInUp($panel);
       
     }
-    
-    this.updateScrollArea();
   },
   
   updateSubNavMobile(){
+    
+    if(!this.get('navIsActive')){
+      return;
+    }
     
     let $scoller = Ember.$('#sub-nav-scroller');
     
@@ -168,12 +174,18 @@ export default Ember.Component.extend({
     //let h = Math.min(contentHeight,maxHeight);
     
     // Update perfect scroll height
-    let padding = 20;
+    let padding = 2;
     $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2 - 55));
+    
+    this.updateScrollArea();
     
   },
   
   updateSubNavNonMobile( mediaUpdateOnly, animationAlreadyTookPlace ){
+    
+    if(!this.get('navIsActive')){
+      return;
+    }
     
     let $innerContent = this.get('$innerContent');
     let $panel = Ember.$('#sub-nav-panel');
@@ -183,7 +195,7 @@ export default Ember.Component.extend({
     let pos = $innerContent.offsetWindow();
     let w = $innerContent.outerWidth();
     let margin = 30;
-    let padding = 30;
+    let padding = 2;
     
     // Adjust for animation
     if(mediaUpdateOnly && !animationAlreadyTookPlace){
@@ -198,7 +210,7 @@ export default Ember.Component.extend({
     // Determine max height, leaving room for back to top button
     let contentHeight = $scoller[0].scrollHeight;
     let maxHeight = Ember.$(window).height() - 133 - pos.top;
-    let h = Math.min(contentHeight,maxHeight);
+    let h = Math.min(contentHeight+padding*2+2,maxHeight);
     
     $panel.css({
       top: pos.top,
@@ -210,7 +222,9 @@ export default Ember.Component.extend({
     });
     
     // Update perfect scroll height
-    $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2));
+    $scoller.height(Math.min(contentHeight,maxHeight-padding*2));
+    
+    this.updateScrollArea();
     
   },
   
@@ -222,11 +236,24 @@ export default Ember.Component.extend({
     Ember.Blackout.unFadeInUp($panel);
     
     // Clear any element level styles
-    $panel.removeAttr('style');
+    this.resetStyle($panel);
+    
+    $panel.css({
+      position: 'fixed',
+      top: 0,
+    });
+    
+    Ember.$('#sub-nav-scroller').html('');
     
     this.set('navIsActive',false);
     
     this.hide();
+  },
+  
+  resetStyle($panel){
+    
+    $panel.removeAttr('style');
+    
   },
   
   blockerTouch() {

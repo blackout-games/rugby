@@ -109,7 +109,7 @@ export default Ember.Component.extend({
     let itemId = '#' + this.get('itemId') + '-' + i;
     
     // Make sure item exists
-    if( this.$(itemId).length ){
+    if( !this.get('isDestroyed') && this.$(itemId) && this.$(itemId).length ){
       
       this.$(itemId).removeClass(this.get('hideClass'));
       //log('showed',i);

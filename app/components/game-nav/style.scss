@@ -498,16 +498,6 @@ body.free{
       text-transform: uppercase;
     }
     .menu-link,.menu-link:hover {
-      display: block;
-      margin: 0;
-      padding:9px 27px;
-      font-size:17px;
-      font-weight: 500;
-      
-      font-family: $sports-font;
-      text-transform: uppercase;
-      
-      text-decoration: none;
       color: desaturate(lighten($panel-color,33%),4%);
       &.press,&.hover {
         //color: white;
@@ -545,6 +535,17 @@ body.free{
     height: 44px;
     fill: $bg-dark;
   }
+}
+
+a.menu-link,a.menu-link:hover {
+  display: block;
+  margin: 0;
+  padding:9px 27px;
+  font-size:17px;
+  font-weight: 500;
+  font-family: $sports-font;
+  text-transform: uppercase;
+  text-decoration: none;
 }
 
 .nav-tab-filler {
