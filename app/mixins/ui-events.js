@@ -2,9 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
   
+  uiEventsHasBeenSetup: false,
+  
+  updateUIEventsStatus(uiEventsActive){
+    if(uiEventsActive){
+      this.setupUIEvents();
+    } else {
+      this.cleanUIEvents();
+    }
+  },
+  
   setupUIEvents: Ember.on('didInsertElement', function(){
     
-    if(!this.get('uiEvents')){
+    if(!this.get('uiEvents') || this.get('uiEventsHasBeenSetup') || (typeof(this.get('uiEventsActive'))==='boolean' && !this.get('uiEventsActive'))){
       return;
     }
     
@@ -40,12 +50,13 @@ export default Ember.Mixin.create({
     });
     
     this.set('uiEventsObj',obj);
+    this.set('uiEventsHasBeenSetup',true);
     
   }),
   
   cleanUIEvents: Ember.on('willDestroyElement', function(){
     
-    if(!this.get('uiEvents')){
+    if(!this.get('uiEvents') || !this.get('uiEventsHasBeenSetup')){
       return;
     }
     
@@ -72,6 +83,9 @@ export default Ember.Mixin.create({
       }
       
     });
+    
+    this.set('uiEventsObj',false);
+    this.set('uiEventsHasBeenSetup',false);
     
   }),
   

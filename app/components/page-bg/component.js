@@ -50,7 +50,7 @@ export default Ember.Component.extend({
   },
   
   defaultColor: Ember.computed( function(){
-    return Ember.Blackout.getCSSValue('background-color','bg-dark');
+    return Ember.Blackout.getCSSColor('bg-dark');
   }),
   
   updateImageClass(){

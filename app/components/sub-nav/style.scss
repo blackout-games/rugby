@@ -1,0 +1,65 @@
+$animation-time: 0.333s;
+
+#sub-nav-panel {
+  
+  background-color:rgba($primary-master,0.9);
+  padding: 20px 10px 20px 20px;
+  @media #{$tablet-wide-and-up} {
+    padding: 30px 20px 30px 30px;
+  }
+  
+  @media #{$tablet-tall-and-down} {
+    
+    position:fixed;
+    z-index:35;
+    top:0;
+    width:$panel-width;
+    @media #{$mobile-wide-and-up} {
+      width:$max-panel-width;
+    }
+    height:100vh;
+    
+    left:100%;
+    transition: transform $animation-time;
+    
+    &.open {
+      transform: translate3d(-$panel-width,0,0);
+      @media #{$mobile-wide-and-up} {
+        transform: translate3d( -$max-panel-width,0,0);
+      }
+    }
+    
+  }
+  
+  @media #{$tablet-wide-and-up} {
+    width: 100%;
+    border-radius: $border-radius;
+    opacity: 0;
+    max-width:$max-panel-width;
+  }
+  
+}
+
+#sub-nav-scroller {
+  width:100%;
+}
+
+#sub-nav-touch-blocker {
+  position: fixed;
+  z-index: 33;
+  width: 100vw;
+  height: 100%; // Must be % for chrome iOS (after address bar hide)
+  top: 0;
+  left: 0;
+  background-color: rgba(black,0.444);
+  opacity: 0;
+  transition: opacity $animation-time;
+  visibility: hidden;
+  &.open {
+    visibility: visible;
+    opacity: 1;
+  }
+  @media #{$tablet-wide-and-up} {
+    display:none;
+  }
+}

@@ -104,7 +104,7 @@ export default Ember.Component.extend({
       this.get('EventBus').publish("navAllowBodyScroll", false);
 
       $(this.get('selector')).addClass('open');
-      $('#nav-body').on('mousedown touchstart', this.bodyTouchBound);
+      $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
       this.set('navLastAction', now);
       this.set('navIsOpen', true);
       
@@ -126,7 +126,7 @@ export default Ember.Component.extend({
       this.get('EventBus').publish("navAllowBodyScroll", true);
 
       $(this.get('selector')).removeClass('open');
-      $('#nav-body').off('mousedown touchstart', this.bodyTouchBound);
+      $('#nav-touch-blocker').off('mousedown touchstart', this.bodyTouchBound);
       this.set('navLastAction', now);
       this.set('navIsOpen', false);
       

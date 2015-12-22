@@ -122,7 +122,7 @@ export default Ember.Component.extend({
     // Add used energy
     data.push({
       value: 100 - this.get('player.energy'),
-      color:Ember.Blackout.getCSSValue('background-color','bg-light'),
+      color:Ember.Blackout.getCSSColor('bg-light'),
       highlight: "#FF5A5E",
       label: this.get('i18n').t('player.used-energy'),
     });

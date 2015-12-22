@@ -36,9 +36,8 @@ export default Ember.Component.extend({
   },
   
   updateFixedY(){
-    var offset = this.$().offset();
-    var posY = offset.top - Ember.$(window).scrollTop();
-    this.set('fixedY',posY);
+    var offset = this.$().offsetWindow();
+    this.set('fixedY',offset.top);
   },
   
   mouseDown(e) {

@@ -127,7 +127,6 @@ export default Ember.Component.extend({
     showMessage() {
       if(!this.get('showingMessage')){
         this.$().find('.safari-message').slideDown(150,'linear');
-        print('showing message');
         var yOffset = parseInt(Ember.Blackout.getCSSValue('height','safari-message'));
         this.EventBus.publish('fixedItemsShift',{x:0,y:-yOffset},200);
         this.set('showingMessage',true);
@@ -137,7 +136,6 @@ export default Ember.Component.extend({
     hideMessage() {
       if(this.get('showingMessage')){
         this.$().find('.safari-message').slideUp(150,'linear');
-        print('hiding message');
         this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
         this.set('showingMessage',false);
       }
@@ -148,7 +146,6 @@ export default Ember.Component.extend({
     close() {
       this.clean();
       this.$().slideUp(200);
-      print('shifting bak');
       this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
     },
     showContent() {
@@ -158,7 +155,6 @@ export default Ember.Component.extend({
         this.set('contentIsShowing',false);
         
         // Let other fixed elements know to move
-        print('shifting bak');
         this.EventBus.publish('fixedItemsShift',{x:0,y:0},200);
       } else {
         this.$().find('.safari-content').slideDown(200);

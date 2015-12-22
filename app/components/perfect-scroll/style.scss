@@ -6,6 +6,13 @@ $bar-hover-color: rgba(255, 255, 255, 0.22);
 $border-radius: 4px;
 $rail-width: 8px;
 
+
+$bar-color-green: rgba(darken($primary-master,33%),0.5);
+$bar-hover-color-green: rgba(darken($primary-master,33%),0.59);
+
+$bar-color-dark: rgba(darken($bg-dark,33%),0.5);
+$bar-hover-color-dark: rgba(darken($bg-dark,33%),0.59);
+
 //4px
 
 .ps-container {
@@ -28,6 +35,12 @@ $rail-width: 8px;
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   background-color: $bar-hover-color;
 }
+.ps-green.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-hover-color-green;
+}
+.ps-dark.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-hover-color-dark;
+}
 
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
   background-color: $rail-color;
@@ -36,6 +49,12 @@ $rail-width: 8px;
 
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   background-color: $bar-hover-color;
+}
+.ps-dark.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-hover-color-dark;
+}
+.ps-green.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-hover-color-green;
 }
 
 .ps-container > .ps-scrollbar-x-rail {
@@ -73,6 +92,13 @@ $rail-width: 8px;
   height: $rail-width;
 }
 
+.ps-green .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-color-green;
+}
+.ps-dark .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-color-dark;
+}
+
 .ps-container > .ps-scrollbar-y-rail {
   display: none;
   position: absolute;
@@ -108,6 +134,13 @@ $rail-width: 8px;
   width: $rail-width;
 }
 
+.ps-green > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-color-green;
+}
+.ps-dark > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-color-dark;
+}
+
 .ps-container:hover.ps-in-scrolling {
   pointer-events: none;
 }
@@ -120,6 +153,12 @@ $rail-width: 8px;
 .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   background-color: $bar-hover-color;
 }
+.ps-green:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-hover-color-green;
+}
+.ps-dark:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: $bar-hover-color-dark;
+}
 
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
   background-color: $rail-color;
@@ -128,6 +167,12 @@ $rail-width: 8px;
 
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   background-color: $bar-hover-color;
+}
+.ps-green:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-hover-color-green;
+}
+.ps-dark:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: $bar-hover-color-dark;
 }
 
 .ps-container:hover > .ps-scrollbar-x-rail, .ps-container:hover > .ps-scrollbar-y-rail {
@@ -142,6 +187,12 @@ $rail-width: 8px;
 .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
   background-color: $bar-hover-color;
 }
+.ps-green:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+  background-color: $bar-hover-color-green;
+}
+.ps-dark:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+  background-color: $bar-hover-color-dark;
+}
 
 .ps-container:hover > .ps-scrollbar-y-rail:hover {
   background-color: $rail-color;
@@ -150,6 +201,12 @@ $rail-width: 8px;
 
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
   background-color: $bar-hover-color;
+}
+.ps-green:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+  background-color: $bar-hover-color-green;
+}
+.ps-dark:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+  background-color: $bar-hover-color-dark;
 }
 
 // Position and overflow will trigger perfect scrollbar

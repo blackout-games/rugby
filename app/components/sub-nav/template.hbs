@@ -1,0 +1,13 @@
+
+<div id="sub-nav-touch-blocker"></div>
+
+<div id="sub-nav-panel">
+  <div style="position:relative; width:100%;">
+  
+    {{perfect-scroll id="sub-nav-scroller" class="perfect-scrollbar ps-dark always-visible" wheelSpeed=2 suppressScrollX=true}}
+    
+  </div>
+  
+</div>
+
+{{#floating-button id="sub-nav-button" action=(action 'toggleSubNav') color='dark' z=40 class="hidden-md-up" }}<i class="icon-sub-menu icon-vcenter icon-md"></i>{{/floating-button}}

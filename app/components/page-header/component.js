@@ -36,7 +36,6 @@ export default Ember.Component.extend({
     Ember.$(".dash-box-container").addClass('animated fadeInUp');
     this.$('.page-header > h1').addClass('animated fadeInUp');
     
-    
   }),
   
 });

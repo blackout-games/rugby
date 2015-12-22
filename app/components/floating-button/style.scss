@@ -1,0 +1,97 @@
+
+
+.floating-button-wrapper {
+  position: fixed;
+  z-index: 30;
+  bottom: $tabbar-height;
+
+  @media #{$nav-sm-up} {
+    bottom: 0;
+    &.top {
+      top: 0;
+      bottom: auto;
+    }
+  }
+  left: 0;
+  width:100%;
+  
+  &.top {
+    top: 0;
+    bottom: auto;
+  }
+}
+
+$size: 44px;
+$gap: 2.22vh;
+$big-gap: 5vh;
+$arrow-height: $size * 0.64;
+$arrow-width: $size * 0.64;
+
+$color: rgba($primary-master, 0.88);
+
+.floating-button, .floating-button:hover {
+  position: absolute;
+  z-index: 0;
+  width: $size;
+  height: $size;
+  background-color: $color;
+  border-radius: $border-radius;
+  overflow: hidden;
+  box-shadow: 0 11px 11px rgba(black, 0.222);
+  text-align: center;
+  padding: 0 0 5px 2px;
+  
+  // ---- Positioning
+  
+  bottom: $gap;
+  &.left {
+    left: $gap;
+  }
+  &.right {
+    right: $gap;
+  }
+  &.top {
+    top: $gap;
+    bottom: auto;
+  }
+  
+  @media #{$nav-sm-up} {
+    bottom: $big-gap;
+    &.left {
+      left: $big-gap;
+    }
+    &.right {
+      right: $big-gap;
+    }
+    &.top {
+      top: $big-gap;
+      bottom: auto;
+    }
+  }
+
+  // ---- States
+  
+  &.hover {
+    height: $size;
+    background-color: hoverColor($primary-master);
+  }
+
+  &.press, &:active {
+    background-color: pressColor($primary-master);
+  }
+
+  // ---- Colors
+  
+  &.color-dark {
+    $color: rgba($bg-dark-lighter, 0.88);
+    background-color: $color;
+    &.hover {
+      height: $size;
+      background-color: hoverColor($bg-dark-lighter);
+    }
+    &.press, &:active {
+      background-color: pressColor($bg-dark-lighter);
+    }
+  }
+  
+}

@@ -1,7 +1,15 @@
 $distance: 22px;
+$animateCSSTime: 0.777s;
 
 .animated {
-  animation-duration: 0.777s;
+  animation-duration: $animateCSSTime;
+}
+
+/**
+ * For JS to read
+ */
+.animate-distance {
+  height: $distance;
 }
 
 @keyframes fadeInRight {

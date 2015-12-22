@@ -38,7 +38,6 @@ class Blackout {
           if($holder.length){
             $holder.html(html);
           } else if(eventName) {
-            print('destoryed');
             eventBus.unsubscribe(eventName,watcher);
           }
           
@@ -185,6 +184,10 @@ class Blackout {
     }
 
     return array;
+  }
+  
+  getCSSColor(color){
+    return this.getCSSValue('background-color',color);
   }
 
   /**
@@ -594,6 +597,27 @@ class Blackout {
    */
   fadeIn($jqueryItem){
     $jqueryItem.addClass('animated fadeIn');
+  }
+  unFadeIn($jqueryItem){
+    $jqueryItem.removeClass('animated fadeIn');
+  }
+  fadeOut($jqueryItem){
+    $jqueryItem.addClass('animated fadeOut');
+  }
+  unFadeOut($jqueryItem){
+    $jqueryItem.removeClass('animated fadeOut');
+  }
+  fadeInUp($jqueryItem){
+    $jqueryItem.addClass('animated fadeInUp');
+  }
+  unFadeInUp($jqueryItem){
+    $jqueryItem.removeClass('animated fadeInUp');
+  }
+  fadeOutDown($jqueryItem){
+    $jqueryItem.addClass('animated fadeOutDown');
+  }
+  unFadeOutDown($jqueryItem){
+    $jqueryItem.removeClass('animated fadeOutDown');
   }
   
   /**
@@ -1348,6 +1372,15 @@ function _inlinizeSVG () {
       $currentSet = $currentSet.children();
     }
     return $found.first(); // Return first match of the collection
+  };
+})(Ember.$);
+
+(function($) {
+  $.fn.offsetWindow = function() {
+    var offset = $(this).offset();
+    var posY = offset.top - $(window).scrollTop();
+    var posX = offset.left - $(window).scrollLeft();
+    return { left: posX, top: posY };
   };
 })(Ember.$);
 

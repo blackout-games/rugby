@@ -322,3 +322,12 @@
   </div>
   
 </div>
+
+{{backtotop-button
+  currentPath=currentPath
+  buttonIsShowing=(mut backToTopButtonIsShowing)
+  subNavButtonIsShowing=(readonly subNavButtonIsShowing)}}
+
+{{sub-nav
+  backToTopButtonIsShowing=(readonly backToTopButtonIsShowing)
+  navButtonIsShowing=(mut subNavButtonIsShowing)}}

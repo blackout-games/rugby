@@ -28,6 +28,7 @@
 .icon-facebook:before { content: '\e81a'; } /* '' */
 .icon-cog-alt:before { content: '\e81b'; } /* '' */
 .icon-wrench:before { content: '\e81c'; } /* '' */
+.icon-sub-menu:before { content: '\e81d'; } /* '' */
 .icon-ios-back:before { content: '\e81e'; } /* '' */
 .icon-attention:before { content: '\e81f'; } /* '' */
 .icon-info-1:before { content: '\e820'; } /* '' */
@@ -65,3 +66,5 @@
 .icon-award:before { content: '\e840'; } /* '' */
 .icon-more:before { content: '\e841'; } /* '' */
 .icon-key:before { content: '\e842'; } /* '' */
+.icon-cancel:before { content: '\e843'; } /* '' */
+.icon-side-menu:before { content: '\e844'; } /* '' */

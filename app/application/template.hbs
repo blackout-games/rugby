@@ -1,7 +1,7 @@
 {{loading-slider isLoading=loading duration=250}}
 {{page-bg}}
 
-{{#game-nav}}
+{{#game-nav currentPath=currentPath}}
   {{outlet}}
 {{/game-nav}}
 
@@ -10,4 +10,3 @@
 {{landscape-preventer}}
 {{welcome-message}}
 {{loading-watcher isLoading=loading}}
-{{backtotop-button currentPath=currentPath}}

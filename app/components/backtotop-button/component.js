@@ -3,7 +3,6 @@ const { $ } = Ember;
 
 export default Ember.Component.extend({
   tag: 'div',
-  classNames: ['backtotop-button-wrapper'],
   scrollElementSelector: null,
   showButtonAt: 1000,
   'tabbar-height': 55,
@@ -41,38 +40,53 @@ export default Ember.Component.extend({
   },
   
   didUpdateAttrs(options){
-    if(options.newAttrs.currentPath.value !== options.oldAttrs.currentPath.value){
+    if(this.attrChanged(options,'currentPath')){
     
       this.detectRouteChange();
+      
+    }
+    if(this.attrChanged(options,'subNavButtonIsShowing')){
+      
+      this.updatePosition();
       
     }
   },
   
   detectRouteChange(){
     if(this.get('currentPath') !== this.get('previousPath')){
-      this.hideButton();
+      this.hideButton(true);
       this.set('previousPath',this.get('currentPath'));
     }
   },
   
+  sizeWatcher: Ember.observer('media.isMobile',function(){
+    this.updatePosition();
+  }),
+  
   updatePosition(newPos={x:0,y:0}, duration=400) {
     
-    var normalBottom = parseInt(Ember.Blackout.getCSSValue('bottom','backtotop-button-wrapper'));
+    var normalBottom = parseInt(Ember.Blackout.getCSSValue('bottom','floating-button-wrapper'));
+    var normalSize = parseInt(Ember.Blackout.getCSSValue('height','floating-button'));
     
     // Check if tab-bar is hidden
     if(!$('#nav-tabbar:visible').length){
       normalBottom -= this.get('tabbar-height');
     }
     
-    this.$().css({
+    // Check if there sub-nav is active
+    if(this.get('subNavButtonIsShowing')){
+      normalBottom += normalSize + 15;
+    }
+    
+    this.$('#back-to-top-button').css({
       'transition': 'bottom '+duration+'ms',
       'bottom': (normalBottom-newPos.y)+'px',
     });
     
   },
   
-  hideButton() {
-    if(this.get('buttonIsShowing')){
+  hideButton( force ) {
+    if(force || this.get('buttonIsShowing')){
       this.$().fadeOut();
       this.set('buttonIsShowing',false);
     }

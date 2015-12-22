@@ -8,7 +8,6 @@ export default ResponsiveNav.extend({
   prefs: Ember.inject.service('preferences'),
   
   // Settings
-  
   selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,.page-bg',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
@@ -19,13 +18,16 @@ export default ResponsiveNav.extend({
   allowBlur: false,
   blockerDarkness: 0.444,
   
-  
   // Top bar (Removed since iOS9 has bad support)
   allowTopbar: false,
   topBarHeight: 59,
   topBarBuffer: 100,
   
-  // Computed
+  // Communicators
+  backToTopButtonIsShowing: false,
+  subNavButtonIsShowing: false,
+  
+  // --------------------------------- Computed
   
   menuButtonText: Ember.computed('media.isJumbo','navIsOpen','i18n.locale',function(){
     
