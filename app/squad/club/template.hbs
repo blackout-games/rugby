@@ -16,7 +16,7 @@
         {{#each model as |player index|}}
           
           {{#link-to 'squad.club.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link btn-a nowrap"}}
-            {{player.name}}
+            <div class="player-avatar player-avatar-sub-nav"></div>{{player.name}}
           {{/link-to}}
         
         {{/each}}
