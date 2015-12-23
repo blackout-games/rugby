@@ -13,6 +13,7 @@ export default Ember.Component.extend({
     this.blockerTouchBound = Ember.run.bind(this,this.blockerTouch);
     this.handleScrollBound = Ember.run.bind(this,this.handleScroll);
     this.handleResizeBound = Ember.run.bind(this,this.handleResize);
+    this.selectMenuLinkBound = Ember.run.bind(this,this.selectMenuLink);
     
     // Read JS animate distance
     this.set('animateDistance',parseInt(Ember.Blackout.getCSSValue('height','animate-distance')));
@@ -95,34 +96,6 @@ export default Ember.Component.extend({
     this.set('alreadyActive',this.get('navIsActive'));
   }),
   
-  createSubNav($subNavContent){
-    
-    // Determine content holder
-    let $innerContent = Ember.$('#sub-nav-content').length ? Ember.$('#sub-nav-content') : $subNavContent;
-    
-    // Get sub-nav content from template where sub-nav-content is consumed
-    let content = $innerContent.html();
-    $innerContent.html('');
-    
-    // Fade in the button (will still be hidden if not mobile)
-    this.$('#sub-nav-button').fadeIn();
-    
-    // Add content to sub-nav panel
-    Ember.$('#sub-nav-scroller').html(content);
-    
-    // Manually update hover watchers
-    Ember.Blackout.refreshHoverWatchers();
-    
-    // Save elements for use later
-    this.set('$subNavContent',$subNavContent);
-    this.set('$innerContent',$innerContent);
-    this.set('content',content);
-    
-    // Set nav as active (i.e. we're on a page containing sub-nav)
-    this.set('navIsActive',true);
-    
-  },
-  
   updateSubNavOnMediaChange( animationAlreadyTookPlace ){
     
     // Get elements saved on setup
@@ -158,6 +131,35 @@ export default Ember.Component.extend({
       Ember.Blackout.fadeInUp($panel);
       
     }
+  },
+  
+  createSubNav($subNavContent){
+    
+    // Determine content holder
+    let $innerContent = Ember.$('#sub-nav-content').length ? Ember.$('#sub-nav-content') : $subNavContent;
+    
+    // Get sub-nav content from template where sub-nav-content is consumed
+    let content = $innerContent.html();
+    $innerContent.html('');
+    
+    // Fade in the button (will still be hidden if not mobile)
+    this.$('#sub-nav-button').fadeIn();
+    
+    // Add content to sub-nav panel
+    Ember.$('#sub-nav-scroller').html(content);
+    this.watchMenuLinks();
+    
+    // Manually update hover watchers
+    Ember.Blackout.refreshHoverWatchers();
+    
+    // Save elements for use later
+    this.set('$subNavContent',$subNavContent);
+    this.set('$innerContent',$innerContent);
+    this.set('content',content);
+    
+    // Set nav as active (i.e. we're on a page containing sub-nav)
+    this.set('navIsActive',true);
+    
   },
   
   updateSubNavMobile(){
@@ -243,6 +245,7 @@ export default Ember.Component.extend({
       top: 0,
     });
     
+    this.unwatchMenuLinks();
     Ember.$('#sub-nav-scroller').html('');
     
     this.set('navIsActive',false);
@@ -258,8 +261,46 @@ export default Ember.Component.extend({
   
   blockerTouch() {
     
-    if( !this.get('media.isJumbo') ){
+    if( !this.get('media.isJumbo') && !this.get('media.isDesktop') ){
       this.hide();
+    }
+    
+  },
+  
+  watchMenuLinks (){
+    this.$('#sub-nav-scroller a.menu-link').on('click',this,this.debounceMenuLink);
+    this.selectMenuLink();
+  },
+  
+  unwatchMenuLinks (){
+    this.$('#sub-nav-scroller a.menu-link').off('click',this,this.debounceMenuLink);
+  },
+  
+  debounceMenuLink ( e ) {
+    
+    let self = e.data;
+    
+    Ember.run.debounce(this,self.selectMenuLink,self,1);
+    
+  },
+  
+  selectMenuLink ( self ) {
+    
+    var path = window.location.pathname;
+    let selectPath = path.split('/');
+    let linkId = selectPath[selectPath.length-1];
+    Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
+    
+    let $link = Ember.$('#sub-menu-link-' + linkId);
+    if($link.length){
+      $link.addClass('selected');
+    } else {
+      Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
+      Ember.$(this).addClass('selected');
+    }
+    
+    if(self){
+      self.hide();
     }
     
   },

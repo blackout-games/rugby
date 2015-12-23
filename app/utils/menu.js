@@ -109,7 +109,10 @@ export default {
       
       {
         label: 'Squad',
-        route: 'squad',
+        route: 'squad.club',
+        params: {
+          id: 'me',
+        }
       },
       {
         label: 'Academy',

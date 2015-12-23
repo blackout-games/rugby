@@ -31,7 +31,15 @@ Router.map(function() {
   });
   this.route('coming-soon');
   this.route('blocked');
-  this.route('squad');
+  this.route('squad', function() {
+    this.route('club', {
+      path: ':club_id'
+    }, function() {
+      this.route('player', {
+        path: ':player_id'
+      });
+    });
+  });
 });
 
 export default Router;

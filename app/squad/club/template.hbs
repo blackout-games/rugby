@@ -1,0 +1,29 @@
+{{page-header title=(t 'squad.title') images="squad" class="gap-4x"}}
+
+
+<div class="row show-overflow">
+  <div class="col-md-8 dash-box-container show-overflow">
+  
+    {{outlet}}
+    
+  </div>
+  <div class="col-md-4 dash-box-container">
+  
+    {{#sub-nav-content}}
+      
+      <div class="sub-nav-inner-padding">
+        
+        {{#each model as |player index|}}
+          
+          {{#link-to 'squad.club.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link btn-a nowrap"}}
+            {{player.name}}
+          {{/link-to}}
+        
+        {{/each}}
+        
+      </div>
+        
+    {{/sub-nav-content}}
+    
+  </div>
+</div>

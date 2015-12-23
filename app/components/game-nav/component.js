@@ -382,7 +382,7 @@ export default ResponsiveNav.extend({
       
       $.each(menuItems,function( index, item ){
         
-        var realRoute,itemLink,action;
+        var realRoute,itemLink,action,routeId;
         
         if(item.hideIfNotAuthenticated && !self.get('session.isAuthenticated')){
           return true;
@@ -401,6 +401,11 @@ export default ResponsiveNav.extend({
           itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.route;
+          
+          if(item.params && item.params.id){
+            routeId = item.params.id;
+          }
+          
         } else if(item.action) {
           itemLink = $('<a class="btn-a menu-link">'+item.tLabel+'</a>');
           let actionName = 'menuAction'+item.label.alphaNumeric();
@@ -411,7 +416,7 @@ export default ResponsiveNav.extend({
         if(itemLink){
           itemLink.on('click',function(e){
             e.preventDefault();
-            self.sendAction(action,realRoute);
+            self.sendAction(action,realRoute,routeId);
             self.selectMenuLink(item.route);
             return false;
           });
@@ -486,7 +491,7 @@ export default ResponsiveNav.extend({
       
       //log('deselecting all menu links');
       
-      $('a.menu-link').removeClass('selected');
+      $('#nav-panel a.menu-link').removeClass('selected');
       //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
       
       //log('selecting menu link ('+selectPath+')');

@@ -19,7 +19,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
    * The default behavior of shouldBackgroundReloadAll will change in Ember Data 2.0 to always return false when there is at least one "statistics" record in the store. If you would like to preserve the current behavior please override shouldReloadAll in your adapter:application and return true.
    */
   
-  shouldReloadAll() {
+  /*shouldReloadAll() {
   	return true;
   },
   shouldBackgroundReloadRecord() {
@@ -27,7 +27,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
   },
   shouldBackgroundReloadAll() {
     return true;
-  },
+  },*/
   
   /*
   buildURL: function(){

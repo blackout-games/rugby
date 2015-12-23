@@ -37,7 +37,7 @@ $animation-time: 0.333s;
       background-color: rgba(saturate(lighten($primary-master,11%),22%),0.33);
     }
     &.selected {
-      color: $primary-master;
+      color: saturate(lighten($primary-master,33%),33%);
     }
   }
   

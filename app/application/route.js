@@ -95,8 +95,12 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       this.loginToFB(button);
     },
 
-    transitionToRoute(route) {
-      this.transitionTo(route);
+    transitionToRoute(route,id) {
+      if(id){
+        this.transitionTo(route,id);
+      } else {
+        this.transitionTo(route);
+      }
     },
     
     error(error, transition) {
