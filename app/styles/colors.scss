@@ -96,6 +96,9 @@ $warning-text-color: #4f3517;
 /**
  * Classes which can be read dynamically within JS later
  */
+.bg-master {
+  background-color: $primary-master;
+}
 .bg-dark {
   background-color: $bg-dark;
 }
@@ -104,6 +107,28 @@ $warning-text-color: #4f3517;
 }
 .bg-light {
   background-color: $bg-light;
+}
+
+/**
+ * Classes for general use
+ */
+.bg-override-master {
+  background-color: rgba($primary-master,0.9) !important;
+}
+.bg-override-master-dark {
+  background-color: rgba(desaturate(darken($primary-master,11%),7%),0.9) !important;
+}
+.bg-override-secondary {
+  background-color: rgba(desaturate(darken($secondary-master,22%),15%),0.9) !important;
+}
+.bg-override-dark {
+  background-color: rgba($bg-dark,0.9) !important;
+}
+.bg-override-dark-lighter {
+  background-color: rgba($bg-dark-lighter,0.9) !important;
+}
+.bg-override-light {
+  background-color: rgba($bg-light,0.9) !important;
 }
 
 /**

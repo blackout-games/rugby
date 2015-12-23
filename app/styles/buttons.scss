@@ -133,6 +133,14 @@ form .btn {
       background-color: $button-color;
       color: #FFF;
     }
+    
+    &.fill-white {
+      &.hover,&.press,&:active {
+        border: 1px solid white;
+        background-color: white;
+        color: $button-color;
+      }
+    }
   }
   
   // Just feels too darn slow

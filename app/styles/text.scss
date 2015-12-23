@@ -125,6 +125,23 @@ a {
   }
 }
 
+.white a {
+  color: white;
+
+  &:visited {
+    color: white;
+  }
+  
+  transition: border-color $hover-animation-time, color $hover-animation-time;
+  border-bottom: 2px solid white;
+
+  &:hover {
+    color: white;
+    border-color: rgba(white, 0.7);
+  }
+  
+}
+
 .no-extra-hitarea .btn-a, .no-extra-hitarea.btn-a {
   padding: 0;
   margin: 0;
@@ -375,4 +392,24 @@ article, blockquote {
   margin: 4px;
   height: auto;
   width:33px;
+}
+
+/**
+ * General sizes
+ */
+.text-tiny {
+  font-size:10px;
+}
+.text-small {
+  font-size:12px;
+}
+
+/**
+ * General properties
+ */
+.text-caps {
+  text-transform: uppercase;
+}
+.text-fat {
+  font-weight: bold;
 }

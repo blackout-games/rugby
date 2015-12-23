@@ -202,6 +202,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Bottom gaps
  */
 
+.no-gap, .gap-reset {
+  margin-bottom: 0px !important;
+}
+
 .gap-sm {
   margin-bottom: 5px !important;
 }
@@ -249,6 +253,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 /**
  * Top gaps
  */
+
+.no-top-gap, .top-gap-reset {
+  margin-top: 0px !important;
+}
 
 .top-gap-sm {
   margin-top: 5px !important;

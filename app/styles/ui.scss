@@ -5,12 +5,11 @@
 
 .white {
   
-  color: #FFF;
+  color: white;
   
-  a {
-    color: $primary-master;
+  .glass {
+    color: rgba(white,0.75);
   }
-  
 }
 
 /**

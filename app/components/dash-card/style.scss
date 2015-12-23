@@ -1,0 +1,21 @@
+.dash-card {
+
+  position:relative;
+  
+  h2 {
+    //font-size:20px;
+    font-style: normal;
+  }
+  
+  @media #{$tablet-wide-and-up} {
+    max-width:250px;
+  }
+}
+
+.dash-card-icon {
+  position:absolute;
+  top:0;
+  right:0;
+  font-size:59px;
+  color: rgba(black,0.11);
+}
