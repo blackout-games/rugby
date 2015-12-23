@@ -1,5 +1,7 @@
 <?php
 
+//system('yes n | ember install ember-cli-deploy');
+
 echo "Deploying...\n";
 
 exec('ember deploy production', $output);
@@ -21,3 +23,5 @@ if(isset($matches[1]) && !empty($matches[1])){
   echo "------------------\n";
   
 }
+
+system('npm uninstall ember-cli-deploy --save-dev');
