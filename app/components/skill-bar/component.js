@@ -61,7 +61,7 @@ export default Ember.Component.extend({
             opacity: 1,
           });
           
-          this.$('.skill-bar').animate({
+          this.$('.skill-bar').stop().animate({
             'width': w
           },1111,'easeOutExpo');
         });
