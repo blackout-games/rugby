@@ -57,9 +57,13 @@ export default Ember.Component.extend({
         Ember.run.next(() => {
           this.$('.skill-bar').css({
             height: this.get('height'),
-            width: w,
+            //width: w,
             opacity: 1,
           });
+          
+          this.$('.skill-bar').animate({
+            'width': w
+          },1111,'easeOutExpo');
         });
         
       } else {
