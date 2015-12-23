@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'blackout';
-  src: url('../font/blackout.eot?99034266');
-  src: url('../font/blackout.eot?99034266#iefix') format('embedded-opentype'),
-       url('../font/blackout.woff?99034266') format('woff'),
-       url('../font/blackout.ttf?99034266') format('truetype'),
-       url('../font/blackout.svg?99034266#blackout') format('svg');
+  src: url('../font/blackout.eot?66899620');
+  src: url('../font/blackout.eot?66899620#iefix') format('embedded-opentype'),
+       url('../font/blackout.woff?66899620') format('woff'),
+       url('../font/blackout.ttf?66899620') format('truetype'),
+       url('../font/blackout.svg?66899620#blackout') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'blackout';
-    src: url('../font/blackout.svg?99034266#blackout') format('svg');
+    src: url('../font/blackout.svg?66899620#blackout') format('svg');
   }
 }
 */
@@ -72,13 +72,10 @@
 .icon-info-circled-1:before { content: '\e80f'; } /* '' */
 .icon-cog:before { content: '\e810'; } /* '' */
 .icon-sliders:before { content: '\e811'; } /* '' */
-.icon-facebook-official:before { content: '\e812'; } /* '' */
 .icon-twitter:before { content: '\e813'; } /* '' */
 .icon-at-1:before { content: '\e814'; } /* '' */
-.icon-twitter-squared:before { content: '\e815'; } /* '' */
 .icon-lock:before { content: '\e816'; } /* '' */
 .icon-twitter-circled:before { content: '\e817'; } /* '' */
-.icon-facebook-squared:before { content: '\e818'; } /* '' */
 .icon-facebook-circled:before { content: '\e819'; } /* '' */
 .icon-facebook:before { content: '\e81a'; } /* '' */
 .icon-cog-alt:before { content: '\e81b'; } /* '' */

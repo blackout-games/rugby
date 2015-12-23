@@ -10,7 +10,7 @@ module.exports = function(defaults) {
 
   var fingerprintOptions = {
     prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
-    extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico'],
+    extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico', 'svg', 'eot', 'ttf', 'woff'],
   };
   
   var app = new EmberApp(defaults, {

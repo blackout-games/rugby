@@ -162,10 +162,6 @@ export default Ember.Component.extend({
     
   },
   
-  deployTest(){
-    return 1;
-  },
-  
   updateSubNavMobile(){
     
     if(!this.get('navIsActive')){
