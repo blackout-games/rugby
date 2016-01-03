@@ -82,6 +82,8 @@ export default Ember.Component.extend({
         });
         
       } else {
+            
+        let w = Math.round(this.get('level')/this.get('max')*100) + '%';
         
         this.$('.skill-bar').addClass('skill-bar-no-animate');
         this.$('.skill-bar').css({
