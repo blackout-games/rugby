@@ -17,8 +17,16 @@
   width:0%;
   min-height: 100%;
   opacity: 0;
-  //transition: width 1.11s ease(out-expo), opacity 1.11s ease(out-expo);
-  //transition: opacity 1.11s ease(out-expo);
+}
+
+.skill-bar-animate {
+  transform-origin: 0 50% 0;
+  transform: scale3d(0,1,1);
+  width:100%;
+}
+
+.skill-bar.animate {
+  transition: transform 1.111s ease(out-expo), opacity 1.111s ease(out-expo);
 }
 
 .skill-bar-no-outline {
