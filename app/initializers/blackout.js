@@ -1388,9 +1388,8 @@ function _inlinizeSVG () {
  * Fixes bug in IE Edge (and maybe 10 and 11) where fixed items would scroll a little bit when scrolling with mouse wheel before returning to where they should be.
  * https://social.msdn.microsoft.com/Forums/ie/en-US/9567fc32-016e-48e9-86e2-5fe51fd67402/new-bug-in-ie11-scrolling-positionfixed-backgroundimage-elements-jitters-badly?forum=iewebdevelopment
  */
-console.log(navigator.userAgent);
+//console.log(navigator.userAgent);
 if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/[0-9]+\./)) {
-  console.log('i r fix');
   $('body').on("mousewheel", function () {
     event.preventDefault();
     var wd = event.wheelDelta;

@@ -8,8 +8,9 @@ import config from './config/environment';
  * Remove deprecations, so that we don't have them spamming the console due to code in dependencies which hasn't been fixed yet.
  * 
  * Allow this on update day only, so that we can fix any deprecations in our own code
+ * Chrome regex filter: ^((?!DEPRECATION: ).)*$
  */
-//Ember.deprecate = function(){};
+Ember.deprecate = function(){};
 
 let App;
 

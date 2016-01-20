@@ -7,9 +7,9 @@ export default Ember.Route.extend({
   model() {
     return Ember.RSVP.hash({
       
-      countries: this.store.findAll('country'),
+      countries: this.get('store').findAll('country'),
       
-      stats: this.store.findAll('statistic').then(function(all) {
+      stats: this.get('store').findAll('statistic').then(function(all) {
         var Stats = Ember.Object.create();
         all.forEach(function(item) {
           Stats.set(item.get('id'), item.get('value'));

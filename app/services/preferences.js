@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+const {
+  getOwner
+} = Ember;
+
 export default Ember.Service.extend({
   store: Ember.inject.service(),
   
@@ -11,7 +15,8 @@ export default Ember.Service.extend({
   loadPreferences() {
     
     // We need to make the session available
-    var session = this.container.lookup('service:session');
+    var owner = getOwner(this);
+    var session = owner.lookup('service:session');
     this.set('session',session);
     
     // Load preferences into store, return promise if we need to wait

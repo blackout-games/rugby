@@ -148,7 +148,7 @@ export default Ember.Component.extend({
           
           // Load fixture
           var fixtureText = store.queryRecord(type, query )
-          //var fixture = store.findRecord('fixture', itemid )
+          //var fixtureText = store.findRecord(type, itemid, { include: 'home-club,guest-club' } )
           .then(function(data){
             
             var item = data.get('firstObject');
