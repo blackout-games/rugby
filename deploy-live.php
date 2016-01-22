@@ -1,6 +1,7 @@
 <?php
 
-//system('yes n | ember install ember-cli-deploy');
+//echo "Installing ember deploy\n";
+//system('yes n | ember install ember-cli-deploy;');
 
 echo "Deploying...\n";
 
