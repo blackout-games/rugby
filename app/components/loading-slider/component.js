@@ -76,7 +76,10 @@ export default Ember.Component.extend({
   fadeOut() {
     
     this.resetListeners();
-    this.$('span').removeClass('wait').addClass('fadeout').one(this.get('cssAfterAnimation'), this, this.resetBound);
+    Ember.run.later(()=>{
+      this.$('span').removeClass('wait').addClass('fadeout').one(this.get('cssAfterAnimation'), this, this.resetBound);
+    },111);
+    
     
   },
   
