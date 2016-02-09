@@ -771,7 +771,8 @@ a.menu-link,a.menu-link:hover {
     
     &.nav-menu-close {
       .lines {
-        background-color: transparent;
+        //background-color: transparent;
+        background: lighten($sidebar-color,22%);
         &:before, &:after {
           background: lighten($sidebar-color,22%);
         }
@@ -920,6 +921,7 @@ a.menu-link,a.menu-link:hover {
         color: $tab-selected-content-color;
       }
       .lines {
+        background: #FFF;
         &:before, &:after {
           background: #FFF;
         }
@@ -955,6 +957,7 @@ a.menu-link,a.menu-link:hover {
         color: $close-color;
       }
       .lines {
+        background: $close-color;
         &:before, &:after {
           background: $close-color;
         }
@@ -973,6 +976,7 @@ a.menu-link,a.menu-link:hover {
           color: $close-color;
         }
         .lines {
+          background: $close-color;
           &:before, &:after {
             background: $close-color;
           }

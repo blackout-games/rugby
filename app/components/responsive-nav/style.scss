@@ -2,6 +2,8 @@
 $responsive-nav-small: $mobile;
 $responsive-nav-big: $tablet-and-up;
 $nav-button-diameter: 50px;
+$line-factor: 0.4;
+$x-pos: -$nav-button-diameter * $line-factor * 0.5;
 
 $ease-time: 0.222s;
 
@@ -11,7 +13,7 @@ $ease-time: 0.222s;
 
 @mixin line {
   display: inline-block;
-  width: $nav-button-diameter * 0.4;
+  width: $nav-button-diameter * $line-factor;
   height: 3px;
   background: #FFF;
   border-radius: 2px;
@@ -23,49 +25,31 @@ $ease-time: 0.222s;
   .lines {
     //create middle line
     @include line;
-    position: relative;
-    top: -3px;
+    position:relative;
+    
+    transform: translate3d(0,-3px,0);
+    
     /*create the upper and lower lines as pseudo-elements of the middle line*/
     &:before, &:after {
       @include line;
       position: absolute;
       left: 0;
       content: '';
-      transform-origin: ($nav-button-diameter * 0) center;
     }
     &:before {
-      top: 6px;
+      transform: translate3d(0,6px,0);
     }
     &:after {
-      top: -6px;
-    }
-  }
-  &.nav-arrow.nav-close .lines {
-    &:before, &:after {
-      top: 0;
-      left: 1px;
-      width: $nav-button-diameter * 0.25;
-    }
-    &:before {
-      transform: rotate3d(0, 0, 1, 40deg);
-    }
-    &:after {
-      transform: rotate3d(0, 0, 1, -40deg);
+      transform: translate3d(0,-6px,0);
     }
   }
   &.nav-cross.nav-close .lines {
-    background: transparent;
-    &:before, &:after {
-      transform-origin: 50% 50%;
-      top: 0;
-      left: -1px;
-      width: $nav-button-diameter * 0.44;
-    }
+    transform: translate3d(0,-3px,0) rotate3d(0, 0, 1, 45deg);
     &:before {
-      transform: rotate3d(0, 0, 1, 45deg);
+      transform: translate3d(0,0,0) scale3d(1.11,1,1);
     }
     &:after {
-      transform: rotate3d(0, 0, 1, -45deg);
+      transform: rotate3d(0, 0, 1, -90deg) translate3d(0,0,0) scale3d(1.11,1,1);
     }
   }
   
