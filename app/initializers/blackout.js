@@ -134,6 +134,8 @@ class Blackout {
       return true;
     } else if(typeof(item)==='object' && "value" in item){
       return Ember.isEmpty(item.value);
+    } else if(item===false){
+      return true; // Ember.isEmpty says false is not an empty value
     } else {
       return Ember.isEmpty(item);
     }

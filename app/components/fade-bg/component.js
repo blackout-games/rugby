@@ -279,19 +279,20 @@ export default Ember.Component.extend({
     
     Ember.run.later(function(){ // Use later to ensure no image flashing on safari
       
-      self.set('firstImageHasLoaded',true);
-      self.set('thereIsACurrentImage',true);
-      
-      if(self.get('showLoader')){
-        self.$().findClosest('.spinner').remove();
+      if(!self.get('isDestroyed') && !self.get('isDestroying')){
+        self.set('firstImageHasLoaded',true);
+        self.set('thereIsACurrentImage',true);
+        
+        if(self.get('showLoader')){
+          self.$().findClosest('.spinner').remove();
+        }
+        
+        // Must wait again or else firefox doesn't fade
+        // Can't use run.next
+        Ember.run.later(function(){
+          $fadeBg.addClass('fade-bg-show');
+        },111);
       }
-      
-      // Must wait again or else firefox doesn't fade
-      // Can't use run.next
-      Ember.run.later(function(){
-        $fadeBg.addClass('fade-bg-show');
-      },111);
-      
       
     },11);
     //},200000);

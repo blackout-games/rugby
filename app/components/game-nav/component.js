@@ -144,7 +144,7 @@ export default ResponsiveNav.extend({
 
       // Touch start
       this.touchStartHandler = function(e) {
-        self.set('lastY', e.originalEvent.changedTouches[0].pageY);
+        self.set('lastY', e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : self.get('lastY'));
       };
       $(document).on('touchstart', this.touchStartHandler);
 
