@@ -1,0 +1,57 @@
+
+
+.normal-scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media #{$nav-xs} {
+  
+  body::-webkit-scrollbar {
+    width: 0px;
+    display:none;
+  }
+  
+}
+
+//@media #{$nav-sm-up} {
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+   
+  // Handle
+  ::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    background: rgba(0,0,0,0.33);
+    background-clip: padding-box;
+    
+    // Add padding
+    //border:3px solid transparent;
+    //width:6px;
+  }
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,0.33);
+  }
+
+  // Light
+  /* body::-webkit-scrollbar {
+    background-color:white;
+  } */
+
+  // Alt light
+  body::-webkit-scrollbar-thumb {
+    background: #3d4769;
+    background-clip: padding-box;
+  }
+  body::-webkit-scrollbar-thumb:window-inactive {
+    background: #3d4769;
+  }
+  
+//}
