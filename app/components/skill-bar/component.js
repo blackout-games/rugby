@@ -13,7 +13,6 @@ export default Ember.Component.extend({
   animateNumber: false,
   numberSizeMobile: '17px',
   numberSize: '19px',
-  animateUsingJS: false, // False = CSS
   
   setupBinds: Ember.on('init',function(){
     this.animateNumberStepBound = Ember.run.bind(this,this.animateNumberStep);
@@ -30,13 +29,11 @@ export default Ember.Component.extend({
     if(this.get('numberSize') && !this.get('media.isMobile')){
       this.$('.skill-bar-number').css('font-size',this.get('numberSize'));
     }
-          
-    if(!this.get('animateUsingJS')){
-      this.$('.skill-bar').addClass('skill-bar-animate');
-    }
     
     if(!this.get('animate')){
       this.updateBar();
+    } else {
+      this.$('.skill-bar').addClass('skill-bar-animate');
     }
     
   }),
@@ -63,21 +60,9 @@ export default Ember.Component.extend({
             opacity: 1,
           });
           
-          if(this.get('animateUsingJS')){
+          let w = this.get('level')/this.get('max');
             
-            let w = Math.round(this.get('level')/this.get('max')*100) + '%';
-            
-            this.$('.skill-bar').stop().animate({
-              'width': w
-            },1111,'easeOutExpo');
-            
-          } else {
-            
-            let w = this.get('level')/this.get('max');
-            
-            this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animate');
-            
-          }
+          this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animate');
           
         });
         
@@ -90,6 +75,10 @@ export default Ember.Component.extend({
           height: this.get('height'),
           width: w,
         });
+        
+        //let w = this.get('level')/this.get('max');
+          
+        //this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animate');
         
       }
       

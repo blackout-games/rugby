@@ -7,11 +7,14 @@
   border-radius: $border-radius;
   margin-right: 7px;
   overflow: hidden;
+  
+  // Magic fix
+  // http://stackoverflow.com/questions/10314207/webkit-not-respecting-overflowhidden-with-border-radius
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
 }
 
 .skill-bar {
   background-color: $primary-master;
-  //border-radius: $border-radius;
   outline: 2px solid white;
   margin-right: auto;
   width:0%;
