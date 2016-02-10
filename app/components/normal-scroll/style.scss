@@ -57,5 +57,15 @@
   body::-webkit-scrollbar-thumb:window-inactive {
     background: #616C93;
   }
+
+  // Secondary light
+  .light-scrollbar::-webkit-scrollbar-thumb, .light-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(#626D98,0.44);
+  }
+
+  // Secondary dark
+  .dark-scrollbar::-webkit-scrollbar-thumb, .dark-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(#626D98,0.33);
+  }
   
 //}

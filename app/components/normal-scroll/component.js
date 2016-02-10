@@ -1,5 +1,5 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['normal-scroll','prevent-parent-scroll'],
+  classNames: ['normal-scroll','prevent-parent-scroll','light-scrollbar'],
 });
