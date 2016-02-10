@@ -676,6 +676,27 @@ class Blackout {
     });
     return isFixed;
   }
+
+  /**
+   * Find out if element is inside a scrollable box
+   * @param  {element} element Element to check
+   * @return {boolean}
+   */
+  elementOrParentIsScrollable(element) {
+    var $element = $(element);
+    var $checkElements = $element.add($element.parents());
+    var isScrollable = false;
+    $checkElements.each(function() {
+      let el = $(this)[0];
+      // Body should still be able to be detectable as a scrollable
+      if (el.scrollHeight>el.clientHeight+10){// && el.id!=='nav-body') {
+        //log('id='+el.id,el.scrollHeight+'>'+el.clientHeight,$(this).attr('class').split(/\s+/));
+        isScrollable = true;
+        return false;
+      }
+    });
+    return isScrollable;
+  }
   
   /**
    * Deprecated. Youth names are generated at API level to allow for future feature allowing renaming of youth clubs
@@ -707,9 +728,11 @@ Blackout.prototype.store = {
 
 };
 
+var BlackoutInstance = new Blackout();
+
 export function initialize( /*application*/ ) {
   // application.inject('route', 'foo', 'service:foo');
-  E.Blackout = new Blackout();
+  E.Blackout = BlackoutInstance;
 
   /**
    * Shortcut to blackout console logging
@@ -1208,7 +1231,32 @@ function _hover (e) {
     _hoverEventObj = e;
 
     if (e.type === 'touchstart') {
-      $(this).addClass('press');
+      
+      // If item is scrollable
+      // (Basing this behaviour on facebook app main menu)
+      if(BlackoutInstance.elementOrParentIsScrollable(this)){
+        
+        if(!$(this).data('isTouching')){
+          
+          // Wait before allowing 'press' event
+          let timeoutId = Ember.run.later(this,_delayedPress,77);
+          
+          let ogY = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : false;
+
+          if(ogY!==false){
+            
+            // Watch for touch move
+            $(this).on('touchmove',{ogY:ogY,timeoutId:timeoutId},_move);
+            
+          }
+          
+          $(this).data('isTouching',true);
+        }
+        
+      } else {
+        $(this).addClass('press');
+      }
+      
     } else {
       $(this).addClass('hover');
     }
@@ -1238,6 +1286,19 @@ function _leave (e) {
      *   NOTICE: If CLICK events are not working, see the perfect scroll component
      */
 
+    if (e.type === 'touchend') {
+      
+      // If item is scrollable
+      // (Basing this behaviour on facebook app main menu)
+      if(BlackoutInstance.elementOrParentIsScrollable(e.target)){
+        
+        $(this).data('isTouching',false);
+        $(this).data('isDrag',false);
+        
+      }
+      
+    }
+
   }
 }
 
@@ -1246,6 +1307,30 @@ function _click () {
   // Remove focus after click so buttons don't just sit there in the 'focused' state event after clicking. e.e. login button > sidebar > home screen > desktop.
   $(this).blur();
   
+}
+
+function _delayedPress () {
+  if($(this).data('isTouching') && !$(this).data('isDrag')){
+    $(this).siblings().removeClass('press');
+    $(this).addClass('press');
+  }
+}
+
+function _move (e) {
+  let newY = e.originalEvent.touches[0].pageY;
+  let ogY = e.data.ogY;
+  let timeoutId = e.data.timeoutId;
+  
+  if(Math.abs(newY-ogY)>11){
+    
+    if(timeoutId){
+      Ember.run.cancel(timeoutId);
+    }
+    $(this).data('isDrag',true);
+    $(this).removeClass('press');
+    $(this).off('touchmove',_move);
+    
+  }
 }
 
 /*

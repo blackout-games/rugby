@@ -5,6 +5,7 @@
  */
 
 $height: 4px;
+$mobile-height: 3px;
 
 .loading-slider {
   position: fixed;
@@ -12,8 +13,12 @@ $height: 4px;
   top: 0;
   left: 0;
   z-index: 999;
-  height: $height;
+  height: $mobile-height;
   width: 100%;
+  
+  @media #{$tablet-and-up} {
+    height: $height;
+  }
   
   /**
    * Ready
