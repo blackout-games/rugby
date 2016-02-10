@@ -1475,12 +1475,41 @@ function _inlinizeSVG () {
  * Fixes bug in IE Edge (and maybe 10 and 11) where fixed items would scroll a little bit when scrolling with mouse wheel before returning to where they should be.
  * https://social.msdn.microsoft.com/Forums/ie/en-US/9567fc32-016e-48e9-86e2-5fe51fd67402/new-bug-in-ie11-scrolling-positionfixed-backgroundimage-elements-jitters-badly?forum=iewebdevelopment
  */
-//console.log(navigator.userAgent);
 if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/[0-9]+\./)) {
-  $('body').on("mousewheel", function () {
-    event.preventDefault();
-    var wd = event.wheelDelta;
-    var csp = window.pageYOffset;
-    window.scrollTo(0, csp - wd);
+  $('body').on("DOMMouseScroll mousewheel", function () {
+    if(!$(event.target).parents('.prevent-parent-scroll').length){
+      event.preventDefault();
+      var wd = event.wheelDelta;
+      var csp = window.pageYOffset;
+      window.scrollTo(0, csp - wd);
+    }
   });
 }
+
+$(document).on('DOMMouseScroll mousewheel', '.prevent-parent-scroll', function(ev) {
+    var $this = $(this),
+        scrollTop = this.scrollTop,
+        scrollHeight = this.scrollHeight,
+        height = $this.height(),
+        delta = (ev.type === 'DOMMouseScroll' ?
+            ev.originalEvent.detail * -40 :
+            ev.originalEvent.wheelDelta),
+        up = delta > 0;
+
+    var prevent = function() {
+        ev.stopPropagation();
+        ev.preventDefault();
+        ev.returnValue = false;
+        return false;
+    };
+
+    if (!up && -delta > scrollHeight - height - scrollTop) {
+        // Scrolling down, but this will take us past the bottom.
+        $this.scrollTop(scrollHeight);
+        return prevent();
+    } else if (up && delta > scrollTop) {
+        // Scrolling up, but this will take us past the top.
+        $this.scrollTop(0);
+        return prevent();
+    }
+});

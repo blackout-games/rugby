@@ -23,6 +23,7 @@ export default Ember.Component.extend({
   scrollYMarginOffset: 0,
   includePadding: false,
   allowScrollEvent: false,
+  classNames: ['prevent-parent-scroll'],
 
   renderPerfectScroll: Ember.on('didInsertElement', function() {
     var self = this;
