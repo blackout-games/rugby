@@ -30,8 +30,6 @@ export default Ember.Component.extend({
     Ember.$('#sub-nav-scroller').on('touchstart', this.handleTouchStart);
     Ember.$('#sub-nav-scroller').on('touchmove', this.handleTouchMove);
     
-    this.set('subNavMode',this.get('setNavMode'));
-    
   }),
 
   handleTouchStart(e) {
@@ -200,6 +198,9 @@ export default Ember.Component.extend({
     this.set('$innerContent',$innerContent);
     this.set('content',content);
     
+    // Set mode
+    this.set('subNavMode',this.get('setNavMode'));
+    
     // Set nav as active (i.e. we're on a page containing sub-nav)
     this.set('navIsActive',true);
     
@@ -317,6 +318,9 @@ export default Ember.Component.extend({
     
     this.unwatchMenuLinks();
     Ember.$('#sub-nav-scroller').html('');
+    
+    // Unset mode
+    this.set('subNavMode','');
     
     this.set('navIsActive',false);
     
