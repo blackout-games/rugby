@@ -23,11 +23,12 @@
 }
   
 .player-avatar-sub-nav {
+  //@include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
   display: inline-block;
-  width:37px;
-  height:37px;
+  width:33px;
+  height:33px;
   vertical-align: middle;
-  margin: -2px 7px -2px 0;
+  margin: -3px 7px -2px 0;
 }
 
 $bg-tint: linear-gradient(

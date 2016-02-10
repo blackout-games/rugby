@@ -18,6 +18,10 @@ $panel-width: 88vw;
 
 // Fluid
 $max-panel-width: 333px;
+$body-max-width: 1222px;
+
+// Width of window when body max width is reached
+$body-max-window-width: $body-max-width + $max-panel-width + 9px;
 
 $arrows: true;
 $colored-tabs: true;
@@ -30,6 +34,7 @@ $max-sidebar-block-height:55px;
 $sidebar-width-mobile-landscape: 15vh;
 $sidebar-block-height-mobile-landscape: 12.4vh;
 
+// Media Queries
 $nav-xxs: $mobile-tall;
 $nav-xs: $mobile;
 $nav-sm: $tablet-tall;
@@ -43,6 +48,7 @@ $nav-md-up: $tablet-wide-and-up;
 $nav-vs: "(max-height: #{($max-block-size * 10) + 20px})";
 $nav-vs-not-mobile: "#{$nav-vs} and #{$nav-sm-up}";
 $nav-ls: $mobile-landscape;
+$nav-body-width-limit: "(min-width: #{$body-max-window-width})";
 
 $topbar-color: desaturate(darken($primary-master,4%),7%);
 //$topbar-color: desaturate(darken($primary-master,4%),12%);
@@ -215,7 +221,7 @@ $panel-color: $bg-dark-lighter;
 }
 
 #nav-body-inner {
-  max-width:1222px;
+  max-width: $body-max-width;
   margin: 0 auto;
   &.full-body {
     max-width: none;

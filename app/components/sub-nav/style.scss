@@ -2,7 +2,9 @@ $animation-time: 0.333s;
 
 #sub-nav-panel {
   
-  background-color:rgba($primary-master,0.95);
+  //background-color:rgba($primary-master,0.95);
+  //background-color:rgba(white,0.95);
+  background-color:rgba($bg-light,0.95);
   padding: 2px 0px;
   position:fixed;
   top:0;
@@ -29,15 +31,19 @@ $animation-time: 0.333s;
   }
   
   .menu-link,.menu-link:hover {
-    color: darken($primary-master,33%);
-    padding:8px 25px;
-    font-size:16px;
+    $color: $secondary-master;
+    color: desaturate($color,33%);
+    padding:8px 25px 7px;
+    font-size:14px;
     &.press,&.hover {
       //color: white;
-      background-color: rgba(saturate(lighten($primary-master,11%),22%),0.33);
+      background-color: rgba(desaturate(darken($bg-light,6%),15%),0.95);
     }
     &.selected {
-      color: saturate(lighten($primary-master,33%),33%);
+      //color: saturate(darken($primary-master,11%),11%);
+      color: saturate(lighten($color,22%),11%);
+      color: desaturate(darken($color,22%),33%);
+      background-color: rgba(desaturate(darken($bg-light,11%),11%),0.95);
     }
   }
   

@@ -50,6 +50,11 @@ export default Ember.Component.extend({
       this.updatePosition();
       
     }
+    if(this.attrChanged(options,'subNavMode')){
+      
+      this.updatePosition();
+      
+    }
   },
   
   detectRouteChange(){
@@ -82,6 +87,16 @@ export default Ember.Component.extend({
       'transition': 'bottom '+duration+'ms',
       'bottom': (normalBottom-newPos.y)+'px',
     });
+    
+    // Position back button horizontally based on sub nav mode
+    if(this.get('subNavMode')==='a'
+     ||this.get('subNavMode')==='b'
+     ||this.get('subNavMode')==='c'
+     ||this.get('subNavMode')==='d'){
+      this.$('#back-to-top-button > button').removeClass('right').addClass('right-two-thirds');
+    } else {
+      this.$('#back-to-top-button > button').removeClass('right-two-thirds').addClass('right');
+    }
     
   },
   

@@ -4,6 +4,8 @@ export default Ember.Component.extend({
   
   navIsActive: false,
   navButtonIsShowing: false,
+  subNavMode: '',
+  setNavMode: 'b', // a-d
   
   setup: Ember.on('init',function(){
     
@@ -27,6 +29,8 @@ export default Ember.Component.extend({
     
     Ember.$('#sub-nav-scroller').on('touchstart', this.handleTouchStart);
     Ember.$('#sub-nav-scroller').on('touchmove', this.handleTouchMove);
+    
+    this.set('subNavMode',this.get('setNavMode'));
     
   }),
 
@@ -228,6 +232,8 @@ export default Ember.Component.extend({
       return;
     }
     
+    let subNavMode = this.get('subNavMode');
+    
     let $innerContent = this.get('$innerContent');
     let $panel = Ember.$('#sub-nav-panel');
     let $scoller = Ember.$('#sub-nav-scroller');
@@ -244,13 +250,23 @@ export default Ember.Component.extend({
     }
     
     // Fix at top
-    if(pos.top < margin){
+    if(pos.top < margin || subNavMode === 'b' || subNavMode === 'c'){
       pos.top = margin;
     }
     
+    // Fix top
+    if(subNavMode === 'a'){
+      if(this.get('initialTop')){
+        pos.top = this.get('initialTop');
+      } else {
+        this.set('initialTop',pos.top);
+      }
+    }
+    
     // Determine max height, leaving room for back to top button
+    let backToTopButtonGap = subNavMode === 'c' ? 103 : 0; // 103
     let contentHeight = $scoller[0].scrollHeight;
-    let maxHeight = Ember.$(window).height() - 133 - pos.top;
+    let maxHeight = Ember.$(window).height() - backToTopButtonGap - margin - pos.top;
     let h = Math.min(contentHeight+padding*2+2,maxHeight);
     
     $panel.css({
@@ -261,6 +277,21 @@ export default Ember.Component.extend({
       height: h,
       'max-height': maxHeight,
     });
+    
+    if(subNavMode === 'd'){
+      
+      $panel.css({
+        top: 0,
+        left: 'auto',
+        right: '0px',
+        height: '100vh',
+        'max-height': 'none',
+        'border-radius': 0,
+      });
+      
+      maxHeight = Ember.$(window).height();
+      
+    }
     
     // Update perfect scroll height
     $scoller.height(Math.min(contentHeight,maxHeight-padding*2));

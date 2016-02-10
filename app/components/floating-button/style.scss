@@ -50,6 +50,21 @@ $color: rgba($primary-master, 0.88);
   &.right {
     right: $gap;
   }
+  &.right-two-thirds {
+    right: $gap;
+    @media #{$nav-sm} {
+      right: $big-gap;
+    }
+    @media #{$nav-md} {
+      right: calc( ((100vw - #{$max-block-size}) / 3) + #{$gap} + 25px );
+    }
+    @media #{$nav-lg} and (max-width: $body-max-window-width) {
+      right: calc( ((100vw - #{$max-panel-width} - #{$max-block-size}) / 3) + #{$gap} + 45px );
+    }
+    @media #{$nav-body-width-limit} {
+      right: calc( ((100vw - #{$max-panel-width} - #{$max-block-size} - (100vw - #{$body-max-window-width}) ) / 3) + #{$gap} + 45px + ((100vw - #{$body-max-window-width} ) / 2) );
+    }
+  }
   &.top {
     top: $gap;
     bottom: auto;
