@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   
   showMessage: Ember.on('didInsertElement', function(){
     
-    if(!this.get('locals').read('welcomeMessageShown') && false){
+    if(!this.get('locals').read('welcomeMessageShown')){
       
       var self = this;
       
@@ -24,8 +24,6 @@ export default Ember.Component.extend({
           
         },5000);
       });
-      
-      
       
     }
     
