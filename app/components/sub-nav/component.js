@@ -169,7 +169,7 @@ export default Ember.Component.extend({
       });
       
       // Fade
-      Ember.Blackout.fadeInUp($panel);
+      Ember.Blackout.animateUI($panel);
       
     }
   },

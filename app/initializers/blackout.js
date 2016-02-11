@@ -597,29 +597,42 @@ class Blackout {
    * Uses animate.css library
    * @param  {jquery object} $jqueryItem The item to fade in
    */
+  animateUI($jqueryItem){
+    this.fadeInUp($jqueryItem);
+  }
   fadeIn($jqueryItem){
     $jqueryItem.addClass('animated fadeIn');
+    this.cleanAnimation($jqueryItem,'fadeIn');
   }
   unFadeIn($jqueryItem){
     $jqueryItem.removeClass('animated fadeIn');
   }
   fadeOut($jqueryItem){
     $jqueryItem.addClass('animated fadeOut');
+    this.cleanAnimation($jqueryItem,'fadeOut');
   }
   unFadeOut($jqueryItem){
     $jqueryItem.removeClass('animated fadeOut');
   }
   fadeInUp($jqueryItem){
     $jqueryItem.addClass('animated fadeInUp');
+    this.cleanAnimation($jqueryItem,'fadeInUp');
   }
   unFadeInUp($jqueryItem){
     $jqueryItem.removeClass('animated fadeInUp');
   }
   fadeOutDown($jqueryItem){
     $jqueryItem.addClass('animated fadeOutDown');
+    this.cleanAnimation($jqueryItem,'fadeOutDown');
   }
   unFadeOutDown($jqueryItem){
     $jqueryItem.removeClass('animated fadeOutDown');
+  }
+  cleanAnimation($jqueryItem,type){
+    $jqueryItem.off(this.afterCSSAnimation).on(this.afterCSSAnimation,function(){
+      $jqueryItem.removeClass('animated '+type);
+      $jqueryItem.off(this.afterCSSAnimation);
+    });
   }
   
   /**
