@@ -602,37 +602,40 @@ class Blackout {
   }
   fadeIn($jqueryItem){
     $jqueryItem.addClass('animated fadeIn');
-    this.cleanAnimation($jqueryItem,'fadeIn');
+    this.cleanAfterAnimation($jqueryItem,'fadeIn');
   }
   unFadeIn($jqueryItem){
     $jqueryItem.removeClass('animated fadeIn');
   }
   fadeOut($jqueryItem){
     $jqueryItem.addClass('animated fadeOut');
-    this.cleanAnimation($jqueryItem,'fadeOut');
+    this.cleanAfterAnimation($jqueryItem,'fadeOut');
   }
   unFadeOut($jqueryItem){
     $jqueryItem.removeClass('animated fadeOut');
   }
   fadeInUp($jqueryItem){
     $jqueryItem.addClass('animated fadeInUp');
-    this.cleanAnimation($jqueryItem,'fadeInUp');
+    //this.cleanAfterAnimation($jqueryItem,'fadeInUp');
   }
   unFadeInUp($jqueryItem){
     $jqueryItem.removeClass('animated fadeInUp');
   }
   fadeOutDown($jqueryItem){
     $jqueryItem.addClass('animated fadeOutDown');
-    this.cleanAnimation($jqueryItem,'fadeOutDown');
+    this.cleanAfterAnimation($jqueryItem,'fadeOutDown');
   }
   unFadeOutDown($jqueryItem){
     $jqueryItem.removeClass('animated fadeOutDown');
   }
-  cleanAnimation($jqueryItem,type){
+  cleanAfterAnimation($jqueryItem,type){
     $jqueryItem.off(this.afterCSSAnimation).on(this.afterCSSAnimation,function(){
-      $jqueryItem.removeClass('animated '+type);
+      this.cleanAnimation($jqueryItem,type);
       $jqueryItem.off(this.afterCSSAnimation);
     });
+  }
+  cleanAnimation($jqueryItem,type){
+    $jqueryItem.removeClass('animated '+type);
   }
   
   /**

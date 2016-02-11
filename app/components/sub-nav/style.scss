@@ -73,7 +73,6 @@ $animation-time: 0.333s;
   @media #{$tablet-wide-and-up} {
     width: 100%;
     border-radius: $border-radius;
-    opacity: 0;
     max-width:300px;
   }
   

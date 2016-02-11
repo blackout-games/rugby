@@ -62,7 +62,7 @@ export default Ember.Component.extend({
           
           let w = this.get('level')/this.get('max');
             
-          this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animate');
+          this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animatable');
           
         });
         
@@ -78,7 +78,7 @@ export default Ember.Component.extend({
         
         //let w = this.get('level')/this.get('max');
           
-        //this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animate');
+        //this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animatable');
         
       }
       
