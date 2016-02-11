@@ -76,6 +76,7 @@ a {
   }
 
   &:active, &:focus {
+    color: $default-link-color;
     text-decoration: none;
     
     // Fix border outline on click in Firefox
@@ -88,13 +89,23 @@ a {
  * Different press state on touch devices
  */
 .touch a {
+  
+  border: none;
+  
   &:not(.non-text,.btn,.btn-a):hover {
-    background-color: desaturate(rgba($secondary-master,0.14),11%);
-    border-radius: 3px;
-    display: inline-block;
-    margin: 0 -3px;
-    padding: 0 3px;
-    color: $default-link-color;
+    $color: $bg-light;
+    border-radius:$border-radius;
+    white-space: pre-wrap;
+    border: none;
+    
+    // Use box shadow to make background bigger without using padding
+    box-shadow: 5px 0 0 $color, -5px 0 0 $color;
+    background-color: $color;
+    text-decoration: none;
+  }
+  
+  &:active, &:focus {
+    // Prevent border/underline showing on mobile when focused
     border: none;
   }
 }
