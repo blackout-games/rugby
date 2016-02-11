@@ -40,11 +40,12 @@ export default Ember.Mixin.create({
       if(this.get('media.isMobile') || this.get('media.isTablet')){
         Ember.$('#splash').addClass('animated bounceOutLeft');
       } else {
+        //Ember.$('#splash').addClass('animated bounceOutUp');
         Ember.$('#splash').addClass('animated fadeOut');
       }
       
-      Ember.$('#splash').one(Ember.Blackout.afterCSSAnimation, this, function(){
-        Ember.$('#splash').remove();
+      Ember.$('#splash').on(Ember.Blackout.afterCSSAnimation, function(){
+        Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
         Ember.$('#splash').hide();
       });
     } else {

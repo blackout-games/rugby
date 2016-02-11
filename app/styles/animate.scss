@@ -4,6 +4,9 @@ $animateCSSTime: 0.777s;
 .animated {
   animation-duration: $animateCSSTime;
 }
+.animated-fast {
+  animation-duration: 0.222s;
+}
 
 /**
  * For JS to read

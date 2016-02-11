@@ -80,12 +80,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     invalidateSession() {
       var self = this;
       
-      Ember.$("#splash").fadeIn(222, function() {
+      Ember.$('#splash').show().removeClass('bounceOutLeft fadeOut').addClass('animated-fast fadeIn');
+      
+      Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, function() {
         //Ember.$(this).hide();
         self.get('session').invalidate().then(function() {
           self.get('locals').put('standaloneFacebookDialogue', null);
           return false;
         });
+        Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
       });
 
       return false;

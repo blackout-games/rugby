@@ -597,7 +597,7 @@ a.menu-link,a.menu-link:hover {
       
     }
     .nav-tab-text {
-      font-size: 11px;
+      font-size: 10px;
       
       // Don't use nav-vs since causes small text on even iPhone 6 with toolbars
       @media #{$vertically-small} {

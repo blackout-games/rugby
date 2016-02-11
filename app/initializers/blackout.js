@@ -732,16 +732,16 @@ var BlackoutInstance = new Blackout();
 
 export function initialize( /*application*/ ) {
   // application.inject('route', 'foo', 'service:foo');
-  E.Blackout = BlackoutInstance;
+  Ember.Blackout = BlackoutInstance;
   
   // Variables
-  E.Blackout.afterCSSTransition = 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd';
-  E.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd';
+  Ember.Blackout.afterCSSTransition = 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd';
+  Ember.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd';
 
   /**
    * Shortcut to blackout console logging
    */
-  window.log = E.Blackout.log;
+  window.log = Ember.Blackout.log;
 }
 
 export default {
