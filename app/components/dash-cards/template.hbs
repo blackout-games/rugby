@@ -11,8 +11,8 @@
       </h2>
       
       {{#unless session.isAuthenticated}}
-        {{#link-to "signup" class="btn btn-ghost white fill-white btn-small no-gap top-gap-md"}}{{t 'buttons.signup'}}{{/link-to}}
         {{#link-to "login" class="btn btn-ghost white fill-white btn-small no-gap top-gap-md"}}{{t 'buttons.login'}}{{/link-to}}
+        {{#link-to "signup" class="btn btn-ghost white fill-white btn-small no-gap top-gap-md"}}{{t 'buttons.signup'}}{{/link-to}}
       {{/unless}}
       
     {{/dash-card}}
