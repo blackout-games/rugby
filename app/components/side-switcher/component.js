@@ -161,7 +161,7 @@ export default Ember.Component.extend({
     
     // Detect end of animation
     this.set('currentOldObj',oldObj);
-    pane.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterAnimationBound);
+    pane.one(Ember.Blackout.afterCSSTransition, this.afterAnimationBound);
     
     // Track current direction
     this.set('currentDirection',direction);

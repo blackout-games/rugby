@@ -213,7 +213,7 @@ export default Ember.Component.extend({
       $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show fade-bg-immediate');
       
       
-      $fadeBg.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', $fadeBg, callback);
+      $fadeBg.one(Ember.Blackout.afterCSSTransition, $fadeBg, callback);
       
       // Track state (MUST happen here, otherwise things can get messy, leaving imageIsImmediatelyFadingOut to always be set to true, and fadeouts being attempted even when there is no current image)
       self.set('thereIsACurrentImage',false);
@@ -337,8 +337,8 @@ export default Ember.Component.extend({
     
     $fadeBg.removeClass('fade-bg-out fade-bg-show fade-bg-out fade-bg-show fade-bg-immediate');
     
-    $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.afterFadeoutBound);
-    $fadeBg.off('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', this.fadeInImageBound);
+    $fadeBg.off(Ember.Blackout.afterCSSTransition, this.afterFadeoutBound);
+    $fadeBg.off(Ember.Blackout.afterCSSTransition, this.fadeInImageBound);
     
   },
   

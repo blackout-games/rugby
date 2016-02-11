@@ -733,6 +733,10 @@ var BlackoutInstance = new Blackout();
 export function initialize( /*application*/ ) {
   // application.inject('route', 'foo', 'service:foo');
   E.Blackout = BlackoutInstance;
+  
+  // Variables
+  E.Blackout.afterCSSTransition = 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd';
+  E.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd';
 
   /**
    * Shortcut to blackout console logging

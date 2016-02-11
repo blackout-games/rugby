@@ -5,7 +5,6 @@ export default Ember.Component.extend({
   tagName: 'div',
   classNames: ['loading-slider'],
   isLoading: false,
-  cssAfterAnimation: 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd',
   
   /**
    * Create bound functions so that 'this' exists even inside jquery event callback
@@ -47,7 +46,7 @@ export default Ember.Component.extend({
     
     this.resetListeners();
     this.$('span').removeClass('complete');
-    this.$('span').addClass('animate').one(this.get('cssAfterAnimation'), this, this.waitBound);
+    this.$('span').addClass('animate').one(Ember.Blackout.afterCSSTransition, this, this.waitBound);
 
   },
   
@@ -66,7 +65,7 @@ export default Ember.Component.extend({
   complete() {
     
     this.resetListeners();
-    this.$('span').removeClass('wait').addClass('complete').one(this.get('cssAfterAnimation'), this, this.fadeOutBound);
+    this.$('span').removeClass('wait').addClass('complete').one(Ember.Blackout.afterCSSTransition, this, this.fadeOutBound);
     
   },
   
@@ -77,7 +76,7 @@ export default Ember.Component.extend({
     
     this.resetListeners();
     Ember.run.later(()=>{
-      this.$('span').removeClass('wait').addClass('fadeout').one(this.get('cssAfterAnimation'), this, this.resetBound);
+      this.$('span').removeClass('wait').addClass('fadeout').one(Ember.Blackout.afterCSSTransition, this, this.resetBound);
     },111);
     
     
@@ -88,9 +87,9 @@ export default Ember.Component.extend({
    */
   resetListeners() {
     
-    this.$('span').off(this.get('cssAfterAnimation'), this, this.waitBound);
-    this.$('span').off(this.get('cssAfterAnimation'), this, this.resetBound);
-    this.$('span').off(this.get('cssAfterAnimation'), this, this.fadeOutBound);
+    this.$('span').off(Ember.Blackout.afterCSSTransition, this, this.waitBound);
+    this.$('span').off(Ember.Blackout.afterCSSTransition, this, this.resetBound);
+    this.$('span').off(Ember.Blackout.afterCSSTransition, this, this.fadeOutBound);
     
   },
   
@@ -98,7 +97,6 @@ export default Ember.Component.extend({
    * Cancels any listeners and resets state
    */
   reset() {
-    
     this.resetListeners();
     this.$('span').removeClass('animate wait complete fadeout');
     

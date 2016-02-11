@@ -20,15 +20,6 @@ App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver,
-  ready() {
-    Ember.run.later(function(){
-      Ember.$("#splash").fadeOut(444,function(){
-        //Ember.$(this).remove();
-        Ember.$(this).hide();
-      });
-    },1);
-    
-  }
 });
 
 loadInitializers(App, config.modulePrefix);

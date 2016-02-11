@@ -123,11 +123,11 @@
   <body>
     {{content-for 'body'}}
     
-    <div id="splash"><i class="icon-logo splash-logo"></i></div>
+    <div id="splash"><i class="icon-logo splash-logo make3d"></i></div>
     
     <script>
     // Splash management
-    if( !window.navigator.standalone ){
+    if( !window.navigator.standalone || true ){
       document.getElementById('splash').classList.add('non-standalone');
     }
     </script>
