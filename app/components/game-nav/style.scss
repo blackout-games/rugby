@@ -47,6 +47,7 @@ $nav-md-up: $tablet-wide-and-up;
 
 $nav-vs: "(max-height: #{($max-block-size * 10) + 20px})";
 $nav-vs-not-mobile: "#{$nav-vs} and #{$nav-sm-up}";
+
 $nav-ls: $mobile-landscape;
 $nav-body-width-limit: "(min-width: #{$body-max-window-width})";
 
@@ -597,7 +598,9 @@ a.menu-link,a.menu-link:hover {
     }
     .nav-tab-text {
       font-size: 11px;
-      @media #{$nav-vs} {
+      
+      // Don't use nav-vs since causes small text on even iPhone 6 with toolbars
+      @media #{$vertically-small} {
         &.nav-tabbar-text {
           font-size: 9px;
         }
