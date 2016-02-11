@@ -31,26 +31,21 @@ export default Ember.Mixin.create({
     
   }),
   
-  loginToFB(button) {
+  loginToFB(button,delay) {
     
     var self = this;
     
     if(typeof(FB)==='undefined'){
-      self.modal.show({
-        'type': 'error',
-        'title': t('modals.facebook-login-failed.title'),
-        'message': 'Sorry, facebook is not available right now.',
-        'showAction': true,
-      });
-      
-      if(button){
-        button.reset();
-      }
-      
+      this.delayLogin(button,delay);
       return;
     }
     
     var response = FB.getAuthResponse();
+    
+    if(typeof(delay)!=='undefined' && typeof(response)==='undefined'){
+      this.delayLogin(button,delay);
+      return;
+    }
     
     if(response){
       
@@ -79,6 +74,49 @@ export default Ember.Mixin.create({
             button.reset();
           }
         },{redirect_uri: window.location, scope: 'email' });
+        
+      }
+      
+    }
+    
+  },
+  
+  delayLogin(button,delay){
+    
+    if(!this.get('laterId')){
+      
+      if(typeof(delay)==='undefined'){
+        
+        delay = 100;
+        
+      } else {
+        
+        delay += 100;
+        
+      }
+      
+      if(delay<=5000){
+        
+        // Try again soon
+        let laterId = Ember.run.later(()=>{
+          this.set('laterId',false);
+          this.loginToFB(button,delay);
+        },100);
+        
+        this.set('laterId',laterId);
+        
+      } else {
+        
+        this.modal.show({
+          'type': 'error',
+          'title': t('modals.facebook-login-failed.title'),
+          'message': 'Sorry, facebook is not available right now.',
+          'showAction': true,
+        });
+        
+        if(button){
+          button.reset();
+        }
         
       }
       
