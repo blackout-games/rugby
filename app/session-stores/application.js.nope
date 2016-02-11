@@ -1,0 +1,11 @@
+/*
+
+LocalStorage breaks our app in **safari private browsing on both iOS and Mac OS**.
+It prevents templates from updating, modals with no content, etc.
+
+Allow ember simple auth to use adaptive (default store), which will use cookies if localstorage is not available.
+
+ */
+import LocalStorage from 'ember-simple-auth/session-stores/local-storage';
+
+export default LocalStorage.extend();
