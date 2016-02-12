@@ -39,6 +39,7 @@ export default Ember.Component.extend({
   classNames: ['show-overflow'],
   
   hasAppeared: false,
+  singleMode: false,
   
   hasAppearedBars: Ember.computed('media.isMobile','media.isTablet','hasAppeared',function(){
     if(this.get('hasAppeared') || window.os.touchOS){

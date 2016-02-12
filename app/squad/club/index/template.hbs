@@ -1,7 +1,5 @@
+{{page-header title=(t 'squad.title') class="gap-4x"}}
+
 {{#lazy-list list=model as |player|}}
-  <div class="dash-box gap-7x show-overflow">
-  
-    {{player-ui player=player}}
-    
-  </div>
+  {{player-ui player=player}}
 {{/lazy-list}}

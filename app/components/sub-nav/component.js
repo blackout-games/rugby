@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   navIsActive: false,
   navButtonIsShowing: false,
   subNavMode: '',
-  setNavMode: 'b', // a-d
+  setNavMode: 'd', // a-d
   
   setup: Ember.on('init',function(){
     

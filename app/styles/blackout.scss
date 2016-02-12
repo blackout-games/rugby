@@ -363,3 +363,18 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   -webkit-transform: translate3d(0,0,0);
   //transform:translateZ(1px);
 }
+
+/**
+ * Resets
+ * DONT add !important so they can still be overridden at class level on the element
+ */
+.reset-margins {
+  margin:0;
+}
+.reset-padding {
+  padding:0;
+}
+.reset-box {
+  margin:0;
+  padding:0;
+}

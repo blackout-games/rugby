@@ -21,6 +21,29 @@
   }
   //border: 4px solid white;
 }
+
+.player-avatar-single-container {
+  position: absolute;
+  width:100%;
+  height:auto;
+  background-color:tomato;
+  top:-150px;
+  left:0;
+  @media #{$tablet-tall-and-up} {
+    top:-150px;
+    left:0;
+  }
+}
+
+.player-avatar-single {
+  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
+  width:80px;
+  height:80px;
+  @media #{$tablet-tall-and-up} {
+    width:100px;
+    height:100px;
+  }
+}
   
 .player-avatar-sub-nav {
   //@include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
@@ -63,6 +86,16 @@ $bg-tint: linear-gradient(
     font-size:27px;
   }
   color: white;
+}
+
+.player-ui-title-single {
+  font-family: $heading-font;
+  font-size:29px;
+  font-style: normal;
+  color: white;
+  @media #{$tablet-tall-and-up} {
+    font-size:35px;
+  }
 }
 
 .player-ui-infobox {

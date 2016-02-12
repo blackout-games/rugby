@@ -285,7 +285,7 @@ article, blockquote {
  */
 
 // Mobile
-.nowrap-xs, .nowrap {
+.nowrap-xs, .nowrap, .no-wrap {
   white-space: nowrap;
 }
 .text-center-xs {
@@ -297,7 +297,7 @@ article, blockquote {
 
 // Mobile portrait only
 @media only screen and (max-width: $screen-xs-min) {
-  .nowrap-xxs {
+  .nowrap-xxs, .no-wrap-xxs {
     white-space: nowrap;
   }
   .text-center-xxs {
@@ -310,7 +310,7 @@ article, blockquote {
 
 // Tablets
 @media only screen and (min-width: $screen-sm-min) {
-  .nowrap-sm {
+  .nowrap-sm, .no-wrap-sm {
     white-space: nowrap;
   }
   .text-center-sm {
@@ -323,7 +323,7 @@ article, blockquote {
 
 // Laptops
 @media only screen and (min-width: $screen-md-min) {
-  .nowrap-md {
+  .nowrap-md, .no-wrap-md {
     white-space: nowrap;
   }
   .text-center-md {
@@ -336,7 +336,7 @@ article, blockquote {
 
 // Large screens
 @media only screen and (min-width: $screen-lg-min) {
-  .nowrap-lg {
+  .nowrap-lg, .no-wrap-lg {
     white-space: nowrap;
   }
   .text-center-lg {
@@ -406,13 +406,29 @@ article, blockquote {
 }
 
 /**
+ * General fonts
+ */
+.primary-font {
+  font-family: $primary-font !important;
+}
+.sports-font {
+  font-family: $sports-font !important;
+}
+.heading-font {
+  font-family: $heading-font !important;
+}
+
+/**
  * General sizes
  */
 .text-tiny {
-  font-size:10px;
+  font-size:10px !important;
 }
 .text-small {
-  font-size:12px;
+  font-size:12px !important;
+}
+.text-huge {
+  font-size:32px !important;
 }
 
 /**
