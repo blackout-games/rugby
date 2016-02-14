@@ -4,7 +4,7 @@ const { $ } = Ember;
 export default Ember.Component.extend({
   tag: 'div',
   scrollElementSelector: null,
-  showButtonAt: 1000,
+  showButtonAt: 1500,
   'tabbar-height': 55,
 
   uiEvents: [
@@ -126,13 +126,27 @@ export default Ember.Component.extend({
           if (window.features.lockBody) {
             scrollSelector = '#nav-body';
           } else {
-            scrollSelector = 'html,body';
+            scrollSelector = 'body';
           }
+        } else if(scrollSelector==='html,body'){
+          scrollSelector = 'body';
         }
         
-        Ember.$(scrollSelector).animate({ scrollTop: 0 }, 777, 'easeOutExpo', function () {
-          self.set('isScrolling',false);
-        });
+        let maxScrollDistance = 1500;
+        let wait = 0;
+        
+        // If scrolled past a certain point, jump there first
+        if(Ember.$(scrollSelector)[0].scrollTop>maxScrollDistance){
+          Ember.$(scrollSelector)[0].scrollTop = maxScrollDistance;
+          wait = 11;
+        }
+        
+        Ember.run.later(()=>{
+          Ember.$(scrollSelector).animate({ scrollTop: 0 }, 777, 'easeOutExpo', function () {
+            self.set('isScrolling',false);
+          });
+        },wait);
+        
         
         self.set('isScrolling',true);
         
