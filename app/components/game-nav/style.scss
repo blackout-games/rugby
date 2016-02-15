@@ -71,6 +71,8 @@ $panel-color: $bg-dark-lighter;
   $sidebar-color: $primary-master;
 }
 
+$selected-arrow-size: $max-sidebar-block-height*0.5;
+
 
 @if $colored-tabs {
   $menu-selected-color: $primary-master;
@@ -633,8 +635,14 @@ a.menu-link,a.menu-link:hover {
           width: 0;
           position: absolute;
           pointer-events: none;
-          border-width: 11px;
-          margin-top: -11px;
+          border-width: $selected-arrow-size 0 $selected-arrow-size 11px;
+          margin-top: -$selected-arrow-size;
+        }
+        @media #{$nav-ls} {
+          &:after {
+            border-width: $sidebar-block-height-mobile-landscape*0.5 0 $sidebar-block-height-mobile-landscape*0.5 11px;
+            margin-top: -$sidebar-block-height-mobile-landscape*0.5;
+          }
         }
       }
     }
@@ -921,7 +929,8 @@ a.menu-link,a.menu-link:hover {
             bottom: 100%;
             left: 50%;
             margin-top: 0;
-            margin-left: -11px;
+            margin-left: -$selected-arrow-size;
+            border-width: 0 $selected-arrow-size 11px $selected-arrow-size;
           }
         }
       }
