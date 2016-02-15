@@ -67,9 +67,6 @@ $full-real-estate-on-mobile: false;
     }
   }
   
-  // Default margin below to make gap between multiple boxes in same container
-  margin-bottom:30px;
-  
   overflow:hidden;
   //line-height: 100%;
   position:relative;
@@ -77,6 +74,15 @@ $full-real-estate-on-mobile: false;
   .panel-title {
     color: rgba(desaturate($secondary-master,33%),0.5);
   }
+  
+  // Default margin below to make gap between multiple boxes in same container
+  margin-bottom:30px;
+  
+  // No margin for last box
+  &:last-of-type {
+    margin-bottom:0px;
+  }
+  
 }
 
 .dash-col {

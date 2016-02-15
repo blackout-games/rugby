@@ -287,6 +287,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   width:100%;
 }
 
+.no-gap-on-last:last-of-type {
+  margin-bottom: 0 !important;
+}
+
 /**
  * Top gaps
  */
