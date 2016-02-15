@@ -59,17 +59,19 @@ $finish: 88%;
 $upper-scale: 2.2;
 
 @-webkit-keyframes stretchdelay {
-  0%, #{$finish}, 100% { -webkit-transform: scaleY(1.0) }  
-  #{$peak} { -webkit-transform: scaleY($upper-scale) }
+  0%, #{$finish}, 100% {
+    transform: scale3d(1,1,1);
+  }  
+  #{$peak} {
+    transform: scale3d(1,$upper-scale,1);
+  }
 }
 
 @keyframes stretchdelay {
   0%, #{$finish}, 100% { 
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
+    transform: scale3d(1,1,1);
   } #{$peak} { 
-    transform: scaleY($upper-scale);
-    -webkit-transform: scaleY($upper-scale);
+    transform: scale3d(1,$upper-scale,1);
   }
 }
 
