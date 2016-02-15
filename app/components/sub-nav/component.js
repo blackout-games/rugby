@@ -220,8 +220,8 @@ export default Ember.Component.extend({
     //let h = Math.min(contentHeight,maxHeight);
     
     // Update perfect scroll height
-    let padding = 2;
-    $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2 - 55));
+    let padding = 0;
+    $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2 - 49));
     
     this.updateScrollArea();
     
