@@ -2,7 +2,6 @@ $top-menu-height: 64px;
 $responsive-nav-small: $mobile;
 $responsive-nav-big: $tablet-and-up;
 
-
 .sidebar-container {
   display: flex;
   @media #{$responsive-nav-small} {

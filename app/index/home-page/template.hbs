@@ -9,7 +9,7 @@
 
     {{#component "index/home-backgrounds" id="top-section"}}
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="position:relative;">
 
       <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}">{{t 'home-page.welcome'}}</div>
 
@@ -63,6 +63,8 @@
 
         </div>
       </div>
+
+    </div>
       
       {{#fast-button action="showMenu" id="home-menu-button" class="btn nav-tab-btn nav-tab-menu no-focus" }}
         <div class="flex-col flex-col-center">
@@ -79,8 +81,6 @@
       {{#unless session.isAuthenticated}}
         {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}{{t 'buttons.login'}}{{/link-to}}
       {{/unless}}
-
-    </div>
 
     {{/component}} 
   </div>

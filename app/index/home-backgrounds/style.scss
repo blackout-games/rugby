@@ -1,5 +1,26 @@
 $base-image-folder: "/assets/images/home/backgrounds/";
 
+#home-page-player {
+  
+  $left:true;
+  
+  @if $left {
+    left:-13vh;
+    $pos:left;
+  } @else {
+    right:-15vh;
+    $pos:right;
+  }
+  
+  @include retina-img-overlay ("/assets/images/home/rugby-player.png", "/assets/images/home/rugby-player.png", contain, $pos bottom);
+  
+  position:absolute;
+  bottom:0px;
+  width:100%;
+  height:97%;
+  
+}
+
 #top-section {
   @include smooth-animation;
   //-webkit-transition: background-image 2s ease-in-out, background-position 2s ease-in-out;
