@@ -74,7 +74,7 @@ export default Ember.Component.extend({
    */
   waypointOffset: Ember.computed(function(){
     // Full window height means as soon as the waypoint appears at the *bottom* of the screen, the waypoint will fire.
-    return Math.round($(window).height()) - (window.os.touchOS ? 111 : 333);
+    return Math.round($(window).height()) - (window.os.touchOS ? 0 : 333);
   }),
   
   actions: {

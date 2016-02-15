@@ -4,7 +4,7 @@ const { $ } = Ember;
 export default Ember.Component.extend({
   tag: 'div',
   scrollElementSelector: null,
-  showButtonAt: 1500,
+  showButtonAt: 1111,
   'tabbar-height': 55,
 
   uiEvents: [

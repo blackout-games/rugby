@@ -228,6 +228,9 @@ $panel-color: $bg-dark-lighter;
     max-width: none;
     margin: 0;
   }
+  
+  // Prevents body dissappearing during scroll on some devices (usually mobile / low memory)
+  @extend .make3d;
 }
 
 // Balloon
