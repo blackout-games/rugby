@@ -36,6 +36,42 @@ export default Ember.Component.extend({
       this.$('.skill-bar').addClass('skill-bar-animate');
     }
     
+    if(this.get('primarySkill')){
+      
+      let level = this.get('level');
+      let color = '';
+      
+      // Set color based on level
+      if( level < 10 ){
+        color = 'dark-blue';
+      } else if( level < 20 ){
+        color = 'blue';
+      } else if( level < 30 ){
+        color = 'teal';
+      } else if( level < 39 ){
+        color = 'green';
+      } else if( level < 44 ){
+        color = 'yellow';
+      } else if( level < 48 ){
+        color = 'red';
+      } else {
+        color = 'purple';
+      }
+      
+      this.$('.skill-bar').removeClass(function (index, css) {
+        return (css.match (/(^|\s)skill-bar-color-\S+/g) || []).join(' ');
+      });
+      this.$('.skill-bar').addClass('skill-bar-color-'+color);
+      
+      if(this.get('icon')){
+      
+        this.$('.skill-bar-icon-inner > i').addClass('icon-skill-'+this.get('icon'));
+        
+      }
+      
+    }
+    
+    
   }),
   
   handleUpdate: Ember.on('didUpdateAttrs',function(){

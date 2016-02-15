@@ -7,6 +7,7 @@
   border-radius: $border-radius;
   margin-right: 7px;
   overflow: hidden;
+  position:relative; // For icon positioning
   
   // Magic fix
   // http://stackoverflow.com/questions/10314207/webkit-not-respecting-overflowhidden-with-border-radius
@@ -14,7 +15,8 @@
 }
 
 .skill-bar {
-  background-color: $primary-master;
+  //background-color: $primary-master;
+  background-color: desaturate($secondary-master,15%);
   outline: 2px solid white;
   margin-right: auto;
   width:0%;
@@ -60,4 +62,225 @@
 
 .skill-bar-max {
   color: $text-lighter-4x;
+}
+
+/**
+ * Colors // Gradients // etc.
+ */
+
+// Color difference
+// 0 = no gradient
+// Higher = More contrast in gradients
+$brightness: 53%;
+$diff: 40%;
+$sat: 88%;
+
+// Flatter / more saturation
+//$diff: 22%;
+//$sat: 80%;
+
+// Dark blue
+$hue: 214;
+.skill-bar-color-dark-blue {
+  background: linear-gradient(
+    hsl($hue, $sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Blue
+$hue: 195;
+.skill-bar-color-blue {
+  background: linear-gradient(
+    hsl($hue, $sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Teal
+$hue: 165;
+.skill-bar-color-teal {
+  background: linear-gradient(
+    hsl($hue, $sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Green
+$hue: 81;
+.skill-bar-color-green {
+  background: linear-gradient(
+    hsl($hue, $sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Yellow
+$hue: 44;
+$extra-sat: 11%;
+.skill-bar-color-yellow {
+  background: linear-gradient(
+    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Red
+$hue: 4;
+$extra-sat: 11%;
+.skill-bar-color-red {
+  background: linear-gradient(
+    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
+  );
+}
+
+// Purple
+$hue: 244;
+$extra-sat: -33%;
+.skill-bar-color-purple {
+  background: linear-gradient(
+    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
+    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
+  );
+}
+
+/**
+ * Icons
+ */
+
+$mobile-factor:0.8;
+$mobile-extra-top:4px;
+
+.skill-bar-icon-inner {
+  width:auto;
+  
+  i {
+    position:absolute;
+    left:0;
+    
+    color:rgba($bg-dark,0.22);
+    background-blend-mode: multiply;
+  
+    &.icon-skill-stamina {
+      $size:37px;
+      $top:-12px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:5px;
+    }
+  
+    &.icon-skill-handling {
+      $size:44px;
+      $top:-18px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:5px;
+    }
+  
+    &.icon-skill-attack {
+      $size:64px;
+      $top:-29px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+    }
+  
+    &.icon-skill-defence {
+      $size:59px;
+      $top:-31px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+    }
+  
+    &.icon-skill-technique {
+      $size:69px;
+      $top:-41px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:-2px;
+    }
+  
+    &.icon-skill-strength {
+      $size:44px;
+      $top:-17px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+    }
+  
+    &.icon-skill-jumping {
+      $size:74px;
+      $top:-26px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:-27px;
+    }
+  
+    &.icon-skill-speed {
+      $size:59px;
+      $top:-22px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:-8px;
+    }
+  
+    &.icon-skill-agility {
+      $size:45px;
+      $top:-17px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+    }
+  
+    &.icon-skill-kicking {
+      $size:47px;
+      $top:-30px;
+      top:$top+$mobile-extra-top;
+      font-size:$size*$mobile-factor;
+      @media #{$tablet-tall-and-up} {
+        font-size:$size;
+        top:$top;
+      }
+      left:3px;
+    }
+  }
+}
+
+.skill-bar-icon-outer-pad {
+  width:50px;
+  height:1px;
 }
