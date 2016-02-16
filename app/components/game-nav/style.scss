@@ -1080,10 +1080,7 @@ a.menu-link,a.menu-link:hover {
 }
 
 #foot-bumper {
-  height: 12px;
-  @media #{$mobile-wide-and-up} {
-    height: 15px;
-  }
+  height: 15px;
   @media #{$nav-lg} {
     height: 17px;
   }
