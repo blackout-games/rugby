@@ -1,39 +1,6 @@
 import Ember from 'ember';
 const { $ } = Ember;
 
-/*Chart.defaults.global.customTooltips = function(tooltip) {
-  // Tooltip Element
-    var tooltipEl = $('#chartjs-tooltip');
-    // Hide if no tooltip
-    if (!tooltip) {
-        tooltipEl.css({
-            opacity: 0
-        });
-        return;
-    }
-    // Set caret Position
-    tooltipEl.removeClass('above below');
-    tooltipEl.addClass(tooltip.yAlign);
-    // Set Text
-    tooltipEl.html(tooltip.text);
-    // Find Y Location on page
-    var top;
-    if (tooltip.yAlign == 'above') {
-        top = tooltip.y - tooltip.caretHeight - tooltip.caretPadding;
-    } else {
-        top = tooltip.y + tooltip.caretHeight + tooltip.caretPadding;
-    }
-    // Display, position, and set styles for font
-    tooltipEl.css({
-        opacity: 1,
-        left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
-        top: tooltip.chart.canvas.offsetTop + top + 'px',
-        fontFamily: tooltip.fontFamily,
-        fontSize: tooltip.fontSize,
-        fontStyle: tooltip.fontStyle,
-    });
-};*/
-
 export default Ember.Component.extend({
   
   classNames: ['show-overflow'],
@@ -114,6 +81,9 @@ export default Ember.Component.extend({
       return;
     }
     
+    // Hide any remaining tool tips
+    Ember.Blackout.hideAllToolTips();
+    
     let data = [];
     //color: "#FDB45C", // Yellow
     //highlight: "#FFC870",
@@ -123,16 +93,34 @@ export default Ember.Component.extend({
     // Add used energy
     data.push({
       value: 100 - this.get('player.energy'),
+      
+      // Darker Red
+      //color:"#c92e2e",
+      //highlight: "#e63d3d",
+      
+      // Lighter Red
+      //color:"#e44d46",
+      //highlight: "#f6665c",
+      
+      // Secondary color
       color:Ember.Blackout.getCSSColor('bg-light'),
-      highlight: "#FF5A5E",
+      highlight: "#e44d46",
+      
       label: this.get('i18n').t('player.used-energy'),
     });
     
     // Add energy
     data.push({
       value: this.get('player.energy'),
-      color:"#FDB45C",
-      highlight: "#FFC870",
+      
+      // Darker Red
+      //color:"#c92e2e",
+      //highlight: "#e63d3d",
+      
+      // Lighter red
+      color:"#e44d46",
+      highlight: "#f6665c",
+      
       label: this.get('i18n').t('player.energy'),
     });
     

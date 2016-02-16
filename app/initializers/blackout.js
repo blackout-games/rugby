@@ -1463,6 +1463,75 @@ function _inlinizeSVG () {
 }
 
 /**
+ * Charts.js customisation
+ */
+
+let customChartToolTipTimeout = null;
+
+BlackoutInstance.customChartToolTips = function(tooltip) {
+    
+    let tooltipEl;
+    if(tooltip){
+      // Tooltip Element
+      tooltipEl = $(tooltip.chart.canvas).siblings('.chartjs-tooltip');
+    } else {
+      $('.chartjs-tooltip').css({
+        opacity: 0
+      });
+      return;
+    }
+    // Hide if no tooltip
+    if(!tooltipEl.length){
+      return;
+    }
+    if (!tooltip) {
+        tooltipEl.css({
+            opacity: 0
+        });
+        return;
+    }
+    // Set caret Position
+    tooltipEl.removeClass('above below');
+    tooltipEl.addClass(tooltip.yAlign);
+    // Set Text
+    tooltipEl.html(tooltip.text);
+    // Find Y Location on page
+    var top;
+    if (tooltip.yAlign === 'above') {
+        top = tooltip.y - tooltip.caretHeight - tooltip.caretPadding;
+    } else {
+        top = tooltip.y + tooltip.caretHeight + tooltip.caretPadding;
+    }
+    // Display, position, and set styles for font
+    tooltipEl.css({
+        opacity: 1,
+        left: tooltip.chart.canvas.offsetLeft + tooltip.x + 'px',
+        top: tooltip.chart.canvas.offsetTop + top + 'px',
+        fontFamily: tooltip.fontFamily,
+        fontSize: tooltip.fontSize,
+        fontStyle: tooltip.fontStyle,
+    });
+    // If touch device, auto-hide
+    if(window.os.touchOS){
+      
+      if(customChartToolTipTimeout!==null){
+        Ember.run.cancel(customChartToolTipTimeout);
+      }
+      
+      customChartToolTipTimeout = Ember.run.later(function(){
+        BlackoutInstance.customChartToolTips();
+        customChartToolTipTimeout = null;
+      },3000);
+    }
+};
+
+Chart.defaults.global.customTooltips = BlackoutInstance.customChartToolTips;
+
+BlackoutInstance.hideAllToolTips = function(){
+  Chart.defaults.global.customTooltips(null);
+};
+
+/**
  * jQuery extensions
  */
 

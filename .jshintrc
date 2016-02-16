@@ -5,6 +5,7 @@
     "-Promise",
     "moment",
     "FB",
+    "Chart",
     "process",
     "module"
   ],

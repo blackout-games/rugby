@@ -2,7 +2,7 @@ $base-image-folder: "/assets/images/home/backgrounds/";
 
 #home-page-player {
   
-  $left:true;
+  $left:false;
   
   @if $left {
     left:-13vh;
