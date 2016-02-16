@@ -6,6 +6,31 @@ var $ = E.$;
 class Blackout {
   
   /**
+   * Allows us to create a jquery item, complete with event listeners or other javascript and add it when we're already in the view layer which only allows static html (i.e. markdown)
+   * 
+   * Static html is returned for entry into the DOM, and on the next ember run loop, the given jquery $item will be inserted into the placeholder.
+   * 
+   * @param  {jquery object} $item A jquery item for insertion on the next run loop.
+   * @return {html}       The html to insert into the DOM
+   */
+  eventedHTML( $item ){
+    
+    // Generate an id (html placeholder)
+    let id = 'blackout-ev-' + this.generateId();
+    
+    // Run later
+    Ember.run.next(()=>{
+      
+      $('#'+id).replaceWith($item);
+      
+    });
+    
+    // Return placeholder html
+    return '<span id="' + id + '"></span>';
+    
+  }
+  
+  /**
    * This fills the gap where sometimes we need to wait for a promise to resolve, but we're already in the view layer which isn't promise aware (i.e. helpers).
    * 
    * Give this function a potential promise and a callback function which receives the resolved item, builds and returns the real HTML.
@@ -62,7 +87,7 @@ class Blackout {
   }
   
   /**
-   * Ensures whatever is passed in, even if not a promise, is turned into a promise. This allows us to process data returned by ember data which may not have resolved yet, i.e. a relationship. We can then process the data in only one place, whereas checking is something is a promise can result in code being repeated
+   * Ensures whatever is passed in, even if not a promise, is turned into a promise. This allows us to process data returned by ember data which may not have resolved yet, i.e. a relationship. We can then process the data in only one place, whereas checking if something is a promise can result in code being repeated
    * 
    * Use: assertPromise( potentialPromise ).then( function(data){ // Process } )
    *  
@@ -629,8 +654,9 @@ class Blackout {
     $jqueryItem.removeClass('animated fadeOutDown');
   }
   cleanAfterAnimation($jqueryItem,type){
+    var self = this;
     $jqueryItem.off(this.afterCSSAnimation).on(this.afterCSSAnimation,function(){
-      this.cleanAnimation($jqueryItem,type);
+      self.cleanAnimation($jqueryItem,type);
       $jqueryItem.off(this.afterCSSAnimation);
     });
   }
@@ -1136,7 +1162,13 @@ String.prototype.decodeMarkdownChars = function(){
   
 };
 
-
+String.prototype.generalizeRoute = function(){
+  
+  return this.replace(/\/(?:[0-9]+|me)(\/?)/,function(fullMatch,endSlash){
+    return '/:id' + endSlash;
+  });
+  
+};
 
 
 

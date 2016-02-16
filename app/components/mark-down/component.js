@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import config from '../../config/environment';
 
 const { Blackout, $ } = Ember;
 
@@ -12,6 +13,15 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   userImages: Ember.inject.service(),
   locale: Ember.inject.service(),
+  
+  // Naked URL regex (Blackout Entertainment)
+  // This regex will also match square brackets in the query section only
+  // if both an opening and closing bracket appear so that we won't match
+  // a closing bracket in old-style tags like [url=http://url?query]text[/url]
+  // For full explanation add this regex to https://regex101.com/
+  // Feb 16 2016: Added support for IP address and port as host
+  nakedUrlRegex: /((?:(http(?:s)?):\/\/)?((?:[-a-zA-Z0-9@:%_\+~#=]{1,256}\.)?[-a-zA-Z0-9@:%_\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)(\/(?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*)?)/gi,
+  nakedUrlRegexOuter: /([\s\S])((?:(http(?:s)?):\/\/)?((?:[-a-zA-Z0-9@:%_\+~#=]{1,256}\.)?[-a-zA-Z0-9@:%_\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)(\/(?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*)?)([\s\S])/gi,
 
   extendMarkdown: Ember.on('didReceiveAttrs', function() {
 
@@ -30,17 +40,24 @@ export default Ember.Component.extend({
     // Disable html, so we can add our own
     markdown = this.disableHTML(markdown);
     
+    // Update any remote version links, to testing links, if we're testing
+    markdown = this.modifyLinksWhenTesting(markdown);
+    
     // Process BR markdown
     markdown = this.processVideos(markdown);
     markdown = this.cleanBRImages(markdown);
     markdown = this.processImages(markdown);
     markdown = this.processQuotes(markdown);
-    markdown = this.detectLinks(markdown);
+    markdown = this.detectSpecialLinks(markdown);
     markdown = this.detectUsers(markdown);
     //print(markdown);
     
     // Unencode special chars
     markdown = markdown.decodeMarkdownChars();
+    
+    // Process local links so that they won't reload the app
+    markdown = this.processNakedLinks(markdown);
+    markdown = this.processLocalLinks(markdown);
     
     this.set('markdown', markdown);
 
@@ -58,7 +75,37 @@ export default Ember.Component.extend({
     
   },
   
-  detectLinks(markdown){
+  modifyLinksWhenTesting(markdown){
+    
+    var currentHost = window.location.host;
+    
+    // If we are testing (running from an IP based host, or localhost)
+    if(currentHost.match(/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/) || currentHost==='localhost'){
+      
+      let primarySiteUrl = config.primarySiteUrl;
+      
+      return markdown.replace(this.get('nakedUrlRegex'),function( fullMatch, url, protocol, host){
+        
+        // ---------------------------------------------- BR New
+        
+        // -------------------- Test site
+        
+        if( host === primarySiteUrl){
+          return fullMatch.replace('https://','http://').replace(primarySiteUrl,currentHost);
+        }
+        
+        // If we get here, no valid link was detected
+        return fullMatch;
+        
+      });
+      
+    } else {
+      return markdown;
+    }
+      
+  },
+  
+  detectSpecialLinks(markdown){
     
     var self = this;
     
@@ -430,6 +477,62 @@ export default Ember.Component.extend({
     markdown = markdown.replace(inlineRegExp, writeImageTag);
 
     return markdown;
+    
+  },
+  
+  /**
+   * Don't leave any naked links so that we can more accurately process for local links next
+   */
+  processNakedLinks(markdown){
+    
+    return markdown.replace(this.get('nakedUrlRegexOuter'),function( fullMatch, first, url, protocol, host, path, last){
+      
+      if(first.trim()==='' && last.trim()===''){
+        //log(first+'['+url+'](' + url + ')'+last);
+        return first + '['+url+'](' + url + ')' + last;
+      }
+      
+      return fullMatch;
+      
+    });
+    
+  },
+  
+  processLocalLinks(markdown){
+    
+    var currentHost = window.location.host;
+    
+    return markdown.replace(/(?:(!{0,2}\$?)\[(.*)\]\( *|(<a .*?href="))((?:http(?:s)?:\/\/)?(.[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)((?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\)|(".*<\/a>))/gi,function( fullMatch, mediaModifier, markdownText, anchorStart, url, host, path, anchorEnd){
+      
+      // Make sure this is not a media link
+      if(Ember.Blackout.isEmpty(mediaModifier)){
+        
+        // Make sure the host is local
+        if(host === currentHost){
+          let $itemLink;
+          
+          // If this is an anchor link
+          if(!Ember.Blackout.isEmpty(anchorStart)){
+            $itemLink = $(anchorStart+path+anchorEnd);
+          } else {
+            $itemLink = $('<a href="'+path+'">'+markdownText+'</a>');
+          }
+          
+          $itemLink.on('click',function(e){
+            e.preventDefault();
+            Ember.Blackout.transitionTo(path);
+            return false;
+          });
+          
+          return Ember.Blackout.eventedHTML($itemLink);
+          
+        }
+        
+      }
+      
+      return fullMatch;
+      
+    });
     
   },
   

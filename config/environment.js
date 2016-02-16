@@ -43,6 +43,7 @@ module.exports = function(environment) {
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
+    primarySiteUrl: 'v2.blackoutrugby.com',
     
     //assetFilesHost: 'https://s3.amazonaws.com/rugby-ember/',
     assetFilesHost: 'https://dah9mm7p1hhc3.cloudfront.net/',
