@@ -7,15 +7,18 @@ $hue-adjust: 0; // Degrees
 $primary-master: adjust-hue(hsl(88, 55%, 57%),$hue-adjust);
 $primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
 $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
-$secondary-master: adjust-hue(hsl(222,44%,50%),$hue-adjust);
 
+// Greener
+//$secondary-master: adjust-hue(hsl(211,59%,44%),$hue-adjust);
 
 // More colour in secondary
-$secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust);
+//$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust);
+$secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust); // Used this for a long time
+//$secondary-master: adjust-hue(hsl(227,52%,50%),$hue-adjust); // More contrast against the green
+//$secondary-master: adjust-hue(hsl(233,52%,50%),$hue-adjust); // Getting too purple?
 
 // On release?
 //$secondary-master: adjust-hue(hsl(224,55%,50%),$hue-adjust);
-
 
 /**
  * Primary Colors

@@ -167,16 +167,17 @@ $infobar-dark-mode: false;
 .player-ui-label {
   font-family: $sports-font;
   font-weight: bold;
-  font-size: 13px;
+  font-size: 11px;
   text-transform: uppercase;
   margin-bottom: 4px;
   @media #{$tablet-tall-and-up} {
+    font-size: 13px;
     margin-bottom: 11px;
   }
 }
 
 .player-ui-attr-label {
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 7px;
   @media #{$tablet-tall-and-up} {
     font-size: 13px;
@@ -256,10 +257,10 @@ $infobar-dark-mode: false;
   text-transform: uppercase;
   font-family: $sports-font;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 12.9px;
   //letter-spacing: 1px;
   @media #{$tablet-tall-and-up} {
-    font-size: 17px;
+    font-size: 15.9px;
   }
 }
 

@@ -48,6 +48,7 @@ export default Ember.Component.extend({
         color = 'blue';
       } else if( level < 30 ){
         color = 'teal';
+        color = 'green';
       } else if( level < 39 ){
         color = 'green';
       } else if( level < 44 ){
