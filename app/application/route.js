@@ -85,7 +85,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, function() {
         //Ember.$(this).hide();
         self.get('session').invalidate().then(function() {
-          self.get('locals').put('standaloneFacebookDialogue', null);
+          self.get('locals').write('standaloneFacebookDialogue', null);
           return false;
         });
         Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
@@ -211,7 +211,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/headers/Accept-Language';
       
       hash.browserLocale = Ember.$.getJSON(url,function(data){
-        console.log('LOCALE LOADED',data);
         if( data && data.data && data.data.id === 'Accept-Language' ){
           window.blackout.languageHeader = data.data.attributes.value;
         }

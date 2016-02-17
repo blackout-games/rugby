@@ -12,7 +12,7 @@ export default OAuth2.extend({
   saveSessionData(response) {
     
     // Save basic auth data. Ember simple auth has forgotten it in the past
-    this.get('locals').put('authRecover',response);
+    this.get('locals').write('authRecover',response);
     
   },
 
@@ -95,7 +95,7 @@ export default OAuth2.extend({
   },
   
   invalidate(data) {
-    this.get('locals').put('authRecover',null);
+    this.get('locals').write('authRecover',null);
     return this._super(data);
   },
   

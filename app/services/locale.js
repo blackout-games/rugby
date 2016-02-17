@@ -150,7 +150,7 @@ export default Ember.Service.extend({
         }
           
         // Update browser locals
-        self.get('locals').put('locale',locale);
+        self.get('locals').write('locale',locale);
         
         // Update local variable
         self.set('currentLocale',locale);

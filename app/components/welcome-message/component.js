@@ -20,7 +20,7 @@ export default Ember.Component.extend({
             showDefaultAction: false,
           });
           
-          self.get('locals').put('welcomeMessageShown',true);
+          self.get('locals').write('welcomeMessageShown',true);
           
         },5000);
       });

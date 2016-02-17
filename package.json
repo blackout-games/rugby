@@ -50,7 +50,6 @@
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-i18n": "4.2.0",
     "ember-infinite-scroll": "0.2.4",
-    "ember-local-storage": "1.0.0",
     "ember-moment": "5.0.2",
     "ember-responsive": "1.2.5",
     "ember-simple-auth": "^1.0.1",

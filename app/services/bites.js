@@ -21,7 +21,7 @@ export default Ember.Service.extend({
   saveItems() {
     
     var items = this.get(bitesName,true);
-    this.get('locals',true).put(bitesName,items);
+    this.get('locals',true).write(bitesName,items);
     this.setupAJAXSuccessListener();
     
   },
