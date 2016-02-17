@@ -412,7 +412,7 @@ body.free{
 
   #nav-menu-buffer-mobile {
     display:none;
-    @media #{$nav-xxs} {
+    @media #{$nav-xxs},#{$nav-ls} {
       display:block;
       width:100%;
       height: $max-block-size;
@@ -1083,5 +1083,19 @@ a.menu-link,a.menu-link:hover {
   height: 15px;
   @media #{$nav-lg} {
     height: 17px;
+  }
+}
+
+.standalone-bumper {
+  height:22px;
+  width:100%;
+  //background-color:tomato;
+  display:none;
+}
+
+.standalone .standalone-bumper {
+  display: block;
+  @media #{$nav-ls} {
+    display:none;
   }
 }

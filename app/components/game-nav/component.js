@@ -117,6 +117,10 @@ export default ResponsiveNav.extend({
       $('body').addClass('touch');
     }
     
+    if(window.navigator.standalone){
+      $('body').addClass('standalone');
+    }
+    
     // Alternative animation mode?
     if(this.get('alternativeAnimationMode')){
       $('#nav-sidebar').addClass('alt');
