@@ -17,6 +17,10 @@ body {
   line-height: 1.55;
 }
 
+.dark {
+  color: $primary-text-on-dark;
+}
+
 b, strong {
   font-weight: 800;
 }
@@ -46,8 +50,8 @@ a {
     // Increase touch area
     display: inline-block;
     border-box: content-box;
-    padding: 5px 10px;
-    margin: -5px -10px;
+    padding: 3px 7px;
+    margin: -3px -7px;
     border-bottom: none;
     color: $primary-master;
     text-decoration: none;
@@ -87,8 +91,9 @@ a {
 
 /**
  * Different press state on touch devices
+ * Figured out this is just -webkit-tap-highlight-color
  */
-.touch a {
+/* .touch a {
   
   border: none;
   
@@ -108,7 +113,7 @@ a {
     // Prevent border/underline showing on mobile when focused
     border: none;
   }
-}
+} */
 
 .dark {
   color: $primary-text-on-dark;
@@ -204,6 +209,9 @@ h2 {
 }
 
 h3 {
+  font-family: $primary-font;
+  font-weight: bold;
+  font-size: 27px;
 }
 
 h4 {

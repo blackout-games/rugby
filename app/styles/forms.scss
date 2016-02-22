@@ -7,6 +7,9 @@ $focus-border-color: $secondary-master;
 $focus-inset-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
 
+// Button style (not in buttons.scss since it's needed here, and forms.scss needs to come before buttons.scss)
+$button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
 /**
  * Mixins
  */
@@ -28,6 +31,7 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
 
 @mixin no-focus {
   transition: none;
+  border: none;
 
   &:focus {
     -webkit-appearance: none !important;
@@ -37,16 +41,34 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
   }
 }
 
+@mixin focus-form-raw {
+  border: $focus-border-thickness $focus-border-color solid !important;
+  box-shadow: $focus-inset-shadow, $focus-shadow !important;
+}
+
 @mixin focus-form {
   &:focus {
-    border: $focus-border-thickness $focus-border-color solid !important;
-    box-shadow: $focus-inset-shadow, $focus-shadow !important;
+    @include focus-form-raw;
   }
 }
 
 @mixin focus-button {
   
   @include reset-focus;
+  
+}
+
+@mixin form-focus-button-raw {
+  
+  $outer-glow: 0 0 8px rgba(saturate($primary-master, 11%), 0.8);
+  
+  border: rgba(white, 0.59) $focus-border-thickness solid !important;
+  box-shadow: $outer-glow !important;
+  
+  &:active {
+    box-shadow: $button-inset-shadow, $outer-glow !important;
+  }
+  //box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
   
 }
 
@@ -57,7 +79,7 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
   //transition: border-color 0.11s ease-in-out, box-shadow 0.11s ease-in-out;
 
   &:focus {
-    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
+    @include form-focus-button-raw;
   }
 }
 

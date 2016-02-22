@@ -3,7 +3,7 @@ const { $ } = Ember;
 
 export default Ember.Component.extend({
   tagName: 'button',
-  classNames: ['button'],
+  classNames: ['button','no-webkit-highlight'],
   attributeBindings: ['aria-label'],
   setup: Ember.on('didInsertElement', function(){
     

@@ -36,12 +36,33 @@ export default Ember.Service.extend({
   
   currentLocale: null,
   
+  getLocalesList() {
+    
+    let list = [];
+    let locales = this.get('supportedLocales');
+    
+    $.each(locales,(key,locale)=>{
+      
+      if(key!=='test'&&key!=='default'){
+        locale.locale = key;
+        list.push(locale);
+      }
+      
+    });
+    
+    return list;
+    
+  },
+  
   getCurrent(){
     return this.get('currentLocale');
   },
   
   getLocale(){
-    return this.get('supportedLocales.'+this.get('currentLocale'));
+    let locale = this.get('currentLocale');
+    let fullLocale = this.get('supportedLocales.'+locale);
+    fullLocale.locale = locale;
+    return fullLocale;
   },
   
   /**

@@ -7,6 +7,9 @@ html {
   
   // Force vertical scroll bar
   overflow-y: scroll;
+  
+  // Set webkit highlight color
+  -webkit-tap-highlight-color: rgba($bg-dark,0.33);
 }
 
 body {
@@ -20,6 +23,11 @@ body {
   margin: 0;
   padding: 0;
   overflow-y: initial; /* avoid the double scroll */
+}
+
+.no-webkit-highlight {
+  // Set webkit highlight color
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
@@ -149,7 +157,7 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 .vc-parent {
   //min-height: 100%; // DO NOT SET THIS HERE, OTHERWISE IT BREAKS FIREFOX AND IE
   //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
-  display: flex;
+  display: flex !important;
   align-items: center;
 }
 
@@ -379,6 +387,16 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 .show-overflow {
   overflow: visible !important;
+}
+
+/**
+ * Hide for accessibility
+ * Hidden from view, but not from screen-readers
+ */
+.hidden-but-accessible {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
 }
 
 /**

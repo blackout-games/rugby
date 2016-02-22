@@ -17,6 +17,7 @@ export default {
     'timeline',
     'alerts',
     'info',
+    'settings',
     
   ],
   

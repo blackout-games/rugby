@@ -1,11 +1,29 @@
 import Ember from 'ember';
+import PreventBodyScroll from '../../mixins/prevent-body-scroll';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(PreventBodyScroll,{
   
   navIsActive: false,
   navButtonIsShowing: false,
   subNavMode: '',
   setNavMode: 'd', // a-d
+  
+  // Prevent body scroll
+  preventBodyScrollItems: ['#sub-nav-scroller'],
+  
+  // UI Events
+  uiEvents: [
+    {
+      eventName: 'scroll',
+      callbackName: 'handleScrollBound',
+      selectorFunction: 'getScrollSelectorToWatch',
+    },
+    {
+      eventName: 'resize',
+      callbackName: 'handleResizeBound',
+      selector: window,
+    }
+  ],
   
   setup: Ember.on('init',function(){
     
@@ -23,62 +41,12 @@ export default Ember.Component.extend({
   }),
   
   setupOnInsert: Ember.on('didInsertElement',function(){
+    
     if(!this.get('navIsActive')){
       this.$('#sub-nav-button').hide();
     }
     
-    Ember.$('#sub-nav-scroller').on('touchstart', this.handleTouchStart);
-    Ember.$('#sub-nav-scroller').on('touchmove', this.handleTouchMove);
-    
   }),
-
-  handleTouchStart(e) {
-    
-    this.allowUp = (this.scrollTop > 0);
-    this.allowDown = (this.scrollTop < this.scrollHeight - Ember.$(this).height());
-    this.prevTop = null;
-    this.prevBot = null;
-    this.lastY = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : this.lastY;
-
-  },
-
-  handleTouchMove(e) {
-    var pageY = e.originalEvent.touches[0].pageY;
-    
-    if (!this.lastY) {
-      this.lastY = pageY;
-    }
-    
-    var up = (pageY > this.lastY),
-      down = !up;
-    
-    if ((this.lastDirectionUp && !up) || (!this.lastDirectionUp && up)) {
-      Ember.$(e.target).trigger('touchstart');
-    }
-    
-    this.lastY = pageY;
-    this.lastDirectionUp = up;
-    
-    if ((up && this.allowUp) || (down && this.allowDown)) {
-      e.stopPropagation();
-    } else {
-      e.preventDefault();
-    }
-
-  },
-
-  uiEvents: [
-    {
-      eventName: 'scroll',
-      callbackName: 'handleScrollBound',
-      selectorFunction: 'getScrollSelectorToWatch',
-    },
-    {
-      eventName: 'resize',
-      callbackName: 'handleResizeBound',
-      selector: window,
-    }
-  ],
   
   uiEventsActive: Ember.computed('navIsActive',function(){
     this.updateUIEventsStatus(this.get('navIsActive'));

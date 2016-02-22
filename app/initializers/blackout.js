@@ -166,6 +166,16 @@ class Blackout {
     }
     
   }
+  
+  isEqual( itemA, itemB ){
+    
+    if(typeof(itemA)==='object' && typeof(itemB)==='object'){
+      return JSON.stringify(itemA) === JSON.stringify(itemB);
+    } else {
+      return Ember.isEqual(itemA,itemB);
+    }
+    
+  }
 
   /**
    * Rand function which mimic's PHP's rand function
@@ -741,6 +751,65 @@ class Blackout {
   }
   
   /**
+   * Maps a keycode + shift key to the actual character pressed
+   */
+  mapKeyPressToActualCharacter(isShiftKey, characterCode) {
+    if (characterCode === 27
+        || characterCode === 8
+        || characterCode === 9
+        || characterCode === 20
+        || characterCode === 16
+        || characterCode === 17
+        || characterCode === 91
+        || characterCode === 13
+        || characterCode === 92
+        || characterCode === 18) {
+        return false;
+    }
+    if (typeof isShiftKey !== "boolean" || typeof characterCode !== "number") {
+      return false;
+    }
+    var characterMap = [];
+    characterMap[192] = "~";
+    characterMap[49] = "!";
+    characterMap[50] = "@";
+    characterMap[51] = "#";
+    characterMap[52] = "$";
+    characterMap[53] = "%";
+    characterMap[54] = "^";
+    characterMap[55] = "&";
+    characterMap[56] = "*";
+    characterMap[57] = "(";
+    characterMap[48] = ")";
+    characterMap[109] = "_";
+    characterMap[107] = "+";
+    characterMap[219] = "{";
+    characterMap[221] = "}";
+    characterMap[220] = "|";
+    characterMap[59] = ":";
+    characterMap[222] = "\"";
+    characterMap[188] = "<";
+    characterMap[190] = ">";
+    characterMap[191] = "?";
+    characterMap[32] = " ";
+    var character = "";
+    if (isShiftKey) {
+      if (characterCode >= 65 && characterCode <= 90) {
+        character = String.fromCharCode(characterCode);
+      } else {
+        character = characterMap[characterCode];
+      }
+    } else {
+      if (characterCode >= 65 && characterCode <= 90) {
+        character = String.fromCharCode(characterCode).toLowerCase();
+      } else {
+        character = String.fromCharCode(characterCode);
+      }
+    }
+    return character;
+  }
+  
+  /**
    * Deprecated. Youth names are generated at API level to allow for future feature allowing renaming of youth clubs
    * @param  {[type]} name [description]
    * @return {[type]}      [description]
@@ -848,7 +917,9 @@ window.features.canParallax = !window.os.iOS&&!window.os.android;
 // Performance is too slow in Chrome, Safari when page resizes on vertical scroll.
 // So we just lock auto scrolling on ios and android.
 window.features.lockBody = window.os.iOS || window.os.android;
-//window.features.lockBody = false;
+
+// Lock body in all browsers, makes scrollbars look nicer
+window.features.lockBody = true;
 
 
 /**
@@ -1567,6 +1638,7 @@ BlackoutInstance.hideAllToolTips = function(){
  * jQuery extensions
  */
 
+// Find closest relative with selector
 (function($) {
   $.fn.findClosest = function(filter) {
     var $found = $(),
@@ -1583,6 +1655,7 @@ BlackoutInstance.hideAllToolTips = function(){
   };
 })(Ember.$);
 
+// Get position on-screen
 (function($) {
   $.fn.offsetWindow = function() {
     var offset = $(this).offset();
@@ -1592,13 +1665,47 @@ BlackoutInstance.hideAllToolTips = function(){
   };
 })(Ember.$);
 
+
+Ember.$.extend( Ember.$.fn, {
+  
+  /**
+   * Returns items within another item
+   */
+  within: function( pSelector ) {
+    // Returns a subset of items using jQuery.filter
+    return this.filter(function(){
+      // Return truthy/falsey based on presence in parent
+      return $(this).closest( pSelector ).length;
+    });
+  },
+  
+  /**
+   * Returns boolean, true if first item has second item as a parent
+   */
+  hasParent: function( pSelector ) {
+    // Returns a subset of items using jQuery.filter
+    return this.within(pSelector).length>0;
+  },
+
+  /**
+   * Get position of element, relative to the given element
+   */
+  positionRelativeTo: function( $element ) {
+    return {
+      top: $(this).offset().top - $element.offset().top,
+      left: $(this).offset().left - $element.offset().left,
+    };
+  },
+  
+});
+
 /**
  * Fixes bug in IE Edge (and maybe 10 and 11) where fixed items would scroll a little bit when scrolling with mouse wheel before returning to where they should be.
  * https://social.msdn.microsoft.com/Forums/ie/en-US/9567fc32-016e-48e9-86e2-5fe51fd67402/new-bug-in-ie11-scrolling-positionfixed-backgroundimage-elements-jitters-badly?forum=iewebdevelopment
  */
 if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/[0-9]+\./)) {
   $('body').on("DOMMouseScroll mousewheel", function () {
-    if(!$(event.target).parents('.prevent-parent-scroll').length){
+    if(!$(event.target).parents('.fix-mousewheel-scroll').length){
       event.preventDefault();
       var wd = event.wheelDelta;
       var csp = window.pageYOffset;
@@ -1607,7 +1714,10 @@ if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i
   });
 }
 
-$(document).on('DOMMouseScroll mousewheel', '.prevent-parent-scroll', function(ev) {
+/**
+ * Fixes a bug with scrollable divs where the mousewheel doesn't work, and it just scrolls the document/body
+ */
+$(document).on('DOMMouseScroll mousewheel', '.fix-mousewheel-scroll', function(ev) {
     var $this = $(this),
         scrollTop = this.scrollTop,
         scrollHeight = this.scrollHeight,

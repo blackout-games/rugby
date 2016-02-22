@@ -5,6 +5,8 @@ export default Ember.Component.extend({
   userImages: Ember.inject.service(),
 
   classNames: ['menu-header'],
+  
+  settingsPanelIsShowing: false,
 
   initUserImages: Ember.on('didInsertElement', function() {
     this.get('userImages').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
@@ -19,6 +21,16 @@ export default Ember.Component.extend({
 
   logoutAction: 'invalidateSession',
   fbLoginAction: 'loginWithFacebook',
+  
+  deselectSettingsCog: Ember.on('didUpdateAttrs',function(options){
+    var o = options.oldAttrs;
+    var n = options.newAttrs;
+    
+    if(o.settingsPanelIsShowing.value && !n.settingsPanelIsShowing.value){
+      this.$('.settings-cog > .btn-a').removeClass('active');
+    }
+    
+  }),
 
   actions: {
     invalidateSession() {
@@ -29,7 +41,29 @@ export default Ember.Component.extend({
     },
     goAction(){
       // Used for testing some random action
-    }
+    },
+    toggleSettings(){
+      
+      let lastToggled = this.get('settingsLastToggled');
+      if(Ember.isEmpty(lastToggled)){
+        lastToggled = 0;
+      }
+      
+      // Enforce a minimum time between taps
+      if(Date.now()-lastToggled>=222){
+        
+        let $item = this.$('.settings-cog > .btn-a');
+        $item.toggleClass('active');
+        if($item.hasClass('active')){
+          this.set('settingsPanelIsShowing',true);
+        } else {
+          this.set('settingsPanelIsShowing',false);
+        }
+        
+        this.set('settingsLastToggled',Date.now());
+        
+      }
+    },
   }
 
 });

@@ -6,7 +6,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.prevent-parent-scroll {
+.fix-mousewheel-scroll {
   pointer-events: all;
 }
 
@@ -19,7 +19,8 @@
   
 }
 
-//@media #{$nav-sm-up} {
+// Prevents scrollbars from showing when testing mobile on a desktop
+@media #{$nav-sm-up} {
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -68,4 +69,4 @@
     background: rgba(#677198,0.33);
   }
   
-//}
+}

@@ -1,0 +1,6 @@
+<select class="btn vc-parent">
+  {{#each options as |item index|}}
+    <option value="{{index}}">{{yield item}}</option>
+  {{/each}}
+</select>
+{{normal-scroll class="bs-options-scroller"}}

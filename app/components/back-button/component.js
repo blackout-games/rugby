@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { getOwner } = Ember;
+
 export default Ember.Component.extend({
   history: Ember.inject.service(),
   
@@ -19,7 +21,7 @@ export default Ember.Component.extend({
         lastRoute = this.get('default');
       }
       
-      var app = this.container.lookup('route:application');
+      var app = getOwner(this).lookup('route:application');
       
       // Don't store this route in history
       this.get('history').skipNextRoute();
@@ -29,7 +31,7 @@ export default Ember.Component.extend({
     },
     goBackTo(to) {
       
-      var app = this.container.lookup('route:application');
+      var app = getOwner(this).lookup('route:application');
       app.transitionTo(to);
       
     },

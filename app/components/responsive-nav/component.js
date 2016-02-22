@@ -101,7 +101,8 @@ export default Ember.Component.extend({
 
     if (!this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
 
-      this.get('EventBus').publish("navAllowBodyScroll", false);
+      // Was used for perfect scrollbar
+      //this.get('EventBus').publish("navAllowBodyScroll", false);
 
       $(this.get('selector')).addClass('open');
       $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
@@ -123,7 +124,8 @@ export default Ember.Component.extend({
 
     if (this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
 
-      this.get('EventBus').publish("navAllowBodyScroll", true);
+      // Was used for perfect scrollbar
+      //this.get('EventBus').publish("navAllowBodyScroll", true);
 
       $(this.get('selector')).removeClass('open');
       $('#nav-touch-blocker').off('mousedown touchstart', this.bodyTouchBound);

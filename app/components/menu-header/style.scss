@@ -1,4 +1,43 @@
 
+
+.settings-cog {
+  position:absolute;
+  right:0;
+  top:0;
+  
+  $color: desaturate(darken($secondary-master,9%),27%);
+  
+  .btn-a, .btn-a:hover {
+    color:$color;
+    
+    &.hover {
+      color:lighten($color,11%);
+    }
+    
+    //$side-switcher-time:2s;
+    
+    transition: transform $side-switcher-time $side-switcher-ease,
+                  color $side-switcher-time $side-switcher-ease;
+    transform-origin: 50.1% 53.2%;
+    
+    &.active {
+      
+      color:$primary-master;
+      transform: rotate3d(0,0,1,90deg);
+    }
+    
+    i {
+      // CHANGING ME WILL MESS UP ROTATION ANIMATION CENTERING
+      font-size: 220%;
+    }
+    
+  }
+}
+
+.touch .settings-cog .btn-a {
+  transform-origin: 49.5% 52%;
+}
+
 .menu-header {
   margin-bottom: 22px;
   position: relative;

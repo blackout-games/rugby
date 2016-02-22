@@ -1,0 +1,12 @@
+
+<h3 class="no-top-gap">Settings</h3>
+
+<label for="current-locale">Language</label>
+
+{{#blackout-select
+  selected=currentLocale
+  onchange=(action "changeLocale")
+  options=locales as |locale|
+}}
+{{locale.label}}
+{{/blackout-select}}

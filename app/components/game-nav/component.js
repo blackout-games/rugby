@@ -1,9 +1,10 @@
 import Ember from 'ember';
 import ResponsiveNav from '../responsive-nav/component';
 import MenuData from '../../utils/menu';
+import PreventBodyScroll from '../../mixins/prevent-body-scroll';
 var $ = Ember.$;
 
-export default ResponsiveNav.extend({
+export default ResponsiveNav.extend(PreventBodyScroll,{
   testSidebar: false,
   prefs: Ember.inject.service('preferences'),
   
@@ -23,9 +24,13 @@ export default ResponsiveNav.extend({
   topBarHeight: 59,
   topBarBuffer: 100,
   
+  // Prevent body scroll mixin
+  preventBodyScrollItems: ['#sidebar-scroller'],
+  
   // Communicators
   backToTopButtonIsShowing: false,
   subNavButtonIsShowing: false,
+  settingsPanelIsShowing: false,
   
   // --------------------------------- Computed
   
@@ -349,6 +354,44 @@ export default ResponsiveNav.extend({
   /**
    * No way to not use an observer here
    */
+  /*detectSettingsMenu: Ember.observer('settingsPanelIsShowing',function(){
+    //log('x',this.get('settingsPanelChangedLocally'));
+    if(this.get('settingsPanelIsShowing')){
+      this.selectTab('settings','misc');
+    //} else if(!this.get('settingsPanelChangedLocally')){
+    } else {
+      log('settings hidden');
+      this.selectCurrentMenu();
+    }
+  }),*/
+  
+  /**
+   * No way to not use an observer here
+   */
+  reactToSettingsMenu: Ember.observer('settingsPanelIsShowing',function(){
+    if(this.get('settingsPanelIsShowing')){
+      this.selectTab('settings','misc');
+    } else if(!this.get('settingsPanelChangedLocally')){
+      this.selectCurrentMenu();
+    }
+  }),
+  
+  /**
+   * Deselect misc top level menu items
+   * For now is just settings.
+   */
+  deselectMisc(){
+    
+    // Settings
+    this.set('settingsPanelChangedLocally',true);
+    this.set('settingsPanelIsShowing',false);
+    this.set('settingsPanelChangedLocally',false);
+    
+  },
+  
+  /**
+   * No way to not use an observer here
+   */
   autoShowOnLarge: Ember.observer('media.isJumbo', function() {
     
     if( this.get('media.isJumbo') ){
@@ -438,8 +481,15 @@ export default ResponsiveNav.extend({
   selectCurrentMenu ( menuOpenedOnThisClick ) {
     
     var self = this;
+    let isJumbo = self.get('media.isJumbo') && self.get('lastTab');
     
-    if( self.get('media.isJumbo') && self.get('lastTab') ){
+    if(self.get('lastMenu')==='settings'){
+      
+      //self.set('lastTabType','menu');
+      
+      self.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
+      
+    } else if( isJumbo ){
       
       self.selectTab( self.get('lastTab'), self.get('lastTabType'), true, menuOpenedOnThisClick );
       
@@ -561,8 +611,9 @@ export default ResponsiveNav.extend({
   },
 
   preventBodyScroll() {
-    this.bodyScrollPreventer = function(e) {
-      e.preventDefault();
+    // No longer needed after creation of prevent body scroll mixin
+    this.bodyScrollPreventer = function(/*e*/) {
+      //e.preventDefault();
     };
     $('#nav-sidebar,#nav-panel').on('touchstart touchmove', this.bodyScrollPreventer);
   },
@@ -596,7 +647,7 @@ export default ResponsiveNav.extend({
     if( programatic && !this.get('navIsOpen') ){
       return;
     }
-
+    
     var tab = $('.nav-' + type + '-' + tabName);
     
     // Repeated tap on same tab should just leave menu open?
@@ -634,6 +685,9 @@ export default ResponsiveNav.extend({
       
       var newButton = $('.nav-' + type + '-' + tabName);
       $('.nav-tab-btn,.nav-menu-btn').removeClass('selected');
+      if(type!=='misc'){
+        this.deselectMisc();
+      }
       newButton.addClass('selected');
       
       // Munges
@@ -642,7 +696,12 @@ export default ResponsiveNav.extend({
         type = 'tab';
       }
       
-      if( type === 'menu' ){
+      if( tabName === 'settings' ){
+        
+        this.set('lastMenuBeforeSettings',this.get('lastMenu'));
+        this.set('lastMenu',tabName);
+        
+      } else if( type === 'menu' ){
         
         this.set('lastMenu',tabName);
         
@@ -694,7 +753,7 @@ export default ResponsiveNav.extend({
       if( type === 'tab' ){
         this.set('lastTabSelected',tabName);
       }
-
+      
     }
 
   },
@@ -758,9 +817,9 @@ export default ResponsiveNav.extend({
         this.set('topbarWasShowing',wasShowing);
       }
       
-      $('#sidebar-scroller')[0].scrollTop = 0;
+      //$('#sidebar-scroller')[0].scrollTop = 0;
       Ember.run.next(function(){
-        $('#sidebar-scroller').perfectScrollbar('update');
+        //$('#sidebar-scroller').perfectScrollbar('update');
       });
       
       this.updateLoadingSlider(true);
@@ -834,7 +893,7 @@ export default ResponsiveNav.extend({
     };
       
     if($('#sidebar-scroller')[0].scrollTop!==0){
-      $('#sidebar-scroller').animate({ scrollTop: 0 }, 400, 'easeOutExpo').off('touchstart wheel',handleScrollStop).on('touchstart wheel',handleScrollStop);
+      //$('#sidebar-scroller').animate({ scrollTop: 0 }, 400, 'easeOutExpo').off('touchstart wheel',handleScrollStop).on('touchstart wheel',handleScrollStop);
     }
   
   },
@@ -845,7 +904,7 @@ export default ResponsiveNav.extend({
   
   updateMenuScrollArea(){
     
-    $('#sidebar-scroller').perfectScrollbar('update');
+    //$('#sidebar-scroller').perfectScrollbar('update');
     
   }
 

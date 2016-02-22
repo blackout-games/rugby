@@ -101,7 +101,11 @@ export default Ember.Component.extend({
       }
       
     } else {
-      this.set('imageClass','');
+      
+      // Must wrap with afterRender to avoid deprecation warnings about double modification in single render [deprecation id: ember-views.render-double-modify]
+      Ember.run.scheduleOnce('afterRender', this, ()=>{
+        this.set('imageClass','');
+      });
     }
     
   },

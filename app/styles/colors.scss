@@ -87,6 +87,7 @@ $dark-button-content-color: darken($secondary-master,22%);
  * Errors
  */
 $error-color: #B73A4E;
+$error-color: hsl(0, 88, 55 );
 $error-color-on-dark: saturate(lighten($error-color,11%),33%);
 
 /**

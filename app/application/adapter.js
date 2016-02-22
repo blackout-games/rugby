@@ -3,6 +3,8 @@ import config from '../config/environment';
 import Ember from 'ember';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
+const { getOwner } = Ember;
+
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
   authorizer: 'authorizer:application',
   host: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase,
@@ -46,7 +48,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     
     if( query.me === true ){
       
-      var session = this.container.lookup('service:session');
+      var session = getOwner(this).lookup('service:session');
       
       if(session.get('isAuthenticated')){
         url += '/me';

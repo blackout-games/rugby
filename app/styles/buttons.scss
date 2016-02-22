@@ -15,11 +15,14 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
   background-color: $button-color;
   display: inline-block;
   cursor: pointer;
+  box-sizing: border-box;
   border-radius: $button-border-radius;
-  border: none;
+  // So that the focus border doesn't mess with button sizing, have a border the same color as the button
+  $border: $focus-border-thickness solid $button-color;
+  border: $border;
   user-select: none;
   font-size: 17px;
-  height:40px;
+  height:36px;
   font-weight: $button-text-weight;
   //text-transform: uppercase;
   //
@@ -30,12 +33,16 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
   &.hover {
     color: #FFF;
     background-color: hoverColor($button-color);
+    border: $border;
+    border-color: hoverColor($button-color);
     cursor: pointer;
   }
 
   &.press {
     background-color: pressColor($button-color);
-    //transform: translate3d(0, 1px, 0);
+    border-color: pressColor($button-color);
+    transform: translate3d(0, 1px, 0);
+    box-shadow: $button-inset-shadow;
   }
 
   &:focus {
@@ -44,12 +51,14 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
 
   &:active {
     background-color: pressColor($button-color);
+    border-color: pressColor($button-color);
     transform: translate3d(0, 1px, 0);
   }
   
   &:disabled{
     //background-color:rgba($button-color,0.7);
-    background-color:$button-disabled-color;
+    background-color: $button-disabled-color;
+    border-color: $button-disabled-color;
     opacity:1;
     cursor: default;
   }
@@ -187,6 +196,8 @@ $fb-button-color: hsl(225,55%,50%);
   background-color: $fb-button-color;
   //@include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scaleDimensions(26, 50, 0.7), 4% center);
   position:relative;
+  // So that the focus border doesn't mess with button sizing, have a border the same color as the button
+  border: $focus-border-thickness solid $fb-button-color;
 
   @media #{$mobile} {
     background-size: scale-vmin(26, 50, 3.3);
@@ -199,20 +210,25 @@ $fb-button-color: hsl(225,55%,50%);
   
   &:active {
     background-color: $fb-button-color;
+    border-color: $fb-button-color;
   }
 
   &.hover {
     color: #FFF;
     background-color: hoverColor($fb-button-color);
+    border-color: hoverColor($fb-button-color);
   }
 
   &.press {
     color: #FFF;
     background-color: pressColor($fb-button-color);
+    border-color: pressColor($fb-button-color);
   }
   
   &:disabled{
-    background-color:rgba(desaturate(darken($fb-button-color,11%),11%),1);
+    $color: rgba(desaturate(darken($fb-button-color,11%),11%),1);
+    background-color:$color;
+    border-color:$color;
     opacity:1;
     cursor: default;
   }
@@ -226,13 +242,16 @@ form .btn-fb {
 .btn-alt,
 .btn-alt:hover {
   background-color: $alt-button-color;
+  border-color: $alt-button-color;
 
   &.hover {
     color: #FFF;
     background-color: hoverColor($alt-button-color);
+    border-color: hoverColor($alt-button-color);
   }
   &.press {
     color: #FFF;
     background-color: pressColor($alt-button-color);
+    border-color: pressColor($alt-button-color);
   }
 }

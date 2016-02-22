@@ -16,7 +16,7 @@
 
 <div id="nav-touch-blocker"></div>
 
-<div id="nav-panel">
+<div id="nav-panel" class="dark">
   
   <div class="row fill">
     <div class="col-fixed" id="nav-panel-spacer"></div>
@@ -24,7 +24,9 @@
       
       <div id="sidebar-scroller-parent" style="position:relative;">
         
-        {{#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar always-visible" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
+        {{!#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar always-visible" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
+        
+        {{#normal-scroll id="sidebar-scroller"}}
           
           <div class="full-height row row-vertical">
             
@@ -33,7 +35,7 @@
                   
               <div id="menuPanel" class="tab-panel">
                 
-                {{menu-header}}
+                {{menu-header settingsPanelIsShowing=(mut settingsPanelIsShowing)}}
                 
                 {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected identifier="menuSwitcher" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
@@ -45,6 +47,7 @@
                       {{#scroll-to href='/#contact' class="btn-a menu-link scroll-link-contact" closeMenu=closeMenuOnScrollTo}}{{t 'buttons.contact'}}{{/scroll-to}}
                     {{/unless}}
                     <div class="menu-links"></div>
+                    {{!scroll-tester}}
                   </div>
                   
                   <div id="clubPanel" class="menu-panel">
@@ -65,6 +68,12 @@
                   
                   <div id="supportPanel" class="menu-panel">
                     <div class="menu-links"></div>
+                  </div>
+                  
+                  <div id="settingsPanel" class="menu-panel">
+                  
+                    {{settings-panel}}
+                    
                   </div>
                   
                 {{/side-switcher}}
@@ -115,7 +124,8 @@
             
           </div>
           
-        {{/perfect-scroll}}
+        {{!/perfect-scroll}}
+        {{/normal-scroll}}
         
       </div>
       

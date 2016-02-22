@@ -84,3 +84,10 @@
 .icon-skill-speed:before { content: '\e852'; } /* '' */
 .icon-skill-agility:before { content: '\e853'; } /* '' */
 .icon-skill-kicking:before { content: '\e854'; } /* '' */
+.icon-left-big:before { content: '\e855'; } /* '' */
+.icon-left-open:before { content: '\e856'; } /* '' */
+.icon-up-big:before { content: '\e857'; } /* '' */
+.icon-up-open:before { content: '\e858'; } /* '' */
+.icon-down-open:before { content: '\e859'; } /* '' */
+.icon-sort:before { content: '\e85a'; } /* '' */
+.icon-dropdown:before { content: '\e85b'; } /* '' */

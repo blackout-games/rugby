@@ -24,6 +24,10 @@ $full-real-estate-on-mobile: false;
     padding: 17px 17px 0;
   }
   
+  &.dash-box-container-left {
+    padding-right:0;
+  }
+  
 }
 
 
@@ -67,7 +71,9 @@ $full-real-estate-on-mobile: false;
     }
   }
   
-  overflow:hidden;
+  // Don't hide drop-downs
+  //overflow:hidden;
+  
   //line-height: 100%;
   position:relative;
   

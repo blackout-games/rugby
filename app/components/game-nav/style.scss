@@ -72,6 +72,7 @@ $panel-color: $bg-dark-lighter;
 }
 
 $selected-arrow-size: $max-sidebar-block-height*0.5;
+$selected-arrow-pokes-out: 7px;
 
 
 @if $colored-tabs {
@@ -412,7 +413,9 @@ body.free{
 
   #nav-menu-buffer-mobile {
     display:none;
-    @media #{$nav-xxs},#{$nav-ls} {
+    //@media #{$nav-xxs},#{$nav-ls} {
+    // Should appear in all cases where tab bar is across the bottom of the screen
+    @media #{$nav-xs} {
       display:block;
       width:100%;
       height: $max-block-size;
@@ -579,6 +582,8 @@ a.menu-link,a.menu-link:hover {
     }
     
     width:100%;
+    // Remove default button border
+    border: none;
     border-radius: 0;
     box-sizing: border-box;
     padding: 0;
@@ -635,12 +640,12 @@ a.menu-link,a.menu-link:hover {
           width: 0;
           position: absolute;
           pointer-events: none;
-          border-width: $selected-arrow-size 0 $selected-arrow-size 11px;
+          border-width: $selected-arrow-size 0 $selected-arrow-size $selected-arrow-pokes-out;
           margin-top: -$selected-arrow-size;
         }
         @media #{$nav-ls} {
           &:after {
-            border-width: $sidebar-block-height-mobile-landscape*0.5 0 $sidebar-block-height-mobile-landscape*0.5 11px;
+            border-width: $sidebar-block-height-mobile-landscape*0.5 0 $sidebar-block-height-mobile-landscape*0.5 $selected-arrow-pokes-out;
             margin-top: -$sidebar-block-height-mobile-landscape*0.5;
           }
         }
@@ -649,6 +654,7 @@ a.menu-link,a.menu-link:hover {
 
     &:active,&.press {
       transform: none;
+      box-shadow: none !important;
     }
     &:focus {
       box-shadow: none !important;
@@ -722,6 +728,8 @@ a.menu-link,a.menu-link:hover {
       } @else {
         background-color: $lighter-color;
       }
+      // Remove default button border
+      border: none;
     }
 
     &.nav-menu-manager {
@@ -876,6 +884,8 @@ a.menu-link,a.menu-link:hover {
       } @else {
         background-color: lighten($tabbar-color,4%);
       }
+      // Remove default button border
+      border: none;
     }
 
     &.nav-tab-chat {
@@ -930,7 +940,7 @@ a.menu-link,a.menu-link:hover {
             left: 50%;
             margin-top: 0;
             margin-left: -$selected-arrow-size;
-            border-width: 0 $selected-arrow-size 11px $selected-arrow-size;
+            border-width: 0 $selected-arrow-size $selected-arrow-pokes-out $selected-arrow-size;
           }
         }
       }
@@ -1084,10 +1094,11 @@ a.menu-link,a.menu-link:hover {
   @media #{$nav-lg} {
     height: 17px;
   }
+  pointer-events: none;
 }
 
 .standalone-bumper {
-  height:22px;
+  height:17px;
   width:100%;
   //background-color:tomato;
   display:none;

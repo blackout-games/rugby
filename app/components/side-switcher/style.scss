@@ -1,17 +1,20 @@
-$switch-time: 0.444s;
-$switch-ease: ease('out-expo');
+$side-switcher-time: 0.444s;
+$side-switcher-ease: ease('out-expo');
 
 .switcher-window {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  
+  // This causes weird hiding of the top edge sometimes.
+  // Example was with settings, while a select element is visible or interacted with
+  //overflow: hidden;
 }
 .switcher-pane {
   position: relative;
   width: 200%;
   top: 0;
   left: 0;
-  transition: transform $switch-time $switch-ease;
+  transition: transform $side-switcher-time $side-switcher-ease;
   overflow-y: visible;
 }
 .switcher-ready-left {
