@@ -66,17 +66,17 @@
   border-radius: $border-radius;
   background-color: $bg-color;
   box-shadow:0 10px 20px rgba(black,0.44);
-  
-  &.bs-options-active {
-    display:block;
-    opacity:1;
-  }
 
   &.bs-options-ready {
     display:block;
     opacity:0;
-    transition: opacity 0.4s;
+    transition: opacity 0.222s;
     pointer-events: none;
+  }
+  
+  &.bs-options-active {
+    display:block;
+    opacity:1;
   }
   
   ul {

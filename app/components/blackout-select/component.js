@@ -320,11 +320,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       let $options = this.get('$options');
       
-      $newSel.removeClass('bs-active');
-      $options.removeClass('bs-options-active');
-      
       if(this.isOpen()){
-        $options.addClass('bs-options-ready').off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+        $options.off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
           this.get('$options').removeClass('bs-options-ready');
         });
         
@@ -332,6 +329,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
           $options.css('position',$options.data('bs-position')).data('bs-positioned',false);
         }
       }
+      
+      // Must happen after check isOpen()
+      $newSel.removeClass('bs-active');
+      $options.removeClass('bs-options-active');
       
       if(!manual){
         // Should stay focused when a new option is selected (to match native behavior)
@@ -408,6 +409,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
         top: top,
         left: pos.left,
         'max-height': optsHeight,
+      });
+      
+      // Get ready for close animation
+      Ember.run.next(()=>{
+        this.get('$options').addClass('bs-options-ready');
       });
       
       // Set height of scroller
