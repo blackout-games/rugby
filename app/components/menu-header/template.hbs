@@ -15,8 +15,8 @@
     </div>
     <div class="col-flex">
       <div class="menu-manager-text row">
-        <div class="col-flex menu-manager-name ellipses">
-        {{#link-to 'account' class=""}}{{session.manager.username}}{{/link-to}}
+        <div class="col-max menu-manager-name ellipses">
+          {{#link-to 'account' class=""}}{{session.manager.username}}{{/link-to}}
         </div>
         <div class="col-fixed menu-logout-wrapper">
           <a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-lg icon-vcenter" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>

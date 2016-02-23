@@ -294,13 +294,8 @@
   order: 0;
 }
 
-.col-xs-flex, .col-flex, .colx-flex {
+.col-xs-flex, .col-flex {
   flex: 1;
-}
-
-.colx-flex {
-  flex: 1;
-  flex-basis: 100%;
 }
 
 .col-fixed-xs, .col-fixed {
