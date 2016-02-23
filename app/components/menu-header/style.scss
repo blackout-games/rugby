@@ -52,17 +52,30 @@ $color: desaturate(darken($secondary-master,9%),22%);
 .menu-manager-text {
   color: $color;
   cursor: default;
+  white-space: nowrap;
+  vertical-align: text-top;
   line-height: 59px;
+  width:auto;
+  max-width:159px;
+  font-size: 0.95em;
   
   a {
     color: $color;
-    text-transform: uppercase;
-    font-size: 0.8em;
+    //text-transform: uppercase;
     &:hover,&:active {
       color: $primary-on-dark;
       border: none;
     }
   }
+}
+
+.menu-manager-name {
+  //display: inline-block;
+  max-width:150px;
+}
+
+.menu-logout-wrapper {
+  width:40px;
 }
 
 .club-avatar-menu {

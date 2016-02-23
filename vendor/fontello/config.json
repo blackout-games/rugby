@@ -519,6 +519,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0d20938846444af8deb1920dc85a29fb",
+      "css": "logout",
+      "code": 59484,
+      "src": "fontawesome"
+    },
+    {
       "uid": "ccddff8e8670dcd130e3cb55fdfc2fd0",
       "css": "down-open",
       "code": 59481,
