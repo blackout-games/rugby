@@ -8,12 +8,10 @@
 
 .loader-button .content {
   opacity: 1;
-  transform: scale3d(1,1,1);
-  transition: transform 0.777s ease(out-quad), opacity 0.777s ease(out-quad);
+  transition: opacity 0.777s ease(out-quad);
 }
 
 .loader-button.unsucceed .content {
-  transform: scale3d(0,0,1);
   opacity: 0;
 }
 
