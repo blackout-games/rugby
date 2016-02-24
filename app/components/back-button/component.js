@@ -15,18 +15,7 @@ export default Ember.Component.extend({
   actions: {
     goBack() {
       
-      var lastRoute = this.get('history').pullFromHistory();
-      
-      if(typeof(lastRoute) === 'undefined'){
-        lastRoute = this.get('default');
-      }
-      
-      var app = getOwner(this).lookup('route:application');
-      
-      // Don't store this route in history
-      this.get('history').skipNextRoute();
-      
-      app.transitionTo(lastRoute);
+      this.get('history').goBack(this.get('default'));
       
     },
     goBackTo(to) {

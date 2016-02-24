@@ -30,7 +30,7 @@
 
 @function hoverColor($color, $lighten: true) {
   @if $lighten {
-    @return saturate(lighten($color, 5%), 10%);
+    @return saturate(lighten($color, 7%), 11%);
   }
 
   @else {

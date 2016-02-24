@@ -1,4 +1,10 @@
-<span class="content">
-  {{yield}}
-</span>
-{{loading-spinner class="hidden" spinner="bars" color=spinnerColor}}
+{{#if hasSucceeded}}
+  <i class="icon-ok icon-lg icon-vcenter white"></i>
+{{else if isAnimating}}
+  {{loading-spinner spinner="bars" color=spinnerColor}}
+{{else}}
+  <span class="content">
+    {{yield}}
+  </span>
+{{/if}}
+

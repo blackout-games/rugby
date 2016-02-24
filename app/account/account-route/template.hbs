@@ -1,0 +1,33 @@
+{{top-level images="dash"}}
+{{page-header title=(t 'account.title')}}
+
+<div class="row">
+  <div class="col-md-9">
+    
+    <div class="dash-box-container" style="max-width:700px;">
+      
+      <div class="dash-box dash-col">
+        
+        <div class="row">
+          <div class="col-xxs-12 col-xs-9 pad-right-2x">
+            {{blackout-form form=(readonly accountForm) model=model onCancel=(action "onCancel") serverError=serverError onSave=(action "onSave") }}
+            <div class="divider gap-2x hidden-xs-up"></div>
+          </div>
+          <div class="col-xxs-12 col-xs-3" aria-hidden="true">
+            <label>{{t 'account.user-image'}}</label>
+            <div class="manager-avatar manager-avatar-account"></div>
+            <div class="manager-avatar-edit top-gap-sm text-light text-small">
+              
+              {{t 'account.user-image-edit'}}
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-md-3"></div>
+</div>
+

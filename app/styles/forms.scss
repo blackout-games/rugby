@@ -3,9 +3,9 @@
  */
 
 $focus-border-thickness: 1px;
-$focus-border-color: $secondary-master;
+$focus-border-color: lighten(saturate(adjust-hue($secondary-master,-4),22%),7%);
 $focus-inset-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-$focus-shadow: 0 0 8px rgba($focus-border-color, 0.6);
+$focus-shadow: 0 0 8px rgba($focus-border-color, 0.333);
 
 // Button style (not in buttons.scss since it's needed here, and forms.scss needs to come before buttons.scss)
 $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -46,7 +46,20 @@ $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: $focus-inset-shadow, $focus-shadow !important;
 }
 
+@mixin hover-form {
+  &:hover {
+    border: $focus-border-thickness $focus-border-color solid !important;
+  }
+}
+
+@mixin active-form {
+  &:active {
+    @include focus-form-raw;
+  }
+}
+
 @mixin focus-form {
+  transition: box-shadow .11s;
   &:focus {
     @include focus-form-raw;
   }
@@ -60,9 +73,8 @@ $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 
 @mixin form-focus-button-raw {
   
-  $outer-glow: 0 0 8px rgba(saturate($primary-master, 11%), 0.8);
-  
-  border: rgba(white, 0.59) $focus-border-thickness solid !important;
+  $outer-glow: 0 0 8px rgba(saturate($primary-master, 11%), 0.333);
+  background-color: hoverColor($button-color);
   box-shadow: $outer-glow !important;
   
   &:active {
@@ -96,7 +108,9 @@ $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 @mixin form-focus-button-ghost {
   
   &:focus {
-    background-color: $button-color;
+    background-color: transparent;
+    color: $button-color;
+    border: 1px solid $form-border-color;
   }
   
 }
@@ -109,39 +123,48 @@ $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   @include focus-button;
 
   &:focus {
-    box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.5), 0 0 11px lighten(saturate($secondary-master, 50%),15%) !important;
+    background-color: hoverColor($fb-button-color);
+    box-shadow: 0 0 11px rgba(lighten(saturate($secondary-master, 50%),15%),0.333) !important;
   }
 }
 
 $active-border-color: darken($secondary-master, 22%);
 
-@mixin active {
-  &:active {
-    border: $focus-border-thickness $active-border-color solid !important;
-    box-shadow: none !important;
-  }
+/**
+ * Form basics
+ */
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 2px;
 }
 
 /**
  * Text box basics
  */
 
-input[type="text"], input[type="password"] {
+$form-border-color: lighten(desaturate($secondary-master,30%),30%);
+
+input[type="text"], input[type="password"], input[type="email"] {
   border-radius: $border-radius;
   border-width: $focus-border-thickness !important;
+  border-color: $form-border-color;
   height:48px;
-  padding: 7px 20px;
+  padding: 7px 15px;
+  font-size:18px;
   line-height:normal;
 
   @media #{$mobile-tall} {
     //padding-top: 6vmin;
     //padding-bottom: 6vmin;
   }
-  color: #111;
+  color: $primary-text-color;
   -webkit-appearance: none;
   box-shadow: none;
   @include focus-form;
-  @include active;
+  @include active-form;
+  @include hover-form;
   
 }
 
@@ -172,7 +195,8 @@ input[type="text"], input[type="password"] {
 .has-error .form-control {
   box-shadow: none;
   @include focus-form;
-  @include active;
+  @include active-form;
+  @include hover-form;
 }
 
 .form-control-feedback {
@@ -180,10 +204,13 @@ input[type="text"], input[type="password"] {
   right: 7px;
 }
 .control-label {
-  line-height:250%;
-  padding: $border-radius;
+  line-height:200%;
+  //padding: $border-radius;
 }
 .has-error {
+  .form-control {
+    border-color:$error-color;
+  }
   .form-control-feedback, .control-label {
     color:$error-color;
   }

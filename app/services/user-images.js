@@ -23,26 +23,38 @@ export default Ember.Service.extend({
   /**
    * Register a manager image (for *currently logged in* manager)
    */
-  registerManagerImage(selector,defaultBgColor){
+  registerManagerImage(selector,defaultBgColor,largeVersion){
     
     // Register for later updates
     this.get('managerImages').pushUnique({selector: selector, defaultBgColor: defaultBgColor});
     
+    // Get large image url
+    let url = this.get('managerImageURL');
+    if(largeVersion){
+      url = url.replace('type=normal','type=large');
+    }
+    
     // Update the image now
-    this.updateImage(selector, this.get('managerImageURL'), defaultBgColor);
+    this.updateImage(selector, url, defaultBgColor);
     
   },
   
   /**
    * Register a club image (for *currently logged in* manager)
    */
-  registerClubImage(selector,defaultBgColor){
+  registerClubImage(selector,defaultBgColor,largeVersion){
     
     // Register for later updates
     this.get('clubImages').pushUnique({selector: selector, defaultBgColor: defaultBgColor});
     
+    // Get large image url
+    let url = this.get('clubImageURL');
+    if(largeVersion){
+      url = url.replace('type=normal','type=large');
+    }
+    
     // Update the image now
-    this.updateImage(selector, this.get('clubImageURL'), defaultBgColor);
+    this.updateImage(selector, url, defaultBgColor);
     
   },
   

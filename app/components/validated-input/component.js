@@ -1,5 +1,10 @@
 import Ember from 'ember';
 
+const {
+  computed,
+  defineProperty,
+} = Ember;
+
 /**
  * When sending actions to components, as a one off, see:
  * http://www.samselikoff.com/blog/getting-ember-components-to-respond-to-actions/
@@ -8,81 +13,49 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  validationEvent: '', // Pass this in on creation to identify the form being submitted
   errorType: null,
   inputId: null,
   
-  uiEvents: {
-    'selector': ':first-child',
-    'focus': 'updateOnFocus',
-    'blur': 'updateOnBlur',
-  },
-  
-  classes: Ember.computed(function(){
-    return this.get('inputClass') + ' form-control';
-  }),
-  
-  setupValidation: Ember.on('didInsertElement', function(){
+  onInit: Ember.on('init',function(){
     
-    this.get('EventBus').subscribe(this.get('validationEvent'), this, this.showErrors);
-    
-    Ember.$('input[name="password"]').attr('autocomplete', 'off');
+    var valuePath = this.get('valuePath');
+    defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
+    defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+    defineProperty(this, 'clientError', computed.alias(`model.validations.attrs.${valuePath}.message`));
     
   }),
   
-  showErrors() {
-    this.send('showErrors'); 
-  },
-
-  cleanup: Ember.on('willDestroyElement', function(){
+  onInsert: Ember.on('didInsertElement', function(){
     
-    this.get('EventBus').unsubscribe(this.get('validationEvent'), this, this.showErrors);
+    this.$('input[name="password"]').attr('autocomplete', 'off');
     
   }),
   
-  didUpdateAttrs( options ) {
-    var o = options.oldAttrs;
-    var n = options.newAttrs;
-
-    if( n.clientError.value !== o.clientError.value ){
-      this.updateClientError();
-    }
-
-    if( n.serverError.value !== o.serverError.value ){
-      this.updateServerError();
-    }
-  },
+  hasDirtied: false,
+  hasFocus: false,
+  notValidating: computed.not('validation.isValidating'),
+  isValid: computed.and('validation.isValid', 'notValidating'),
+  isInvalid: computed('clientError', 'serverError', function(){
+    return !Ember.isEmpty(this.get('clientError')) || !Ember.isEmpty(this.get('serverError'));
+  }),
   
-  updateClientError() {
-    if( !Ember.isEmpty(this.get('clientError')) ){
-      this.set('error',this.get('clientError'));
-      this.set('errorType','client');
-    } else if(this.get('errorType') === "client"){
-      this.set('error',null);
-    }
-  },
+  showError: computed('hasFocus', 'validation.isDirty', 'isInvalid', 'hasValidated', 'hasDirtied', 'serverError', 'clientError', function(){
+    return (
+      (this.get('validation.isDirty') && this.get('hasDirtied'))
+        || this.get('hasValidated')
+    )
+    && this.get('isInvalid')
+    && (!this.get('hasFocus') || !Ember.isEmpty(this.get('serverError')));
+  }),
   
-  updateServerError() {
-    if( !Ember.isEmpty(this.get('serverError')) ){
-      this.set('error',this.get('serverError'));
-      this.set('errorType','server');
-      this.send('showErrors');
-    } else if(this.get('errorType') === "server"){
-      this.set('error',null);
+  error: computed('hasFocus', 'clientError','serverError',function(){
+    if(!Ember.isEmpty(this.get('serverError'))
+      && (Ember.isEmpty(this.get('clientError')) || this.get('hasFocus'))){
+      return this.get('serverError');
+    } else {
+      return this.get('clientError');
     }
-  },
-  
-  updateOnFocus() {
-    if(this.get('errorType') === "client"){
-      this.set("showError", false);
-    }
-  },
-  
-  updateOnBlur() {
-    if(this.get('errorType') === "client"){
-      this.send('showErrors');
-    }
-  },
+  }),
   
   actions: {
     showErrors() {
@@ -95,6 +68,15 @@ export default Ember.Component.extend({
     hideErrors() {
       this.set("showError", false);
     },
+    onFocus(){
+      this.set('hasFocus',true);
+    },
+    onBlur(){
+      this.set('hasFocus',false);
+    },
+    onKeyUp(){
+      this.set('hasDirtied',true);
+    }
   },
   
 });

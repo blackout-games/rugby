@@ -1,6 +1,6 @@
 $button-border-radius: $border-radius;
 $button-text-weight: 600;
-$button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
+$button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
 
 /**
  * Override bootstrap css buttons
@@ -18,7 +18,7 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
   box-sizing: border-box;
   border-radius: $button-border-radius;
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
-  $border: $focus-border-thickness solid $button-color;
+  $border: none;
   border: $border;
   user-select: none;
   font-size: 17px;
@@ -43,6 +43,9 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
     border-color: pressColor($button-color);
     transform: translate3d(0, 1px, 0);
     box-shadow: $button-inset-shadow;
+    &:disabled {
+      transform: none;
+    }
   }
 
   &:focus {
@@ -53,6 +56,9 @@ $button-disabled-color: rgba(desaturate(darken($button-color,11%),11%),1);
     background-color: pressColor($button-color);
     border-color: pressColor($button-color);
     transform: translate3d(0, 1px, 0);
+    &:disabled {
+      transform: none;
+    }
   }
   
   &:disabled{
@@ -103,9 +109,32 @@ form .btn {
 
 .btn-big,
 .btn-big:hover {
+  padding: 0 20px 2px;
+  font-size: 17px;
+  text-shadow: 0 1px 1px rgba(black,0.111);
+  height:48px;
+
+  @media #{$mobile} {
+    //font-size: 4.8vmin;
+    //padding: 0 0 0.5vmin;
+  }
+  &.hover,&.press {
+    //font-size: 19px;
+    //height:48px;
+    @media #{$mobile} {
+      //font-size: 4.4vmin;
+    }
+  }
+}
+
+/**
+ * For big independent buttons in situations like the home page
+ */
+.btn-fat, .btn-fat:hover {
   padding: 0 0 2px;
   font-size: 20px;
   height:48px;
+  text-shadow: 0 1px 1px rgba(black,0.111);
 
   @media #{$mobile} {
     //font-size: 4.8vmin;
@@ -123,9 +152,11 @@ form .btn {
 .btn-ghost,
 .btn-ghost:hover {
   background-color: transparent;
-  border: 1px solid $button-color;
-  color: white;
+  border: 1px solid $form-border-color;
+  color: $primary-text-color;
   box-sizing: border-box;
+  border-radius: $border-radius;
+  text-shadow: none;
   
   @include focus-button-ghost;
   
@@ -156,15 +187,20 @@ form .btn {
   //transition: background-color 0.222s, color 0.222s, border-color 0.222s;
   
   &.hover,&.press,&:active {
-    background-color: $button-color;
-    color: #FFF;
+    //background-color: $button-color;
+    //color: #FFF;
+    background-color: transparent;
+    color: $focus-border-color;
+    color: $button-color;
+    border: 1px solid $form-border-color;
   }
   
   &:disabled{
-    background-color: $button-disabled-color;
-    border: 1px solid $button-disabled-color;
+    background-color: transparent;
+    border: 1px solid $form-border-color;
     opacity:1;
     cursor: default;
+    color: rgba($primary-text-color,0.5);
   }
   
   &.on-image {
@@ -197,7 +233,7 @@ $fb-button-color: hsl(225,55%,50%);
   //@include retina-img-overlay("/assets/images/social/fb.png", "/assets/images/social/fb-2x.png", scaleDimensions(26, 50, 0.7), 4% center);
   position:relative;
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
-  border: $focus-border-thickness solid $fb-button-color;
+  border: none;
 
   @media #{$mobile} {
     background-size: scale-vmin(26, 50, 3.3);

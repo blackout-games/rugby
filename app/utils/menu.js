@@ -32,7 +32,6 @@ export default {
       {
         label: 'Account',
         route: 'account',
-        tempRoute: 'coming-soon',
         hideIfNotAuthenticated: true,
       },
       {

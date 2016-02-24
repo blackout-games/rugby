@@ -1,10 +1,8 @@
 import Ember from 'ember';
-import EmberValidations from 'ember-validations';
 
-export default Ember.Mixin.create(EmberValidations,{
+export default Ember.Mixin.create({
   serverErrors: {},
   formErrorMessage: null,
-  validationEvent: 'formSubmitted', // Should override where mixin is used
   
   actions: {
     
@@ -31,8 +29,13 @@ export default Ember.Mixin.create(EmberValidations,{
       // Reset server errors
       this.set('serverErrors',{});
       
+      // Tell component that we have now validated at least once
+      this.set('hasValidated',true);
+      
       // Client validations
-      this.validate().then(function(){
+      const { validations } = this.get('model').validateSync();
+      
+      if(validations.get('isValid')){
         //Ember.run.later(function(){
         self.requestFromServer();
         //},4000);
@@ -43,18 +46,17 @@ export default Ember.Mixin.create(EmberValidations,{
        * MUST PROVIDE .catch(()=>{}) here, otherwise when validation fails, validate() causes "undefined" error output in console with no good information on what's causing it - resulting in long debugging sessions.
        */
       
-      }).catch(function(){
+      } else {
         
         if(button){
           button.reset();
         }
         
-      }).finally(function(){
+      }
         
-        Ember.run.next(self,function(){
-          // Let validated inputs know we've submitted
-          self.EventBus.publish(self.get('validationEvent'));
-        });
+      Ember.run.next(self,function(){
+        // Let validated inputs know we've submitted
+        self.EventBus.publish(self.get('validationEvent'));
       });
       
       return false;
@@ -79,47 +81,5 @@ export default Ember.Mixin.create(EmberValidations,{
     }
     
   },
-  
-  initValidationMessages: Ember.on('init',function() {
-    
-    this.updateValidationMessages();
-    this.get('EventBus').subscribe('localeChanged', this, this.updateValidationMessages);
-    
-  }),
-  
-  cleanUpListeners: Ember.on('deactivate','willDestroyElement',function(){
-    
-    this.get('EventBus').unsubscribe('localeChanged', this, this.updateValidationMessages);
-    
-  }),
-  
-  updateValidationMessages: Ember.on('init',function() {
-    
-    let validations = this.get('validations');
-    let self = this;
-    
-    if(validations){
-      
-      Ember.$.each(validations,(itemName,itemRules) => {
-        
-        Ember.$.each(itemRules,(ruleName,rule) => {
-          
-          if(rule.tMessage){
-            let translation = self.get('i18n').t(rule.tMessage);
-            
-            self.set('validations.' + itemName + '.' + ruleName + '.message',translation);
-            
-            // Re-render any showing messages
-            self.validate().catch(()=>{}); // Must provide catch
-            
-          }
-          
-        });
-        
-      });
-      
-    }
-    
-  }),
   
 });

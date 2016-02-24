@@ -20,17 +20,17 @@
 
       <form>
         
-        <div class="has-feedback dark">
-        
-          {{validated-input type="text" inputId="username" placeholder=(t 'login.username') value=username clientError=errors.username serverError=serverErrors.username validationEvent=validationEvent inputClass="dark login-boxes" }}
+        <div class="has-feedback dark form-group">
+          
+          {{validated-input type="text" inputId="username" placeholder=(t 'login.username') model=model valuePath='username' serverError=serverErrors.username hasValidated=hasValidated inputClass="dark login-boxes" }}
           
           <i class="icon-user login-icons"></i>
           
         </div>
         
-        <div class="has-feedback dark gap-lg">
+        <div class="has-feedback dark form-group">
           
-          {{validated-input type="password" inputId="password" placeholder=(t 'login.password') value=password clientError=errors.password serverError=serverErrors.password validationEvent=validationEvent inputClass="dark login-boxes" }}
+          {{validated-input type="password" inputId="password" placeholder=(t 'login.password') model=model valuePath='password' serverError=serverErrors.password hasValidated=hasValidated inputClass="dark login-boxes" }}
           
           <i class="icon-key login-icons key-icon"></i>
           

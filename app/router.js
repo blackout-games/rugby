@@ -40,6 +40,7 @@ Router.map(function() {
       });
     });
   });
+  this.route('account');
 });
 
 export default Router;

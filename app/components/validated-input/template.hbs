@@ -1,7 +1,13 @@
-<div class="form-group has-feedback {{if showError 'has-error'}}">
+<div class="has-feedback {{if showError 'has-error'}}">
 
-  {{input value=value type=type placeholder=placeholder class=classes id=inputId autocomplete="off"}} {{#if showError}}
-  <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-  <span class="control-label">{{error}}</span> {{/if}}
+  {{input value=value type=type placeholder=placeholder class=(concat inputClass ' form-control') id=inputId autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
+  
+  {{#if showError}}
+  
+    <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+  
+    <span class="control-label">{{error}}</span>
+  
+  {{/if}}
 
 </div>

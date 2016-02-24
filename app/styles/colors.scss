@@ -53,8 +53,8 @@ $bg-light: lighten($secondary-master,44%);
  * Text Colors
  */
 
-$primary-text-color: desaturate(darken($secondary-master,22%),40%);
-$text-lighter: desaturate(lighten($primary-text-color,11%),11%);
+$primary-text-color: desaturate(darken($secondary-master,27%),33%);
+$text-lighter: desaturate(lighten($primary-text-color,7%),7%);
 $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
 $text-lighter-4x: lighten($text-lighter,33%);
@@ -86,9 +86,8 @@ $dark-button-content-color: darken($secondary-master,22%);
 /**
  * Errors
  */
-$error-color: #B73A4E;
-$error-color: hsl(0, 88, 55 );
-$error-color-on-dark: saturate(lighten($error-color,11%),33%);
+$error-color: hsl(3, 70, 55 );
+$error-color-on-dark: saturate(lighten($error-color,9%),44%);
 
 /**
  * Warnings

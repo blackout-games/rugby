@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { getOwner } = Ember;
+
 export default Ember.Service.extend({
   preferences: Ember.inject.service(),
   
@@ -9,6 +11,24 @@ export default Ember.Service.extend({
   previous: null,
   history: [],
   skipNextRouteFlag: false,
+  defaultRoute: "dashboard",
+  
+  goBack(defaultRoute){
+    
+    var lastRoute = this.pullFromHistory();
+    
+    if(typeof(lastRoute) === 'undefined'){
+      lastRoute = defaultRoute ? defaultRoute : this.get('defaultRoute');
+    }
+    
+    var app = getOwner(this).lookup('route:application');
+    
+    // Don't store this route in history
+    this.skipNextRoute();
+    
+    app.transitionTo(lastRoute);
+    
+  },
   
   update(url) {
     

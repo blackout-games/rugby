@@ -4,9 +4,13 @@ export default Ember.Component.extend({
   tagName: "button",
   myContext: { name: "loadingButtonState" },
   spinnerColor: "primary",
-  classNames: ['loader-button'],
+  classNames: ['loader-button','btn'],
+  
   isAnimating: false,
   whoAmI: 'loaderButton', // To verify this is a loader button component.
+  
+  
+  attributeBindings: [],
   
   setAction: Ember.on('init', function(){
     this.set('clickAction',this.get('action'));
@@ -30,9 +34,6 @@ export default Ember.Component.extend({
   
   animate() {
     var self = this;
-    
-    // Save button content
-    this.set('originalContent',this.$().html());
     
     // Save widths
     this.set('outerWidth',this.$().outerWidth());
@@ -59,7 +60,7 @@ export default Ember.Component.extend({
   },
   
   reset(allowFocus = true) {
-    this.$().html(this.get('originalContent'));
+    
     this.$().attr('disabled',false);
     this.$().removeClass('loading');
     this.$().css('width',this.get('originalWidth'));
@@ -72,6 +73,26 @@ export default Ember.Component.extend({
     }
     
     this.set('isAnimating',false);
+    this.set('hasSucceeded',false);
+  },
+  
+  succeeded(){
+    this.set('hasSucceeded',true);
+    Ember.run.later(()=>{
+      if(!this.get('isDestroyed')){
+        this.$().addClass('unsucceed');
+        this.$().off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+          if(!this.get('isDestroyed')){
+            Ember.run.later(()=>{
+              if(!this.get('isDestroyed')){
+                this.$().removeClass('unsucceed');
+              }
+            },44);
+            this.reset();
+          }
+        });
+      }
+    },1111);
   },
   
 });

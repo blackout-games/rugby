@@ -379,6 +379,13 @@
   }
 }
 
+.pad-right-2x {
+  padding-right: 14px;
+  @media #{$tablet-tall-and-up} {
+    padding-right: 28px;
+  }
+}
+
 .pad-right-xs {
   padding-right: 5px;
 }

@@ -1,0 +1,43 @@
+<form>
+  
+  <div class="{{if serverError "gap-2x" "gap-3x"}}">
+  
+    {{#each computedForm as |item index|}}
+      
+      <div>
+        <label for="{{item.id}}">{{item.label}}</label>
+      </div>
+      
+      <div class="gap-lg">
+        
+        
+        {{#if item.valuePath}}
+          
+          {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" }}
+          
+        {{else}}
+          
+          {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" }}
+          
+        {{/if}}
+        
+        {{#if item.helper}}
+          <div class="blackout-form-helper">{{item.helper}}</div>
+        {{/if}}
+      
+      </div>
+    
+    {{/each}}
+    
+  </div>
+  
+  {{#if serverError}}
+    <div class="has-error gap-md">
+      <span class="control-label">{{serverError}}</span>
+    </div>
+  {{/if}}
+  
+  {{#loader-button class="btn btn-big right-gap-md" clickAction=(action 'onSave')}}{{t 'buttons.save-changes'}}{{/loader-button}}
+  <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{t 'buttons.cancel'}}</button>
+  
+</form>

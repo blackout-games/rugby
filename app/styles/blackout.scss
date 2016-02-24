@@ -336,6 +336,43 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 /**
+ * Right gaps
+ */
+
+.no-right-gap, .right-gap-reset {
+  margin-right: 0px !important;
+}
+
+.right-gap-sm {
+  margin-right: 5px !important;
+}
+
+.right-gap-md {
+  margin-right: 10px !important;
+}
+
+.right-gap-lg,.right-gap-1x {
+  margin-right: 15px !important;
+}
+
+.right-gap-2x {
+  margin-right: 20px !important;
+}
+
+.right-gap-3x {
+  margin-right: 30px !important;
+}
+
+.right-gap-4x {
+  margin-right: 40px !important;
+}
+
+.right-gap-5x {
+  margin-right: 50px !important;
+}
+
+
+/**
  * Hiding stuff
  */
 
