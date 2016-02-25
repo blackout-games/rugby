@@ -24,9 +24,9 @@
       
       <div id="sidebar-scroller-parent" style="position:relative;">
         
-        {{!#perfect-scroll id="sidebar-scroller" class="perfect-scrollbar always-visible" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
+        {{#component (if usePerfectScroll 'perfect-scroll' 'normal-scroll') id="sidebar-scroller" class="perfect-scrollbar always-visible" allowBodyScrollEvent="navAllowBodyScroll" wheelSpeed=2 suppressScrollX=true}}
         
-        {{#normal-scroll id="sidebar-scroller"}}
+        {{!#normal-scroll id="sidebar-scroller"}}
           
           <div class="full-height row row-vertical">
             
@@ -125,7 +125,7 @@
           </div>
           
         {{!/perfect-scroll}}
-        {{/normal-scroll}}
+        {{/component}}
         
       </div>
       

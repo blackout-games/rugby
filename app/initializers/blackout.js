@@ -902,7 +902,7 @@ window.os.touchOS = window.os.iOS || window.os.android;
 window.browsers = {};
 window.browsers.chromeiOS = /crios/i.test(navigator.userAgent);
 window.browsers.safariOS = /(iPod|iPhone|iPad)/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !window.browsers.chromeiOS;
-
+window.browsers.webkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
 
 /**
  * Jeremy's minimal os and browser detections

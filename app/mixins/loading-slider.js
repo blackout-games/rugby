@@ -36,6 +36,9 @@ export default Ember.Mixin.create({
   
   hideSplash(){
     
+    // Allow scroll bar on body again
+    Ember.$('body').removeClass('hide-scrollbar');
+    
     if(this.get('routesLoading')===0){
       
       if(this.get('media.isMobile') || this.get('media.isTablet')){

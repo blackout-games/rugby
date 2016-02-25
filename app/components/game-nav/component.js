@@ -906,6 +906,11 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     
     //$('#sidebar-scroller').perfectScrollbar('update');
     
-  }
+  },
+  
+  usePerfectScroll: Ember.computed(function(){
+    //return window.browsers.webkit;
+    return !window.os.touchOS;
+  }),
 
 });
