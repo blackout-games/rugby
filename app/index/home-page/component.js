@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   contextElementId: '',
   currentYear: new Date().getFullYear(),
   userImages: Ember.inject.service(),
+  locale: Ember.inject.service(),
   
   fbLoginAction: 'loginWithFacebook',
   
@@ -69,6 +70,9 @@ export default Ember.Component.extend({
     },
     showMenu(){
       this.get('EventBus').publish('showNav');
+    },
+    showSettings(){
+      this.get('EventBus').publish('showSettings');
     },
   },
   

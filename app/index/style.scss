@@ -628,3 +628,22 @@ $margin: 5vmin;
     position:relative;
   }
 }
+
+#home-page-language {
+  position:absolute;
+  top:7px;
+  right:7px;
+  font-size:12px;
+  @media #{$nav-sm-up} {
+    top:11px;
+    right:11px;
+    font-size:13px;
+  }
+  a {
+    text-transform: uppercase;
+    color: rgba(white, 0.59);
+    &.hover {
+      color: rgba(white, 1);
+    }
+  }
+}

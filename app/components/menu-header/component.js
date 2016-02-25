@@ -11,7 +11,20 @@ export default Ember.Component.extend({
   initUserImages: Ember.on('didInsertElement', function() {
     this.get('userImages').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
     this.get('userImages').registerClubImage('.club-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
+    
+    // Listen for settings toggle events
+    this.get('EventBus').subscribe('showSettings', this, this.showSettings);
   }),
+
+  cleanup: Ember.on('willDestroyElement', function(){
+    
+    this.get('EventBus').unsubscribe('showSettings', this, this.showSettings);
+    
+  }),
+  
+  showSettings(){
+    this.send('toggleSettings','show');
+  },
 
   currentClub: Ember.computed('session.sessionBuilt', function() {
     if (this.get('session.isAuthenticated') && this.get('session.manager.currentClub')) {
@@ -42,7 +55,7 @@ export default Ember.Component.extend({
     goAction(){
       // Used for testing some random action
     },
-    toggleSettings(){
+    toggleSettings(force){
       
       let lastToggled = this.get('settingsLastToggled');
       if(Ember.isEmpty(lastToggled)){
@@ -53,7 +66,15 @@ export default Ember.Component.extend({
       if(Date.now()-lastToggled>=222){
         
         let $item = this.$('.settings-cog > .btn-a');
-        $item.toggleClass('active');
+        
+        if(force==='show'){
+          $item.addClass('active');
+        } else if(force==='hide'){
+          $item.removeClass('active');
+        } else {
+          $item.toggleClass('active');
+        }
+        
         if($item.hasClass('active')){
           this.set('settingsPanelIsShowing',true);
         } else {

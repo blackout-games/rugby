@@ -35,6 +35,7 @@ export default Ember.Service.extend({
   },
   
   currentLocale: null,
+  currentLocaleName: null,
   
   getLocalesList() {
     
@@ -175,6 +176,7 @@ export default Ember.Service.extend({
         
         // Update local variable
         self.set('currentLocale',locale);
+        self.set('currentLocaleName',this.get(`supportedLocales.${locale}.label`));
         
         // Update moment
         let momentLocale = locale==='es-ar' ? 'es' : locale;

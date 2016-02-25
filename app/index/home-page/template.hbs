@@ -4,12 +4,17 @@
   {{way-point action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
 
   <div id="top-section-wrapper">
-
+    
+    <div class="standalone-bumper"></div>
     <div id="top-section-balloon"></div>
 
     {{#component "index/home-backgrounds" id="top-section"}}
 
     <div class="container-fluid" style="position:relative;">
+      
+      <div id="home-page-language">
+        <a {{action 'showSettings'}} class="btn-a white">{{locale.currentLocaleName}}</a>
+      </div>
 
       <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}">{{t 'home-page.welcome'}}</div>
 
@@ -419,7 +424,7 @@
     </div>
 
     <div class="footer-final">
-      &copy; {{currentYear}} Blackout Entertainment Ltd &bull; {{t 'home-page.all-rights-reserved'}} &bull; <a href="https://www.iubenda.com/privacy-policy/657214">{{t 'home-page.privacy'}}</a>
+      &copy; {{currentYear}} Blackout Entertainment Ltd &bull; {{t 'home-page.all-rights-reserved'}} &bull; <a href="https://www.iubenda.com/privacy-policy/657214">{{t 'home-page.privacy'}}</a> &bull; <a {{action 'showSettings'}}>{{locale.currentLocaleName}}</a>
     </div>
 
   </footer>
