@@ -92,7 +92,7 @@ export default Ember.Component.extend({
           }
         });
       }
-    },1111);
+    },1777);
   },
   
 });

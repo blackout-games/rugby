@@ -64,6 +64,15 @@ export function initialize( application ) {
     
   };
   
+  /**
+   * Track current route name
+   */
+  Ember.Blackout.setCurrentRoute = (name) => {
+    
+    Ember.Blackout.currentRoute = name;
+    
+  };
+  
 }
 
 export default {

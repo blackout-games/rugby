@@ -1,5 +1,1 @@
-{{page-header title=(t 'squad.title') class="gap-4x"}}
-
-{{#lazy-list  itemClass="gap-7x no-gap-on-last" list=model as |player|}}
-  {{player-ui player=player}}
-{{/lazy-list}}
+{{component 'squad/club/index/squad-route' model=model}}

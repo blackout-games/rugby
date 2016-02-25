@@ -17,6 +17,7 @@ export default Ember.Mixin.create({
           controller.set('loading', false);
         }); 
       }
+      return true; // Bubble event
     },
     finished: function() {
       this.splashRouteFinished();
