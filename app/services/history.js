@@ -66,6 +66,8 @@ export default Ember.Service.extend({
         this.get('history').splice(0,1);
       }
       
+    } else {
+      this.set('skipNextRouteFlag',false);
     }
     
   },
