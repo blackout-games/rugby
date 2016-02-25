@@ -115,8 +115,8 @@ form .btn {
   height:48px;
 
   @media #{$mobile} {
-    //font-size: 4.8vmin;
-    //padding: 0 0 0.5vmin;
+    font-size: 15px;
+    height:44px;
   }
   &.hover,&.press {
     //font-size: 19px;

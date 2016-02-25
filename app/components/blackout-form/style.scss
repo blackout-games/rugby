@@ -1,3 +1,6 @@
 .blackout-form-helper {
   color: $text-lighter-4x;
+  @media #{$mobile} {
+    font-size:15px;
+  }
 }

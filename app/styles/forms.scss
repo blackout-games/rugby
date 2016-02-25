@@ -138,6 +138,9 @@ label {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 2px;
+  @media #{$mobile} {
+    font-size:15px;
+  }
 }
 
 /**
@@ -155,9 +158,10 @@ input[type="text"], input[type="password"], input[type="email"] {
   font-size:18px;
   line-height:normal;
 
-  @media #{$mobile-tall} {
-    //padding-top: 6vmin;
-    //padding-bottom: 6vmin;
+  @media #{$mobile} {
+    height:44px;
+    padding: 6px 12px;
+    font-size:16px;
   }
   color: $primary-text-color;
   -webkit-appearance: none;
