@@ -29,6 +29,9 @@ export default Ember.Mixin.create({
     var wasSplit = false;
     var parts;
     
+    // Remove "Take me to the revamp"
+    body = body.replace(/\n\n\*\*_\*\*_.*?_\*\*_\*\*/,'');
+    
     if(body.indexOf('[split]')>=0){
       
       parts = body.split('[split]');
