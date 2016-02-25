@@ -44,7 +44,7 @@
 }
 
 .manager-avatar-menu {
-  margin: 10px;
+  margin: 7px 10px 10px;
 }
 
 $color: desaturate(darken($secondary-master,9%),22%);
@@ -54,7 +54,7 @@ $color: desaturate(darken($secondary-master,9%),22%);
   cursor: default;
   white-space: nowrap;
   vertical-align: text-top;
-  line-height: 59px;
+  line-height: 55px;
   width:auto;
   max-width:159px;
   //font-size: 1em;
