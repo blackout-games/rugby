@@ -196,13 +196,19 @@ export default Ember.Service.extend({
       
       // Has this locale been loaded yet?
       if(!self.get('supportedLocales.' + locale + '.loaded')){
-          
+        
         // i18n url
         let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
         
+        // Fix IE caching | {cache:false} doesn't work
+        url += '?_=' + Ember.Blackout.generateId();
+        
         Ember.Blackout.startLoading();
         
-        return Ember.$.getJSON(url).then(updateLocale);
+        return Ember.$.getJSON(url).then((data)=>{
+          updateLocale(data);
+        });
+        
         
       } else {
         updateLocale();
