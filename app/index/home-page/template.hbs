@@ -5,14 +5,17 @@
 
   <div id="top-section-wrapper">
     
-    <div class="standalone-bumper"></div>
+    
     <div id="top-section-balloon"></div>
 
     {{#component "index/home-backgrounds" id="top-section"}}
 
     <div class="container-fluid" style="position:relative;">
+    
+      <div class="standalone-bumper"></div>
       
       <div id="home-page-language">
+        <div class="standalone-bumper"></div>
         <a {{action 'showSettings'}} class="btn-a white">{{locale.currentLocaleName}}</a>
       </div>
 
