@@ -35,11 +35,14 @@ export default Ember.Route.extend({
        * In this case, the data variable in this very scope
        */
       
-      data.countrySortProps = ['activeTeams:desc'];
+      // To use sorts properly, notifyPropertyChange must exist, which means this must be an ember object.
+      if(!data.notifyPropertyChange){
+        data = Ember.Object.extend(data).create();
+      }
+      
+      data.set('countrySortProps',['activeTeams:desc']);
       
       data.countriesSorted = Ember.computed.sort('countries','countrySortProps');
-      
-      
       
       return data;
       
