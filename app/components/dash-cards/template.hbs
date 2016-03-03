@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-6 col-sm-4 col-md-12 dash-box-container row">
-    {{#dash-card class="bg-override-master white" title="Bank Balance" icon-class="icon-money" }}
+    {{#dash-card class="bg-override-master white" title=(t 'dashboard.cards.bank-balance') icon-class="icon-money" }}
       
       <h2 class="top-gap-sm no-gap">
         {{#if session.isAuthenticated}}
@@ -18,7 +18,7 @@
     {{/dash-card}}
   </div>
   <div class="col-xs-6 col-sm-4 col-md-12 dash-box-container row">
-    {{#dash-card class="bg-override-secondary white" title="Weather" icon-class="icon-cloud"}}
+    {{#dash-card class="bg-override-secondary white" title=(t 'dashboard.cards.weather') icon-class="icon-cloud"}}
     
       <svg
        version="1.1"

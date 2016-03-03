@@ -1,4 +1,4 @@
-import translationMicro from 'rugby-ember/utils/translation-macro';
+import translationMacro from 'rugby-ember/utils/translation-macro';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | translation macro');
