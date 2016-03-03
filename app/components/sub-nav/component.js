@@ -172,6 +172,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // Set nav as active (i.e. we're on a page containing sub-nav)
     this.set('navIsActive',true);
     
+    // Show subnav
+    this.$('#sub-nav-panel').addClass('active');
+    
   },
   
   updateSubNavMobile(){
@@ -360,11 +363,18 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   hide(){
     if(this.get('isOpen')){
-      this.$('#sub-nav-panel,#sub-nav-touch-blocker').removeClass('open');
+      this.$('#sub-nav-panel,#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        // Remove subnav
+        this.$('#sub-nav-panel').removeClass('active');
+        log('removed');
+      });
       this.$('#sub-nav-touch-blocker').off('mousedown touchstart', this.blockerTouchBound);
       this.$('i').removeClass('icon-cancel icon-smd').addClass('icon-sub-menu icon-md');
       this.set('isOpen',false);
       return true;
+    } else {
+      // Remove subnav
+      this.$('#sub-nav-panel').removeClass('active');
     }
     return false;
   },

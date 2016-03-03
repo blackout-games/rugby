@@ -16,6 +16,11 @@ $animation-time: 0.333s;
   position:fixed;
   top:0;
   z-index:35;
+  display:none;
+  
+  &.active {
+    display:block;
+  }
   
   @media #{$tablet-tall-and-down} {
     
