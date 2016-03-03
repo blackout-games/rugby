@@ -160,7 +160,6 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   &.rugby-skylights {
     @include header-background-image($image-folder + "stock/stadium-skylights.jpg", center 35%);
   }
-}
   
   /**
    *  Squad
@@ -178,3 +177,12 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   &.squad-training {
     @include header-background-image($image-folder + "stock/squad-training.jpg", center bottom);
   }
+  
+  /**
+   *  Not found
+   */
+  
+  &.not-found-ball {
+    @include header-background-image($image-folder + "stock/not-found-ball.jpg", center center);
+  }
+}

@@ -435,8 +435,26 @@ article, blockquote {
 .text-small {
   font-size:12px !important;
 }
+.text-medium {
+  font-size:18px !important;
+  @media #{$tablet-and-up} {
+    font-size:20px !important;
+  }
+}
+.text-large {
+  font-size:23px !important;
+  @media #{$tablet-and-up} {
+    font-size:29px !important;
+  }
+}
 .text-huge {
-  font-size:32px !important;
+  font-size:30px !important;
+  @media #{$tablet-and-up} {
+    font-size:35px !important;
+  }
+}
+.text-giant {
+  font-size:132px !important;
 }
 
 /**

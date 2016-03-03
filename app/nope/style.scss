@@ -1,0 +1,45 @@
+.not-found-container {
+  max-width: 1111px;
+}
+
+$color: lighten(saturate($bg-dark-lighter-2x,4%),7%);
+
+.icon-logo-404 {
+  
+  margin: -2vw 0 0 0;
+  /* font-size:70px;
+  
+  @media #{$mobile-wide-and-up} {
+    font-size:130px;
+  }
+  @media #{$tablet-tall-and-up} {
+    font-size:180px;
+  }
+  @media #{$tablet-wide-and-up} {
+    font-size:222px;
+  }
+  @media #{$desktop} {
+    font-size:444px;
+  } */
+  
+  font-size:44vw;
+  @media #{$mobile-wide-and-up} {
+    font-size:33vw;
+  }
+  color: darken($color,4%);
+  //color: $primary-master;
+  
+}
+
+.not-found-title {
+  font-size: 22vmin;
+  
+  @media #{$mobile-wide-and-up} {
+    font-size: 10vmax;
+  }
+  
+}
+
+.not-found-text {
+  color: $color;
+}

@@ -41,6 +41,8 @@ Router.map(function() {
     });
   });
   this.route('account');
+  this.route('nope', { path: '/*path'});
+  this.route('nope');
 });
 
 export default Router;

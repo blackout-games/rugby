@@ -462,8 +462,16 @@
     max-width: 100%;
   }
 
+  .col-first-xxs {
+    order: -1;
+  }
+
   .pad-right-xxs {
     padding-right: 7px;
+  }
+
+  .row-wrap-xxs {
+    flex-flow: row wrap;
   }
   
 }

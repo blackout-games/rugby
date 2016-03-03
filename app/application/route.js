@@ -4,6 +4,7 @@ import LoadingSliderMixin from '../mixins/loading-slider';
 import FbMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
 import config from '../config/environment';
+import { translationMacro as t } from "ember-i18n";
 
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, FbMixin, {
   locals: Ember.inject.service(),
@@ -113,15 +114,53 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       } else {
         return true;
       }
+            
     },
 
   },
   
-  handleError( errors/*, transition*/){
-    // Handle blocked user
-    if(errors.status && errors.status === '403' && errors.title && errors.title === 'Blocked'){
-      this.transitionTo('blocked');
+  handleError( error/*, transition*/){
+    
+    // Handle multiple error types
+    if(!error.status && error.length>0 && error[0].status){
+      error = error[0];
+    }
+    
+    if(error.status){
+      
+      if (error.status === '0') {
+          
+          this.modal.show({
+            type: 'error',
+            title: t('modals.no-connection.title'),
+            message: t('modals.no-connection.message'),
+            showDefaultAction: false,
+          });
+          
+      } else if (error.status === '401') {
+        
+          //TODO: handle 401
+          
+      } else if (error.status === '403') {
+          
+          // Handle blocked user
+          if(error.title && error.title === 'Blocked'){
+            this.transitionTo('blocked');
+          } else {
+            //TODO: handle general 403
+          }
+          
+      } else if (error.status === '404') {
+          this.transitionTo('nope');
+          return false;
+      } else {
+        
+          log(error);
+          
+      }
+      
       return false;
+      
     }
     
     return true;

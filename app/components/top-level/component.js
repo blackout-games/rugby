@@ -6,12 +6,22 @@ export default Ember.Component.extend({
     
     // Set background
     Ember.run.schedule('afterRender', this, function () {
-      if(this.get('imageUrl')){
-        this.get('EventBus').publish('setNewBackground',this.get('imageUrl'));
+      
+      if( Ember.Blackout.isEmpty(this.get('imageUrl')) && Ember.Blackout.isEmpty(this.get('images')) ){
+        
+        this.get('EventBus').publish('removeBackground');
+        
+      } else {
+        
+        if(this.get('imageUrl')){
+          this.get('EventBus').publish('setNewBackground',this.get('imageUrl'));
+        }
+        if(this.get('images')){
+          this.get('EventBus').publish('setNewBackgrounds',this.get('images'));
+        }
+        
       }
-      if(this.get('images')){
-        this.get('EventBus').publish('setNewBackgrounds',this.get('images'));
-      }
+      
     }); 
     
     // Animate

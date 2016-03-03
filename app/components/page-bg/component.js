@@ -7,6 +7,7 @@ var imagesList = {
   //"rugby": ['skylights'],
   //"squad": ['green2','green3','lockers','training'],
   "squad": ['training'], // Leave this bg, since it's the best. Fow now.
+  "not-found": ['ball'],
 };
 
 export default Ember.Component.extend({
