@@ -819,6 +819,58 @@ class Blackout {
     return 'Jr ' + name;
   }
   
+  matchPathToMenuItem(path,route){
+    
+    // Unify splitter characters
+    path = path.replace(/[/.]/g,'_');
+    route = route.replace(/[/.]/g,'_');
+    
+    let parts = path.trim('_').split('_');
+    let bestMatch = '';
+    let matchedParts = 0;
+    
+    parts.forEach((val)=>{
+      if(route.indexOf(bestMatch + val + '_') === 0){
+        bestMatch += val + '_';
+        matchedParts++;
+      } else {
+        return false;
+      }
+    });
+    
+    return matchedParts>0 ? matchedParts : false;
+    
+  }
+  
+  findPathInMenu(path){
+    
+    let self = this;
+    let $matchedMenu = $();
+    let bestMatch = 0;
+    
+    // Unify splitter characters
+    path = path.replace(/[/.]/g,'_');
+    
+    // Get all menu items
+    $('#nav-panel a.menu-link').each(function(){
+      
+      let route = $(this).attr('id').substr(String("menuItem_").length);
+      let matched = self.matchPathToMenuItem(path,route);
+      
+      if(matched > bestMatch){
+        bestMatch = matched;
+        $matchedMenu = $(this);
+      }
+      
+    });
+    
+    return $matchedMenu;
+    
+  }
+  
+  /**
+   * Util
+   */
   refreshHoverWatchers(){
     _refreshWatchers();
   }

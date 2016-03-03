@@ -439,13 +439,16 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         let key = "menu."+Ember.String.dasherize(menuName)+"."+Ember.String.dasherize(item.label);
         item.tLabel = self.get('i18n').t(key);
         
+        // Serialize route name for use as CSS id name
+        item.cssRoute = item.route.replace(/\./g,'_');
+         
         if(item.tempRoute){
-          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.tLabel+'</a>');
+          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.tempRoute;
           
         } else if(item.route){
-          itemLink = $('<a href="/'+item.route+'" id="menuItem'+item.route+'" class="btn-a menu-link">'+item.tLabel+'</a>');
+          itemLink = $('<a href="/'+item.route+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.route;
           
@@ -499,23 +502,27 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
     } else {
       
-      var path = window.location.pathname;
-      var selected = false;
+      let path = window.location.pathname;
+      let selectMenu;
+      let bestMatch = 0;
       
       $.each(MenuData.menus, function(menu, items) {
 
         $.each(items, function(index, item) {
-
-          if ('/'+item.route === path) {
-            self.selectTab(menu, 'menu', true, menuOpenedOnThisClick );
-            selected = true;
-            return false;
+          
+          let matched = Ember.Blackout.matchPathToMenuItem(path,item.route);
+          
+          if(matched > bestMatch){
+            selectMenu = menu;
+            bestMatch = matched;
           }
 
         });
       });
       
-      if(!selected){
+      if (selectMenu) {
+        self.selectTab(selectMenu, 'menu', true, menuOpenedOnThisClick );
+      } else {
         self.selectTab('manager', 'menu', true, menuOpenedOnThisClick );
       }
       
@@ -535,6 +542,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       selectPath = path.split('/')[1];
     }
     
+    // Serialize for CSS
+    selectPath = selectPath.replace(/\./g,'_');
+    
     // tmp
     if(selectPath==='coming-soon'){
       return;
@@ -548,8 +558,14 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       $('#nav-panel a.menu-link').removeClass('selected');
       //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
       
+      let $matchedMenu = Ember.Blackout.findPathInMenu(selectPath);
+      
       //log('selecting menu link ('+selectPath+')');
-      $('#menuItem'+selectPath).addClass('selected');
+      if($matchedMenu.length){
+        $matchedMenu.addClass('selected');
+      } else {
+        $('#menuItem_'+selectPath).addClass('selected');
+      }
       
     }
     
