@@ -6,16 +6,16 @@
   
     
     <div class="col-xxs-12 col-xs text-right not-found-text text-medium">
-      <h1 class="not-found-title">Oops!</h1>
+      <h1 class="not-found-title">{{t 'errors.404.title'}}</h1>
       <p class="text-large white">
-        We can't seem to find the page you're looking for.
+        {{t 'errors.404.message'}}
       </p>
       <p>
-        Here are some helpful links instead:
+        {{t 'errors.404.helper'}}
       </p>
       <p>
-        {{#link-to "index"}}Home{{/link-to}}<br>
-        {{#link-to "dashboard"}}Dashboard{{/link-to}}
+        {{#link-to "index"}}{{t 'buttons.home'}}{{/link-to}}<br>
+        {{#link-to "dashboard"}}{{t 'dashboard.title'}}{{/link-to}}
       </p>
     </div>
     

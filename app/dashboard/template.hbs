@@ -8,7 +8,9 @@
     <div class="dash-box dash-col">
       
       <div class="panel-title">{{t 'dashboard.news.game-news'}}</div>
-      {{#link-to 'news.article' 1}}Bad Article{{/link-to}}
+      
+      {{!#link-to 'news.article' 1}Bad Article{{/link-to}}
+      
       {{#each model.news key="id" as |article|}}
         
         <div class="gap-3x">
