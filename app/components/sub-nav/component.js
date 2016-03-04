@@ -295,7 +295,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this.set('navIsActive',false);
     
-    this.hide();
+    this.hide( true );
   },
   
   resetStyle($panel){
@@ -361,20 +361,23 @@ export default Ember.Component.extend(PreventBodyScroll,{
     return false;
   },
   
-  hide(){
+  hide( forGood ){
     if(this.get('isOpen')){
       this.$('#sub-nav-panel,#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
-        // Remove subnav
-        this.$('#sub-nav-panel').removeClass('active');
-        log('removed');
+        if(forGood){
+          // Remove subnav
+          this.$('#sub-nav-panel').removeClass('active');
+        }
       });
       this.$('#sub-nav-touch-blocker').off('mousedown touchstart', this.blockerTouchBound);
       this.$('i').removeClass('icon-cancel icon-smd').addClass('icon-sub-menu icon-md');
       this.set('isOpen',false);
       return true;
     } else {
-      // Remove subnav
-      this.$('#sub-nav-panel').removeClass('active');
+      if(forGood){
+        // Remove subnav
+        this.$('#sub-nav-panel').removeClass('active');
+      }
     }
     return false;
   },
