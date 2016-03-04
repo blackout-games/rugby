@@ -23,7 +23,7 @@
 @media #{$nav-sm-up} {
 
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 9px;
   }
 
   ::-webkit-scrollbar-track {
@@ -45,11 +45,6 @@
     background: rgba(0,0,0,0.33);
   }
 
-  // Light
-  /* body::-webkit-scrollbar {
-    background-color:white;
-  } */
-
   // Alt light
   body::-webkit-scrollbar-thumb {
     background: #616C93;
@@ -67,6 +62,12 @@
   // Secondary dark
   .dark-scrollbar::-webkit-scrollbar-thumb, .dark-scrollbar::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(#677198,0.33);
+  }
+  
+  // Just hide *body* scrollbar even on desktop
+  body::-webkit-scrollbar, #nav-body::-webkit-scrollbar {
+    width: 0px;
+    display:none;
   }
   
 }
