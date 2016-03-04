@@ -18,33 +18,34 @@ var blackoutRoute = {
      * This allows us to force the loader to appear on certain routes, even when not returning a promise, or thier promise is already fulfilled.
      * Example, the squad page, since it takes so long to render it's helpful for the user to see a loading bar.
      */
-    if(!this.get('_normalTransitionTo') && forceLoaderRoutes.indexOf(name)>=0 && Ember.Blackout.currentRoute !== name){
+    if(!this.get('_forceNormalTransitionTo') && forceLoaderRoutes.indexOf(name)>=0 ){
       
-      Ember.Blackout.startLoading();
+      let currentRoute = Ember.Blackout.getCurrentRoute();
       
-      let args = arguments;
-      Ember.run.later(()=>{
-        this.set('_normalTransitionTo',true);
-        this.transitionTo(...args);
-      },44);
+      // Remove any indexes
+      currentRoute = currentRoute.replace(/\.index/g,'');
       
-    } else {
-      this.set('_normalTransitionTo',false);
-      Ember.Blackout.setCurrentRoute(name);
-      this._super(...arguments);
+      if(currentRoute !== name){
+        
+        Ember.Blackout.startLoading();
+        
+        let args = arguments;
+        Ember.run.later(()=>{
+          this.set('_forceNormalTransitionTo',true);
+          this.transitionTo(...args);
+        },44);
+        
+        return;
+        
+      }
+      
     }
+    
+    this.set('_forceNormalTransitionTo',false);
+    this._super(...arguments);
     
     
   },
-  
-  actions: {
-    willTransition(transition){
-      this.router.one('didTransition', function() {
-        Ember.Blackout.setCurrentRoute(transition.targetName);
-      });
-      return true;
-    },
-  }
 };
 
 export function initialize(/* application */) {
