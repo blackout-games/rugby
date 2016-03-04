@@ -136,8 +136,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
         this.updateSubNavNonMobile(true,animationAlreadyTookPlace);
       });
       
-      // Fade
-      Ember.Blackout.animateUI($panel);
+      if(this.get('subNavMode') !== 'd'){
+        // Fade
+        Ember.Blackout.animateUI($panel);
+      }
       
     }
   },
