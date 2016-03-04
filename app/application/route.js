@@ -4,7 +4,8 @@ import LoadingSliderMixin from '../mixins/loading-slider';
 import FbMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
 import config from '../config/environment';
-import { translationMacro as t } from "ember-i18n";
+//import { translationMacro as t } from "ember-i18n";
+import t from "../utils/translation-macro";
 
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, FbMixin, {
   locals: Ember.inject.service(),
@@ -135,7 +136,10 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
             title: t('modals.no-connection.title'),
             message: t('modals.no-connection.message'),
             showDefaultAction: false,
+            callback: Ember.Blackout.stopLoading,
           });
+          
+          //Ember.Blackout.stopLoading();
           
       } else if (error.status === '401') {
         

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 var $ = Ember.$;
-import { translationMacro as t } from "ember-i18n";
+//import { translationMacro as t } from "ember-i18n";
+import t from "../../utils/translation-macro";
 
 export default Ember.Component.extend({
   
@@ -79,10 +80,6 @@ export default Ember.Component.extend({
     if( options.extraButtons ){
       options.buttons = options.extraButtons.concat(options.buttons);
     }
-    
-    $.each(options.buttons,function(index){
-      options.buttons[index].i18n = self.get('i18n');
-    });
     
     // Magic!
     this.set('modal',options);
@@ -167,6 +164,11 @@ export default Ember.Component.extend({
         },self.get('animationDuration'));
         self.set('runLater',runLater);
       });
+      
+      // Run callback function if exists
+      if(typeof(this.get('modal.callback')) === 'function'){
+        this.get('modal.callback')();
+      }
     },
   },
   

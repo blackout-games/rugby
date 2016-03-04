@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import t from "../../utils/translation-macro";
-import c from "../../utils/nested-computed";
+//import c from "../../utils/nested-computed";
 
 export default Ember.Component.extend({
   

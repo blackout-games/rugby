@@ -77,6 +77,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     let $newSel = $('<div class="bs-container no-webkit-highlight'+disabledClass+'"></div>');
     $placeholder.addClass($sel.prop('className'));
+    $placeholder.addClass(this.get('classes'));
     $sel.prop('className','');
     
     // Temporary DOM insert to get sizes

@@ -9,6 +9,7 @@ $focus-shadow: 0 0 8px rgba($focus-border-color, 0.333);
 
 // Button style (not in buttons.scss since it's needed here, and forms.scss needs to come before buttons.scss)
 $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+$button-inset-shadow-on-dark: inset 0 3px 5px rgba(0, 0, 0, 0.25);
 
 /**
  * Mixins
@@ -79,6 +80,10 @@ $button-inset-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   
   &:active {
     box-shadow: $button-inset-shadow, $outer-glow !important;
+  }
+  
+  &.btn-on-dark:active {
+    box-shadow: $button-inset-shadow-on-dark, $outer-glow !important;
   }
   //box-shadow: inset 0 0 0 $focus-border-thickness rgba(white, 0.59), 0 0 8px rgba(saturate($primary-master, 11%), 0.8) !important;
   

@@ -27,6 +27,10 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
   //text-transform: uppercase;
   //
   padding: 0 11px 2px;
+
+  @media #{$mobile} {
+    font-size: 15px;
+  }
   
   @include focus-button;
 
@@ -46,6 +50,9 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
     &:disabled {
       transform: none;
     }
+    &.btn-on-dark {
+      box-shadow: $button-inset-shadow-on-dark;
+    }
   }
 
   &:focus {
@@ -56,9 +63,14 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
     background-color: pressColor($button-color);
     border-color: pressColor($button-color);
     transform: translate3d(0, 1px, 0);
+    box-shadow: $button-inset-shadow;
     &:disabled {
       transform: none;
     }
+  }
+  
+  &.btn-on-dark:active {
+    box-shadow: $button-inset-shadow-on-dark;
   }
   
   &:disabled{
