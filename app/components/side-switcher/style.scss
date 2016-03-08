@@ -1,5 +1,6 @@
 $side-switcher-time: 0.444s;
 $side-switcher-ease: ease('out-expo');
+$height-transition: height $side-switcher-time $side-switcher-ease;
 
 .switcher-window {
   position: relative;
@@ -14,15 +15,25 @@ $side-switcher-ease: ease('out-expo');
   width: 200%;
   top: 0;
   left: 0;
-  transition: transform $side-switcher-time $side-switcher-ease;
   overflow-y: visible;
+  
+  transition: transform $side-switcher-time $side-switcher-ease, $height-transition;
+  &.dont-animate-height {
+    transition: transform $side-switcher-time $side-switcher-ease;
+  }
 }
 .switcher-ready-left {
-  transition: none;
+  transition: $height-transition;
+  &.dont-animate-height {
+    transition: none;
+  }
   transform: translate3d(-50%,0,0);
 }
 .switcher-ready-right, .switcher-ready-disable {
-  transition: none;
+  transition: $height-transition;
+  &.dont-animate-height {
+    transition: none;
+  }
   transform: translate3d(0,0,0);
 }
 .switcher-move-left {

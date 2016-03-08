@@ -32,6 +32,11 @@ export default Ember.Component.extend({
     // Bind functions
     this.afterAnimationBound = Ember.run.bind(this,this.afterAnimation);
     
+    // Don't animate height on touch OS's (too slow, for now)
+    if(window.os.touchOS || !this.get('allowHeightAnimation')){
+      this.$().findClosest('.switcher-pane').addClass('dont-animate-height');
+    }
+    
   }),
   
   show() {
@@ -148,6 +153,13 @@ export default Ember.Component.extend({
     var pane = this.$().findClosest('.switcher-pane');
     var ready = direction === 'right' ? 'left' : 'right';
     
+    // Animate height
+    // Must run next to get correct height
+    Ember.run.next(()=>{
+      pane.css({
+        height: $(newObj).outerHeight(true),
+      });
+    });
   
     if( !dontReset ){
       
