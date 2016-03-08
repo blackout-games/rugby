@@ -1,0 +1,161 @@
+$tab-size: 70px;
+$tab-size-tablet-up: 70px;
+
+$tab-height: 50px;
+$tab-height-tablet-up: 55px;
+
+$background-color: $bg-dark;
+
+.blackout-tabs-slider-container {
+  position:relative;
+  overflow:hidden;
+  width:100%;
+}
+
+.blackout-tabs-slider-hider {
+  height:$tab-height;
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up;
+  }
+  overflow:hidden;
+  position:relative;
+  border-top-left-radius: $border-radius !important;
+  border-top-right-radius: $border-radius !important;
+  
+  $shadow-color: desaturate(darken($background-color,7%),17%);
+  
+  &:after {
+    position:absolute;
+    content:"";
+    height:100%;
+    width:70px;
+    top:0;
+    right:0;
+    background: linear-gradient(to right, rgba($shadow-color,0), rgba($shadow-color,1) );
+    pointer-events: none;
+    z-index:1;
+  }
+}
+
+.blackout-tabs-slider-scroller {
+  height:$tab-height + 15px;
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up + 15px;
+  }
+  background-color: $background-color;
+  border-top-left-radius: $border-radius !important;
+  border-top-right-radius: $border-radius !important;
+}
+
+.blackout-tabs-slider {
+  //width:auto;
+  padding-right:100px !important;
+  
+  .blackout-tabs-slider-end {
+    width:70px;
+    height:1px;
+  }
+}
+
+.blackout-tabs-slider-tab {
+  height:$tab-height;
+  width:$tab-size;
+  font-size:11px;
+  font-weight: bold;
+  
+  @media #{$tablet-and-up} {
+    font-size:12px;
+  }
+  
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up;
+    width:$tab-size-tablet-up;
+  }
+  background-color: $background-color;
+  
+  .ellipses {
+    width:$tab-size;
+    @media #{$tablet-and-up} {
+      width:$tab-size-tablet-up;
+    }
+    margin-top:-1px;
+  }
+  
+  .vc-child {
+    //margin-top:-1px;
+  }
+  
+  color:$bg-dark-lighter-4x;
+  
+  &:hover {
+    background-color: $bg-dark-lighter;
+    color:$bg-dark-lighter-4x !important;
+  }
+  
+  &.active, &.active:hover {
+    
+    // Mode A (Tab turns same colour as content background)
+    background-color: white;
+    color: $bg-dark-lighter-2x !important;
+    
+    // Mode B (Tab remains same color, icon color changes)
+    //background-color: $background-color;
+    //color: white !important;
+    
+  }
+}
+
+.blackout-tabs-slider-button {
+  
+  position:absolute;
+  background-color: $bg-dark-lighter;
+  width:44px;
+  height:44px;
+  top: ($tab-height - 44px) * 0.5;
+  @media #{$tablet-and-up} {
+    top: ($tab-height-tablet-up - 44px) * 0.5;
+  }
+  
+  z-index:2;
+  cursor: pointer;
+  display:none;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 7px rgba(black,0.44);
+  @media #{$tablet-and-up} {
+    box-shadow: 0 4px 11px rgba(black,0.44);
+  }
+  
+  &.left {
+    left: -11px;
+    text-align: center;
+    i {
+      margin-left: 5px;
+    }
+  }
+  
+  &.right {
+    right:-11px;
+    text-align: center;
+    i {
+      margin-right: 7px;
+    }
+  }
+  
+  i {
+    margin-top: 12px;
+    display: inline-block;
+    @media #{$tablet-and-up} {
+      margin-top: 4px;
+    }
+    color:$bg-light;
+  }
+  
+  &:hover {
+    background-color: hoverColor($bg-dark-lighter);
+  }
+  &:active {
+    background-color: pressColor($bg-dark-lighter);
+    box-shadow: 0 1px 11px rgba(black,0.44);
+  }
+  
+}

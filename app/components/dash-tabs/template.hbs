@@ -1,0 +1,9 @@
+ 
+
+{{blackout-tabs-slider tabPanels=dashTabs selectedTab=(mut selectedDashTab) }}
+
+{{#blackout-tabs tabPanels=(mut dashTabs) externalSelectedTab=(mut selectedDashTab) hideTabs=true }}
+  
+  {{yield}}
+  
+{{/blackout-tabs}}

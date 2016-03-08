@@ -1,6 +1,15 @@
 Font license info
 
 
+## Fontelico
+
+   Copyright (C) 2012 by Fontello project
+
+   Author:    Crowdsourced, for Fontello project
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://fontello.com
+
+
 ## Font Awesome
 
    Copyright (C) 2012 by Dave Gandy
@@ -10,13 +19,13 @@ Font license info
    Homepage:  http://fortawesome.github.com/Font-Awesome/
 
 
-## MFG Labs
+## Entypo
 
    Copyright (C) 2012 by Daniel Bruce
 
-   Author:    MFG Labs
+   Author:    Daniel Bruce
    License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.mfglabs.com/
+   Homepage:  http://www.entypo.com
 
 
 ## Typicons
@@ -37,13 +46,13 @@ Font license info
    Homepage:  http://thedesignoffice.org/project/modern-pictograms/
 
 
-## Entypo
+## MFG Labs
 
    Copyright (C) 2012 by Daniel Bruce
 
-   Author:    Daniel Bruce
+   Author:    MFG Labs
    License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.entypo.com
+   Homepage:  http://www.mfglabs.com/
 
 
 ## Elusive
@@ -62,14 +71,5 @@ Font license info
    Author:    Just Be Nice studio
    License:   SIL (http://scripts.sil.org/OFL)
    Homepage:  http://www.justbenicestudio.com/
-
-
-## Fontelico
-
-   Copyright (C) 2012 by Fontello project
-
-   Author:    Crowdsourced, for Fontello project
-   License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://fontello.com
 
 

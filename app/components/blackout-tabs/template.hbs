@@ -1,0 +1,10 @@
+
+<div class="blackout-tabs-container"></div>
+
+<div class="blackout-tabs-content-container">
+  {{#side-switcher direction=tabDirection currentlyShowing=selectedTab class="" panels=(mut tabPanels) }}
+
+    {{yield}}
+    
+  {{/side-switcher}}
+</div>

@@ -3,8 +3,8 @@ var $ = Ember.$;
 
 export default Ember.Component.extend({
   
-  classNames: ['switcher-window'],
-  direction: 'right',
+  classNames: ['switcher-window','col-flex'],
+  direction: 'immediate',
   currentlyShowing: '', // #id or element
   currentOldObj: null,
   switchCallback: null,
@@ -12,12 +12,19 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement', function(){
     
+    // Get all tab panels and save for use outside of the switcher (e.g. blackout-tabs)
+    let panels = [];
+    this.$().findClosest('.switcher-children').children().each((i,panel)=>{
+      panels.push($(panel));
+    });
+    this.set('panels',panels);
+    
     // Force child panels to full width
     this.$().findClosest('.switcher-children').children().addClass('switcher-panel');
     
     // Show first item by default
-    if( this.get('currentlyShowing') === '' ){
-      this.set( 'currentlyShowing', this.$().findClosest('switcher-children').children().first()[0] );
+    if( Ember.Blackout.isEmpty(this.get('currentlyShowing')) ){
+      this.set( 'currentlyShowing', this.$().findClosest('.switcher-children').children().first()[0].id );
     } else {
       this.show();
     }
@@ -33,6 +40,11 @@ export default Ember.Component.extend({
     var oldObj = this.get('previouslyShowing');
     var currentlyShowing = this.get('currentlyShowing');
     var newObj;
+    
+    // Ensure defaults
+    if(direction!=='immediate' && direction!=='left' && direction!=='right'){
+      direction = 'immediate';
+    }
     
     if( typeof(currentlyShowing) === 'string' ){
       newObj = $('#'+currentlyShowing);
@@ -136,16 +148,17 @@ export default Ember.Component.extend({
     var pane = this.$().findClosest('.switcher-pane');
     var ready = direction === 'right' ? 'left' : 'right';
     
+  
     if( !dontReset ){
       
       // Set ready
       pane.addClass('switcher-ready-' + ready);
       
       // Move
-      Ember.run.next(function(){
+      Ember.run.later(function(){
         pane.addClass('switcher-move-' + direction);
         pane.removeClass('switcher-ready-' + ready);
-      });
+      },44);
       
     } else {
       
@@ -165,6 +178,9 @@ export default Ember.Component.extend({
     
     // Track current direction
     this.set('currentDirection',direction);
+  
+    
+    
     
   },
   

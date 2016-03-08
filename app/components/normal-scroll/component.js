@@ -9,6 +9,19 @@ export default Ember.Component.extend({
       e.stopPropagation();
     });
     
+    if(this.get('horizontal')){
+      this.$().addClass('horizontal');
+      
+      this.$().mousewheel(function(event, delta) {
+
+        this.scrollLeft -= (delta * 30);
+
+        event.preventDefault();
+
+      });
+      
+    }
+    
   }),
   
   cleanup: Ember.on('willDestroyElement',function(){

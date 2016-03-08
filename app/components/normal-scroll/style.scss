@@ -4,6 +4,11 @@
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  
+  &.horizontal {
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
 }
 
 .fix-mousewheel-scroll {
