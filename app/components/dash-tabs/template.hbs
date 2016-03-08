@@ -1,8 +1,8 @@
  
 
-{{blackout-tabs-slider tabPanels=dashTabs selectedTab=(mut selectedDashTab) }}
+{{blackout-tabs-slider tabPanels=dashTabs selectedTab=(mut selectedTab) }}
 
-{{#blackout-tabs tabPanels=(mut dashTabs) externalSelectedTab=(mut selectedDashTab) hideTabs=true }}
+{{#blackout-tabs tabPanels=(mut dashTabs) externalSelectedTab=(mut selectedTab) hideTabs=true newlySelectedTab=(mut newlySelectedTab) }}
   
   {{yield}}
   

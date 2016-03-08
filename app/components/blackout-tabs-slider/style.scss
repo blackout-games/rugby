@@ -6,6 +6,10 @@ $tab-height-tablet-up: 70px;
 
 $background-color: $bg-dark-lighter;
 
+$angledTabText: true;
+$angledTabs: false;
+$angledLeft: false;
+
 .blackout-tabs-slider-container {
   position:relative;
   overflow:hidden;
@@ -81,10 +85,6 @@ $background-color: $bg-dark-lighter;
     margin-top:-1px;
   }
   
-  .vc-child {
-    //margin-top:-1px;
-  }
-  
   color:$bg-dark-lighter-5x;
   
   &:hover {
@@ -103,14 +103,41 @@ $background-color: $bg-dark-lighter;
     //color: white !important;
     
   }
-  &:first-of-type {
-    width:$tab-size + 10px;
-    @media #{$tablet-and-up} {
-      width:$tab-size-tablet-up + 10px;
+  
+  @if $angledTabs {
+    
+    &:first-of-type {
+      width:$tab-size + 10px;
+      @media #{$tablet-and-up} {
+        width:$tab-size-tablet-up + 10px;
+      }
+      padding-left:10px;
     }
-    padding-left:10px;
+    
+    @if $angledLeft {
+      
+      .vc-child {
+        transform: skewX(-15deg);
+      }
+      
+      transform: translate3d(-10px,0,0) skewX(15deg) scale3d(1.01,1.01,1);
+      
+    } @else {
+    
+      transform: translate3d(-10px,0,0) skewX(-15deg) scale3d(1.01,1.01,1);
+      
+    }
+    
   }
-  transform: translate3d(-9px,0,0) skewX(-15deg) scale3d(1.01,1.01,1);
+  
+  @if $angledTabText {
+    
+    .vc-child {
+      transform: skewX(-15deg);
+    }
+    
+  }
+  
 }
 
 .blackout-tabs-slider-button {

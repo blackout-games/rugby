@@ -48,6 +48,7 @@ export default Ember.Component.extend({
       if(!wasExternal){
         this.set('externalSelectedTab',tabId);
       }
+      this.set('newlySelectedTab',tabId);
     },
   },
   
