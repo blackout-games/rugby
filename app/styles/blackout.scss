@@ -536,3 +536,9 @@ $color: rgba($bg-dark-lighter, .8);
 .bg-tomato {
   background-color: tomato;
 }
+
+// Magic fix
+.border-radius-fix {
+  // http://stackoverflow.com/questions/10314207/webkit-not-respecting-overflowhidden-with-border-radius
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+}

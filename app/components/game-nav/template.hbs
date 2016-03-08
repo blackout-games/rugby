@@ -31,13 +31,13 @@
           <div class="full-height row row-vertical">
             
             <div class="col-flex gap-2x">
-            {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected identifier="tabSwitcher" class="col-flex" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
+            {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected class="col-flex" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
               <div id="menuPanel" class="tab-panel">
                 
                 {{menu-header settingsPanelIsShowing=(mut settingsPanelIsShowing)}}
                 
-                {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected identifier="menuSwitcher" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
+                {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
                   <div id="managerPanel" class="menu-panel">
                     {{#unless session.isAuthenticated}}

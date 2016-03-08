@@ -30,6 +30,25 @@ $full-real-estate-on-mobile: false;
   
 }
 
+$padding-mobile: 14px;
+$padding-landscape: 19px;
+$padding-tablet-up: 30px;
+$padding-bottom-factor: 11/14;
+
+.dash-box-padding {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: $padding-mobile $padding-mobile $padding-mobile*$padding-bottom-factor;
+  @media #{$mobile-wide-and-up} {
+    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+  }
+  @media #{$tablet-and-up} {
+    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+  }
+}
 
 .dash-box{
   width:100%;
@@ -46,28 +65,42 @@ $full-real-estate-on-mobile: false;
   box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   
+  @extend .dash-box-padding;
+  
   /**
-   * Padding for bigger 2/3rd width boxes
-   * @type {[type]}
+   * Should negate paddings above
+   * Allows us to place div inside a dash-box which goes to the edges
    */
-  padding: 14px 14px 11px;
-  @media #{$mobile-wide-and-up} {
-    padding: 19px 19px 15px;
-  }
-  @media #{$tablet-and-up} {
-    padding: 30px 30px 22px;
+  &.dash-box-no-padding {
+    padding: 0;
+    @media #{$mobile-wide-and-up} {
+      padding: 0;
+    }
+    @media #{$tablet-and-up} {
+      padding: 0;
+    }
   }
   
   /**
    * Should negate paddings above
+   * Allows us to place div inside a dash-box which goes to the edges
    */
-  .dash-box-no-padding {
-    margin: 0 -14px;
+  .dash-box-negate-padding {
+    margin: 0 -$padding-mobile;
     @media #{$mobile-wide-and-up} {
-      margin: 0 -19px;
+      margin: 0 -$padding-landscape;
     }
     @media #{$tablet-and-up} {
-      margin: 0 -30px;
+      margin: 0 -$padding-tablet-up;
+    }
+  }
+  .dash-box-negate-padding-top {
+    margin: -$padding-mobile -$padding-mobile $padding-mobile*$padding-bottom-factor;
+    @media #{$mobile-wide-and-up} {
+      margin: -$padding-landscape -$padding-landscape $padding-landscape*$padding-bottom-factor;
+    }
+    @media #{$tablet-and-up} {
+      margin: -$padding-tablet-up -$padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
     }
   }
   

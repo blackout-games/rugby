@@ -9,12 +9,40 @@ $heading-font: "ff-zine-slab-display-web";
 $sports-font: "proxima-nova", Helvetica, Arial, sans-serif;
 $hover-animation-time: 0.150s ease(out-quad);
 
+
+/**
+ * Primary font sizes
+ */
+$primary-font-size: 15.0px;
+$article-font-size: 15.5px;
+$primary-font-size-tablet-up: 15.5px; // 15.5px //16px
+$article-font-size-tablet-up: 15.9px; // 15.5px //16px
+
+
 body {
   -webkit-font-smoothing: antialiased;
-  font-size: 15.5px; //16px
+  font-size: $primary-font-size;
   font-family: $primary-font;
   color: $primary-text-color;
   line-height: 1.55;
+  @media #{$tablet-and-up} {
+    font-size:$primary-font-size-tablet-up !important;
+  }
+}
+
+article, blockquote {
+  font-size: $article-font-size;
+  p {
+    font-size: $article-font-size;
+    line-height: 1.59;
+  }
+  @media #{$tablet-and-up} {
+    font-size: $article-font-size-tablet-up;
+    p {
+      font-size: $article-font-size-tablet-up;
+      line-height: 1.59;
+    }
+  }
 }
 
 .dark {
@@ -85,6 +113,16 @@ a {
     
     // Fix border outline on click in Firefox
     outline: none;
+  }
+  
+  &.no-hover {
+    border-bottom: none;
+  }
+  
+  &.no-hover:hover {
+    border-bottom: none;
+    color: $primary-master;
+    text-decoration: none;
   }
   
 }
@@ -280,14 +318,6 @@ p {
   text-overflow: ellipsis;
 }
 
-article, blockquote {
-  font-size: 15.9px;
-  p {
-    font-size: 15.9px;
-    line-height: 1.59;
-  }
-}
-
 /**
  * Styles per screen size
  */
@@ -463,7 +493,7 @@ article, blockquote {
 .text-caps {
   text-transform: uppercase;
 }
-.text-fat {
+.text-fat,.text-bold {
   font-weight: bold;
 }
 

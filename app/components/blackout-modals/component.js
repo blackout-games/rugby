@@ -70,8 +70,6 @@ export default Ember.Component.extend({
       btnOptions = {};
     }
     
-    let self = this;
-    
     // Merge new options over defaults
     var options = Ember.Object.extend(this.get('defaults')).create();
     options.setProperties(btnOptions);
