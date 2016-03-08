@@ -86,21 +86,21 @@ $padding-bottom-factor: 11/14;
    * Allows us to place div inside a dash-box which goes to the edges
    */
   .dash-box-negate-padding {
-    margin: 0 -$padding-mobile;
+    margin: 0 #{ -$padding-mobile};
     @media #{$mobile-wide-and-up} {
-      margin: 0 -$padding-landscape;
+      margin: 0 #{ -$padding-landscape};
     }
     @media #{$tablet-and-up} {
-      margin: 0 -$padding-tablet-up;
+      margin: 0 #{ -$padding-tablet-up};
     }
   }
   .dash-box-negate-padding-top {
-    margin: -$padding-mobile -$padding-mobile $padding-mobile*$padding-bottom-factor;
+    margin: #{ -$padding-mobile} #{ -$padding-mobile} $padding-mobile*$padding-bottom-factor;
     @media #{$mobile-wide-and-up} {
-      margin: -$padding-landscape -$padding-landscape $padding-landscape*$padding-bottom-factor;
+      margin: #{ -$padding-landscape} #{ -$padding-landscape} $padding-landscape*$padding-bottom-factor;
     }
     @media #{$tablet-and-up} {
-      margin: -$padding-tablet-up -$padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+      margin: #{ -$padding-tablet-up} #{ -$padding-tablet-up} $padding-tablet-up*$padding-bottom-factor;
     }
   }
   
