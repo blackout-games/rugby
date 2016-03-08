@@ -89,12 +89,12 @@ $bg-tint: linear-gradient(
 }
 
 .player-ui-title-single {
-  font-family: $heading-font;
+  //font-family: $heading-font;
   font-size:22px;
   font-style: normal;
   color: white;
   @media #{$tablet-tall-and-up} {
-    font-size:35px;
+    font-size:29px;
   }
 }
 

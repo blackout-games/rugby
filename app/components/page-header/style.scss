@@ -12,7 +12,6 @@ $page-header-height: 15vh;
   }
   
   h1 {
-    font-family: $heading-font;
     text-transform: uppercase;
     color: rgba(white,0.44);
     color: white;
@@ -24,6 +23,5 @@ $page-header-height: 15vh;
     @media #{$mobile-tall} {
       max-width:300px;
     }
-    //font-style: italic;
   }
 }
