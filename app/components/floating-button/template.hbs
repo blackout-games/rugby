@@ -1,1 +1,9 @@
-<button {{action action}} class="floating-button btn no-focus" aria-hidden="true">{{yield}}</button>
+{{#if fast}}
+  
+  {{#fast-button action=action class="floating-button btn no-focus" aria-hidden="true" }}{{yield}}{{/fast-button}}
+  
+{{else}}
+
+  <button {{action action}} class="floating-button btn no-focus" aria-hidden="true">{{yield}}</button>
+
+{{/if}}
