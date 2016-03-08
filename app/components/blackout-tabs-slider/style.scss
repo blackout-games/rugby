@@ -1,10 +1,10 @@
 $tab-size: 70px;
-$tab-size-tablet-up: 70px;
+$tab-size-tablet-up: 77px;
 
 $tab-height: 50px;
-$tab-height-tablet-up: 55px;
+$tab-height-tablet-up: 70px;
 
-$background-color: $bg-dark;
+$background-color: $bg-dark-lighter;
 
 .blackout-tabs-slider-container {
   position:relative;
@@ -85,11 +85,11 @@ $background-color: $bg-dark;
     //margin-top:-1px;
   }
   
-  color:$bg-dark-lighter-4x;
+  color:$bg-dark-lighter-5x;
   
   &:hover {
-    background-color: $bg-dark-lighter;
-    color:$bg-dark-lighter-4x !important;
+    background-color: lighten($background-color,7%);
+    color:$bg-dark-lighter-5x !important;
   }
   
   &.active, &.active:hover {
@@ -103,6 +103,14 @@ $background-color: $bg-dark;
     //color: white !important;
     
   }
+  &:first-of-type {
+    width:$tab-size + 10px;
+    @media #{$tablet-and-up} {
+      width:$tab-size-tablet-up + 10px;
+    }
+    padding-left:10px;
+  }
+  transform: translate3d(-9px,0,0) skewX(-15deg) scale3d(1.01,1.01,1);
 }
 
 .blackout-tabs-slider-button {
