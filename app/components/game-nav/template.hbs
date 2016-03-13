@@ -163,7 +163,7 @@
         {{#fast-button action="clickMenu" menuName="manager" class="btn nav-menu-btn nav-menu-manager"}}
           <div class="flex-col flex-col-center">
             <div class="nav-icon-wrapper">
-              <i class="{{if session.isAuthenticated "icon-torso" "icon-logo"}} nav-tab-icon icon-vcenter"></i>
+              <i class="{{if session.isAuthenticated "icon-user" "icon-logo"}} nav-tab-icon icon-vcenter"></i>
             </div>
             <div class="nav-tab-text ellipses nav-menu-text">{{if session.isAuthenticated (t 'menu.manager.title') (t 'buttons.home')}}</div>
           </div>
@@ -185,7 +185,7 @@
         {{#fast-button action="clickMenu" menuName="team" class="btn nav-menu-btn nav-menu-team"}}
           <div class="flex-col flex-col-center">
             <div class="nav-icon-wrapper">
-              <i class="icon-ball nav-tab-icon icon-vcenter"></i>
+              <i class="icon-team nav-tab-icon icon-vcenter"></i>
             </div>
             <div class="nav-tab-text ellipses nav-menu-text">{{t 'menu.team.title'}}</div>
           </div>

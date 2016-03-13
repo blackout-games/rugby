@@ -10,7 +10,7 @@ module.exports = function(defaults) {
 
   var fingerprintOptions = {
     prepend: 'https://dah9mm7p1hhc3.cloudfront.net/',
-    extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico', 'svg', 'eot', 'ttf', 'woff'],
+    extensions: ['js', 'css', 'png', 'jpg', 'gif', 'map', 'ico', 'svg', 'eot', 'ttf', 'woff', 'woff2'],
   };
   
   var app = new EmberApp(defaults, {
@@ -72,6 +72,9 @@ module.exports = function(defaults) {
     destDir: 'font'
   });
   app.import('vendor/fontello/font/blackout.woff', {
+    destDir: 'font'
+  });
+  app.import('vendor/fontello/font/blackout.woff2', {
     destDir: 'font'
   });
 
