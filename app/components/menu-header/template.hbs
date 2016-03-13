@@ -9,19 +9,27 @@
 {{#if session.isAuthenticated}}
   
   
-  <div class="row">
+  <div class="row menu-manager">
+    
     <div class="col-fixed">
-      <div class="manager-avatar manager-avatar-menu"></div>
+      {{#link-to 'account' class="btn-a no-extra-hitarea "}}
+        <div class="row">
+          <div class="col-fixed">
+            <div class="manager-avatar manager-avatar-menu"></div>
+          </div>
+          <div class="col-flex">
+            <div class="menu-manager-text row">
+              <div class="col-max menu-manager-name ellipses">
+                {{session.manager.username}}
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/link-to}}
     </div>
-    <div class="col-flex">
-      <div class="menu-manager-text row">
-        <div class="col-max menu-manager-name ellipses">
-          {{#link-to 'account' class="btn-a no-extra-hitarea"}}{{session.manager.username}}{{/link-to}}
-        </div>
-        <div class="col-fixed menu-logout-wrapper">
-          &nbsp;&nbsp;<a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-1-5x icon-vcenter" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
-        </div>
-      </div>
+    
+    <div class="col-fixed menu-logout-wrapper">
+      &nbsp;&nbsp;<a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-1-5x icon-vcenter" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
     </div>
   </div>
   

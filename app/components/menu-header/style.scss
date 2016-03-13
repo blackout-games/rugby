@@ -49,15 +49,7 @@
 
 $color: desaturate(darken($secondary-master,9%),22%);
 
-.menu-manager-text {
-  color: $color;
-  cursor: default;
-  white-space: nowrap;
-  vertical-align: text-top;
-  line-height: 55px;
-  width:auto;
-  max-width:159px;
-  //font-size: 1em;
+.menu-manager {
   
   a {
     color: $color;
@@ -67,6 +59,18 @@ $color: desaturate(darken($secondary-master,9%),22%);
       border: none;
     }
   }
+  
+}
+
+.menu-manager-text {
+  //color: $color;
+  //cursor: default;
+  white-space: nowrap;
+  vertical-align: text-top;
+  line-height: 55px;
+  width:auto;
+  max-width:159px;
+  //font-size: 1em;
 }
 
 .menu-manager-name {
@@ -74,7 +78,14 @@ $color: desaturate(darken($secondary-master,9%),22%);
   max-width:150px;
 }
 
+.menu-logout {
+  i {
+    margin-top:-20px;
+  }
+}
+
 .menu-logout-wrapper {
+  margin-left:7px;
   width:40px;
 }
 
