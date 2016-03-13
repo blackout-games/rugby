@@ -44,7 +44,7 @@ export default Ember.Component.extend({
    */
   animate() {
     
-    this.resetListeners();
+    this.reset();
     this.$('span').removeClass('complete');
     this.$('span').addClass('animate').one(Ember.Blackout.afterCSSTransition, this, this.waitBound);
 

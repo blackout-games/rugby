@@ -1,0 +1,208 @@
+<div class="row gap-md {{unless singleMode "player-ui-top"}}">
+  <div class="col-flex">
+    
+    <div class="row">
+    
+      <div class="row col-flex">
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.age}}</div>
+          <div class="player-ui-info-label">{{t 'player.years-old-(short)'}}</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{money player.wage}}</div>
+          <div class="player-ui-info-label">{{t 'player.per-week-(wages)'}}</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{number player.form}}%</div>
+          <div class="player-ui-info-label">{{t 'player.form'}}</div>
+        </div>
+        
+      </div>
+    
+      <div class="hidden-xxs row col-flex">
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.height}}</div>
+          <div class="player-ui-info-label">{{t 'player.centimeters-(short)'}}</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{player.weight}}</div>
+          <div class="player-ui-info-label">{{t 'player.kilograms-(short)'}}</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
+          <div class="player-ui-info-label">{{t 'player.handed-(left/right)'}}</div>
+        </div>
+        
+        <div class="col-flex player-ui-infobox col-auto-width">
+          <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+          <div class="player-ui-info-label">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="hidden-xxs gap-2x"></div>
+
+<div class="dash-box-negate-padding player-ui-infobar hidden-xs-up gap-3x">
+  
+  <div class="row">
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.height}}</div>
+      <div class="player-ui-info-label">{{t 'player.centimeters-(short)'}}</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{player.weight}}</div>
+      <div class="player-ui-info-label">{{t 'player.kilograms-(short)'}}</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
+      <div class="player-ui-info-label">{{t 'player.handed-(left/right)'}}</div>
+    </div>
+    
+    <div class="col-flex player-ui-infobox col-auto-width">
+      <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+      <div class="player-ui-info-label">{{t 'player.footed-(left/right)'}}</div>
+    </div>
+    
+  </div>
+  
+</div>
+
+<div class="row gap-2x">
+  <div class="col-xxs-9 col-xs-6 pad-right vc-parent">
+    
+    <div class="col-xs-12">
+      
+      <div class="row">
+        
+        <div class="col-xs-6 pad-right-xs pad-right-sm">
+          
+          {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.aggression'}}</div>
+          
+          {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.discipline'}}</div>
+          
+        </div>
+        
+        <div class="col-xs-6"> 
+          
+          {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.leadership'}}</div> 
+          
+          {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.experience'}}</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="player-ui-help-text">{{t 'player.traits-max'}}</div>
+      
+      <div class="row hidden-xs-up top-gap-2x">
+        <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
+        <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">{{t 'player.csr'}}</div>
+        <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
+      </div>
+      
+    </div>
+    
+  </div>
+  <div class="col-xxs-3 col-xs-6">
+  
+    <div class="row">
+      
+      <div class="col-xxs-12 col-xs-6 text-center">
+        
+        <div class="player-ui-energy-wrapper">
+          
+          {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
+          
+          <div class="player-ui-energy">
+            {{player.energy}}%
+          </div>
+          
+          {{component chartComponent type='Doughnut' data=energyChartData width=(if media.isMobile 77 120) height=(if media.isMobile 77 120) options=energyChartOptions class="player-ui-energy-chart"}}
+          
+          <div class="chartjs-tooltip"></div>
+          
+          <div class="player-ui-big-label text-center ellipses">
+            {{t 'player.energy'}}
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="col-xs-6 hidden-xxs">
+        
+        <div class="player-ui-csr-wrapper">
+          <div class="player-ui-csr-value">{{number player.csr}}</div>
+          <div class="player-ui-csr-change">{{number player.csrChange prefix=true}}</div>
+          <div class="player-ui-big-label">{{t 'player.csr'}}</div>
+        </div>
+        
+      </div>
+      
+    </div>
+      
+      
+      
+  </div>
+</div>
+
+<div class="row">
+  
+  <div class="col-xs-6 pad-right">
+  
+    {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="stamina" }}
+    <div class="player-ui-label ellipses">{{t 'player.stamina'}}</div>
+  
+    {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="attack" }}
+    <div class="player-ui-label ellipses">{{t 'player.attack'}}</div>
+  
+    {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="technique" }}
+    <div class="player-ui-label ellipses">{{t 'player.technique'}}</div>
+  
+    {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="jumping" }}
+    <div class="player-ui-label ellipses">{{t 'player.jumping'}}</div>
+  
+    {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="agility" }}
+    <div class="player-ui-label ellipses">{{t 'player.agility'}}</div>
+    
+  </div>
+  
+  <div class="col-xs-6">
+  
+    {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="handling" }}
+    <div class="player-ui-label ellipses">{{t 'player.handling'}}</div>
+  
+    {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="defence" }}
+    <div class="player-ui-label ellipses">{{t 'player.defence'}}</div>
+  
+    {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="strength" }}
+    <div class="player-ui-label ellipses">{{t 'player.strength'}}</div>
+  
+    {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="speed" }}
+    <div class="player-ui-label ellipses">{{t 'player.speed'}}</div>
+  
+    {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="kicking" }}
+    <div class="player-ui-label ellipses">{{t 'player.kicking'}}</div>
+    
+  </div>
+  
+</div>
+
+<div class="player-ui-help-text">{{t 'player.skills-max'}}</div>

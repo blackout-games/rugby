@@ -240,8 +240,12 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Bottom gaps
  */
 
-.no-gap, .gap-reset {
+.no-gap, .no-bottom-gap, .gap-reset {
   margin-bottom: 0px !important;
+}
+
+.gap-xs {
+  margin-bottom: 2px !important;
 }
 
 .gap-sm {
@@ -369,6 +373,14 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 .right-gap-5x {
   margin-right: 50px !important;
+}
+
+/**
+ * Padding helpers
+ */
+
+.no-bottom-pad {
+  padding-bottom: 0 !important;
 }
 
 
@@ -533,7 +545,7 @@ $color: rgba($bg-dark-lighter, .8);
  * Dev
  */
 
-.bg-tomato {
+.bg-tomato, .debug {
   background-color: tomato;
 }
 

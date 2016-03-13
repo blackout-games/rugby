@@ -67,8 +67,9 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
 });
 
 var inflector = Ember.Inflector.inflector;
-//inflector.uncountable('statistics');
+//inflector.uncountable('player-statistics');
 
 // Irregular plurals
 inflector.irregular('country', 'countries');
 inflector.irregular('category', 'categories');
+inflector.irregular('player-statistics', 'player-statistics');

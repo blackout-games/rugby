@@ -380,7 +380,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
       let distBottom = screenHeight - distTop - $newSel.height();
       
       // Always act as if tab bar is showing
-      distBottom = distBottom - 55;
+      if($('#nav-tabbar:visible').length && this.get('media.isMobile')){
+        distBottom = distBottom - 55;
+      }
       
       // Give room for status bar on standalone
       if(window.navigator.standalone){
@@ -394,15 +396,26 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       let top, aboveOrBelow, optsHeight;
       
+      // Always go below if can fit without scrolling
+      let optsNaturalHeight = this.get('$options').outerHeight();
+      let canFitAtBottom = optsNaturalHeight <= distBottom;
+      
       // Decide if dropdown appears above or below
-      if(distTop > distBottom + 44){
-        top = pos.top - distTop + $scrollable[0].scrollTop - 1;
+      if(!canFitAtBottom && distTop > distBottom + 44){
+        
+        // Above
+        let optsGap = Math.min(optsNaturalHeight,distTop);
+        top = pos.top - optsGap + $scrollable[0].scrollTop - 2;
         aboveOrBelow = 'bs-options-above';
         optsHeight = distTop;
+        
       } else {
+        
+        // Below
         top = pos.top + $newSel.height() + $scrollable[0].scrollTop;
         aboveOrBelow = 'bs-options-below';
         optsHeight = distBottom;
+        
       }
       
       // Position and show options

@@ -34,10 +34,23 @@ Router.map(function() {
   this.route('squad', function() {
     this.route('club', {
       path: ':club_id'
+    });
+  });
+  this.route('players', function() {
+    this.route('player', {
+      path: ':player_id'
     }, function() {
-      this.route('player', {
-        path: ':player_id'
+      this.route('statistics', function() {
+        this.route('attack');
+        this.route('defence');
+        this.route('kicking');
+        this.route('handling');
+        this.route('discipline');
+        this.route('lineout');
+        this.route('points');
+        this.route('caps');
       });
+      this.route('history');
     });
   });
   this.route('account');

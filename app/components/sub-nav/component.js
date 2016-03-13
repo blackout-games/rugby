@@ -144,7 +144,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
     }
   },
   
-  createSubNav($subNavContent){
+  createSubNav($subNavContent,opts){
+    
+    // Globalise opts
+    this.set('opts',opts);
     
     // Determine content holder
     let $innerContent = Ember.$('#sub-nav-content').length ? Ember.$('#sub-nav-content') : $subNavContent;
@@ -316,6 +319,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   watchMenuLinks (){
     this.$('#sub-nav-scroller a.menu-link').on('click',this,this.debounceMenuLink);
+    
     this.selectMenuLink();
   },
   
@@ -327,20 +331,39 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     let self = e.data;
     
-    Ember.run.debounce(this,self.selectMenuLink,self,1);
+    Ember.run.debounce(this,self.selectMenuLink,self,Ember.$(e.target),e,1);
     
   },
   
-  selectMenuLink ( self ) {
+  selectMenuLink ( self, $link, e ) {
     
-    var path = window.location.pathname;
-    let selectPath = path.split('/');
-    let linkId = selectPath[selectPath.length-1];
     Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
     
-    let $link = Ember.$('#sub-menu-link-' + linkId);
-    if($link.length){
+    if(!$link){
+      var path = window.location.pathname;
+      
+      let selectPath = path.split('/').reverse();
+      selectPath.forEach(linkId=>{
+        if(Ember.$('#sub-menu-link-' + linkId).length){
+          $link = Ember.$('#sub-menu-link-' + linkId);
+        }
+      });
+      
+    }
+    
+    if($link && $link.length){
+      
+      if(self && self.get('opts.keepSubRoutes') && e){
+        
+        let route = Ember.Blackout.getCurrentRoute();
+        let linkId = $link.attr('id').replace('sub-menu-link-','');
+        Ember.Blackout.transitionTo(route,linkId);
+        e.preventDefault();
+        
+      }
+      
       $link.addClass('selected');
+      
     } else {
       Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
       Ember.$(this).addClass('selected');

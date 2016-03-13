@@ -242,9 +242,17 @@ $selected-arrow-pokes-out: 7px;
   height: calc( #{$sidebar-width} - 2px );
   max-height: calc( #{$tabbar-height} - 2px );
   
+  /**
+   * On an *actual device*, this extra 70px is necessary for some reason
+   * When testing in Chrome however, if emulating iOS, this will appear as a giant gaping gap at the bottom of the screen.
+   */
   &.safari-ios {
     height: calc( #{$sidebar-width} - 2px + 70px );
     max-height: calc( #{$tabbar-height} - 2px + 70px );
+    @media #{$nav-ls} {
+      height: calc( #{$sidebar-width} - 2px );
+      max-height: calc( #{$tabbar-height} - 2px );
+    }
   }
   
   min-height: calc( #{$min-tabbar-height} - 2px );

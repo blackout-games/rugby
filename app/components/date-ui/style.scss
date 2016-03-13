@@ -1,4 +1,4 @@
 .date-ui{
   cursor: default;
-  user-select: none;
+  @include unselectable;
 }

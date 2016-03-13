@@ -1,14 +1,24 @@
 $tab-size: 70px;
-$tab-size-tablet-up: 77px;
+$tab-size-tablet-up: 80px;
 
 $tab-height: 50px;
-$tab-height-tablet-up: 70px;
+$tab-height-tablet-up: 65px;
 
-$background-color: $bg-dark-lighter;
+$bg-color: $bg-dark-lighter;
 
 $angledTabText: false;
 $angledTabs: true;
 $angledLeft: false;
+$angle:11deg;
+
+/**
+ * Sub tabs settings
+ */
+$sub-bg-color: $bg-light;
+$sub-tabs-height-factor: 0.9;
+
+
+
 
 .blackout-tabs-slider-container {
   position:relative;
@@ -26,69 +36,110 @@ $angledLeft: false;
   border-top-left-radius: $border-radius !important;
   border-top-right-radius: $border-radius !important;
   
-  $shadow-color: desaturate(darken($background-color,7%),17%);
+  $shadow-color: desaturate(darken($bg-color,4%),11%);
+  //$shadow-color: $bg-color;
   
   &:after {
     position:absolute;
     content:"";
     height:100%;
-    width:70px;
+    width:29px;
     top:0;
     right:0;
-    background: linear-gradient(to right, rgba($shadow-color,0), rgba($shadow-color,1) );
+    background: linear-gradient(to right, rgba($shadow-color,0), rgba($shadow-color,0.77) );
     pointer-events: none;
     z-index:1;
   }
 }
 
-.blackout-tabs-slider-scroller {
-  height:$tab-height + 15px;
+.sub-tabs .blackout-tabs-slider-hider {
+  
+  height:$tab-height * $sub-tabs-height-factor;
   @media #{$tablet-and-up} {
-    height:$tab-height-tablet-up + 15px;
+    height:$tab-height-tablet-up * $sub-tabs-height-factor;
   }
-  background-color: $background-color;
-  border-top-left-radius: $border-radius !important;
-  border-top-right-radius: $border-radius !important;
+  
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  
+  $shadow-color: desaturate(darken($sub-bg-color,4%),11%);
+  //$shadow-color: $sub-bg-color;
+  
+  &:after {
+    background: linear-gradient(to right, rgba($shadow-color,0), rgba($shadow-color,0.77) );
+  }
+}
+
+$scrollbar-height:17px;
+
+.blackout-tabs-slider-scroller {
+  height:$tab-height + $scrollbar-height;
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up + $scrollbar-height;
+  }
+  background-color: $bg-color;
+}
+
+.sub-tabs .blackout-tabs-slider-scroller {
+  height:$tab-height * $sub-tabs-height-factor + $scrollbar-height;
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up * $sub-tabs-height-factor + $scrollbar-height;
+  }
+  background-color: $sub-bg-color;
 }
 
 .blackout-tabs-slider {
-  //width:auto;
-  padding-right:100px !important;
+  // Negate the 100% added by .row
+  width:auto;
   
   .blackout-tabs-slider-end {
-    width:70px;
+    width:11px;
     height:1px;
+    display:none;
   }
 }
 
 .blackout-tabs-slider-tab {
-  height:$tab-height;
-  width:$tab-size;
   font-size:11px;
   font-weight: bold;
+  position:relative;
   
   @media #{$tablet-and-up} {
     font-size:12px;
   }
   
+  height:$tab-height+1px; // Add 2px to avoid potential seam below tab
+  width:$tab-size;
   @media #{$tablet-and-up} {
-    height:$tab-height-tablet-up;
+    height:$tab-height-tablet-up+1px; // Add 2px to avoid potential seam below tab
     width:$tab-size-tablet-up;
   }
-  background-color: $background-color;
+  background-color: $bg-color;
   
-  .ellipses {
-    width:$tab-size;
-    @media #{$tablet-and-up} {
-      width:$tab-size-tablet-up;
+  .tab-icon { // Icon
+    position: absolute;
+    width:100%;
+    display: inline-block;
+  }
+  &:first-of-type {
+    .tab-icon { // Icon
+      padding-right:10px;
     }
-    margin-top:-1px;
+  }
+  
+  .ellipses { // Text
+    width:100%;
+    margin-top:15px;
+    @media #{$tablet-and-up} {
+      margin-top:19px;
+    }
+    @include unselectable;
   }
   
   color:$bg-dark-lighter-5x;
   
   &:hover {
-    background-color: lighten($background-color,7%);
+    background-color: lighten($bg-color,7%);
     color:$bg-dark-lighter-5x !important;
   }
   
@@ -99,7 +150,7 @@ $angledLeft: false;
     color: $bg-dark-lighter-2x !important;
     
     // Mode B (Tab remains same color, icon color changes)
-    //background-color: $background-color;
+    //background-color: $bg-color;
     //color: white !important;
     
   }
@@ -117,14 +168,24 @@ $angledLeft: false;
     @if $angledLeft {
       
       .vc-child {
-        transform: skewX(-15deg);
+        transform: skewX(-$angle);
       }
       
-      transform: translate3d(-10px,0,0) skewX(15deg) scale3d(1.01,1.01,1);
+      transform: translateX(-10px) skewX($angle);// scale3d(1.001,1.01,1);
       
     } @else {
-    
-      transform: translate3d(-10px,0,0) skewX(-15deg) scale3d(1.01,1.01,1);
+      
+      transform: translateX(-10px) skewX(-$angle);// scale3d(1.001,1.01,1);
+      
+      .ellipses {
+        
+        // Failed attempts at fixing blurry text in chrome on non-retina display
+        //-webkit-filter: blur(0);
+        //transform: translate3d(0,0,0);
+        
+        //transform: translateZ(0); // Possibly causes 3d transformed elements to disappear in chrome sometimes
+        
+      }
       
     }
     
@@ -133,11 +194,37 @@ $angledLeft: false;
   @if $angledTabText {
     
     .vc-child {
-      transform: skewX(-15deg);
+      transform: skewX(-$angle);
     }
     
   }
   
+}
+
+.sub-tabs .blackout-tabs-slider-tab {
+  
+  height:$tab-height * $sub-tabs-height-factor;
+  @media #{$tablet-and-up} {
+    height:$tab-height-tablet-up * $sub-tabs-height-factor;
+  }
+  
+  background-color: $sub-bg-color;
+  color: $bg-dark-lighter-2x;
+  
+  &:hover {
+    background-color: desaturate(darken($sub-bg-color,5%),4%);
+    color: $bg-dark-lighter-2x !important;
+  }
+  
+  &.active, &.active:hover {
+    
+    background-color: white;
+    color: $bg-dark-lighter !important;
+    
+    //background-color: desaturate(darken($sub-bg-color,15%),11%);
+    //color: $bg-dark !important;
+    
+  }
 }
 
 .blackout-tabs-slider-button {
@@ -191,6 +278,22 @@ $angledLeft: false;
   &:active {
     background-color: pressColor($bg-dark-lighter);
     box-shadow: 0 1px 11px rgba(black,0.44);
+  }
+  
+}
+
+.sub-tabs .blackout-tabs-slider-button {
+  
+  width:40px;
+  height:40px;
+  top: ($tab-height * $sub-tabs-height-factor - 40px) * 0.5;
+  @media #{$tablet-and-up} {
+    top: ($tab-height-tablet-up * $sub-tabs-height-factor - 40px) * 0.5;
+  }
+  
+  i {
+    margin-top: 2px;
+    color:$bg-light;
   }
   
 }

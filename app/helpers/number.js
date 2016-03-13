@@ -12,7 +12,17 @@ export function number(val, params/*, hash*/) {
     val = val>=0 ? '+' + val : val;
   }
   
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if( params.round ){
+    val = Math.round(val * Math.pow(10,params.round)) / Math.pow(10,params.round);
+  }
+  
+  if( params.percent ){
+    val = (val*100) + '%';
+  } else {
+    val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  
+  return val;
 }
 
 export default Ember.Helper.helper(number);

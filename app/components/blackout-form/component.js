@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { $ } = Ember;
 
 export default Ember.Component.extend({
   
@@ -7,6 +8,14 @@ export default Ember.Component.extend({
    * See 'account' for example
    */
   form: [],
+  
+  setup: Ember.on('didInsertElement',function(){
+    
+    $('form input').on('mousedown touchstart',(e)=>{
+      $(e.target).focus();
+    });
+    
+  }),
   
   computedForm: Ember.computed('form',function(){
     

@@ -149,6 +149,10 @@ export default {
         route: 'cup',
         tempRoute: 'coming-soon'
       },
+      {
+        route: 'players',
+        menuRoute: 'squad.club',
+      },
     
     ],
     

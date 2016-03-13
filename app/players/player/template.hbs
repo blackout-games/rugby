@@ -1,0 +1,30 @@
+{{top-level images="squad"}}
+
+
+<div class="row show-overflow">
+  <div class="col-md-8 dash-box-container show-overflow">
+    
+    {{player-ui player=model.player stats=model.stats singleMode=true}}
+    {{outlet}}
+    
+  </div>
+  <div class="col-md-4 dash-box-container hidden-sm-down">
+  
+    {{#sub-nav-content keepSubRoutes=true}}
+      
+      <div class="sub-nav-inner-padding">
+        
+        {{#each model.squad as |player index|}}
+          
+          {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
+            <div class="player-avatar player-avatar-sub-nav"></div>{{player.name}}
+          {{/link-to}}
+        
+        {{/each}}
+        
+      </div>
+        
+    {{/sub-nav-content}}
+    
+  </div>
+</div>

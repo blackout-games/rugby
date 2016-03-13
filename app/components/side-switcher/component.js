@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   currentOldObj: null,
   switchCallback: null,
   afterSwitchCallback: null,
+  allowHeightAnimation: false,
   
   setup: Ember.on('didInsertElement', function(){
     
@@ -33,7 +34,10 @@ export default Ember.Component.extend({
     this.afterAnimationBound = Ember.run.bind(this,this.afterAnimation);
     
     // Don't animate height on touch OS's (too slow, for now)
-    if(window.os.touchOS || !this.get('allowHeightAnimation')){
+    /**
+     * Animating height is an all round bad idea. It doesn't work every time even on desktop, messes up many things, and slow performance heavily on mobile.
+     */
+    if(window.os.touchOS || !this.get('allowHeightAnimation') || true){
       this.$().findClosest('.switcher-pane').addClass('dont-animate-height');
     }
     
@@ -55,6 +59,11 @@ export default Ember.Component.extend({
       newObj = $('#'+currentlyShowing);
     } else {
       newObj = $(currentlyShowing);
+    }
+    
+    if(!$(newObj).length){
+      Ember.warn("Side-switcher panel (" + currentlyShowing + ") not found");
+      return;
     }
     
     // Don't do anything if there's no change
@@ -153,11 +162,11 @@ export default Ember.Component.extend({
     var pane = this.$().findClosest('.switcher-pane');
     var ready = direction === 'right' ? 'left' : 'right';
     
-    // Animate height
     // Must run next to get correct height
+    // Set height before switching for smoothest effect
     Ember.run.next(()=>{
       pane.css({
-        height: $(newObj).outerHeight(true),
+        height: $(newObj)[0].scrollHeight + 'px',
       });
     });
   
@@ -186,22 +195,24 @@ export default Ember.Component.extend({
     
     // Detect end of animation
     this.set('currentOldObj',oldObj);
-    pane.one(Ember.Blackout.afterCSSTransition, this.afterAnimationBound);
+    pane.off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition, this.afterAnimationBound);
     
     // Track current direction
     this.set('currentDirection',direction);
-  
-    
-    
     
   },
   
   afterAnimation () {
+    
     if(this.get('currentOldObj')){
       this.putAway( this.get('currentOldObj') );
       this.set('currentOldObj',null);
       this.set('currentDirection',null);
     }
+    
+    // Height stretchability reset
+    var pane = this.$().findClosest('.switcher-pane');
+    pane.css('height','auto');
     
     // Run callback if exists
     if(this.get('afterSwitchCallback')){
@@ -211,7 +222,15 @@ export default Ember.Component.extend({
   
   resetPane() {
     var pane = this.$().findClosest('.switcher-pane');
-  
+    
+    // Must happen to ensure height is reset between routes, e.g. when switching players in player view
+    // Breaks height animation, but oh well.
+    // It's too difficult to tell the difference between a normal switch, and a switch because the route has changed.
+    // Nope, see 'resetHeight'
+    /*pane.css({
+      height: 'auto',
+    });*/
+    
     pane.removeClass(function (index, css) {
       return (css.match (/(^|\s)switcher-ready-\S+/g) || []).join(' ');
     });
@@ -220,5 +239,15 @@ export default Ember.Component.extend({
       return (css.match (/(^|\s)switcher-move-\S+/g) || []).join(' ');
     });
   },
+  
+  /**
+   * By passing any model into this component, we can let it know when to reset it's height completely. e.g. switching players on the player page/
+   */
+  /*resetHeight: Ember.observer('model',function(){
+    var pane = this.$().findClosest('.switcher-pane');
+    pane.css({
+      height: 'auto',
+    });
+  }),*/
   
 });

@@ -80,11 +80,16 @@ table {
   @extend .table;
   @extend .table-hover;
   
-  border-radius: $border-radius;
+  
+  //@media #{$mobile-wide-and-up} {
+    border-radius: $border-radius;
+  //}
+  
   border-color: #FFF;
   background-color: desaturate(darken($secondary-master,11%),22%);
   overflow: hidden;
   color: white;
+  margin-bottom: 0px !important;
   
   > thead > tr {
     //border-radius: $border-radius $border-radius 0 0;
@@ -97,7 +102,7 @@ table {
   }
   
   > tbody > tr > td {
-    border-color: desaturate(darken($secondary-master,7%),25%);
+    border-color: desaturate(darken($secondary-master,7%),25%) !important;
     //border-color: desaturate(darken($secondary-master,17%),15%);
     border-top-width:1px !important;
   }
@@ -105,28 +110,51 @@ table {
   > tbody > tr:hover {
     background-color: desaturate(darken($secondary-master,7%),25%);
   }
+  
+  &.table-striped {
+    > tbody > tr:nth-of-type(odd) {
+      background-color: desaturate(darken($secondary-master,13%),22%);
+    }
+  }
 }
 
 table.light {
   border-color: #FFF;
-  background-color: lighten($secondary-master,48%);
+  background-color: lighten($secondary-master,47%);
+  color: $primary-text-color;
   
   > thead > tr {
-    background-color: lighten($secondary-master,45%);
+    background-color: lighten($secondary-master,44%);
   }
   
   > thead > tr > th {
-    border-color: white;
-    border-bottom-width:2px !important;
+    border-color: white !important;
+    border-bottom-width:0 !important;
   }
   
   > tbody > tr > td {
-    border-color: white;
-    border-top-width:2px !important;
+    border-color: white !important;
+    border-top-width:1px !important;
+  }
+  
+  > tbody > tr:first-of-type > td {
+    border-top-width:0 !important;
   }
   
   > tbody > tr:hover {
-    background-color: lighten($secondary-master,46%);
+    background-color: lighten($secondary-master,43%);
+  }
+}
+
+.table-responsive {
+  
+  border:none;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: all;
+  margin-bottom: 0px !important;
+  
+  table {
+    max-width:none;
   }
 }
 

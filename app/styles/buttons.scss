@@ -20,13 +20,14 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
   $border: none;
   border: $border;
-  user-select: none;
   font-size: 17px;
   height:36px;
   font-weight: $button-text-weight;
   //text-transform: uppercase;
   //
   padding: 0 11px 2px;
+  
+  @include unselectable;
 
   @media #{$mobile} {
     font-size: 15px;

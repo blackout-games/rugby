@@ -16,6 +16,7 @@ export default DS.Model.extend({
   birthDay: DS.attr(),
   stamina: DS.attr(),
   handling: DS.attr(),
+  joined: DS.attr(),
   attack: DS.attr(),
   technique: DS.attr(),
   strength: DS.attr(),

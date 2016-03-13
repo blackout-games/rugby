@@ -25,7 +25,9 @@ $full-real-estate-on-mobile: false;
   }
   
   &.dash-box-container-left {
-    padding-right:0;
+    @media #{$tablet-and-up} {
+      padding-right:0;
+    }
   }
   
 }
@@ -33,7 +35,9 @@ $full-real-estate-on-mobile: false;
 $padding-mobile: 14px;
 $padding-landscape: 19px;
 $padding-tablet-up: 30px;
-$padding-bottom-factor: 11/14;
+
+// Not sure why this was smaller. Next time, add a comment.
+$padding-bottom-factor: 1;//11/14;
 
 .dash-box-padding {
   
@@ -48,6 +52,64 @@ $padding-bottom-factor: 11/14;
   @media #{$tablet-and-up} {
     padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
   }
+  
+}
+
+.dash-box-no-side-padding {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: $padding-mobile 0 $padding-mobile*$padding-bottom-factor;
+  @media #{$mobile-wide-and-up} {
+    padding: $padding-landscape 0 $padding-landscape*$padding-bottom-factor;
+  }
+  @media #{$tablet-and-up} {
+    padding: $padding-tablet-up 0 $padding-tablet-up*$padding-bottom-factor;
+  }
+}
+
+.dash-box-no-side-padding-mobile {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: $padding-mobile 0 $padding-mobile*$padding-bottom-factor;
+  @media #{$mobile-wide-and-up} {
+    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+  }
+  @media #{$tablet-and-up} {
+    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+  }
+}
+
+.dash-box-no-padding-mobile {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: 0;
+  @media #{$mobile-wide-and-up} {
+    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+  }
+  @media #{$tablet-and-up} {
+    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+  }
+}
+
+.dash-box-padding-mobile {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: $padding-mobile $padding-mobile $padding-mobile*$padding-bottom-factor;
+  @media #{$mobile-wide-and-up} {
+    padding: 0;
+  }
 }
 
 .dash-box{
@@ -55,6 +117,12 @@ $padding-bottom-factor: 11/14;
   //background-color: rgba(white,0.5);
   background-color: white;
   border-radius: $border-radius;
+  
+  /// For hiding anything outside of the dashbox
+  &.no-overflow {
+    overflow: hidden;
+    @extend .border-radius-fix;
+  }
   
   @if $full-real-estate-on-mobile {
     @media #{$mobile} {

@@ -6,8 +6,19 @@ export default Ember.Mixin.create({
   inactiveTime: 111,
   //minScrollNeeded: 777,
   minScrollNeeded: 0,
-  canRemember: false,
-  disableRemember: true,
+  canRememberScroll: false,
+  
+  /**
+   * Set this in a consuming route to prevent scroll from being remembered when the route is loaded
+   * @type {Boolean}
+   */
+  disableRememberScroll: true,
+  
+  /**
+   * Set this in a consuming route to prevent scroll from being reset to top when the route is loaded
+   * @type {Boolean}
+   */
+  noScrollReset: false,
   
   scrollSelector: Ember.computed(function(){
     if( window.features.lockBody ){
@@ -18,14 +29,14 @@ export default Ember.Mixin.create({
   }),
   
   rememberScroll() {
-    this.set('canRemember',true);
+    this.set('canRememberScroll',true);
   },
   
   setupRememberScroll: Ember.on('activate', function() {
     
     var self = this;
     
-    if( !this.get('disableRemember') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
+    if( !this.get('disableRememberScroll') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
       
       Ember.run.next(function(){
         Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
@@ -34,10 +45,12 @@ export default Ember.Mixin.create({
       
     } else {
       
-      Ember.run.next(function(){
+      if(!this.get('noScrollReset')){
+        Ember.run.next(function(){
+          Ember.$(self.get('scrollSelector')).scrollTop(0);
+        });
         Ember.$(self.get('scrollSelector')).scrollTop(0);
-      });
-      Ember.$(self.get('scrollSelector')).scrollTop(0);
+      }
       
     }
     

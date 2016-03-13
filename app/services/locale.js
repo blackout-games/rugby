@@ -9,6 +9,8 @@ export default Ember.Service.extend({
   EventBus: Ember.inject.service(),
   moment: Ember.inject.service(),
   
+  testMode: false,
+  
   supportedLocales: {
     
     /**
@@ -122,8 +124,10 @@ export default Ember.Service.extend({
     },5000);*/
     
     //locale = 'en-gb'; // Must manually change back to english since locales are remembered
-    //locale = 'it'; 
-    //locale = 'test'; 
+    //locale = 'it';
+    if(this.get('testMode')){
+      locale = 'test'; 
+    }
     
     return this.change(locale);
     

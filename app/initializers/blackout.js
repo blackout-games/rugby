@@ -829,8 +829,12 @@ class Blackout {
     let bestMatch = '';
     let matchedParts = 0;
     
-    parts.forEach((val)=>{
-      if(route.indexOf(bestMatch + val + '_') === 0){
+    $.each(parts,(i,val)=>{
+      
+      let pattern1 = bestMatch + val + '_';
+      let pattern2 = bestMatch + val + '$';
+      
+      if(route.regexIndexOf(new RegExp(pattern1+'|'+pattern2, 'gmi')) === 0){
         bestMatch += val + '_';
         matchedParts++;
       } else {
@@ -859,7 +863,13 @@ class Blackout {
       
       if(matched > bestMatch){
         bestMatch = matched;
-        $matchedMenu = $(this);
+        
+        if($(this).data('menu-route')){
+          $matchedMenu = $('#menuItem_'+$(this).data('menu-route').replace(/[/.]/g,'_'));
+        } else {
+          $matchedMenu = $(this);
+        }
+        
       }
       
     });
@@ -869,10 +879,108 @@ class Blackout {
   }
   
   /**
+   * Converts all keys in an object to camelcase
+   */
+  camelKeys( obj ){
+    
+    $.each(obj,(key,val)=>{
+      let camelKey = key.camelize();
+      if(camelKey !== key){
+        obj[camelKey] = val;
+        delete obj[key];
+      }
+    });
+    
+    return obj;
+    
+  }
+  
+  /**
+   * Converts any date to a season/round/day
+   */
+  
+  getSeasonRoundDay( date=null ){
+    
+    // Caching
+    let key = 'seasonRoundDay_' + String(date);
+    let cached = this.getKey(key);
+    if(cached){
+      return cached;
+    }
+    
+    // Use now if date not given
+    if(!date){
+      date = Date.now();
+    } else if(typeof(date)==='string' || typeof(date)==='number') {
+      date = new Date(date).getTime();
+    }
+    date = Math.round(date/1000);
+    
+    let season1Start = new Date('2007-12-17T00:00:00+12:00').getTime();
+    season1Start = Math.round(season1Start/1000);
+    let floor = Math.floor;
+    
+    // ----- Season
+    
+    let season = floor((date-season1Start) / (16*7*24*60*60)) + 1;
+    let seasonStart = season1Start + (season-1)*16*7*24*60*60;
+    
+    // ----- Round
+    
+    let round = floor((date-seasonStart)/(7*24*60*60))+1;
+    
+    if(round<1){
+      round = 16+round;
+      season--;
+      seasonStart -= 16*7*24*60*60;
+    }
+    
+    if(round>16){
+      round = round-16;
+      season++;
+      seasonStart += 16*7*24*60*60;
+    }
+    
+    let roundStart = seasonStart+(round-1)*7*24*60*60;
+    
+    // ----- Day
+    
+    let day = floor((date-roundStart)/(24*60*60))+1;
+    
+    // ----- Season Round Day
+    
+    let obj = { season: season, round: round, day: day };
+    this.setKey(key,obj);
+    
+    return obj;
+    
+  }
+  
+  /**
    * Util
    */
   refreshHoverWatchers(){
     _refreshWatchers();
+  }
+  
+  /**
+   * Get key from local cache
+   */
+  getKey(key){
+    if(!this.cache){
+      this.cache = {};
+    }
+    return this.cache[key];
+  }
+  
+  /**
+   * Set key to local cache
+   */
+  setKey(key,val){
+    if(!this.cache){
+      this.cache = {};
+    }
+    this.cache[key] = val;
   }
 
 }
@@ -1524,8 +1632,8 @@ function _inlinizeSVG () {
     //imgHost = 'https://dah9mm7p1hhc3.cloudfront.net/';
     
     // Add cloudfront?
-    if(imgURL.substr(0,4)!=='http'){
-      $img.attr('src',imgHost + $img.attr('src'));
+    if(imgURL.substr(0,4)!=='http' && imgHost!=='/'){
+      $img.attr('src',imgHost.trim('/') + '/' + $img.attr('src').trim('/'));
       imgURL = $img.attr('src');
     }
     

@@ -4,7 +4,7 @@
 <div class="row show-overflow">
   <div class="col-md-8 dash-box-container show-overflow">
   
-    {{outlet}}
+    {{component 'squad/club/squad-route' model=model}}
     
   </div>
   <div class="col-md-4 dash-box-container hidden-sm-down">
@@ -15,7 +15,7 @@
         
         {{#each model as |player index|}}
           
-          {{#link-to 'squad.club.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
+          {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
             <div class="player-avatar player-avatar-sub-nav"></div>{{player.name}}
           {{/link-to}}
         

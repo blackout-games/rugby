@@ -1,0 +1,32 @@
+{{#responsive-table}}
+  
+  <table class="table">
+      
+    <thead>
+    
+      <tr>
+        <th width="59%">{{t 'player.statistics.statistic'}}</th>
+        <th>{{t 'button.value'}}</th>
+        <th>{{if percent (t 'buttons.percent') (t 'buttons.average')}}</th>
+      </tr>
+      
+    </thead>
+    
+    <tbody>
+    
+      {{#each group as |stat|}}
+      
+      <tr>
+        <td>{{stat.label}}</td>
+        <td>{{get stats stat.key}}</td>
+        <td>
+          {{number (math (get stats stat.key) '/' matchesPlayed) round=2 percent=percent}}
+        </td>
+      </tr>
+      
+      {{/each}}
+      
+    </tbody>
+  </table>
+  
+{{/responsive-table}}

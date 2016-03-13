@@ -33,13 +33,13 @@
             <div class="col-flex gap-2x">
             {{#side-switcher direction=tabSwitcherDirection currentlyShowing=tabSwitcherSelected class="col-flex" switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
-              <div id="menuPanel" class="tab-panel">
+              <div id="gameNav-menuPanel" class="tab-panel">
                 
                 {{menu-header settingsPanelIsShowing=(mut settingsPanelIsShowing)}}
                 
                 {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
-                  <div id="managerPanel" class="menu-panel">
+                  <div id="gameNav-managerPanel" class="menu-panel">
                     {{#unless session.isAuthenticated}}
                       {{#scroll-to href='/#home' class="btn-a menu-link scroll-link-home" closeMenu=closeMenuOnScrollTo }}{{t 'buttons.home'}}{{/scroll-to}}
                       {{#scroll-to href='/#about' class="btn-a menu-link scroll-link-about" closeMenu=closeMenuOnScrollTo}}{{t 'buttons.about'}}{{/scroll-to}}
@@ -50,27 +50,27 @@
                     {{!scroll-tester}}
                   </div>
                   
-                  <div id="clubPanel" class="menu-panel">
+                  <div id="gameNav-clubPanel" class="menu-panel">
                     <div class="menu-links"></div>
                   </div>
                   
-                  <div id="teamPanel" class="menu-panel">
+                  <div id="gameNav-teamPanel" class="menu-panel">
                     <div class="menu-links"></div>
                   </div>
                   
-                  <div id="countryPanel" class="menu-panel">
+                  <div id="gameNav-countryPanel" class="menu-panel">
                     <div class="menu-links"></div>
                   </div>
                   
-                  <div id="globalPanel" class="menu-panel">
+                  <div id="gameNav-globalPanel" class="menu-panel">
                     <div class="menu-links"></div>
                   </div>
                   
-                  <div id="supportPanel" class="menu-panel">
+                  <div id="gameNav-supportPanel" class="menu-panel">
                     <div class="menu-links"></div>
                   </div>
                   
-                  <div id="settingsPanel" class="menu-panel">
+                  <div id="gameNav-settingsPanel" class="menu-panel">
                   
                     {{settings-panel}}
                     
@@ -80,28 +80,28 @@
                 
               </div>
               
-              <div id="chatPanel" class="tab-panel">
+              <div id="gameNav-chatPanel" class="tab-panel">
                 <div class="tab-panel-header">
                   <h4>{{t 'chat.title'}}</h4>
                   <h5>{{t 'coming-soon.title'}}</h5>
                 </div>
               </div>
               
-              <div id="timelinePanel" class="tab-panel">
+              <div id="gameNav-timelinePanel" class="tab-panel">
                 <div class="tab-panel-header">
                   <h4>{{t 'timeline.title'}}</h4>
                   <h5>{{t 'coming-soon.title'}}</h5>
                 </div>
               </div>
               
-              <div id="alertsPanel" class="tab-panel">
+              <div id="gameNav-alertsPanel" class="tab-panel">
                 <div class="tab-panel-header">
                   <h4>{{t 'alerts.title'}}</h4>
                   <h5>{{t 'coming-soon.title'}}</h5>
                 </div>
               </div>
               
-              <div id="infoPanel" class="tab-panel">
+              <div id="gameNav-infoPanel" class="tab-panel">
                 <div class="tab-panel-header">
                   <h4>{{t 'info.title'}}</h4>
                   <h5>{{t 'coming-soon.title'}}</h5>

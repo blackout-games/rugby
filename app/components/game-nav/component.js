@@ -59,9 +59,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   bottomTabBarIsShowing: true,
   topBarCollapseAmount: 0,
   tabSwitcherDirection: 'immediate',
-  tabSwitcherSelected: 'menuPanel',
+  tabSwitcherSelected: 'gameNav-menuPanel',
   menuSwitcherDirection: 'immediate',
-  menuSwitcherSelected: 'managerPanel',
+  menuSwitcherSelected: 'gameNav-managerPanel',
   
 
   uiEvents: [
@@ -425,7 +425,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     
     $.each(MenuData.menus, function( menuName, menuItems ){
       
-      $('#'+menuName+'Panel > .menu-links').html('');
+      $('#gameNav-'+menuName+'Panel > .menu-links').html('');
       
       $.each(menuItems,function( index, item ){
         
@@ -435,14 +435,25 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
           return true;
         }
         
-        // Translate item label
-        let key = "menu."+Ember.String.dasherize(menuName)+"."+Ember.String.dasherize(item.label);
-        item.tLabel = self.get('i18n').t(key);
+        if(item.label){
+          // Translate item label
+          let key = "menu."+Ember.String.dasherize(menuName)+"."+Ember.String.dasherize(item.label);
+          item.tLabel = self.get('i18n').t(key);
+        }
         
         // Serialize route name for use as CSS id name
         item.cssRoute = item.route.replace(/\./g,'_');
-         
-        if(item.tempRoute){
+        
+        // Track actionable link
+        let addEvent = true;
+        
+        if(item.menuRoute){
+          
+          // For routes which don't appear in the menu but will cause a different menu link to highlight
+          itemLink = $('<a id="menuItem_'+item.cssRoute+'" class="menu-link hidden" data-menu-route="'+item.menuRoute+'"></a>');
+          addEvent = false;
+          
+        } else if(item.tempRoute){
           itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.tempRoute;
@@ -464,13 +475,17 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         }
         
         if(itemLink){
-          itemLink.on('click',function(e){
-            e.preventDefault();
-            self.sendAction(action,realRoute,routeId);
-            self.selectMenuLink(item.route);
-            return false;
-          });
-          $('#'+menuName+'Panel > .menu-links').append(itemLink);
+          
+          if(addEvent){
+            itemLink.on('click',function(e){
+              e.preventDefault();
+              self.sendAction(action,realRoute,routeId);
+              self.selectMenuLink(item.route);
+              return false;
+            });
+          }
+          
+          $('#gameNav-'+menuName+'Panel > .menu-links').append(itemLink);
         }
         
       });
@@ -741,7 +756,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       if( type === 'tab' ){
         this.set('tabSwitcherDirection',direction);
-        this.set('tabSwitcherSelected', tabName + 'Panel' );
+        this.set('tabSwitcherSelected', 'gameNav-' + tabName + 'Panel' );
       } else {
         
         // Select menu tab
@@ -750,7 +765,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         } else {
           this.set('tabSwitcherDirection','immediate');
         }
-        this.set('tabSwitcherSelected','menuPanel');
+        this.set('tabSwitcherSelected','gameNav-menuPanel');
         
         // Select menu
         if( this.get('lastTabSelected') !== 'menu' ){
@@ -759,7 +774,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
           this.set('menuSwitcherDirection',direction);
         }
         
-        this.set('menuSwitcherSelected',tabName+'Panel');
+        this.set('menuSwitcherSelected','gameNav-'+tabName+'Panel');
         this.set('lastTabSelected','menu');
         
       }

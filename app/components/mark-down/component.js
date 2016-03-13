@@ -502,7 +502,14 @@ export default Ember.Component.extend({
     
     var currentHost = window.location.host;
     
-    return markdown.replace(/(?:(!{0,2}\$?)\[(.*)\]\( *|(<a .*?href="))((?:http(?:s)?:\/\/)?(.[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)((?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\)|(".*<\/a>))/gi,function( fullMatch, mediaModifier, markdownText, anchorStart, url, host, path, anchorEnd){
+    /**
+     * old regex with catastrophic backtracking *)*
+     * Caused chrome to hang on any markdown with no matches
+     * 
+     * /(?:(!{0,2}\$?)\[(.*)\]\( *|(<a .*?href="))((?:http(?:s)?:\/\/)?(.[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)((?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\)|(".*<\/a>))/gi
+     */
+    
+    return markdown.replace(/(?:(!{0,2}\$?)\[(.*)\]\( *|(<a .*?href="))((?:http(?:s)?:\/\/)?(.[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b|(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?::[0-9]{1,5})?)((?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)))(?:\)|(".*<\/a>))/gi,function( fullMatch, mediaModifier, markdownText, anchorStart, url, host, path, anchorEnd){
       
       // Make sure this is not a media link
       if(Ember.Blackout.isEmpty(mediaModifier)){
