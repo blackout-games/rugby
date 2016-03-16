@@ -60,11 +60,6 @@ export default Ember.Component.extend({
       }
     });
     
-    //Tmp
-    Ember.run.next(()=>{
-      this.send('showEditor');
-    });
-    
   }),
   
   managerImageType: Ember.computed(function(){
