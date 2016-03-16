@@ -175,7 +175,7 @@ export default Ember.Component.extend(Timers, {
         }
         
         // Schedule next update
-        this.addTimer(function(){
+        this.addTimer(()=>{
           this.updateBackgroundImage();
         },this.backgroundDuration,true);
         
