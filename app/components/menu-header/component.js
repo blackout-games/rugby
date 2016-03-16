@@ -8,9 +8,7 @@ export default Ember.Component.extend({
   
   settingsPanelIsShowing: false,
 
-  initUserImages: Ember.on('didInsertElement', function() {
-    this.get('userImages').registerManagerImage('.manager-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
-    this.get('userImages').registerClubImage('.club-avatar-menu',Ember.$('#nav-sidebar').css('background-color'));
+  setup: Ember.on('didInsertElement', function() {
     
     // Listen for settings toggle events
     this.get('EventBus').subscribe('showSettings', this, this.showSettings);
@@ -27,8 +25,8 @@ export default Ember.Component.extend({
   },
 
   currentClub: Ember.computed('session.sessionBuilt', function() {
-    if (this.get('session.isAuthenticated') && this.get('session.manager.currentClub')) {
-      return this.get('store').findRecord('club', this.get('session.manager.currentClub'));
+    if (this.get('session.isAuthenticated') && this.get('session.data.manager.currentClub')) {
+      return this.get('store').findRecord('club', this.get('session.data.manager.currentClub'));
     }
   }),
 

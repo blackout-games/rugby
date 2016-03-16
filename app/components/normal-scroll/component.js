@@ -1,12 +1,16 @@
 import Ember from 'ember';
+import PreventBodyScroll from '../../mixins/prevent-body-scroll';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(PreventBodyScroll,{
+
   classNames: ['normal-scroll','fix-mousewheel-scroll','light-scrollbar'],
   
   setup: Ember.on('didInsertElement',function(){
     
-    
     if(this.get('horizontal')){
+      
+      // Prevent body scroll doesn't support horizintal scrolling
+      this.set('disablePreventBodyScroll',true);
       
       this.$().addClass('horizontal');
       
@@ -65,11 +69,13 @@ export default Ember.Component.extend({
     }
     
     // Fix touch sometimes not working
-    this.$().off('touchstart touchmove touchend').on('touchstart touchmove touchend',(e)=>{
-      e.stopPropagation();
-    });
+    this.$().off('touchmove',this.stopPropagation).on('touchmove',this.stopPropagation);
     
   }),
+  
+  stopPropagation(e){
+    e.stopPropagation();
+  },
   
   cleanup: Ember.on('willDestroyElement',function(){
     

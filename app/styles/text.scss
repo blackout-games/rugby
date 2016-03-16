@@ -85,7 +85,7 @@ a {
     text-decoration: none;
 
     &.hover {
-      color: saturate(lighten($primary-master, 20%), 30%);
+      color: saturate(lighten($primary-master, 15%), 22%);
       text-decoration: none;
     }
 
@@ -197,8 +197,8 @@ a {
 }
 
 .no-extra-hitarea .btn-a, .no-extra-hitarea.btn-a {
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 /**
@@ -466,6 +466,9 @@ p {
   font-size:12px !important;
 }
 .text-medium {
+  font-size:14px !important;
+}
+.text-big {
   font-size:18px !important;
   @media #{$tablet-and-up} {
     font-size:20px !important;

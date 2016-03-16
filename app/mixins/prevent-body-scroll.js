@@ -4,9 +4,10 @@ export default Ember.Mixin.create({
   
   /**
    * Set this on consumer to let it know where to apply event listeners
+   * Leave empty to use it on the main component element
    * @type {Array}
    */
-  //preventBodyScrollItems: [''],
+  preventBodyScrollSelectors: [],
   
   /**
    * Set this on consumer to also prevent mouse wheel from causing the body to scroll when limits are reached
@@ -16,9 +17,17 @@ export default Ember.Mixin.create({
   
   setupPreventBodyScroll: Ember.on('didInsertElement',function(){
     
-    if(!Ember.Blackout.isEmpty(this.get('preventBodyScrollItems'))){
+    let selectors = this.get('preventBodyScrollSelectors');
+    
+    if(Ember.Blackout.isEmpty(selectors)){
+      selectors = [
+        null
+      ];
+    }
+    
+    if(!this.get('disablePreventBodyScroll')){
       
-      Ember.$.each(this.get('preventBodyScrollItems'),(key,val)=>{
+      Ember.$.each(selectors,(key,val)=>{
         this.$(val).on('touchstart', this.handleTouchStart);
         this.$(val).on('touchmove', this.handleTouchMove);
         
@@ -33,9 +42,9 @@ export default Ember.Mixin.create({
   
   cleanupPreventBodyScroll: Ember.on('willDestroyElement',function(){
     
-    if(!Ember.Blackout.isEmpty(this.get('preventBodyScrollItems'))){
+    if(!Ember.Blackout.isEmpty(this.get('preventBodyScrollSelectors'))){
       
-      Ember.$.each(this.get('preventBodyScrollItems'),(key,val)=>{
+      Ember.$.each(this.get('preventBodyScrollSelectors'),(key,val)=>{
         this.$(val).off('touchstart', this.handleTouchStart);
         this.$(val).off('touchmove', this.handleTouchMove);
         this.$(val).off('mousewheel',this.handleMouseWheel);

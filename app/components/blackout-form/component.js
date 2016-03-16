@@ -11,9 +11,16 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    $('form input').on('mousedown touchstart',(e)=>{
+    // Force fast focus | use touchend for mobile so that we can still drag scrollable forms. Touchend still saves some time as sometimes there is a delay before the click event fires.
+    $('form input').on('mousedown touchend',(e)=>{
       $(e.target).focus();
     });
+    
+  }),
+  
+  cleanup: Ember.on('willDestroyElement',function(){
+    
+    $('form input').off('mousedown touchstart touchmove focus');
     
   }),
   
@@ -36,12 +43,11 @@ export default Ember.Component.extend({
   
   resetModel: Ember.on('willDestroyElement',function(){
     
-    if(this.get('model')){
+    if(this.get('model') && this.get('model').rollbackAttributes){
       this.get('model').rollbackAttributes();
     }
     
   }),
-  
   
   actions: {
     onSave(button){
@@ -49,20 +55,21 @@ export default Ember.Component.extend({
       if(this.attrs.onSave){
         this.$('.blackout-cancel-button').prop('disabled',true);
         this.attrs.onSave(()=>{
-          button.reset();
-          button.succeeded();
+          button.succeeded(true);
+        },()=>{
+          
         },()=>{
           button.reset();
-        },()=>{
           this.$('.blackout-cancel-button').prop('disabled',false);
         });
       }
     },
     onCancel(){
-      
       // Reset the form
       //this.$('form')[0].reset();
-      this.get('model').rollbackAttributes();
+      if(this.get('model').rollbackAttributes){
+        this.get('model').rollbackAttributes();
+      }
       
       if(this.attrs.onCancel){
         this.attrs.onCancel();

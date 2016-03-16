@@ -45,6 +45,7 @@ export function compare(options/*, hash*/) {
     '==':   function(l,r) { return l === r; },
     '===':  function(l,r) { return l === r; },
     '!=':   function(l,r) { return l !== r; },
+    '!==':   function(l,r) { return l !== r; },
     '<':    function(l,r) { return l < r; },
     '>':    function(l,r) { return l > r; },
     '<=':   function(l,r) { return l <= r; },
@@ -55,7 +56,7 @@ export function compare(options/*, hash*/) {
   if (!operators[options[1]]){
     throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+options[1]);
   }
-
+  
   var result = operators[options[1]](options[0],options[2]);
 
   if( result ) {

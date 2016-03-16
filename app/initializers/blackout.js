@@ -300,6 +300,44 @@ class Blackout {
   deleteCSSRule(index) {
     document.styleSheets[0].deleteRule(index);
   }
+  
+  /**
+   * Sometimes ember takes a while to start returning a height
+   * for a hidden item. This function will loop until we get a height.
+   * If we reach 1s before we get a height other than 0, 0 is assumed
+   */
+  waitForHeightOfHidden($el,callback,start=0){
+    let height = this.getHeightOfHidden($el);
+    let now = Date.now();
+    if(!start){
+      start = now;
+    }
+    let timetaken = now-start;
+    if(height || timetaken>=1000){
+      callback(height,timetaken);
+    } else {
+      Ember.run.next(this,this.waitForHeightOfHidden,$el,callback,start);
+    }
+  }
+  
+  getHeightOfHidden($el){
+    
+    let previousCss  = $el.attr("style");
+
+    $el.css({
+      position:   'absolute',
+      visibility: 'hidden',
+      display:    'block',
+      'max-height': 'none',
+      'opacity': '1',
+    });
+
+    let height = $el.height();
+    $el.attr("style", previousCss ? previousCss : "");
+    
+    return height;
+    
+  }
 
   /**
    * trimChar
@@ -606,7 +644,7 @@ class Blackout {
    * @param  {array}   path  Path to the image
    * @param  {Function} callback Function to call once images have loaded
    */
-  preloadImage(path, callback, errorCallback=null) {
+  preloadImage(path, callback, errorCallback=null, finalCallback) {
     
     // Trim any potential quotes
     path = path.trim('"');
@@ -618,10 +656,16 @@ class Blackout {
       if (callback) {
         callback(this.width,this.height);
       }
+      if(finalCallback){
+        finalCallback();
+      }
     }).on('error', function(e,other) {
       print('error',path,e,other);
       if(errorCallback){
         errorCallback();
+      }
+      if(finalCallback){
+        finalCallback();
       }
     });
     
@@ -953,6 +997,15 @@ class Blackout {
     this.setKey(key,obj);
     
     return obj;
+    
+  }
+  
+  /**
+   * Determines which separator to use to extend a given a URL
+   */
+  getSeparator(url){
+    
+    return url.indexOf('?')>=0 ? '&' : '?';
     
   }
   

@@ -18,10 +18,14 @@ export default Ember.Component.extend({
   
   onInit: Ember.on('init',function(){
     
-    var valuePath = this.get('valuePath');
-    defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
-    defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
-    defineProperty(this, 'clientError', computed.alias(`model.validations.attrs.${valuePath}.message`));
+    if(this.get('valuePath')){
+      
+      var valuePath = this.get('valuePath');
+      defineProperty(this, 'validation', computed.oneWay(`model.validations.attrs.${valuePath}`));
+      defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+      defineProperty(this, 'clientError', computed.alias(`model.validations.attrs.${valuePath}.message`));
+      
+    }
     
   }),
   
@@ -74,8 +78,11 @@ export default Ember.Component.extend({
     onBlur(){
       this.set('hasFocus',false);
     },
-    onKeyUp(){
+    onKeyUp(value){
       this.set('hasDirtied',true);
+      if(this.attrs.onChanged){
+        this.attrs.onChanged(value);
+      }
     }
   },
   

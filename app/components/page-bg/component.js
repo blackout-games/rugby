@@ -84,7 +84,7 @@ export default Ember.Component.extend({
         
         // Check if we've been here
         let sessionKey = route+'-header-image';
-        let imageClass = session.get(sessionKey);
+        let imageClass = session.get('data.'+sessionKey);
         
         if(!imageClass){
           
@@ -92,7 +92,7 @@ export default Ember.Component.extend({
           let image = images[Ember.Blackout.rand(1,available)-1];
           
           imageClass = key + '-' + image;
-          session.set(sessionKey,imageClass);
+          session.set('data.'+sessionKey,imageClass);
           
         }
         

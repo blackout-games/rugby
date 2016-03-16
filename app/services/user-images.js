@@ -1,6 +1,5 @@
 import Ember from 'ember';
-var $ = Ember.$;
-const { Blackout } = Ember;
+const { Blackout, $ } = Ember;
 
 /**
  * This service handles manager images and club images for the currently logged in manager, as well as general user images, like manager and club images for other managers around the game.
@@ -11,50 +10,110 @@ const { Blackout } = Ember;
 export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
-  EventBus: Ember.inject.service('event-bus'),
+  EventBus: Ember.inject.service(),
+  preferences: Ember.inject.service(),
   
-  managerImages: [],
-  clubImages: [],
+  imageStore: [],
   
   watchForNewLogins: Ember.on('init',function(){
     this.get('EventBus').subscribe('sessionBuilt',this,this.updateSessionImages);
   }),
   
+  registerImage($el, url, defaultColor){
+    
+    if(defaultColor==='dark'){
+      defaultColor = Ember.$('#nav-sidebar').css('background-color');
+    } else { // light
+      defaultColor = Ember.Blackout.getCSSColor('bg-light');
+    }
+    
+    // Register for later updates
+    this.get('imageStore').pushUnique({el: $el, defaultBgColor: defaultColor});
+    
+    // Update the image now
+    this.updateImage($el, url, defaultColor);
+    
+  },
+  
+  deregisterImage($el){
+    
+    $.each(this.get('imageStore'),(i,img)=>{
+      
+      let $managerEl = img.el ? img.el : $(img.selector);
+      
+      if($el === $managerEl){
+        this.get('imageStore').splice(i,1);
+        return false;
+      }
+      
+    });
+    
+  },
+  
   /**
    * Register a manager image (for *currently logged in* manager)
    */
-  registerManagerImage(selector,defaultBgColor,largeVersion){
-    
-    // Register for later updates
-    this.get('managerImages').pushUnique({selector: selector, defaultBgColor: defaultBgColor});
+  registerManagerImage($el,defaultBgColor,largeVersion){
     
     // Get large image url
     let url = this.get('managerImageURL');
+    let isGravatar = url.indexOf('gravatar.com')>=0;
+    
     if(largeVersion){
-      url = url.replace('type=normal','type=large');
+      url = this.getLargeUrl(url);
+      $el.data('is-large-image',true);
     }
     
-    // Update the image now
-    this.updateImage(selector, url, defaultBgColor);
+    if(isGravatar){
+      let separator = Ember.Blackout.getSeparator(url);
+      url += separator + 'default=' + encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
+    }
+    
+    $el.data('is-manager-image',true);
+    
+    this.registerImage($el, url, defaultBgColor, largeVersion);
+    
+    return url;
     
   },
   
   /**
    * Register a club image (for *currently logged in* manager)
    */
-  registerClubImage(selector,defaultBgColor,largeVersion){
-    
-    // Register for later updates
-    this.get('clubImages').pushUnique({selector: selector, defaultBgColor: defaultBgColor});
+  registerClubImage($el,defaultBgColor,largeVersion){
     
     // Get large image url
     let url = this.get('clubImageURL');
     if(largeVersion){
-      url = url.replace('type=normal','type=large');
+      url = this.getLargeUrl(url);
+      $el.data('is-large-image',true);
     }
     
-    // Update the image now
-    this.updateImage(selector, url, defaultBgColor);
+    $el.data('is-club-image',true);
+    
+    this.registerImage($el, url, defaultBgColor, largeVersion);
+    
+    return url;
+    
+  },
+  
+  getLargeUrl(url){
+    
+    let isGravatar = url.indexOf('gravatar.com')>=0;
+    let separator = Ember.Blackout.getSeparator(url);
+    
+    if(isGravatar){
+      url += separator + 'size=200';
+    } else {
+      let isFacebook = url.indexOf('facebook.com')>=0;
+      if(isFacebook){
+        url = url.replace('type=normal','type=large');
+      } else {
+        url = url.replace(/size=[0-9]+/i,'size=200');
+      }
+    }
+    
+    return url;
     
   },
   
@@ -65,23 +124,23 @@ export default Ember.Service.extend({
    * @param  {string}    imgUrl   The user's image URL
    * @param  {css color} defaultBgColor  The color for the background in the case of a user image with transparency 
    */
-  updateImage ( selector, imgUrl, defaultBgColor ) {
+  updateImage ( $el, imgUrl, defaultBgColor ) {
     
     if(imgUrl){
     
       Ember.run.next(function() {
         
         // Set background as color to block out "Logo Not Found" image
-        $(selector).css('background-color', defaultBgColor);
+        $el.css('background-color', defaultBgColor);
         
         // Set image
         Blackout.preloadImage(imgUrl,() => {
-          $(selector).css('background-image', 'url(' + imgUrl + ')');
+          $el.css('background-image', 'url(' + imgUrl + ')');
         });
         
         
         // Ensure parent has z-index of more than 0
-        $(selector).each(function(){
+        $el.each(function(){
           if($(this).parent().css('z-index')==='auto'){
             $(this).parent().css('z-index',1);
           }
@@ -100,7 +159,7 @@ export default Ember.Service.extend({
             console.log("error loading image");
             
             // Change background color back to transparent, so we can see "Logo not found"
-            $(selector).css('background-color', 'transparent');
+            $el.css('background-color', 'transparent');
             
             // Remove temp image
             tmpImg.remove();
@@ -119,20 +178,40 @@ export default Ember.Service.extend({
    */
   updateSessionImages(){
     
-    var self = this;
-    
     // Do this next, so that other things have time to render based on a new login
     // i.e. menu avatar is still hidden at this point so won't show up when we check for it
-    Ember.run.next(function(){
+    Ember.run.next(()=>{
       
-      // ---------------------------------- Manager Images
+      // ---------------------------------- Images
       
       var notFound = [];
       
-      self.get('managerImages').forEach(function(img,index){
+      this.get('imageStore').forEach((img,index)=>{
         
-        if($(img.selector).length){
-          self.updateImage(img.selector, self.get('managerImageURL'), img.defaultBgColor);
+        let $el = img.el ? img.el : $(img.selector);
+        
+        if($el.length){
+          
+          if($el.data('is-manager-image')){
+            
+            let url = this.get('managerImageURL');
+            if($el.data('is-large-image')){
+              url = this.getLargeUrl(url);
+            }
+            
+            this.updateImage($el, url, img.defaultBgColor);
+            
+          } else if($el.data('is-club-image')){
+            
+            let url = this.get('clubImageURL');
+            if($el.data('is-large-image')){
+              url = this.getLargeUrl(url);
+            }
+            
+            this.updateImage($el, url, img.defaultBgColor);
+            
+          }
+          
         } else {
           notFound.push(index);
         }
@@ -141,36 +220,26 @@ export default Ember.Service.extend({
       
       // Remove not found
       notFound.forEach(function(i){
-        self.get('managerImages').splice(i,1);
-      });
-      
-      // ---------------------------------- Club Images
-      
-      notFound = [];
-      
-      self.get('clubImages').forEach(function(img,index){
-        
-        if($(img.selector).length){
-          self.updateImage(img.selector, self.get('clubImageURL'), img.defaultBgColor);
-        } else {
-          notFound.push(index);
-        }
-        
-      });
-      
-      // Remove not found
-      notFound.forEach(function(i){
-        self.get('clubImages').splice(i,1);
+        this.get('imageStore').splice(i,1);
       });
       
     });
     
   },
-
-  managerImageURL: Ember.computed('session.manager', function() {
+  
+  /**
+   * Image URL for *current* logged in manager
+   */
+  managerImageURL: Ember.computed('session.data.manager.imageUrl', function() {
     if (this.get('session.isAuthenticated')) {
       
-      let imageUrl = this.get('session.manager.imageUrl');
+      let imageUrl = this.get('session.data.manager.imageUrl');
+      let imageType = this.get('preferences').getPref('managerImageType');
+      
+      if(imageType==='custom'){
+        // Run the image through cloudfront
+        imageUrl = 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(imageUrl) + '&size=100';
+      }
       
       if (imageUrl) {
         return imageUrl;
@@ -196,18 +265,31 @@ export default Ember.Service.extend({
     // Create HTML
     let html = '<span class="nowrap"><div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + username + '</a></span>';
     
+    // Get image URL
+    let imageUrl = manager.get('imageUrl');
+    let isGravatar = imageUrl.indexOf('gravatar.com')>=0;
+    let separator = '?';
+    
+    if(isGravatar){
+      let def = encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
+      def = 'retro';
+      imageUrl += separator + 'default=' + def;
+    }
+    
     // Load image, check if available, etc.
-    this.updateImage('.'+imageClassName,manager.get('imageUrl'),'transparent');
+    Ember.run.next(()=>{
+      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+    });
     
     return html;
     
   },
 
   clubImageURL: Ember.computed('session.sessionBuilt', function() {
+    
+    if (this.get('session.isAuthenticated') && this.get('session.data.manager.currentClub')) {
 
-    if (this.get('session.isAuthenticated') && this.get('session.manager.currentClub')) {
-
-      var club = this.get('store').peekRecord('club', this.get('session.manager.currentClub'));
+      var club = this.get('store').peekRecord('club', this.get('session.data.manager.currentClub'));
 
       if (club) {
         var logo = club.get('logo');

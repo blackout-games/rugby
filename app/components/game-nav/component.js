@@ -25,7 +25,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   topBarBuffer: 100,
   
   // Prevent body scroll mixin
-  preventBodyScrollItems: ['#sidebar-scroller'],
+  preventBodyScrollSelectors: ['#sidebar-scroller'],
   
   // Communicators
   backToTopButtonIsShowing: false,

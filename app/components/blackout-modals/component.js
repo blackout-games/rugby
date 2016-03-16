@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   
   animationDuration: 277, // Mimic CSS
   letUsKnowActionName: 'letUsKnow', // TODO
+  classNames: ['blackout-modals'],
   
   /**
    * Default properties

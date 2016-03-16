@@ -19,17 +19,6 @@ export default Ember.Component.extend({
     this.get('EventBus').publish('showBottomTabBar');
     $('#sidebar-info-tab').addClass('hidden');
   }),
-
-  initUserImages: Ember.on('didInsertElement', function() {
-    
-    if(this.get('session.isAuthenticated')){
-      
-      this.get('userImages').registerManagerImage('.manager-avatar-home',$('#nav-sidebar').css('background-color'));
-      this.get('userImages').registerClubImage('.club-avatar-home',$('#nav-sidebar').css('background-color'));
-      
-    }
-    
-  }),
   
   actions: {
     handleWaypoint(direction, element) {

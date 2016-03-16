@@ -147,6 +147,9 @@ form label {
   @media #{$mobile} {
     font-size:15px;
   }
+  &.ember-radio-button {
+    font-weight: normal;
+  }
 }
 
 /**
@@ -237,6 +240,23 @@ input[type="text"], input[type="password"], input[type="email"] {
   border: none;
   padding: 0;
   //font-weight: normal;
+}
+
+// Only pad right if error is showing
+.has-feedback {
+  // Ensure icons don't overlap text
+  .form-control {
+    padding-right: unset;
+  }
+}
+.has-feedback.has-error {
+  // Enable absolute positioning
+  position: relative;
+
+  // Ensure icons don't overlap text
+  .form-control {
+    padding-right: ($input-height-base * 1.25);
+  }
 }
 
 /**

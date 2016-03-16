@@ -1,0 +1,28 @@
+
+{{#if editable}}
+
+  <a {{action 'showEditor'}} class="user-image-editable btn-a">
+    <div class="user-image"><i class="icon-edit-circle icon-2x"></i></div>
+    
+    <div class="manager-avatar-edit top-gap-sm text-medium">
+      
+      {{t 'buttons.change'}}
+      
+    </div>
+  </a>
+  
+  {{#float-window isShowing=(mut showingEditor)}}
+    
+    <div class="row row-center gap-lg">
+      {{user-image type=type largeVersion=true class='avatar-editor' defaultColor='light'}}
+    </div>
+    
+    {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") serverError=serverError onSave=(action "onSave") useCloseButton=true}}
+    
+  {{/float-window}}
+  
+{{else}}
+
+  <div class="user-image"></div>
+  
+{{/if}}

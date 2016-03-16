@@ -9,7 +9,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   setNavMode: 'd', // a-d
   
   // Prevent body scroll
-  preventBodyScrollItems: ['#sub-nav-scroller'],
+  preventBodyScrollSelectors: ['#sub-nav-scroller'],
   
   // UI Events
   uiEvents: [

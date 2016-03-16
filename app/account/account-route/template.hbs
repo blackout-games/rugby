@@ -13,14 +13,11 @@
             {{blackout-form form=(readonly accountForm) model=model onCancel=(action "onCancel") serverError=serverError onSave=(action "onSave") }}
             <div class="divider gap-2x hidden-xs-up"></div>
           </div>
-          <div class="col-xxs-12 col-xs-3" aria-hidden="true">
+          <div class="col-xxs-12 col-first-xxs col-xs-3 gap-2x" aria-hidden="true">
+            
             <label>{{t 'account.user-image'}}</label>
-            <div class="manager-avatar manager-avatar-account"></div>
-            <div class="manager-avatar-edit top-gap-sm text-light text-small">
-              
-              {{t 'account.user-image-edit'}}
-              
-            </div>
+            {{user-image type='manager' largeVersion=true class='manager-avatar-account' defaultColor='light' editable=true}}
+            
           </div>
         </div>
         

@@ -1,0 +1,69 @@
+.blackout-radio {
+  position:relative;
+}
+
+.blackout-radio input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+
+.blackout-radio label{
+  display: inline-block;
+  width:auto;
+  position: relative;
+  padding: 11px 11px 11px 44px;
+  height: 38px;
+  z-index: 9;
+  cursor: pointer;
+}
+
+$hover-color: $bg-light-darker;
+//$hover-color: $primary-master;
+
+.blackout-radio:hover label{
+  //color: $hover-color;
+}
+
+.blackout-radio .check{
+  display: block;
+  position: absolute;
+  border: 5px solid $bg-light;
+  border-radius: 100%;
+  height: 33px;
+  width: 33px;
+  top: 7px;
+  left: 4px;
+  z-index: 5;
+}
+
+.blackout-radio label:hover .check {
+  border-color: $hover-color;
+}
+
+.blackout-radio .check::before {
+  display: block;
+  position: absolute;
+  content: "";
+  border-radius: 100%;
+  height: 15px;
+  width: 15px;
+  top: 4px;
+  left: 4px;
+  margin: auto;
+  z-index: 7;
+}
+
+$selected-color: $bg-dark-lighter-3x;
+$selected-color: $primary-master;
+
+.blackout-radio input[type=radio]:checked ~ .check {
+  border-color: $bg-light; // $selected-color | $bg-light;
+}
+
+.blackout-radio input[type=radio]:checked ~ .check::before{
+  background: $selected-color;
+}
+
+.blackout-radio input[type=radio]:checked ~ label{
+  color: $selected-color;
+}

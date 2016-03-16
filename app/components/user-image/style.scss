@@ -1,0 +1,36 @@
+.user-image {
+}
+
+.user-image-editable {
+  
+  .user-image {
+    position:relative;
+    i {
+      color:$bg-dark-lighter-3x;
+      position:absolute;
+      bottom:-4px;
+      right:-7px;
+      //display:none;
+    }
+  }
+  
+  &:hover, &:active {
+    i {
+      //display:inline-block;
+      transition: color $hover-animation-time;
+      color:$primary-master;
+    }
+  }
+    
+}
+
+.avatar-editor {
+  width:88px;
+  height:88px;
+  margin-top:7px;
+  @media #{$tablet-and-up} {
+    width:159px;
+    height:159px;
+    margin-top:0px;
+  }
+}

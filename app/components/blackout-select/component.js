@@ -9,7 +9,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   selected: null, // An object from 'options' attr
   
   // Prevent body scroll
-  preventBodyScrollItems: ['.bs-options-scroller'],
+  preventBodyScrollSelectors: ['.bs-options-scroller'],
   preventMouseWheelPropagation: true,
   
   // Helps when debugging issues

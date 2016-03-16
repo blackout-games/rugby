@@ -28,14 +28,14 @@ export default Ember.Service.extend({
   
   setupAJAXSuccessListener: Ember.on('init', function(){
     
-    var self = this;
-    
-    $( document ).ajaxSuccess(function( event, xhr ) {
+    $( document ).ajaxSuccess(( event, xhr )=>{
       var setBites = xhr.getResponseHeader('Set-Bites');
-      
+      var hash48 = xhr.getResponseHeader('Hash-48h');
+      this.set('latestHash48',hash48);
+    
       if(setBites!==null){
         setBites = setBites.split('; ');
-        $.each(setBites,function(i,setBite){
+        $.each(setBites,(i,setBite)=>{
           if(setBite!==''){
             
             if(setBite.indexOf('=')>=0){
@@ -44,7 +44,7 @@ export default Ember.Service.extend({
                 var key = parts[0].trim();
                 var val = parts[1].trim();
                 if(key!=='' && val!==''){
-                  self.set(key,val);
+                  this.set(key,val);
                 }
               }
             }
@@ -62,6 +62,7 @@ export default Ember.Service.extend({
     $.ajaxSetup({
         headers: {
           'Bites': this.header(),
+          'Hash-48h': this.get('latestHash48'),
         },
     });
     

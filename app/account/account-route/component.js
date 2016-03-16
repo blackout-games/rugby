@@ -13,14 +13,10 @@ export default Ember.Component.extend({
     this.get('model').set('password','');
     
   }),
-
-  initUserImages: Ember.on('didInsertElement', function() {
-    this.get('userImages').registerManagerImage('.manager-avatar-account',Ember.Blackout.getCSSColor('bg-light'),true);
-  }),
   
   serverErrors: {},
   
-  accountForm: Ember.computed('session.manager','serverErrors','updateForm',function(){
+  accountForm: Ember.computed('session.data.manager','serverErrors','updateForm',function(){
     
     return [
       {
@@ -31,7 +27,7 @@ export default Ember.Component.extend({
         serverError: this.get('serverErrors.username.title'),
         
         // Keeping for documentation sake. This is how you would add a property from some random object in the same - as opposed to using a model key.
-        //value: c('manager.username',{ manager: this.get('session.manager') }),
+        //value: c('manager.username',{ manager: this.get('session.data.manager') }),
       },
       {
         id: 'password',

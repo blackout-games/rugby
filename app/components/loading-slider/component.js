@@ -40,13 +40,17 @@ export default Ember.Component.extend({
   }),
   
   /**
-   * Starts the animation, increases width to 20%
+   * Starts the animation
    */
   animate() {
     
     this.reset();
     this.$('span').removeClass('complete');
-    this.$('span').addClass('animate').one(Ember.Blackout.afterCSSTransition, this, this.waitBound);
+    
+    // Run next to prevent backwards loading slider when started twice quickly
+    Ember.run.next(()=>{
+      this.$('span').addClass('animate').one(Ember.Blackout.afterCSSTransition, this, this.waitBound);
+    });
 
   },
   

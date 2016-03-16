@@ -61,8 +61,14 @@ export default Ember.Component.extend({
   
   reset(allowFocus = true) {
     
+    if(this.get('ignoreNextReset')){
+      this.set('ignoreNextReset',false);
+      return;
+    }
+    
     this.$().attr('disabled',false);
     this.$().removeClass('loading');
+    this.$().find('.content').show();
     this.$().css('width',this.get('originalWidth'));
     
     if(allowFocus){
@@ -76,7 +82,11 @@ export default Ember.Component.extend({
     this.set('hasSucceeded',false);
   },
   
-  succeeded(){
+  succeeded(ignoreNextReset=false){
+    this.reset();
+    if(ignoreNextReset){
+      this.set('ignoreNextReset',true);
+    }
     this.set('hasSucceeded',true);
     Ember.run.later(()=>{
       if(!this.get('isDestroyed')){

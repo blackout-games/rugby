@@ -51,6 +51,7 @@
     "ember-i18n-cp-validations": "2.2.0",
     "ember-infinite-scroll": "0.2.4",
     "ember-moment": "6.0.0",
+    "ember-radio-button": "1.0.7",
     "ember-responsive": "1.2.5",
     "ember-simple-auth": "^1.1.0-beta",
     "ember-watson": "^0.8.0",

@@ -8,7 +8,7 @@ export default Ember.Route.extend({
     
     let squadQuery = {
       filter: {
-        'club.id': this.get('session.manager.currentClub'),
+        'club.id': this.get('session.data.manager.currentClub'),
       }
     };
     

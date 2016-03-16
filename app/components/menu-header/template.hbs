@@ -15,12 +15,12 @@
       {{#link-to 'account' class="btn-a no-extra-hitarea "}}
         <div class="row">
           <div class="col-fixed">
-            <div class="manager-avatar manager-avatar-menu"></div>
+            {{user-image type='manager' class='manager-avatar-menu' defaultColor='dark'}}
           </div>
           <div class="col-flex">
             <div class="menu-manager-text row">
               <div class="col-max menu-manager-name ellipses">
-                {{session.manager.username}}
+                {{session.data.manager.username}}
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@
   
   
   <div>
-    <div class="club-avatar club-avatar-menu"></div>
+    {{user-image type='club' class='club-avatar-menu' defaultColor='dark'}}
     
     <div class="menu-club-text">
       {{currentClub.name}}

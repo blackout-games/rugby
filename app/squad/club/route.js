@@ -7,7 +7,7 @@ export default Ember.Route.extend({
     let query = {
       
       filter: {
-        'club.id': this.get('session.manager.currentClub'),// + ',57630',
+        'club.id': this.get('session.data.manager.currentClub'),// + ',57630',
         //'club.id': '57630',
       }
       

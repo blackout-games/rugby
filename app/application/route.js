@@ -12,6 +12,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   preferences: Ember.inject.service(),
   bites: Ember.inject.service(),
   locale: Ember.inject.service(),
+  user: Ember.inject.service(),
   
   listenForEvents: Ember.on('init', function(){
 
@@ -31,10 +32,10 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
     this.buildSession();
     
-    var attemptedTrans = this.session.get('attemptedTransition');
+    var attemptedTrans = this.session.get('data.attemptedTransition');
     if (attemptedTrans) {
       attemptedTrans.retry();
-      this.session.set('attemptedTransition', null);
+      this.session.set('data.attemptedTransition', null);
     } else {
 
       var newPath = '/dashboard';
@@ -172,27 +173,31 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   },
 
   buildSession() {
-
     var session = this.get('session');
     var store = this.get('store');
     var payload;
 
     // This may be an ember bug. We must encode and unencode the JSON payload to ensure there are no references to the payload passed into ember data. Ember data can create circular references on the object, which then cause errors when simple auth tries to JSON encode again for local storage.
 
-
+    // DONT use data.sessionBuilt so that this variable is cleared on reload
+    let sessionRebuilt = session.get('sessionRebuilt');
+    if(sessionRebuilt){
+      Ember.warn('Session manager has been refreshed since initial login, but buildSession was called again');
+      return;
+    }
+    
     // Push manager payload into store
-    var manager = session.get('data.authenticated.manager');
+    let manager = session.get('data.authenticated.manager');
+    
     if (manager) {
-
+      
       payload = JSON.parse(JSON.stringify(manager));
       store.pushPayload(payload);
-
-
+      
       // Set manager in session
-      session.set('managerId', manager.data.id);
-      session.set('manager', this.get('store').peekRecord('manager', manager.data.id));
-
-
+      session.set('data.managerId', manager.data.id);
+      session.set('data.manager', this.get('store').peekRecord('manager', manager.data.id));
+      
       // Set manager metadata in session
       var meta;
       if (manager.meta) {
@@ -200,7 +205,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       } else {
         meta = null;
       }
-      session.set('managerMeta', meta);
+      session.set('data.managerMeta', meta);
 
 
       // Push preferences payload into store
@@ -209,14 +214,22 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       store.pushPayload(payload);
 
       // Signify that the session has been built
+      // DONT use data.sessionBuilt so that this variable is cleared on reload
       session.set('sessionBuilt', true);
       
-      // Let the world know user has logged in and session is complete
-      this.EventBus.publish('sessionBuilt');
+      // Check for later version of manager
+      let managerLatest = session.get('data.sessionManagerLatest');
+      log('managerLatest',managerLatest);
+      if(managerLatest){
+        this.get('user').rebuildSession(managerLatest);
+      } else {
+        // Let the world know user has logged in and session is complete
+        this.EventBus.publish('sessionBuilt');
+      }
 
     } else {
 
-      Ember.Logger.warn('Session build was attempted, but manager was not available in session.secure');
+      Ember.Logger.warn('Session build was attempted, but manager was not available in session.data.authenticated');
 
     }
 

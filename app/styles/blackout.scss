@@ -151,6 +151,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   min-height: 99%;
 }
 
+.full-width {
+  width:100%;
+}
+
 /**
  * Vertical align center
  */
@@ -262,6 +266,10 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 .gap-2x {
   margin-bottom: 20px !important;
+}
+
+.gap-2-5x {
+  margin-bottom: 25px !important;
 }
 
 .gap-3x {

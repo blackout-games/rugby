@@ -26,6 +26,8 @@ export default DS.Model.extend(Validations,{
   mainClub: DS.attr(),
   currentClub: DS.attr(),
   imageUrl: DS.attr(),
+  gravatarImageUrl: DS.attr(),
+  facebookImageUrl: DS.attr(),
   facebookId: DS.attr(),
   clubs: DS.hasMany('club'),
 });

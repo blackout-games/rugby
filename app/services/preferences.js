@@ -55,9 +55,44 @@ export default Ember.Service.extend({
       var pref = this.getPrefRecord(id);
       if(pref){
         pref.set('value',value);
-        pref.save();
+        return pref.save();
+      } else {
+        return false;
       }
+    } else {
+      Ember.warn(`Could not save preference (${id}) because user is not authenticated`);
+      return false;
     }
+  },
+  
+  setPrefs(hash) {
+    
+    if( this.get('session.isAuthenticated')){
+      
+      // Ensure all prefs exist
+      hash.forEach((val)=>{
+        var prefObj = this.getPrefRecord(val.key);
+        if(!prefObj){
+          return false;
+        }
+      });
+      
+      let promises = {};
+      
+      // Ensure all prefs exist
+      hash.forEach((val)=>{
+        var prefObj = this.getPrefRecord(val.key);
+        prefObj.set('value',val.value);
+        promises[val.key] = prefObj.save();
+      });
+      
+      return Ember.RSVP.hash(promises);
+      
+    } else {
+      Ember.warn(`Could not save preferences because user is not authenticated`);
+      return false;
+    }
+    
   },
   
   pref(id, options) {

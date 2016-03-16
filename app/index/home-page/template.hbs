@@ -27,7 +27,7 @@
         
         <div class="row-center">
           <div class="col white home-welcome-back">
-            {{t 'home-page.welcome-back' manager=session.manager.username}}
+            {{t 'home-page.welcome-back' manager=session.data.manager.username}}
           </div>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@
             <div class="row">
               <div class="col-flex"></div>
               <div class="col-fixed">
-                <div class="manager-avatar manager-avatar-home"></div>
+                {{user-image type='manager' class='manager-avatar-home' defaultColor='dark'}}
               </div>
               <div class="col-flex"></div>
             </div>

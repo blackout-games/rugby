@@ -85,6 +85,13 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
   &.no-focus {
     @include no-focus;
   }
+  
+  &.btn-right-gap {
+    margin-right:4px;
+    @media #{$mobile-wide-and-up} {
+      margin-right:8px;
+    }
+  }
 }
 
 form .btn {
@@ -114,6 +121,13 @@ form .btn {
       //font-size: 4.4vmin;
     }
   }
+  
+  &.btn-right-gap {
+    margin-right:3px;
+    @media #{$mobile-wide-and-up} {
+      margin-right:7px;
+    }
+  }
 }
 
 .btn-inline {
@@ -126,6 +140,10 @@ form .btn {
   font-size: 17px;
   text-shadow: 0 1px 1px rgba(black,0.111);
   height:48px;
+  
+  @media #{$mobile-tall} {
+    padding: 0 4vw 2px;
+  }
 
   @media #{$mobile} {
     font-size: 15px;
@@ -136,6 +154,13 @@ form .btn {
     //height:48px;
     @media #{$mobile} {
       //font-size: 4.4vmin;
+    }
+  }
+  
+  &.btn-right-gap {
+    margin-right:5px;
+    @media #{$mobile-wide-and-up} {
+      margin-right:10px;
     }
   }
 }
