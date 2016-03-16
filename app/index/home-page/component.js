@@ -10,13 +10,13 @@ export default Ember.Component.extend({
   fbLoginAction: 'loginWithFacebook',
   
   arrive: Ember.on('didInsertElement', function(){
-    this.get('EventBus').publish('hideBottomTabBar');
+    this.get('eventBus').publish('hideBottomTabBar');
     $('#sidebar-info-tab').removeClass('hidden');
     
   }),
   
   leave: Ember.on('willDestroyElement', function(){
-    this.get('EventBus').publish('showBottomTabBar');
+    this.get('eventBus').publish('showBottomTabBar');
     $('#sidebar-info-tab').addClass('hidden');
   }),
   
@@ -54,10 +54,10 @@ export default Ember.Component.extend({
       this.sendAction('fbLoginAction',button);
     },
     showMenu(){
-      this.get('EventBus').publish('showNav');
+      this.get('eventBus').publish('showNav');
     },
     showSettings(){
-      this.get('EventBus').publish('showSettings');
+      this.get('eventBus').publish('showSettings');
     },
   },
   

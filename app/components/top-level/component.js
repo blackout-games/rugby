@@ -9,15 +9,15 @@ export default Ember.Component.extend({
       
       if( Ember.Blackout.isEmpty(this.get('imageUrl')) && Ember.Blackout.isEmpty(this.get('images')) ){
         
-        this.get('EventBus').publish('removeBackground');
+        this.get('eventBus').publish('removeBackground');
         
       } else {
         
         if(this.get('imageUrl')){
-          this.get('EventBus').publish('setNewBackground',this.get('imageUrl'));
+          this.get('eventBus').publish('setNewBackground',this.get('imageUrl'));
         }
         if(this.get('images')){
-          this.get('EventBus').publish('setNewBackgrounds',this.get('images'));
+          this.get('eventBus').publish('setNewBackgrounds',this.get('images'));
         }
         
       }

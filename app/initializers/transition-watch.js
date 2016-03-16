@@ -10,13 +10,13 @@ var transitionWatch = {
        * Doesn't work when a route is refreshed
        * Also happens in components/loading watcher
        */
-      this.get('EventBus').publish('hideNav');
+      this.get('eventBus').publish('hideNav');
       
     }
   }),
   
   selectMenuItem: Ember.on('activate', function(){
-      this.get('EventBus').publish('selectMenuLink',this.get('routeName'));
+      this.get('eventBus').publish('selectMenuLink',this.get('routeName'));
   }),
   
 };

@@ -33,8 +33,8 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement',function(){
     
     if(this.get('tabGroup')){
-      this.get('EventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.actions.selectTabFromURL);
-      this.get('EventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.iamcool);
+      this.get('eventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.actions.selectTabFromURL);
+      this.get('eventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.iamcool);
       
       if(!this.get('tabRoute')){
         this.set('tabRoute',this.get('tabGroup'));
@@ -45,7 +45,7 @@ export default Ember.Component.extend({
   
   cleanup: Ember.on('willDestroyElement',function(){
     if(this.get('tabGroup')){
-      this.get('EventBus').unsubscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.actions.selectTabFromURL);
+      this.get('eventBus').unsubscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.actions.selectTabFromURL);
     }
   }),
   

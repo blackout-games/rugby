@@ -17,7 +17,7 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement', function(){
     
-    this.get('EventBus').subscribe('fixedItemsShift', this, this.updatePosition);
+    this.get('eventBus').subscribe('fixedItemsShift', this, this.updatePosition);
     this.updatePosition();
     this.$().hide();
     this.set('previousPath',this.get('currentPath'));
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
 
   cleanup: Ember.on('willDestroyElement', function(){
     
-    this.get('EventBus').unsubscribe('fixedItemsShift', this, this.updatePosition);
+    this.get('eventBus').unsubscribe('fixedItemsShift', this, this.updatePosition);
     
   }),
   

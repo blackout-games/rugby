@@ -45,7 +45,7 @@ export default Ember.Component.extend({
    */
   
   setup: Ember.on('didInsertElement', function(){
-    var bus = this.get('EventBus');
+    var bus = this.get('eventBus');
     
     this.$().hide();
     
@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     }
     
     // Merge new options over defaults
-    var options = Ember.Object.extend(this.get('defaults')).create();
+    var options = Ember.Object.create(this.get('defaults'));
     options.setProperties(btnOptions);
     
     // Add extra buttons

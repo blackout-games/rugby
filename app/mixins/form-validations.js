@@ -56,7 +56,7 @@ export default Ember.Mixin.create({
         
       Ember.run.next(self,function(){
         // Let validated inputs know we've submitted
-        self.EventBus.publish(self.get('validationEvent'));
+        self.eventBus.publish(self.get('validationEvent'));
       });
       
       return false;

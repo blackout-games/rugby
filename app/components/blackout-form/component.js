@@ -56,11 +56,12 @@ export default Ember.Component.extend({
         this.$('.blackout-cancel-button').prop('disabled',true);
         this.attrs.onSave(()=>{
           button.succeeded(true);
-        },()=>{
-          
+          this.$('.blackout-cancel-button').prop('disabled',false);
         },()=>{
           button.reset();
           this.$('.blackout-cancel-button').prop('disabled',false);
+        },()=>{
+          // Don't reset here, since if the consumer has nested promises, and calls this function in the finally clause on the parent promise, it will execute to early.
         });
       }
     },

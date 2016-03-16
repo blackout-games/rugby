@@ -5,7 +5,7 @@ import config from '../config/environment';
 const { RSVP, isEmpty, run } = Ember;
 
 export default OAuth2.extend({
-  EventBus: Ember.inject.service('event-bus'),
+  eventBus: Ember.inject.service(),
   locals: Ember.inject.service(),
   serverTokenEndpoint: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/token?official',
   
@@ -35,7 +35,7 @@ export default OAuth2.extend({
         reject();
         
         // BLACKOUT START ----------- //
-        this.get('EventBus').publish('accessTokenWasNotRefreshed');
+        this.get('eventBus').publish('accessTokenWasNotRefreshed');
         // BLACKOUT END ------------- //
       });
     });
@@ -88,7 +88,7 @@ export default OAuth2.extend({
     },function(){
       print('session could not be restored');
       Ember.run.next(function(){
-        self.get('EventBus').publish('accessTokenWasNotRefreshed');
+        self.get('eventBus').publish('accessTokenWasNotRefreshed');
       });
     });
     

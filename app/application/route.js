@@ -19,7 +19,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     /**
      * May need to remove this.
      * Otherwise users will be logged out a lot, even if it's just a temporary loss of connection.
-    this.get('EventBus').subscribe('accessTokenWasNotRefreshed', this, function() {
+    this.get('eventBus').subscribe('accessTokenWasNotRefreshed', this, function() {
       Ember.run.next(this,function(){
         this.send('sessionCouldNotBeRefreshed');
       });
@@ -194,11 +194,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       payload = JSON.parse(JSON.stringify(manager));
       store.pushPayload(payload);
       
-      // Set manager in session
-      session.set('data.managerId', manager.data.id);
-      session.set('data.manager', this.get('store').peekRecord('manager', manager.data.id));
+      // ------ Set manager in session
       
-      // Set manager metadata in session
+      session.set('data.managerId', manager.data.id);
+      let newManager = this.get('store').peekRecord('manager', manager.data.id);
+      newManager = newManager.toJSON({ includeId: true });
+      session.set('data.manager', newManager);
+      
+      // ------ Set manager metadata in session
+      
       var meta;
       if (manager.meta) {
         meta = Ember.Object.create(manager.meta);
@@ -208,23 +212,25 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       session.set('data.managerMeta', meta);
 
 
-      // Push preferences payload into store
+      // ------ Push preferences payload into store
+      
       var preferences = session.get('data.authenticated.preferences');
       payload = JSON.parse(JSON.stringify(preferences));
       store.pushPayload(payload);
 
-      // Signify that the session has been built
+      // ------ Signify that the session has been built
       // DONT use data.sessionBuilt so that this variable is cleared on reload
       session.set('sessionBuilt', true);
       
-      // Check for later version of manager
+      // ------ Check for later version of manager
+      
       let managerLatest = session.get('data.sessionManagerLatest');
       log('managerLatest',managerLatest);
       if(managerLatest){
         this.get('user').rebuildSession(managerLatest);
       } else {
         // Let the world know user has logged in and session is complete
-        this.EventBus.publish('sessionBuilt');
+        this.eventBus.publish('sessionBuilt');
       }
 
     } else {

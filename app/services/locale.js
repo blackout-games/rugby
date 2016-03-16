@@ -6,7 +6,7 @@ import moment from 'moment';
 export default Ember.Service.extend({
   locals: Ember.inject.service(),
   i18n: Ember.inject.service(),
-  EventBus: Ember.inject.service(),
+  eventBus: Ember.inject.service(),
   moment: Ember.inject.service(),
   
   testMode: false,
@@ -194,7 +194,7 @@ export default Ember.Service.extend({
         self.updateRegisteredTranslations();
         
         // Broadcast event
-        self.get('EventBus').publish('localeChanged', locale);
+        self.get('eventBus').publish('localeChanged', locale);
         
       };
       

@@ -109,7 +109,7 @@ export default Ember.Component.extend({
       if(scrollDistance > Ember.$(window).height()*0.33){
         Ember.$('#nav-body,#sidebar,#backboard').addClass('slow-transition');
       }
-      this.get('EventBus').publish('hideNav');
+      this.get('eventBus').publish('hideNav');
     }
     
     this.get('scrollable').animate({

@@ -10,13 +10,13 @@ const { Blackout, $ } = Ember;
 export default Ember.Service.extend({
   session: Ember.inject.service(),
   store: Ember.inject.service(),
-  EventBus: Ember.inject.service(),
+  eventBus: Ember.inject.service(),
   preferences: Ember.inject.service(),
   
   imageStore: [],
   
   watchForNewLogins: Ember.on('init',function(){
-    this.get('EventBus').subscribe('sessionBuilt',this,this.updateSessionImages);
+    this.get('eventBus').subscribe('sessionBuilt',this,this.updateSessionImages);
   }),
   
   registerImage($el, url, defaultColor){
@@ -134,7 +134,7 @@ export default Ember.Service.extend({
         $el.css('background-color', defaultBgColor);
         
         // Set image
-        Blackout.preloadImage(imgUrl,() => {
+        Blackout.preloadImage(imgUrl).then(() => {
           $el.css('background-image', 'url(' + imgUrl + ')');
         });
         
@@ -238,7 +238,7 @@ export default Ember.Service.extend({
       
       if(imageType==='custom'){
         // Run the image through cloudfront
-        imageUrl = 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(imageUrl) + '&size=100';
+        imageUrl = this.getCacheUrl(imageUrl);
       }
       
       if (imageUrl) {
@@ -248,6 +248,14 @@ export default Ember.Service.extend({
       }
     }
   }),
+  
+  getCacheUrl(url){
+    if(url){
+      return 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(url) + '&size=100';
+    } else {
+      return url;
+    }
+  },
   
   /**
    * Generates manager html for decorate username locations

@@ -3,11 +3,12 @@ import Ember from 'ember';
 export default Ember.Service.extend({
   store: Ember.inject.service(),
   session: Ember.inject.service(),
-  EventBus: Ember.inject.service(),
+  eventBus: Ember.inject.service(),
   
   refreshSessionManager(){
     
     let managerId = this.get('session.data.managerId');
+    log('managerId',managerId);
     let manager = this.get('store').findRecord('manager',managerId,{reload: true});
     
     return manager.then((data)=>{
@@ -23,10 +24,18 @@ export default Ember.Service.extend({
     
     let session = this.get('session');
     
+    if(!manager.get){
+      manager = Ember.Object.create(manager);
+    }
+    
+    let managerId = manager.get('id');
+    
     // Set manager in session
     session.set('data.managerId', manager.get('id'));
+    manager = JSON.parse(JSON.stringify(manager));
+    manager.id = managerId;
+    
     session.set('data.manager', manager);
-    log('rebuildSession',session.get('data.managerId'));
     
     // Signify that the session has been rebuilt
     session.set('sessionRebuilt', true);
@@ -35,7 +44,7 @@ export default Ember.Service.extend({
     session.set('data.sessionManagerLatest',manager);
     
     // Let the world know user has logged in and session is complete, again
-    this.get('EventBus').publish('sessionBuilt');
+    this.get('eventBus').publish('sessionBuilt');
     
   },
   

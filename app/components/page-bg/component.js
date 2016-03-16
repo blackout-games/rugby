@@ -16,17 +16,17 @@ export default Ember.Component.extend({
   
   startListening: Ember.on('init',function(){
     
-    this.get('EventBus').subscribe('setNewBackground', this, this.newBackground);
-    this.get('EventBus').subscribe('setNewBackgrounds', this, this.newBackgrounds);
-    this.get('EventBus').subscribe('removeBackground', this, this.removeBackground);
+    this.get('eventBus').subscribe('setNewBackground', this, this.newBackground);
+    this.get('eventBus').subscribe('setNewBackgrounds', this, this.newBackgrounds);
+    this.get('eventBus').subscribe('removeBackground', this, this.removeBackground);
     
   }),
   
   stopListening: Ember.on('willDestroyElement',function(){
     
-    this.get('EventBus').unsubscribe('setNewBackground', this, this.newBackground);
-    this.get('EventBus').unsubscribe('setNewBackgrounds', this, this.newBackgrounds);
-    this.get('EventBus').unsubscribe('removeBackground', this, this.removeBackground);
+    this.get('eventBus').unsubscribe('setNewBackground', this, this.newBackground);
+    this.get('eventBus').unsubscribe('setNewBackgrounds', this, this.newBackgrounds);
+    this.get('eventBus').unsubscribe('removeBackground', this, this.removeBackground);
     
   }),
   

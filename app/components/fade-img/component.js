@@ -19,7 +19,6 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    let self = this;
     let $img = this.$('img');
     
     if(this.get('url')){
@@ -30,19 +29,19 @@ export default Ember.Component.extend({
       let url = this.get('url');
       
       // Preload image
-      Ember.Blackout.preloadImage(url,function(w,h) {
+      Ember.Blackout.preloadImage(url).then((w,h)=>{
         
-        if(self.assertComponentStillExists()){
+        if(this.assertComponentStillExists()){
           
-          if(self.assertImageRes(w,h)){
+          if(this.assertImageRes(w,h)){
             
             let loadTime = Date.now() - startTime;
           
-            if(loadTime <= self.get('imageCachedTime')){
+            if(loadTime <= this.get('imageCachedTime')){
               $img.addClass('fade-img-immediate');
             }
             
-            Ember.run.next(function(){
+            Ember.run.next(()=>{
             //Ember.run.later(function(){ // For simulating a slow image
               
               // Add image url
@@ -50,9 +49,9 @@ export default Ember.Component.extend({
               $img.attr('src',url).removeClass('hidden');
               
               // Allow height to be auto
-              self.$().css('height','auto');
+              this.$().css('height','auto');
               
-              self.$().findClosest('.spinner').remove();
+              this.$().findClosest('.spinner').remove();
               
               // Must wait again after we remove hidden class
               // 'run.next' doesn't work and allows image to just appear
@@ -67,24 +66,24 @@ export default Ember.Component.extend({
           
         }
         
-      },function(){ // Error
+      },()=>{ // Error
         
         // Hide
         $img.slideUp();
         
       });
       
-      Ember.run.next(function(){
+      Ember.run.next(()=>{
         // Set placeholder height temporarily
-        let w = self.$().width();
+        let w = this.$().width();
         let h = w * (9/16);
-        self.$().css('height',h+'px');
+        this.$().css('height',h+'px');
       });
       
       // If image isn't immediately available
-      Ember.run.later(function(){
-        if(!self.get('firstImageHasLoaded')){
-          self.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
+      Ember.run.later(()=>{
+        if(!this.get('firstImageHasLoaded')){
+          this.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
         }
       },this.get('imageCachedTime'));
       

@@ -61,7 +61,7 @@ export default Ember.Component.extend({
 
       if (this.get('allowBodyScrollEvent')) {
         this.changeAllowBodyScrollBound = Ember.run.bind(this, this.changeAllowBodyScroll);
-        this.get('EventBus').subscribe(this.get('allowBodyScrollEvent'), this.changeAllowBodyScrollBound);
+        this.get('eventBus').subscribe(this.get('allowBodyScrollEvent'), this.changeAllowBodyScrollBound);
       }
 
     }

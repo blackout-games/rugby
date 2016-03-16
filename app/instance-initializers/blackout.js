@@ -27,14 +27,14 @@ export function initialize( application ) {
     
     let currentPath = window.location.pathname;
     let appRoute = application.lookup('route:application');
-    let EventBus = application.lookup('service:event-bus');
+    let eventBus = application.lookup('service:event-bus');
     let rawRoute = Ember.Blackout.trimChar(route,'/');
     
     // Select menu link
     // (Selects dashboard link after logging in when already on dashboard)
     if(rawRoute.indexOf('/')===-1){
       Ember.run.next(function(){
-        EventBus.publish('selectMenuLink',rawRoute);
+        eventBus.publish('selectMenuLink',rawRoute);
       });
     }
     

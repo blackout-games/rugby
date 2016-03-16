@@ -167,9 +167,9 @@ export default Ember.Component.extend({
   }),
   
   showingEditor: false,
-  serverErrors: Ember.Object.extend({
+  serverErrors: Ember.Object.create({
     customUrl: Ember.Object.create(),
-  }).create(),
+  }),
   
   actions: {
     showEditor(){
@@ -194,7 +194,7 @@ export default Ember.Component.extend({
       let minSize = 200;
       
       // Load image
-      Ember.Blackout.preloadImage(url,(w,h)=>{
+      Ember.Blackout.preloadImage(url).then((w,h)=>{
         
         // Reset errors
         this.set('serverErrors.customUrl.title','');
@@ -212,18 +212,40 @@ export default Ember.Component.extend({
         log('saving');
         let prefs = this.get('preferences');
         
-        prefs.setPrefs([
+        return prefs.setPrefs([
           { key:'managerCustomImageUrl', value: url },
           { key:'managerImageType', value: 'custom' },
           { key:'managerImageUrl', value: url },
         ]).then(()=>{
           
-          // Refresh manager in session
-          this.get('user').refreshSessionManager().finally(()=>{
-            this.get('userImages').updateSessionImages();
+          // Get cache url
+          let cacheUrl = this.get('userImages').getCacheUrl(url);
+          let cacheUrlLarge = this.get('userImages').getLargeUrl(cacheUrl);
+          
+          // Preload the cache images
+          let preloadImage = Ember.Blackout.preloadImage(cacheUrl);
+          let preloadImageLarge = Ember.Blackout.preloadImage(cacheUrlLarge);
+          
+          return Ember.RSVP.hash({
+            preloadImage: preloadImage,
+            preloadImageLarge: preloadImageLarge,
+          }).then(()=>{
+            
+            // Refresh manager in session
+            this.get('user').refreshSessionManager().finally(()=>{
+              this.get('userImages').updateSessionImages();
+              log('really finished');
+              succeeded();
+            });
+            
+          },()=>{
+            this.set('serverError',t('errors.save-failed'));
+            failed();
+          }).finally(()=>{
+            log('finalised');
+            finaled();
           });
           
-          succeeded();
         },()=>{
           this.set('serverError',t('errors.save-failed'));
           failed();
@@ -233,8 +255,6 @@ export default Ember.Component.extend({
       },()=>{
         this.set('serverErrors.customUrl.title',t('user-image-editor.errors.image-not-found'));
         failed();
-      },()=>{
-        finaled();
       });
       
     },

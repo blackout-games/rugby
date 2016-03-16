@@ -1,10 +1,10 @@
-import EventBus from '../services/event-bus';
+import eventBus from '../services/event-bus';
 
 export function initialize(application) {
-  application.register('service:event-bus', EventBus);
-  application.inject('component', 'EventBus', 'service:event-bus');
-  application.inject('controller', 'EventBus', 'service:event-bus');
-  application.inject('route', 'EventBus', 'service:event-bus');
+  application.register('service:event-bus', eventBus);
+  application.inject('component', 'eventBus', 'service:event-bus');
+  application.inject('controller', 'eventBus', 'service:event-bus');
+  application.inject('route', 'eventBus', 'service:event-bus');
 }
 
 export default {

@@ -67,7 +67,7 @@ export default Ember.Component.extend({
         this.resetErrors();
         failed();
         
-        let errObject = Ember.Object.extend(error).create();
+        let errObject = Ember.Object.create(error);
         
         let item = errObject.get('errors.item');
         if(item){

@@ -113,26 +113,25 @@ export default Ember.Component.extend(Timers, {
   updateBackgroundImage() {
     
     var backgrounds = this.get('backgrounds');
-    var self = this;
     
     // Get image path
-    if( ! this.backgroundPaths[self.bgCursor] ){
+    if( ! this.backgroundPaths[this.bgCursor] ){
       
       // Must use DOM insertion to get fingerprinted file path
-      let url = B.getCSSValue('background-image','bg' + backgrounds[self.bgCursor]);
-      this.backgroundPaths[self.bgCursor] = B.trimChar( url.substr(4,url.length-5), '"');
+      let url = B.getCSSValue('background-image','bg' + backgrounds[this.bgCursor]);
+      this.backgroundPaths[this.bgCursor] = B.trimChar( url.substr(4,url.length-5), '"');
       
     }
-    var path = this.backgroundPaths[self.bgCursor];
+    var path = this.backgroundPaths[this.bgCursor];
     
     // Start with bottom visible
     Ember.$('#top-section').addClass( "hide-top" );
     
-    B.preloadImage(path,function() {
+    B.preloadImage(path).then(()=>{
       
-      if(self.assertComponentStillExists()){
+      if(this.assertComponentStillExists()){
         
-        if( self.get('topLayerIsShowing') ){
+        if( this.get('topLayerIsShowing') ){
         
           // Remove old class from bottom layer
           Ember.$('#top-section').removeClass (function (index, css) {
@@ -140,14 +139,14 @@ export default Ember.Component.extend(Timers, {
           });
           
           // Place new image on bottom layer
-          Ember.$('#top-section').addClass( "bg-bottom" + backgrounds[self.bgCursor] );
+          Ember.$('#top-section').addClass( "bg-bottom" + backgrounds[this.bgCursor] );
           
           // Hide top layer
           Ember.$('#top-section').removeClass( "show-top" );
           Ember.$('#top-section').addClass( "hide-top" );
           
           // Track
-          self.set('topLayerIsShowing',false);
+          this.set('topLayerIsShowing',false);
           
         } else { // top layer is hidden
         
@@ -157,28 +156,28 @@ export default Ember.Component.extend(Timers, {
           });
           
           // Place new image on top layer
-          Ember.$('#top-section').addClass( "bg-top" + backgrounds[self.bgCursor] );
+          Ember.$('#top-section').addClass( "bg-top" + backgrounds[this.bgCursor] );
           
           // Show top layer
           Ember.$('#top-section').addClass( "show-top" );
           Ember.$('#top-section').removeClass( "hide-top" );
           
           // Track
-          self.set('topLayerIsShowing',true);
+          this.set('topLayerIsShowing',true);
           
         }
         
         // Increment cursor
-        if( self.bgCursor === backgrounds.length-1 ){
-          self.set('bgCursor',0);
+        if( this.bgCursor === backgrounds.length-1 ){
+          this.set('bgCursor',0);
         } else {
-          self.incrementProperty('bgCursor');
+          this.incrementProperty('bgCursor');
         }
         
         // Schedule next update
-        self.addTimer(function(){
-          self.updateBackgroundImage();
-        },self.backgroundDuration,true);
+        this.addTimer(function(){
+          this.updateBackgroundImage();
+        },this.backgroundDuration,true);
         
       }
 

@@ -16,13 +16,13 @@ export default Ember.Component.extend({
     this.set('allowAppLink', !isFirefox&&!isIE );
     
     // Detect events so social links can communicate with each other
-    this.get('EventBus').subscribe('appLinksAbilityChange', this, this.handleAbilityChange );
+    this.get('eventBus').subscribe('appLinksAbilityChange', this, this.handleAbilityChange );
     
   }),
   
   cleanup: Ember.on('willDestroyElement', function(){
     
-    this.get('EventBus').unsubscribe('appLinksAbilityChange', this, this.handleAbilityChange );
+    this.get('eventBus').unsubscribe('appLinksAbilityChange', this, this.handleAbilityChange );
     
   }),
   
@@ -38,10 +38,10 @@ export default Ember.Component.extend({
       }
     } else {
       if (this.get('allowAppLink') && this.goToUri(this.get('uri'))) {
-        this.get('EventBus').publish('appLinksAbilityChange',true);
+        this.get('eventBus').publish('appLinksAbilityChange',true);
         event.preventDefault();
       } else {
-        this.get('EventBus').publish('appLinksAbilityChange',false);
+        this.get('eventBus').publish('appLinksAbilityChange',false);
       }
     }
 

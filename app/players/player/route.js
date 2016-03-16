@@ -2,8 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   
-  routeNameX: 'PLAYERX',
-  
   model (params){
     
     let squadQuery = {
@@ -31,7 +29,7 @@ export default Ember.Route.extend({
       
     }).then((data)=>{
       
-      //data.stats = Ember.Object.extend(data.stats).create().get('firstObject');
+      //data.stats = Ember.Object.create(data.stats).get('firstObject');
       data.stats = data.stats.get('firstObject');
       
       return data;

@@ -27,8 +27,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   setup: Ember.on('init',function(){
     
-    this.get('EventBus').subscribe('createSubNav',this,this.createSubNav);
-    this.get('EventBus').subscribe('destroySubNav',this,this.destroySubNav);
+    this.get('eventBus').subscribe('createSubNav',this,this.createSubNav);
+    this.get('eventBus').subscribe('destroySubNav',this,this.destroySubNav);
     
     this.blockerTouchBound = Ember.run.bind(this,this.blockerTouch);
     this.handleScrollBound = Ember.run.bind(this,this.handleScroll);

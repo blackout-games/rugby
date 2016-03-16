@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
-  EventBus: Ember.inject.service('event-bus'),
+  eventBus: Ember.inject.service(),
   
   show(options) {
-    this.get('EventBus').publish('showModal',options);
+    this.get('eventBus').publish('showModal',options);
   },
   
 });

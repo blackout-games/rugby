@@ -3,7 +3,7 @@ import config from './config/environment';
 
 Ember.Router.reopen({
   history: Ember.inject.service(),
-  EventBus: Ember.inject.service('event-bus'),
+  eventBus: Ember.inject.service(),
   
   doSomethingOnUrlChange: Ember.on('didTransition', function() {
     this.get('history').update(this.get('url'));

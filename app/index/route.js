@@ -37,7 +37,7 @@ export default Ember.Route.extend({
       
       // To use sorts properly, notifyPropertyChange must exist, which means this must be an ember object.
       if(!data.notifyPropertyChange){
-        data = Ember.Object.extend(data).create();
+        data = Ember.Object.create(data);
       }
       
       data.set('countrySortProps',['activeTeams:desc']);

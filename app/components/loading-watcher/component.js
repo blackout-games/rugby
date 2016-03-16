@@ -10,7 +10,7 @@ export default Ember.Component.extend({
        * Only works when there is data to load
        * Also happens in initializers/transition-watch on route->deactivate
        */
-      this.get('EventBus').publish('hideNav');
+      this.get('eventBus').publish('hideNav');
       
     }
   }

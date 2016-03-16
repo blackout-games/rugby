@@ -644,29 +644,23 @@ class Blackout {
    * @param  {array}   path  Path to the image
    * @param  {Function} callback Function to call once images have loaded
    */
-  preloadImage(path, callback, errorCallback=null, finalCallback) {
+  preloadImage(path) {
     
-    // Trim any potential quotes
-    path = path.trim('"');
-    
-    var img = $('<img src="'+path+'" />');
-    
-    img.on('load',function() {
-      $(this).remove();
-      if (callback) {
-        callback(this.width,this.height);
-      }
-      if(finalCallback){
-        finalCallback();
-      }
-    }).on('error', function(e,other) {
-      print('error',path,e,other);
-      if(errorCallback){
-        errorCallback();
-      }
-      if(finalCallback){
-        finalCallback();
-      }
+    return new Ember.RSVP.Promise(function(resolve,reject){
+      
+      // Trim any potential quotes
+      path = path.trim('"');
+      
+      var img = $('<img src="'+path+'" />');
+      
+      img.on('load',function() {
+        $(this).remove();
+        resolve(this.width,this.height);
+      }).on('error', function(e,other) {
+        print('error',path,e,other);
+        reject();
+      });
+      
     });
     
   }

@@ -86,13 +86,13 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     // Call this on responsive nav
     this._super();
     
-    this.get('EventBus').subscribe('disableGameNav', this, this.disable);
-    this.get('EventBus').subscribe('enableGameNav', this, this.enable);
-    this.get('EventBus').subscribe('selectMenuLink', this, this.selectMenuLink);
-    this.get('EventBus').subscribe('hideBottomTabBar', this, this.hideBottomTabBar);
-    this.get('EventBus').subscribe('showBottomTabBar', this, this.showBottomTabBar);
-    this.get('EventBus').subscribe('sessionBuilt', this, this.createMenus);
-    this.get('EventBus').subscribe('localeChanged', this, this.createMenus);
+    this.get('eventBus').subscribe('disableGameNav', this, this.disable);
+    this.get('eventBus').subscribe('enableGameNav', this, this.enable);
+    this.get('eventBus').subscribe('selectMenuLink', this, this.selectMenuLink);
+    this.get('eventBus').subscribe('hideBottomTabBar', this, this.hideBottomTabBar);
+    this.get('eventBus').subscribe('showBottomTabBar', this, this.showBottomTabBar);
+    this.get('eventBus').subscribe('sessionBuilt', this, this.createMenus);
+    this.get('eventBus').subscribe('localeChanged', this, this.createMenus);
     
   }),
 
@@ -101,13 +101,13 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     // Call this on responsive nav
     this._super();
     
-    this.get('EventBus').unsubscribe('disableGameNav', this, this.disable);
-    this.get('EventBus').unsubscribe('enableGameNav', this, this.enable);
-    this.get('EventBus').unsubscribe('selectMenuLink', this, this.selectMenuLink);
-    this.get('EventBus').unsubscribe('hideBottomTabBar', this, this.hideBottomTabBar);
-    this.get('EventBus').unsubscribe('showBottomTabBar', this, this.showBottomTabBar);
-    this.get('EventBus').unsubscribe('sessionBuilt', this, this.createMenus);
-    this.get('EventBus').unsubscribe('localeChanged', this, this.createMenus);
+    this.get('eventBus').unsubscribe('disableGameNav', this, this.disable);
+    this.get('eventBus').unsubscribe('enableGameNav', this, this.enable);
+    this.get('eventBus').unsubscribe('selectMenuLink', this, this.selectMenuLink);
+    this.get('eventBus').unsubscribe('hideBottomTabBar', this, this.hideBottomTabBar);
+    this.get('eventBus').unsubscribe('showBottomTabBar', this, this.showBottomTabBar);
+    this.get('eventBus').unsubscribe('sessionBuilt', this, this.createMenus);
+    this.get('eventBus').unsubscribe('localeChanged', this, this.createMenus);
 
   }),
 
@@ -899,7 +899,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   hideBottomTabBar() {
     $('#nav-tabbar').addClass('hidden-xs');
     $(this.get('disableBottomClassSelector')).addClass('bottom-nav-disabled');
-    this.get('EventBus').publish('fixedItemsShift');
+    this.get('eventBus').publish('fixedItemsShift');
     this.set('bottomTabBarIsShowing',false);
     $('#nav-body-inner').addClass('full-body');
     this.updateSidebarScrollerHeight();
@@ -907,7 +907,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   showBottomTabBar() {
     $('#nav-tabbar').removeClass('hidden-xs');
     $(this.get('disableBottomClassSelector')).removeClass('bottom-nav-disabled');
-    this.get('EventBus').publish('fixedItemsShift');
+    this.get('eventBus').publish('fixedItemsShift');
     this.set('bottomTabBarIsShowing',true);
     $('#nav-body-inner').removeClass('full-body');
     this.updateSidebarScrollerHeight();

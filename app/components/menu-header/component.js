@@ -11,12 +11,12 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement', function() {
     
     // Listen for settings toggle events
-    this.get('EventBus').subscribe('showSettings', this, this.showSettings);
+    this.get('eventBus').subscribe('showSettings', this, this.showSettings);
   }),
 
   cleanup: Ember.on('willDestroyElement', function(){
     
-    this.get('EventBus').unsubscribe('showSettings', this, this.showSettings);
+    this.get('eventBus').unsubscribe('showSettings', this, this.showSettings);
     
   }),
   

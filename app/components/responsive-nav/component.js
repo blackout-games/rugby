@@ -10,15 +10,15 @@ export default Ember.Component.extend({
 
   startListening: Ember.on('didInsertElement', function() {
     
-    this.get('EventBus').subscribe('showNav', this, this.show);
-    this.get('EventBus').subscribe('hideNav', this, this.hide);
+    this.get('eventBus').subscribe('showNav', this, this.show);
+    this.get('eventBus').subscribe('hideNav', this, this.hide);
 
   }),
 
   stopListening: Ember.on('willDestroyElement', function() {
 
-    this.get('EventBus').unsubscribe('showNav', this, this.show);
-    this.get('EventBus').unsubscribe('hideNav', this, this.hide);
+    this.get('eventBus').unsubscribe('showNav', this, this.show);
+    this.get('eventBus').unsubscribe('hideNav', this, this.hide);
 
   }),
 
@@ -102,7 +102,7 @@ export default Ember.Component.extend({
     if (!this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
 
       // Was used for perfect scrollbar
-      //this.get('EventBus').publish("navAllowBodyScroll", false);
+      //this.get('eventBus').publish("navAllowBodyScroll", false);
 
       $(this.get('selector')).addClass('open');
       $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
@@ -125,7 +125,7 @@ export default Ember.Component.extend({
     if (this.get('navIsOpen') && timeSinceLast > this.get('navMinWait')) {
 
       // Was used for perfect scrollbar
-      //this.get('EventBus').publish("navAllowBodyScroll", true);
+      //this.get('eventBus').publish("navAllowBodyScroll", true);
 
       $(this.get('selector')).removeClass('open');
       $('#nav-touch-blocker').off('mousedown touchstart', this.bodyTouchBound);

@@ -35,13 +35,13 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   }),
   
   arrive: Ember.on('didInsertElement', function(){
-    //this.get('EventBus').publish('disableGameNav');
-    this.get('EventBus').publish('hideBottomTabBar');
+    //this.get('eventBus').publish('disableGameNav');
+    this.get('eventBus').publish('hideBottomTabBar');
   }),
   
   leave: Ember.on('willDestroyElement', function(){
-    //this.get('EventBus').publish('enableGameNav');
-    this.get('EventBus').publish('showBottomTabBar');
+    //this.get('eventBus').publish('enableGameNav');
+    this.get('eventBus').publish('showBottomTabBar');
   }),
   
   requestFromServer() {

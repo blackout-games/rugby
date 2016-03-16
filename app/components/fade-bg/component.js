@@ -89,7 +89,7 @@ export default Ember.Component.extend({
   setup(){
     
     var $fadeBg = this.$().findClosest('.fade-bg');
-    var self = this;
+    
     this.set('imageIsImmediatelyFadingOut',false);
     
     // Add any extra classes
@@ -116,35 +116,35 @@ export default Ember.Component.extend({
       
       let startTime = Date.now();
       
-      if(this.get('fadeOutImmediately') && self.get('thereIsACurrentImage')){
+      if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
         this.set('imageIsImmediatelyFadingOut',true);
-        this.fadeOutImage( $fadeBg, self.fadeInImageBound );
+        this.fadeOutImage( $fadeBg, this.fadeInImageBound );
         
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url,function(w,h) {
+      Ember.Blackout.preloadImage(url).then((w,h)=>{
         
-        if(self.assertComponentStillExists()){
+        if(this.assertComponentStillExists()){
           
-          if(self.assertImageRes(w,h)){
+          if(this.assertImageRes(w,h)){
             
-            if(!self.get('imageIsImmediatelyFadingOut')){
+            if(!this.get('imageIsImmediatelyFadingOut')){
               
-              if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+              if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
                   
-                self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+                this.fadeOutImage( $fadeBg, this.fadeInImageBound );
               
               } else {
                 
                 let loadTime = Date.now() - startTime;
-                self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+                this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
                 
               }
               
             } else {
               
-              self.set('imageIsImmediatelyFadingOut',false);
+              this.set('imageIsImmediatelyFadingOut',false);
             }
             
           }
@@ -160,40 +160,40 @@ export default Ember.Component.extend({
       
       let startTime = Date.now();
       
-      if(this.get('fadeOutImmediately') && self.get('thereIsACurrentImage')){
+      if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
         this.set('imageIsImmediatelyFadingOut',true);
-        this.fadeOutImage( $fadeBg, self.fadeInImageBound );
+        this.fadeOutImage( $fadeBg, this.fadeInImageBound );
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url,function(w,h) {
+      Ember.Blackout.preloadImage(url).then((w,h)=>{
         
-        if(self.assertComponentStillExists()){
+        if(this.assertComponentStillExists()){
           
-          if(self.assertImageRes(w,h)){
+          if(this.assertImageRes(w,h)){
             
-            if(!self.get('imageIsImmediatelyFadingOut')){
+            if(!this.get('imageIsImmediatelyFadingOut')){
               
-              if(self.get('thereIsACurrentImage') && !self.get('fadeOutImmediately')){
+              if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
                   
-                self.fadeOutImage( $fadeBg, self.fadeInImageBound );
+                this.fadeOutImage( $fadeBg, this.fadeInImageBound );
               
               } else {
                 
                 let loadTime = Date.now() - startTime;
-                self.fadeInImage( null, $fadeBg, loadTime <= self.get('imageCachedTime') );
+                this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
                 
               }
               
             } else {
-              self.set('imageIsImmediatelyFadingOut',false);
+              this.set('imageIsImmediatelyFadingOut',false);
             }
             
           }
           
         }
         
-      },function(){ // Error
+      },()=>{ // Error
         
         // Hide
         $fadeBg.slideUp();
@@ -206,9 +206,7 @@ export default Ember.Component.extend({
   
   fadeOutImage($fadeBg,callback=null) {
     
-    let self = this;
-    
-    Ember.run.next(function(){
+    Ember.run.next(()=>{
       
       $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show fade-bg-immediate');
       
@@ -216,7 +214,7 @@ export default Ember.Component.extend({
       $fadeBg.one(Ember.Blackout.afterCSSTransition, $fadeBg, callback);
       
       // Track state (MUST happen here, otherwise things can get messy, leaving imageIsImmediatelyFadingOut to always be set to true, and fadeouts being attempted even when there is no current image)
-      self.set('thereIsACurrentImage',false);
+      this.set('thereIsACurrentImage',false);
       
     });
     //},1000);
