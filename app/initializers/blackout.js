@@ -984,6 +984,13 @@ class Blackout {
   }
   
   /**
+   * Get a hex version of the current time in seconds, helpful for cache invalidation in URLs
+   */
+  getTimeHex(){
+    return Math.round(Date.now()/1000).toString(16);
+  }
+  
+  /**
    * Util
    */
   refreshHoverWatchers(){

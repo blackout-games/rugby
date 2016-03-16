@@ -8,7 +8,6 @@ export default Ember.Service.extend({
   refreshSessionManager(){
     
     let managerId = this.get('session.data.managerId');
-    log('managerId',managerId);
     let manager = this.get('store').findRecord('manager',managerId,{reload: true});
     
     return manager.then((data)=>{

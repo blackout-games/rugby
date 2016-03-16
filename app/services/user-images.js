@@ -103,7 +103,11 @@ export default Ember.Service.extend({
     let separator = Ember.Blackout.getSeparator(url);
     
     if(isGravatar){
-      url += separator + 'size=200';
+      if(url.indexOf('size=')>=0){
+        url = url.replace(/size=[0-9]+/i,'size=200');
+      } else {
+        url += separator + 'size=200';
+      }
     } else {
       let isFacebook = url.indexOf('facebook.com')>=0;
       if(isFacebook){
@@ -176,7 +180,11 @@ export default Ember.Service.extend({
   /**
    * This is called if a new manager logs in
    */
-  updateSessionImages(){
+  updateSessionImages( forceType ){
+    
+    if(forceType){
+      this.set('forceType',forceType);
+    }
     
     // Do this next, so that other things have time to render based on a new login
     // i.e. menu avatar is still hidden at this point so won't show up when we check for it
@@ -195,6 +203,7 @@ export default Ember.Service.extend({
           if($el.data('is-manager-image')){
             
             let url = this.get('managerImageURL');
+            
             if($el.data('is-large-image')){
               url = this.getLargeUrl(url);
             }
@@ -223,6 +232,11 @@ export default Ember.Service.extend({
         this.get('imageStore').splice(i,1);
       });
       
+      // Reset forceType
+      if(forceType){
+        this.set('forceType',null);
+      }
+      
     });
     
   },
@@ -230,11 +244,20 @@ export default Ember.Service.extend({
   /**
    * Image URL for *current* logged in manager
    */
-  managerImageURL: Ember.computed('session.data.manager.imageUrl', function() {
+  managerImageURL: Ember.computed('session.data.manager.imageUrl','forceType', function() {
     if (this.get('session.isAuthenticated')) {
       
-      let imageUrl = this.get('session.data.manager.imageUrl');
-      let imageType = this.get('preferences').getPref('managerImageType');
+      let forceType = this.get('forceType');
+      let imageType = forceType ? forceType : this.get('preferences').getPref('managerImageType');
+      let imageUrl;
+      
+      if(imageType==='fb'){
+        imageUrl = this.get('session.data.manager.facebookImageUrl');
+      } else if(imageType==='gravatar'){
+        imageUrl = this.get('session.data.manager.gravatarImageUrl');
+      } else {
+        imageUrl = this.get('session.data.manager.imageUrl');
+      }
       
       if(imageType==='custom'){
         // Run the image through cloudfront

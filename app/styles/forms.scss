@@ -246,7 +246,7 @@ input[type="text"], input[type="password"], input[type="email"] {
 .has-feedback {
   // Ensure icons don't overlap text
   .form-control {
-    padding-right: unset;
+    padding-right: 10px;
   }
 }
 .has-feedback.has-error {

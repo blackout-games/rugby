@@ -105,6 +105,18 @@ export default Ember.Component.extend({
       model.set('customUrl',this.get('managerCustomUrl'));
     }
     
+    if(!model.rollbackAttributes){
+      
+      let originalImageType = String(this.get('managerImageType'));
+      let originalCustomUrl = String(this.get('managerCustomUrl'));
+      
+      model.rollbackAttributes = ()=>{
+        model.set('imageType',originalImageType);
+        model.set('customUrl',originalCustomUrl);
+        this.send('onChangedImageType',originalImageType);
+      };
+    }
+    
     return model;
     
   }),
@@ -179,19 +191,50 @@ export default Ember.Component.extend({
       this.set('showingEditor',false);
     },
     onSave(succeeded,failed,finaled){
+      
       let model = this.get('model');
+      let prefs = this.get('preferences');
       
       if( this.get('type') === 'manager' ){
-        if(model.get('imageType')==='fb'
-          || model.get('imageType')==='gravatar'){
-          log('save basic',model,model.get('imageType'));
-          finaled();
-          return;
+        
+        let imageType = model.get('imageType');
+        
+        if(imageType==='fb' || imageType==='gravatar'){
+          
+          let url;
+          
+          if(imageType==='fb'){
+            url = this.get('session.data.manager.facebookImageUrl');
+          } else if(imageType==='gravatar'){
+            url = this.get('session.data.manager.gravatarImageUrl');
+          }
+          
+          return prefs.setPrefs([
+            { key:'managerImageType', value: imageType },
+            { key:'managerImageUrl', value: url },
+          ]).then(()=>{
+            this.set('serverError','');
+            
+            // Refresh manager in session
+            return this.get('user').refreshSessionManager().finally(()=>{
+              succeeded();
+            });
+            
+          },()=>{
+            this.set('serverError',t('errors.save-failed'));
+            failed();
+          });
+          
         }
       }
       
       let url = this.get('model.customUrl');
       let minSize = 200;
+      
+      // Version the image so that if the user changes the image at the source, it will refresh from the cache
+      let version = Ember.Blackout.getTimeHex();
+      let separator = Ember.Blackout.getSeparator(url);
+      url += separator + 'v=' + version;
       
       // Load image
       Ember.Blackout.preloadImage(url).then((w,h)=>{
@@ -209,8 +252,6 @@ export default Ember.Component.extend({
         }
         
         // Save image
-        let prefs = this.get('preferences');
-        
         return prefs.setPrefs([
           { key:'managerCustomImageUrl', value: url },
           { key:'managerImageType', value: 'custom' },
@@ -255,19 +296,22 @@ export default Ember.Component.extend({
       if( this.get('type') === 'manager' ){
         this.set('managerImageType',value);
         
+        let customUrl = this.get('managerCustomUrl');
         let newUrl;
+        
         if(value==='gravatar'){
           newUrl = this.get('session.data.manager.gravatarImageUrl');
         } else if(value==='fb'){
           newUrl = this.get('session.data.manager.facebookImageUrl');
+        } else if(value==='custom'&&customUrl){
+          newUrl = customUrl;
         } else {
           newUrl = false;
         }
         
         if(newUrl!==false){
-          log('setting session imageUrl',newUrl);
           this.set('session.data.manager.imageUrl',newUrl);
-          this.get('userImages').updateSessionImages();
+          this.get('userImages').updateSessionImages(value);
         }
         
       }
