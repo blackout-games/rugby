@@ -53,7 +53,6 @@ export default Ember.Service.extend({
    * @param  {Number or Selector} scrollPosOrSelector 
    */
   scrollTo( scrollPosOrSelector=0 ) {
-    var self = this;
     var scrollTop;
     
     if(!this.get('isScrolling')){
@@ -80,11 +79,11 @@ export default Ember.Service.extend({
         }
       }
       
-      Ember.$(scrollSelector).animate({ scrollTop: scrollTop }, 777, 'easeOutExpo', function () {
-        self.set('isScrolling',false);
+      Ember.$(scrollSelector).animate({ scrollTop: scrollTop }, 777, 'easeOutExpo', ()=>{
+        this.set('isScrolling',false);
       });
       
-      self.set('isScrolling',true);
+      this.set('isScrolling',true);
       
     }
     

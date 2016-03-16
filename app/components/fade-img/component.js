@@ -100,18 +100,17 @@ export default Ember.Component.extend({
   assertImageRes(w,h) {
     
     let minRes = this.get('minResolution');
-    let self = this;
     
     if(w<minRes && h<minRes) {
       
       // Hide
-      self.$().slideUp();
+      this.$().slideUp();
       
       return false;
       
     }
     
-    self.$().slideDown();
+    this.$().slideDown();
     
     return true;
     

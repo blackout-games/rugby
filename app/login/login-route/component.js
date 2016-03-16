@@ -46,20 +46,18 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   
   requestFromServer() {
     
-    var self = this;
-    
-    var data = self.get('model').getProperties('username','password');
+    var data = this.get('model').getProperties('username','password');
     
     // simple-auth-authenticator:oauth2-password-grant 
     // authenticator:password
-    return self.get('session').authenticate('authenticator:password', data.username, data.password
-    ).then(function(){
+    return this.get('session').authenticate('authenticator:password', data.username, data.password
+    ).then(()=>{
       
       // Successful login is handled at upper levels
       
-    },function(response){
+    },(response)=>{
       
-      self.displayServerErrors(response);
+      this.displayServerErrors(response);
       
     });
     

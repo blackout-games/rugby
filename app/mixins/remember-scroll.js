@@ -34,22 +34,20 @@ export default Ember.Mixin.create({
   
   setupRememberScroll: Ember.on('activate', function() {
     
-    var self = this;
-    
-    if( !this.get('disableRememberScroll') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && self.get('lastScroll') >= this.get('minScrollNeeded') ){
+    if( !this.get('disableRememberScroll') && this.get('lastScroll') && Date.now() - this.get('lastScrollTime') < this.get('inactiveTime')*1000 && this.get('windowBlur').lastBlurTime() < this.get('lastScrollTime') && this.get('lastScroll') >= this.get('minScrollNeeded') ){
       
-      Ember.run.next(function(){
-        Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
+      Ember.run.next(()=>{
+        Ember.$(this.get('scrollSelector')).scrollTop(this.get('lastScroll'));
       });
-      Ember.$(self.get('scrollSelector')).scrollTop(self.get('lastScroll'));
+      Ember.$(this.get('scrollSelector')).scrollTop(this.get('lastScroll'));
       
     } else {
       
       if(!this.get('noScrollReset')){
-        Ember.run.next(function(){
-          Ember.$(self.get('scrollSelector')).scrollTop(0);
+        Ember.run.next(()=>{
+          Ember.$(this.get('scrollSelector')).scrollTop(0);
         });
-        Ember.$(self.get('scrollSelector')).scrollTop(0);
+        Ember.$(this.get('scrollSelector')).scrollTop(0);
       }
       
     }

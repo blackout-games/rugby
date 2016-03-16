@@ -7,11 +7,9 @@ export default Ember.Mixin.create({
   
   loadFB: Ember.on('activate', function(){
     
-    var self = this;
-    
     let locale = this.get('locale').getLocale();
     
-    $.getScript('//connect.facebook.net/'+locale.fb+'/sdk.js', function(){
+    $.getScript('//connect.facebook.net/'+locale.fb+'/sdk.js', ()=>{
       
       let fbInit = {
         appId: '230716417077656',
@@ -25,15 +23,13 @@ export default Ember.Mixin.create({
       
       FB.init(fbInit);
       
-      self.checkFBLoginStatus();
+      this.checkFBLoginStatus();
       
     });
     
   }),
   
   loginToFB(button,delay) {
-    
-    var self = this;
     
     if(typeof(FB)==='undefined'){
       this.delayLogin(button,delay);
@@ -49,7 +45,7 @@ export default Ember.Mixin.create({
     
     if(response){
       
-      self.loginToBlackoutWithFB(response,button);
+      this.loginToBlackoutWithFB(response,button);
       
     } else {
       
@@ -66,9 +62,9 @@ export default Ember.Mixin.create({
         
       } else {
         
-        FB.login(function(response) {
+        FB.login((response)=>{
           if (response.authResponse) {
-            self.loginToBlackoutWithFB(response.authResponse,button);
+            this.loginToBlackoutWithFB(response.authResponse,button);
           } else {
             // User cancelled login or did not fully authorize
             button.reset();
@@ -126,10 +122,8 @@ export default Ember.Mixin.create({
   
   loginToBlackoutWithFB(authResponse, button) {
     
-    var self = this;
-    
     this.get('session').authenticate('authenticator:facebook', '', authResponse.accessToken
-    ).then(function(){
+    ).then(()=>{
       
       // Successful login is handled above
       
@@ -139,17 +133,17 @@ export default Ember.Mixin.create({
         //button.reset();
       }
       
-    },function(response){
+    },(response)=>{
       
       if( response.error === 'facebookEmailNotFound' ){
         
         // Redirect to signup
         // TODO: Signup user up at this point using their email
-        self.transitionTo('/signup');
+        this.transitionTo('/signup');
         
       } else {
         
-        self.modal.show({
+        this.modal.show({
           'type': 'error',
           'title': t('modals.facebook-login-failed.title'),
           'message': response.message,
@@ -168,9 +162,7 @@ export default Ember.Mixin.create({
   
   checkFBLoginStatus() {
     
-    var self = this;
-    
-    FB.getLoginStatus(function(response) {
+    FB.getLoginStatus((response)=>{
       if (response.status === 'connected') {
         // the user is logged in and has authenticated your
         // app, and response.authResponse supplies
@@ -178,11 +170,11 @@ export default Ember.Mixin.create({
         // request, and the time the access token 
         // and signed request each expire
         //log('user is logged into facebook and BR facebook app');
-        var loginAttempt = self.get('locals.standaloneFacebookDialogue');
+        var loginAttempt = this.get('locals.standaloneFacebookDialogue');
         
         if( loginAttempt ){
           if(loginAttempt>=Date.now()-120*1000){
-            self.loginToBlackoutWithFB(response.authResponse);
+            this.loginToBlackoutWithFB(response.authResponse);
           }
         }
         

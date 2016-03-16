@@ -105,15 +105,14 @@ export default Ember.Component.extend({
     
     if( e === 'watch' ){
       
-      var self = this;
-      var runLater = Ember.run.later(function(){
-        self.checkHeight(e);
+      var runLater = Ember.run.later(()=>{
+        this.checkHeight(e);
       },1000/60);
       this.set('watchEvent',runLater);
       
       // Keep watching for a while
-      Ember.run.later(function(){
-        self.checkHeight('lag');
+      Ember.run.later(()=>{
+        this.checkHeight('lag');
       },222);
       
     }

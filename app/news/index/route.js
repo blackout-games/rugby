@@ -14,10 +14,8 @@ export default Ember.Route.extend(NewsMixin,{
   
   model() {
     
-    var self = this;
-    
-    return this.store.query('news',this.query).then(function(data){
-      self.processNews(data);
+    return this.store.query('news',this.query).then((data)=>{
+      this.processNews(data);
       return data;
     });
     

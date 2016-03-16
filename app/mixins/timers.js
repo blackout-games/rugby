@@ -15,12 +15,10 @@ export default Ember.Mixin.create({
     
     if( !this.timerWatchingWindow ){
       
-      var self = this;
-      
-      $([window,document]).blur(function(){
-        self.pauseTimers( true );
-      }).focus(function(){
-        self.resumeTimers( true );
+      $([window,document]).blur(()=>{
+        this.pauseTimers( true );
+      }).focus(()=>{
+        this.resumeTimers( true );
       });
       
       $([window,document]).trigger('focus');
@@ -106,11 +104,10 @@ export default Ember.Mixin.create({
   cancelTimers () {
     
     var timerStore = this.timerStore;
-    var self = this;
     
-    timerStore.forEach(function(timer){
+    timerStore.forEach((timer)=>{
       
-      self.cancelTimer(timer);
+      this.cancelTimer(timer);
       
     });
     
@@ -119,13 +116,12 @@ export default Ember.Mixin.create({
   pauseTimers ( windowBlurred ) {
     
     var timerStore = this.timerStore;
-    var self = this;
     
-    timerStore.forEach(function(timer){
+    timerStore.forEach((timer)=>{
       
       if( ( ! windowBlurred || timer.waitOnBlur ) && ! timer.paused ){
         
-        self.pauseTimer(timer);
+        this.pauseTimer(timer);
         
       }
       
@@ -136,13 +132,12 @@ export default Ember.Mixin.create({
   resumeTimers ( windowBlurred ) {
     
     var timerStore = this.timerStore;
-    var self = this;
     
-    timerStore.forEach(function(timer){
+    timerStore.forEach((timer)=>{
       
       if( ( ! windowBlurred || timer.waitOnBlur ) && timer.paused ){
         
-        self.resumeTimer(timer);
+        this.resumeTimer(timer);
         
       }
       

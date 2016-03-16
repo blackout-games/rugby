@@ -70,7 +70,6 @@ export default OAuth2.extend({
   },
   
   restore(data) {
-    var self = this;
     
     // Auth recover
     if(Ember.$.isEmptyObject(data)){
@@ -83,12 +82,12 @@ export default OAuth2.extend({
       
     }
     
-    return this._super(data).then(function(data){
+    return this._super(data).then((data)=>{
       return data;
-    },function(){
+    },()=>{
       print('session could not be restored');
-      Ember.run.next(function(){
-        self.get('eventBus').publish('accessTokenWasNotRefreshed');
+      Ember.run.next(()=>{
+        this.get('eventBus').publish('accessTokenWasNotRefreshed');
       });
     });
     

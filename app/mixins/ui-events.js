@@ -18,14 +18,13 @@ export default Ember.Mixin.create({
       return;
     }
     
-    var self = this;
     var obj = this.$();
     
     if(this.get('uiEvents.selector')){
       obj = obj.find(this.get('uiEvents.selector'));
     }
     
-    Ember.$.each(this.get('uiEvents'),function(eventName, callbackName){
+    Ember.$.each(this.get('uiEvents'),(eventName, callbackName)=>{
       
       if(eventName==="selector"){
         return true;
@@ -36,7 +35,7 @@ export default Ember.Mixin.create({
         eventName = uiEvent.eventName;
         callbackName = uiEvent.callbackName;
         if(uiEvent.selectorFunction){
-          var func = Ember.run.bind(self,self[uiEvent.selectorFunction]);
+          var func = Ember.run.bind(this,this[uiEvent.selectorFunction]);
           var selector = func();
           obj = Ember.$(selector);
         } else {
@@ -44,8 +43,8 @@ export default Ember.Mixin.create({
         }
       }
       
-      self[callbackName + 'Bound'] = Ember.run.bind(self,self[callbackName]);
-      obj.on( eventName, self[callbackName + 'Bound'] );
+      this[callbackName + 'Bound'] = Ember.run.bind(this,this[callbackName]);
+      obj.on( eventName, this[callbackName + 'Bound'] );
       
     });
     
@@ -60,9 +59,7 @@ export default Ember.Mixin.create({
       return;
     }
     
-    var self = this;
-    
-    Ember.$.each(this.get('uiEvents'),function(eventName, callbackName){
+    Ember.$.each(this.get('uiEvents'),(eventName, callbackName)=>{
       
       if( typeof(callbackName) === 'object' ){
         let uiEvent = callbackName;
@@ -70,14 +67,14 @@ export default Ember.Mixin.create({
         callbackName = uiEvent.callbackName;
         let obj = Ember.$(uiEvent.selector);
         
-        if(self.get(callbackName + 'Bound')){
-          obj.off(eventName,self.get(callbackName + 'Bound'));
+        if(this.get(callbackName + 'Bound')){
+          obj.off(eventName,this.get(callbackName + 'Bound'));
         }
       
       } else {
         
-        if(self.get(callbackName + 'Bound')){
-          self.get('uiEventsObj').off(eventName,self.get(callbackName + 'Bound'));
+        if(this.get(callbackName + 'Bound')){
+          this.get('uiEventsObj').off(eventName,this.get(callbackName + 'Bound'));
         }
         
       }

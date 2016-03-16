@@ -81,14 +81,13 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     },
 
     invalidateSession() {
-      var self = this;
       
       Ember.$('#splash').show().removeClass('bounceOutLeft fadeOut').addClass('animated-fast fadeIn');
       
-      Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, function() {
+      Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
         //Ember.$(this).hide();
-        self.get('session').invalidate().then(function() {
-          self.get('locals').write('standaloneFacebookDialogue', null);
+        this.get('session').invalidate().then(function() {
+          this.get('locals').write('standaloneFacebookDialogue', null);
           return false;
         });
         Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
@@ -225,7 +224,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       // ------ Check for later version of manager
       
       let managerLatest = session.get('data.sessionManagerLatest');
-      log('managerLatest',managerLatest);
+      
       if(managerLatest){
         this.get('user').rebuildSession(managerLatest);
       } else {

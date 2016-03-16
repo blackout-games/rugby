@@ -34,18 +34,16 @@ export default Ember.Component.extend({
 
   toggleFullDate: Ember.on('click', function() {
     
-    var self = this;
-    
-    if (self.get('mode') === 'relativeDate') {
-      self.$().findClosest('.relative-date').stop().fadeOut(111,function(){
-        self.$().findClosest('.full-date').stop().fadeIn(111);
+    if (this.get('mode') === 'relativeDate') {
+      this.$().findClosest('.relative-date').stop().fadeOut(111,function(){
+        this.$().findClosest('.full-date').stop().fadeIn(111);
       });
-      self.set('mode','fullDate');
+      this.set('mode','fullDate');
     } else {
-      self.$().findClosest('.full-date').stop().fadeOut(111,function(){
-        self.$().findClosest('.relative-date').stop().fadeIn(111);
+      this.$().findClosest('.full-date').stop().fadeOut(111,function(){
+        this.$().findClosest('.relative-date').stop().fadeIn(111);
       });
-      self.set('mode','relativeDate');
+      this.set('mode','relativeDate');
     }
 
   }),

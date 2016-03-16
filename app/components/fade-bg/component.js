@@ -74,12 +74,11 @@ export default Ember.Component.extend({
   }),
   
   addLoader: Ember.on('didInsertElement',function(){
-    var self = this;
     
     if(this.get('showLoader')){
-      Ember.run.later(function(){
-        if(!self.get('firstImageHasLoaded')){
-          self.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
+      Ember.run.later(()=>{
+        if(!this.get('firstImageHasLoaded')){
+          this.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
         }
       },this.get('imageCachedTime'));
     }
@@ -273,16 +272,14 @@ export default Ember.Component.extend({
       $fadeBg.addClass('fade-bg-immediate');
     }
     
-    let self = this;
-    
-    Ember.run.later(function(){ // Use later to ensure no image flashing on safari
+    Ember.run.later(()=>{ // Use later to ensure no image flashing on safari
       
-      if(!self.get('isDestroyed') && !self.get('isDestroying')){
-        self.set('firstImageHasLoaded',true);
-        self.set('thereIsACurrentImage',true);
+      if(!this.get('isDestroyed') && !this.get('isDestroying')){
+        this.set('firstImageHasLoaded',true);
+        this.set('thereIsACurrentImage',true);
         
-        if(self.get('showLoader')){
-          self.$().findClosest('.spinner').remove();
+        if(this.get('showLoader')){
+          this.$().findClosest('.spinner').remove();
         }
         
         // Must wait again or else firefox doesn't fade

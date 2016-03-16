@@ -22,9 +22,8 @@ export default Ember.Component.extend({
     this.$().hide();
     this.set('previousPath',this.get('currentPath'));
     
-    /*let self = this;
-    window.setInterval(function(){
-      log(self.get('currentPath'));
+    /*window.setInterval(()=>{
+      log(this.get('currentPath'));
     },1000);*/
     
   }),
@@ -116,7 +115,6 @@ export default Ember.Component.extend({
   
   actions: {
     scrollToTop() {
-      var self = this;
       
       if(!this.get('isScrolling')){
         
@@ -142,15 +140,15 @@ export default Ember.Component.extend({
         }
         
         Ember.run.later(()=>{
-          Ember.$(scrollSelector).animate({ scrollTop: 0 }, 777, 'easeOutExpo', function () {
-            self.set('isScrolling',false);
+          Ember.$(scrollSelector).animate({ scrollTop: 0 }, 777, 'easeOutExpo', ()=>{
+            this.set('isScrolling',false);
           });
         },wait);
         
         
-        self.set('isScrolling',true);
+        this.set('isScrolling',true);
         
-        self.hideButton();
+        this.hideButton();
         
       }
       

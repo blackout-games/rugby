@@ -105,28 +105,27 @@ export default Ember.Component.extend({
   
   setType(newType) {
     
-    var self = this;
     if(newType==='warning'){
       newType = 'error';
     }
     
-    $.each(this.get('types'),function(index,type){
-      self.set('is' + type.ucFirst() + 'Modal',type===newType);
+    $.each(this.get('types'),(index,type)=>{
+      this.set('is' + type.ucFirst() + 'Modal',type===newType);
       
       // General class
       if( type===newType ){
-        self.$().find('.modal-panel').addClass(type);
+        this.$().find('.modal-panel').addClass(type);
       } else {
-        self.$().find('.modal-panel').removeClass(type);
+        this.$().find('.modal-panel').removeClass(type);
       }
     });
     
     // Icon
     this.$().find('.modal-icon').attr('class','modal-icon icon-vcenter');
     if( newType === 'notice'){
-      self.$().find('.modal-icon').addClass('icon-info icon-2x');
+      this.$().find('.modal-icon').addClass('icon-info icon-2x');
     } else if ( newType === 'error' ){
-      self.$().find('.modal-icon').addClass('icon-attention  icon-lg');
+      this.$().find('.modal-icon').addClass('icon-attention  icon-lg');
     }
     
   },
@@ -140,28 +139,28 @@ export default Ember.Component.extend({
       this.cancelHideTimer();
       this.cancelShowLater();
       this.$().show().find('.modal-panel-wrapper,.modal-panel').removeClass('going').addClass('coming');
-      var self = this;
-      var showLater = Ember.run.later(function(){
-        self.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').addClass('showing');
-        self.$().find('.modal-background').removeClass('hiding');
+      
+      var showLater = Ember.run.later(()=>{
+        this.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').addClass('showing');
+        this.$().find('.modal-background').removeClass('hiding');
         Ember.run.later(function(){
           $(':focus').blur();
         },10);
       },10);
-      self.set('showLater',showLater);
+      this.set('showLater',showLater);
       
     },
     hide() {
       this.cancelHideTimer();
       this.$().show().find('.modal-panel-wrapper,.modal-panel').removeClass('coming').addClass('going');
-      var self = this;
+      
       Ember.run.next(function(){
-        self.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').removeClass('showing');
-        self.$().find('.modal-background').addClass('hiding');
-        var runLater = Ember.run.later(self,function(){
-          self.$().hide();
-        },self.get('animationDuration'));
-        self.set('runLater',runLater);
+        this.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').removeClass('showing');
+        this.$().find('.modal-background').addClass('hiding');
+        var runLater = Ember.run.later(()=>{
+          this.$().hide();
+        },this.get('animationDuration'));
+        this.set('runLater',runLater);
       });
       
       // Run callback function if exists

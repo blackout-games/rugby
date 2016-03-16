@@ -20,7 +20,6 @@ export default Ember.Mixin.create({
         button.animate();
       }
       
-      var self = this;
       this.set('refocusButton',true);
       
       // Save button for later
@@ -36,8 +35,8 @@ export default Ember.Mixin.create({
       const { validations } = this.get('model').validateSync();
       
       if(validations.get('isValid')){
-        //Ember.run.later(function(){
-        self.requestFromServer();
+        //Ember.run.later(()=>{
+        this.requestFromServer();
         //},4000);
       
       
@@ -54,9 +53,9 @@ export default Ember.Mixin.create({
         
       }
         
-      Ember.run.next(self,function(){
+      Ember.run.next(()=>{
         // Let validated inputs know we've submitted
-        self.eventBus.publish(self.get('validationEvent'));
+        this.eventBus.publish(this.get('validationEvent'));
       });
       
       return false;

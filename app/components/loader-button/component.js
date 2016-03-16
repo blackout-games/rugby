@@ -33,7 +33,6 @@ export default Ember.Component.extend({
   },
   
   animate() {
-    var self = this;
     
     // Save widths
     this.set('outerWidth',this.$().outerWidth());
@@ -49,8 +48,8 @@ export default Ember.Component.extend({
     
     // Hide keyboard
     this.$().focus();
-    Ember.run.debounce(Ember.FormContext,function(){
-      self.$().blur();
+    Ember.run.debounce(this,()=>{
+      this.$().blur();
     },1);
     
     // Disable button
@@ -72,9 +71,8 @@ export default Ember.Component.extend({
     this.$().css('width',this.get('originalWidth'));
     
     if(allowFocus){
-      var self = this;
-      Ember.run.debounce(Ember.FormContext,function(){
-        self.$().focus();
+      Ember.run.debounce(Ember.FormContext,()=>{
+        this.$().focus();
       },1);
     }
     

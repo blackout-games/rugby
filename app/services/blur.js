@@ -15,12 +15,10 @@ export default Ember.Service.extend({
   
   watchWindowBlur: Ember.on('init', function(){
     
-    var self = this;
-    
-    Ember.$([window,document]).blur(function(){
-      self.set('lastWindowBlurTime',Date.now());
-    }).focus(function(){
-      self.set('lastWindowFocusTime',Date.now());
+    Ember.$([window,document]).blur(()=>{
+      this.set('lastWindowBlurTime',Date.now());
+    }).focus(()=>{
+      this.set('lastWindowFocusTime',Date.now());
     });
     
   }),

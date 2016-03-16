@@ -118,9 +118,8 @@ export default Ember.Service.extend({
       
     }
     
-    /*let self = this;
-    Ember.run.later(function(){
-      self.change('es');
+    /*Ember.run.later(()=>{
+      this.change('es');
     },5000);*/
     
     //locale = 'en-gb'; // Must manually change back to english since locales are remembered
@@ -165,41 +164,39 @@ export default Ember.Service.extend({
       this.updateAJAX(locale);
       
       // Request new translation document(s)
-      let self = this;
-      
       let updateLocale = (data) => {
         
         Ember.Blackout.stopLoading();
         
-        if(!self.get('supportedLocales.' + locale + '.loaded')){
-          self.addTranslation(locale,data);
+        if(!this.get('supportedLocales.' + locale + '.loaded')){
+          this.addTranslation(locale,data);
         }
           
         // Update browser locals
-        self.get('locals').write('locale',locale);
+        this.get('locals').write('locale',locale);
         
         // Update local variable
-        self.set('currentLocale',locale);
-        self.set('currentLocaleName',this.get(`supportedLocales.${locale}.label`));
+        this.set('currentLocale',locale);
+        this.set('currentLocaleName',this.get(`supportedLocales.${locale}.label`));
         
         // Update moment
         let momentLocale = locale==='es-ar' ? 'es' : locale;
-        //self.get('moment').changeLocale(momentLocale); // moment
+        //this.get('moment').changeLocale(momentLocale); // moment
         moment.locale(momentLocale); // moment
         
         // Update libraries (Do this after other self sustained libs so they can rely on it's locale property for computed properties)
-        self.set('i18n.locale', locale); // ember-i18n
+        this.set('i18n.locale', locale); // ember-i18n
         
         // Update registered html snippets
-        self.updateRegisteredTranslations();
+        this.updateRegisteredTranslations();
         
         // Broadcast event
-        self.get('eventBus').publish('localeChanged', locale);
+        this.get('eventBus').publish('localeChanged', locale);
         
       };
       
       // Has this locale been loaded yet?
-      if(!self.get('supportedLocales.' + locale + '.loaded')){
+      if(!this.get('supportedLocales.' + locale + '.loaded')){
         
         // i18n url
         let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/i18n/general';
@@ -272,16 +269,15 @@ export default Ember.Service.extend({
     
     let keys = this.get('registeredHtmlKeys');
     let indexesToRemove = [];
-    let self = this;
     
-    $.each(keys,function(i,item){
+    $.each(keys,(i,item)=>{
       
       // Check for item in dom
       let $item = $('#'+item.id);
       if($item.length){
         
         // Update translation
-        $item.html(self.get('i18n').t(item.key).toString());
+        $item.html(this.get('i18n').t(item.key).toString());
         
       } else {
         

@@ -15,11 +15,10 @@ export default Ember.Route.extend(NewsMixin,{
   
   model() {
     
-    var self = this;
     var query = this.get('query');
     
-    return this.store.query('national-news',query).then(function(data){
-      self.processNews(data,null,true);
+    return this.store.query('national-news',query).then((data)=>{
+      this.processNews(data,null,true);
       return data;
     });
     

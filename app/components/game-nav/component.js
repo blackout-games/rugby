@@ -116,8 +116,6 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     // Call this on responsive nav
     this._super();
     
-    var self = this;
-    
     if(window.os.touchOS){
       $('body').addClass('touch');
     }
@@ -152,14 +150,14 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       }
 
       // Touch start
-      this.touchStartHandler = function(e) {
-        self.set('lastY', e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : self.get('lastY'));
+      this.touchStartHandler = (e)=>{
+        this.set('lastY', e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : this.get('lastY'));
       };
       $(document).on('touchstart', this.touchStartHandler);
 
       // Touch move
-      this.touchMoveHandler = function(e) {
-        var lastY = self.get('lastY');
+      this.touchMoveHandler = (e)=>{
+        var lastY = this.get('lastY');
         var thisY = e.originalEvent.changedTouches[0].pageY;
         var direction = thisY > lastY ? 'down' : 'up';
 
@@ -169,7 +167,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
           e.preventDefault();
         }
 
-        self.set('lastY', thisY);
+        this.set('lastY', thisY);
       };
       $(document).on('touchmove', this.touchMoveHandler);
 
@@ -193,20 +191,20 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       // Style topbar
       $('#nav-topbar').addClass('nav-topbar-standalone');
 
-      this.touchStartForTopBar = function() {
+      this.touchStartForTopBar = ()=>{
 
-        self.set('touching', true);
+        this.set('touching', true);
 
-        self.set('ogScrollTop', $('#nav-body')[0].scrollTop);
-        self.set('ogBarTop', parseInt($('#nav-topbar').css('top')));
-        self.set('topBarBufferPassed', null);
-        self.set('topBarEnded', null);
+        this.set('ogScrollTop', $('#nav-body')[0].scrollTop);
+        this.set('ogBarTop', parseInt($('#nav-topbar').css('top')));
+        this.set('topBarBufferPassed', null);
+        this.set('topBarEnded', null);
       };
       $('#nav-body,#nav-topbar').on('touchstart', this.touchStartForTopBar);
 
       var animateTime = 222;
 
-      this.hideTopBar = function( force ) {
+      this.hideTopBar = ( force )=>{
         
         var topBarIsShowing = this.get('topBarIsShowing');
         
@@ -214,7 +212,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
          
           // Hide nav bar
           $('#nav-topbar').stop().animate({
-            top: (22 - self.get('topBarHeight')) + 'px',
+            top: (22 - this.get('topBarHeight')) + 'px',
           }, animateTime);
 
           // Hide content
@@ -234,7 +232,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
 
       };
 
-      this.showTopBar = function( force ) {
+      this.showTopBar = ( force )=>{
         
         var topBarIsShowing = this.get('topBarIsShowing');
         
@@ -250,7 +248,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
             opacity: 1,
           }, animateTime);
           
-          $('.loading-slider').css('top',self.get('topBarHeight')+'px');
+          $('.loading-slider').css('top',this.get('topBarHeight')+'px');
           
           this.set('topBarIsShowing',true);
           
@@ -262,19 +260,19 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
 
       };
 
-      this.touchEndForTopBar = function() {
+      this.touchEndForTopBar = ()=>{
 
-        self.set('touching', false);
+        this.set('touching', false);
         
-        var collapse = self.get('topBarCollapseAmount');
+        var collapse = this.get('topBarCollapseAmount');
         if (collapse > 0 && collapse < 1) {
           
-          var prevDirection = self.get('prevDirection');
+          var prevDirection = this.get('prevDirection');
 
           if (prevDirection === 'up') {
-            self.showTopBar(true);
+            this.showTopBar(true);
           } else if (prevDirection === 'down') {
-            self.hideTopBar(true);
+            this.hideTopBar(true);
           }
 
 
@@ -284,7 +282,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
            *
           var currentBarTop = parseInt($('#nav-topbar').css('top'));
           var currentScrollTop = $('#nav-body')[0].scrollTop;
-          var distanceRemaining = currentBarTop - (-self.get('topBarHeight')) - 22;
+          var distanceRemaining = currentBarTop - (-this.get('topBarHeight')) - 22;
           $('#nav-body').stop().animate({
             scrollTop: (currentScrollTop + distanceRemaining) + 'px',
           },222);
@@ -293,9 +291,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         } else {
           
           if( $('#nav-topbar').css('top') === '0px' ){
-            self.set('topBarIsShowing',true);
+            this.set('topBarIsShowing',true);
           } else {
-            self.set('topBarIsShowing',false);
+            this.set('topBarIsShowing',false);
           }
           
         }
@@ -421,24 +419,22 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   
   createMenus (){
     
-    var self = this;
-    
-    $.each(MenuData.menus, function( menuName, menuItems ){
+    $.each(MenuData.menus, ( menuName, menuItems )=>{
       
       $('#gameNav-'+menuName+'Panel > .menu-links').html('');
       
-      $.each(menuItems,function( index, item ){
+      $.each(menuItems,( index, item )=>{
         
         var realRoute,itemLink,action,routeId;
         
-        if(item.hideIfNotAuthenticated && !self.get('session.isAuthenticated')){
+        if(item.hideIfNotAuthenticated && !this.get('session.isAuthenticated')){
           return true;
         }
         
         if(item.label){
           // Translate item label
           let key = "menu."+Ember.String.dasherize(menuName)+"."+Ember.String.dasherize(item.label);
-          item.tLabel = self.get('i18n').t(key);
+          item.tLabel = this.get('i18n').t(key);
         }
         
         // Serialize route name for use as CSS id name
@@ -471,16 +467,16 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
           itemLink = $('<a class="btn-a menu-link">'+item.tLabel+'</a>');
           let actionName = 'menuAction'+item.label.alphaNumeric();
           action = actionName;
-          self.set(actionName,item.action);
+          this.set(actionName,item.action);
         }
         
         if(itemLink){
           
           if(addEvent){
-            itemLink.on('click',function(e){
+            itemLink.on('click',(e)=>{
               e.preventDefault();
-              self.sendAction(action,realRoute,routeId);
-              self.selectMenuLink(item.route);
+              this.sendAction(action,realRoute,routeId);
+              this.selectMenuLink(item.route);
               return false;
             });
           }
@@ -498,22 +494,21 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
 
   selectCurrentMenu ( menuOpenedOnThisClick ) {
     
-    var self = this;
-    let isJumbo = self.get('media.isJumbo') && self.get('lastTab');
+    let isJumbo = this.get('media.isJumbo') && this.get('lastTab');
     
-    if(self.get('lastMenu')==='settings'){
+    if(this.get('lastMenu')==='settings'){
       
-      //self.set('lastTabType','menu');
+      //this.set('lastTabType','menu');
       
-      self.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
+      this.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
       
     } else if( isJumbo ){
       
-      self.selectTab( self.get('lastTab'), self.get('lastTabType'), true, menuOpenedOnThisClick );
+      this.selectTab( this.get('lastTab'), this.get('lastTabType'), true, menuOpenedOnThisClick );
       
-    } else if( self.get('lastMenu') ){
+    } else if( this.get('lastMenu') ){
       
-      self.selectTab( self.get('lastMenu'), 'menu', true, menuOpenedOnThisClick );
+      this.selectTab( this.get('lastMenu'), 'menu', true, menuOpenedOnThisClick );
       
     } else {
       
@@ -521,9 +516,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       let selectMenu;
       let bestMatch = 0;
       
-      $.each(MenuData.menus, function(menu, items) {
+      $.each(MenuData.menus, (menu, items)=>{
 
-        $.each(items, function(index, item) {
+        $.each(items, (index, item)=>{
           
           let matched = Ember.Blackout.matchPathToMenuItem(path,item.route);
           
@@ -536,9 +531,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       });
       
       if (selectMenu) {
-        self.selectTab(selectMenu, 'menu', true, menuOpenedOnThisClick );
+        this.selectTab(selectMenu, 'menu', true, menuOpenedOnThisClick );
       } else {
-        self.selectTab('manager', 'menu', true, menuOpenedOnThisClick );
+        this.selectTab('manager', 'menu', true, menuOpenedOnThisClick );
       }
       
     }
@@ -588,31 +583,29 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
 
   updateTopBar() {
 
-    var self = this;
-
-    if (!self.get('touching')) {
+    if (!this.get('touching')) {
       //print('prevent');
       return;
     }
 
-    var ogScrollTop = self.get('ogScrollTop');
-    var ogBarTop = self.get('ogBarTop');
+    var ogScrollTop = this.get('ogScrollTop');
+    var ogBarTop = this.get('ogBarTop');
     var newTop = $('#nav-body')[0].scrollTop;
 
-    var newHeight = Math.min(self.get('topBarHeight'), Math.max(22, (ogBarTop + self.get('topBarHeight')) + (ogScrollTop - newTop)));
+    var newHeight = Math.min(this.get('topBarHeight'), Math.max(22, (ogBarTop + this.get('topBarHeight')) + (ogScrollTop - newTop)));
 
-    $('#nav-topbar').css('top', (newHeight - self.get('topBarHeight') + 'px'));
+    $('#nav-topbar').css('top', (newHeight - this.get('topBarHeight') + 'px'));
     
     $('.loading-slider').css('top',newHeight + 'px');
 
     // Update visibility of bar content
-    var collapse = (self.get('topBarHeight') - newHeight) / (self.get('topBarHeight') - 22);
+    var collapse = (this.get('topBarHeight') - newHeight) / (this.get('topBarHeight') - 22);
     $('#nav-topbar-content').css('opacity', 1 - Math.min(1, collapse * 1.33));
 
-    self.set('topBarCollapseAmount', collapse);
+    this.set('topBarCollapseAmount', collapse);
 
-    var prevTop = self.get('prevTop');
-    var prevDirection = self.get('prevDirection');
+    var prevTop = this.get('prevTop');
+    var prevDirection = this.get('prevDirection');
     var direction;
     if (!prevTop) {
       prevTop = 0;
@@ -629,13 +622,13 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       if (direction !== prevDirection) {
 
         // We've changed direction, update og
-        self.set('ogScrollTop', $('#nav-body')[0].scrollTop);
-        self.set('ogBarTop', parseInt($('#nav-topbar').css('top')));
+        this.set('ogScrollTop', $('#nav-body')[0].scrollTop);
+        this.set('ogBarTop', parseInt($('#nav-topbar').css('top')));
 
       }
 
-      self.set('prevTop', newTop);
-      self.set('prevDirection', direction);
+      this.set('prevTop', newTop);
+      this.set('prevDirection', direction);
 
     }
 
@@ -887,9 +880,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   enable () {
     Ember.$(this.get('disableHideSelector')).removeClass('hidden');
     Ember.$(this.get('disableClassSelector')).removeClass('nav-disabled').addClass('resizing');
-    var self = this;
-    Ember.run.next(function(){
-      Ember.$(self.get('disableClassSelector')).removeClass('resizing');
+    
+    Ember.run.next(()=>{
+      Ember.$(this.get('disableClassSelector')).removeClass('resizing');
     });
   },
   

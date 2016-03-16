@@ -7,11 +7,9 @@ export default Ember.Mixin.create({
   
   processNews( articles, lastViewed, enforcemaxIntroLength ){
     
-    var self = this;
-    
-    articles.forEach(function(article){
+    articles.forEach((article)=>{
       
-      self.processArticle( article, lastViewed, enforcemaxIntroLength );
+      this.processArticle( article, lastViewed, enforcemaxIntroLength );
       
     });
     

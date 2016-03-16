@@ -55,8 +55,6 @@ export default Ember.Component.extend({
     e.preventDefault();
     e.stopPropagation();
     
-    var self = this;
-    
     // Check for url
     let href = this.get('href');
     let parts = href.split('#');
@@ -114,8 +112,8 @@ export default Ember.Component.extend({
     
     this.get('scrollable').animate({
       scrollTop: newTarget + 'px'
-    }, this.get('duration'), this.get('easing'), function(){
-      if( self.get('closeMenu') ){
+    }, this.get('duration'), this.get('easing'), ()=>{
+      if( this.get('closeMenu') ){
         Ember.$('#nav-body,#sidebar,#backboard').removeClass('slow-transition');
       }
     });

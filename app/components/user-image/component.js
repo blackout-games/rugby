@@ -209,7 +209,6 @@ export default Ember.Component.extend({
         }
         
         // Save image
-        log('saving');
         let prefs = this.get('preferences');
         
         return prefs.setPrefs([
@@ -218,23 +217,18 @@ export default Ember.Component.extend({
           { key:'managerImageUrl', value: url },
         ]).then(()=>{
           
-          // Get cache url
+          // Get cache urls
           let cacheUrl = this.get('userImages').getCacheUrl(url);
           let cacheUrlLarge = this.get('userImages').getLargeUrl(cacheUrl);
           
-          // Preload the cache images
-          let preloadImage = Ember.Blackout.preloadImage(cacheUrl);
-          let preloadImageLarge = Ember.Blackout.preloadImage(cacheUrlLarge);
-          
-          return Ember.RSVP.hash({
-            preloadImage: preloadImage,
-            preloadImageLarge: preloadImageLarge,
-          }).then(()=>{
+          return Ember.Blackout.preloadImages([
+            cacheUrl,
+            cacheUrlLarge
+          ]).then(()=>{
             
             // Refresh manager in session
             this.get('user').refreshSessionManager().finally(()=>{
               this.get('userImages').updateSessionImages();
-              log('really finished');
               succeeded();
             });
             
@@ -242,7 +236,6 @@ export default Ember.Component.extend({
             this.set('serverError',t('errors.save-failed'));
             failed();
           }).finally(()=>{
-            log('finalised');
             finaled();
           });
           

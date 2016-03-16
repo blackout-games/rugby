@@ -8,19 +8,17 @@ export default Ember.Component.extend({
     
     if(!this.get('locals').read('welcomeMessageShown')){
       
-      var self = this;
-      
-      Ember.run.next(function(){
-        Ember.run.later(function(){
+      Ember.run.next(()=>{
+        Ember.run.later(()=>{
               
-          self.modal.show({
+          this.modal.show({
             type: 'notice',
             title: t('modals.welcome.title'),
             message: t('modals.welcome.message'),
             showDefaultAction: false,
           });
           
-          self.get('locals').write('welcomeMessageShown',true);
+          this.get('locals').write('welcomeMessageShown',true);
           
         },5000);
       });

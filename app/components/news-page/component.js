@@ -47,10 +47,9 @@ export default Ember.Component.extend(NewsMixin, {
 
   fetchMoreItems() {
 
-    var self = this;
     var page = this.get('page');
     var query = this.get('query');
-    var isNational = self.get('storeType') === "national-news";
+    var isNational = this.get('storeType') === "national-news";
     query.page.number = page + 1;
 
     if (isNational) {
@@ -60,10 +59,10 @@ export default Ember.Component.extend(NewsMixin, {
 
     }
 
-    return this.get('store').query(self.get('storeType'), query).then(function(data) {
-      self.set('page', data.get('meta.page'));
-      self.set('pages', data.get('meta.num-pages'));
-      self.processNews(data, null, isNational);
+    return this.get('store').query(this.get('storeType'), query).then((data)=>{
+      this.set('page', data.get('meta.page'));
+      this.set('pages', data.get('meta.num-pages'));
+      this.processNews(data, null, isNational);
       return data;
     }, function(error) {
       print('Failed', error);

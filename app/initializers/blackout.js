@@ -47,8 +47,7 @@ class Blackout {
     
     // Generate an id (promise placeholder)
     let id = 'blackout-pp-' + this.generateId();
-    let self = this;
-    let eventBus = self.App.lookup('service:event-bus');
+    let eventBus = this.App.lookup('service:event-bus');
     
     // Run the promise
     this.assertPromise( potentialPromise ).then(function(data){
@@ -468,18 +467,16 @@ class Blackout {
    */
   toMarkdown(str){
     
-    let self = this;
-    
     // ------------------------------------------- Pre-code
     
     // We must process code blocks that are already markdown to ensure they won't be touched either.
     
-    str = str.replace(/```([^`][^]+?)```|`([^`\n]+?)`/g,function( fullMatch, codeBlock, inlineCode){
+    str = str.replace(/```([^`][^]+?)```|`([^`\n]+?)`/g,( fullMatch, codeBlock, inlineCode)=>{
       
       if(codeBlock){
-        return '```' + self.encodeOldStyleChars(codeBlock) + '```';
+        return '```' + this.encodeOldStyleChars(codeBlock) + '```';
       } else if(inlineCode){
-        return '`' + self.encodeOldStyleChars(inlineCode) + '`';
+        return '`' + this.encodeOldStyleChars(inlineCode) + '`';
       } else {
         return fullMatch;
       }
@@ -488,43 +485,43 @@ class Blackout {
     
     // ------------------------------------------- Code
     
-    str = str.replace(/\[(i?code)\]((.|[\r\n?])*?)\[\/i?code\]/g,function(fullMatch,tag,code){
+    str = str.replace(/\[(i?code)\]((.|[\r\n?])*?)\[\/i?code\]/g,(fullMatch,tag,code)=>{
       
       if(tag==='icode'){
-        return '`' + self.encodeOldStyleChars(code) + '`';
+        return '`' + this.encodeOldStyleChars(code) + '`';
       } else {
-        return '```' + "\n" + self.encodeOldStyleChars(code) + "\n" + '```';
+        return '```' + "\n" + this.encodeOldStyleChars(code) + "\n" + '```';
       }
       
     });
     
     // ------------------------------------------- Bold
     
-    str = str.replace(/\[b\]((.|[\r\n?])*?)\[\/b\]/g,function(fullMatch,text){
+    str = str.replace(/\[b\]((.|[\r\n?])*?)\[\/b\]/g,(fullMatch,text)=>{
       return '**' + text + '**';
     });
     
     // ------------------------------------------- Italic
     
-    str = str.replace(/\[i\]((.|[\r\n?])*?)\[\/i\]/g,function(fullMatch,text){
+    str = str.replace(/\[i\]((.|[\r\n?])*?)\[\/i\]/g,(fullMatch,text)=>{
       return '*' + text + '*';
     });
     
     // ------------------------------------------- Striked
     
-    str = str.replace(/\[t\]((.|[\r\n?])*?)\[\/t\]/g,function(fullMatch,text){
+    str = str.replace(/\[t\]((.|[\r\n?])*?)\[\/t\]/g,(fullMatch,text)=>{
       return '~~' + text + '~~';
     });
     
     // ------------------------------------------- Underline
     
-    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,function(fullMatch,text){
+    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,(fullMatch,text)=>{
       return text;
     });
     
     // ------------------------------------------- Underline
     
-    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,function(fullMatch,text){
+    str = str.replace(/\[u\]((.|[\r\n?])*?)\[\/u\]/g,(fullMatch,text)=>{
       
       return text;
       
@@ -532,7 +529,7 @@ class Blackout {
     
     // ------------------------------------------- Links
     
-    str = str.replace(/\[(?:link|url)(?:=(.*?))?\](.*?)\[\/(?:link|url)\]/g,function(fullMatch,link,text){
+    str = str.replace(/\[(?:link|url)(?:=(.*?))?\](.*?)\[\/(?:link|url)\]/g,(fullMatch,link,text)=>{
       
       if(!link){
         link = text;
@@ -548,14 +545,14 @@ class Blackout {
     
     // ------------------------------------------- Quotes
     
-    str = str.replace(/\[quote(?:=(.*?))?\]((.|[\r\n?])*?)\[\/quote\]/g,function(fullMatch,quoteUser,quote){
+    str = str.replace(/\[quote(?:=(.*?))?\]((.|[\r\n?])*?)\[\/quote\]/g,(fullMatch,quoteUser,quote)=>{
       
       // Break into lines
       let lines = quote.split("\n");
       quote = '';
       
       // Process lines, adding '>' if not empty
-      $.each(lines,function(i,line){
+      $.each(lines,(i,line)=>{
         
         // Add > if line is not empty
         if( line.trim() !== '' || i===0 ){
@@ -609,40 +606,25 @@ class Blackout {
   }
 
   /**
-   * Preloads an array of image paths, calls callback when they have loaded. Uses the imagesloaded plugin to handle browser quirks.
-   * @param  {array}   sources  An array of image paths
-   * @param  {Function} callback Function to call once images have loaded
-   * NEEDS TESTING
+   * Preloads an array of image paths, returns promise hash
+   * @param  {array}   paths  An array of image paths
    */
-  preloadImages(sources, callback) {
-    if (sources.length) {
-      var preloaderDiv = $('<div style="display: none;"></div>').prependTo(document.body).data('completed', 0);
-
-      $.each(sources, function(i, source) {
-        var img = $("<img/>").attr("src", source).appendTo(preloaderDiv);
-
-        if (i === (sources.length - 1)) {
-          img.load(function() {
-            preloaderDiv.data('completed', preloaderDiv.data('completed') + 1);
-            $(this).remove();
-            if (preloaderDiv.data('completed') === sources.length && callback) {
-              preloaderDiv.remove();
-              callback();
-            }
-          });
-        }
-      });
-    } else {
-      if (callback) {
-        callback();
-      }
-    }
+  preloadImages(paths) {
+    
+    let hash = {};
+    
+    paths.forEach((path,i)=>{
+      hash['image'+i] = this.preloadImage(path);
+      i++;
+    });
+    
+    return Ember.RSVP.hash(hash);
+    
   }
 
   /**
-   * Preloads an image, calls callback when loaded.
+   * Preloads an image, returns promise
    * @param  {array}   path  Path to the image
-   * @param  {Function} callback Function to call once images have loaded
    */
   preloadImage(path) {
     
@@ -702,9 +684,8 @@ class Blackout {
     $jqueryItem.removeClass('animated fadeOutDown');
   }
   cleanAfterAnimation($jqueryItem,type){
-    var self = this;
-    $jqueryItem.off(this.afterCSSAnimation).on(this.afterCSSAnimation,function(){
-      self.cleanAnimation($jqueryItem,type);
+    $jqueryItem.off(this.afterCSSAnimation).on(this.afterCSSAnimation,()=>{
+      this.cleanAnimation($jqueryItem,type);
       $jqueryItem.off(this.afterCSSAnimation);
     });
   }
@@ -886,7 +867,6 @@ class Blackout {
   
   findPathInMenu(path){
     
-    let self = this;
     let $matchedMenu = $();
     let bestMatch = 0;
     
@@ -894,18 +874,18 @@ class Blackout {
     path = path.replace(/[/.]/g,'_');
     
     // Get all menu items
-    $('#nav-panel a.menu-link').each(function(){
+    $('#nav-panel a.menu-link').each((i,target)=>{
       
-      let route = $(this).attr('id').substr(String("menuItem_").length);
-      let matched = self.matchPathToMenuItem(path,route);
+      let route = $(target).attr('id').substr(String("menuItem_").length);
+      let matched = this.matchPathToMenuItem(path,route);
       
       if(matched > bestMatch){
         bestMatch = matched;
         
-        if($(this).data('menu-route')){
-          $matchedMenu = $('#menuItem_'+$(this).data('menu-route').replace(/[/.]/g,'_'));
+        if($(target).data('menu-route')){
+          $matchedMenu = $('#menuItem_'+$(target).data('menu-route').replace(/[/.]/g,'_'));
         } else {
-          $matchedMenu = $(this);
+          $matchedMenu = $(target);
         }
         
       }

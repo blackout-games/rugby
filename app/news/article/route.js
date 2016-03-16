@@ -5,12 +5,10 @@ export default Ember.Route.extend(NewsMixin,{
   
   model( params ){
     
-    var self = this;
-    
     //return this.store.findRecord('news',params.id, { reload: true })
     
-    return this.store.findRecord('news',params.id).then(function(data){
-      self.processArticle(data);
+    return this.store.findRecord('news',params.id).then((data)=>{
+      this.processArticle(data);
       return data;
     });
     

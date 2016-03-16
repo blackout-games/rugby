@@ -65,11 +65,9 @@ export default Ember.Component.extend({
   
   detectUsers(markdown){
     
-    var self = this;
-    
-    return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,function( fullMatch, unquotedUsername, quotedUsername){
+    return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,( fullMatch, unquotedUsername, quotedUsername)=>{
       
-      return self.decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
+      return this.decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
       
     });
     
@@ -107,11 +105,9 @@ export default Ember.Component.extend({
   
   detectSpecialLinks(markdown){
     
-    var self = this;
-    
-    return markdown.replace(/(?:!{0,2}\$?\[(.+)\]([\(\:]) *)?((?:http(s)?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:(?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\))?/gi,function( fullMatch, altTextOrRefKey, normalUrlOrRef, url){
+    return markdown.replace(/(?:!{0,2}\$?\[(.+)\]([\(\:]) *)?((?:http(s)?:\/\/.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:(?:\[[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*\]|[-a-zA-Z0-9@:%_\+.,~#?&\/\/=]*)*))(?:\))?/gi,( fullMatch, altTextOrRefKey, normalUrlOrRef, url)=>{
       
-      var store = self.get('store'),
+      var store = this.get('store'),
           res,youth,nat,u20,ext,className,
           visibleText = '<img src="/assets/loaders/text-loader.gif" class="text-loader">';
       
@@ -232,15 +228,15 @@ export default Ember.Component.extend({
         } else {
           
           // Load conversation
-          var convName = store.findRecord('conversation', itemid).then(function(data){
+          var convName = store.findRecord('conversation', itemid).then((data)=>{
             
             $('.'+className).html(data.get('name'));
             Blackout.fadeIn($('.'+className));
             return data.get('name');
             
-          },function(){
+          },()=>{
             
-            let text = self.get('locale').htmlT('clubrooms.private-conv');
+            let text = this.get('locale').htmlT('clubrooms.private-conv');
             isPrivateConv = true;
             
             // Conversation was not found or inaccessible (assume latter)
@@ -412,10 +408,9 @@ export default Ember.Component.extend({
   processVideos(markdown) {
     'use strict';
 
-    var inlineRegExp = /\$\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g,
-      self = this;
+    var inlineRegExp = /\$\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g;
 
-    function writeVideoTag (wholeMatch, altText, url) {
+    let writeVideoTag = (wholeMatch, altText, url)=>{
 
       if (url === '' || url === null) {
         return wholeMatch;
@@ -426,7 +421,7 @@ export default Ember.Component.extend({
       
       var isYoutube = url.search(/youtu\.?be/)>=0;
       if(isYoutube){
-        videoId = self.getYoutubeId(url);
+        videoId = this.getYoutubeId(url);
         if( window.navigator.standalone ){
           url = 'https://www.youtube-nocookie.com/embed/'+videoId;
         } else {
@@ -436,17 +431,18 @@ export default Ember.Component.extend({
       
       var isVimeo = url.search(/vimeo\.com/)>=0;
       if(isVimeo){
-        videoId = self.getVimeoId(url);
+        videoId = this.getVimeoId(url);
         url = 'https://player.vimeo.com/video/'+videoId;
       }
 
       altText = altText.replace(/"/g, '&quot;');
-      altText = self.escapeCharacters(altText, '*_', false);
-      url = self.escapeCharacters(url, '*_', false);
+      altText = this.escapeCharacters(altText, '*_', false);
+      url = this.escapeCharacters(url, '*_', false);
       var result = '<div class="video-container" aria-label="' + altText + '"><iframe src="' + url + '" frameborder="0" width="560" height="315"></iframe></div>';
 
       return result;
-    }
+      
+    };
 
     // Handle inline videos:  $[alt text](url)
     markdown = markdown.replace(inlineRegExp, writeVideoTag);
@@ -617,8 +613,7 @@ export default Ember.Component.extend({
     let store = this.get('store');
     let className = 'md_manager_'+username.alphaNumeric();
     let wasPeeked = false;
-    let self = this;
-    let userImages = self.get('userImages');
+    let userImages = this.get('userImages');
     
     // Don't use query since it prevents ember data from grouping requests
     //let query = {
@@ -629,7 +624,7 @@ export default Ember.Component.extend({
     //let html = store.queryRecord('manager',query).then(function(data){
     
     // Get manager
-    let html = store.findRecord('manager',username.pkString()).then(function(data){
+    let html = store.findRecord('manager',username.pkString()).then((data)=>{
       
       if(data){
         let html = userImages.getManagerHTML(data);
@@ -642,7 +637,7 @@ export default Ember.Component.extend({
         return false;
       }
       
-    },function(){});
+    },()=>{});
     
     if(wasPeeked){
       return html;

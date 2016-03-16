@@ -25,24 +25,23 @@ export default Ember.Component.extend({
   allowScrollEvent: false,
   classNames: ['fix-mousewheel-scroll'],
 
-  renderPerfectScroll: Ember.on('didInsertElement', function() {
-    var self = this;
+  renderPerfectScroll: Ember.on('didInsertElement', function(){
 
     // Don't do this on iOS, because there perfect scrollbar doesn't play well with fastclick
     if (window.features.canPerfectScroll || true) {
       this.$().perfectScrollbar({
-        wheelSpeed: self.get('wheelSpeed'),
-        wheelPropagation: self.get('wheelPropagation'),
-        swipePropagation: self.get('swipePropagation'),
-        minScrollbarLength: self.get('minScrollbarLength'),
-        maxScrollbarLength: self.get('maxScrollbarLength'),
-        useBothWheelAxes: self.get('useBothWheelAxes'),
-        useKeyboard: self.get('useKeyboard'),
-        suppressScrollX: self.get('suppressScrollX'),
-        suppressScrollY: self.get('suppressScrollY'),
-        scrollXMarginOffset: self.get('scrollXMarginOffset'),
-        scrollYMarginOffset: self.get('scrollYMarginOffset'),
-        includePadding: self.get('includePadding')
+        wheelSpeed: this.get('wheelSpeed'),
+        wheelPropagation: this.get('wheelPropagation'),
+        swipePropagation: this.get('swipePropagation'),
+        minScrollbarLength: this.get('minScrollbarLength'),
+        maxScrollbarLength: this.get('maxScrollbarLength'),
+        useBothWheelAxes: this.get('useBothWheelAxes'),
+        useKeyboard: this.get('useKeyboard'),
+        suppressScrollX: this.get('suppressScrollX'),
+        suppressScrollY: this.get('suppressScrollY'),
+        scrollXMarginOffset: this.get('scrollXMarginOffset'),
+        scrollYMarginOffset: this.get('scrollYMarginOffset'),
+        includePadding: this.get('includePadding')
       });
 
       this.updatePerfectScrollBound = Ember.run.bind(this, this.updatePerfectScroll);
