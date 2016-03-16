@@ -7,11 +7,11 @@ export default Ember.Service.extend({
   
   loadItems: Ember.on('init', function(){
     
-    var items = this.get('locals',true).read(bitesName);
+    var items = this.get('locals').read(bitesName);
     if(typeof(items)==='object'){
-      this.set(bitesName,items,true);
+      this.set(bitesName,items);
     } else {
-      this.set(bitesName,{},true);
+      this.set(bitesName,{});
     }
     
     this.updateAJAX();
@@ -20,9 +20,17 @@ export default Ember.Service.extend({
   
   saveItems() {
     
-    var items = this.get(bitesName,true);
-    this.get('locals',true).write(bitesName,items);
-    this.setupAJAXSuccessListener();
+    var items = this.get(bitesName);
+    this.get('locals').write(bitesName,items);
+    
+    /**
+     * DO NOT CALL THIS FROM HERE OR IT CREATES A LOOP
+     * 
+     * The loop is created if you call setBite within the function sent to ajaxSuccess below. Not sure why since ajaxSuccess shouldn't actually run the given function, but it happens slowly over time. The more you click around, the slower the app gets.
+     * 
+     * setupAJAXSuccessListener should be called once on init and that's it
+     */
+    //this.setupAJAXSuccessListener();
     
   },
   
@@ -44,7 +52,7 @@ export default Ember.Service.extend({
                 var key = parts[0].trim();
                 var val = parts[1].trim();
                 if(key!=='' && val!==''){
-                  this.set(key,val);
+                  this.setBite(key,val);
                 }
               }
             }
@@ -70,7 +78,7 @@ export default Ember.Service.extend({
   
   header() {
     
-    var items = this.get( bitesName, true );
+    var items = this.get( bitesName );
     var keyvals = [];
     $.each(items,function(key,val){
       keyvals.push( key + '=' + val );
@@ -79,43 +87,31 @@ export default Ember.Service.extend({
     
   },
   
-  get(key, internal) {
+  getBite(key) {
     
-    if( internal ){
-      return this._super( key );
-    } else {
-      var items = this._super( bitesName );
-      
-      return items[key];
-    }
+    var items = this.get( bitesName );
+    return items[key];
     
   },
   
-  set(key, val, internal) {
+  setBite(key, val) {
     
-    if( internal ){
-      this._super( key, val );
-      
+    var items = this.get( bitesName );
+    if(val===null||val==='null'){
+      this.remove(key);
     } else {
-      
-      var items = this.get( bitesName, true );
-      if(val===null||val==='null'){
-        this.remove(key);
-      } else {
-        items[key] = val;
-        this.set( bitesName, items, true );
-        this.saveItems();
-      }
-      
+      items[key] = val;
+      this.set( bitesName, items );
+      this.saveItems();
     }
     
   },
   
   remove(key) {
     
-    var items = this.get( bitesName, true );
+    var items = this.get( bitesName );
     delete items[key];
-    this.set( bitesName, items, true );
+    this.set( bitesName, items );
     this.saveItems();
     
   },
