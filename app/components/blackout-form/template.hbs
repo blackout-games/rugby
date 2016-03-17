@@ -3,66 +3,102 @@
   <div class="{{if serverError "gap-lg" "gap-2-5x"}}">
   
     {{#each computedForm as |item index|}}
+      
+      {{#if (compare item.type '===' 'link')}}
         
-      {{! For hiding some form inputs based on the value of others }}
-      {{#blackout-fader showing=(compare item.visibleOnKey 'typeof' 'null' true (compare (get model item.visibleOnKey) '===' item.visibleOnKeyValue)) active=item.visibleOnKey class="gap-lg blackout-form-item" }}
-        
-        <div>
-          <label for="{{item.id}}">{{item.label}}</label>
+        <div class="gap-md">
+          <a {{action 'toggleItem' item.id}}>{{item.label}}</a>
         </div>
         
-        <div>
+      {{else}}
           
-          {{#if (compare item.type '===' 'radio')}}
+        {{! For hiding some form inputs based on the value of others }}
+        {{#blackout-fader
+        
+          showing=
+          (compare
+          
+            (and
+              (compare item.visibleOnKey 'typeof' 'null')
+              (compare item.showOnLink 'typeof' 'null')
+            ) '===' true
             
-            {{#each item.options as |option|}}
+            true
+            
+            (compare item.visibleOnKey 'typeof' 'string'
+            
+              (compare (get model item.visibleOnKey) '===' item.visibleOnKeyValue)
+              
+              (compare item.showOnLink 'typeof' 'string'
+              
+                (compare (get linksShowing item.showOnLink) '===' true)
+                
+              )
+            )
+          )
+          
+          active=(or item.visibleOnKey item.showOnLink)
+          
+          class="gap-lg blackout-form-item" }}
+          
+          <div>
+            <label for="{{item.id}}">{{item.label}}</label>
+          </div>
+          
+          <div>
+            
+            {{#if (compare item.type '===' 'radio')}}
+              
+              {{#each item.options as |option|}}
+                
+                {{! So that we can edit the model in the sub-component }}
+                {{#if item.valuePath}}
+                  
+                  {{#blackout-radio
+                      value=option.value
+                      model=model
+                      valuePath=item.valuePath
+                      changed=(action item.onChanged)}}
+                      {{option.label}}
+                  {{/blackout-radio}}
+                  
+                {{else}}
+                  
+                  {{#blackout-radio
+                      value=option.value
+                      groupValue=(if item.valuePath (get model item.valuePath) item.value)
+                      changed=(action item.onChanged)}}
+                      {{option.label}}
+                  {{/blackout-radio}}
+                  
+                {{/if}}
+                
+              {{/each}}
+              
+            {{else}}
               
               {{! So that we can edit the model in the sub-component }}
               {{#if item.valuePath}}
                 
-                {{#blackout-radio
-                    value=option.value
-                    model=model
-                    valuePath=item.valuePath
-                    changed=(action item.onChanged)}}
-                    {{option.label}}
-                {{/blackout-radio}}
+                {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
                 
               {{else}}
                 
-                {{#blackout-radio
-                    value=option.value
-                    groupValue=(if item.valuePath (get model item.valuePath) item.value)
-                    changed=(action item.onChanged)}}
-                    {{option.label}}
-                {{/blackout-radio}}
+                {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
                 
               {{/if}}
               
-            {{/each}}
-            
-          {{else}}
-            
-            {{! So that we can edit the model in the sub-component }}
-            {{#if item.valuePath}}
-              
-              {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
-              
-            {{else}}
-              
-              {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
-              
             {{/if}}
             
-          {{/if}}
+            {{#if item.helper}}
+              <div class="blackout-form-helper">{{item.helper}}</div>
+            {{/if}}
           
-          {{#if item.helper}}
-            <div class="blackout-form-helper">{{item.helper}}</div>
-          {{/if}}
+          </div>
+            
+        {{/blackout-fader}}
         
-        </div>
-          
-      {{/blackout-fader}}
+      {{/if}}
     
     {{/each}}
     

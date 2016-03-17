@@ -7,6 +7,10 @@ const Validations = buildValidations({
     presence: true,
     description: t('login.username'),
   }),
+  password: validator('presence', {
+    presence: true,
+    description: t('login.password'),
+  }),
   email: [
     validator('presence', {
       presence: true,
@@ -14,12 +18,19 @@ const Validations = buildValidations({
     }),
     validator('format', { type: 'email' })
   ],
+  newPassword: [
+    validator('length', {
+      allowBlank: true,
+      min: 5
+    }),
+  ],
 });
 
 export default DS.Model.extend(Validations,{
   numberId: DS.attr(),
   username: DS.attr(),
   password: DS.attr(),
+  newPassword: DS.attr(),
   email: DS.attr(),
   dateRegistered: DS.attr(),
   lastActive: DS.attr(),

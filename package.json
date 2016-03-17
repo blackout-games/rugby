@@ -54,6 +54,7 @@
     "ember-radio-button": "1.0.7",
     "ember-responsive": "1.2.5",
     "ember-simple-auth": "^1.1.0-beta",
+    "ember-truth-helpers": "1.2.0",
     "ember-watson": "^0.8.0",
     "ember-waypoints": "0.1.0"
   },

@@ -60,7 +60,7 @@ export default Ember.Service.extend({
         return false;
       }
     } else {
-      Ember.warn(`Could not save preference (${id}) because user is not authenticated`);
+      Ember.Logger.warn(`Could not save preference (${id}) because user is not authenticated`);
       return false;
     }
   },
@@ -89,7 +89,7 @@ export default Ember.Service.extend({
       return Ember.RSVP.hash(promises);
       
     } else {
-      Ember.warn(`Could not save preferences because user is not authenticated`);
+      Ember.Logger.warn(`Could not save preferences because user is not authenticated`);
       return false;
     }
     

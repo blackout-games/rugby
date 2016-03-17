@@ -49,20 +49,27 @@ export default Ember.Component.extend({
     
   }),
   
+  formIsValid: Ember.computed.alias('model.validations.isValid'),
+  
   actions: {
     onSave(button){
       this.set('hasValidated',true);
-      if(this.attrs.onSave){
-        this.$('.blackout-cancel-button').prop('disabled',true);
-        this.attrs.onSave(()=>{
-          button.succeeded(true);
-          this.$('.blackout-cancel-button').prop('disabled',false);
-        },()=>{
-          button.reset();
-          this.$('.blackout-cancel-button').prop('disabled',false);
-        },()=>{
-          // Don't reset here, since if the consumer has nested promises, and calls this function in the finally clause on the parent promise, it will execute to early.
-        });
+      // Check if validation is all g.
+      if(this.get('formIsValid')){
+        if(this.attrs.onSave){
+          this.$('.blackout-cancel-button').prop('disabled',true);
+          this.attrs.onSave(()=>{
+            button.succeeded(true);
+            this.$('.blackout-cancel-button').prop('disabled',false);
+          },()=>{
+            button.reset();
+            this.$('.blackout-cancel-button').prop('disabled',false);
+          },()=>{
+            // Don't reset here, since if the consumer has nested promises, and calls this function in the finally clause on the parent promise, it will execute to early.
+          });
+        }
+      } else {
+        button.reset();
       }
     },
     onCancel(){
@@ -76,7 +83,16 @@ export default Ember.Component.extend({
         this.attrs.onCancel();
       }
     },
-  }
+    toggleItem(id){
+      let item = this.get('linksShowing.'+id);
+      if(item){
+        this.set('linksShowing.'+id,false);
+      } else {
+        this.set('linksShowing.'+id,true);
+      }
+    },
+  },
   
+  linksShowing: Ember.Object.create(),
   
 });

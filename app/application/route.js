@@ -183,7 +183,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     // DONT use data.sessionBuilt so that this variable is cleared on reload
     let sessionRebuilt = session.get('sessionRebuilt');
     if(sessionRebuilt){
-      Ember.warn('Session manager has been refreshed since initial login, but buildSession was called again');
+      Ember.Logger.warn('Session manager has been refreshed since initial login, but buildSession was called again');
       return;
     }
     

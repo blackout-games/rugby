@@ -38,6 +38,19 @@ export default Ember.Component.extend({
         serverError: this.get('serverErrors.password.title'),
       },
       {
+        id: 'changePassword',
+        label: t('account.password.change-password'),
+        type: 'link',
+      },
+      {
+        id: 'newPassword',
+        label: t('account.password.new-password'),
+        type: 'password',
+        valuePath: 'newPassword',
+        serverError: this.get('serverErrors.newPassword.title'),
+        showOnLink: 'changePassword',
+      },
+      {
         id: 'email',
         label: t('account.email'),
         type: 'email',
@@ -50,14 +63,19 @@ export default Ember.Component.extend({
   }),
   
   resetErrors(){
-    this.set('serverError',null);
+    //this.set('serverError',null);
     this.set('serverErrors',{});
   },
   
   actions: {
     onSave(succeeded,failed,final){
       
-      this.get('model').save().then(()=>{
+      this.get('model').patch({
+        username: true,
+        password: true,
+        newPassword: true,
+        email: true,
+      }).then(()=>{
         
         succeeded();
         this.resetErrors();

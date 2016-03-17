@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     }
     
     if(!$(newObj).length){
-      Ember.warn("Side-switcher panel (" + currentlyShowing + ") not found");
+      Ember.Logger.warn("Side-switcher panel (" + currentlyShowing + ") not found");
       return;
     }
     

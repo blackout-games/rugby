@@ -7,7 +7,7 @@ export default Ember.Component.extend({
     if(this.get('active')){
       this.$().removeClass('inactive');
       if(!this.get('showing')){
-        this.hide();
+        this.hide(true);
         Ember.Blackout.waitForHeightOfHidden(this.$(),(height)=>{
           this.set('height',height);
         });
@@ -31,20 +31,41 @@ export default Ember.Component.extend({
   }),
   
   show(){
+    this.$().css('overflow','visible');
     this.$().css({
       'max-height': this.get('height'),
       opacity: 1,
+    }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+      this.$().css('max-height','none');
     });
   },
   
-  hide(){
-    if(this.$().height()>0){
-      this.set('height',this.$().height());
-    }
-    this.$().css({
-      'max-height': '0px',
-      opacity: 0,
+  hide( immediate ){
+    let $el = this.$();
+    // Skip any CSS transitions to the end
+    this.$().addClass('no-transition');
+    Ember.run.next(()=>{
+      this.$().removeClass('no-transition');
+      if(this.$().height()>0){
+        this.set('height',this.$().height());
+      }
+      if(!immediate){
+        this.$().css('max-height',this.get('height'));
+      }
+      Ember.run.later(()=>{
+        if($el){
+          $el.css({
+            'max-height': '0px',
+            opacity: 0,
+          }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+            $el.css('overflow','hidden');
+          });
+        } else {
+          print('CSS didnt exist',this.$());
+        }
+      },44);
     });
+    
   },
   
 });
