@@ -321,7 +321,10 @@ class Blackout {
   
   getHeightOfHidden($el){
     
+    // Save originals
     let previousCss  = $el.attr("style");
+    let index = $el.index();
+    let $parent = $el.parent();
 
     $el.css({
       position:   'absolute',
@@ -330,9 +333,14 @@ class Blackout {
       'max-height': 'none',
       'opacity': '1',
     });
-
+    
+    // Insert in body in case $el is in a display:none parent.
+    $('body').append($el);
+    
     let height = $el.height();
     $el.attr("style", previousCss ? previousCss : "");
+    
+    $parent.insertAt(index,$el);
     
     return height;
     
@@ -2152,3 +2160,19 @@ $(document).on('DOMMouseScroll mousewheel', '.fix-mousewheel-scroll', function(e
     }
 
 }));
+
+
+/**
+ * Allows us to insert an element at a certain index within children
+ */
+$.fn.insertAt = function(index, element) {
+  var lastIndex = this.children().size();
+  if (index < 0) {
+    index = Math.max(0, lastIndex + 1 + index);
+  }
+  this.append(element);
+  if (index < lastIndex) {
+    this.children().eq(index).before(this.children().last());
+  }
+  return this;
+};

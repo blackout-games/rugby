@@ -62,7 +62,7 @@ export default Ember.Component.extend({
     
   }),
   
-  managerImageType: Ember.computed(function(){
+  managerImageType: Ember.computed('session.data.manager.imageUrl',function(){
     let managerImageType = this.get('preferences').getPref('managerImageType');
     
     if(!Ember.isEmpty(managerImageType)){
@@ -83,13 +83,33 @@ export default Ember.Component.extend({
   
   managerCustomUrl: Ember.computed(function(){
     
+    let url = this.get('preferences').getPref('managerCustomImageUrl');
+    url = url.replace(/[?&]v=\w+/i,'');
+    return url;
+    
+  }),
+  
+  managerCustomUrlFull: Ember.computed(function(){
+    
     return this.get('preferences').getPref('managerCustomImageUrl');
     
   }),
   
+  /**
+   * The following model values/functions are for when we're using a custom model, rather than a real one from ember data.
+   */
+  
+  // Base object
   model: Ember.Object.create(),
   
-  editorModel: Ember.computed(function(){
+  // Call this when we save/commit new values
+  updateSavedModel(){
+    this.get('model').rollbackAttributes = null;
+    this.notifyPropertyChange('model');
+  },
+  
+  // Computed property to build the model for consumption
+  editorModel: Ember.computed('model',function(){
     
     let model = this.get('model');
     
@@ -101,9 +121,8 @@ export default Ember.Component.extend({
     }
     
     if(!model.rollbackAttributes){
-      
-      let originalImageType = String(this.get('managerImageType'));
-      let originalCustomUrl = String(this.get('managerCustomUrl'));
+      let originalImageType = this.get('managerImageType');
+      let originalCustomUrl = this.get('managerCustomUrl');
       
       model.rollbackAttributes = ()=>{
         model.set('imageType',originalImageType);
@@ -184,6 +203,7 @@ export default Ember.Component.extend({
     },
     onCancel(){
       this.set('showingEditor',false);
+      this.get('editorModel').rollbackAttributes();
     },
     onSave(succeeded,failed,finaled){
       
@@ -212,6 +232,7 @@ export default Ember.Component.extend({
             
             // Refresh manager in session
             return this.get('user').refreshSessionManager().finally(()=>{
+              this.updateSavedModel();
               succeeded();
             });
             
@@ -229,7 +250,12 @@ export default Ember.Component.extend({
       // Version the image so that if the user changes the image at the source, it will refresh from the cache
       let version = Ember.Blackout.getTimeHex();
       let separator = Ember.Blackout.getSeparator(url);
-      url += separator + 'v=' + version;
+      
+      if(url.regexIndexOf(/[&?]v=/i)>=0){
+        url = url.replace(/v=\w+/i,'v=' + version);
+      } else {
+        url += separator + 'v=' + version;
+      }
       
       // Load image
       Ember.Blackout.preloadImage(url).then((w,h)=>{
@@ -265,6 +291,7 @@ export default Ember.Component.extend({
             // Refresh manager in session
             this.get('user').refreshSessionManager().finally(()=>{
               this.get('userImages').updateSessionImages();
+              this.updateSavedModel();
               succeeded();
             });
             
@@ -289,9 +316,8 @@ export default Ember.Component.extend({
     },
     onChangedImageType(value){
       if( this.get('type') === 'manager' ){
-        this.set('managerImageType',value);
         
-        let customUrl = this.get('managerCustomUrl');
+        let customUrl = this.get('managerCustomUrlFull');
         let newUrl;
         
         if(value==='gravatar'){
@@ -314,6 +340,6 @@ export default Ember.Component.extend({
     onChangedCustomUrl(/*value*/){
       //log('changed url',value);
     },
-  }
+  },
   
 });

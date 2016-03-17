@@ -56,6 +56,9 @@ export default Ember.Component.extend({
         this.$().hide().removeClass('hiding');
       });
       this.set('hasShown',false);
+      if(this.attrs.onClose){
+        this.attrs.onClose();
+      }
     }
   },
   

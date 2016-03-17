@@ -6,7 +6,6 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement',function(){
     if(this.get('active')){
       this.$().removeClass('inactive');
-      
       if(!this.get('showing')){
         this.hide();
         Ember.Blackout.waitForHeightOfHidden(this.$(),(height)=>{
@@ -39,7 +38,9 @@ export default Ember.Component.extend({
   },
   
   hide(){
-    this.set('height',this.$().height());
+    if(this.$().height()>0){
+      this.set('height',this.$().height());
+    }
     this.$().css({
       'max-height': '0px',
       opacity: 0,
