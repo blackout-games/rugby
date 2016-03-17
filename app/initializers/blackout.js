@@ -158,6 +158,8 @@ class Blackout {
       return true;
     } else if(typeof(item)==='object' && "value" in item){
       return Ember.isEmpty(item.value);
+    } else if(typeof(item)==='object'){
+      return Object.keys(item).length === 0 && JSON.stringify(item) === JSON.stringify({});
     } else if(item===false){
       return true; // Ember.isEmpty says false is not an empty value
     } else {
@@ -913,6 +915,23 @@ class Blackout {
       let camelKey = key.camelize();
       if(camelKey !== key){
         obj[camelKey] = val;
+        delete obj[key];
+      }
+    });
+    
+    return obj;
+    
+  }
+  
+  /**
+   * Converts all keys in an object to dasherized format
+   */
+  dashKeys( obj ){
+    
+    $.each(obj,(key,val)=>{
+      let dashKey = key.dasherize();
+      if(dashKey !== key){
+        obj[dashKey] = val;
         delete obj[key];
       }
     });
