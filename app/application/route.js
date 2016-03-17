@@ -7,6 +7,8 @@ import config from '../config/environment';
 //import { translationMacro as t } from "ember-i18n";
 import t from "../utils/translation-macro";
 
+const { $ } = Ember;
+
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, FbMixin, {
   locals: Ember.inject.service(),
   preferences: Ember.inject.service(),
@@ -239,8 +241,43 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     }
 
   },
+  
+  clearSessionData(){
+    
+    let session = this.get('session');
+    let data = session.get('data');
+    $.each(data,(key)=>{
+      
+      if(key !== 'authenticated' && key !== 'releaseMarker'){
+        session.set('data.'+key,undefined);
+      }
+      
+    });
+    
+  },
 
   beforeModel() {
+    
+    /**
+     * Maintenance/resets on new releases.
+     * 
+     * Change this if you need to clear session data, local storage, etc. for a new release.
+     */
+    let releaseMarker = 11;
+    
+    let session = this.get('session');
+    let oldReleaseMarker = session.get('data.releaseMarker');
+    
+    if(!oldReleaseMarker || oldReleaseMarker<releaseMarker){
+      
+      if(this.get('session.isAuthenticated')){
+        Ember.run.bind(this,this.actions.invalidateSession)();
+      } else {
+        session.set('data.releaseMarker',releaseMarker);
+        this.clearSessionData();
+      }
+      
+    }
 
     /**
      * At this stage we don't actually load and return a model for use in the "application route".
