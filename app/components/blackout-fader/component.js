@@ -32,6 +32,7 @@ export default Ember.Component.extend({
   
   show(){
     this.$().css('overflow','visible');
+    this.$().children().show();
     this.$().css({
       'max-height': this.get('height'),
       opacity: 1,
@@ -59,6 +60,10 @@ export default Ember.Component.extend({
             opacity: 0,
           }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
             $el.css('overflow','hidden');
+            // Remove children
+            // This enables tabbing on keyboard to skip over elements in this fader
+            // We don't remove the parent because otherwise we lose margins, which causes jumping
+            $el.children().hide();
           });
         } else {
           print('CSS didnt exist',this.$());
