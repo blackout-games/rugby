@@ -8,7 +8,8 @@ $height-transition: height $side-switcher-time $side-switcher-ease;
   
   // This causes weird hiding of the top edge sometimes.
   // Example was with settings, while a select element is visible or interacted with
-  //overflow: hidden;
+  // Nope, fixed the issue with the select - where I should have fixed in the first place.
+  overflow: hidden;
 }
 .switcher-pane {
   position: relative;

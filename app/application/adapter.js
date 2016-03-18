@@ -31,13 +31,18 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     return true;
   },*/
   
-  /*
+  /**
+   * IE Edge caches requests sometimes, so we'll modify the URL
+   * 2016-03-18
+   */
   buildURL: function(){
     var url = this._super.apply(this, arguments);
-    //print(url);
+    
+    let sep = Ember.Blackout.getSeparator(url);
+    url += sep + '_=' + Ember.Blackout.getTimeHex(true);
+    
     return url;
   },
-  */
   
   /**
    * Override query so we can support /me

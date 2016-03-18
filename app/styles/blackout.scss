@@ -452,6 +452,8 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  */
 .hidden-but-accessible {
   position: absolute !important;
+  top:0px;
+  left:0px;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
 }

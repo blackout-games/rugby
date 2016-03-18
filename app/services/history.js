@@ -4,6 +4,7 @@ const { getOwner } = Ember;
 
 export default Ember.Service.extend({
   preferences: Ember.inject.service(),
+  session: Ember.inject.service(),
   
   maxHistoryLength:50,
   
@@ -38,7 +39,9 @@ export default Ember.Service.extend({
       this.addToHistory(this.get('current'));
       
       // Update preference
-      this.get('preferences').setPref('lastRoute',url);
+      if(this.get('session.isAuthenticated')){
+        this.get('preferences').setPref('lastRoute',url);
+      }
       
       // Set current location
       this.set('current',url);

@@ -19,14 +19,13 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   listenForEvents: Ember.on('init', function(){
 
     /**
-     * May need to remove this.
-     * Otherwise users will be logged out a lot, even if it's just a temporary loss of connection.
-    this.get('eventBus').subscribe('accessTokenWasNotRefreshed', this, function() {
+     * Only call this event if server is reachable to avoid logouts during temporary loss of connection
+     */
+    this.get('eventBus').subscribe('accessTokenWasNotRefreshedServer', this, function() {
       Ember.run.next(this,function(){
-        this.send('sessionCouldNotBeRefreshed');
+        this.send('invalidateSession');
       });
     });
-     */
     
   }),
   
@@ -77,10 +76,6 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     transitionToLoginRoute() {
       this.transitionTo('login');
     },
-    
-    sessionCouldNotBeRefreshed() /*error*/ {
-      this.send('invalidateSession');
-    },
 
     invalidateSession() {
       
@@ -88,7 +83,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       
       Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
         //Ember.$(this).hide();
-        this.get('session').invalidate().then(function() {
+        this.get('session').invalidate().then(()=>{
           this.get('locals').write('standaloneFacebookDialogue', null);
           return false;
         });
@@ -173,7 +168,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
   },
 
-  buildSession() {
+  buildSession(transition) {
     var session = this.get('session');
     var store = this.get('store');
     var payload;
@@ -237,7 +232,13 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     } else {
 
       Ember.Logger.warn('Session build was attempted, but manager was not available in session.data.authenticated');
-
+      var auth = this.get('locals').read('authRecover');
+      if(!auth && transition){
+        //Ember.run.next(()=>{
+          print('HERE');
+          transition.send('invalidateSession');
+        //});
+      }
     }
 
   },
@@ -256,7 +257,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
   },
 
-  beforeModel() {
+  beforeModel( transition ) {
     
     /**
      * Maintenance/resets on new releases.
@@ -324,7 +325,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
     if (this.get('session.isAuthenticated')) {
 
-      this.buildSession();
+      this.buildSession(transition);
 
     } else {
 

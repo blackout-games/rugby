@@ -294,14 +294,22 @@
   order: 0;
 }
 
-.col-flex-xs, .col-flex {
-  flex: 1;
-}
-
 .col-fixed-xs, .col-fixed {
   flex: 0 0 auto;
 }
 
+/**
+ * Will stretch to fill any leftover gap
+ */
+.col-flex-xs, .col-flex {
+  flex: 1 1 auto;
+  //max-width: optional: define on own css class
+}
+
+/**
+ * Will not automatically stretch to fill gap, but allows content to stretch it, stopping at a max width.
+ * Good for use with .ellipses.
+ */
 .col-max-xs, .col-max {
   flex: 0 1 auto;
   //max-width: define on own css class
@@ -700,7 +708,7 @@
   }
   
   .col-flex-sm {
-    flex: 1;
+    flex: 1 1 auto;
   }
 
   .col-fixed-sm {
@@ -1016,13 +1024,13 @@
   .col-reset-order-md {
     order: 0;
   }
-  
-  .col-flex-md {
-    flex: 1;
-  }
 
   .col-fixed-md {
     flex: 0 0 auto;
+  }
+  
+  .col-flex-md {
+    flex: 1 1 auto;
   }
 
   .col-max-md {
@@ -1334,15 +1342,15 @@
   .col-reset-order-lg {
     order: 0;
   }
-  
-  .col-flex-lg {
-    flex: 1;
-  }
 
   .col-fixed-lg {
     flex: 0 0 auto;
   }
-
+  
+  .col-flex-lg {
+    flex: 1 1 auto;
+  }
+  
   .col-max-lg {
     flex: 0 1 auto;
     //max-width: define on own css class

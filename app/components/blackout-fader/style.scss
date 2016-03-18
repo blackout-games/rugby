@@ -11,6 +11,7 @@ $transition-time: 0.250s;
     max-height: none;
     opacity: 1;
     transition: none;
+    overflow: visible;
   }
   
   &.no-transition {

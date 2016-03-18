@@ -49,13 +49,14 @@ export default Ember.Component.extend({
     
   }),
   
+  hasValidations: Ember.computed.alias('model.validations'),
   formIsValid: Ember.computed.alias('model.validations.isValid'),
   
   actions: {
     onSave(button){
       this.set('hasValidated',true);
       // Check if validation is all g.
-      if(this.get('formIsValid')){
+      if(!this.get('hasValidations') || this.get('formIsValid')){
         if(this.attrs.onSave){
           this.$('.blackout-cancel-button').prop('disabled',true);
           this.attrs.onSave(()=>{

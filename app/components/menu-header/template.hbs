@@ -11,9 +11,9 @@
   
   <div class="row menu-manager">
     
-    <div class="col-fixed">
+    <div class="col-max menu-manager-wrapper">
       {{#link-to 'account' class="btn-a no-extra-hitarea "}}
-        <div class="row">
+        <div class="row row-nowrap">
           <div class="col-fixed">
             {{user-image type='manager' class='manager-avatar-menu' defaultColor='dark'}}
           </div>
@@ -29,7 +29,7 @@
     </div>
     
     <div class="col-fixed menu-logout-wrapper">
-      &nbsp;&nbsp;<a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-1-5x icon-vcenter" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
+      <a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-1-5x" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
     </div>
   </div>
   

@@ -256,7 +256,13 @@ export default Ember.Service.extend({
       } else if(imageType==='gravatar'){
         imageUrl = this.get('session.data.manager.gravatarImageUrl');
       } else {
-        imageUrl = this.get('session.data.manager.imageUrl');
+        imageUrl = this.get('preferences').getPref('managerCustomImageUrl');
+        if(!imageUrl){
+          imageUrl = this.get('session.data.manager.facebookImageUrl');
+          if(!imageUrl){
+            imageUrl = this.get('session.data.manager.gravatarImageUrl');
+          }
+        }
       }
       
       if(imageType==='custom'){

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['blackout-fader','inactive'],
+  classNames: ['blackout-fader','inactive','clearfix'],
   
   setup: Ember.on('didInsertElement',function(){
     if(this.get('active')){
@@ -14,7 +14,7 @@ export default Ember.Component.extend({
       } else {
         Ember.Blackout.waitForHeightOfHidden(this.$(),(height)=>{
           this.set('height',height);
-          this.show();
+          this.show(true);
         });
       }
     }
@@ -30,14 +30,20 @@ export default Ember.Component.extend({
     }
   }),
   
-  show(){
+  show( immediate ){
     this.$().css('overflow','visible');
     this.$().children().show();
+    if(immediate){
+      this.$().addClass('no-transition');
+    } else {
+      this.$().removeClass('no-transition');
+    }
     this.$().css({
       'max-height': this.get('height'),
       opacity: 1,
     }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
       this.$().css('max-height','none');
+      this.$().addClass('no-transition');
     });
   },
   
@@ -45,6 +51,7 @@ export default Ember.Component.extend({
     let $el = this.$();
     // Skip any CSS transitions to the end
     this.$().addClass('no-transition');
+    this.$().css('max-height',this.$().height());
     Ember.run.next(()=>{
       this.$().removeClass('no-transition');
       if(this.$().height()>0){

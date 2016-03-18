@@ -83,6 +83,7 @@ export default Ember.Component.extend({
   succeeded(ignoreNextReset=false){
     this.reset();
     if(ignoreNextReset){
+      // If reset() is called by a consumer soon after succeeded()
       this.set('ignoreNextReset',true);
     }
     this.set('hasSucceeded',true);
@@ -96,6 +97,8 @@ export default Ember.Component.extend({
                 this.$().removeClass('unsucceed');
               }
             },44);
+            // If reset() is not called by a consumer soon after succeeded()
+            this.set('ignoreNextReset',false);
             this.reset();
           }
         });

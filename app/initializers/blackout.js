@@ -1013,15 +1013,50 @@ class Blackout {
   /**
    * Get a hex version of the current time in seconds, helpful for cache invalidation in URLs
    */
-  getTimeHex(){
-    return Math.round(Date.now()/1000).toString(16);
+  getTimeHex( ms ){
+    let time = ms ? Date.now() : Date.now()/1000;
+    return Math.round(time).toString(16);
   }
   
   /**
-   * Util
+   * ---------------------------- Ember Data Helpers
    */
+  
+  /**
+   * Print arrays of models returned from ember data
+   */
+  printData(data){
+    Ember.$.each(data.content,(i,val)=>{
+      print('TYPE',val.modelName,'ID',val.id,'JSON',val.record.toJSON());
+    });
+  }
+  
+  /**
+   * ---------------------------- Util
+   */
+  
   refreshHoverWatchers(){
     _refreshWatchers();
+  }
+  
+  /**
+   * Print JSON string of object, handling circular references
+   */
+  JSONize(obj){
+    let cache = [];
+    let str = JSON.stringify(obj, function(key, value) {
+        if (typeof value === 'object' && value !== null) {
+            if (cache.indexOf(value) !== -1) {
+                // Circular reference found, discard key
+                return;
+            }
+            // Store value in our collection
+            cache.push(value);
+        }
+        return value;
+    });
+    cache = null;
+    return str;
   }
   
   /**

@@ -33,9 +33,11 @@ export default OAuth2.extend({
       }, (xhr, status, error) => {
         Ember.Logger.warn(`Access token could not be refreshed - server responded with ${error}.`);
         reject();
-        
         // BLACKOUT START ----------- //
-        this.get('eventBus').publish('accessTokenWasNotRefreshed');
+        if(Number(xhr.status)===400){
+          // Only call this event if server responded to avoid logouts simply from temparary loss of connection
+          this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+        }
         // BLACKOUT END ------------- //
       });
     });
@@ -77,7 +79,7 @@ export default OAuth2.extend({
       var auth = this.get('locals').read('authRecover');
       if(auth && !Ember.$.isEmptyObject(auth)){
         print("Session data was empty but can be restored");
-        //data = auth;
+        data = auth;
       }
       
     }

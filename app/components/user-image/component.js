@@ -290,6 +290,7 @@ export default Ember.Component.extend({
             
             // Refresh manager in session
             this.get('user').refreshSessionManager().finally(()=>{
+              this.set('session.data.manager.imageUrl',url);
               this.get('userImages').updateSessionImages();
               this.updateSavedModel();
               succeeded();

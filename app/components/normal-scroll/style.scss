@@ -2,11 +2,11 @@
 
 .normal-scroll {
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   
   &.horizontal {
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
   }
 }
