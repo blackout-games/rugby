@@ -272,6 +272,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
     if(!oldReleaseMarker || oldReleaseMarker<releaseMarker){
       
+      this.get('locals').write('authRecover',null);
+      
       if(this.get('session.isAuthenticated')){
         Ember.run.bind(this,this.actions.invalidateSession)();
       } else {
