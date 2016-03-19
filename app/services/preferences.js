@@ -21,8 +21,9 @@ export default Ember.Service.extend({
     
     // Load preferences into store, return promise if we need to wait
     // Must catch, so that user-blocking works (anything loaded during initialization)
-    return this.get('store').findAll('preference').catch(()=>{
+    return this.get('store').findAll('preference').catch((err)=>{
       Ember.Logger.warn('Failed to get preferences');
+      print(err);
     });
     
   },

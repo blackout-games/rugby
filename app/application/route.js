@@ -15,6 +15,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   bites: Ember.inject.service(),
   locale: Ember.inject.service(),
   user: Ember.inject.service(),
+  info: Ember.inject.service(),
   
   listenForEvents: Ember.on('init', function(){
 
@@ -288,6 +289,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
      */
     
     let hash = {
+      
+      // Load and wait for preferences promise whether logged in or not
+      info: this.get('info').initInfo(),
       
       // Load and wait for preferences promise whether logged in or not
       preferences: this.get('preferences').loadPreferences(),

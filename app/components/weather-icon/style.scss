@@ -1,3 +1,14 @@
+
+.weather-icon {
+  margin-bottom: -7px;
+}
+.weather-icon-text {
+  margin-bottom: -7px;
+}
+
+
+// -------------------- Climacon
+
 /* VARIABLES */
 /* Applies a stroke to the icons. Can use percentage for responsive */
 .climacon_component-stroke {
@@ -7,9 +18,20 @@
 }
 
 .climacon_component-fill {
-  fill: #aedef4;
+  fill: #6f718c;
   stroke-width: 0%;
   stroke: black;
+}
+
+/* GLOBAL */
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 75%;
+  margin: 5% auto;
+  text-align: center;
 }
 
 /* SVG GLOBAL */
@@ -2242,8 +2264,8 @@ g, path, circle, rect {
             transform: translateY(17.15px) translateX(0.75349px);
   }
   100% {
-    -webkit-transform: translateY(17.5px) translateX(0.0px);
-            transform: translateY(17.5px) translateX(0.0px);
+    -webkit-transform: translateY(17.5px) translateX(0px);
+            transform: translateY(17.5px) translateX(0px);
   }
 }
 @keyframes snowFall2 {
@@ -2448,8 +2470,8 @@ g, path, circle, rect {
             transform: translateY(17.15px) translateX(0.75349px);
   }
   100% {
-    -webkit-transform: translateY(17.5px) translateX(0.0px);
-            transform: translateY(17.5px) translateX(0.0px);
+    -webkit-transform: translateY(17.5px) translateX(0px);
+            transform: translateY(17.5px) translateX(0px);
   }
 }
 /* Tornado */

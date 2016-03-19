@@ -1023,6 +1023,14 @@ class Blackout {
    */
   
   /**
+   * Print record returned from ember data
+   */
+  printRecord(data){
+    let model = data._internalModel;
+    print('TYPE',model.modelName,'ID',data.id,'JSON',model.record.toJSON());
+  }
+  
+  /**
    * Print arrays of models returned from ember data
    */
   printData(data){

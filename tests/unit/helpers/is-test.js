@@ -1,10 +1,10 @@
-import { eq } from '../../../helpers/eq';
+import { is } from 'rugby-ember/helpers/is';
 import { module, test } from 'qunit';
 
-module('Unit | Helper | eq');
+module('Unit | Helper | is');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  var result = eq(42);
+  let result = is([42]);
   assert.ok(result);
 });

@@ -8,6 +8,7 @@ export default Ember.Service.extend({
   i18n: Ember.inject.service(),
   eventBus: Ember.inject.service(),
   moment: Ember.inject.service(),
+  info: Ember.inject.service(),
   
   testMode: false,
   
@@ -206,6 +207,8 @@ export default Ember.Service.extend({
         
         Ember.Blackout.startLoading();
         
+        this.get('info').refresh();
+        
         return Ember.$.getJSON(url).then((data)=>{
           updateLocale(data);
         });
@@ -213,6 +216,8 @@ export default Ember.Service.extend({
         
       } else {
         updateLocale();
+        
+        this.get('info').refresh();
       }
       
     } else {

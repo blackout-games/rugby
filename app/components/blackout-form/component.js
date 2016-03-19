@@ -13,14 +13,23 @@ export default Ember.Component.extend({
     
     // Force fast focus | use touchend for mobile so that we can still drag scrollable forms. Touchend still saves some time as sometimes there is a delay before the click event fires.
     $('form input').on('mousedown touchend',(e)=>{
-      $(e.target).focus();
+      let $el = $(e.target);
+      if(e.type==='mousedown' || $el.data('can-focus')){
+        $el.focus();
+      }
+    });
+    $('form input').on('touchstart',(e)=>{
+      $(e.target).data('can-focus','1');
+    });
+    $('form input').on('touchmove',(e)=>{
+      $(e.target).data('can-focus',null);
     });
     
   }),
   
   cleanup: Ember.on('willDestroyElement',function(){
     
-    $('form input').off('mousedown touchstart touchmove focus');
+    $('form input').off('mousedown touchstart touchmove touchend');
     
   }),
   
