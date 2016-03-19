@@ -1,9 +1,9 @@
 <?php
 
 echo "Installing ember deploy\n";
-system('yes n | npm install ember-cli-deploy --save-dev > /dev/null 2>&1 &');
-
-sleep(22);
+//system('npm install ember-cli-deploy --save-dev --yes > /dev/null 2>&1 &');
+//sleep(22);
+system('npm install ember-cli-deploy --save-dev --yes');
 echo "Deploying...\n";
 
 exec('ember deploy production', $output);

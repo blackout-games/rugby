@@ -22,11 +22,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     /**
      * Only call this event if server is reachable to avoid logouts during temporary loss of connection
      */
-    this.get('eventBus').subscribe('accessTokenWasNotRefreshedServer', this, function() {
-      Ember.run.next(this,function(){
-        this.send('invalidateSession');
-      });
-    });
+    this.get('eventBus').subscribe('accessTokenWasNotRefreshedServer', this, this.invalidateSession );
     
   }),
   
@@ -66,6 +62,21 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
   },
   
+  invalidateSession() {
+    
+    Ember.$('#splash').show().removeClass('bounceOutLeft fadeOut').addClass('animated-fast fadeIn');
+    
+    Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
+      //Ember.$(this).hide();
+      this.get('session').invalidate().then(()=>{
+        this.get('locals').write('standaloneFacebookDialogue', null);
+        return false;
+      });
+      Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
+    });
+    
+  },
+  
   sessionInvalidated() {
     if (!Ember.testing) {
       window.location = '/';
@@ -80,18 +91,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
 
     invalidateSession() {
       
-      Ember.$('#splash').show().removeClass('bounceOutLeft fadeOut').addClass('animated-fast fadeIn');
-      
-      Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
-        //Ember.$(this).hide();
-        this.get('session').invalidate().then(()=>{
-          this.get('locals').write('standaloneFacebookDialogue', null);
-          return false;
-        });
-        Ember.$('#splash').off( Ember.Blackout.afterCSSAnimation );
-      });
-
+      this.invalidateSession();
       return false;
+      
     },
 
     loginWithFacebook(button) {
@@ -235,10 +237,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       Ember.Logger.warn('Session build was attempted, but manager was not available in session.data.authenticated');
       var auth = this.get('locals').read('authRecover');
       if(!auth && transition){
-        //Ember.run.next(()=>{
-          print('HERE');
-          transition.send('invalidateSession');
-        //});
+        this.invalidateSession();
       }
     }
 
@@ -275,7 +274,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       this.get('locals').write('authRecover',null);
       
       if(this.get('session.isAuthenticated')){
-        Ember.run.bind(this,this.actions.invalidateSession)();
+        this.invalidateSession();
       } else {
         session.set('data.releaseMarker',releaseMarker);
         this.clearSessionData();
