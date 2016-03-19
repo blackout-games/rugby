@@ -84,7 +84,9 @@ export default Ember.Component.extend({
   managerCustomUrl: Ember.computed(function(){
     
     let url = this.get('preferences').getPref('managerCustomImageUrl');
-    url = url.replace(/[?&]v=\w+/i,'');
+    if(url){
+      url = url.replace(/[?&]v=\w+/i,'');
+    }
     return url;
     
   }),
