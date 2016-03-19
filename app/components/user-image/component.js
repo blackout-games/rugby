@@ -81,7 +81,7 @@ export default Ember.Component.extend({
     }
   }),
   
-  managerCustomUrl: Ember.computed(function(){
+  managerCustomUrl: Ember.computed('prefs',function(){
     
     let url = this.get('preferences').getPref('managerCustomImageUrl');
     if(url){
@@ -91,7 +91,7 @@ export default Ember.Component.extend({
     
   }),
   
-  managerCustomUrlFull: Ember.computed(function(){
+  managerCustomUrlFull: Ember.computed('prefs',function(){
     
     return this.get('preferences').getPref('managerCustomImageUrl');
     
@@ -293,6 +293,7 @@ export default Ember.Component.extend({
             // Refresh manager in session
             this.get('user').refreshSessionManager().finally(()=>{
               this.set('session.data.manager.imageUrl',url);
+              this.notifyPropertyChange('prefs');
               this.get('userImages').updateSessionImages();
               this.updateSavedModel();
               succeeded();
