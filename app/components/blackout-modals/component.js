@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     }
     
     // Merge new options over defaults
-    var options = Ember.Object.create(this.get('defaults'));
+    var options = Ember.Object.extend(this.get('defaults')).create();
     options.setProperties(btnOptions);
     
     // Add extra buttons
@@ -143,7 +143,7 @@ export default Ember.Component.extend({
       var showLater = Ember.run.later(()=>{
         this.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').addClass('showing');
         this.$().find('.modal-background').removeClass('hiding');
-        Ember.run.later(function(){
+        Ember.run.later(()=>{
           $(':focus').blur();
         },10);
       },10);
@@ -154,7 +154,7 @@ export default Ember.Component.extend({
       this.cancelHideTimer();
       this.$().show().find('.modal-panel-wrapper,.modal-panel').removeClass('coming').addClass('going');
       
-      Ember.run.next(function(){
+      Ember.run.next(()=>{
         this.$().find('.modal-background,.modal-panel,.modal-panel-wrapper').removeClass('showing');
         this.$().find('.modal-background').addClass('hiding');
         var runLater = Ember.run.later(()=>{
