@@ -136,7 +136,10 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
             title: t('modals.no-connection.title'),
             message: t('modals.no-connection.message'),
             showDefaultAction: false,
-            callback: Ember.Blackout.stopLoading,
+            callback: ()=>{
+              Ember.Blackout.stopLoading();
+              this.get('eventBus').publish('selectMenuLink');
+            },
           });
           
           //Ember.Blackout.stopLoading();
