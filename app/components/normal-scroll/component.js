@@ -14,37 +14,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       this.$().addClass('horizontal');
       
-      Ember.run.next(()=>{
-        
-        let canScroll = this.$()[0].scrollWidth > this.$().width();
-        let abs = Math.abs;
-        
-        if(canScroll){
-          
-          this.$().mousewheel(function(event) {
-            
-            let delta;
-            
-            if(abs(event.deltaX) > abs(event.deltaY)){
-              delta = -event.deltaX;
-            } else {
-              delta = event.deltaY;
-            }
-            
-            this.scrollLeft -= (delta * 30);
-
-            event.preventDefault();
-
-          });
-          
-        } else {
-          
-          this.$().removeClass('fix-mousewheel-scroll');
-          
-        }
-        
-      });
-      
+      this.$().on('mouseenter',Ember.run.bind(this,this.setupHorizontalMouseWheel));
       
     } else {
       
@@ -73,13 +43,53 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
   }),
   
+  /**
+   * Must wait until this is visible before calling it so that we can get true width values.
+   */
+  setupHorizontalMouseWheel(){
+    
+    if( ! this.get('hasSetupHorizontalMouseWheel') ){
+      
+      this.set('hasSetupHorizontalMouseWheel',true);
+      
+      let canScroll = this.$()[0].scrollWidth > this.$().width();
+      let abs = Math.abs;
+      
+      if(canScroll){
+        
+        this.$().mousewheel((e)=>{
+          
+          let delta;
+          
+          if(abs(e.deltaX) > abs(e.deltaY)){
+            delta = -e.deltaX;
+          } else {
+            delta = e.deltaY;
+          }
+          
+          e.currentTarget.scrollLeft -= (delta * 30);
+
+          e.preventDefault();
+
+        });
+        
+      } else {
+        
+        this.$().removeClass('fix-mousewheel-scroll');
+        
+      }
+      
+    }
+    
+  },
+  
   stopPropagation(e){
     e.stopPropagation();
   },
   
   cleanup: Ember.on('willDestroyElement',function(){
     
-    this.$().off('mousewheel touchstart touchmove touchend');
+    this.$().off('mousewheel mouseenter touchstart touchmove touchend');
     
   }),
   

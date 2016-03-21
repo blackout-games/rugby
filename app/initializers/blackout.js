@@ -307,21 +307,21 @@ class Blackout {
    * for a hidden item. This function will loop until we get a height.
    * If we reach 1s before we get a height other than 0, 0 is assumed
    */
-  waitForHeightOfHidden($el,callback,start=0){
-    let height = this.getHeightOfHidden($el);
+  waitForSizeOfHidden($el,callback,start=0){
+    let size = this.getSizeOfHidden($el);
     let now = Date.now();
     if(!start){
       start = now;
     }
     let timetaken = now-start;
-    if(height || timetaken>=1000){
-      callback(height,timetaken);
+    if((size.width && size.height) || timetaken>=1000){
+      callback(size,timetaken);
     } else {
-      Ember.run.next(this,this.waitForHeightOfHidden,$el,callback,start);
+      Ember.run.next(this,this.waitForSizeOfHidden,$el,callback,start);
     }
   }
   
-  getHeightOfHidden($el){
+  getSizeOfHidden($el){
     
     // Save originals
     let previousCss  = $el.attr("style");
@@ -333,18 +333,20 @@ class Blackout {
       visibility: 'hidden',
       display:    'block',
       'max-height': 'none',
+      'max-width': 'none',
       'opacity': '1',
     });
     
     // Insert in body in case $el is in a display:none parent.
     $('body').append($el);
     
+    let width = $el.width();
     let height = $el.height();
     $el.attr("style", previousCss ? previousCss : "");
     
     $parent.insertAt(index,$el);
     
-    return height;
+    return { width:width, height:height };
     
   }
 

@@ -8,12 +8,12 @@ export default Ember.Component.extend({
       this.$().removeClass('inactive');
       if(!this.get('showing')){
         this.hide(true);
-        Ember.Blackout.waitForHeightOfHidden(this.$(),(height)=>{
-          this.set('height',height);
+        Ember.Blackout.waitForSizeOfHidden(this.$(),(size)=>{
+          this.set('height',size.height);
         });
       } else {
-        Ember.Blackout.waitForHeightOfHidden(this.$(),(height)=>{
-          this.set('height',height);
+        Ember.Blackout.waitForSizeOfHidden(this.$(),(size)=>{
+          this.set('height',size.height);
           this.show(true);
         });
       }
