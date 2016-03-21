@@ -18,17 +18,24 @@ export default Ember.Component.extend({
     this.$().findClosest('.switcher-children').children().each((i,panel)=>{
       panels.push($(panel));
     });
-    this.set('panels',panels);
+    
+    Ember.run.schedule('afterRender',this,()=>{
+      
+      if(this.attrs.receivePanels){
+        this.attrs.receivePanels(panels);
+      }
+      
+      // Show first item by default
+      if( Ember.Blackout.isEmpty(this.get('currentlyShowing')) ){
+        this.set( 'currentlyShowing', this.$().findClosest('.switcher-children').children().first()[0].id );
+      } else {
+        this.show();
+      }
+      
+    });
     
     // Force child panels to full width
     this.$().findClosest('.switcher-children').children().addClass('switcher-panel');
-    
-    // Show first item by default
-    if( Ember.Blackout.isEmpty(this.get('currentlyShowing')) ){
-      this.set( 'currentlyShowing', this.$().findClosest('.switcher-children').children().first()[0].id );
-    } else {
-      this.show();
-    }
     
     // Bind functions
     this.afterAnimationBound = Ember.run.bind(this,this.afterAnimation);
@@ -119,11 +126,9 @@ export default Ember.Component.extend({
   },
   
   didUpdateAttrs(options){
-    
+      
     if(options.newAttrs.currentlyShowing.value !== options.oldAttrs.currentlyShowing.value){
-      
       this.show();
-      
     }
     
   },

@@ -11,7 +11,7 @@ export default Ember.Component.extend({
   
   classNames: ['dash-box','dash-box-no-padding'],
   
-  setup: Ember.on('didInsertElement',function(){
+  setupTabs(){
     
     if(!this.get('noPadding')){
       
@@ -68,12 +68,16 @@ export default Ember.Component.extend({
     // May break select dropdowns. Not sure yet.
     this.$().addClass('no-overflow');
     
-  }),
+  },
   
   /**
    * For sending data down
    */
   actions: {
+    receiveTabs( tabs ){
+      this.set('dashTabs',tabs);
+      this.setupTabs();
+    },
     tabChanged( newTab ){
       this.tabChanged(newTab);
       this.set('selectedTab',newTab);

@@ -6,7 +6,7 @@
   {{yield 'header'}}
 {{/if}}
 
-{{#blackout-tabs tabPanels=(mut dashTabs) selectedTab=(readonly currentTab) onTabChange=(action 'tabChanged') hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isShowing=isShowing }}
+{{#blackout-tabs receiveTabs=(action 'receiveTabs') selectedTab=(readonly currentTab) onTabChange=(action 'tabChanged') hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isShowing=isShowing }}
   
   {{yield}}
   

@@ -37,7 +37,9 @@ export default Ember.Component.extend({
       this.get('eventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.iamcool);
       
       if(!this.get('tabRoute')){
-        this.set('tabRoute',this.get('tabGroup'));
+        Ember.run.schedule('afterRender',this,()=>{
+          this.set('tabRoute',this.get('tabGroup'));
+        });
       }
     }
     
@@ -49,8 +51,16 @@ export default Ember.Component.extend({
     }
   }),
   
-  buildTabs: Ember.on('didInsertElement',function(){
+  onAttrChange: Ember.on('didReceiveAttrs',function(options){
     
+    if(this.attrChanged(options,'selectedTab')){
+      this.send('selectTab',this.get('selectedTab'),true);
+    }
+    
+  }),
+  
+  buildTabs(){
+      
     let defaultId;
     
     $.each(this.get('tabPanels'),(i,$panel)=>{
@@ -102,17 +112,16 @@ export default Ember.Component.extend({
       
     });
     
-  }),
-  
-  detectExternalTabChange: Ember.on('didReceiveAttrs',function(options){
-    
-    if(this.attrChanged(options,'selectedTab')){
-      this.send('selectTab',this.get('selectedTab'),true);
-    }
-    
-  }),
+  },
   
   actions: {
+    receivePanels( panels ){
+      this.set('tabPanels',panels);
+      this.buildTabs();
+      if(this.attrs.receiveTabs){
+        this.attrs.receiveTabs(panels);
+      }
+    },
     selectTabFromURL( panelId ){
       if(!this.get('URLSet')){
         // Don't set wasExternal here

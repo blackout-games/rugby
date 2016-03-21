@@ -168,6 +168,9 @@ export default Ember.Component.extend({
         this.get('modal.callback')();
       }
     },
+    letUsKnow(){
+      this.send('letUsKnowActionName');
+    }
   },
   
   cancelHideTimer() {

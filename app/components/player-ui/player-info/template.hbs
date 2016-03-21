@@ -1,7 +1,7 @@
 <div class="row gap-md {{unless singleMode "player-ui-top"}}">
   <div class="col-flex">
     
-    <div class="row">
+    <div class="row row-nowrap">
     
       <div class="row col-flex">
         
@@ -41,7 +41,7 @@
         
         <div class="col-flex player-ui-infobox col-auto-width">
           <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
-          <div class="player-ui-info-label">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+          <div class="player-ui-info-label">{{t 'player.footed-(left/right)'}}</div>
         </div>
         
       </div>

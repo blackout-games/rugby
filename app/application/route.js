@@ -115,8 +115,12 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       } else {
         return true;
       }
-            
+      
     },
+    
+    letUsKnow() {
+      // To do.
+    }
 
   },
   
