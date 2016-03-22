@@ -766,12 +766,12 @@ a.menu-link,a.menu-link:hover {
     }
     &.nav-menu-team {
       i {
-        font-size: #{$base-icon-pixels*(19/20)};
+        font-size: #{$base-icon-pixels*(22/20)};
         @media #{$nav-vs} {
-          font-size: #{$base-icon-viewport*(3.3/3.5)};
+          font-size: #{$base-icon-viewport*(3.8/3.5)};
         }
         @media #{$nav-ls} {
-          font-size: #{$base-icon-viewport*(3.5/3.5)*1.44};
+          font-size: #{$base-icon-viewport*(3.8/3.5)*1.44};
         }
       }
     }
