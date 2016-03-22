@@ -17,6 +17,15 @@ export default Ember.Route.extend({
       'league-season': 'latest-3',
     };
     
+    let historyQuery = {
+      filter: {
+        'player-id': params.player_id,
+      },
+      page: {
+        size:100,
+      }
+    };
+    
     /**
      * Promise hash
      */
@@ -26,6 +35,7 @@ export default Ember.Route.extend({
       player: this.get('store').findRecord('player',params.player_id),
       squad: this.get('store').query('player',squadQuery),
       stats: this.get('store').queryRecord('player-statistics',statsQuery),
+      history: this.get('store').queryRecord('player-history',historyQuery),
       
     }).then((data)=>{
       

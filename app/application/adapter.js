@@ -78,5 +78,6 @@ var inflector = Ember.Inflector.inflector;
 inflector.irregular('country', 'countries');
 inflector.irregular('category', 'categories');
 inflector.irregular('player-statistics', 'player-statistics');
+inflector.irregular('player-history', 'player-history');
 inflector.irregular('weather', 'weather');
 inflector.irregular('info', 'info');
