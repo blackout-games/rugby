@@ -135,7 +135,18 @@ export default Ember.Mixin.create({
       
     },(response)=>{
       
-      if( response.error === 'facebookEmailNotFound' ){
+      if( response.errors.title === 'facebookEmailNotFound' ){
+        
+        this.modal.show({
+          'type': 'error',
+          'title': t('modals.facebook-login-failed.title'),
+          'message': t('modals.facebook-not-found.message'),
+          'showAction': false,
+        });
+        
+        if(button){
+          button.reset();
+        }
         
         // Redirect to signup
         // TODO: Signup user up at this point using their email
