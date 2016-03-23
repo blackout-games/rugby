@@ -1,0 +1,30 @@
+
+.flag-icon {
+  background-size: cover;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  position: relative;
+  display: inline-block;
+  width:1.333em;
+  height: 1.333em*3/4;
+  border-radius: $border-radius;
+  margin:7px;
+  &:before {
+    content: "\00a0";
+  }
+  &.flag-icon-big {
+    width:2.22em;
+    height: 2.22em*3/4;
+  }
+  &:after {
+    content:"";
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-color:rgba(white,0.25);
+    border-radius: $border-radius;
+  }
+}
+
