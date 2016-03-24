@@ -53,10 +53,15 @@ export default Ember.Service.extend({
   /**
    * Register a manager image (for *currently logged in* manager)
    */
-  registerManagerImage($el,defaultBgColor,largeVersion){
+  registerManagerImage($el,defaultBgColor,largeVersion,manager){
     
     // Get large image url
-    let url = this.get('managerImageURL');
+    let url;
+    if(manager){
+      url = manager.get('imageUrl');
+    } else {
+      url = this.get('managerImageURL');
+    }
     let isGravatar = url.indexOf('gravatar.com')>=0;
     
     if(largeVersion){
@@ -69,7 +74,13 @@ export default Ember.Service.extend({
       url += separator + 'default=' + encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
     }
     
-    $el.data('is-manager-image',true);
+    if(manager){
+      // Run through cloudfront
+      // Must do this after getLargeUrl
+      url = this.getCacheUrl(url);
+    } else {
+      $el.data('is-current-user-image',true);
+    }
     
     this.registerImage($el, url, defaultBgColor, largeVersion);
     
@@ -80,16 +91,27 @@ export default Ember.Service.extend({
   /**
    * Register a club image (for *currently logged in* manager)
    */
-  registerClubImage($el,defaultBgColor,largeVersion){
+  registerClubImage($el,defaultBgColor,largeVersion,club){
     
     // Get large image url
-    let url = this.get('clubImageURL');
+    let url;
+    if(club){
+      url = club.get('logo');
+    } else {
+      url = this.get('clubImageURL');
+    }
     if(largeVersion){
       url = this.getLargeUrl(url);
       $el.data('is-large-image',true);
     }
     
-    $el.data('is-club-image',true);
+    if(club){
+      // Run through cloudfront
+      // Must do this after getLargeUrl
+      url = this.getCacheUrl(url);
+    } else {
+      $el.data('is-current-user-club-image',true);
+    }
     
     this.registerImage($el, url, defaultBgColor, largeVersion);
     
@@ -200,7 +222,7 @@ export default Ember.Service.extend({
         
         if($el.length){
           
-          if($el.data('is-manager-image')){
+          if($el.data('is-current-user-image')){
             
             let url = this.get('managerImageURL');
             
@@ -210,7 +232,7 @@ export default Ember.Service.extend({
             
             this.updateImage($el, url, img.defaultBgColor);
             
-          } else if($el.data('is-club-image')){
+          } else if($el.data('is-current-user-club-image')){
             
             let url = this.get('clubImageURL');
             if($el.data('is-large-image')){

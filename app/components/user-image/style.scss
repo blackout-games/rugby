@@ -1,4 +1,18 @@
 .user-image {
+  width:44px;
+  height:44px;
+  &.user-image-small {
+    width:27px;
+    height:27px;
+  }
+  &.user-image-medium {
+    width:35px;
+    height:35px;
+  }
+  &.user-image-large {
+    width:88px;
+    height:88px;
+  }
 }
 
 .user-image-editable {

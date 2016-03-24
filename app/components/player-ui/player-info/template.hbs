@@ -206,3 +206,36 @@
 </div>
 
 <div class="player-ui-help-text">{{t 'player.skills-max'}}</div>
+
+
+{{#if singleMode}}
+  
+  <div class="divider gap-2-5x"></div>
+  
+  <div class="dash-box-negate-padding-half-bottom">
+    <table class="table">
+      
+      <tbody>
+        <tr>
+          <td class="player-ui-label bigger">Salary</td>
+          <td>{{money player.salary}}</td>
+        </tr>
+        <tr>
+          <td class="player-ui-label bigger">Birthday</td>
+          <td>Round {{player.birthRound}} Day {{player.birthDay}}</td>
+        </tr>
+        <tr>
+          <td class="player-ui-label bigger">Joined club</td>
+          <td>{{date-ui date=player.joined initial=(if media.isMobile 'gameDateShort' 'gameDate') alt='fullDate'}}</td>
+        </tr>
+        <tr>
+          <td class="player-ui-label bigger">Player Id</td>
+          <td>{{player.id}}</td>
+        </tr>
+      </tbody>
+      
+    </table>
+    
+  </div>
+  
+{{/if}}

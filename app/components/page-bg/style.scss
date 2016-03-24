@@ -61,9 +61,13 @@ $tint-dark-at-bottom: linear-gradient(
 
 $tint-dark-at-top: linear-gradient(
   to bottom,
-  rgba($bg-dark,0.88),
-  transparent 33%,
-  transparent 50%,
+  //rgba($bg-dark,0.88),
+  //transparent 33%,
+  //transparent 50%,
+  //rgba($bg-dark,0.77) 100%
+  rgba($bg-dark,0.92),
+  rgba($bg-dark,0.5) 33%,
+  rgba($bg-dark,0.22) 50%,
   rgba($bg-dark,0.77) 100%
 );
 

@@ -294,8 +294,9 @@
   order: 0;
 }
 
-.col-fixed-xs, .col-fixed {
+.col-fixed-xs, .col-fixed, .col-auto-xs, .col-auto {
   flex: 0 0 auto;
+  //width: optional: define on own css class
 }
 
 /**
@@ -711,7 +712,7 @@
     flex: 1 1 auto;
   }
 
-  .col-fixed-sm {
+  .col-fixed-sm, .col-auto-sm {
     flex: 0 0 auto;
   }
 
@@ -1025,7 +1026,7 @@
     order: 0;
   }
 
-  .col-fixed-md {
+  .col-fixed-md, .col-auto-md {
     flex: 0 0 auto;
   }
   
@@ -1343,7 +1344,7 @@
     order: 0;
   }
 
-  .col-fixed-lg {
+  .col-fixed-lg, .col-auto-lg {
     flex: 0 0 auto;
   }
   

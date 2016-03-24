@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   user: Ember.inject.service(),
   
   /**
-   * e.g. manager, or empty for custom
+   * e.g. manager, club, or empty for custom
    */
   type: null,
   
@@ -17,9 +17,9 @@ export default Ember.Component.extend({
   defaultColor: 'light',
   
   /**
-   * club and manager images only
+   * Size
    */
-  largeVersion: false,
+  size: 'medium',
   
   /**
    * The image URL
@@ -35,11 +35,11 @@ export default Ember.Component.extend({
     // Check for special cases
     if(this.get('type')==='manager'){
       
-      imageUrl = this.get('userImages').registerManagerImage(this.$('.user-image'),this.get('defaultColor'),this.get('largeVersion'));
+      imageUrl = this.get('userImages').registerManagerImage(this.$('.user-image'),this.get('defaultColor'),this.get('size')==='large',this.get('manager'));
       
     } else if(this.get('type')==='club'){
       
-      imageUrl = this.get('userImages').registerClubImage(this.$('.user-image'),this.get('defaultColor'),this.get('largeVersion'));
+      imageUrl = this.get('userImages').registerClubImage(this.$('.user-image'),this.get('defaultColor'),this.get('size')==='large',this.get('club'));
       
     } else {
       
@@ -59,6 +59,15 @@ export default Ember.Component.extend({
         this.$().removeClass(className);
       }
     });
+    
+    // Add size
+    if(this.get('size')==='small'){
+      this.$('.user-image').addClass('user-image-small');
+    } else if(this.get('size')==='medium'){
+      this.$('.user-image').addClass('user-image-medium');
+    } else if(this.get('size')==='large'){
+      this.$('.user-image').addClass('user-image-large');
+    }
     
   }),
   

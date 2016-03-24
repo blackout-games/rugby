@@ -107,6 +107,20 @@ a {
     }
   }
 
+  &.btn-a.on-dark, &.btn-a.on-dark:hover {
+    $color: saturate(lighten($secondary-master,40%),11%);
+    color: $color;
+    text-shadow: 0 0 11px rgba(black,0.7);
+    
+    &.hover {
+      color: #FFF;
+    }
+
+    &.press {
+      color: lighten($color,5%);
+    }
+  }
+
   &:active, &:focus {
     color: $default-link-color;
     text-decoration: none;
@@ -488,6 +502,13 @@ p {
 }
 .text-giant {
   font-size:132px !important;
+}
+
+/**
+ * General size adjustments
+ */
+.text-bigger {
+  font-size:1.1em !important;
 }
 
 /**

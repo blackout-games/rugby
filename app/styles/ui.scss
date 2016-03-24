@@ -116,6 +116,16 @@ table {
       background-color: desaturate(darken($secondary-master,13%),22%);
     }
   }
+  
+  &.extra-padding {
+    th, td {
+      padding: 8px 15px !important;
+      @media #{$mobile-wide-and-up} {
+        padding: 8px 30px !important;
+      }
+    }
+  }
+  
 }
 
 table.light {
@@ -266,4 +276,23 @@ table.light {
 // Extend bootstrap responsive images
 .img-responsive {
   width:100%;
+}
+
+/**
+ * Wrappers
+ */
+
+.dark-wrapper {
+  display: inline-block;
+  padding: 5px 15px 0;
+  background-color: rgba($bg-dark,0.77);
+  border-radius: $border-radius;
+}
+
+/**
+ * Resets
+ */
+
+.no-border-radius {
+  border-radius: 0px !important;
 }

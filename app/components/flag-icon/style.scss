@@ -5,12 +5,18 @@
   background-repeat: no-repeat;
   position: relative;
   display: inline-block;
-  width:1.333em;
-  height: 1.333em*3/4;
+  width:1.777em;
+  height: 1.777em*3/4;
   border-radius: $border-radius;
   margin:7px;
   &:before {
     content: "\00a0";
+  }
+  &.flag-icon-small {
+    width:1.333em;
+    height: 1.333em*3/4;
+  }
+  &.flag-icon-medium {
   }
   &.flag-icon-big {
     width:2.22em;

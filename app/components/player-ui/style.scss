@@ -98,6 +98,20 @@ $bg-tint: linear-gradient(
   }
 }
 
+.player-ui-title-club {
+  
+  span {
+    //font-family: $heading-font;
+    font-size:17px;
+    font-style: normal;
+    //font-weight: bold;
+    @media #{$tablet-tall-and-up} {
+      font-size:21px;
+    }
+    //text-transform: uppercase;
+  }
+}
+
 .player-ui-infobox {
   //width: 100px;
   padding: 15x;
@@ -173,6 +187,12 @@ $infobar-dark-mode: false;
   @media #{$tablet-tall-and-up} {
     font-size: 13px;
     margin-bottom: 11px;
+  }
+  &.bigger {
+    font-size: 12px;
+    @media #{$tablet-tall-and-up} {
+      font-size: 14px;
+    }
   }
 }
 

@@ -94,8 +94,8 @@ $color: desaturate(darken($secondary-master,9%),22%);
 }
 
 .club-avatar-menu {
-  width:77px;
-  height:77px;
+  width:77px !important;
+  height:77px !important;
   margin: -4px auto 0;
 }
 

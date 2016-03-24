@@ -14,7 +14,7 @@
   {{#float-window isShowing=(mut showingEditor) onClose=(action 'onCancel')}}
     
     <div class="row row-center gap-lg">
-      {{user-image type=type largeVersion=true class='avatar-editor' defaultColor='light'}}
+      {{user-image type=type size='large' class='avatar-editor' defaultColor='light'}}
     </div>
     
     {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") serverError=serverError onSave=(action "onSave") useCloseButton=true}}

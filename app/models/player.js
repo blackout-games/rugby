@@ -33,7 +33,7 @@ export default DS.Model.extend({
   defence: DS.attr(),
   club: DS.belongsTo('club'),
   nationality: DS.belongsTo('country',{ async: false}),
-  secondNationality: DS.belongsTo('country',{ async: false}),
+  dualNationality: DS.belongsTo('country',{ async: false}),
   name: Ember.computed('firstName','lastName',function(){
     return `${this.get('firstName')} ${this.get('lastName')}`;
   }),
