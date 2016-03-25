@@ -61,10 +61,11 @@ $border-left: 2px solid $bg-light-darker;
     width:15px;
     height:15px;
     background-color: $bg-dark-lighter-2x;
+    background-color: $primary-master;
     border-radius:50%;
     left:0;
     top:50%;
-    transform: translate(-59%,-48%);
+    transform: translate(-59%,-20%);
     border: 3px solid white;
   }
   
