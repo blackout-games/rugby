@@ -18,12 +18,35 @@ export default Ember.Component.extend({
   }),
 
   fullDate: Ember.computed('date','i18n.locale', function() {
-    return moment(this.get('date')).format('dddd Do MMM YYYY, h:mm a'); // Monday 14th Aug 2015, 11:33 am
-
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.format('dddd Do MMM YYYY, h:mm a'); // Monday 14th Aug 2015, 11:33 am
+  }),
+  
+  dayDate: Ember.computed('date','i18n.locale', function() {
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.format('ddd D MMM YYYY'); // Mon 14 Aug 2015
+  }),
+  
+  timeDate: Ember.computed('date','i18n.locale', function() {
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.format('LT'); // 8:30 PM
   }),
 
   relativeDate: Ember.computed('date','i18n.locale', function() {
-    return moment(this.get('date')).fromNow();
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.fromNow();
   }),
   
   gameSeason: Ember.computed('date',function(){
@@ -68,6 +91,10 @@ export default Ember.Component.extend({
   current: 'initial',
 
   toggleFullDate: Ember.on('click', function() {
+    
+    if(!this.get('alt')){
+      return;
+    }
     
     if (this.get('current') === 'initial') {
       this.$().findClosest('.initial-date').stop().fadeOut(111,()=>{

@@ -74,6 +74,41 @@ export function initialize( application ) {
     
   };
   
+  /** 
+   * Take a given time, and make the UTC time match the country time, so that we can make calculations based on UTC, but in the country's time, e.g. grouping a collection of times by day, in the country's time.
+   * Because we're using moment timezones, daylight savings is accounted for.
+   */
+  Ember.Blackout.toUTCTime = ( time, timeZone ) => {
+    
+    // Create the given time in UTC
+    let offset = moment.tz.zone(timeZone).offset(time); // Returns minutes
+    return time -= offset*60*1000; // Minutes to milliseconds
+    
+  };
+  
+  /** 
+   * Take a UTC time (usually from toUTCTime), and return it back to the country time.
+   * Because we're using moment timezones, daylight savings is accounted for.
+   */
+  Ember.Blackout.toZonedTime = ( utcTime, timeZone ) => {
+    
+    // Create the given time in this timezone
+    let offset = moment.tz.zone(timeZone).offset(utcTime); // Returns minutes
+    return utcTime += offset*60*1000; // Minutes to milliseconds
+    
+  };
+  
+  /** 
+   * Convert a given time to the local user time for this machine
+   */
+  Ember.Blackout.toLocalTime = ( givenTime ) => {
+    
+    let localDate = new Date();
+    givenTime += localDate.getTimezoneOffset()*60*1000;
+    return givenTime;
+    
+  };
+  
 }
 
 export default {

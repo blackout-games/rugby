@@ -61,6 +61,9 @@ export default Ember.Service.extend({
     let hour = localTime.getHours();
     this.set('dayOrNight',hour>=19 || hour<6 ? 'night' : 'day');
     
+    // Set time diffs list
+    this.set('timeDiffs',data.get('timeDiffs'));
+    
   },
   
 });

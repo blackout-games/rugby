@@ -1,0 +1,84 @@
+$border-left: 2px solid $bg-light-darker;
+
+.blackout-timeline {
+  padding-left:22px;
+}
+
+.blackout-timeline-bumper {
+  width:100%;
+  height:22px;
+  border-left: $border-left;
+}
+
+.blackout-timeline-day {
+  
+  border-left: $border-left;
+  padding: 11px 22px;
+  position:relative;
+  
+  > span {
+    display: inline-block;
+    padding: 4px 11px;
+    background-color: $bg-light;
+    border-radius: $border-radius;
+    font-weight: bold;
+    color: $bg-dark-lighter-4x;
+    font-size:0.95em;
+  }
+  
+  > .blackout-timeline-icon-backer {
+    position: absolute;
+    width:33px;
+    height:33px;
+    background-color: white;
+    border-radius:50%;
+    left:0;
+    top:50%;
+    transform: translate(-54%,-48%);
+  }
+  
+  > i {
+    color: $bg-dark-lighter-2x;
+    font-size: 27px;
+    position: absolute;
+    left:0;
+    top:50%;
+    transform: translate(-53%,-52%);
+  }
+  
+}
+
+.blackout-timeline-time {
+  
+  border-left: $border-left;
+  padding: 11px 22px 4px;
+  position:relative;
+  font-weight: bold;
+  font-size:0.95em;
+  
+  > .blackout-timeline-dot {
+    position: absolute;
+    width:15px;
+    height:15px;
+    background-color: $bg-dark-lighter-2x;
+    border-radius:50%;
+    left:0;
+    top:50%;
+    transform: translate(-59%,-48%);
+    border: 3px solid white;
+  }
+  
+}
+
+.blackout-timeline-event {
+  
+  border-left: $border-left;
+  padding: 3px 22px;
+  position:relative;
+  font-size:0.9em;
+  @media #{$mobile-wide-and-up} {
+    font-size:0.95em;
+  }
+  color: $text-lighter;
+  
+}
