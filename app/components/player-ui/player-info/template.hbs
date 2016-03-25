@@ -50,9 +50,7 @@
   </div>
 </div>
 
-<div class="hidden-xxs gap-2x"></div>
-
-<div class="dash-box-negate-padding player-ui-infobar hidden-xs-up gap-3x">
+<div class="dash-box-negate-padding player-ui-infobar hidden-xs-up">
   
   <div class="row">
     
@@ -79,89 +77,17 @@
   </div>
   
 </div>
-
-<div class="row gap-2x">
-  <div class="col-xxs-9 col-xs-6 pad-right vc-parent">
-    
-    <div class="col-xs-12">
       
-      <div class="row">
-        
-        <div class="col-xs-6 pad-right-xs pad-right-sm">
-          
-          {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.aggression'}}</div>
-          
-          {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.discipline'}}</div>
-          
-        </div>
-        
-        <div class="col-xs-6"> 
-          
-          {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.leadership'}}</div> 
-          
-          {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.experience'}}</div>
-          
-        </div>
-        
-      </div>
-      
-      <div class="player-ui-help-text">{{t 'player.traits-max'}}</div>
-      
-      <div class="row hidden-xs-up top-gap-2x">
-        <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
-        <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">{{t 'player.csr'}}</div>
-        <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
-      </div>
-      
-    </div>
-    
-  </div>
-  <div class="col-xxs-3 col-xs-6">
-  
-    <div class="row">
-      
-      <div class="col-xxs-12 col-xs-6 text-center">
-        
-        <div class="player-ui-energy-wrapper">
-          
-          {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
-          
-          <div class="player-ui-energy">
-            {{player.energy}}%
-          </div>
-          
-          {{component chartComponent type='Doughnut' data=energyChartData width=(if media.isMobile 77 120) height=(if media.isMobile 77 120) options=energyChartOptions class="player-ui-energy-chart"}}
-          
-          <div class="chartjs-tooltip"></div>
-          
-          <div class="player-ui-big-label text-center ellipses">
-            {{t 'player.energy'}}
-          </div>
-          
-        </div>
-        
-      </div>
-      
-      <div class="col-xs-6 hidden-xxs">
-        
-        <div class="player-ui-csr-wrapper">
-          <div class="player-ui-csr-value">{{number player.csr}}</div>
-          <div class="player-ui-csr-change">{{number player.csrChange prefix=true}}</div>
-          <div class="player-ui-big-label">{{t 'player.csr'}}</div>
-        </div>
-        
-      </div>
-      
-    </div>
-      
-      
-      
-  </div>
+<div class="row top-gap-md row-center">
+  <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">{{t 'player.csr'}}</div>
+  <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide pad-right">{{number player.csr}}</div>
+  <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
 </div>
+
+<div class="divider gap-md hidden-xs-up"></div>
+<div class="divider gap-lg hidden-xxs"></div>
+          
+{{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
 
 <div class="row">
   
@@ -205,7 +131,77 @@
   
 </div>
 
-<div class="player-ui-help-text">{{t 'player.skills-max'}}</div>
+<div class="player-ui-help-text gap-sm">{{t 'player.skills-max'}}</div>
+
+<div class="divider {{if singleMode 'gap-2x' 'gap-lg'}} hidden-xs-up"></div>
+
+<div class="row">
+  
+  <div class="{{if singleMode 'col-xxs-12 col-first-xxs'}} col-xs-4 col-last-xs">
+  
+    <div class="row">
+      
+      <div class="col-xs-12 text-center">
+        
+        <div class="player-ui-energy-wrapper">
+          
+          <div class="player-ui-energy {{unless singleMode 'squadPageMode'}}">
+            {{player.energy}}%
+          </div>
+          
+          {{component chartComponent type='Doughnut' data=energyChartData width=(if (and media.isMobile (not singleMode)) 77 122) height=(if (and media.isMobile (not singleMode)) 77 122) options=energyChartOptions class="player-ui-energy-chart"}}
+          
+          <div class="chartjs-tooltip"></div>
+          
+          <div class="player-ui-big-label text-center ellipses">
+            {{t 'player.energy'}}
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+      
+  </div>
+  
+  <div class="divider {{if singleMode 'col-xxs-12' 'hidden-xxs'}} hidden-xs-up gap-2x"></div>
+  
+  <div class="{{if singleMode 'col-xxs-12'}} col-xs-8 vc-parent">
+    
+    <div class="col-xs-12">
+      
+      <div class="row">
+        
+        <div class="col-xs-6">
+          
+          {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.aggression'}}</div>
+          
+          {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.discipline'}}</div>
+          
+        </div>
+        
+        <div class="col-xs-6"> 
+          
+          {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.leadership'}}</div> 
+          
+          {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
+          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.experience'}}</div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="player-ui-help-text">{{t 'player.traits-max'}}</div>
+      
+    </div>
+    
+  </div>
+  
+</div>
 
 
 {{#if singleMode}}
