@@ -1,20 +1,3 @@
-
-<table class="table">
-
-  <thead>
-    <tr>
-      <th>{{t 'buttons.date'}}</th>
-      <th style="width:75%;">{{t 'buttons.event'}}</th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    {{#each history as |event|}}
-      <tr>
-        <td>{{date-ui date=event.date class=""}}</td>
-        <td><div>{{{event.event}}}</div></td>
-      </tr>
-    {{/each}}
-  </tbody>
-  
-</table>
+<div class="dash-box-negate-padding-top-and-bottom">
+  {{blackout-timeline data=history country=player.club.country}}
+</div>

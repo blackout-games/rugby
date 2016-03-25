@@ -4,6 +4,13 @@ export default Ember.Route.extend({
   
   model (params){
     
+    let playerQuery = {
+      filter: {
+        'id': params.player_id,
+      },
+      include: 'nationality,dual-nationality,club.country',
+    };
+    
     let squadQuery = {
       filter: {
         'club.id': this.get('session.data.manager.currentClub'),
@@ -32,14 +39,14 @@ export default Ember.Route.extend({
     
     return Ember.RSVP.hash({
       
-      player: this.get('store').findRecord('player',params.player_id),
+      player: this.get('store').queryRecord('player',playerQuery),
       squad: this.get('store').query('player',squadQuery),
       stats: this.get('store').queryRecord('player-statistics',statsQuery),
       history: this.get('store').queryRecord('player-history',historyQuery),
       
     }).then((data)=>{
       
-      //data.stats = Ember.Object.create(data.stats).get('firstObject');
+      data.player = data.player.get('firstObject');
       data.stats = data.stats.get('firstObject');
       
       return data;
