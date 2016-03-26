@@ -13,6 +13,14 @@
     width:88px;
     height:88px;
   }
+  &.user-image-huge {
+    width:125px;
+    height:125px;
+  }
+  &.user-image-gigantic {
+    width:159px;
+    height:159px;
+  }
 }
 
 .user-image-editable {
@@ -39,12 +47,8 @@
 }
 
 .avatar-editor {
-  width:88px;
-  height:88px;
   margin-top:7px;
   @media #{$tablet-and-up} {
-    width:159px;
-    height:159px;
     margin-top:0px;
   }
 }

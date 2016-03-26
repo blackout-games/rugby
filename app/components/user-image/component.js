@@ -35,11 +35,11 @@ export default Ember.Component.extend({
     // Check for special cases
     if(this.get('type')==='manager'){
       
-      imageUrl = this.get('userImages').registerManagerImage(this.$('.user-image'),this.get('defaultColor'),this.get('size')==='large',this.get('manager'));
+      imageUrl = this.get('userImages').registerManagerImage(this.$('.user-image'),this.get('defaultColor'),this.isLargeSize(this.get('size')),this.get('manager'));
       
     } else if(this.get('type')==='club'){
       
-      imageUrl = this.get('userImages').registerClubImage(this.$('.user-image'),this.get('defaultColor'),this.get('size')==='large',this.get('club'));
+      imageUrl = this.get('userImages').registerClubImage(this.$('.user-image'),this.get('defaultColor'),this.isLargeSize(this.get('size')),this.get('club'));
       
     } else {
       
@@ -61,15 +61,17 @@ export default Ember.Component.extend({
     });
     
     // Add size
-    if(this.get('size')==='small'){
-      this.$('.user-image').addClass('user-image-small');
-    } else if(this.get('size')==='medium'){
-      this.$('.user-image').addClass('user-image-medium');
-    } else if(this.get('size')==='large'){
-      this.$('.user-image').addClass('user-image-large');
+    if(this.get('size')){
+      this.$('.user-image').addClass('user-image-'+this.get('size'));
     }
     
   }),
+  
+  isLargeSize(size){
+    return size==='large'
+      || size==='huge'
+      || size==='gigantic';
+  },
   
   managerImageType: Ember.computed('session.data.manager.imageUrl',function(){
     let managerImageType = this.get('preferences').getPref('managerImageType');
