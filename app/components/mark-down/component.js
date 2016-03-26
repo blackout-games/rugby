@@ -11,8 +11,8 @@ const { Blackout, $ } = Ember;
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
-  userImages: Ember.inject.service(),
   locale: Ember.inject.service(),
+  text: Ember.inject.service(),
   
   // Naked URL regex (Blackout Entertainment)
   // This regex will also match square brackets in the query section only
@@ -38,7 +38,9 @@ export default Ember.Component.extend({
     markdown = Ember.Blackout.encodeMarkdownCode(markdown);
     
     // Disable html, so we can add our own
-    markdown = this.disableHTML(markdown);
+    if(!this.get('allowHtml')){
+      markdown = this.disableHTML(markdown);
+    }
     
     // Update any remote version links, to testing links, if we're testing
     markdown = this.modifyLinksWhenTesting(markdown);
@@ -67,7 +69,7 @@ export default Ember.Component.extend({
     
     return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,( fullMatch, unquotedUsername, quotedUsername)=>{
       
-      return this.decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
+      return this.get('text').decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
       
     });
     
@@ -607,48 +609,6 @@ export default Ember.Component.extend({
         return 'error';
     }
   },
-    
-  decorateUsername(username) {
-    
-    let store = this.get('store');
-    let className = 'md_manager_'+username.alphaNumeric();
-    let wasPeeked = false;
-    let userImages = this.get('userImages');
-    
-    // Don't use query since it prevents ember data from grouping requests
-    //let query = {
-    //  filter: {
-    //    'username': username,
-    //  },
-    //};
-    //let html = store.queryRecord('manager',query).then(function(data){
-    
-    // Get manager
-    let html = store.findRecord('manager',username.pkString()).then((data)=>{
-      
-      if(data){
-        let html = userImages.getManagerHTML(data);
-        
-        // Update HTML
-        $('.'+className).html(html);
-        wasPeeked = true;
-        return html;
-      } else {
-        return false;
-      }
-      
-    },()=>{});
-    
-    if(wasPeeked){
-      return html;
-    } else {
-      
-      // Return base html
-      return '<span class="'+className+'">'+username+'</span>';
-      
-    }
-    
-  },
   
   /**
    * Supports BR style quotes with titles
@@ -751,7 +711,7 @@ export default Ember.Component.extend({
             // Make sure username exists
             if (usernameLength > 0) {
 
-              let username = this.decorateUsername(markdown.substr(usernameStart, usernameLength));
+              let username = this.get('text').decorateUsername(markdown.substr(usernameStart, usernameLength));
 
               let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">'+this.get('locale').htmlT('markdown.quoting')+'</span> <span class="quote-user">' + username + '</span></div>';
 

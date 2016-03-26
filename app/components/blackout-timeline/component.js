@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   
   classNames: ['blackout-timeline'],
   
+  text: Ember.inject.service(),
+  
   days: Ember.computed('data',function(){
     
     let events = [];
@@ -57,7 +59,7 @@ export default Ember.Component.extend({
       
       events[currentIndex].minutes[currentMindex].events.push({
         date: event.get('date'),
-        event: event.get('event'), 
+        event: this.get('text').parse(event.get('event')), 
       });
       
     });

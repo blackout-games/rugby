@@ -64,14 +64,22 @@ a {
     color: darken($primary-master, 11%);
   }
   
-  transition: border-color $hover-animation-time, color $hover-animation-time;
-  border-bottom: 2px solid rgba(darken($primary-master, 11%),0);
+  $initial-border: 2px solid rgba(darken($primary-master, 11%),0);
+  $hover-border: rgba(darken($primary-master, 11%), 0.7);
+  $hover-transition: border-color $hover-animation-time, color $hover-animation-time;
+  
+  transition: $hover-transition;
+  border-bottom: $initial-border;
 
   &:hover {
     color: darken($primary-master, 11%);
     //text-decoration: underline;
     text-decoration: none;
-    border-color: rgba(darken($primary-master, 11%), 0.7);
+    border-color: $hover-border;
+  }
+  
+  &.a-no-underline:hover {
+    border-color: rgba(darken($primary-master, 11%),0);
   }
 
   &.btn-a, &.btn-a:hover {
@@ -129,6 +137,9 @@ a {
     outline: none;
   }
   
+  /**
+   * Disable hover on anchor
+   */
   &.no-hover {
     border-bottom: none;
   }
@@ -137,6 +148,20 @@ a {
     border-bottom: none;
     color: $primary-master;
     text-decoration: none;
+  }
+  
+  .restore-hover {
+    border-bottom: $initial-border;
+    transition: $hover-transition;
+  }
+  
+  /**
+   * Allow restoring of hover on childre of anchor
+   */
+  &:hover .restore-hover {
+    color: darken($primary-master, 11%);
+    text-decoration: none;
+    border-color: $hover-border;
   }
   
 }
@@ -526,4 +551,7 @@ p {
  */
 .text-light {
   color:$text-lighter-4x;
+}
+.text-dark {
+  color:$primary-text-color;
 }

@@ -9,3 +9,15 @@
   margin: -4px 4px 0 0;
   
 }
+
+.club-avatar-inline {
+  
+  @include user-image( '/assets/images/user/club.png', '/assets/images/user/no-image-light.png' );
+  
+  display: inline-block;
+  width:27px;
+  height:27px;
+  vertical-align: middle;
+  margin: -4px 4px 0 0;
+  
+}

@@ -119,7 +119,41 @@ export default Ember.Service.extend({
     
   },
   
+  getSmallUrl(url){
+    
+    /**
+     * Supports gravatar and facebook URLs
+     * For giving a size to cloudfront, see getCacheUrl
+     */
+    
+    let isGravatar = url.indexOf('gravatar.com')>=0;
+    let separator = Ember.Blackout.getSeparator(url);
+    
+    if(isGravatar){
+      if(url.indexOf('size=')>=0){
+        url = url.replace(/size=[0-9]+/i,'size=70');
+      } else {
+        url += separator + 'size=70';
+      }
+    } else {
+      let isFacebook = url.indexOf('facebook.com')>=0;
+      if(isFacebook){
+        //url = url.replace('type=normal','type=large');
+      } else {
+        url = url.replace(/size=[0-9]+/i,'size=70');
+      }
+    }
+    
+    return url;
+    
+  },
+  
   getLargeUrl(url){
+    
+    /**
+     * Supports gravatar and facebook URLs
+     * For giving a size to cloudfront, see getCacheUrl
+     */
     
     let isGravatar = url.indexOf('gravatar.com')>=0;
     let separator = Ember.Blackout.getSeparator(url);
@@ -300,9 +334,9 @@ export default Ember.Service.extend({
     }
   }),
   
-  getCacheUrl(url){
+  getCacheUrl(url,size=100){
     if(url){
-      return 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(url) + '&size=100';
+      return 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(url) + '&size=' + size;
     } else {
       return url;
     }
@@ -322,7 +356,7 @@ export default Ember.Service.extend({
     let url = 'https://www.blackoutrugby.com/game/me.lobby.php?id='+managerId;
     
     // Create HTML
-    let html = '<span class="nowrap"><div class="manager-avatar-inline '+imageClassName+'"></div><a href="'+url+'">' + username + '</a></span>';
+    let html = '<a href="'+url+'" class="no-hover"><span class="nowrap"><div class="manager-avatar-inline no-hover '+imageClassName+'"></div><span class="restore-hover">' + username + '</span></span></a>';
     
     // Get image URL
     let imageUrl = manager.get('imageUrl');
@@ -334,6 +368,73 @@ export default Ember.Service.extend({
       def = 'retro';
       imageUrl += separator + 'default=' + def;
     }
+    
+    // Run the image through cloudfront
+    imageUrl = this.getCacheUrl(imageUrl,70);
+    
+    // Load image, check if available, etc.
+    Ember.run.next(()=>{
+      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+    });
+    
+    return html;
+    
+  },
+  
+  /**
+   * Generates club html for decorate team name locations
+   * @param  {object} club Club object
+   * @return {string}         Html
+   */
+  getClubHTML( club ){
+    
+    // Vars
+    let name = club.get('name');
+    let imageClassName = 'md_club_img_'+name.alphaNumeric();
+    let clubId = club.get('clubId') || club.get('id');
+    let url = 'https://www.blackoutrugby.com/game/club.lobby.php?id='+clubId;
+    
+    // Create HTML
+    let html = '<a href="'+url+'" class="no-hover"><span class="nowrap"><div class="club-avatar-inline no-hover '+imageClassName+'"></div><span class="restore-hover">' + name + '</span></span></a>';
+    
+    // Get image URL
+    let imageUrl = club.get('logo');
+    
+    // Run the image through cloudfront
+    imageUrl = this.getCacheUrl(imageUrl,70);
+    
+    // Load image, check if available, etc.
+    Ember.run.next(()=>{
+      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+    });
+    
+    return html;
+    
+  },
+  
+  /**
+   * Generates national club html for decorate team name locations
+   * @param  {object} club Club object
+   * @return {string}         Html
+   */
+  getNationalClubHTML( club, type='nat' ){
+    
+    // Vars
+    let name = club.get('name');
+    let imageClassName = 'md_'+type+'club_img_'+name.alphaNumeric();
+    //let clubId = club.get('clubId') || club.get('id');
+    let clubCountry = club.get('country.id');
+    let clubType = type==='nat' ? '1' : '2';
+    let url = 'https://www.blackoutrugby.com/game/global.national.php?iso='+clubCountry+'&type='+clubType;
+    
+    // Create HTML
+    let html = '<a href="'+url+'" class="no-hover"><span class="nowrap"><div class="club-avatar-inline no-hover '+imageClassName+'"></div><span class="restore-hover">' + name + '</span></span></a>';
+    
+    // Get image URL
+    let imageUrl = club.get('logo');
+    
+    // Run the image through cloudfront
+    imageUrl = this.getCacheUrl(imageUrl,70);
     
     // Load image, check if available, etc.
     Ember.run.next(()=>{
