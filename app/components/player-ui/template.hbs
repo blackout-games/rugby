@@ -36,19 +36,19 @@
     
     <div id="player-infoPanel" data-tab-t="player.player" data-tab-icon-class="icon-user icon-lg">
     
-      {{component 'player-ui/player-info' player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-infoPanel'}}
+      {{player-ui/player-info player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-infoPanel'}}
       
     </div>
 
     <div id="player-statisticsPanel" data-tab-t="buttons.statistics" data-tab-icon-class="icon-chart-bar icon-lg" data-tab-no-padding="true">
       
-      {{component 'player-ui/player-stats' selectedTab=selectedTab waitForTab='player-statisticsPanel' stats=stats player=player}}
+      {{player-ui/player-stats selectedTab=selectedTab waitForTab='player-statisticsPanel' stats=stats player=player}}
       
     </div>
 
     <div id="player-historyPanel" data-tab-t="buttons.history" data-tab-icon-class="icon-history icon-lg">
       
-      {{component 'player-ui/player-history' history=history player=player}}
+      {{player-ui/player-history history=history player=player}}
       
     </div>
     
@@ -60,7 +60,7 @@
     
     <div class="player-ui-title-panel"><h2 class="player-ui-title">{{player.name}}</h2></div><div class="player-avatar player-avatar-ui"></div>
 
-    {{component 'player-ui/player-info' player=player singleMode=singleMode}}
+    {{player-ui/player-info player=player singleMode=singleMode}}
     
   </div>
   
