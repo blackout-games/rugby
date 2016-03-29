@@ -11,6 +11,12 @@ export default Ember.Component.extend({
   afterSwitchCallback: null,
   allowHeightAnimation: false,
   
+  /**
+   * Set this to false to disable all sliding
+   * @type {Boolean}
+   */
+  allowAnimation: true,
+  
   setup: Ember.on('didInsertElement', function(){
     
     // Get all tab panels and save for use outside of the switcher (e.g. blackout-tabs)
@@ -61,6 +67,11 @@ export default Ember.Component.extend({
     if(direction!=='immediate' && direction!=='left' && direction!=='right'){
       direction = 'immediate';
     }
+    let allowAnimation = this.get('allowAnimation');
+    if(!allowAnimation){
+      direction = 'immediate';
+      this.set('direction','immediate');
+    }
     
     if( typeof(currentlyShowing) === 'string' ){
       newObj = $('#'+currentlyShowing);
@@ -101,7 +112,6 @@ export default Ember.Component.extend({
       }
       this.disableAnimation();
       this.putLeft( newObj );
-      
       
     } else if( direction === 'left' ){
       
