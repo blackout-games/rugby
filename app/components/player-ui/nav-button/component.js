@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  classNames: ['player-nav'],
+  classNames: ['player-nav','btn-events'],
   attributeBindings: ['aria-label'],
   
   'aria-label': Ember.computed('class',function(){

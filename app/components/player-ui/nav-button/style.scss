@@ -1,15 +1,27 @@
 $innerMode: true;
+$outerMode: false;
+// Default edgeMode
 $innerGap:22px;
-$innerGap:-11px;
+$innerGap:-7px;
 
 .player-nav {
   position:absolute;
-  top:19px;
+  
+  top:15px;
+  @media #{$tablet-and-up} {
+    top:19px;
+  }
+  
   &.left {
     @if $innerMode {
       right:calc(50% + 40px + #{$innerGap});
       @media #{$tablet-and-up} {
         right:calc(50% + 50px + #{$innerGap});
+      }
+    } @elseif $outerMode {
+      left:calc(25% - 25px);
+      @media #{$tablet-and-up} {
+        left:calc(25% - 30px);
       }
     } @else {
       left:0;
@@ -21,6 +33,11 @@ $innerGap:-11px;
       @media #{$tablet-and-up} {
         left:calc(50% + 50px + #{$innerGap});
       }
+    } @elseif $outerMode {
+      left:calc(75% - 25px);
+      @media #{$tablet-and-up} {
+        left:calc(75% - 30px);
+      }
     } @else {
       right:0;
     }
@@ -29,8 +46,8 @@ $innerGap:-11px;
 }
 
 .player-nav-avatar {
-  width:40px;
-  height:40px;
+  width:50px;
+  height:50px;
   @media #{$tablet-and-up} {
     width:59px;
     height:59px;
@@ -47,7 +64,7 @@ $innerGap:-11px;
   }
 }
 
-.player-nav:hover {
+.player-nav.hover {
   .player-nav-avatar {
     &:after {
       background: none;
@@ -67,17 +84,19 @@ $innerGap:-11px;
   margin-top: 2px;
   text-align: center;
   color: $bg-light-darker-2x;
-  width: 40px;
+  
+  font-size: 11px;
+  width: 50px;
   @media #{$tablet-and-up} {
+  font-size: 12px;
     width:59px;
   }
-  font-size: 12px;
 }
 
 $hoverColor: $primary-master;
 $hoverColor:white;
 
-.player-nav:hover {
+.player-nav.hover {
   .player-nav-text {
     color: $hoverColor;
   }

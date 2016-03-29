@@ -1659,12 +1659,12 @@ function _refreshWatchers() {
   //log('refreshing watchers');
   
   // Hover
-  Ember.$('body').find('.btn,.btn-a').off('mouseenter touchstart', _hover);
-  Ember.$('body').find('.btn,.btn-a').on('mouseenter touchstart', _hover);
+  Ember.$('body').find('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
+  Ember.$('body').find('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
 
   // Leave
-  Ember.$('body').find('.btn,.btn-a').off('mouseleave touchend', _leave);
-  Ember.$('body').find('.btn,.btn-a').on('mouseleave touchend', _leave);
+  Ember.$('body').find('.btn,.btn-a,.btn-events').off('mouseleave touchend', _leave);
+  Ember.$('body').find('.btn,.btn-a,.btn-events').on('mouseleave touchend', _leave);
   
   // Click
   Ember.$('body').find('.btn').off('click', _click);
