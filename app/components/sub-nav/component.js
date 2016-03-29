@@ -29,6 +29,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this.get('eventBus').subscribe('createSubNav',this,this.createSubNav);
     this.get('eventBus').subscribe('destroySubNav',this,this.destroySubNav);
+    this.get('eventBus').subscribe('selectSubNavLink',this,this.selectMenuLinkExternal);
     
     this.blockerTouchBound = Ember.run.bind(this,this.blockerTouch);
     this.handleScrollBound = Ember.run.bind(this,this.handleScroll);
@@ -333,6 +334,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     Ember.run.debounce(this,self.selectMenuLink,self,Ember.$(e.target),e,1);
     
+  },
+  
+  selectMenuLinkExternal(id){
+    let $link = this.$('#'+id);
+    if($link.length){
+      this.selectMenuLink(this,$link);
+    }
   },
   
   selectMenuLink ( self, $link, e ) {

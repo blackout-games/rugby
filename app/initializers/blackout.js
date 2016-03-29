@@ -1072,6 +1072,16 @@ class Blackout {
   /**
    * Get key from local cache
    */
+  keyExists(key){
+    if(!this.cache){
+      this.cache = {};
+    }
+    return key in this.cache;
+  }
+  
+  /**
+   * Get key from local cache
+   */
   getKey(key){
     if(!this.cache){
       this.cache = {};

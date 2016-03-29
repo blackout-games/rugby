@@ -42,8 +42,10 @@ export default Ember.Component.extend({
   
   seasonStats: Ember.computed( 'currentSeason', 'stats', function(){
     let stats = this.seasonStatsProxy();
-    if(stats.then){
+    if(stats && stats.then){
       return this.get('previousSeasonStats');
+    } else if(!stats){
+      return Ember.Object.create();
     }
     this.set('previousSeasonStats',stats);
     return stats;
@@ -57,9 +59,8 @@ export default Ember.Component.extend({
     
     // Caching
     let key = 'platerStats_' + playerid + '_' + season.value;
-    let cached = Blackout.getKey(key);
-    if(cached){
-      return cached;
+    if(Blackout.keyExists(key)){
+      return Blackout.getKey(key);
     }
     
     if(season.value === 0){
@@ -85,6 +86,9 @@ export default Ember.Component.extend({
           Blackout.stopLoading();
           
           seasonStats = data.get('firstObject.leagueStatistics.season-'+season.value);
+          if(!seasonStats){
+            seasonStats = Ember.Object.create();
+          }
           Blackout.setKey(key,Blackout.camelKeys(seasonStats));
           
           this.set('stats',data.get('firstObject'));

@@ -296,3 +296,11 @@ table.light {
 .no-border-radius {
   border-radius: 0px !important;
 }
+
+/**
+ * Helpers
+ */
+
+.has-position {
+  position: relative;
+}

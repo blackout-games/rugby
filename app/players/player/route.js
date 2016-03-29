@@ -51,6 +51,8 @@ export default Ember.Route.extend({
       
       return data;
       
+    },(err)=>{
+      print(err);
     });
     
   },

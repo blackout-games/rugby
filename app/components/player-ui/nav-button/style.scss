@@ -1,0 +1,90 @@
+$innerMode: true;
+$innerGap:22px;
+$innerGap:-11px;
+
+.player-nav {
+  position:absolute;
+  top:19px;
+  &.left {
+    @if $innerMode {
+      right:calc(50% + 40px + #{$innerGap});
+      @media #{$tablet-and-up} {
+        right:calc(50% + 50px + #{$innerGap});
+      }
+    } @else {
+      left:0;
+    }
+  }
+  &.right {
+    @if $innerMode {
+      left:calc(50% + 40px + #{$innerGap});
+      @media #{$tablet-and-up} {
+        left:calc(50% + 50px + #{$innerGap});
+      }
+    } @else {
+      right:0;
+    }
+  }
+  cursor: pointer;
+}
+
+.player-nav-avatar {
+  width:40px;
+  height:40px;
+  @media #{$tablet-and-up} {
+    width:59px;
+    height:59px;
+  }
+  &:after {
+    width:100%;
+    height:100%;
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    border-radius: 50%;
+    background: rgba($bg-dark,0.5);
+  }
+}
+
+.player-nav:hover {
+  .player-nav-avatar {
+    &:after {
+      background: none;
+    }
+  }
+}
+
+.player-nav:active {
+  .player-nav-avatar {
+    &:after {
+      background: rgba($bg-dark,0.11);
+    }
+  }
+}
+
+.player-nav-text {
+  margin-top: 2px;
+  text-align: center;
+  color: $bg-light-darker-2x;
+  width: 40px;
+  @media #{$tablet-and-up} {
+    width:59px;
+  }
+  font-size: 12px;
+}
+
+$hoverColor: $primary-master;
+$hoverColor:white;
+
+.player-nav:hover {
+  .player-nav-text {
+    color: $hoverColor;
+  }
+}
+
+.player-nav:active {
+  .player-nav-text {
+    color: pressColor($hoverColor);
+  }
+}

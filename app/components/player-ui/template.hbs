@@ -1,7 +1,10 @@
 
 {{#if singleMode}}
   
-  <div class="{{if flatTitleMode 'center-parent-md top-gap-md'}}">
+  <div class="{{if flatTitleMode 'center-parent-md top-gap-md'}} has-position">
+  
+    {{player-ui/nav-button class="left" squad=squad currentPlayer=player}}
+    {{player-ui/nav-button class="right" squad=squad currentPlayer=player}}
     
     <div class="row row-flex">
       <div class="col-xs-12 {{if flatTitleMode 'col-flex-md pad-right-md'}}  center-parent">

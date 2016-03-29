@@ -41,7 +41,7 @@ export function initialize( application ) {
     if (currentPath === route) {
       appRoute.refresh();
     } else {
-      appRoute.transitionTo(route);
+      appRoute.transitionTo(...arguments);
     }
     
   };
