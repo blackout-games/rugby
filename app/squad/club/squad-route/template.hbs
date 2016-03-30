@@ -1,4 +1,6 @@
-{{page-header title=(t 'squad.title') class="gap-4x"}}
+<div class="text-center">
+  {{club-ui club=model.firstObject.club imageSize=(if media.isMobile 'medium-2x' 'medium-3x') stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(concat model.firstObject.club.name " Squad")}}
+</div>
 
 {{#lazy-list  itemClass="gap-7x no-gap-on-last" list=model as |player|}}
   {{player-ui player=player}}

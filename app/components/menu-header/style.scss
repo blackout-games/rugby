@@ -94,9 +94,9 @@ $color: desaturate(darken($secondary-master,9%),22%);
 }
 
 .club-avatar-menu {
+  display: inline-block;
   width:77px !important;
   height:77px !important;
-  margin: -4px auto 0;
 }
 
 .menu-club-text {
@@ -104,6 +104,8 @@ $color: desaturate(darken($secondary-master,9%),22%);
   font-size: 1.4em;
   color: $color;
   cursor: default;
+  display: inline-block;
+  margin-top:-4px;
 }
 
 .menu-header-login {

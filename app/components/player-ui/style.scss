@@ -1,7 +1,23 @@
+
 .player-ui-top {
   margin-top: 33px !important;
   @media #{$tablet-tall-and-up} {
     margin-top: 44px !important;
+  }
+}
+
+.player-ui-title-club {
+  
+  span {
+    font-family: $sports-font;
+    font-size:18px;
+    font-style: normal;
+    font-weight: 900;
+    @media #{$tablet-tall-and-up} {
+      font-size:29px;
+    }
+    color: white;
+    text-transform: uppercase;
   }
 }
   
@@ -98,17 +114,14 @@ $bg-tint: linear-gradient(
   }
 }
 
-.player-ui-title-club {
+.player-ui-club {
   
   span {
-    //font-family: $heading-font;
-    font-size:17px;
+    font-size:15px;
     font-style: normal;
-    //font-weight: bold;
     @media #{$tablet-tall-and-up} {
-      font-size:21px;
+      font-size:17px;
     }
-    //text-transform: uppercase;
   }
 }
 

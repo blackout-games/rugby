@@ -12,6 +12,10 @@
     {{#sub-nav-content}}
       
       <div class="sub-nav-inner-padding">
+      
+        <div class="text-center">
+          {{!club-ui club=model.firstObject.club imageSize='medium-lg' stacked=true class="gap-md squad-nav-club" text=(concat model.firstObject.club.name " Squad")}}
+        </div>
         
         {{#each model as |player index|}}
           

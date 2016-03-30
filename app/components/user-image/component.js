@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   /**
    * Size
    */
-  size: 'medium',
+  size: 'medium', // small | medium | large | huge | gigantic
   
   /**
    * The image URL
