@@ -10,7 +10,7 @@
   
   span {
     font-family: $sports-font;
-    font-size:18px;
+    font-size:22px;
     font-style: normal;
     font-weight: 900;
     @media #{$tablet-tall-and-up} {
@@ -89,6 +89,19 @@ $bg-tint: linear-gradient(
     padding: 5px 22px;
   }
   background: $primary-master;
+}
+
+.player-ui-title-link {
+  &.hover {
+    .player-ui-title-panel {
+      background: hoverColor($primary-master);
+    }
+  }
+  &.press, &:active {
+    .player-ui-title-panel {
+      background: pressColor($primary-master);
+    }
+  }
 }
 
 .player-ui-title {

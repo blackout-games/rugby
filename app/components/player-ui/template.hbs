@@ -59,7 +59,12 @@
 
   <div class="dash-box no-gap show-overflow">
     
-    <div class="player-ui-title-panel"><h2 class="player-ui-title">{{player.name}}</h2></div><div class="player-avatar player-avatar-ui"></div>
+    {{#link-to 'players.player' player.id class="player-ui-title-link btn-events"}}
+      <div class="player-ui-title-panel">
+        <h2 class="player-ui-title">{{player.name}}</h2>
+      </div>
+      <div class="player-avatar player-avatar-ui"></div>
+    {{/link-to}}
 
     {{player-ui/player-info player=player singleMode=singleMode}}
     
