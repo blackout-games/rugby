@@ -1,9 +1,9 @@
 {{#if to}}
   
-  <a {{action "goBackTo" to}} class="btn-a"><i class="icon-ios-back"></i>{{t 'buttons.back'}}</a>
+  <a {{action "goBackTo" to toId}} class="btn-a on-dark"><i class="icon-left-big"></i></a>
   
 {{else}}
   
-  <a {{action "goBack"}} class="btn-a"><i class="icon-ios-back"></i>{{t 'buttons.back'}}</a>
+  <a {{action "goBack"}} class="btn-a on-dark"><i class="icon-left-big"></i></a>
   
 {{/if}}

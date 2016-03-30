@@ -116,7 +116,7 @@ a {
   }
 
   &.btn-a.on-dark, &.btn-a.on-dark:hover {
-    $color: saturate(lighten($secondary-master,40%),11%);
+    $color: desaturate(lighten($secondary-master,40%),11%);
     color: $color;
     text-shadow: 0 0 11px rgba(black,0.7);
     
@@ -196,22 +196,22 @@ a {
   color: $primary-text-on-dark;
 
   a {
-    color: white;
+    color: $primary-on-dark;
     border-bottom: none;
 
     &:hover, &:active {
-      color: $primary-on-dark;
+      color: white;
       border-bottom: none;
     }
   }
   
-  &.colored-links, .colored-links {
+  &.white, .white {
     a {
-      color: $primary-on-dark;
+      color: white;
       border-bottom: none;
 
       &:hover, &:active {
-        color: white;
+        color: $primary-on-dark;
         border-bottom: none;
       }
     }
