@@ -1062,6 +1062,14 @@ class Blackout {
   }
   
   /**
+   * Env
+   */
+  
+  getFileHost(){
+    return config.assetFilesHost;
+  }
+  
+  /**
    * ---------------------------- Util
    */
   
