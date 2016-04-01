@@ -157,6 +157,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let content = $innerContent.html();
     $innerContent.html('');
     
+    // See if custom button icon is set
+    if(opts.buttonIcon){
+      this.set('buttonIcon',opts.buttonIcon);
+    }
+    
     // Fade in the button (will still be hidden if not mobile)
     this.$('#sub-nav-button').fadeIn();
     
@@ -288,6 +293,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // Clear any element level styles
     this.resetStyle($panel);
     
+    // Clear custom button icon
+    this.set('buttonIcon',null);
+    
     $panel.css({
       position: 'fixed',
       top: 0,
@@ -389,7 +397,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
     if(!this.get('isOpen')){
       this.$('#sub-nav-panel,#sub-nav-touch-blocker').addClass('open');
       this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
-      this.$('i').removeClass('icon-sub-menu icon-md').addClass('icon-cancel icon-smd');
+      let customIcon = this.get('buttonIcon');
+      this.$('i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
       this.set('isOpen',true);
       return true;
     }
@@ -405,7 +414,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
         }
       });
       this.$('#sub-nav-touch-blocker').off('mousedown touchstart', this.blockerTouchBound);
-      this.$('i').removeClass('icon-cancel icon-smd').addClass('icon-sub-menu icon-md');
+      let customIcon = this.get('buttonIcon');
+      this.$('i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
       this.set('isOpen',false);
       return true;
     } else {
