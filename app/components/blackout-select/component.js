@@ -385,7 +385,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       }
       
       // Give room for status bar on standalone
-      if(window.navigator.standalone){
+      if(window.browsers.standalone){
         distTop = distTop - 22;
       }
       

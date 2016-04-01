@@ -81,8 +81,15 @@ export function initialize( application ) {
   Ember.Blackout.toUTCTime = ( time, timeZone ) => {
     
     // Create the given time in UTC
-    let offset = moment.tz.zone(timeZone).offset(time); // Returns minutes
-    return time -= offset*60*1000; // Minutes to milliseconds
+    let m = moment.tz.zone(timeZone);
+    
+    // Protect against bugs when in i18n testing mode
+    if(m){
+      let offset = moment.tz.zone(timeZone).offset(time); // Returns minutes
+      return time -= offset*60*1000; // Minutes to milliseconds
+    } else {
+      return time;
+    }
     
   };
   
@@ -93,8 +100,15 @@ export function initialize( application ) {
   Ember.Blackout.toZonedTime = ( utcTime, timeZone ) => {
     
     // Create the given time in this timezone
-    let offset = moment.tz.zone(timeZone).offset(utcTime); // Returns minutes
-    return utcTime += offset*60*1000; // Minutes to milliseconds
+    let m = moment.tz.zone(timeZone);
+    
+    // Protect against bugs when in i18n testing mode
+    if(m){
+      let offset = moment.tz.zone(timeZone).offset(utcTime); // Returns minutes
+      return utcTime += offset*60*1000; // Minutes to milliseconds
+    } else {
+      return utcTime;
+    }
     
   };
   

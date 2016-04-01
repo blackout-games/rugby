@@ -213,19 +213,19 @@
       
       <tbody>
         <tr>
-          <td class="player-ui-label bigger">Salary</td>
+          <td class="player-ui-label bigger">{{t 'player.salary'}}</td>
           <td>{{money player.salary}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">Birthday</td>
-          <td>Round {{player.birthRound}} Day {{player.birthDay}}</td>
+          <td class="player-ui-label bigger">{{t 'player.birthday'}}</td>
+          <td>{{t 'player.birth-round-and-day' round=player.birthRound day=player.birthDay}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">Joined club</td>
+          <td class="player-ui-label bigger">{{t 'player.joined-club'}}</td>
           <td>{{date-ui date=player.joined initial=(if media.isMobile 'gameDateShort' 'gameDate') alt='fullDate'}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">Player Id</td>
+          <td class="player-ui-label bigger">{{t 'player.player-id'}}</td>
           <td>{{player.id}}</td>
         </tr>
       </tbody>

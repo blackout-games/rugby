@@ -53,6 +53,16 @@
       
     </div>
     
+    {{#if playerIsOwned}}
+
+    <div id="player-managePanel" data-tab-t="buttons.manage" data-tab-icon-class="icon-wrench icon-lg tab-icon-straight tab-icon-flip">
+      
+      {{player-ui/player-manage player=player}}
+      
+    </div>
+    
+    {{/if}}
+    
   {{/dash-tabs}}
 
 {{else}}

@@ -83,8 +83,8 @@ export default Ember.Component.extend({
 
   setTitle: Ember.on('didInsertElement', function() {
 
-    this.$().findClosest('.initial-date').attr('title', this.get(this.get('initial')));
-    this.$().findClosest('.alt-date').attr('title', this.get(this.get('alt'))).hide();
+    this.$().findClosest('.initial-date').attr('title', this.get(this.get('alt')));
+    this.$().findClosest('.alt-date').attr('title', this.get(this.get('initial'))).hide();
 
   }),
   

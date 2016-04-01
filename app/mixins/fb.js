@@ -51,7 +51,7 @@ export default Ember.Mixin.create({
       
       let locale = this.get('locale').getLocale();
       
-      if(window.navigator.standalone||window.browsers.chromeiOS){
+      if(window.browsers.standalone||window.browsers.chromeiOS){
         
         // Save a local indicator so that when we come back, we can automatically log the user in.
         this.set('locals.standaloneFacebookDialogue',Date.now());

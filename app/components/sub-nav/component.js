@@ -339,11 +339,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
   selectMenuLinkExternal(id){
     let $link = this.$('#'+id);
     if($link.length){
-      this.selectMenuLink(this,$link);
+      this.selectMenuLink(this,$link,null,true);
     }
   },
   
-  selectMenuLink ( self, $link, e ) {
+  selectMenuLink ( self, $link, e, wasExternal ) {
     
     Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
     
@@ -361,12 +361,14 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     if($link && $link.length){
       
-      if(self && self.get('opts.keepSubRoutes') && e){
+      if(self && self.get('opts.keepSubRoutes') && (e || wasExternal)){
         
         let route = Ember.Blackout.getCurrentRoute();
         let linkId = $link.attr('id').replace('sub-menu-link-','');
         Ember.Blackout.transitionTo(route,linkId);
-        e.preventDefault();
+        if(e){
+          e.preventDefault();
+        }
         
       }
       

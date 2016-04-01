@@ -7,7 +7,7 @@ $innerGap:-7px;
 .player-nav {
   position:absolute;
   
-  top:15px;
+  top:14px;
   @media #{$tablet-and-up} {
     top:19px;
   }
@@ -49,8 +49,8 @@ $innerGap:-7px;
   width:50px;
   height:50px;
   @media #{$tablet-and-up} {
-    width:59px;
-    height:59px;
+    width:60px;
+    height:60px;
   }
   &:after {
     width:100%;

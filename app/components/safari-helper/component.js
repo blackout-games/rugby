@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   
   setup:Ember.on('didInsertElement', function(){
     
-    if( this.get('testing') || (window.browsers.safariOS && !window.navigator.standalone && this.media.isMobile) /*&& this.get('session.isAuthenticated')*/ ){
+    if( this.get('testing') || (window.browsers.safariOS && !window.browsers.standalone && this.media.isMobile) /*&& this.get('session.isAuthenticated')*/ ){
       
       this.checkHeight();
       

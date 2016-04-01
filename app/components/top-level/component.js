@@ -14,10 +14,10 @@ export default Ember.Component.extend({
       } else {
         
         if(this.get('imageUrl')){
-          this.get('eventBus').publish('setNewBackground',this.get('imageUrl'));
+          this.get('eventBus').publish('setNewBackground',this.get('imageUrl'),this.get('mobileHigher'));
         }
         if(this.get('images')){
-          this.get('eventBus').publish('setNewBackgrounds',this.get('images'));
+          this.get('eventBus').publish('setNewBackgrounds',this.get('images'),this.get('mobileHigher'));
         }
         
       }

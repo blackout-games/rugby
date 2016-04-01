@@ -306,9 +306,15 @@ class Blackout {
    * Sometimes ember takes a while to start returning a height
    * for a hidden item. This function will loop until we get a height.
    * If we reach 1s before we get a height other than 0, 0 is assumed
+   * 
+   * NOTE that this can cause DOM flickering due to manipulation of the DOM
    */
-  waitForSizeOfHidden($el,callback,start=0){
-    let size = this.getSizeOfHidden($el);
+  waitForSizeOfHidden($el,$elToMove,callback,start=0){
+    if(typeof $elToMove === 'function'){
+      callback = $elToMove;
+      $elToMove = null;
+    }
+    let size = this.getSizeOfHidden($el,$elToMove);
     let now = Date.now();
     if(!start){
       start = now;
@@ -317,36 +323,50 @@ class Blackout {
     if((size.width && size.height) || timetaken>=1000){
       callback(size,timetaken);
     } else {
-      Ember.run.next(this,this.waitForSizeOfHidden,$el,callback,start);
+      Ember.run.next(this,this.waitForSizeOfHidden,$el,$elToMove,callback,start);
     }
   }
   
-  getSizeOfHidden($el){
+  getSizeOfHidden($el,$elToMove=null){
     
     // Save originals
     let previousCss  = $el.attr("style");
-    let index = $el.index();
-    let $parent = $el.parent();
+    if(!$elToMove){
+      $elToMove = $el;
+    }
+    let index = $elToMove.index();
+    let $parent = $elToMove.parent();
+    let moved = false;
 
     $el.css({
       position:   'absolute',
       visibility: 'hidden',
-      display:    'block',
+      display:    'inline-block',
       'max-height': 'none',
       'max-width': 'none',
-      'opacity': '1',
+      opacity: '1',
+      width: 'auto',
+      height: 'auto',
     });
     
     // Insert in body in case $el is in a display:none parent.
-    $('body').append($el);
+    if(!$elToMove.is(":visible") || !$el.is(":visible")){
+      $elToMove.closest(":visible").append($elToMove);
+      moved = true;
+    }
     
     let width = $el.width();
     let height = $el.height();
-    $el.attr("style", previousCss ? previousCss : "");
+    let scrollHeight = $el[0].scrollHeight;
+    let scrollWidth = $el[0].scrollWidth;
+    let outerWidth = $el.outerWidth();
+    let outerHeight = $el.outerHeight();    $el.attr("style", previousCss ? previousCss : "");
     
-    $parent.insertAt(index,$el);
+    if(moved){
+      $parent.insertAt(index,$elToMove);
+    }
     
-    return { width:width, height:height };
+    return { width:width, height:height, scrollWidth:scrollWidth, scrollHeight:scrollHeight, outerWidth:outerWidth, outerHeight:outerHeight };
     
   }
 
@@ -1179,17 +1199,19 @@ window.browsers = {};
 window.browsers.chromeiOS = /crios/i.test(navigator.userAgent);
 window.browsers.safariOS = /(iPod|iPhone|iPad)/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !window.browsers.chromeiOS;
 window.browsers.webkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
+window.browsers.standalone = window.navigator.standalone;
+//window.browsers.standalone = false;
 
 /**
  * Jeremy's minimal os and browser detections
  * Add as needed
  */
 window.features = {};
-//window.navigator.standalone = true;
+//window.browsers.standalone = true;
 window.features.canParallax = !window.os.iOS&&!window.os.android;
 
 
-//window.features.lockBody = window.browsers.safariOS && window.navigator.standalone;
+//window.features.lockBody = window.browsers.safariOS && window.browsers.standalone;
 // Performance is too slow in Chrome, Safari when page resizes on vertical scroll.
 // So we just lock auto scrolling on ios and android.
 window.features.lockBody = window.os.iOS || window.os.android;

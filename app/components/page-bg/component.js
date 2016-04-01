@@ -30,14 +30,16 @@ export default Ember.Component.extend({
     
   }),
   
-  newBackground( url ){
+  newBackground( url, mobileHigher ){
     this.set('imageURL',url);
     this.updateImageClass();
+    this.updateHeight(mobileHigher);
   },
   
-  newBackgrounds( group ){
+  newBackgrounds( group, mobileHigher ){
     this.set('imagesGroup',group);
     this.updateImageClass();
+    this.updateHeight(mobileHigher);
   },
   
   removeBackground(){
@@ -107,6 +109,16 @@ export default Ember.Component.extend({
       Ember.run.scheduleOnce('afterRender', this, ()=>{
         this.set('imageClass','');
       });
+    }
+    
+  },
+  
+  updateHeight(mobileHigher){
+    
+    if(mobileHigher){
+      Ember.$('.page-bg-height').addClass('higher');
+    } else {
+      Ember.$('.page-bg-height').removeClass('higher');
     }
     
   },

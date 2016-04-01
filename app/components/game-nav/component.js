@@ -120,7 +120,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       $('body').addClass('touch');
     }
     
-    if(window.navigator.standalone){
+    if(window.browsers.standalone){
       $('body').addClass('standalone');
     }
     
@@ -145,7 +145,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     if (window.features.lockBody) {
       $('html,body,#nav-body').addClass('fixed');
       
-      if(window.browsers.safariOS && !window.navigator.standalone && this.media.isMobile){
+      if(window.browsers.safariOS && !window.browsers.standalone && this.media.isMobile){
         $('#tabbar-balloon').addClass('safari-ios');
       }
 
@@ -183,7 +183,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     $('#nav-touch-blocker').on('touchstart touchmove', this.touchBlocker).on('click');
 
     // Top bar for standalone app
-    if (this.get('allowTopbar') && window.navigator.standalone) {
+    if (this.get('allowTopbar') && window.browsers.standalone) {
       
       // Show topbar
       $('.nav-topbar').removeClass('hidden');
@@ -343,7 +343,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     if (window.touchEndForTopBar) {
       $('#nav-body,#nav-topbar').off('touchend', this.touchEndForTopBar);
     }
-    if (window.navigator.standalone && this.updateTopBarBound) {
+    if (window.browsers.standalone && this.updateTopBarBound) {
       $('#nav-body').off('scroll', this.updateTopBarBound);
     }
 
@@ -407,7 +407,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   updateUIOnLandscapeTablet: Ember.observer('media.isDesktop', function() {
     
     // Different sidebar spacing for standalone
-    if( this.get('media.isDesktop') && window.navigator.standalone ){
+    if( this.get('media.isDesktop') && window.browsers.standalone ){
       $('#nav-sidebar').addClass('col-override-8');
       $('#nav-tabbar').addClass('col-override-4');
     } else {

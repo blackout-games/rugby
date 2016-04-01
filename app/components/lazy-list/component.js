@@ -38,7 +38,7 @@ export default Ember.Component.extend({
     this.set('itemId','list-item-' + token);
     this.showNextItemBound = Ember.run.bind(this,this.showNextItem);
     
-    if( window.browsers.chromeiOS || window.navigator.standalone ){
+    if( window.browsers.chromeiOS || window.browsers.standalone ){
       this.set('strategy','showOnScroll');
     }
     

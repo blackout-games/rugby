@@ -1,10 +1,23 @@
-{{#if hasSucceeded}}
-  <i class="icon-ok icon-lg icon-vcenter white"></i>
-{{else if isAnimating}}
-  {{loading-spinner spinner="bars" color=spinnerColor}}
-{{else}}
-  <span class="content">
-    {{yield}}
-  </span>
+{{#if confirmMode}}
+
+<div class="confirm-button-confirmation">
+  {{t 'buttons.are-you-sure'}}
+</div>
+  
 {{/if}}
 
+<div class="{{if confirmMode "confirm-button-original"}}">
+
+  {{#if hasSucceeded}}
+    <div class="{{if confirmMode "center-child" "text-center"}}">
+      <i class="icon-ok icon-lg icon-vcenter white"></i>
+    </div>
+  {{else if isAnimating}}
+    {{loading-spinner spinner="bars" color=spinnerColor}}
+  {{else}}
+    <span class="content">
+      {{yield}}
+    </span>
+  {{/if}}
+
+</div>

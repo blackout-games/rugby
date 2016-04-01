@@ -161,3 +161,7 @@ $finish: 100%;
 .spinner.placeholder > div {
   background-color: $placeholder-color;
 }
+
+.btn-red .spinner.primary > div {
+  background-color:saturate(lighten(#EA4B45,11%),22%);
+}

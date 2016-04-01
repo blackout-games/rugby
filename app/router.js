@@ -51,6 +51,7 @@ Router.map(function() {
         this.route('caps');
       });
       this.route('history');
+      this.route('manage');
     });
   });
   this.route('account');

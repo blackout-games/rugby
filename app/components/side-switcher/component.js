@@ -148,8 +148,16 @@ export default Ember.Component.extend({
     pane.addClass('switcher-ready-disable');
   },
   
-  putAway( obj ){
-    obj.appendTo(this.$().findClosest('.switcher-children'));
+  /**
+   * DOM movements are slow. So we don't call this after animation anymore.
+   * We hideAway instead
+   */
+  putAway( $obj ){
+    $obj.appendTo(this.$().findClosest('.switcher-children'));
+  },
+  
+  hideAway( $obj ){
+    $obj.hide();
   },
   
   putRight( obj ){ this.putInPane( obj, 'right' ); },
@@ -179,11 +187,14 @@ export default Ember.Component.extend({
     
     // Must run next to get correct height
     // Set height before switching for smoothest effect
+    
     Ember.run.next(()=>{
       pane.css({
         height: $(newObj)[0].scrollHeight + 'px',
       });
     });
+    
+    //$(newObj).show();
   
     if( !dontReset ){
       
@@ -221,6 +232,7 @@ export default Ember.Component.extend({
     
     if(this.get('currentOldObj')){
       this.putAway( this.get('currentOldObj') );
+      //this.hideAway( this.get('currentOldObj') );
       this.set('currentOldObj',null);
       this.set('currentDirection',null);
     }

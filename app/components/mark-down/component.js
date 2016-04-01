@@ -424,7 +424,7 @@ export default Ember.Component.extend({
       var isYoutube = url.search(/youtu\.?be/)>=0;
       if(isYoutube){
         videoId = this.getYoutubeId(url);
-        if( window.navigator.standalone ){
+        if( window.browsers.standalone ){
           url = 'https://www.youtube-nocookie.com/embed/'+videoId;
         } else {
           url = 'https://www.youtube.com/embed/'+videoId;

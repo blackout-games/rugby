@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   myContext: { name: "loadingButtonState" },
   spinnerColor: "primary",
   classNames: ['loader-button','btn'],
+  classNameBindings: ['confirmMode:confirm-button'],
   
   isAnimating: false,
   whoAmI: 'loaderButton', // To verify this is a loader button component.
@@ -17,12 +18,26 @@ export default Ember.Component.extend({
     this.set('action',null);
   }),
   
+  externalLoading: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'loading')){
+      if(this.get('loading')){
+        this.animate();
+      }
+    }
+  }),
+  
   click() {
     
-    // NOTE, The first button in the form receives a click event when enter is pressed.
-    
-    // Animate and disable
-    this.animate();
+    if(this.get('confirmMode')){
+      
+    } else {
+      
+      // NOTE, The first button in the form receives a click event when enter is pressed.
+      
+      // Animate and disable
+      this.animate();
+      
+    }
     
     // Send action
     this.sendAction('clickAction',this);
@@ -34,13 +49,17 @@ export default Ember.Component.extend({
   
   animate() {
     
-    // Save widths
-    this.set('outerWidth',this.$().outerWidth());
-    this.set('originalWidth',this.$().css('width'));
-    
-    // Remove padding
-    this.$().addClass('loading');
-    this.$().css('width',this.get('outerWidth'));
+    if(!this.get('confirmMode')){
+      
+      // Save widths
+      this.set('outerWidth',this.$().outerWidth());
+      this.set('originalWidth',this.$().css('width'));
+      
+      // Remove padding
+      this.$().addClass('loading');
+      this.$().css('width',this.get('outerWidth'));
+      
+    }
     
     // Show button spinner
     this.$().find('.content').hide();
@@ -68,7 +87,10 @@ export default Ember.Component.extend({
     this.$().attr('disabled',false);
     this.$().removeClass('loading');
     this.$().find('.content').show();
-    this.$().css('width',this.get('originalWidth'));
+    
+    if(!this.get('confirmMode')){
+      this.$().css('width',this.get('originalWidth'));
+    }
     
     if(allowFocus){
       Ember.run.debounce(Ember.FormContext,()=>{
@@ -78,6 +100,8 @@ export default Ember.Component.extend({
     
     this.set('isAnimating',false);
     this.set('hasSucceeded',false);
+    this.set('loading',false);
+    
   },
   
   succeeded(ignoreNextReset=false){

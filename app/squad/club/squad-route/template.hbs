@@ -1,7 +1,11 @@
 <div class="text-center">
-  {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(concat model.firstObject.club.name " Squad")}}
+  {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
 </div>
 
+{{!#each model as |player|}}
 {{#lazy-list  itemClass="gap-7x no-gap-on-last" list=model as |player|}}
-  {{player-ui player=player}}
+  <!--div class="gap-7x no-gap-on-last"-->
+    {{player-ui player=player}}
+  <!--/div-->
 {{/lazy-list}}
+{{!/each}}

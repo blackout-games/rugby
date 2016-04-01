@@ -120,6 +120,16 @@ $scrollbar-height:17px;
     position: absolute;
     width:100%;
     display: inline-block;
+    
+    .tab-icon-straight {
+      transform: skewX($angle);
+    }
+    .tab-icon-flip {
+      transform: scaleX(-1);
+    }
+    .tab-icon-straight.tab-icon-flip {
+      transform: skewX($angle) scaleX(-1);
+    }
   }
   &:first-of-type {
     .tab-icon { // Icon

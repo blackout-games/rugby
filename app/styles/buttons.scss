@@ -9,6 +9,8 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
  * :hover must include non-hover properties for touch devices where hover state 'sticks'
  */
 
+$border: none;
+
 .btn,
 .btn:hover {
   color: #FFF;
@@ -18,7 +20,6 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
   box-sizing: border-box;
   border-radius: $button-border-radius;
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
-  $border: none;
   border: $border;
   font-size: 17px;
   height:36px;
@@ -26,13 +27,17 @@ $button-disabled-color: rgba(desaturate(darken($button-color,4%),11%),1);
   //text-transform: uppercase;
   //
   padding: 0 11px 2px;
-  
-  @include unselectable;
 
   @media #{$mobile} {
     font-size: 15px;
   }
+}
+
+// Must not apply some styles to :hover
+// Otherwise it breaks for example, transitions on any buttons while hovering
+.btn {
   
+  @include unselectable;
   @include focus-button;
 
   &.hover {
@@ -328,4 +333,31 @@ form .btn-fb {
     background-color: pressColor($alt-button-color);
     border-color: pressColor($alt-button-color);
   }
+}
+
+.btn-red, .btn-red:hover {
+  $red-color: #EA4B45;
+  $red-disabled-color: rgba(desaturate(darken($red-color,4%),11%),1);
+  background-color: $red-color;
+
+  &.hover {
+    background-color: hoverColor($red-color);
+    border-color: hoverColor($red-color);
+  }
+
+  &.press {
+    background-color: pressColor($red-color);
+    border-color: pressColor($red-color);
+  }
+
+  &:active {
+    background-color: pressColor($red-color);
+    border-color: pressColor($red-color);
+  }
+  
+  &:disabled{
+    background-color: $red-disabled-color;
+    border-color: $red-disabled-color;
+  }
+  
 }
