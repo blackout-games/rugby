@@ -2,6 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
+  detectPlayerChange: Ember.on('didUpdateAttrs',function(opts){
+    
+    if(this.attrChanged(opts,'player')){
+      let was = this.get('isShowing');
+      this.set('isShowing',false);
+      Ember.run.next(()=>{
+        this.set('isShowing',was);
+      });
+    }
+    
+  }),
+  
   actions: {
     firePlayer(button){
       

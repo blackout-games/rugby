@@ -1,15 +1,28 @@
 $transition-time: 0.444s ease(out-expo);
+$transition-time-reverse: 0.444s ease(in-quad);
 
 .confirm-button-wrapper {
   display: inline-block;
   position:relative;
   transition: width $transition-time;
+  
+  .donut-timer {
+    position: absolute;
+    top: 7px;
+    left:0;
+    transform: translateX(0);
+    opacity: 0;
+    transition: transform $transition-time, opacity $transition-time;
+  }
 }
 
 .confirm-button {
   overflow:hidden;
   position:relative;
   transition: width $transition-time, background-color $transition-time;
+  &.reverse {
+    transition: width $transition-time, background-color $transition-time-reverse;
+  }
 }
 
 .confirm-button-original {
@@ -18,7 +31,7 @@ $transition-time: 0.444s ease(out-expo);
   left:0;
   width:100%;
   height:100%;
-  transform: translate3d(0,0,0);
+  transform: translateX(0);
   backface-visibility: visible;
   transition: transform $transition-time;
   text-align: center;
@@ -27,7 +40,7 @@ $transition-time: 0.444s ease(out-expo);
 .confirm-button-confirmation {
   position: absolute;
   top:0;
-  transform: translate3d(0,0,0);
+  transform: translateX(0);
   width:auto;
   height:100%;
   transition: transform $transition-time, color $transition-time;
@@ -41,14 +54,14 @@ $transition-time: 0.444s ease(out-expo);
   position: absolute;
   left:0;
   top:0;
-  transform: translate3d(0,0,0);
+  transform: translateX(0);
   opacity:0;
 }
 
 .confirm-button-yes {
-  transition: transform $transition-time, opacity 0.8s ease(out-expo);
+  transition: transform $transition-time, opacity $transition-time;
 }
 
 .confirm-button-no {
-  transition: transform $transition-time, opacity 0.8s ease(out-expo);
+  transition: transform $transition-time, opacity $transition-time;
 }

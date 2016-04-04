@@ -3,8 +3,16 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   classNames: ['confirm-button-wrapper'],
+  timerIsGoing: false,
+  rightGap: 20,
   
-  rightGap: 5,
+  onHide: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'isShowing')){
+      if(!this.get('isShowing')){
+        this.closeButton();
+      }
+    }
+  }),
   
   setupClasses: Ember.on('init',function(){
     
@@ -40,7 +48,6 @@ export default Ember.Component.extend({
       
       let width = leftPadding*2 + size.width;
       this.set('originalWidth',width);
-      
       $button.css({
         width: width + 'px',
         height: buttonHeight
@@ -73,46 +80,59 @@ export default Ember.Component.extend({
   
   actions: {
     onClick(button){
-      
-      let $confirm = this.$('.confirm-button-confirmation');
-      let $original = this.$('.confirm-button-original');
-      let $button = this.$('.confirm-button');
-      let width = this.get('confirmWidth');
-      let rightGap = this.get('rightGap');
-      let primaryTextColor = Ember.Blackout.getCSSColor('primary-text-color');
-      
-      
-      $button.css('width',width+'px');
-      
-      // Move text
-      $confirm.css({
-        transform: 'translate3d(0px,0,0)',
-        color: primaryTextColor,
-      });
-      $original.css('transform',`translate3d(-${width}px,0,0)`);
-      
-      let $yes = this.$('.confirm-button-yes');
-      let $no = this.$('.confirm-button-no');
-      let gap = 7;
-      let yesLeft = width + gap*3;
-      let noLeft = yesLeft + $yes.outerWidth() + gap;
-      
-      $yes.css({
-        transform: `translate3d(${yesLeft}px,0,0)`,
-        opacity: 1,
-      });
-      $no.css({
-        transform: `translate3d(${noLeft}px,0,0)`,
-        opacity: 1,
-      });
-      
-      let wrapperWidth = noLeft + rightGap + $no.outerWidth();
-      this.$().css('width',wrapperWidth);
-      
-      button.disable();
-      $button.css('background-color','transparent');
-      
-      this.set('button',button);
+    
+      if(!this.get('timerIsGoing')){
+        
+        let $confirm = this.$('.confirm-button-confirmation');
+        let $original = this.$('.confirm-button-original');
+        let $button = this.$('.confirm-button');
+        let $timer = this.$('.donut-timer');
+        let width = this.get('confirmWidth');
+        let rightGap = this.get('rightGap');
+        let primaryTextColor = Ember.Blackout.getCSSColor('primary-text-color');
+        let timerWidth = parseInt(Ember.Blackout.getCSSValue('width','donut-timer-go'));
+        
+        $button.css('width',width+'px');
+        
+        // Move text
+        $confirm.css({
+          transform: 'translateX(0px)',
+          color: primaryTextColor,
+        });
+        $original.css('transform',`translateX(-${width}px)`);
+        
+        let $yes = this.$('.confirm-button-yes');
+        let $no = this.$('.confirm-button-no');
+        let gap = 7;
+        let yesLeft = width + rightGap;
+        let noLeft = yesLeft + $yes.outerWidth() + gap;
+        let timerLeft = noLeft + $no.outerWidth() + rightGap;
+        
+        $yes.css({
+          transform: `translateX(${yesLeft}px)`,
+          opacity: 1,
+        });
+        $no.css({
+          transform: `translateX(${noLeft}px)`,
+          opacity: 1,
+        });
+        $timer.css({
+          transform: `translateX(${timerLeft}px)`,
+          opacity: 1,
+        });
+        
+        let wrapperWidth = timerLeft + timerWidth + rightGap;
+        this.$().css('width',wrapperWidth);
+        
+        button.disable();
+        $button.removeClass('reverse');
+        $button.css('background-color','transparent');
+        
+        this.set('timerIsGoing',true);
+        
+        this.set('button',button);
+        
+      }
     },
     onYes(){
       this.closeButton();
@@ -126,42 +146,57 @@ export default Ember.Component.extend({
     onNo(){
       this.closeButton();
     },
+    onTimerComplete(){
+      this.closeButton();
+    },
   },
   
   closeButton(){
     
-    let $confirm = this.$('.confirm-button-confirmation');
-    let $original = this.$('.confirm-button-original');
-    let $button = this.$('.confirm-button');
-    let width = this.get('originalWidth');
-    let rightGap = this.get('rightGap');
-    $button.css('width',width+'px');
-    
-    // Move text
-    $original.css('transform','translate3d(0px,0,0)');
-    $confirm.css({
-      transform: `translate3d(${width}px,0,0)`,
-      color: 'white',
-    });
-    
-    let $yes = this.$('.confirm-button-yes');
-    let $no = this.$('.confirm-button-no');
-    
-    $yes.css({
-      transform: `translate3d(0,0,0)`,
-      opacity: 0,
-    });
-    $no.css({
-      transform: `translate3d(0,0,0)`,
-      opacity: 0,
-    });
-    
-    this.$().css('width',width + rightGap);
-    
-    let button = this.get('button');
-    button.enable();
-    let normalColor = Ember.Blackout.getCSSColor('btn-red');
-    $button.css('background-color',normalColor);
+    if(this.get('timerIsGoing')){
+      
+      let $confirm = this.$('.confirm-button-confirmation');
+      let $original = this.$('.confirm-button-original');
+      let $button = this.$('.confirm-button');
+      let $timer = this.$('.donut-timer');
+      let width = this.get('originalWidth');
+      let rightGap = this.get('rightGap');
+      $button.css('width',width+'px');
+      
+      // Move text
+      $original.css('transform','translateX(0px)');
+      $confirm.css({
+        transform: `translateX(${width}px)`,
+        color: 'white',
+      });
+      
+      let $yes = this.$('.confirm-button-yes');
+      let $no = this.$('.confirm-button-no');
+      
+      $yes.css({
+        transform: `translateX(0)`,
+        opacity: 0,
+      });
+      $no.css({
+        transform: `translateX(0)`,
+        opacity: 0,
+      });
+      $timer.css({
+        transform: `translateX(0)`,
+        opacity: 0,
+      });
+      
+      this.$().css('width',width + rightGap);
+      
+      let button = this.get('button');
+      button.enable();
+      $button.addClass('reverse');
+      let normalColor = Ember.Blackout.getCSSColor('btn-red');
+      $button.css('background-color',normalColor);
+      
+      this.set('timerIsGoing',false);
+      
+    }
     
   },
   

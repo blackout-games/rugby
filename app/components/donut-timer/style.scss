@@ -1,0 +1,89 @@
+.donut-timer {
+  position: relative;
+  background: white;
+  display: inline-block;
+}
+
+@mixin timer($item, $duration, $size, $bg, $border, $reverse: false, $hover: running) {
+  #{$item}, #{$item} * { box-sizing: border-box; }
+
+  #{$item} { 
+    width: $size;
+    height: $size;
+  }
+
+  #{$item} .donut-timer-pie {
+    width: 50%;
+    height: 100%;
+    transform-origin: 100% 50%;
+    position: absolute;
+    background: $bg;
+    border: $border;
+  }
+
+  #{$item} .donut-timer-spinner {
+    @if $reverse {
+      border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+      transform-origin: 0% 50%;
+      left: 50%;
+    } @else {
+      border-radius: 100% 0 0 100% / 50% 0 0 50%;
+    }
+    z-index: 200;
+    border-right: none;
+  
+    animation: rota $duration + s linear;
+  }
+
+  #{$item}:hover .donut-timer-spinner,
+  #{$item}:hover .donut-timer-filler, 
+  #{$item}:hover .donut-timer-mask {
+    animation-play-state: $hover;    
+  }
+
+  #{$item} .donut-timer-filler {
+    opacity: 0;
+    z-index: 100;
+    @if $reverse {
+      animation: opa $duration + s steps(1,end);
+      border-radius: 100% 0 0 100% / 50% 0 0 50%;
+    } @else {
+    //animation: opa $duration + s steps(1,end) infinite reverse;
+      animation: opa $duration + s steps(1,end) reverse;
+      left: 50%;
+      border-radius: 0 100% 100% 0 / 0 50% 50% 0;
+    }
+    border-left: none;
+  }
+
+  #{$item} .donut-timer-mask {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    background: inherit;
+    opacity: 1;
+    z-index: 300;
+    @if $reverse {
+      animation: opa $duration + s steps(1,end) reverse;
+      left: 50%;
+    } @else {
+    //animation: opa $duration + s steps(1,end) infinite;
+      animation: opa $duration + s steps(1,end);
+    }
+  }
+    
+  @keyframes rota {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes opa {
+    0% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  
+}
+
+@include timer('.donut-timer-go', 5, 33px, $bg-light-darker, none, false);
+@include timer('.donut-timer-go-reverse', 5, 33px, $bg-light-darker, none, true);
+

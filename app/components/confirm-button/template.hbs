@@ -2,3 +2,5 @@
 <button {{action 'onNo'}} class="btn btn-big btn-red confirm-button-no confirm-button-action">{{t 'buttons.no'}}</button>
 
 {{#loader-button class=buttonClass clickAction=(action 'onClick') confirmMode=true loading=loading}}{{yield}}{{/loader-button}}
+
+{{donut-timer isTiming=timerIsGoing duration=10 onComplete=(action 'onTimerComplete')}}
