@@ -12,14 +12,19 @@ export function number(val, params/*, hash*/) {
     val = val>=0 ? '+' + val : val;
   }
   
-  if( params.round ){
-    val = Math.round(val * Math.pow(10,params.round)) / Math.pow(10,params.round);
-  }
   
   if( params.percent ){
-    val = (val*100) + '%';
+    if( params.round ){
+      val = Number(val*100).toFixed(params.round) + '%';
+    } else {
+      val = (val*100) + '%';
+    }
   } else {
-    val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if( params.round ){
+      val = Number(val).toFixed(params.round);
+    } else {
+      val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
   }
   
   return val;

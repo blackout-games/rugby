@@ -20,7 +20,7 @@
         <td>{{stat.label}}</td>
         <td>{{get stats stat.key}}</td>
         <td>
-          {{number (math (get stats stat.key) '/' matchesPlayed) round=2 percent=percent}}
+          {{number (math (get stats stat.key) '/' matchesPlayed) round=(if percent 1 2) percent=percent}}
         </td>
       </tr>
       
