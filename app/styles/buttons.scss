@@ -55,6 +55,7 @@ $border: none;
     box-shadow: $button-inset-shadow;
     &:disabled {
       transform: none;
+      box-shadow: none;
     }
     &.btn-on-dark {
       box-shadow: $button-inset-shadow-on-dark;
@@ -72,6 +73,7 @@ $border: none;
     box-shadow: $button-inset-shadow;
     &:disabled {
       transform: none;
+      box-shadow: none;
     }
   }
   

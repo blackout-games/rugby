@@ -9,7 +9,7 @@ $transition-time: 0.444s ease(out-expo);
 .confirm-button {
   overflow:hidden;
   position:relative;
-  transition: width $transition-time;
+  transition: width $transition-time, background-color $transition-time;
 }
 
 .confirm-button-original {
@@ -30,9 +30,11 @@ $transition-time: 0.444s ease(out-expo);
   transform: translate3d(0,0,0);
   width:auto;
   height:100%;
-  transition: transform $transition-time;
+  transition: transform $transition-time, color $transition-time;
   text-align: center;
   backface-visibility: visible;
+  color: $primary-text-color;
+  color: white;
 }
 
 .confirm-button-action {

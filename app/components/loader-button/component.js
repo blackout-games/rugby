@@ -130,4 +130,12 @@ export default Ember.Component.extend({
     },1777);
   },
   
+  disable(){
+    this.$().prop('disabled',true);
+  },
+  
+  enable(){
+    this.$().prop('disabled',false);
+  },
+  
 });

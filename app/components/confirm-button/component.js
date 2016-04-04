@@ -53,9 +53,10 @@ export default Ember.Component.extend({
     
     Ember.Blackout.waitForSizeOfHidden($confirm,$button,(size)=>{
       
-      let width = leftPadding*2 + size.width;
+      let width = size.width;
+      let widthWithPadding = width + leftPadding*2;
       this.set('confirmWidth',width);
-      $confirm.css('transform',`translate3d(${width}px,0,0)`);
+      $confirm.css('transform',`translate3d(${widthWithPadding}px,0,0)`);
       
     });
     
@@ -65,7 +66,7 @@ export default Ember.Component.extend({
     let paddingTop = $button.css('padding-top');
     
     $button.css('padding',0);
-    $confirm.css('padding',`${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`).addClass('center-parent');
+    $confirm.css('padding',`${paddingTop} 0 ${paddingBottom}`).addClass('center-parent');
     $original.css('padding',`${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`).addClass('center-parent');
     
   }),
@@ -78,18 +79,23 @@ export default Ember.Component.extend({
       let $button = this.$('.confirm-button');
       let width = this.get('confirmWidth');
       let rightGap = this.get('rightGap');
+      let primaryTextColor = Ember.Blackout.getCSSColor('primary-text-color');
+      
       
       $button.css('width',width+'px');
       
       // Move text
-      $confirm.css('transform','translate3d(0px,0,0)');
+      $confirm.css({
+        transform: 'translate3d(0px,0,0)',
+        color: primaryTextColor,
+      });
       $original.css('transform',`translate3d(-${width}px,0,0)`);
       
       let $yes = this.$('.confirm-button-yes');
       let $no = this.$('.confirm-button-no');
-      let gap = 5;
-      let yesLeft = width + gap;
-      let noLeft = width + gap + $yes.outerWidth() + gap;
+      let gap = 7;
+      let yesLeft = width + gap*3;
+      let noLeft = yesLeft + $yes.outerWidth() + gap;
       
       $yes.css({
         transform: `translate3d(${yesLeft}px,0,0)`,
@@ -102,6 +108,9 @@ export default Ember.Component.extend({
       
       let wrapperWidth = noLeft + rightGap + $no.outerWidth();
       this.$().css('width',wrapperWidth);
+      
+      button.disable();
+      $button.css('background-color','transparent');
       
       this.set('button',button);
     },
@@ -130,7 +139,10 @@ export default Ember.Component.extend({
     
     // Move text
     $original.css('transform','translate3d(0px,0,0)');
-    $confirm.css('transform',`translate3d(${width}px,0,0)`);
+    $confirm.css({
+      transform: `translate3d(${width}px,0,0)`,
+      color: 'white',
+    });
     
     let $yes = this.$('.confirm-button-yes');
     let $no = this.$('.confirm-button-no');
@@ -145,6 +157,11 @@ export default Ember.Component.extend({
     });
     
     this.$().css('width',width + rightGap);
+    
+    let button = this.get('button');
+    button.enable();
+    let normalColor = Ember.Blackout.getCSSColor('btn-red');
+    $button.css('background-color',normalColor);
     
   },
   
