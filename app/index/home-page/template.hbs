@@ -347,7 +347,7 @@
 
         <div class="stat row">
           <div class="stat-value">
-            {{money stats.moneyTransferredLastWeek roundMillions=true}}
+            {{money-ui value=stats.moneyTransferredLastWeek roundMillions=true}}
           </div>
           <div class="stat-label">
             {{t 'home-page.stats.rugby.sales-week'}}
@@ -356,7 +356,7 @@
 
         <div class="stat row">
           <div class="stat-value">
-            {{money stats.moneyTransferredYesterday roundMillions=true}}
+            {{money-ui value=stats.moneyTransferredYesterday roundMillions=true}}
           </div>
           <div class="stat-label">
             {{t 'home-page.stats.rugby.sales-day'}}

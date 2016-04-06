@@ -11,7 +11,7 @@
         </div>
         
         <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{money player.wage}}</div>
+          <div class="player-ui-info-value">{{money-ui value=player.wage}}</div>
           <div class="player-ui-info-label">{{t 'player.per-week-(wages)'}}</div>
         </div>
         
@@ -214,7 +214,7 @@
       <tbody>
         <tr>
           <td class="player-ui-label bigger">{{t 'player.salary'}}</td>
-          <td>{{money player.salary}}</td>
+          <td>{{money-ui value=player.salary}}</td>
         </tr>
         <tr>
           <td class="player-ui-label bigger">{{t 'player.birthday'}}</td>
