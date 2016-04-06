@@ -7,6 +7,12 @@ $animateCSSTime: 0.777s;
 .animated-fast {
   animation-duration: 0.222s;
 }
+.animated-fastish {
+  animation-duration: 0.333s;
+}
+.animated-out-expo {
+  animation-timing-function: ease(out-expo);
+}
 
 /**
  * For JS to read
@@ -36,5 +42,41 @@ $animateCSSTime: 0.777s;
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, $distance*2, 0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -$distance, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -$distance*2, 0);
   }
 }
