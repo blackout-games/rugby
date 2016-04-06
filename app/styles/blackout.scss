@@ -234,6 +234,18 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   
 }
 
+/**
+ * Align at the top
+ */
+.vt-parent {
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
+  display: flex;
+  //flex: 0 1 auto;
+  flex-flow: row wrap; // Must wrap for player action buttons on mobile
+  align-items: flex-start;
+}
+
+
 .backboard-logo {
   width: 50vw;
   margin-top: 11vw;

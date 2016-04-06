@@ -77,6 +77,13 @@ module.exports = function(defaults) {
   app.import('vendor/fontello/font/blackout.woff2', {
     destDir: 'font'
   });
+  
+  /**
+   * Air datepicker
+   */
+  app.import('bower_components/air-datepicker/dist/js/datepicker.js');
+  app.import('bower_components/air-datepicker/dist/css/datepicker.css');
+  app.import('bower_components/air-datepicker/dist/js/i18n/datepicker.en.js');
 
 
   return app.toTree();

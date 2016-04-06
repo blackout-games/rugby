@@ -176,14 +176,14 @@ export default Ember.Service.extend({
         // Update browser locals
         this.get('locals').write('locale',locale);
         
-        // Update local variable
-        this.set('currentLocale',locale);
-        this.set('currentLocaleName',this.get(`supportedLocales.${locale}.label`));
-        
-        // Update moment
+        // Update moment (BEFORE changing currentLocale, so that things that react on change of that variable will have the latest moment)
         let momentLocale = locale==='es-ar' ? 'es' : locale;
         //this.get('moment').changeLocale(momentLocale); // moment
         moment.locale(momentLocale); // moment
+        
+        // Update local variable
+        this.set('currentLocale',locale);
+        this.set('currentLocaleName',this.get(`supportedLocales.${locale}.label`));
         
         // Update libraries (Do this after other self sustained libs so they can rely on it's locale property for computed properties)
         this.set('i18n.locale', locale); // ember-i18n
