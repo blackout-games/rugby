@@ -147,14 +147,14 @@ form .btn {
   font-size: 17px;
   text-shadow: 0 1px 1px rgba(black,0.111);
   height:48px;
-  
-  @media #{$mobile-tall} {
-    padding: 0 4vw 2px;
-  }
 
   @media #{$mobile} {
     font-size: 15px;
-    height:44px;
+    height:40px;
+  }
+  
+  @media #{$mobile-tall} {
+    padding: 0 4vw 2px;
   }
   &.hover,&.press {
     //font-size: 19px;

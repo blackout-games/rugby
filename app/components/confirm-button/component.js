@@ -4,7 +4,30 @@ export default Ember.Component.extend({
   
   classNames: ['confirm-button-wrapper'],
   timerIsGoing: false,
-  rightGap: 20,
+  
+  /**
+   * Gap between confirm and buttons, buttons and timer, timer and end of wrapper
+   * @type {Number}
+   */
+  rightGap: Ember.computed('media.isMobile',function(){
+    return this.get('media.isMobile') ? 11 : 15;
+  }),
+  
+  /**
+   * Gap between yes and no buttons
+   * @type {Number}
+   */
+  buttonsGap: Ember.computed('media.isMobile',function(){
+    return this.get('media.isMobile') ? 5 : 7;
+  }),
+  
+  /**
+   * The diamemter of the donut timer
+   * @type {Number}
+   */
+  timerSize: Ember.computed('media.isMobile',function(){
+    return this.get('media.isMobile') ? 30 : 35;
+  }),
   
   onHide: Ember.on('didUpdateAttrs',function(opts){
     if(this.attrChanged(opts,'isShowing')){
@@ -37,12 +60,48 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
+    this.renderButton();
+    
+  }),
+  
+  updateButton: Ember.observer('i18n.locale',function(){
+    
+    Ember.run.next(()=>{
+      this.closeButton();
+      this.renderButton();
+    });
+    
+  }),
+  
+  renderButton(){
+    
     let $confirm = this.$('.confirm-button-confirmation');
     let $original = this.$('.confirm-button-original');
     let $button = this.$('.confirm-button');
-    let leftPadding = parseInt($button.css('padding-left'));
+    let $yes = this.$('.confirm-button-yes');
+    let $no = this.$('.confirm-button-no');
     let buttonHeight = parseInt($button.outerHeight());
     let rightGap = this.get('rightGap');
+    let buttonsGap = this.get('buttonsGap');
+    let timerSize = this.get('timerSize');
+    let itemsWidth = 0;
+    let itemsSized = 0;
+    let itemsNeedingSizing = 3;
+    let leftPadding;
+    
+    if(this.get('leftPadding')){
+      leftPadding = this.get('leftPadding');
+    } else {
+      leftPadding = parseInt($button.css('padding-left'));
+      this.set('leftPadding',leftPadding);
+    }
+    
+    let setWrapperWidth = () => {
+      
+      let wrapperWidth = itemsWidth + buttonsGap + timerSize + rightGap*3;
+      this.$().css('width',wrapperWidth);
+      
+    };
     
     Ember.Blackout.waitForSizeOfHidden($original,$button,(size)=>{
       
@@ -52,6 +111,7 @@ export default Ember.Component.extend({
         width: width + 'px',
         height: buttonHeight
       });
+      $confirm.css('transform',`translate3d(${width}px,0,0)`);
       this.$().css({
         width: (width + rightGap) + 'px',
       });
@@ -61,9 +121,37 @@ export default Ember.Component.extend({
     Ember.Blackout.waitForSizeOfHidden($confirm,$button,(size)=>{
       
       let width = size.width;
-      let widthWithPadding = width + leftPadding*2;
       this.set('confirmWidth',width);
-      $confirm.css('transform',`translate3d(${widthWithPadding}px,0,0)`);
+      
+      itemsSized++;
+      itemsWidth += width;
+      if(itemsSized === itemsNeedingSizing){
+        setWrapperWidth();
+      }
+      
+    });
+    
+    Ember.Blackout.waitForSizeOfHidden($yes,(size)=>{
+      
+      let width = size.outerWidth;
+      
+      itemsSized++;
+      itemsWidth += width;
+      if(itemsSized === itemsNeedingSizing){
+        setWrapperWidth();
+      }
+      
+    });
+    
+    Ember.Blackout.waitForSizeOfHidden($no,(size)=>{
+      
+      let width = size.outerWidth;
+      
+      itemsSized++;
+      itemsWidth += width;
+      if(itemsSized === itemsNeedingSizing){
+        setWrapperWidth();
+      }
       
     });
     
@@ -76,7 +164,7 @@ export default Ember.Component.extend({
     $confirm.css('padding',`${paddingTop} 0 ${paddingBottom}`).addClass('center-parent');
     $original.css('padding',`${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`).addClass('center-parent');
     
-  }),
+  },
   
   actions: {
     onClick(button){
@@ -87,10 +175,12 @@ export default Ember.Component.extend({
         let $original = this.$('.confirm-button-original');
         let $button = this.$('.confirm-button');
         let $timer = this.$('.donut-timer');
+        let originalWidth = this.get('originalWidth');
         let width = this.get('confirmWidth');
         let rightGap = this.get('rightGap');
         let primaryTextColor = Ember.Blackout.getCSSColor('primary-text-color');
-        let timerWidth = parseInt(Ember.Blackout.getCSSValue('width','donut-timer-go'));
+        let timerSize = this.get('timerSize');
+        let buttonsGap = this.get('buttonsGap');
         
         $button.css('width',width+'px');
         
@@ -99,13 +189,12 @@ export default Ember.Component.extend({
           transform: 'translateX(0px)',
           color: primaryTextColor,
         });
-        $original.css('transform',`translateX(-${width}px)`);
+        $original.css('transform',`translateX(-${originalWidth}px)`);
         
         let $yes = this.$('.confirm-button-yes');
         let $no = this.$('.confirm-button-no');
-        let gap = 7;
         let yesLeft = width + rightGap;
-        let noLeft = yesLeft + $yes.outerWidth() + gap;
+        let noLeft = yesLeft + $yes.outerWidth() + buttonsGap;
         let timerLeft = noLeft + $no.outerWidth() + rightGap;
         
         $yes.css({
@@ -119,10 +208,9 @@ export default Ember.Component.extend({
         $timer.css({
           transform: `translateX(${timerLeft}px)`,
           opacity: 1,
+          width: timerSize + 'px',
+          height: timerSize + 'px',
         });
-        
-        let wrapperWidth = timerLeft + timerWidth + rightGap;
-        this.$().css('width',wrapperWidth);
         
         button.disable();
         $button.removeClass('reverse');
@@ -160,7 +248,6 @@ export default Ember.Component.extend({
       let $button = this.$('.confirm-button');
       let $timer = this.$('.donut-timer');
       let width = this.get('originalWidth');
-      let rightGap = this.get('rightGap');
       $button.css('width',width+'px');
       
       // Move text
@@ -185,8 +272,6 @@ export default Ember.Component.extend({
         transform: `translateX(0)`,
         opacity: 0,
       });
-      
-      this.$().css('width',width + rightGap);
       
       let button = this.get('button');
       button.enable();

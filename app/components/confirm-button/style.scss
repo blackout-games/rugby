@@ -9,6 +9,9 @@ $transition-time-reverse: 0.444s ease(in-quad);
   .donut-timer {
     position: absolute;
     top: 7px;
+    @media #{$mobile} {
+      top: 5px;
+    }
     left:0;
     transform: translateX(0);
     opacity: 0;
