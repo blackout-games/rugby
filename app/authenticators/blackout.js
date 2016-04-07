@@ -3,10 +3,12 @@ import OAuth2 from 'ember-simple-auth/authenticators/oauth2-password-grant';
 import config from '../config/environment';
 
 const { RSVP, isEmpty, run } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default OAuth2.extend({
   eventBus: Ember.inject.service(),
   locals: Ember.inject.service(),
+  session: Ember.inject.service(),
   serverTokenEndpoint: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/token?official',
   
   saveSessionData(response) {
@@ -17,29 +19,72 @@ export default OAuth2.extend({
   },
 
   _refreshAccessToken(expiresIn, refreshToken) {
-    const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
+    //const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
     const serverTokenEndpoint = this.get('serverTokenEndpoint');
     return new RSVP.Promise((resolve, reject) => {
-      this.makeRequest(serverTokenEndpoint, data).then((response) => {
-        run(() => {
-          expiresIn       = response['expires_in'] || expiresIn;
-          refreshToken    = response['refresh_token'] || refreshToken;
-          const expiresAt = this._absolutizeExpirationTime(expiresIn);
-          const data      = Ember.merge(response, { 'expires_in': expiresIn, 'expires_at': expiresAt, 'refresh_token': refreshToken });
-          this._scheduleAccessTokenRefresh(expiresIn, null, refreshToken);
-          this.trigger('sessionDataUpdated', data);
-          resolve(data);
+      
+      // BLACKOUT START ----------- //
+      
+      LockableStorage.lockAndRunNow('oauthTokenRefresh', ()=>{
+        
+        // Get latest token (if we waited for lock)
+        refreshToken = this.get('session.session.content.authenticated.refresh_token');
+        const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
+        
+      // BLACKOUT END ------------- //
+        
+        //this.makeRequest(serverTokenEndpoint, data).then((response) => {
+        return this.makeRequest(serverTokenEndpoint, data).then((response) => {
+          run(() => {
+            expiresIn       = response['expires_in'] || expiresIn;
+            refreshToken    = response['refresh_token'] || refreshToken;
+            const expiresAt = this._absolutizeExpirationTime(expiresIn);
+            const data      = assign(response, { 'expires_in': expiresIn, 'expires_at': expiresAt, 'refresh_token': refreshToken });
+            this._scheduleAccessTokenRefresh(expiresIn, null, refreshToken);
+            this.trigger('sessionDataUpdated', data);
+            resolve(data);
+          });
+        }, (xhr, status, error) => {
+          Ember.Logger.warn(`Access token could not be refreshed - server responded with ${error}.`);
+          reject();
+          
+          // BLACKOUT START ----------- //
+          if(Number(xhr.status)===400){
+            
+            // If there is no current token, we have likely just loaded the page with an outdated token and there's no way we're going to get authenticated.
+            let currentToken = this.get('session.session.content.authenticated.refresh_token');
+            if(!currentToken){
+              
+              this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+              
+            } else {
+              
+              // Maybe there are multiple tabs open and another tab has already updated the token.
+              // Check later to see if new refresh token has been received by another tab
+              Ember.run.later(()=>{
+                
+                let newToken = this.get('session.session.content.authenticated.refresh_token');
+                if(newToken===refreshToken){
+                  
+                  // Only call this event if server responded to avoid logouts simply from temparary loss of connection
+                  this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+                }
+                
+              },2000);
+              
+            }
+          }
+          // BLACKOUT END ------------- //
+          
         });
-      }, (xhr, status, error) => {
-        Ember.Logger.warn(`Access token could not be refreshed - server responded with ${error}.`);
+        
+        
+      // BLACKOUT START ----------- //
+      }, 5000, ()=>{
         reject();
-        // BLACKOUT START ----------- //
-        if(Number(xhr.status)===400){
-          // Only call this event if server responded to avoid logouts simply from temparary loss of connection
-          this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
-        }
-        // BLACKOUT END ------------- //
-      });
+      }); // Max lock hold
+      // BLACKOUT END ------------- //
+      
     });
   },
   

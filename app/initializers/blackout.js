@@ -126,6 +126,26 @@ class Blackout {
   }
   
   /**
+   * Check if any given value is a promise
+   */
+  isPromise(value) {
+    
+    if(!value){
+      return false;
+    }
+    
+    if (typeof value.then !== "function") {
+        return false;
+    }
+    
+    var promiseThenSrc = String($.Deferred().then);
+    var valueThenSrc = String(value.then);
+    
+    return promiseThenSrc === valueThenSrc;
+    
+  }
+  
+  /**
    * Converts htmlBars.safeString to normal string if applicable
    * @param {stringy} maybeStr Anything really.
    */
@@ -2406,3 +2426,285 @@ $.fn.insertAt = function(index, element) {
   }
   return this;
 };
+
+/*
+ LockableStorage.lock(key, lockAquiredCallback, bool:wait)
+*/
+(function () {
+
+    function now() {
+        return new Date().getTime();
+    }
+    
+    function someNumber() {
+        return Math.random() * 1000000000 | 0;
+    }
+
+    var myId = now() + ":" + someNumber();
+    
+    /**
+     * Gets expiring key from localStorage
+     * If key does not exist, or exists but expired, returns null.
+     */
+    function getter(lskey) {
+        return function () {
+            var value = localStorage[lskey];
+            if (!value){
+              return null;
+            }
+            
+            var splitted = value.split(/\|/);
+            if (parseInt(splitted[1]) < now()) {
+                return null;
+            }
+            return splitted[0];
+        };
+    }
+    
+    /**
+     * 
+     */
+    function _mutexTransaction(mutexKey, mutexValue, callback) {
+        
+        // Attempt to take lock (others may do the same)
+        localStorage[mutexKey] = mutexValue;
+        //console.log('set mutex',mutexValue);
+        
+        // Check later that we still own it
+        setTimeout(callback, 44);
+        
+    }
+    
+    function lockImpl(key, callback, maxDuration=5000, wait=false, failedCallback=()=>{}) {
+        var mutexKey = key + "__MUTEX",
+            getMutex = getter(mutexKey),
+            mutexValue = myId + ":" + someNumber() + "|" + (now() + maxDuration);
+        
+        function restart () {
+            setTimeout(function () { lockImpl(key, callback, maxDuration, wait); }, 10);
+        }
+        
+        /**
+         * If lock exists, return false, or wait
+         */
+        if (getMutex()) {
+            if (wait){
+              restart();
+            }
+            failedCallback();
+            return;
+        }
+        
+        /**
+         * Get lock
+         */
+        _mutexTransaction(mutexKey, mutexValue, function () {
+          
+            // Make sure we still own the lock
+            if (localStorage[mutexKey] !== mutexValue) {
+                if (wait){
+                  restart();
+                }
+                failedCallback();
+                return;
+            }
+            
+            if (wait){
+              setTimeout(mutexAquired, 0);
+              return;
+            }
+            mutexAquired();
+            
+        });
+        
+        return;
+        
+        function mutexAquired() {
+            BlackoutInstance.assertPromise(callback()).finally(()=>{
+              if (localStorage[mutexKey] !== mutexValue){
+                //console.log('expexting mutex',mutexValue, 'got',localStorage[mutexKey]);
+                throw key + " was locked by a different process while I held the lock";
+              }
+              
+              // Release lock
+              localStorage.removeItem(mutexKey);
+            });
+        }
+        
+    }
+    
+    window.LockableStorage = {
+      lockAndRunNow: function (key, callback, maxDuration, failedCallback) { return lockImpl(key, callback, maxDuration, false, failedCallback); },
+      waitForLock: function (key, callback, maxDuration) { return lockImpl(key, callback, maxDuration, true); },
+    };
+})();
+
+
+
+
+
+
+
+
+
+/**
+
+Mutex locking for localstorage.
+Allows us to get a lock using localstorage, across tabs
+
+Copyright (c) 2012, Benjamin Dumke-von der Ehe
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions
+of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+*/
+/*
+(function () {
+
+    function now() {
+        return new Date().getTime();
+    }
+    
+    function someNumber() {
+        return Math.random() * 1000000000 | 0;
+    }
+
+    var myId = now() + ":" + someNumber();
+    
+    /**
+     * Gets expiring key from localStorage
+     * If key does not exist, or exists but expired, returns null.
+     *
+    function getter(lskey) {
+        return function () {
+            var value = localStorage[lskey];
+            if (!value){
+              return null;
+            }
+            
+            var splitted = value.split(/\|/);
+            if (parseInt(splitted[1]) < now()) {
+                return null;
+            }
+            return splitted[0];
+        };
+    }
+    
+    /**
+     * 
+     *
+    function _mutexTransaction(key, callback, wait) {
+        var xKey = key + "__MUTEX_x",
+            yKey = key + "__MUTEX_y",
+            getY = getter(yKey);
+
+        function criticalSection() {
+            try {
+                callback();
+            } finally {
+                localStorage.removeItem(yKey);
+            }
+        }
+        
+        localStorage[xKey] = myId;
+        if (getY()) {
+            if (wait){
+              setTimeout(function () { _mutexTransaction(key, callback); }, 0);
+            }
+            return false;
+        }
+        localStorage[yKey] = myId + "|" + (now() + 40);
+        
+        if (localStorage[xKey] !== myId) {
+            if (wait) {
+                setTimeout(function () {
+                    if (getY() !== myId) {
+                        setTimeout(function () { _mutexTransaction(key, callback); }, 0);
+                    } else {
+                      console.log('x');
+                        criticalSection();
+                    }
+                }, 50);
+            }
+            return false;
+        } else {
+          console.log('y');
+            criticalSection();
+            return true;
+        }
+    }
+    
+    function lockImpl(key, callback, maxDuration=5000, wait=false) {
+        console.log('a');
+        var mutexKey = key + "__MUTEX",
+            getMutex = getter(mutexKey),
+            mutexValue = myId + ":" + someNumber() + "|" + (now() + maxDuration);
+        console.log('mutexValue',mutexValue);
+        function restart () {
+            setTimeout(function () { lockImpl(key, callback, maxDuration, wait); }, 10);
+        }
+        
+        /**
+         * If lock exists, return false, or wait
+         *
+        if (getMutex()) {
+            if (wait){
+              restart();
+            }
+            return false;
+        }
+        
+        /**
+         * Get lock
+         *
+        var aquiredSynchronously = _mutexTransaction(key, function () {
+            if (getMutex()) {
+                if (wait){
+                  restart();
+                }
+                return false;
+            }
+            localStorage[mutexKey] = mutexValue;
+            console.log('set mutex',mutexValue);
+            if (wait){
+              setTimeout(mutexAquired, 0);
+            }
+        }, wait);
+        
+        if (!wait && aquiredSynchronously) {
+            mutexAquired();
+            return true;
+        }
+        return false;
+        function mutexAquired() {
+            try {
+                callback();
+            } finally {
+                _mutexTransaction(key, function () {
+                    if (localStorage[mutexKey] !== mutexValue){
+                      console.log('expexting mutex',mutexValue, 'got',localStorage[mutexKey]);
+                      throw key + " was locked by a different process while I held the lock";
+                    }
+                
+                    localStorage.removeItem(mutexKey);
+                });
+            }
+        }
+        
+    }
+    
+    window.LockableStorage = {
+      lockAndRunNow: function (key, callback, maxDuration) { return lockImpl(key, callback, maxDuration); },
+      waitForLock: function (key, callback, maxDuration) { return lockImpl(key, callback, maxDuration, true); },
+    };
+})();*/

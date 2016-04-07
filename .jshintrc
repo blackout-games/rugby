@@ -9,6 +9,7 @@
     "process",
     "module",
     "Storage",
+    "LockableStorage",
     "log"
   ],
   "browser": true,
