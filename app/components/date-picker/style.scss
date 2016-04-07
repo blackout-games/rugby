@@ -65,7 +65,10 @@ $size: 44px;
     background: $bg-light-darker-2x !important;
   }
   
-  height:34px;
+  height:32px;
+  @media #{$tablet-and-up} {
+    height:35px;
+  }
 }
 
 .datepicker--cell-day.-other-month-, .datepicker--cell-year.-other-decade- {
