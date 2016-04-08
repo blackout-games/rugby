@@ -213,8 +213,10 @@ export default Ember.Component.extend({
   
   actions: {
     changed(val){
-      log('changed',val,this.$().val());
       this.set('value',val);
+      if(this.attrs.onChange && typeof this.attrs.onChange === 'function'){
+        this.attrs.onChange(val);
+      }
     },
   },
   
