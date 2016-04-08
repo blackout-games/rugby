@@ -52,6 +52,17 @@ $slideMode: false; // Other option is fadeInUp
   }
 }
 
+body.safari-ios .float-box-content-wrapper {
+  
+  /**
+   * On an *actual device*, this extra 70px is necessary for some reason
+   * When testing in Chrome desktop however, if emulating iOS, this will appear as a giant gaping gap at the bottom of the screen.
+   */
+  
+  padding-bottom: 90px;
+  
+}
+
 .float-box-content {
   pointer-events: auto;
 }

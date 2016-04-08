@@ -403,6 +403,15 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   padding-bottom: 0 !important;
 }
 
+.no-top-pad {
+  padding-top: 0 !important;
+}
+
+.side-pad-only {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 
 /**
  * Hiding stuff

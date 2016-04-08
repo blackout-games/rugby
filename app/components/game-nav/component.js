@@ -141,13 +141,19 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     if( !window.features.lockBody && (this.get('media.isTablet') || this.get('media.isDesktop')) && ( window.os.iOS || window.os.android ) ){
       window.features.lockBody = true;
     }
+    
+    /**
+     * This handles the extra body height given in Safari iOS
+     * Affects:
+     * - Game nav
+     * - Float window
+     */
+    if(window.features.lockBody && window.browsers.safariOS && !window.browsers.standalone && this.media.isMobile){
+      $('body').addClass('safari-ios');
+    }
 
     if (window.features.lockBody) {
       $('html,body,#nav-body').addClass('fixed');
-      
-      if(window.browsers.safariOS && !window.browsers.standalone && this.media.isMobile){
-        $('#tabbar-balloon').addClass('safari-ios');
-      }
 
       // Touch start
       this.touchStartHandler = (e)=>{
