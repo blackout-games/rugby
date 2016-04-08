@@ -15,42 +15,46 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    let slider = this.$('input').bubbleSlider({
-      min: this.get('min'),
-      max: this.get('max'),
-      step: this.get('step'),
-      value: this.get('value'),
-      onInput: Ember.run.bind(this,this.actions.changed)
+    Ember.run.scheduleOnce('afterRender',this,()=>{
+      
+      let slider = this.$('input').bubbleSlider({
+        min: this.get('min'),
+        max: this.get('max'),
+        step: this.get('step'),
+        value: this.get('value'),
+        onInput: Ember.run.bind(this,this.actions.changed)
+      });
+      
+      let $wrap = this.$('.bubble-slider-wrap');
+      let initialWidth = $wrap.width();
+      
+      // Wait for width to change (meaning it has rendered)
+      Ember.Blackout.waitForWidthToChange($wrap,initialWidth,()=>{
+        slider.setValue(this.get('value'));
+        slider.positionThumb(this.get('value'));
+      });
+      
+      // Replace plus and minus with our own icons
+      this.$('.bubble-slider-plus').html('<i class="icon-plus icon-vcenter"></i>');
+      this.$('.bubble-slider-minus').html('<i class="icon-minus icon-vcenter"></i>');
+      
+      // Register for special btn events
+      this.$('.bubble-slider-plus, .bubble-slider-minus').addClass('btn-events');
+      this.$('.bubble-slider-thumb').addClass('btn-events');
+      
+      // Show native element to screen readers
+      this.$('input').show().addClass('hidden-but-accessible');
+      
+      // Hide bubble based on attr
+      if(this.get('noBubble')){
+        this.$('.bubble-slider-bubble').hide();
+      }
+      
+      this.setupEvents();
+      
+      this.set('slider',slider);
+      
     });
-    
-    let $wrap = this.$('.bubble-slider-wrap');
-    let initialWidth = $wrap.width();
-    
-    // Wait for width to change (meaning it has rendered)
-    Ember.Blackout.waitForWidthToChange($wrap,initialWidth,()=>{
-      slider.setValue(this.get('value'));
-      slider.positionThumb(this.get('value'));
-    });
-    
-    // Replace plus and minus with our own icons
-    this.$('.bubble-slider-plus').html('<i class="icon-plus icon-vcenter"></i>');
-    this.$('.bubble-slider-minus').html('<i class="icon-minus icon-vcenter"></i>');
-    
-    // Register for special btn events
-    this.$('.bubble-slider-plus, .bubble-slider-minus').addClass('btn-events');
-    this.$('.bubble-slider-thumb').addClass('btn-events');
-    
-    // Show native element to screen readers
-    this.$('input').show().addClass('hidden-but-accessible');
-    
-    // Hide bubble based on attr
-    if(this.get('noBubble')){
-      this.$('.bubble-slider-bubble').hide();
-    }
-    
-    this.setupEvents();
-    
-    this.set('slider',slider);
     
   }),
   

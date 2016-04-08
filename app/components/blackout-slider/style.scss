@@ -6,6 +6,13 @@ $base-color: $bg-light;
 }
 
 .bubble-slider-track {
+  background: none;
+  height:28px;
+  padding: 12px 0;
+  cursor:pointer;
+}
+
+.bubble-slider-track-inner {
   background: $base-color;
   height:4px;
   border-radius: 2px;
@@ -42,6 +49,7 @@ $base-color: $bg-light;
   text-align: center;
   i {
     font-size: 14px;
+    margin-top:-2px;
     color: $bg-dark-lighter-4x;
   }
   
