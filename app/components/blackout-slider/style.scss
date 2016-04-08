@@ -1,0 +1,54 @@
+$base-color: $bg-light;
+
+.bubble-slider-wrap {
+  margin: 22px 0;
+  z-index:1;
+}
+
+.bubble-slider-track {
+  background: $base-color;
+  height:4px;
+  border-radius: 2px;
+}
+
+.bubble-slider-thumb, .bubble-slider-thumb:hover {
+  background: $bg-dark-lighter-3x;
+  
+  &.hover {
+    background: desaturate(hoverColor($bg-dark-lighter-3x),11%);
+  }
+  
+  &.press, &:active {
+    background: pressColor($bg-dark-lighter-3x);
+  }
+  
+  &.focus {
+    box-shadow: 0 0 11px rgba($focus-border-color, 0.777);
+  }
+}
+
+.bubble-slider-bubble {
+  background: $bg-dark-lighter;
+  .bubble-slider-bubble-arrow {
+    background: $bg-dark-lighter;
+  }
+  color:$bg-light-darker;
+}
+
+.bubble-slider-minus, .bubble-slider-minus:hover, .bubble-slider-plus, .bubble-slider-plus:hover {
+  border-color: $base-color;
+  border: none;
+  background: $base-color;
+  text-align: center;
+  i {
+    font-size: 14px;
+  }
+  
+  &.hover {
+    background: darken($base-color,4%);
+  }
+  
+  &.press, &:active {
+    background: pressColor(darken($base-color,4%));
+  }
+}

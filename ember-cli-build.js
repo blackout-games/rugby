@@ -84,6 +84,13 @@ module.exports = function(defaults) {
   app.import('bower_components/air-datepicker/dist/js/datepicker.js');
   app.import('bower_components/air-datepicker/dist/css/datepicker.css');
   app.import('bower_components/air-datepicker/dist/js/i18n/datepicker.en.js');
+  
+  /**
+   * jQuery bubble slider
+   */
+  
+  app.import('vendor/bubble-slider-master/build/jquery.bubble-slider.js');
+  app.import('vendor/bubble-slider-master/build/bubble-slider.css');
 
 
   return app.toTree();

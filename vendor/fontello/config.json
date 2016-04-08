@@ -769,8 +769,20 @@
     {
       "uid": "f7838631ee8af22feedf7358e02ef8e2",
       "css": "attach-circled",
-      "code": 59485,
+      "code": 59484,
       "src": "elusive"
+    },
+    {
+      "uid": "44e04715aecbca7f266a17d5a7863c68",
+      "css": "plus",
+      "code": 59485,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "861ab06e455e2de3232ebef67d60d708",
+      "css": "minus",
+      "code": 59486,
+      "src": "fontawesome"
     },
     {
       "uid": "4c95899d8ee2f5b09735c3835354c056",

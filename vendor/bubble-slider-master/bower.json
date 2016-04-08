@@ -1,0 +1,28 @@
+{
+  "name": "bubble-slider",
+  "description": "jQuery plugin for converting an input field into a range slider.",
+  "main": [
+    "build/jquery.bubble-slider.js",
+    "build/bubble-slider.css"
+  ],
+  "keywords": [
+    "jquery-plugin",
+    "jquery",
+    "plugin",
+    "bubble",
+    "range",
+    "slider",
+    "number"
+  ],
+  "authors": [
+    "Daniel Johnson"
+  ],
+  "homepage": "https://github.com/dahjson/bubble-slider",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dahjson/bubble-slider.git"
+  },
+  "dependencies": {
+    "jquery": ">=1.7.1"
+  }
+}

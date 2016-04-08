@@ -1,0 +1,140 @@
+// --------------------------------------------------
+// variables
+// --------------------------------------------------
+
+$bubble-color = #343A3A
+$bubble-font-size = 25px
+$bubble-font-color = #BDC3C3
+$thumb-size = 50px
+$thumb-color = #595959
+$thumb-font-color = #EEE
+$thumb-font-size = 16px
+$track-size = 30px
+$track-color = #E5E5E5
+
+// --------------------------------------------------
+// helpers
+// --------------------------------------------------
+
+// reposition element
+reposition($x = 50%, $y = 50%)
+  position: absolute
+  left: $x
+  top: $y
+  transform: translate(-50%, -50%)
+
+// clearfix
+clearfix()
+  &::before,
+  &::after
+    content: ''
+    display: table
+  &::after
+    clear: both
+
+// --------------------------------------------------
+// input fallback
+// --------------------------------------------------
+
+.bubble-slider
+  display: block
+  width: 100%
+  margin: 20px auto
+  padding: 20px
+  font-size: $thumb-font-size
+
+// --------------------------------------------------
+// slider wrap
+// --------------------------------------------------
+
+.bubble-slider-wrap
+  position: relative
+  margin: 55px auto
+  display: block
+  width: 100%
+  height: 55px
+  clearfix()
+  user-select: none // prevent text selection
+
+// --------------------------------------------------
+// slider track
+// --------------------------------------------------
+
+.bubble-slider-track
+  position: absolute
+  top: 50%
+  transform: translate(0, -50%)
+  left: $track-size + 10px
+  right: $track-size + 10px
+  height: 2px
+  background: $track-color
+
+// --------------------------------------------------
+// slider thumb
+// --------------------------------------------------
+
+.bubble-slider-thumb
+  position: absolute
+  top: 50%
+  transform: translate(0, -50%)
+  width: $thumb-size
+  height: $thumb-size
+  background: $thumb-color
+  border-radius: 50%
+  cursor: ew-resize
+  span:first-child
+    reposition()
+    color: $thumb-font-color
+    font-size: $thumb-font-size
+
+// --------------------------------------------------
+// slider bubble
+// --------------------------------------------------
+
+.bubble-slider-bubble
+  reposition(50%, -70%)
+  padding: 15% 25%
+  font-size: $bubble-font-size
+  color: $bubble-font-color
+  background: $bubble-color
+  border-radius: 7px
+  span
+    position: relative
+
+// bubble arrow
+.bubble-slider-bubble-arrow
+  position: absolute
+  left: 50%
+  transform: translate(-50%, 0) rotate(45deg)
+  bottom: -10%
+  width: 10px
+  height: 10px
+  background: $bubble-color
+
+// --------------------------------------------------
+// slider minus and plus
+// --------------------------------------------------
+
+.bubble-slider-minus, .bubble-slider-plus
+  position: relative
+  top: 50%
+  transform: translate(0, -50%)
+  width: $track-size
+  height: $track-size
+  color: $thumb-color
+  font-size: 18px
+  border: 2px solid $track-color
+  border-radius: 50%
+  cursor: pointer
+
+.bubble-slider-minus
+  float: left
+
+.bubble-slider-plus
+  float: right
+
+.bubble-slider-minus span
+  reposition(50%, 45%) // adjust minus offset
+
+.bubble-slider-plus span
+  reposition(51%, 51%) // adjust plus offset

@@ -247,7 +247,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
           }
       }
       
-    } );
+    });
     
     this._log('added listeners');
   },

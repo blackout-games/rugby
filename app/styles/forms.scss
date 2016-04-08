@@ -47,9 +47,13 @@ $button-inset-shadow-on-dark: inset 0 3px 5px rgba(0, 0, 0, 0.25);
   box-shadow: $focus-inset-shadow, $focus-shadow !important;
 }
 
+@mixin hover-form-raw {
+  border: $focus-border-thickness $focus-border-color solid !important;
+}
+
 @mixin hover-form {
   &:hover {
-    border: $focus-border-thickness $focus-border-color solid !important;
+    @include hover-form-raw;
   }
 }
 

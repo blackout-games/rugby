@@ -169,6 +169,7 @@ class Blackout {
   
   /**
    * Same as Ember.isEmpty, except also supports options attributes passed to didUpdateAttrs
+   * Also supports checking for empty objects, and empty arrays
    * @param  {any}  item Item to check if empty
    * @return {Boolean}
    */
@@ -178,7 +179,9 @@ class Blackout {
       return true;
     } else if(typeof(item)==='object' && "value" in item){
       return Ember.isEmpty(item.value);
-    } else if(typeof(item)==='object'){
+    } else if(item instanceof Array){ // Array
+      return item.length === 0;
+    } else if(typeof(item)==='object'){ // Object
       return Object.keys(item).length === 0 && JSON.stringify(item) === JSON.stringify({});
     } else if(item===false){
       return true; // Ember.isEmpty says false is not an empty value
@@ -320,6 +323,24 @@ class Blackout {
    */
   deleteCSSRule(index) {
     document.styleSheets[0].deleteRule(index);
+  }
+  
+  /**
+   * Sometimes we need to wait for an object to render, and ember.run.next doesn't wait long enough. e.g. when using a vendor ui item such as bubble slider.
+   */
+  waitForWidthToChange($el,initialWidth,callback,start=0){
+    
+    let w = $el.width();
+    let now = Date.now();
+    if(!start){
+      start = now;
+    }
+    let timetaken = now-start;
+    if((w!==initialWidth) || timetaken>=1000){
+      callback();
+    } else {
+      Ember.run.next(this,this.waitForWidthToChange,$el,initialWidth,callback,start);
+    }
   }
   
   /**
