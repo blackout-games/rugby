@@ -64,8 +64,11 @@ $size: 44px;
   &:hover {
     background: $bg-light-darker-2x !important;
   }
+  &.-focus- {
+    //background: none !important;
+  }
   
-  height:37px;
+  height:35px;
   @media #{$tablet-and-up} {
     height:37px;
   }

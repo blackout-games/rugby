@@ -20,14 +20,23 @@ export default Ember.Mixin.create({
     let selectors = this.get('preventBodyScrollSelectors');
     
     if(Ember.Blackout.isEmpty(selectors)){
-      selectors = [
-        null
-      ];
+      
+      // Apply to component by default
+      if(this.$().length){
+        selectors = this.$();
+        this.set('preventBodyScrollSelectors',selectors);
+      } else {
+        selectors = [
+          null
+        ];
+      }
+      
     }
     
     if(!this.get('disablePreventBodyScroll')){
       
       Ember.$.each(selectors,(key,val)=>{
+        
         this.$(val).on('touchstart', this.handleTouchStart);
         this.$(val).on('touchmove', this.handleTouchMove);
         
@@ -78,8 +87,8 @@ export default Ember.Mixin.create({
   },
 
   handleTouchMove(e) {
-    var pageY = e.originalEvent.touches[0].pageY;
     
+    var pageY = e.originalEvent.touches[0].pageY;
     if (!this.lastY) {
       this.lastY = pageY;
     }
