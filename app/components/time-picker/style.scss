@@ -1,0 +1,29 @@
+$color: $bg-dark-lighter-2x;
+
+.time-picker-number {
+  background: $color;
+  color: $bg-light;
+  font-size: 30px;
+  font-weight: bold;
+  padding:7px 11px;
+  border-radius: $border-radius;
+}
+
+.time-picker-colon {
+  padding:0 5px 4px;
+  color: $color;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.time-picker-ampm {
+  //margin-left:7px;
+  padding:7px 11px;
+  color: $color;
+  font-size: 30px;
+  font-weight: bold;
+  
+  &.dummy {
+    visibility: hidden;
+  }
+}

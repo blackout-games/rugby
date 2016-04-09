@@ -1,0 +1,34 @@
+<div class="row row-nowrap row-center gap-lg">
+
+  <div class="col-auto time-picker-number">
+    {{number displayHour pad=2}}
+  </div>
+  
+  <div class="col-auto time-picker-colon vc-parent">:</div>
+  
+  <div class="col-auto time-picker-number">
+  {{number minute pad=2}}
+  </div>
+  
+  {{#if 12HourTime}}
+    
+    <div class="col-auto time-picker-ampm">
+      {{amPm}}
+    </div>
+    
+  {{/if}}
+  
+</div>
+
+<div>
+  <label for="{{hourName}}">Hour</label>
+</div>
+
+<div class="gap-lg">
+  {{blackout-slider min=0 max=23 step=1 noBubble=true onChange=(action 'onHourChange') name=hourName value=(readonly startHour) }}
+</div>
+
+<div>
+  <label for="{{minuteName}}">Minute</label>
+</div>
+{{blackout-slider min=0 max=59 step=1 noBubble=true onChange=(action 'onMinuteChange') name=minuteName value=(readonly startMinute) }}

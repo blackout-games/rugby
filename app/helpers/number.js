@@ -1,5 +1,13 @@
 import Ember from 'ember';
 
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size){
+      s = "0" + s;
+    }
+    return s;
+}
+
 export function number(val, params/*, hash*/) {
   
   if( params.roundMillions ){
@@ -15,16 +23,22 @@ export function number(val, params/*, hash*/) {
   
   if( params.percent ){
     if( params.round ){
-      val = Number(val*100).toFixed(params.round) + '%';
+      val = Number(val*100).toFixed(params.round);
     } else {
-      val = (val*100) + '%';
+      val = (val*100);
     }
+    if(params.pad){
+      val = pad(val, params.pad);
+    }
+    val += '%';
   } else {
     if( params.round ){
       val = Number(val).toFixed(params.round);
-    } else {
-      val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    if(params.pad){
+      val = pad(val, params.pad);
+    }
+    val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
   
   return val;
