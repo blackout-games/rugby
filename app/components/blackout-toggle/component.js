@@ -11,6 +11,11 @@ export default Ember.Component.extend({
     
     this.setupEvents();
     
+    if(this.get('name')){
+      this.$('input').attr('name',this.get('name'));
+      this.$('input').attr('id',this.get('name'));
+    }
+    
   }),
   
   setupEvents(){
