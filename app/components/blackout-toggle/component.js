@@ -13,7 +13,6 @@ export default Ember.Component.extend({
     
     if(this.get('name')){
       this.$('input').attr('name',this.get('name'));
-      this.$('input').attr('id',this.get('name'));
     }
     
   }),
