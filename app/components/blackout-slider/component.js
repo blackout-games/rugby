@@ -11,6 +11,7 @@ export default Ember.Component.extend({
     if(isNaN(this.get('value'))){
       this.set('value',Math.round((this.get('max') - this.get('min'))/2));
     }
+    this.set('initValue',this.get('value'));
   }),
   
   setup: Ember.on('didInsertElement',function(){
@@ -21,7 +22,7 @@ export default Ember.Component.extend({
         min: this.get('min'),
         max: this.get('max'),
         step: this.get('step'),
-        value: this.get('value'),
+        value: this.get('initValue'),
         onInput: Ember.run.bind(this,this.actions.changed)
       });
       
@@ -30,8 +31,8 @@ export default Ember.Component.extend({
       
       // Wait for width to change (meaning it has rendered)
       Ember.Blackout.waitForWidthToChange($wrap,initialWidth,()=>{
-        slider.setValue(this.get('value'));
-        slider.positionThumb(this.get('value'));
+        slider.setValue(this.get('initValue'));
+        slider.positionThumb(this.get('initValue'));
       });
       
       // Replace plus and minus with our own icons
@@ -200,7 +201,7 @@ export default Ember.Component.extend({
     
     let val = parseInt(this.get('value'));
     let slider = this.get('slider');
-    log('val1',val);
+    
     val -= this.get('step');
     val = Math.max(val,this.get('min'));
     
