@@ -91,6 +91,13 @@ module.exports = function(environment) {
     includeLocales: ['fr','it','es','af','ru'],
     includeTimezone: 'all',
   };
+  
+  ENV['ember-cli-toggle'] = {
+    includedThemes: ['light', 'default'],
+    excludedThemes: ['flip'],
+    defaultTheme: 'light',   // defaults to 'default'
+    defaultSize: 'medium',    // defaults to 'medium'
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

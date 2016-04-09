@@ -1,0 +1,13 @@
+.x-toggle-light.x-toggle-btn {
+  
+  background: $bg-light;
+  transition: background-color 0.4s;
+  
+  &.focus {
+    box-shadow: 0 0 11px rgba($focus-border-color, 0.777);
+  }
+}
+
+.x-toggle:checked + .x-toggle-light.x-toggle-btn {
+  background: $primary-master;
+}
