@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     
     let isClicking = false;
     let isTouch = null;
+    let isInitting = true;
     
     /**
      * Can't react on down on touch devices, since then we can't scroll the calendar on touch.
@@ -58,7 +59,7 @@ export default Ember.Component.extend({
       
     };
     
-    let startDate = this.assertDate(this.get('startDate'));
+    let startDate = this.assertDate(this.get('date'));
     let minDate = this.assertDate(this.get('minDate'));
     let maxDate = this.assertDate(this.get('maxDate'));
     
@@ -70,7 +71,7 @@ export default Ember.Component.extend({
       inline: true,
       toggleSelected: false,
       onSelect: (formattedDate, date)=>{
-        if(this.attrs.onChange){
+        if(this.attrs.onChange && !isInitting){
           this.attrs.onChange(date,formattedDate);
         }
       },
@@ -88,6 +89,8 @@ export default Ember.Component.extend({
     
     // Save picker
     this.set('datePicker',datePicker);
+    
+    isInitting = false;
     
   }),
   

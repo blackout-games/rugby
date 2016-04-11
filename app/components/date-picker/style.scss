@@ -72,6 +72,16 @@ $size: 44px;
   @media #{$tablet-and-up} {
     height:37px;
   }
+  
+  &.-current- {
+    color: $primary-master;
+    &.-focus- {
+      color: $primary-master;
+    }
+    &.-selected- {
+      color: white;
+    }
+  }
 }
 
 .datepicker--cell-day.-other-month-, .datepicker--cell-year.-other-decade- {

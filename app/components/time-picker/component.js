@@ -31,7 +31,9 @@ export default Ember.Component.extend({
   
   displayHour: Ember.computed('hour','12HourTime',function(){
     let hour = this.get('hour');
-    if(this.get('12HourTime') && hour>12){
+    if(this.get('12HourTime') && hour===0){
+      return 12;
+    } else if(this.get('12HourTime') && hour>12){
       return hour-12;
     } else {
       return hour;

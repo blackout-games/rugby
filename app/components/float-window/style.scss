@@ -63,6 +63,12 @@ body.safari-ios .float-box-content-wrapper {
   
 }
 
+body.standalone .float-box-content-wrapper {
+  
+  padding-top: 44px;
+  
+}
+
 .float-box-content {
   pointer-events: auto;
 }
