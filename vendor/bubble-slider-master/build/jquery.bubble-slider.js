@@ -38,6 +38,9 @@
         margin: parseFloat(x) + parseFloat(i) + "px auto"
       })), this.bubbleColor && (this.bubbleArrow.css("background", this.bubbleColor), this.bubble.css("background", this.bubbleColor)), this.bubbleFontColor && this.bubbleSpan.css("color", this.bubbleFontColor), this.thumbColor && (this.minus.css("color", this.thumbColor), this.plus.css("color", this.thumbColor), this.thumb.css("background", this.thumbColor)), this.thumbFontColor && this.thumbSpan.css("color", this.thumbFontColor), this.trackColor && (this.minus.css("border-color", this.trackColor), this.plus.css("border-color", this.trackColor), this.track.css("background", this.trackColor)), this.dragging = !1, this.thumbOffset = this.thumb.outerWidth() / 2, this.setValue(this.value), this.positionThumb(this.value), this.toggleBubble && this.value.toString().length <= this.toggleLimit ? (this.bubble.hide(), this.thumbSpan.show()) : this.thumbSpan.hide(), this.thumb.css("-ms-touch-action", "none"), this.thumb.on("mousedown touchstart", function(t) {
         return function(s) {
+          var touchPos = "touchstart" === s.type ? s.originalEvent.touches[0].pageX : s.originalEvent.pageX;
+          var thumbPos = t.thumb.offset().left + t.thumbOffset;
+          t.thumbTouchOffset = touchPos - thumbPos;
           return t.dragging ? void 0 : (s.preventDefault(), t.dragging = !0, t.bubbleState(!0));
         };
       }(this)), this.thumb.parent().parent().parent().on("mousemove touchmove", function(t) {
@@ -100,8 +103,15 @@
     }
     return slider.prototype.dragThumb = function(t) {
       var s, e, i;
-      return e = this.track.offset().left + this.thumbOffset, s = this.track.offset().left + this.track.innerWidth() - this.thumbOffset, i = Math.max(e, t), i = Math.min(s, i), this.setValue(this.calcValue()), this.thumb.offset({
-        left: i - this.thumbOffset
+      // Recude touch offset as we drag
+      var a = 0.2;
+      if(this.thumbTouchOffset<0){
+        this.thumbTouchOffset += a;
+      } else if(this.thumbTouchOffset>0){
+        this.thumbTouchOffset -= a;
+      }
+      return e = this.track.offset().left + this.thumbOffset + this.thumbTouchOffset, s = this.track.offset().left + this.track.innerWidth() - this.thumbOffset + this.thumbTouchOffset, i = Math.max(e, t), i = Math.min(s, i), this.setValue(this.calcValue()), this.thumb.offset({
+        left: i - this.thumbOffset - this.thumbTouchOffset
       });
     }, slider.prototype.calcValue = function() {
       var t;

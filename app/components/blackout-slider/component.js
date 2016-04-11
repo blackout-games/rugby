@@ -122,6 +122,26 @@ export default Ember.Component.extend({
       }
       
     });
+
+    $input.on( 'keyup', ( e ) => {
+      let keyCode = e.keyCode || e.which;
+      
+      switch (keyCode) {
+        // up/right keys
+        case 38:
+        case 39:
+          e.preventDefault();
+          this.endIncreaseValue();
+          break;
+        // down/left keys
+        case 37:
+        case 40:
+          e.preventDefault();
+          this.endDecreaseValue();
+          break;
+      }
+      
+    });
     
   },
   
@@ -136,7 +156,7 @@ export default Ember.Component.extend({
       $(document).off('mousedown touchstart mousewheel', this.get('docClickBound'));
       $wrap.off('click mousedown touchstart');
       $thumb.off('mousedown touchstart');
-      $input.off('focus blur');
+      $input.off('focus blur keydown keyup');
       
       this.set('docClickBound',false);
       
@@ -191,10 +211,12 @@ export default Ember.Component.extend({
     
     // Visually tap the '+' button
     this.$('.bubble-slider-plus').addClass('press');
-    Ember.run.later(()=>{
-      this.$('.bubble-slider-plus').removeClass('press');
-    },111);
     
+  },
+  
+  endIncreaseValue(){
+    // Visually finish tapping the '+' button
+    this.$('.bubble-slider-plus').removeClass('press');
   },
   
   decreaseValue(){
@@ -210,10 +232,12 @@ export default Ember.Component.extend({
     
     // Visually tap the '-' button
     this.$('.bubble-slider-minus').addClass('press');
-    Ember.run.later(()=>{
-      this.$('.bubble-slider-minus').removeClass('press');
-    },111);
     
+  },
+  
+  endDecreaseValue(){
+    // Visually finish tapping the '-' button
+    this.$('.bubble-slider-minus').removeClass('press');
   },
   
   actions: {

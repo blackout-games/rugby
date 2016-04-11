@@ -49,11 +49,12 @@ export default Ember.Component.extend({
     
   },
   
-  cleanup: Ember.on('didInsertElement',function(){
+  cleanup: Ember.on('willDestroyElement',function(){
     
     if(this.get('docClickBound')){
       
-      this.$().off('click');
+      this.$().off('click mousedown touchstart');
+      this.$('input').off('focus blur');
       
       $(document).off('mousedown touchstart', this.get('docClickBound'));
       
