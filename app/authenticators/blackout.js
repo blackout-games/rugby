@@ -27,8 +27,11 @@ export default OAuth2.extend({
       
       LockableStorage.lockAndRunNow('oauthTokenRefresh', ()=>{
         
-        // Get latest token (if we waited for lock)
-        refreshToken = this.get('session.session.content.authenticated.refresh_token');
+        // Get latest token (if we waited for task lock, and another tab received a new token in the meantime)
+        let sessionRefreshToken = this.get('session.session.content.authenticated.refresh_token');
+        if(sessionRefreshToken){
+          refreshToken = sessionRefreshToken;
+        }
         const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
         
       // BLACKOUT END ------------- //
