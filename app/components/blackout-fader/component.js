@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
       this.$().css('max-height','none');
       this.$().addClass('no-transition');
-    });
+    }).removeClass('no-margin');
   },
   
   hide( immediate ){
@@ -54,6 +54,7 @@ export default Ember.Component.extend({
     this.$().css('max-height',this.$().height());
     Ember.run.next(()=>{
       this.$().removeClass('no-transition');
+      this.$().addClass('no-margin');
       if(this.$().height()>0){
         this.set('height',this.$().height());
       }

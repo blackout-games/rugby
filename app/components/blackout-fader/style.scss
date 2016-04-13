@@ -1,7 +1,7 @@
-$transition-time: 0.250s;
+$transition-time: 0.333s;
 
 .blackout-fader {
-  transition: opacity $transition-time ease(out-cubic), max-height $transition-time ease(out-cubic);
+  transition: opacity $transition-time ease(out-cubic), max-height $transition-time ease(out-cubic), margin-top $transition-time ease(out-cubic), margin-bottom $transition-time ease(out-cubic) ;
   
   // These two properties are necessary to stop the element flashing whenever it's re-rendered.
   max-height: 0px;
@@ -16,5 +16,10 @@ $transition-time: 0.250s;
   
   &.no-transition {
     transition: none;
+  }
+  
+  &.no-margin {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
   }
 }
