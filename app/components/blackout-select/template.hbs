@@ -1,6 +1,10 @@
 <select class="btn vc-parent">
   {{#each options as |item index|}}
-    <option value="{{index}}">{{yield item}}</option>
+    {{#if item.disabled}}
+      <option value="{{index}}" disabled="disabled">{{yield item}}</option>
+    {{else}}
+      <option value="{{index}}">{{yield item}}</option>
+    {{/if}}
   {{/each}}
 </select>
 {{normal-scroll class="bs-options-scroller"}}

@@ -116,7 +116,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   },
   
   buildOption($opt){
-    return '<li data-value="' + $opt.val() + '" class="bs-option btn-a"><span>' + $opt.text() + '</span></li>';
+    return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + '" class="bs-option btn-a' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
   },
   
   initEvents() {
@@ -160,11 +160,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // Clicking the options
     $newSel.find('.bs-option').each( (key,opt) => {
       $(opt).on( 'click', (e) => {
-        this.changeOption($(opt));
-        // Ensure select elem is open
-        this._log('toggleSelect via clicking on an option');
-        this.toggleSelect('close');
-        this.addFocus();
+        if(this.changeOption($(opt))){
+          // Ensure select elem is open
+          this._log('toggleSelect via clicking on an option');
+          this.toggleSelect('close');
+          this.addFocus();
+        }
         e.stopPropagation();
       });
     });
@@ -209,8 +210,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
         case 13:
           if( this.isOpen() && typeof cursor !== 'undefined' && cursor !== -1 ) {
             e.preventDefault();
-            this.changeOption(this.get('$options').find('li').eq(cursor));
-            this.toggleSelect('close');
+            if(this.changeOption(this.get('$options').find('li').eq(cursor))){
+              this.toggleSelect('close');
+            }
           }
           break;
         // esc key
@@ -223,12 +225,15 @@ export default Ember.Component.extend(PreventBodyScroll,{
         // space key
         case 32:
           e.preventDefault();
+          let success = true;
           if( this.isOpen() && typeof cursor !== 'undefined' && cursor !== -1 ) {
-            this.changeOption(this.get('$options').find('li').eq(cursor));
+            success = this.changeOption(this.get('$options').find('li').eq(cursor));
           } else {
             this.navigateOpts(null,true);
           }
-          this.toggleSelect();
+          if(success){
+            this.toggleSelect();
+          }
           break;
         // tab key
         case 9:
@@ -482,11 +487,15 @@ export default Ember.Component.extend(PreventBodyScroll,{
         return false;
       }
       
+    } else if($opt.data('disabled')) {
+      
+      return false;
+      
     } else {
       
       // Call closure action
-      if(this.attrs.onchange){
-        this.attrs.onchange(this.get('options')[$opt.index()]);
+      if(this.attrs.onChange){
+        this.attrs.onChange(this.get('options')[$opt.index()]);
       }
     
     }
@@ -504,6 +513,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.$('select').prop('selectedIndex', $opt.index());
     
     this._log('option changed');
+    
+    return true;
+    
   },
   
   trackBlurTarget(e){
@@ -522,7 +534,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this._log('focus added '+(e?'via real select':'via toggleSelect'));
     
+    let hadFocus = this.$('.bs-placeholder').hasClass('bs-focus');
     this.$('.bs-placeholder').addClass('bs-focus');
+    
     if(e){
       this._log('toggleSelect via addFocus');
       
@@ -531,6 +545,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
       if(this.get('blurTarget')){
         this.toggleSelect('open',true);
       }
+    }
+    
+    // Send event
+    if(!hadFocus){
+      Ember.run.once(this,this.sendFocusEvent);
     }
     
   },
@@ -546,12 +565,37 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this._log('focus removed '+(e?'via real select':'via toggleSelect'));
     
+    let hadFocus = this.$('.bs-placeholder').hasClass('bs-focus');
     this.$('.bs-placeholder').removeClass('bs-focus');
+    
     if(e){
       this._log('toggleSelect via removeFocus');
       this.toggleSelect('close',true);
     }
     
+    // Send event once
+    if(hadFocus){
+      Ember.run.once(this,this.sendBlurEvent);
+    }
+    
+  },
+  
+  /**
+   * Send a focus event outside this component
+   */
+  sendFocusEvent(){
+    if(this.attrs.onFocus && typeof this.attrs.onFocus === 'function'){
+      this.attrs.onFocus();
+    }
+  },
+  
+  /**
+   * Send a blur event outside this component
+   */
+  sendBlurEvent(){
+    if(this.attrs.onBlur && typeof this.attrs.onBlur === 'function'){
+      this.attrs.onBlur();
+    }
   },
   
   removeOptionsFocus(){
@@ -576,7 +620,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let cursor = this.get('cursor');
     let selectedCursor = this.$('select').prop('selectedIndex');
     let wasAlreadyOpen = false;
-    let numOpts = this.$('select').children('option').length;
+    let numOpts = this.$('select').children('option:enabled').length;
     
     // Open if not open
     // Figure out initial cursor
@@ -605,7 +649,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // remove focus class if any..
     this.removeOptionsFocus();
     // add class focus - track which option we are navigating
-    this.get('$options').find('li').eq(cursor).addClass('bs-option-focus');
+    this.get('$options').find('li:not(.disabled)').eq(cursor).addClass('bs-option-focus');
     
   },
   
@@ -646,7 +690,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let optIndex = -1;
     
     // Look for match from the start of each option string
-    this.$('select > option').each((index,opt)=>{
+    this.$('select > option:enabled').each((index,opt)=>{
       let text = $(opt).text().toLowerCase();
       if(text.indexOf(searchChars)===0){
         this._log('matched at start of string for option ',text,'(index '+index+')');
@@ -659,7 +703,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // If nothing is found yet, try and match at any place in the string
     if(optIndex===-1 && searchChars.length > 1){
       
-      this.$('select > option').each((index,opt)=>{
+      this.$('select > option:enabled').each((index,opt)=>{
         let text = $(opt).text().toLowerCase();
         if(text.indexOf(searchChars)>=0){
         this._log('matched later in string for option ',text,'(index '+index+')');

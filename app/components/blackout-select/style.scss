@@ -131,10 +131,14 @@
   border-radius: $border-radius;
   position:relative;
   
-  &.hover, &.bs-option-focus {
+  &.disabled {
+    color:$bg-dark-lighter-3x;
+  }
+  
+  &.hover:not(.disabled), &.bs-option-focus:not(.disabled) {
     background-color:$primary-master;
   }
-  &.press, &:active {
+  &.press:not(.disabled), &:active:not(.disabled) {
     background-color:pressColor($primary-master);
   }
   @extend .nowrap;
