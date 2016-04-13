@@ -1,12 +1,12 @@
  
 
-{{blackout-tabs-slider tabPanels=dashTabs isShowing=isShowing selectedTab=(readonly selectedTab) onTabSelect=(action 'tabSelected') debug=debug }}
+{{blackout-tabs-slider tabPanels=dashTabs isOnScreen=isOnScreen selectedTab=(readonly selectedTab) onTabSelect=(action 'tabSelected') debug=debug }}
 
 {{#if hasHeader}}
   {{yield 'header'}}
 {{/if}}
 
-{{#blackout-tabs receiveTabs=(action 'receiveTabs') selectedTab=(readonly currentTab) onTabChange=(action 'tabChanged') hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isShowing=isShowing }}
+{{#blackout-tabs receiveTabs=(action 'receiveTabs') selectedTab=(readonly currentTab) onTabChange=(action 'tabChanged') hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isOnScreen=isOnScreen }}
   
   {{yield}}
   

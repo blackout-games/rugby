@@ -1,4 +1,4 @@
-{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isShowing=isShowing noPaddingMobile=false hasHeader=true as |section| }}
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isOnScreen=isOnScreen noPaddingMobile=false hasHeader=true as |section| }}
   
   {{#if (compare section '===' 'header')}}
     
@@ -7,7 +7,7 @@
       {{#blackout-select
         classes=''
         selected=currentSeason
-        onchange=(action 'changeSeason')
+        onChange=(action 'changeSeason')
         options=seasons as |season|
       }}
       {{season.label}}

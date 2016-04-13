@@ -1,7 +1,7 @@
 
 <div class="divider gap-lg"></div>
 
-{{#dash-tabs onTabChange=(action 'tabChanged') selectedTab=selectedTab sub=true isShowing=isShowing tabGroup=tabGroup tabRoute=tabRoute noPadding=noPadding noSidePadding=noSidePadding noSidePaddingMobile=noSidePaddingMobile noPaddingMobile=noPaddingMobile hasHeader=hasHeader debug=debug as |section| }}
+{{#dash-tabs onTabChange=(action 'tabChanged') selectedTab=selectedTab sub=true isOnScreen=isOnScreen tabGroup=tabGroup tabRoute=tabRoute noPadding=noPadding noSidePadding=noSidePadding noSidePaddingMobile=noSidePaddingMobile noPaddingMobile=noPaddingMobile hasHeader=hasHeader debug=debug as |section| }}
   
   {{#if (compare section '===' 'header')}}
   

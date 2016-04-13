@@ -5,10 +5,10 @@ export default Ember.Component.extend({
   detectPlayerChange: Ember.on('didUpdateAttrs',function(opts){
     
     if(this.attrChanged(opts,'player')){
-      let was = this.get('isShowing');
-      this.set('isShowing',false);
+      let was = this.get('isOnScreen');
+      this.set('isOnScreen',false);
       Ember.run.next(()=>{
-        this.set('isShowing',was);
+        this.set('isOnScreen',was);
       });
     }
     

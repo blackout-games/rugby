@@ -117,7 +117,7 @@ export default Ember.Component.extend({
     this.set('currentSeason',this.get('seasons')[0]);
   }),
   
-  isShowing: Ember.computed('selectedTab',function(){
+  isOnScreen: Ember.computed('selectedTab',function(){
     
     return this.get('selectedTab') === this.get('waitForTab');
     

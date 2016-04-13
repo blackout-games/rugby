@@ -42,8 +42,8 @@ export default Ember.Component.extend({
       this.buildTabs();
     }
     
-    if(this.attrChanged(options,'isShowing')){
-      if(this.get('isShowing')){
+    if(this.attrChanged(options,'isOnScreen')){
+      if(this.get('isOnScreen')){
         Ember.run.debounce(this,this.updateTabWidth,1);
         Ember.run.debounce(this,this.preScrollToSelectedTab,1);
       }
@@ -223,7 +223,7 @@ export default Ember.Component.extend({
     
     // If tabs are scrollable, animate a scroll at the start to show user they are scollable
     Ember.run.later(()=>{
-      if(this.get('isShowing')){
+      if(this.get('isOnScreen')){
         Ember.run.debounce(this,this.updateTabWidth,1);
         Ember.run.debounce(this,this.preScrollToSelectedTab,1);
       }
