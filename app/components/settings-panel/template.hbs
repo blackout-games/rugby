@@ -6,7 +6,7 @@
 {{#blackout-select
   classes="btn-on-dark"
   selected=currentLocale
-  onchange=(action "changeLocale")
+  onChange=(action "changeLocale")
   options=locales as |locale|
 }}
 {{locale.label}}

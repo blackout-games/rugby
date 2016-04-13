@@ -1,6 +1,48 @@
 <div class="has-feedback {{if showError 'has-error'}}">
 
-  {{input value=value type=type placeholder=placeholder class=(concat inputClass ' form-control') id=inputId autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
+  {{#if (is 'money' type)}}
+    
+    {{blackout-money value=(readonly value) type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" onFocus=(action 'onFocus') onBlur=(action 'onBlur') key-up=(action 'onKeyUp') onChange=(action 'onChange')}}
+    
+  {{else}}
+  
+    {{#if (is 'checkbox' type)}}
+    
+      {{blackout-toggle toggled=(readonly value) onChange=(action 'onChange')}}
+    
+    {{else}}
+    
+      {{#if (is 'datetime' type)}}
+      
+        {{datetime-picker date=(readonly value) onChange=(action 'onChange') minDate=minDate maxDate=maxDate }}
+      
+      {{else}}
+      
+        {{#if (is 'select' type)}}
+          
+          {{#blackout-select
+            id=(readonly inputId)
+            classes=(concat inputClass ' form-control')
+            selected=value
+            onChange=(action 'onChange')
+            onFocus=(action 'onFocus')
+            onBlur=(action 'onBlur')
+            options=options as |option|
+          }}
+          {{option.label}}
+          {{/blackout-select}}
+          
+        {{else}}
+          
+          {{input value=value type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
+          
+        {{/if}}
+      
+      {{/if}}
+    
+    {{/if}}
+  
+  {{/if}}
   
   {{#if showError}}
   

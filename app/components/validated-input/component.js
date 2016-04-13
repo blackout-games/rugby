@@ -83,7 +83,14 @@ export default Ember.Component.extend({
       if(this.attrs.onChanged){
         this.attrs.onChanged(value);
       }
-    }
+    },
+    onChange(val){ // For 'select' input
+      if(this.get('valuePath')){
+        this.get('model').set(this.get('valuePath'),val);
+      } else {
+        this.set('value',val);
+      }
+    },
   },
   
 });
