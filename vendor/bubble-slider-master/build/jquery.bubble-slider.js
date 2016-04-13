@@ -64,10 +64,13 @@
               e = Math.max(t.min, e);
               t.setValue(e);
               t.positionThumb(e);
-              window.setTimeout(update,70);
+              window.setTimeout(update,50);
             }
           };
-          window.setTimeout(update,500);
+          if(t.pressTimeout){
+            window.clearTimeout(t.pressTimeout);
+          }
+          t.pressTimeout = window.setTimeout(update,300);
           t.minus.data('isPressing',true);
           return s.preventDefault(), e = t.value - t.step, e = Math.max(t.min, e), t.setValue(e), t.positionThumb(e);
         };
@@ -84,10 +87,13 @@
               e = Math.min(t.max, e);
               t.setValue(e);
               t.positionThumb(e);
-              window.setTimeout(update,70);
+              window.setTimeout(update,50);
             }
           };
-          window.setTimeout(update,500);
+          if(t.pressTimeout){
+            window.clearTimeout(t.pressTimeout);
+          }
+          t.pressTimeout = window.setTimeout(update,300);
           t.plus.data('isPressing',true);
           return s.preventDefault(), s.stopPropagation(), e = t.value + t.step, e = Math.min(t.max, e), t.setValue(e), t.positionThumb(e);
         };

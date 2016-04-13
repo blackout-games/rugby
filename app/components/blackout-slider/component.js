@@ -145,7 +145,7 @@ export default Ember.Component.extend({
     
   },
   
-  cleanupListeners(){
+  cleanupListeners: Ember.on('willDestroyElement',function(){
     
     if(this.get('docClickBound')){
       
@@ -162,7 +162,7 @@ export default Ember.Component.extend({
       
     }
     
-  },
+  }),
   
   /**
    * Handle a click somewhere other than the slider
