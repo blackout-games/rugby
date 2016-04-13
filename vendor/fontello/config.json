@@ -785,6 +785,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "474656633f79ea2f1dad59ff63f6bf07",
+      "css": "star",
+      "code": 59487,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "caed304a2bf6248f01e98c2aa30db1d7",
+      "css": "star-circled",
+      "code": 59488,
+      "src": "elusive"
+    },
+    {
       "uid": "4c95899d8ee2f5b09735c3835354c056",
       "css": "country",
       "code": 59393,
