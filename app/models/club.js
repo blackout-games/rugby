@@ -6,6 +6,7 @@ export default DS.Model.extend({
   logo: DS.attr('string'),
   bankBalance: DS.attr('number'),
   contentment: DS.attr('number'),
+  isPremium: DS.attr(),
   owner: DS.belongsTo('manager',{ async: true }),
   country: DS.belongsTo('country',{ async: true }),
   region: DS.belongsTo('region'),
