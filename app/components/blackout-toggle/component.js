@@ -4,6 +4,7 @@ const { $ } = Ember;
 export default Ember.Component.extend({
   
   classNames: ['inline-block'],
+  toggled: false,
   
   setup: Ember.on('didInsertElement',function(){
     
@@ -95,8 +96,8 @@ export default Ember.Component.extend({
   
   actions: {
     onToggle(val){
-      if(this.attrs.onToggle && typeof this.attrs.onToggle === 'function'){
-        this.attrs.onToggle(val);
+      if(this.attrs.onChange && typeof this.attrs.onChange === 'function'){
+        this.attrs.onChange(val);
       }
     },
   },
