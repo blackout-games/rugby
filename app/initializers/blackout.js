@@ -1134,6 +1134,23 @@ class Blackout {
   }
   
   /**
+   * Aliases
+   */
+  printModel(data){ this.printRecord(data); }
+  printRecords(data){ this.printData(data); }
+  
+  /**
+   * Print object
+   */
+  inspectObject(obj){
+    if(EmberInspector){
+      EmberInspector.inspect(obj);
+    } else {
+      Ember.Logger.warn('Please ensure ember inspector is open before calling EmberInspector');
+    }
+  }
+  
+  /**
    * Env
    */
   
