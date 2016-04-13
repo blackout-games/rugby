@@ -10,13 +10,17 @@ import Ember from 'ember';
 const keys = Object.keys;
 const get = Ember.get;
 
-export default function translationMacro(key, interpolations = {}) {
+export default function translationMacro(key, interpolations = {}, opts = {}) {
   const dependencies = [ 'i18n.locale' ].concat(values(interpolations));
   return Ember.computed(...dependencies, function() {
     if(!this.i18n){
       this.i18n = Ember.I18n;
     }
-    return Ember.I18n.t(key, mapPropertiesByHash(this, interpolations));
+    let str = Ember.I18n.t(key, mapPropertiesByHash(this, interpolations));
+    if(opts.ucFirst){
+      str = String(str).ucFirst();
+    }
+    return str;
   });
 }
 
