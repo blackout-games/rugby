@@ -73,6 +73,21 @@ $size: 44px;
     height:37px;
   }
   
+  &.datepicker--cell-day.-disabled- {
+    $color: $bg-light-darker-2x;
+    color: $color;
+    &:hover {
+      color: $color;
+      background: none !important;
+    }
+    &.-current- {
+      color: $primary-master;
+      &.-focus- {
+        color: $primary-master;
+      }
+    }
+  }
+  
   &.-current- {
     color: $primary-master;
     &.-focus- {
