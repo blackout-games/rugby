@@ -94,14 +94,14 @@ $dark-button-content-color: darken($secondary-master,22%);
 /**
  * Errors
  */
-$error-color: hsl(3, 70, 55 );
+$error-color: hsl(4, 70, 55 );
 $error-color-on-dark: saturate(lighten($error-color,9%),44%);
 
 /**
  * Warnings
  */
 
-$warning-background-color: #e1c153;
+$warning-background-color: #E1BE48;
 $warning-text-color: #4f3517;
 
 /**
