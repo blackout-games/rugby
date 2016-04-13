@@ -26,6 +26,9 @@ $transition-time-reverse: 0.444s ease(in-quad);
   &.reverse {
     transition: width $transition-time, background-color $transition-time-reverse;
   }
+  &.no-transition {
+    transition: none;
+  }
 }
 
 .confirm-button-original {
@@ -61,10 +64,10 @@ $transition-time-reverse: 0.444s ease(in-quad);
   opacity:0;
 }
 
-.confirm-button-yes {
+.btn.confirm-button-yes {
   transition: transform $transition-time, opacity $transition-time;
 }
 
-.confirm-button-no {
+.btn.confirm-button-no {
   transition: transform $transition-time, opacity $transition-time;
 }

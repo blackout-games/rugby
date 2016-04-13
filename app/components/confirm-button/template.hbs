@@ -1,5 +1,5 @@
-<button {{action 'onYes'}} class="btn btn-big btn-red confirm-button-yes confirm-button-action">{{t 'buttons.yes'}}</button>
-<button {{action 'onNo'}} class="btn btn-big btn-red confirm-button-no confirm-button-action">{{t 'buttons.no'}}</button>
+<button {{action 'onYes'}} class="confirm-button-yes confirm-button-action btn {{buttonClass}}">{{t 'buttons.yes'}}</button>
+<button {{action 'onNo'}} class="confirm-button-no confirm-button-action btn {{buttonClass}}">{{t 'buttons.no'}}</button>
 
 {{#loader-button class=buttonClass clickAction=(action 'onClick') confirmMode=true loading=loading}}{{yield}}{{/loader-button}}
 

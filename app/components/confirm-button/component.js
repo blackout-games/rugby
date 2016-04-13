@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   
   classNames: ['confirm-button-wrapper'],
   timerIsGoing: false,
+  fullWidth: true,
   
   /**
    * Gap between confirm and buttons, buttons and timer, timer and end of wrapper
@@ -30,8 +31,8 @@ export default Ember.Component.extend({
   }),
   
   onHide: Ember.on('didUpdateAttrs',function(opts){
-    if(this.attrChanged(opts,'isShowing')){
-      if(!this.get('isShowing')){
+    if(this.attrChanged(opts,'isOnScreen')){
+      if(!this.get('isOnScreen')){
         this.closeButton();
       }
     }
@@ -98,7 +99,14 @@ export default Ember.Component.extend({
     
     let setWrapperWidth = () => {
       
-      let wrapperWidth = itemsWidth + buttonsGap + timerSize + rightGap*3;
+      let wrapperWidth;
+      
+      if( this.get('fullWidth') ){
+        wrapperWidth = itemsWidth + buttonsGap + timerSize + rightGap*3;
+      } else {
+        wrapperWidth = this.get('originalWidth') + buttonsGap;
+      }
+      
       this.$().css('width',wrapperWidth);
       
     };
@@ -164,6 +172,10 @@ export default Ember.Component.extend({
     $confirm.css('padding',`${paddingTop} 0 ${paddingBottom}`).addClass('center-parent');
     $original.css('padding',`${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`).addClass('center-parent');
     
+    $yes.hide();
+    $no.hide();
+    $button.addClass('no-transition');
+    
   },
   
   actions: {
@@ -196,15 +208,28 @@ export default Ember.Component.extend({
         let yesLeft = width + rightGap;
         let noLeft = yesLeft + $yes.outerWidth() + buttonsGap;
         let timerLeft = noLeft + $no.outerWidth() + rightGap;
+    
+        $yes.show();
+        $no.show();
+        $button.removeClass('reverse no-transition');
+        $button.css('background-color','').off(Ember.Blackout.afterCSSTransition);
         
-        $yes.css({
-          transform: `translateX(${yesLeft}px)`,
-          opacity: 1,
+        Ember.run.next(()=>{
+          
+          $yes.css({
+            transform: `translateX(${yesLeft}px)`,
+            opacity: 1,
+          }).off(Ember.Blackout.afterCSSTransition);
+          
+          $no.css({
+            transform: `translateX(${noLeft}px)`,
+            opacity: 1,
+          }).off(Ember.Blackout.afterCSSTransition);
+          
+          $button.css('background-color','transparent');
+          
         });
-        $no.css({
-          transform: `translateX(${noLeft}px)`,
-          opacity: 1,
-        });
+        
         $timer.css({
           transform: `translateX(${timerLeft}px)`,
           opacity: 1,
@@ -213,12 +238,18 @@ export default Ember.Component.extend({
         });
         
         button.disable();
-        $button.removeClass('reverse');
-        $button.css('background-color','transparent');
         
         this.set('timerIsGoing',true);
-        
         this.set('button',button);
+        
+        if( this.attrs.onConfirm ){
+          this.attrs.onConfirm();
+        }
+        
+        let siblings = this.get('hideSiblingsOnConfirm');
+        if( siblings ){
+          this.$().siblings(siblings).fadeOut('222','easeOutExpo');
+        }
         
       }
     },
@@ -263,11 +294,17 @@ export default Ember.Component.extend({
       $yes.css({
         transform: `translateX(0)`,
         opacity: 0,
+      }).off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        $yes.hide();
       });
+      
       $no.css({
         transform: `translateX(0)`,
         opacity: 0,
+      }).off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        $no.hide();
       });
+      
       $timer.css({
         transform: `translateX(0)`,
         opacity: 0,
@@ -276,10 +313,17 @@ export default Ember.Component.extend({
       let button = this.get('button');
       button.enable();
       $button.addClass('reverse');
-      let normalColor = Ember.Blackout.getCSSColor('btn-red');
-      $button.css('background-color',normalColor);
+      $button.removeClass('hover press');
+      $button.css('background-color','').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        $button.addClass('no-transition');
+      });
       
       this.set('timerIsGoing',false);
+      
+      let siblings = this.get('hideSiblingsOnConfirm');
+      if( siblings ){
+        this.$().siblings(siblings).fadeIn('222','easeOutExpo');
+      }
       
     }
     
