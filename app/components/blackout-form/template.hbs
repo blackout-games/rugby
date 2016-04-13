@@ -4,7 +4,7 @@
   
     {{#each computedForm as |item index|}}
       
-      {{#if (compare item.type '===' 'link')}}
+      {{#if (is 'link' item.type)}}
         
         <div class="gap-md">
           <a {{action 'toggleItem' item.id}}>{{item.label}}</a>
@@ -39,7 +39,7 @@
           
           active=(or item.visibleOnKey item.showOnLink)
           
-          class="gap-lg blackout-form-item" }}
+          class="gap-3x blackout-form-item" }}
           
           <div>
             <label for="{{item.id}}">{{item.label}}</label>
@@ -47,44 +47,63 @@
           
           <div>
             
-            {{#if (compare item.type '===' 'radio')}}
+            {{#if (is 'moneyDisplay' item.type)}}
               
-              {{#each item.options as |option|}}
+              <div class="blackout-form-display-text{{if item.isWarning " blackout-form-warning"}}{{if item.isError " blackout-form-error"}}">
+                {{money-ui value=(get model item.valuePath) }}
+              </div>
+            
+            {{else}}
+              
+              {{! This is a date DISPLAY only }}
+              {{#if (is 'dateDisplay' item.type)}}
+              
+                {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "blackout-form-display-text" (if item.isWarning " blackout-form-warning") (if item.isError " blackout-form-error")) }}
+              
+              {{else}}
                 
-                {{! So that we can edit the model in the sub-component }}
-                {{#if item.valuePath}}
+                {{#if (is 'radio' item.type)}}
                   
-                  {{#blackout-radio
-                      value=option.value
-                      model=model
-                      valuePath=item.valuePath
-                      changed=(action item.onChanged)}}
-                      {{option.label}}
-                  {{/blackout-radio}}
+                  {{#each item.options as |option|}}
+                    
+                    {{! So that we can edit the model in the sub-component }}
+                    {{#if item.valuePath}}
+                      
+                      {{#blackout-radio
+                          value=option.value
+                          model=model
+                          valuePath=item.valuePath
+                          changed=(action item.onChanged)}}
+                          {{option.label}}
+                      {{/blackout-radio}}
+                      
+                    {{else}}
+                      
+                      {{#blackout-radio
+                          value=option.value
+                          groupValue=(if item.valuePath (get model item.valuePath) item.value)
+                          changed=(action item.onChanged)}}
+                          {{option.label}}
+                      {{/blackout-radio}}
+                      
+                    {{/if}}
+                    
+                  {{/each}}
                   
                 {{else}}
                   
-                  {{#blackout-radio
-                      value=option.value
-                      groupValue=(if item.valuePath (get model item.valuePath) item.value)
-                      changed=(action item.onChanged)}}
-                      {{option.label}}
-                  {{/blackout-radio}}
+                  {{! So that we can edit the model in the sub-component }}
+                  {{#if item.valuePath}}
+                    
+                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    
+                  {{else}}
+                    
+                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    
+                  {{/if}}
                   
                 {{/if}}
-                
-              {{/each}}
-              
-            {{else}}
-              
-              {{! So that we can edit the model in the sub-component }}
-              {{#if item.valuePath}}
-                
-                {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
-                
-              {{else}}
-                
-                {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) }}
                 
               {{/if}}
               
@@ -110,7 +129,16 @@
     </div>
   {{/if}}
   
-  {{#loader-button class="btn btn-big btn-right-gap" clickAction=(action 'onSave')}}{{t 'buttons.save-changes'}}{{/loader-button}}
+  {{#if confirm}}
+  
+    {{#confirm-button class="btn-big btn-right-gap" clickAction=(action 'onSave') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.blackout-cancel-button' }}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/confirm-button}}
+  
+  {{else}}
+  
+    {{#loader-button class="btn btn-big btn-right-gap" clickAction=(action 'onSave')}}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/loader-button}}
+  
+  {{/if}}
+  
   <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{if useCloseButton (t 'buttons.close') (t 'buttons.cancel')}}</button>
   
 </form>
