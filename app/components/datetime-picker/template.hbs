@@ -1,5 +1,5 @@
 <div class="gap-3x">
-  {{date-picker date=(readonly date) onChange=(action 'onChangeDate') currentLocale=locale.currentLocale}}
+  {{date-picker date=(readonly date) onChange=(action 'onChangeDate') currentLocale=locale.currentLocale minDate=minDate maxDate=maxDate }}
 </div>
 
 {{time-picker onChange=(action 'onChangeTime') 12HourTime=true time=(readonly date) }}
