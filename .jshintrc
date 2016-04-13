@@ -10,6 +10,7 @@
     "module",
     "Storage",
     "LockableStorage",
+    "EmberInspector",
     "log"
   ],
   "browser": true,

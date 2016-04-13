@@ -1,11 +1,8 @@
 import Ember from 'ember';
 
-const {
-  getOwner
-} = Ember;
-
 export default Ember.Service.extend({
   store: Ember.inject.service(),
+  session: Ember.inject.service(),
   
   /**
    * This should be called after session is built
@@ -13,11 +10,6 @@ export default Ember.Service.extend({
    * If not, defaults are loaded
    */
   loadPreferences() {
-    
-    // We need to make the session available
-    var owner = getOwner(this);
-    var session = owner.lookup('service:session');
-    this.set('session',session);
     
     // Load preferences into store, return promise if we need to wait
     // Must catch, so that user-blocking works (anything loaded during initialization)

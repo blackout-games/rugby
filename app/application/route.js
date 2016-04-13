@@ -12,6 +12,7 @@ const { $ } = Ember;
 export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, RouteHistoryMixin, FbMixin, {
   locals: Ember.inject.service(),
   preferences: Ember.inject.service(),
+  settings: Ember.inject.service(),
   bites: Ember.inject.service(),
   locale: Ember.inject.service(),
   user: Ember.inject.service(),
@@ -303,6 +304,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
       
       // Load and wait for preferences promise whether logged in or not
       preferences: this.get('preferences').loadPreferences(),
+      
+      // Load and wait for preferences promise whether logged in or not
+      settings: this.get('settings').loadSettings(),
       
       // Load general i18n document
       translation: this.get('locale').initLocale(),
