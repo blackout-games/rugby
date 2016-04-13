@@ -24,6 +24,14 @@ export default Ember.Component.extend({
     }
     return m.format('dddd Do MMM YYYY, h:mm a'); // Monday 14th Aug 2015, 11:33 am
   }),
+
+  fullDateShort: Ember.computed('date','i18n.locale', function() {
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.format('ddd D MMM, h:mm a'); // Mon 14 Aug, 11:33 am
+  }),
   
   dayDate: Ember.computed('date','i18n.locale', function() {
     let m = moment(this.get('date'));
@@ -73,11 +81,11 @@ export default Ember.Component.extend({
     day:'gameDay'
   }),
   
-  initialDate: Ember.computed(function(){
+  initialDate: Ember.computed('date',function(){
     return this.get(this.get('initial'));
   }),
   
-  altDate: Ember.computed(function(){
+  altDate: Ember.computed('date',function(){
     return this.get(this.get('alt'));
   }),
 
