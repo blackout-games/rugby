@@ -49,23 +49,26 @@ export default Ember.Component.extend({
     
     Ember.Blackout.waitForSizeOfHidden(this.$(),(size)=>{
       
-      this.set('height',size.height);
-      
-      this.$().css('overflow','visible');
       this.$().show();
-      if(immediate){
-        this.$().addClass('no-transition');
-      } else {
-        this.$().removeClass('no-transition');
-      }
-      this.$().css({
-        'max-height': this.get('height'),
-        opacity: 1,
-      }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
-        this.$().css('max-height','none');
-        this.$().addClass('no-transition');
-      }).removeClass('no-margin');
-      
+      Ember.run.next(()=>{
+        
+        this.set('height',size.height);
+        
+        this.$().css('overflow','visible');
+        if(immediate){
+          this.$().addClass('no-transition');
+        } else {
+          this.$().removeClass('no-transition');
+        }
+        this.$().css({
+          'max-height': this.get('height'),
+          opacity: 1,
+        }).off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+          this.$().css('max-height','none');
+          this.$().addClass('no-transition');
+        }).removeClass('no-margin');
+        
+      });
       
     });
     
@@ -107,7 +110,7 @@ export default Ember.Component.extend({
             /**
              * We've since added animations for the margins too, so we can now just hide the parent
              */
-            //$el.hide();
+            $el.hide();
             
           });
         } else {
