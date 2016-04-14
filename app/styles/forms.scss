@@ -42,9 +42,25 @@ $button-inset-shadow-on-dark: inset 0 3px 5px rgba(0, 0, 0, 0.25);
   }
 }
 
-@mixin focus-form-raw {
+@mixin form-focus-raw {
   border: $focus-border-thickness $focus-border-color solid !important;
   box-shadow: $focus-inset-shadow, $focus-shadow !important;
+}
+
+/**
+ * Needs to be this heavy since no blue border
+ */
+@mixin form-focus-glow {
+  box-shadow: 0 0 11px rgba($focus-border-color, 0.59) !important;
+}
+
+/**
+ * Needs to be this heavy since no blue border
+ */
+@mixin form-focus-glow-on-dark {
+  $color: rgba(lighten(saturate($focus-border-color,11%),11%), 0.999);
+  $color: rgba($primary-master, 0.888);
+  box-shadow: 0 0 11px $color !important;
 }
 
 @mixin hover-form-raw {
@@ -59,14 +75,14 @@ $button-inset-shadow-on-dark: inset 0 3px 5px rgba(0, 0, 0, 0.25);
 
 @mixin active-form {
   &:active {
-    @include focus-form-raw;
+    @include form-focus-raw;
   }
 }
 
-@mixin focus-form {
+@mixin form-focus {
   transition: box-shadow .11s;
   &:focus {
-    @include focus-form-raw;
+    @include form-focus-raw;
   }
 }
 
@@ -179,7 +195,7 @@ input[type="text"], input[type="password"], input[type="email"] {
   color: $primary-text-color;
   -webkit-appearance: none;
   box-shadow: none;
-  @include focus-form;
+  @include form-focus;
   @include active-form;
   @include hover-form;
   
@@ -211,7 +227,7 @@ input[type="text"], input[type="password"], input[type="email"] {
 
 .has-error .form-control {
   box-shadow: none;
-  @include focus-form;
+  @include form-focus;
   @include active-form;
   @include hover-form;
 }

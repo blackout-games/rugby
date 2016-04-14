@@ -9,8 +9,11 @@
 }
 
 .bs-focus {
-  @include form-focus-button-raw;
-  //border: 5px tomato solid !important;
+  @include form-focus-glow();
+  
+  &.on-dark {
+    @include form-focus-glow-on-dark();
+  }
 }
 
 // The native select element
