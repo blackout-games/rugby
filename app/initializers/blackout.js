@@ -330,16 +330,42 @@ class Blackout {
    */
   waitForWidthToChange($el,initialWidth,callback,start=0){
     
+    /**
+     * Stop waiting if element is removed
+     */
+    if(!$el || $el.length===0){
+      return false;
+    }
+    
     let w = $el.width();
     let now = Date.now();
+    
+    /**
+     * Stop waiting if element is removed (width will turn to zero when we move to a new route)
+     */
+    if(w===0){
+      $el.remove();
+      return false;
+    }
+    
+    /**
+     * We need to wait for as long as needed because the user may not open this element (or parent) for any length of time. e.g. List player floating window, custom deadline.
+     * @type {Boolean}
+     */
+    let waitForever = true;
+    
     if(!start){
       start = now;
     }
+    
     let timetaken = now-start;
-    if((w!==initialWidth) || timetaken>=1000){
+    if((w!==initialWidth) || (!waitForever && timetaken>=1000)){
+      if(!waitForever && timetaken>=1000){
+        Ember.Logger.warn('waitForWidthToChange failed to detect a change in width');
+      }
       callback();
     } else {
-      Ember.run.next(this,this.waitForWidthToChange,$el,initialWidth,callback,start);
+      Ember.run.later(this,this.waitForWidthToChange,$el,initialWidth,callback,start,111);
     }
   }
   
