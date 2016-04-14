@@ -68,15 +68,26 @@ export default Ember.Component.extend({
       if(!this.get('hasValidations') || this.get('formIsValid')){
         if(this.attrs.onSave){
           this.$('.blackout-cancel-button').prop('disabled',true);
-          this.attrs.onSave(()=>{
-            button.succeeded(true);
+          
+          /**
+           * Send 3 functions to action
+           * action( succeed, fail, final ){}
+           */
+          this.attrs.onSave((dontAnimate=false)=>{
+            button.succeeded(true,dontAnimate);
             this.$('.blackout-cancel-button').prop('disabled',false);
           },()=>{
             button.reset();
             this.$('.blackout-cancel-button').prop('disabled',false);
-          },()=>{
+          },(forceReset)=>{
             // Don't reset here, since if the consumer has nested promises, and calls this function in the finally clause on the parent promise, it will execute to early.
+            // Plus we have different button animation for success
+            
+            if(forceReset){
+              button.reset(true,true);
+            }
           });
+          
         }
       } else {
         button.reset();

@@ -1,107 +1,103 @@
 <form>
   
-  <div class="{{if serverError "gap-lg" "gap-2-5x"}}">
-  
-    {{#each computedForm as |item index|}}
+  {{#each computedForm as |item index|}}
+    
+    {{#if (is 'link' item.type)}}
       
-      {{#if (is 'link' item.type)}}
+      <div class="gap-md">
+        <a {{action 'toggleItem' item.id}}>{{item.label}}</a>
+      </div>
+      
+    {{else}}
         
-        <div class="gap-md">
-          <a {{action 'toggleItem' item.id}}>{{item.label}}</a>
-        </div>
+      {{! For hiding some form inputs based on the value of others }}
+      {{#blackout-fader
+      debugFader=debugFader
+        showing=
+        (compare
         
-      {{else}}
+          (and
+            (compare item.visibleOnKey 'typeof' 'null')
+            (compare item.showOnLink 'typeof' 'null')
+          ) '===' true
           
-        {{! For hiding some form inputs based on the value of others }}
-        {{#blackout-fader
-        
-          showing=
-          (compare
+          true
           
-            (and
-              (compare item.visibleOnKey 'typeof' 'null')
-              (compare item.showOnLink 'typeof' 'null')
-            ) '===' true
+          (compare item.visibleOnKey 'typeof' 'string'
+          
+            (compare (get model item.visibleOnKey) '===' item.visibleOnKeyValue)
             
-            true
+            (compare item.showOnLink 'typeof' 'string'
             
-            (compare item.visibleOnKey 'typeof' 'string'
-            
-              (compare (get model item.visibleOnKey) '===' item.visibleOnKeyValue)
+              (compare (get linksShowing item.showOnLink) '===' true)
               
-              (compare item.showOnLink 'typeof' 'string'
-              
-                (compare (get linksShowing item.showOnLink) '===' true)
-                
-              )
             )
           )
+        )
+        
+        active=(or item.visibleOnKey item.showOnLink)
+        
+        class="gap-3x blackout-form-item" }}
+        
+        <div>
+          <label for="{{item.id}}">{{item.label}}</label>
+        </div>
+        
+        <div>
           
-          active=(or item.visibleOnKey item.showOnLink)
-          
-          class="gap-3x blackout-form-item" }}
-          
-          <div>
-            <label for="{{item.id}}">{{item.label}}</label>
-          </div>
-          
-          <div>
+          {{#if (is 'moneyDisplay' item.type)}}
             
-            {{#if (is 'moneyDisplay' item.type)}}
-              
-              <div class="blackout-form-display-text{{if item.isWarning " blackout-form-warning"}}{{if item.isError " blackout-form-error"}}">
-                {{money-ui value=(get model item.valuePath) }}
-              </div>
+            <div class="blackout-form-display-text{{if item.isWarning " blackout-form-warning"}}{{if item.isError " blackout-form-error"}}">
+              {{money-ui value=(get model item.valuePath) }}
+            </div>
+          
+          {{else}}
+            
+            {{! This is a date DISPLAY only }}
+            {{#if (is 'dateDisplay' item.type)}}
+            
+              {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "blackout-form-display-text" (if item.isWarning " blackout-form-warning") (if item.isError " blackout-form-error")) }}
             
             {{else}}
               
-              {{! This is a date DISPLAY only }}
-              {{#if (is 'dateDisplay' item.type)}}
-              
-                {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "blackout-form-display-text" (if item.isWarning " blackout-form-warning") (if item.isError " blackout-form-error")) }}
-              
-              {{else}}
+              {{#if (is 'radio' item.type)}}
                 
-                {{#if (is 'radio' item.type)}}
-                  
-                  {{#each item.options as |option|}}
-                    
-                    {{! So that we can edit the model in the sub-component }}
-                    {{#if item.valuePath}}
-                      
-                      {{#blackout-radio
-                          value=option.value
-                          model=model
-                          valuePath=item.valuePath
-                          changed=(action item.onChanged)}}
-                          {{option.label}}
-                      {{/blackout-radio}}
-                      
-                    {{else}}
-                      
-                      {{#blackout-radio
-                          value=option.value
-                          groupValue=(if item.valuePath (get model item.valuePath) item.value)
-                          changed=(action item.onChanged)}}
-                          {{option.label}}
-                      {{/blackout-radio}}
-                      
-                    {{/if}}
-                    
-                  {{/each}}
-                  
-                {{else}}
+                {{#each item.options as |option|}}
                   
                   {{! So that we can edit the model in the sub-component }}
                   {{#if item.valuePath}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{#blackout-radio
+                        value=option.value
+                        model=model
+                        valuePath=item.valuePath
+                        changed=(action item.onChanged)}}
+                        {{option.label}}
+                    {{/blackout-radio}}
                     
                   {{else}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{#blackout-radio
+                        value=option.value
+                        groupValue=(if item.valuePath (get model item.valuePath) item.value)
+                        changed=(action item.onChanged)}}
+                        {{option.label}}
+                    {{/blackout-radio}}
                     
                   {{/if}}
+                  
+                {{/each}}
+                
+              {{else}}
+                
+                {{! So that we can edit the model in the sub-component }}
+                {{#if item.valuePath}}
+                  
+                  {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                  
+                {{else}}
+                  
+                  {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
                   
                 {{/if}}
                 
@@ -109,25 +105,25 @@
               
             {{/if}}
             
-            {{#if item.helper}}
-              <div class="blackout-form-helper">{{item.helper}}</div>
-            {{/if}}
+          {{/if}}
           
-          </div>
-            
-        {{/blackout-fader}}
+          {{#if item.helper}}
+            <div class="blackout-form-helper">{{item.helper}}</div>
+          {{/if}}
         
-      {{/if}}
-    
-    {{/each}}
-    
-  </div>
+        </div>
+          
+      {{/blackout-fader}}
+      
+    {{/if}}
   
-  {{#if serverError}}
-    <div class="has-error gap-md">
+  {{/each}}
+  
+  {{#blackout-fader showing=serverError active=true class="gap-lg blackout-form-server-error"}}
+    <div class="has-error">
       <span class="control-label">{{serverError}}</span>
     </div>
-  {{/if}}
+  {{/blackout-fader}}
   
   {{#if confirm}}
   

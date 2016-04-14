@@ -77,9 +77,9 @@ export default Ember.Component.extend({
     this.set('isAnimating',true);
   },
   
-  reset(allowFocus = true) {
+  reset(allowFocus=true, force=false) {
     
-    if(this.get('ignoreNextReset')){
+    if(!force && this.get('ignoreNextReset')){
       this.set('ignoreNextReset',false);
       return;
     }
@@ -102,32 +102,46 @@ export default Ember.Component.extend({
     this.set('hasSucceeded',false);
     this.set('loading',false);
     
+    this.$().off(Ember.Blackout.afterCSSTransition);
+    
+    if(this.get('laterId')){
+      Ember.run.cancel(this.get('laterId'));
+    }
+    
   },
   
-  succeeded(ignoreNextReset=false){
+  succeeded(ignoreNextReset=false, dontAnimate=false){
     this.reset();
-    if(ignoreNextReset){
-      // If reset() is called by a consumer soon after succeeded()
-      this.set('ignoreNextReset',true);
-    }
-    this.set('hasSucceeded',true);
-    Ember.run.later(()=>{
-      if(!this.get('isDestroyed')){
-        this.$().addClass('unsucceed');
-        this.$().off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
-          if(!this.get('isDestroyed')){
-            Ember.run.later(()=>{
-              if(!this.get('isDestroyed')){
-                this.$().removeClass('unsucceed');
-              }
-            },44);
-            // If reset() is not called by a consumer soon after succeeded()
-            this.set('ignoreNextReset',false);
-            this.reset();
-          }
-        });
+    if(!dontAnimate){
+      
+      if(ignoreNextReset){
+        // If reset() is called by a consumer soon after succeeded()
+        this.set('ignoreNextReset',true);
       }
-    },1777);
+      this.set('hasSucceeded',true);
+      let laterId = Ember.run.later(()=>{
+        this.set('laterId',false);
+        
+        if(!this.get('isDestroyed')){
+          this.$().addClass('unsucceed');
+          this.$().off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+            if(!this.get('isDestroyed')){
+              Ember.run.later(()=>{
+                if(!this.get('isDestroyed')){
+                  this.$().removeClass('unsucceed');
+                }
+              },44);
+              // If reset() is not called by a consumer soon after succeeded()
+              this.set('ignoreNextReset',false);
+              this.reset();
+            }
+          });
+        }
+      },1777);
+      
+      this.set('laterId',laterId);
+      
+    }
   },
   
   disable(){

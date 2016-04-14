@@ -5,8 +5,12 @@
   }
 }
 
-.blackout-form-item:last-of-type {
-  margin-bottom:0 !important;
+.blackout-form-item:nth-last-of-type(4) {
+  margin-bottom:20px !important;
+}
+
+.blackout-form-server-error {
+  margin-top:-10px;
 }
 
 .blackout-form-display-text {
