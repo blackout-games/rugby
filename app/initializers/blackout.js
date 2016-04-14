@@ -350,25 +350,36 @@ class Blackout {
    * 
    * NOTE that this can cause DOM flickering due to manipulation of the DOM
    */
-  waitForSizeOfHidden($el,$elToMove,callback,start=0){
+  waitForSizeOfHidden($el,$elToMove,callback,opts={}){
     if(typeof $elToMove === 'function'){
+      opts = callback;
+      if(!opts){
+        opts = {};
+      }
       callback = $elToMove;
       $elToMove = null;
     }
-    let size = this.getSizeOfHidden($el,$elToMove);
+    let size = this.getSizeOfHidden($el,$elToMove,opts);
     let now = Date.now();
-    if(!start){
-      start = now;
+    if(!opts.start){
+      opts.start = now;
     }
-    let timetaken = now-start;
+    let timetaken = now-opts.start;
+    
     if((size.width && size.height) || timetaken>=1000){
+      if(timetaken>=1000){
+        Ember.Logger.warn('waitForSizeOfHidden failed to find height within 1s');
+      }
       callback(size,timetaken);
     } else {
-      Ember.run.next(this,this.waitForSizeOfHidden,$el,$elToMove,callback,start);
+      Ember.run.next(this,this.waitForSizeOfHidden,$el,$elToMove,callback,opts);
     }
   }
   
-  getSizeOfHidden($el,$elToMove=null){
+  /**
+   * Be sure that the children of the item you're wanting to calculate are visible. For example, with blackout-fader we spent far too much time debugging an issue, when it just turned out to be the children of this element were hidden.
+   */
+  getSizeOfHidden($el,$elToMove=null,opts={}){
     
     // Save originals
     let previousCss  = $el.attr("style");
@@ -378,31 +389,40 @@ class Blackout {
     let index = $elToMove.index();
     let $parent = $elToMove.parent();
     let moved = false;
-
-    $el.css({
-      position:   'absolute',
-      visibility: 'hidden',
-      display:    'inline-block',
-      'max-height': 'none',
-      'max-width': 'none',
-      opacity: '1',
-      width: 'auto',
-      height: 'auto',
-    });
+    let parentWidth,parentHeight;
     
     // Insert in body in case $el is in a display:none parent.
     if(!$elToMove.is(":visible") || !$el.is(":visible")){
-      $elToMove.closest(":visible").append($elToMove);
+      let $visibleParent = $elToMove.closest(":visible");
+      parentWidth = $visibleParent.width();
+      parentHeight = $visibleParent.height();
+      $('body').append($elToMove);
       moved = true;
+    } else {
+      parentWidth = $elToMove.parent().width();
+      parentHeight = $elToMove.parent().height();
     }
+    
+    $el.css({
+      position:   'absolute',
+      visibility: 'visible',
+      display:    'inline-block',
+      'max-height': 'none',
+      'max-width': parentWidth,
+      opacity: '1',
+      width: 'auto',
+      height: opts.limitHeight ? parentHeight : 'auto',
+    });
     
     let width = $el.width();
     let height = $el.height();
     let scrollHeight = $el[0].scrollHeight;
     let scrollWidth = $el[0].scrollWidth;
     let outerWidth = $el.outerWidth();
-    let outerHeight = $el.outerHeight();    $el.attr("style", previousCss ? previousCss : "");
+    let outerHeight = $el.outerHeight();
     
+    
+    $el.attr("style", previousCss ? previousCss : "");
     if(moved){
       $parent.insertAt(index,$elToMove);
     }
