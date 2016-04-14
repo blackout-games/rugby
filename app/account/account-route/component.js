@@ -63,7 +63,7 @@ export default Ember.Component.extend({
   }),
   
   resetErrors(){
-    //this.set('serverError',null);
+    this.set('serverError',null);
     this.set('serverErrors',{});
   },
   
