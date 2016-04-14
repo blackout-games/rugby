@@ -52,6 +52,7 @@ Router.map(function() {
       });
       this.route('history');
       this.route('manage');
+      this.route('sale');
     });
   });
   this.route('account');
