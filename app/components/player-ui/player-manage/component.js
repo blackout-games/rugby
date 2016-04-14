@@ -61,7 +61,7 @@ export default Ember.Component.extend({
       this.set('showingSellPlayerBox',true);
     },
     onCancelSellPlayer(){
-      //log('closed da serll playa');
+      //
     },
     listPlayer(succeed,fail,final){
       
@@ -108,9 +108,6 @@ export default Ember.Component.extend({
     cancelSell(){
       this.set('showingSellPlayerBox',false);
     },
-    toggleToggle(val){
-      log('toggled',val);
-    }
   },
   
   serverErrors: {},
