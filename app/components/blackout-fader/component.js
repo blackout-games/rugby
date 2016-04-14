@@ -22,7 +22,6 @@ export default Ember.Component.extend({
         }
       } else {
         Ember.Blackout.waitForSizeOfHidden(this.$(),(size)=>{
-          log('height',size);
           this.set('height',size.height);
           this.show(true);
         });

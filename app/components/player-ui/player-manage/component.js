@@ -7,12 +7,6 @@ export default Ember.Component.extend({
   settings: Ember.inject.service(),
   store: Ember.inject.service(),
   
-  showSell: Ember.on('didInsertElement',function(){
-    Ember.run.next(()=>{
-      this.send('openSellPlayer');
-    });
-  }),
-  
   detectPlayerChange: Ember.on('didUpdateAttrs',function(opts){
     
     if(this.attrChanged(opts,'player')){
