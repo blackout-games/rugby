@@ -72,6 +72,12 @@
   border-radius: $border-radius;
   background-color: $bg-color;
   box-shadow:0 10px 20px rgba(black,0.44);
+  
+  /**
+   * This needs to exist for cases where the options get 
+   * moved to a parent with no pointer events.
+   */
+  pointer-events: auto;
 
   &.bs-options-ready {
     display:block;

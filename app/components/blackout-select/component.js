@@ -327,13 +327,21 @@ export default Ember.Component.extend(PreventBodyScroll,{
       let $options = this.get('$options');
       
       if(this.isOpen()){
-        $options.off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
-          this.get('$options').removeClass('bs-options-ready');
-        });
         
-        if($options.data('bs-positioned')){
-          $options.css('position',$options.data('bs-position')).data('bs-positioned',false);
-        }
+        // Get ready for close animation
+        this.get('$options').addClass('bs-options-ready');
+        
+        Ember.run.next(()=>{
+          
+          $options.off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
+            this.get('$options').removeClass('bs-options-ready');
+          });
+          
+          if($options.data('bs-positioned')){
+            $options.css('position',$options.data('bs-position')).data('bs-positioned',false);
+          }
+          
+        });
       }
       
       // Must happen after check isOpen()
@@ -428,11 +436,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
         top: top,
         left: pos.left,
         'max-height': optsHeight,
-      });
-      
-      // Get ready for close animation
-      Ember.run.next(()=>{
-        this.get('$options').addClass('bs-options-ready');
       });
       
       // Set height of scroller
