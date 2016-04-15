@@ -1,10 +1,16 @@
 
 <div class="blackout-tabs-container"></div>
 
-<div class="blackout-tabs-content-container">
-  {{#side-switcher direction=tabDirection currentlyShowing=switcherTab class="" receivePanels=(action 'receivePanels') }}
-
-    {{yield}}
-    
-  {{/side-switcher}}
-</div>
+{{yield (hash
+  list=(component 'blackout-tabs/tabs-list'
+    selectTab=(action 'selectTab')
+    registerTab=(action 'registerTab')
+    deregisterTab=(action 'deregisterTab')
+    hide=hideList
+  )
+  content=(component 'blackout-tabs/tabs-content'
+    switcherTab=(readonly switcherTab)
+    receivePanels=(action 'receivePanels')
+    tabDirection=tabDirection
+  )
+)}}

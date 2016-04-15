@@ -74,9 +74,9 @@ export default Ember.Component.extend({
     }
     
     if( typeof(currentlyShowing) === 'string' ){
-      newObj = $('#'+currentlyShowing);
+      newObj = this.$('#'+currentlyShowing);
     } else {
-      newObj = $(currentlyShowing);
+      newObj = this.$(currentlyShowing);
     }
     
     if(!$(newObj).length){
@@ -137,7 +137,7 @@ export default Ember.Component.extend({
   
   didUpdateAttrs(options){
       
-    if(options.newAttrs.currentlyShowing.value !== options.oldAttrs.currentlyShowing.value){
+    if(this.attrChanged(options,'currentlyShowing')){
       this.show();
     }
     
@@ -190,7 +190,10 @@ export default Ember.Component.extend({
     
     Ember.run.next(()=>{
       pane.css({
-        height: $(newObj)[0].scrollHeight + 'px',
+        // Use outerHeight on item with .clearfix applied to 
+        // get accurate height reading
+        //height: $(newObj).outerHeight() + 'px',
+        height: $(newObj).outerHeight() + 'px',
       });
     });
     

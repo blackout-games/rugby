@@ -45,4 +45,9 @@ $height-transition: height $side-switcher-time $side-switcher-ease;
 }
 .switcher-panel {
   width: 100%;
+  
+  /**
+   * Must do this to get accurate height calculations
+   */
+  @extend .clearfix;
 }

@@ -1,17 +1,33 @@
 import Ember from 'ember';
 const { $ } = Ember;
 
+/**
+ * Tab naming rules
+ * 
+ * When giving a tab an id, use the following format
+ * 
+ * [tabgroup]-[tabname]-panel
+ * 
+ * e.g.
+ * player-manage-panel
+ * 
+ * Then when creating a route with blackout-tab-selector,
+ * use the group and tabname given in the tab id above.
+ * 
+ */
+
 export default Ember.Component.extend({
   
-  tabIds: [],
+  tabIds: [], // Creates Ember.Array
   tabLastSelected: 0,
   routeLastUpdated: 0,
   previousRoutes: Ember.Object.create(),
+  hasInittedAttrs: false,
   
   /**
    * Use this to set new tabs externally
    */
-  selectedTab: '',
+  selectedTab: null,
   
   /**
    * Use this to externally react to newly selected tabs
@@ -29,6 +45,14 @@ export default Ember.Component.extend({
    * Will be set to the same as tabGroup if not explicitly set.
    */
   tabRoute: '',
+  
+  /**
+   * Need to reset tabIds on init for when two or more instances of this component are created so there's no bleed-out
+   */
+  onInit: Ember.on('init',function(){
+    this.set('tabIds',[]);
+    this.set('hasInittedAttrs',false);
+  }),
   
   setup: Ember.on('didInsertElement',function(){
     
@@ -53,90 +77,96 @@ export default Ember.Component.extend({
   
   onAttrChange: Ember.on('didReceiveAttrs',function(options){
     
-    if(this.attrChanged(options,'selectedTab')){
+    if(this.attrChanged(options,'selectedTab') && this.get('selectedTab') !== this.get('switcherTab')){
       this.send('selectTab',this.get('selectedTab'),true);
+    }
+    
+    if(!this.get('hasInittedAttrs')){
+      
+      /**
+       * Allow parent component to register tabs
+       * For use with tab extensions (e.g. dash-tabs)
+       */
+      if(this.attrs.tabRegistration){
+        this.attrs.tabRegistration(Ember.run.bind(this,this.registerTab),Ember.run.bind(this,this.deregisterTab));
+      }
+      
+      this.set('hasInittedAttrs',true);
     }
     
   }),
   
-  buildTabs(){
-      
-    let defaultId;
+  registerTab(id){
     
-    $.each(this.get('tabPanels'),(i,$panel)=>{
-      
-      let id = $panel.prop('id');
-      
-      if(!this.get('hideTabs')){
-        
-        // Build tab
-        let $tab = $('<a>' + $panel.data('tab-name') + '</a>');
-        
-        // Handle tab click
-        $tab.on('mousedown touchstart',()=>{
-          this.send('selectTab',id);
-        });
-        
-        // Add tab to DOM
-        this.$('.blackout-tabs-container').append($tab);
-        this.$('.blackout-tabs-container').append(' ');
-      
-      }
-        
-      // Add id to list
-      this.get('tabIds').push(id);
-      
-      if(!defaultId){
-        defaultId = id;
-      }
-      
-      // Save first tab id (index)
-      if(!this.get('indexTab')){
-        this.set('indexTab',id);
-      }
-        
-    });
-    
-    // Select default
-    Ember.run.next(()=>{
-      
-      // If a tab hasn't been selected by some other method (e.g. blackout-tab-selector)
-      // Must use switcherTab since 'selectedTab' can be overwritten with the default value from the parent component *after* a tab has already been selected via URL (eventbus)
-      if(!this.get('switcherTab')){
-        this.send('selectTab',defaultId);
-      } else {
-        // Don't do this or it creates multiple calls to selectTab in one loop (e.g. when loading the player page direct from url)
-        // If a default tab is not being selected, ensure an index route exists which uses blackout-tab-selector
-        //this.send('selectTab',this.get('selectedTab'));
-      }
-      
-    });
+    // Add id to list
+    this.get('tabIds').pushObject(id);
     
   },
   
+  deregisterTab(id){
+    
+    // Add id to list
+    this.get('tabIds').removeObject(id);
+    
+    if(this.get('switcherTab') === id){
+      this.send('selectTab',this.get('indexTab'));
+    }
+    
+  },
+  
+  indexTab: Ember.computed('tabIds.[]',function(){
+    return this.get('tabIds.firstObject');
+  }),
+  
+  selectDefaultTab: Ember.on('didInsertElement',function(){
+    
+    if( this.get('indexTab') ){
+      
+      // Select default
+      Ember.run.next(()=>{
+        // If a tab hasn't been selected by some other method (e.g. blackout-tab-selector)
+        // Must use switcherTab since 'selectedTab' can be overwritten with the default value from the parent component *after* a tab has already been selected via URL (eventbus)
+        if(!this.get('switcherTab')){
+          this.send('selectTab',this.get('indexTab'),false,false,true);
+        } else {
+          // Don't do this or it creates multiple calls to selectTab in one loop (e.g. when loading the player page direct from url)
+          // If a default tab is not being selected, ensure an index route exists which uses blackout-tab-selector
+          //this.send('selectTab',this.get('selectedTab'));
+        }
+        
+      });
+      
+    }
+    
+  }),
+  
   actions: {
     receivePanels( panels ){
-      this.set('tabPanels',panels);
-      this.buildTabs();
       if(this.attrs.receiveTabs){
         this.attrs.receiveTabs(panels);
       }
     },
+    registerTab(id/*, name*/){
+      this.registerTab(id);
+    },
+    deregisterTab(id){
+      this.deregisterTab(id);
+    },
     selectTabFromURL( panelId ){
       if(!this.get('URLSet')){
         // Don't set wasExternal here
-        this.send('selectTab',this.get('tabGroup')+'-'+panelId+'Panel',false,true);
+        this.send('selectTab',this.get('tabGroup')+'-'+panelId+'-panel',false,true);
       } else {
         this.set('URLSet',false);
       }
     },
-    selectTab( tabId, wasExternal, wasViaURL ){
+    selectTab( tabId, wasExternal, wasViaURL, forceImmediate=false ){
       
       if(Date.now() - this.get('tabLastSelected') >= 111){
         
         let previousTab = this.get('switcherTab');
         
-        if(wasViaURL){
+        if(wasViaURL||forceImmediate){
           this.set('tabDirection','immediate');
         } else {
           this.set('tabDirection',this.determineDirection(tabId));
@@ -166,6 +196,7 @@ export default Ember.Component.extend({
             let route = Ember.Blackout.getCurrentRoute();
             let parts = route.split('.');
             let newRoute = this.get('previousRoutes.'+tabId);
+            let success = true;
             
             // Save route of current tab first
             this.set('previousRoutes.'+previousTab,route);
@@ -173,26 +204,36 @@ export default Ember.Component.extend({
             if(Ember.isEmpty(newRoute)){
               
               newRoute = '';
+              let tabGroup = this.get('tabGroup');
               
-              $.each(parts,(i,val)=>{
-                newRoute += val + '.';
+              if(!tabGroup){
                 
-                if(val === this.get('tabRoute')){
+                Ember.Logger.warn(`Could not update the URL for tab ${tabId} because tabGroup is not specified.`);
+                success = false;
+                
+              } else {
+                
+                $.each(parts,(i,val)=>{
+                  newRoute += val + '.';
                   
-                  if(this.get('indexTab') !== tabId){
-                    newRoute += tabId.replace(/.+-|Panel/g,'');
-                  } else {
-                    newRoute = newRoute.rtrim('.');
+                  if(val === this.get('tabRoute')){
+                    
+                    if(this.get('indexTab') !== tabId){
+                      newRoute += tabId.replace(new RegExp(tabGroup+'-|-panel', 'g'),'');
+                    } else {
+                      newRoute = newRoute.rtrim('.');
+                    }
+                    
+                    return false;
+                    
                   }
-                  
-                  return false;
-                  
-                }
-              });
+                });
+                
+              }
               
             }
-              
-            if(newRoute!==route){
+            
+            if(success && newRoute!==route){
               this.set('URLSet',true);
               Ember.Blackout.transitionTo(newRoute);
             }

@@ -33,41 +33,51 @@
     
 {{#if singleMode}}
   
-  {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="player" }}
+  {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="player" as |tabs|}}
     
-    <div id="player-infoPanel" data-tab-t="player.player" data-tab-icon-class="icon-user icon-lg">
+    {{#tabs.list as |list|}}
+      
+      {{list.tab tab="player-info-panel" name-t="player.player" icon-class="icon-user icon-lg"}}
+      
+      {{list.tab tab="player-statistics-panel" name-t="buttons.statistics" icon-class="icon-chart-bar icon-lg"}}
+      
+      {{list.tab tab="player-history-panel" name-t="buttons.history" icon-class="icon-history icon-lg"}}
+      
+      {{list.tab tab="player-manage-panel" name-t="buttons.manage" icon-class="icon-wrench icon-lg tab-icon-straight tab-icon-flip" hide=(not playerIsOwned)}}
+      
+      {{list.tab tab="player-sale-panel" name-t="buttons.for-sale" icon-class="icon-tag icon-lg" hide=(not player.transfer)}}
+      
+    {{/tabs.list}}
+      
+    {{#tabs.content as |content|}}
     
-      {{player-ui/player-info player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-infoPanel'}}
       
-    </div>
-
-    <div id="player-statisticsPanel" data-tab-t="buttons.statistics" data-tab-icon-class="icon-chart-bar icon-lg" data-tab-no-padding="true">
+      {{#content.tab id="player-info-panel"}}
+        {{player-ui/player-info player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-info-panel'}}
+      {{/content.tab}}
       
-      {{player-ui/player-stats selectedTab=selectedTab waitForTab='player-statisticsPanel' stats=stats player=player}}
       
-    </div>
-
-    <div id="player-historyPanel" data-tab-t="buttons.history" data-tab-icon-class="icon-history icon-lg">
+      {{#content.tab id="player-statistics-panel" noPadding=true}}
+        {{player-ui/player-stats selectedTab=selectedTab waitForTab='player-statistics-panel' stats=stats player=player}}
+      {{/content.tab}}
       
-      {{player-ui/player-history history=history player=player}}
       
-    </div>
-    
-    {{#if playerIsOwned}}
-
-    <div id="player-managePanel" data-tab-t="buttons.manage" data-tab-icon-class="icon-wrench icon-lg tab-icon-straight tab-icon-flip">
+      {{#content.tab id="player-history-panel"}}
+        {{player-ui/player-history history=history player=player}}
+      {{/content.tab}}
       
-      {{player-ui/player-manage player=player isOnScreen=(is 'player-managePanel' selectedTab)}}
       
-    </div>
-    
-    {{/if}}
-
-    <div id="player-salePanel" data-tab-text="sale" data-tab-icon-class="icon-history icon-lg">
+      {{#content.tab id="player-manage-panel"}}
+        {{player-ui/player-manage player=player isOnScreen=(is 'player-manage-panel' selectedTab)}}
+      {{/content.tab}}
       
-      {{player-ui/player-sale player=player}}
       
-    </div>
+      {{#content.tab id="player-sale-panel"}}
+        {{player-ui/player-sale player=player}}
+      {{/content.tab}}
+      
+      
+    {{/tabs.content}}
     
   {{/dash-tabs}}
 

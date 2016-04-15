@@ -1,13 +1,24 @@
- 
+{{#component 'dash-tabs/tabs-list'
+    isOnScreen=isOnScreen
+    selectTab=(action 'selectTab')
+    registerTab=(action 'registerTab')
+    deregisterTab=(action 'deregisterTab')
+    selectedTab=(readonly selectedTab)
+    debug=debug as |list|}}
 
-{{blackout-tabs-slider tabPanels=dashTabs isOnScreen=isOnScreen selectedTab=(readonly selectedTab) onTabSelect=(action 'tabSelected') debug=debug }}
+  {{#component 'dash-tabs/tabs-content'
+    tabGroup=tabGroup
+    tabRoute=tabRoute
+    tabChanged=(action 'selectTab')
+    receiveTabs=(action 'receiveTabs')
+    tabRegistration=(action 'receiveTabRegistration')
+    selectedTab=(readonly selectedTab) as |content|}}
+    
+    {{yield (hash
+      list=list.list
+      content=content.content
+    )}}
 
-{{#if hasHeader}}
-  {{yield 'header'}}
-{{/if}}
+  {{/component}}
 
-{{#blackout-tabs receiveTabs=(action 'receiveTabs') selectedTab=(readonly currentTab) onTabChange=(action 'tabChanged') hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isOnScreen=isOnScreen }}
-  
-  {{yield}}
-  
-{{/blackout-tabs}}
+{{/component}}

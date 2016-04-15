@@ -2,7 +2,18 @@
   <div class="blackout-tabs-slider-hider border-radius-fix">
 
     {{#normal-scroll horizontal=true class="blackout-tabs-slider-scroller" debug=debug}}
-      <div class="blackout-tabs-slider row row-nowrap"></div>
+    
+      <div class="blackout-tabs-slider row row-nowrap">
+        {{yield (hash
+          tab=(component 'blackout-tabs-slider/tab'
+            selectTab=(action 'selectTab')
+            registerTab=registerTab
+            deregisterTab=deregisterTab
+            selectedTab=selectedTab
+          )
+        )}}
+      </div>
+      
     {{/normal-scroll}}
     
   </div>

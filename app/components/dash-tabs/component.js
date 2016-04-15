@@ -1,13 +1,28 @@
 import Ember from 'ember';
 
+/**
+ * Tab naming rules
+ * 
+ * When giving a tab an id, use the following format
+ * 
+ * [tabgroup]-[tabname]-panel
+ * 
+ * e.g.
+ * player-manage-panel
+ * 
+ * Then when creating a route with blackout-tab-selector,
+ * use the group and tabname given in the tab id above.
+ * 
+ */
+
 export default Ember.Component.extend({
-  
   /**
    * If these tabs are under another set of tabs, or otherwise in a position where they may not be rendered on screen at all times, you should pass in a variable isOnScreen to let this component know when the tabs are visible.
    * This allows tab sliders to update tab width based on the width of the slider parent to ensure the last tab is half visible to let the user know they can slide to see more tabs.
+   * If not set explicitly, assume we're onscreen so that changes can be seen.
    * @type {Boolean}
    */
-  isOnScreen:false,
+  isOnScreen:true,
   
   classNames: ['dash-box','dash-box-no-padding'],
   
@@ -31,7 +46,9 @@ export default Ember.Component.extend({
           }
         });
         
-      }if(this.get('noPaddingMobile')){
+      }
+      
+      if(this.get('noPaddingMobile')){
         
         Ember.$.each(this.get('dashTabs'),(i,$tab)=>{
           if(!$tab.data('tab-no-padding')){
@@ -74,18 +91,36 @@ export default Ember.Component.extend({
    * For sending data down
    */
   actions: {
+    
+    receiveTabRegistration(registerTab,deregisterTab){
+      this.set('registerTab',registerTab);
+      this.set('deregisterTab',deregisterTab);
+    },
+    
+    registerTab(id/*, name*/){
+      this.get('registerTab')(id);
+    },
+    deregisterTab(id){
+      this.get('deregisterTab')(id);
+    },
+    
     receiveTabs( tabs ){
       this.set('dashTabs',tabs);
       this.setupTabs();
     },
-    tabChanged( newTab ){
+    
+    selectTab( newTab ){
       this.tabChanged(newTab);
-      this.set('selectedTab',newTab);
+      /**
+       * Avoid ember telling us we have modified a value twice in a single render
+       */
+      Ember.run.once(this,this.setTabs,newTab);
     },
-    tabSelected( newTab ){
-      this.tabChanged(newTab);
-      this.set('currentTab',newTab);
-    },
+    
+  },
+  
+  setTabs(newTab){
+    this.set('selectedTab',newTab);
   },
   
   /**

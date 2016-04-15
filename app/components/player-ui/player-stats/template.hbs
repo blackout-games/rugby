@@ -1,24 +1,47 @@
-{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isOnScreen=isOnScreen noPaddingMobile=false hasHeader=true as |section| }}
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isOnScreen=isOnScreen noPaddingMobile=false as |tabs| }}
   
-  {{#if (compare section '===' 'header')}}
+  {{#tabs.list as |list|}}
     
-    <div class="dash-box-padding no-bottom-pad">
+    {{list.tab tab="player-statistics-all-panel" name-t="player.statistics.all" icon-class="icon-chart-bar icon-lg" }}
     
-      {{#blackout-select
-        classes=''
-        selected=currentSeason
-        onChange=(action 'changeSeason')
-        options=seasons as |season|
-      }}
-      {{season.label}}
-      {{/blackout-select}}
-      
-    </div>
+    {{list.tab tab="player-statistics-points-panel" name-t="player.statistics.points" icon-class="icon-list-numbered icon-lg" }}
     
-  {{else}}
+    {{list.tab tab="player-statistics-attack-panel" name-t="player.attack" icon-class="icon-skill-attack icon-2x" }}
+    
+    {{list.tab tab="player-statistics-defence-panel" name-t="player.defence" icon-class="icon-skill-defence icon-2x" }}
+    
+    {{list.tab tab="player-statistics-kicking-panel" name-t="player.kicking" icon-class="icon-skill-kicking icon-1-5x" }}
+    
+    {{list.tab tab="player-statistics-handling-panel" name-t="player.handling" icon-class="icon-skill-handling icon-1-5x" }}
+    
+    {{list.tab tab="player-statistics-discipline-panel" name-t="player.discipline" icon-class="icon-skill-technique icon-2x" }}
+    
+    {{list.tab tab="player-statistics-lineout-panel" name-t="player.statistics.lineout" icon-class="icon-skill-jumping icon-2x" }}
+    
+    {{list.tab tab="player-statistics-caps-panel" name-t="player.statistics.caps" icon-class="icon-cap icon-2x" }}
+    
+  {{/tabs.list}}
   
-    <div id="player-statistics-allPanel" data-tab-t="player.statistics.all" data-tab-icon-class="icon-chart-bar icon-lg">
-      
+    
+  <div class="dash-box-padding no-bottom-pad">
+  
+    {{#blackout-select
+      classes=''
+      selected=currentSeason
+      onChange=(action 'changeSeason')
+      options=seasons as |season|
+    }}
+    {{season.label}}
+    {{/blackout-select}}
+    
+  </div>
+  
+  
+  {{#tabs.content as |content|}}
+    
+    
+    {{#content.tab id="player-statistics-all-panel"}}
+    
       <h5 class="gap-lg no-top-gap">{{t 'buttons.misc'}}</h5>
       
       {{player-ui/player-stats/stats-group stats=seasonStats group=miscGroup}}
@@ -55,56 +78,49 @@
       
       {{player-ui/player-stats/stats-group stats=seasonStats group=capsGroup percent=true}}
       
-    </div>
+    {{/content.tab}}
     
-    <div id="player-statistics-pointsPanel" data-tab-t="player.statistics.points" data-tab-icon-class="icon-list-numbered icon-lg">
-      
+    
+    {{#content.tab id="player-statistics-points-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=pointsGroup}}
-      
-    </div>
-
-    <div id="player-statistics-attackPanel" data-tab-t="player.attack" data-tab-icon-class="icon-skill-attack icon-2x">
-      
+    {{/content.tab}}
+    
+    
+    {{#content.tab id="player-statistics-attack-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=attackGroup}}
-      
-    </div>
-
-    <div id="player-statistics-defencePanel" data-tab-t="player.defence" data-tab-icon-class="icon-skill-defence icon-2x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-defence-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=defenceGroup}}
-      
-    </div>
-
-    <div id="player-statistics-kickingPanel" data-tab-t="player.kicking" data-tab-icon-class="icon-skill-kicking icon-1-5x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-kicking-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=kickingGroup}}
-      
-    </div>
-
-    <div id="player-statistics-handlingPanel" data-tab-t="player.handling" data-tab-icon-class="icon-skill-handling icon-1-5x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-handling-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=handlingGroup}}
-      
-    </div>
-
-    <div id="player-statistics-disciplinePanel" data-tab-t="player.discipline" data-tab-icon-class="icon-skill-technique icon-2x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-discipline-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=disciplineGroup}}
-      
-    </div>
-
-    <div id="player-statistics-lineoutPanel" data-tab-t="player.statistics.lineout" data-tab-icon-class="icon-skill-jumping icon-2x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-lineout-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=lineoutGroup}}
-      
-    </div>
-
-    <div id="player-statistics-capsPanel" data-tab-t="player.statistics.caps" data-tab-icon-class="icon-cap icon-2x">
+    {{/content.tab}}
     
+    
+    {{#content.tab id="player-statistics-caps-panel"}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=capsGroup percent=true}}
-      
-    </div>
+    {{/content.tab}}
     
-  {{/if}}
+    
+  {{/tabs.content}}
   
 {{/component}}

@@ -1,0 +1,12 @@
+
+
+{{yield (hash
+  list=(component 'blackout-tabs-slider'
+    selectTab=selectTab
+    registerTab=registerTab
+    deregisterTab=deregisterTab
+    isOnScreen=isOnScreen
+    debug=debug
+    selectedTab=(readonly selectedTab)
+  )
+)}}

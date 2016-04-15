@@ -10,7 +10,23 @@ export default Ember.Component.extend({
   tabs: Ember.Object.create(),
   
   /**
-   * Use this to externally react to newly selected tabs
+   * Assume is on screen by default
+   * @type {Boolean}
+   */
+  isOnScreen: true,
+  
+  /**
+   * Use this to manage the current selected tab internally
+   */
+  currentTab: null,
+  
+  /**
+   * Use this to receive changed tab selection
+   */
+  selectedTab: null,
+  
+  /**
+   * Use this to send out an action about a newly selected tab
    */
   onTabSelect: null, // Action
   
@@ -26,103 +42,76 @@ export default Ember.Component.extend({
   
   reactToAttrs: Ember.on('didReceiveAttrs',function(options){
     
-    if(this.attrChanged(options,'selectedTab')){
+    if(this.attrChanged(options,'selectedTab') && this.get('selectedTab') !== this.get('currentTab')){
       
       let id = this.get('selectedTab');
       let $tab = this.get('tabs.'+id);
-      
       if($tab && $tab.length){
-        this.selectTab(id,$tab);
+        this.send('selectTab',id);
       } else {
         this.set('preSelectTabId',id);
       }
     }
     
-    if(this.attrChanged(options,'tabPanels')){
-      this.buildTabs();
-    }
-    
     if(this.attrChanged(options,'isOnScreen')){
       if(this.get('isOnScreen')){
         Ember.run.debounce(this,this.updateTabWidth,1);
-        Ember.run.debounce(this,this.preScrollToSelectedTab,1);
+        Ember.run.debounce(this,this.scrollToSelectedTab,1);
       }
     }
     
   }),
   
-  selectTab(id,$tab,wasManual){
-    if(wasManual){
-      if(this.attrs.onTabSelect){
-        this.attrs.onTabSelect(id);
+  actions: {
+    selectTab(id,wasManual){
+      this.set('currentTab',id);
+      if(wasManual){
+        if(this.attrs.selectTab){
+          this.attrs.selectTab(id);
+        }
+      } else {
+        
+        // If was an auto select, scroll to tab
+        if(this.get('isOnScreen')){
+          Ember.run.next(()=>{
+            this.updateTabWidth();
+            this.scrollToSelectedTab();
+          });
+        }
+        
+        
       }
     }
-    this.$('.blackout-tabs-slider-tab').removeClass('active');
-    $tab.addClass('active');
   },
   
-  buildTabs(){
-    
-    // Clear out any old tabs
-    this.$('.blackout-tabs-slider').html('');
+  buildTabs: Ember.on('didInsertElement',function(){
     
     let $defaultTab;
     
-    // Build new ones
-    $.each(this.get('tabPanels'),(i,$panel)=>{
+    let numTabs = 0;
+    
+    // Get and save tabs
+    this.$('.blackout-tabs-slider-tab').each((i,tab)=>{
       
-      let $tab,label;
-      
-      // Label
-      if($panel.data('tab-t')){
-        label = this.get('locale').htmlT($panel.data('tab-t'));
-      } else {
-        label = $panel.data('tab-name');
-      }
-      
-      // Build tab
-      if($panel.data('tab-icon-class')){
-        $tab = $('<a class="vc-parent blackout-tabs-slider-tab col-fixed no-webkit-highlight no-hover"><div class="vc-child"><div class="text-center tab-icon"><i class="' + $panel.data('tab-icon-class') + ' blackout-tabs-icon icon-vcenter"></i></div><div class="text-center ellipses">' + label + '</div></div></a>');
-      } else {
-        $tab = $('<a>' + label + '</a>');
-      }
-      
-      // Handle tab click
-      //$tab.on('mousedown touchstart',()=>{
-      $tab.on('mousedown',()=>{
-        this.selectTab($panel.prop('id'),$tab,true);
-      });
-      
-      // Handle touch devices
-      let canClick = false;
-      $tab.on('touchstart',()=>{
-        Ember.run.later(()=>{
-          if(canClick){
-            this.selectTab($panel.prop('id'),$tab,true);
-          }
-        },77);
-        canClick = true;
-      });
-      $tab.on('touchmove',()=>{
-        canClick = false;
-      });
+      let $tab = Ember.$(tab);
+      let tabId = $tab.data('tab-id');
       
       // Mark tab with panel id
-      this.set('tabs.'+$panel.prop('id'),$tab);
+      this.set('tabs.'+tabId,$tab);
       
-      // Add tab to DOM
-      this.$('.blackout-tabs-slider').append($tab);
-      this.$('.blackout-tabs-slider').append(' ');
-      
-      if(this.get('preSelectTabId') === $panel.prop('id')){
+      if(this.get('preSelectTabId') === tabId){
         $defaultTab = $tab;
       }
       
+      numTabs++;
+      
     });
+    
+    this.set('numTabs',numTabs);
     
     if(this.get('preSelectTabId') && $defaultTab){
       // Build tabs is called as a result of external change
-      this.selectTab(this.get('preSelectTabId'),$defaultTab);
+      this.send('selectTab',this.get('preSelectTabId'));
       this.set('preSelectTabId','');
     }
     
@@ -225,14 +214,14 @@ export default Ember.Component.extend({
     Ember.run.later(()=>{
       if(this.get('isOnScreen')){
         Ember.run.debounce(this,this.updateTabWidth,1);
-        Ember.run.debounce(this,this.preScrollToSelectedTab,1);
+        Ember.run.debounce(this,this.scrollToSelectedTab,1);
       }
     },50);
     
     //this.updateTabWidthBound = Ember.run.bind(this,this.updateTabWidth);
     //$(window).on('resize',this.updateTabWidthBound);
     
-  },
+  }),
   
   updateTabWidth(){
     
@@ -248,7 +237,7 @@ export default Ember.Component.extend({
       tabWidth = this.get('tabWidth');
     }
     
-    let totalTabsWidth = tabWidth * this.get('tabPanels').length;
+    let totalTabsWidth = tabWidth * this.get('numTabs');
     
     if(totalTabsWidth > scrollerWidth + tabWidth*0.77){
       
@@ -267,7 +256,7 @@ export default Ember.Component.extend({
     } else if(totalTabsWidth > scrollerWidth){
       
       // Tabs are only just longer than scroller so just shorten tabs
-      let newWidth = Math.round(scrollerWidth / this.get('tabPanels').length) - 3;
+      let newWidth = Math.round(scrollerWidth / this.get('numTabs')) - 3;
       
       // Set width for tabs
       this.$('.blackout-tabs-slider-tab').width(newWidth);
@@ -277,35 +266,31 @@ export default Ember.Component.extend({
   },
   
   
-  preScrollToSelectedTab(){
+  scrollToSelectedTab(){
     
-    if(this.canScrollRight()){
+    // Calulate scroll distance
+    let scrollerWidth = this.$().findClosest('.blackout-tabs-slider-scroller').width();
+    let scrollMax = this.$('.blackout-tabs-slider')[0].scrollWidth - this.$('.blackout-tabs-slider-scroller').width();
+    let activeTab = this.$('.blackout-tabs-slider-tab.active');
+    let tabWidth = activeTab.width();
+    let tabIndex = activeTab.index();
+    let left = tabIndex*tabWidth;
+    let leftWhenInMiddle = scrollerWidth*0.5-tabWidth*0.5;
+    let requiredScroll = left-leftWhenInMiddle;
+    let limitedScroll = Math.min(requiredScroll,scrollMax);
+    
+    if(!this.get('hasAnimatedPreScroll')&&false){
       
-      // Calulate scroll distance
-      let scrollerWidth = this.$().findClosest('.blackout-tabs-slider-scroller').width();
-      let scrollMax = this.$('.blackout-tabs-slider')[0].scrollWidth - this.$('.blackout-tabs-slider-scroller').width();
-      let activeTab = this.$('.blackout-tabs-slider-tab.active');
-      let tabWidth = activeTab.width();
-      let tabIndex = activeTab.index();
-      let left = tabIndex*tabWidth;
-      let leftWhenInMiddle = scrollerWidth*0.5-tabWidth*0.5;
-      let requiredScroll = left-leftWhenInMiddle;
-      let limitedScroll = Math.min(requiredScroll,scrollMax);
+      // Animate
+      this.$('.blackout-tabs-slider-scroller').stop().animate({
+        scrollLeft: limitedScroll,
+      },1111,'easeOutExpo');
       
-      if(!this.get('hasAnimatedPreScroll')&&false){
-        
-        // Animate
-        this.$('.blackout-tabs-slider-scroller').stop().animate({
-          scrollLeft: limitedScroll,
-        },1111,'easeOutExpo');
-        
-        this.set('hasAnimatedPreScroll',true);
-        
-      } else {
-        
-        this.$('.blackout-tabs-slider-scroller')[0].scrollLeft = limitedScroll;
-        
-      }
+      this.set('hasAnimatedPreScroll',true);
+      
+    } else {
+      
+      this.$('.blackout-tabs-slider-scroller')[0].scrollLeft = limitedScroll;
       
     }
     

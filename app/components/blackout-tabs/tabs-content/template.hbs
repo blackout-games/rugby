@@ -1,0 +1,9 @@
+<div class="blackout-tabs-content-container">
+  {{#side-switcher direction=tabDirection currentlyShowing=(readonly switcherTab) receivePanels=receivePanels allowAnimation=false }}
+
+    {{yield (hash
+      tab=(component 'blackout-tabs/tabs-content/tab')
+    )}}
+    
+  {{/side-switcher}}
+</div>
