@@ -8,6 +8,10 @@ export default Ember.Component.extend({
     this.$().prop('type','text');
     this.monetize(true);
     
+    this.$().on('paste',()=>{
+      this.monetizeOnChange(this.$().val());
+    });
+    
     this.$().on('keydown',(e)=>{
       let modifier = e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
       let paste = modifier && e.keyCode===86;
@@ -18,9 +22,9 @@ export default Ember.Component.extend({
         this.monetizeOnChange(this.$().val());
         
       } else if(!modifier){
-        Ember.run.next(()=>{
-          this.monetize();
-        });
+        
+        this.monetizeOnChange(this.$().val());
+        
       }
       
     });
@@ -69,6 +73,7 @@ export default Ember.Component.extend({
         this.attrs.onChange(value);
       }
     }
+    
     
   },
   
