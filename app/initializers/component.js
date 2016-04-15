@@ -20,8 +20,8 @@ var blackoutComponent = {
       return false;
     }
     
-    let oldVal = key in options.oldAttrs ? (typeof(options.oldAttrs[key]) === 'object' && 'value' in options.oldAttrs[key] ? options.oldAttrs[key].value : options.oldAttrs[key]) : null;
-    let newVal = key in options.newAttrs ? (typeof(options.newAttrs[key]) === 'object' && 'value' in options.newAttrs[key] ? options.newAttrs[key].value : options.newAttrs[key]) : null;
+    let oldVal = key in options.oldAttrs ? (typeof(options.oldAttrs[key]) === 'object' && options.oldAttrs[key] !== null && 'value' in options.oldAttrs[key] ? options.oldAttrs[key].value : options.oldAttrs[key]) : null;
+    let newVal = key in options.newAttrs ? (typeof(options.newAttrs[key]) === 'object' && options.newAttrs[key] !== null && 'value' in options.newAttrs[key] ? options.newAttrs[key].value : options.newAttrs[key]) : null;
     
     return newVal !== oldVal;
     

@@ -242,20 +242,22 @@ export default Ember.Component.extend({
   
   actions: {
     changed(val){
-      if(this.get('skippedInit')){
+      if(!this.get('isDestroyed')){
+        if(this.get('skippedInit')){
+          
+          this.set('value',val);
+          if(!this.get('hasChanged') && val!==this.get('initValue')){
+            this.set('hasChanged',true);
+          }
+          if(this.get('hasChanged') && this.attrs.onChange && typeof this.attrs.onChange === 'function'){
+            this.attrs.onChange(val);
+          }
+          
+        } else {
+          
+          this.set('skippedInit',true);
         
-        this.set('value',val);
-        if(!this.get('hasChanged') && val!==this.get('initValue')){
-          this.set('hasChanged',true);
         }
-        if(this.get('hasChanged') && this.attrs.onChange && typeof this.attrs.onChange === 'function'){
-          this.attrs.onChange(val);
-        }
-        
-      } else {
-        
-        this.set('skippedInit',true);
-      
       }
     },
   },

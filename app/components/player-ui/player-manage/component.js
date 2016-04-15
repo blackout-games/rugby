@@ -124,7 +124,7 @@ export default Ember.Component.extend({
               return new Date( Date.now() + this.get('deadlineLength').value*24*60*60*1000 );
             } else {
               if(!this.get('customDeadline')){
-                this.set('customDeadline',Date.now() + 3*24*60*60*1000);
+                this.set('customDeadline',new Date(Date.now() + 3*24*60*60*1000));
               }
               return this.get('customDeadline');
             }
@@ -204,6 +204,7 @@ export default Ember.Component.extend({
   }),
   
   deadlineLengthOptions: Ember.computed(function(){
+    
     return [
       {
         label: t('language.plurals.day',{ count: 'count' }),

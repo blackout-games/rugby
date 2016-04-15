@@ -49,7 +49,7 @@ var blackoutRoute = {
         let args = arguments;
         Ember.run.later(()=>{
           this.set('_forceNormalTransitionTo',true);
-          this.transitionTo(...args);
+          this.transitionTo.apply(this, args);
         },44);
         
         return;
@@ -59,7 +59,7 @@ var blackoutRoute = {
     }
     
     this.set('_forceNormalTransitionTo',false);
-    this._super(...arguments);
+    this._super.apply(this, arguments);
     
     
   },

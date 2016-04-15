@@ -343,7 +343,7 @@ class Blackout {
     /**
      * Stop waiting if element is removed (width will turn to zero when we move to a new route)
      */
-    if(w===0){
+    if($el.length===0){
       $el.remove();
       return false;
     }
@@ -1343,6 +1343,7 @@ window.browsers.chromeiOS = /crios/i.test(navigator.userAgent);
 window.browsers.safariOS = /(iPod|iPhone|iPad)/.test(navigator.userAgent) && /AppleWebKit/.test(navigator.userAgent) && !window.browsers.chromeiOS;
 window.browsers.webkit = navigator.userAgent.indexOf('AppleWebKit') !== -1;
 window.browsers.standalone = window.navigator.standalone;
+window.browsers.firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 //window.browsers.standalone = false;
 
 /**
@@ -2240,7 +2241,7 @@ Ember.$.extend( Ember.$.fn, {
  * https://social.msdn.microsoft.com/Forums/ie/en-US/9567fc32-016e-48e9-86e2-5fe51fd67402/new-bug-in-ie11-scrolling-positionfixed-backgroundimage-elements-jitters-badly?forum=iewebdevelopment
  */
 if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i) || navigator.userAgent.match(/Trident\/7\./) || navigator.userAgent.match(/Edge\/[0-9]+\./)) {
-  $('body').on("DOMMouseScroll mousewheel", function () {
+  $(window.features.lockBody?'#nav-body':'body').on("DOMMouseScroll mousewheel", function () {
     if(!$(event.target).parents('.fix-mousewheel-scroll').length){
       event.preventDefault();
       var wd = event.wheelDelta;

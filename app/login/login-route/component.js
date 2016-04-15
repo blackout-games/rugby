@@ -4,6 +4,8 @@ import FormValidations from '../../mixins/form-validations';
 import t from "../../utils/translation-macro";
 import { validator, buildValidations } from 'ember-cp-validations';
 
+const { getOwner } = Ember;
+
 const Validations = buildValidations({
   username: validator('presence', {
     presence: true,
@@ -47,6 +49,9 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
   requestFromServer() {
     
     var data = this.get('model').getProperties('username','password');
+    
+    var app = getOwner(this).lookup('route:application');
+    app.clearSessionData();
     
     // simple-auth-authenticator:oauth2-password-grant 
     // authenticator:password
