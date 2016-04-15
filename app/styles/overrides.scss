@@ -1,0 +1,358 @@
+
+
+/**
+ * Vertical Fill
+ */
+.vf-parent {
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.full-window-height {
+  height: 100vh;
+}
+
+.vf-child, .full-height {
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHICH IS HIGHER THAN IT'S PARENT. SO CANNOT SCROLL DOWN PAST THE HEIGHT OF PARENT. E.G. SOCIAL BUTTONS AT BOTTOM OF SIDEMENU WILL OVERLAP MENU LINKS
+  flex: 1;
+  
+  
+  /**
+   * What is this?
+   * It breaks float window, when the window is larger than the screen height
+   * It causes the wrapper to remain 100% of screen height rather than stretch
+   * around the full content. Therefore making it unscrollable.
+   * See list-player dialogue with custom deadline
+   */
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    //height: 100%;
+  }
+}
+.full-height-99 {
+  min-height: 99%;
+}
+
+.full-width {
+  width:100%;
+}
+
+/**
+ * Vertical align center
+ */
+.vc-parent {
+  //min-height: 100%; // DO NOT SET THIS HERE, OTHERWISE IT BREAKS FIREFOX AND IE
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
+  
+  // Removed important as it breaks jquery abilty to hide element with display:none
+  //display: flex !important;
+  display: flex;
+  align-items: center;
+  
+  &:hover, &:focus, &:active {
+    display: flex;
+    align-items: center;
+  }
+  
+  &.vc-force {
+    display: flex !important;
+  }
+}
+
+.vc-child {
+  flex: 1;
+}
+
+/**
+ * Vertical align bottom
+ */
+.vb-parent {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.vb-child {
+  //
+}
+
+/**
+ * Center horizontal and vertical
+ */
+.center-parent,.center-parent-xs {
+  min-height: 100%;
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
+  display: flex;
+  //flex: 0 1 auto;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: $screen-sm-min) {
+  .center-parent-sm {
+    min-height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media only screen and (min-width: $screen-md-min) {
+  .center-parent-md {
+    min-height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media only screen and (min-width: $screen-lg-min) {
+  .center-parent-lg {
+    min-height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.center-child {
+  
+  // Overwrite any margins set on the item to the default of 0
+  // If margin is auto, this doesn't work in IE11.
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  
+}
+
+/**
+ * Align at the top
+ */
+.vt-parent {
+  //height: 100%; // DO NOT MAKE HEIGHT 100%. THIS BREAKS CONTENT WHERE THE ELEMENT IS ALREADY A FLEX ITEM (CHILD) AND WOULD NATURALLY STRETCH TO FULL-HEIGHT
+  display: flex;
+  //flex: 0 1 auto;
+  flex-flow: row wrap; // Must wrap for player action buttons on mobile
+  align-items: flex-start;
+}
+
+/**
+ * Bottom gaps
+ */
+
+.no-gap, .no-bottom-gap, .gap-reset {
+  margin-bottom: 0px !important;
+}
+
+.gap-xs {
+  margin-bottom: 2px !important;
+}
+
+.gap-sm {
+  margin-bottom: 5px !important;
+}
+
+.gap-md {
+  margin-bottom: 10px !important;
+}
+
+.gap-lg,.gap-1x {
+  margin-bottom: 15px !important;
+}
+
+.gap-2x {
+  margin-bottom: 20px !important;
+}
+
+.gap-2-5x {
+  margin-bottom: 25px !important;
+}
+
+.gap-3x {
+  margin-bottom: 30px !important;
+}
+
+.gap-4x {
+  margin-bottom: 40px !important;
+}
+
+.gap-5x {
+  margin-bottom: 50px !important;
+}
+
+.gap-6x {
+  margin-bottom: 60px !important;
+}
+
+.gap-7x {
+  margin-bottom: 70px !important;
+}
+
+.gap-8x {
+  margin-bottom: 80px !important;
+}
+
+.gap-9x {
+  margin-bottom: 90px !important;
+}
+
+// For use with empty divider divs (only appear on some devices)
+// e.g. class="divider gap-3x hidden-xs"
+.divider {
+  height:1px;
+  width:100%;
+}
+
+.no-gap-on-last:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+/**
+ * Top gaps
+ */
+
+.no-top-gap, .top-gap-reset {
+  margin-top: 0px !important;
+}
+
+.top-gap-sm {
+  margin-top: 5px !important;
+}
+
+.top-gap-md {
+  margin-top: 10px !important;
+}
+
+.top-gap-lg,.top-gap-1x {
+  margin-top: 15px !important;
+}
+
+.top-gap-2x {
+  margin-top: 20px !important;
+}
+
+.top-gap-3x {
+  margin-top: 30px !important;
+}
+
+.top-gap-4x {
+  margin-top: 40px !important;
+}
+
+.top-gap-5x {
+  margin-top: 50px !important;
+}
+
+/**
+ * Right gaps
+ */
+
+.no-right-gap, .right-gap-reset {
+  margin-right: 0px !important;
+}
+
+.right-gap-sm {
+  margin-right: 5px !important;
+}
+
+.right-gap-md {
+  margin-right: 10px !important;
+}
+
+.right-gap-lg,.right-gap-1x {
+  margin-right: 15px !important;
+}
+
+.right-gap-2x {
+  margin-right: 20px !important;
+}
+
+.right-gap-3x {
+  margin-right: 30px !important;
+}
+
+.right-gap-4x {
+  margin-right: 40px !important;
+}
+
+.right-gap-5x {
+  margin-right: 50px !important;
+}
+
+/**
+ * Padding helpers
+ */
+
+.no-bottom-pad {
+  padding-bottom: 0 !important;
+}
+
+.no-top-pad {
+  padding-top: 0 !important;
+}
+
+.side-pad-only {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+
+/**
+ * Hiding stuff
+ */
+
+.hidden-xxs {
+  @media #{$mobile-tall} {
+    display: none !important;
+  }
+}
+
+.hidden-xs-up {
+  @media #{$mobile-wide-and-up} {
+    display: none !important;
+  }
+}
+
+.hidden-sm-down {
+  @media #{$tablet-tall-and-down} {
+    display: none !important;
+  }
+}
+
+.hidden-md-down {
+  @media #{$tablet-wide-and-down} {
+    display: none !important;
+  }
+}
+
+.hidden-sm-up {
+  @media #{$tablet-and-up} {
+    display: none !important;
+  }
+}
+
+.hidden-md-up {
+  @media #{$tablet-wide-and-up} {
+    display: none !important;
+  }
+}
+
+.visible-vs {
+  @media #{$vertically-small} {
+    display: block !important;
+  }
+}
+
+.hide-overflow {
+  overflow: hidden;
+}
+
+.show-overflow {
+  overflow: visible !important;
+}
