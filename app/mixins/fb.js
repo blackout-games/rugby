@@ -122,6 +122,8 @@ export default Ember.Mixin.create({
   
   loginToBlackoutWithFB(authResponse, button) {
     
+    this.clearSessionData();
+    
     this.get('session').authenticate('authenticator:facebook', '', authResponse.accessToken
     ).then(()=>{
       

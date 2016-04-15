@@ -69,6 +69,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
     Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
       //Ember.$(this).hide();
+      this.clearSessionData();
       this.get('session').invalidate().then(()=>{
         this.get('locals').write('standaloneFacebookDialogue', null);
         return false;
@@ -185,7 +186,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     var payload;
 
     // This may be an ember bug. We must encode and unencode the JSON payload to ensure there are no references to the payload passed into ember data. Ember data can create circular references on the object, which then cause errors when simple auth tries to JSON encode again for local storage.
-
+    
     // DONT use data.sessionBuilt so that this variable is cleared on reload
     let sessionRebuilt = session.get('sessionRebuilt');
     if(sessionRebuilt){
@@ -254,6 +255,21 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   clearSessionData(){
     
     let session = this.get('session');
+    
+    session.set('data.sessionManagerLatest',undefined);
+    session.set('data.managerMeta',undefined);
+    session.set('data.manager',undefined);
+    session.set('data.managerId',undefined);
+    
+  },
+  
+  /**
+   * NOT FOR GENERAL USE
+   * Use this only with releaseMarker for clearing out ALL local storage.
+   */
+  clearAllSessionData(){
+    
+    let session = this.get('session');
     let data = session.get('data');
     $.each(data,(key)=>{
       
@@ -272,21 +288,23 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
      * 
      * Change this if you need to clear session data, local storage, etc. for a new release.
      */
-    let releaseMarker = 11;
+    let releaseMarker = 12;
     
     let session = this.get('session');
     let oldReleaseMarker = session.get('data.releaseMarker');
     
     if(!oldReleaseMarker || oldReleaseMarker<releaseMarker){
       
-      this.get('locals').write('authRecover',null);
+      //this.get('locals').write('authRecover',null);
       
-      if(this.get('session.isAuthenticated')){
+      /*if(this.get('session.isAuthenticated')){
         this.invalidateSession();
       } else {
         session.set('data.releaseMarker',releaseMarker);
-        this.clearSessionData();
-      }
+        this.clearAllSessionData();
+      }*/
+      
+      this.get('user').refreshSessionManager();
       
     }
 

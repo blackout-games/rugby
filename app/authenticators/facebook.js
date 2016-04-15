@@ -2,6 +2,7 @@ import Ember from 'ember';
 import BlackoutAuth from './blackout';
 
 const { RSVP, isEmpty, run } = Ember;
+const assign = Ember.assign || Ember.merge;
 
 export default BlackoutAuth.extend({
   
@@ -26,7 +27,7 @@ export default BlackoutAuth.extend({
           const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
           this._scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
           if (!isEmpty(expiresAt)) {
-            response = Ember.merge(response, { 'expires_at': expiresAt });
+            response = assign(response, { 'expires_at': expiresAt });
           }
           
           // BLACKOUT START ----------- //
