@@ -25,6 +25,34 @@ export default Ember.Component.extend({
   
   classNames: ['float-box'],
   
+  isFirefox: Ember.computed(function(){
+    return window.browsers.firefox;
+  }),
+  
+  scrollComponent: Ember.computed(function(){
+    if(this.get('isFirefox')){
+      return 'normal-scroll-hidden';
+    } else {
+      return 'normal-scroll';
+    }
+  }),
+  
+  primaryClass: Ember.computed(function(){
+    if(this.get('isFirefox')){
+      return 'float-box-content-wrapper';
+    } else {
+      return 'float-box-content-wrapper float-box-content-scroller';
+    }
+  }),
+  
+  scrollerClass: Ember.computed(function(){
+    if(this.get('isFirefox')){
+      return 'float-box-content-scroller';
+    } else {
+      return '';
+    }
+  }),
+  
   setup: Ember.on('didInsertElement',function(){
     
     this.$().insertBefore('.blackout-modals');
@@ -62,29 +90,29 @@ export default Ember.Component.extend({
       },50);
       
       // Animate
-      let $wrapper = this.$('.float-box-content-wrapper');
+      let $scroller = this.$('.float-box-content-scroller');
         
       if(!this.get('slideMode')){
         
-        Ember.Blackout.animateResetDuration($wrapper);
-        Ember.Blackout.animateEaseOutExpo($wrapper);
+        Ember.Blackout.animateResetDuration($scroller);
+        Ember.Blackout.animateEaseOutExpo($scroller);
         
         if(this.get('fadeDirection')==='up'){
-          Ember.Blackout.unFadeInUp($wrapper);
-          Ember.Blackout.unFadeOutDown($wrapper);
-          Ember.Blackout.fadeInUp($wrapper);
+          Ember.Blackout.unFadeInUp($scroller);
+          Ember.Blackout.unFadeOutDown($scroller);
+          Ember.Blackout.fadeInUp($scroller);
         } else {
-          Ember.Blackout.unFadeInDown($wrapper);
-          Ember.Blackout.unFadeOutUp($wrapper);
-          Ember.Blackout.fadeInDown($wrapper);
+          Ember.Blackout.unFadeInDown($scroller);
+          Ember.Blackout.unFadeOutUp($scroller);
+          Ember.Blackout.fadeInDown($scroller);
         }
         
-        $wrapper.off(Ember.Blackout.afterCSSAnimation);
+        $scroller.off(Ember.Blackout.afterCSSAnimation);
         
       }
       
       // Scroll to top
-      $wrapper[0].scrollTop = 0;
+      $scroller[0].scrollTop = 0;
       
       this.set('hasShown',true);
     }
@@ -103,22 +131,22 @@ export default Ember.Component.extend({
         
       if(!this.get('slideMode')){
         
-        let $wrapper = this.$('.float-box-content-wrapper');
+        let $scroller = this.$('.float-box-content-scroller');
         
-        Ember.Blackout.animateFast($wrapper);
-        Ember.Blackout.animateEaseOutExpo($wrapper);
+        Ember.Blackout.animateFast($scroller);
+        Ember.Blackout.animateEaseOutExpo($scroller);
         
         if(this.get('fadeDirection')==='up'){
-          Ember.Blackout.unFadeInUp($wrapper);
-          Ember.Blackout.unFadeOutDown($wrapper);
-          Ember.Blackout.fadeOutDown($wrapper);
+          Ember.Blackout.unFadeInUp($scroller);
+          Ember.Blackout.unFadeOutDown($scroller);
+          Ember.Blackout.fadeOutDown($scroller);
         } else {
-          Ember.Blackout.unFadeInDown($wrapper);
-          Ember.Blackout.unFadeOutUp($wrapper);
-          Ember.Blackout.fadeOutUp($wrapper);
+          Ember.Blackout.unFadeInDown($scroller);
+          Ember.Blackout.unFadeOutUp($scroller);
+          Ember.Blackout.fadeOutUp($scroller);
         }
         
-        $wrapper.off(Ember.Blackout.afterCSSAnimation);
+        $scroller.off(Ember.Blackout.afterCSSAnimation);
         
         this.$('.float-box-bg').off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
           this.$().hide().removeClass('hiding');

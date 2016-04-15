@@ -81,3 +81,7 @@
   width: 0px;
   display:none;
 }
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+}

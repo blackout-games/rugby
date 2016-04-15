@@ -27,28 +27,47 @@ $slideMode: false; // Other option is fadeInUp
 }
 
 .float-box-content-wrapper {
-  pointer-events: none;
-  position:relative;
-  height:100vh;
-  max-width:400px;
+  
   margin:0 auto;
+  
+  width:97vw;
+  max-width:400px;
+  @media #{$mobile-wide-and-up} {
+    max-width:444px;
+  }
+  
   @if $slideMode {
     transition: transform $transition-duration ease(out-expo);
     transform: translate3d(0,-100vh,0);
   }
   
-  padding:22px 0;
-  max-width:97vw;
-  @media #{$mobile-wide-and-up} {
-    
-    max-width:444px;
+  /**
+   * Allow taps on the wrapper (outside the main window) to close
+   * We re-add pointer events in the .float-box-content css
+   */
+  pointer-events: none;
+  .has-feedback {
+    pointer-events: auto;
   }
+}
+
+.float-box-content {
+  pointer-events: auto;
+}
+
+.float-box-content-scroller {
+  position:relative;
+  height:100vh;
+  
+  padding:22px 0;
   @media #{$tablet-and-up} {
     padding:33px 0;
   }
   
-  .has-feedback {
-    pointer-events: auto;
+  width:97vw;
+  max-width:400px;
+  @media #{$mobile-wide-and-up} {
+    max-width:444px;
   }
 }
 
@@ -67,10 +86,6 @@ body.standalone .float-box-content-wrapper {
   
   padding-top: 44px;
   
-}
-
-.float-box-content {
-  pointer-events: auto;
 }
 
 .float-dash-box {

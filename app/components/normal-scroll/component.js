@@ -5,6 +5,16 @@ export default Ember.Component.extend(PreventBodyScroll,{
 
   classNames: ['normal-scroll','fix-mousewheel-scroll','light-scrollbar'],
   
+  classNameBindings: ['hideScrollbar:hide-scrollbar'],
+  
+  uiEvents: [
+    {
+      eventName: 'resize',
+      callbackName: 'updateWrapper',
+      selector: window,
+    }
+  ],
+  
   setup: Ember.on('didInsertElement',function(){
     
     if(this.get('horizontal')){

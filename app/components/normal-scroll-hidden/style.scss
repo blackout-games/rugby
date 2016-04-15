@@ -1,0 +1,8 @@
+.normal-scroll-concealer {
+  width: calc(100% - 20px);
+  overflow: hidden;
+}
+
+.normal-scroll-force-scrollbar {
+  overflow-y: scroll;
+}
