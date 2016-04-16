@@ -83,14 +83,34 @@
 
 {{else}}
 
-  <div class="dash-box no-gap show-overflow">
+  <div class="dash-box no-gap hide-overflow">
     
-    {{#link-to 'players.player' player.id class="player-ui-title-link btn-events"}}
-      <div class="player-ui-title-panel">
-        <h2 class="player-ui-title">{{player.name}}</h2>
-      </div>
-      <div class="player-avatar player-avatar-ui"></div>
-    {{/link-to}}
+    <div class="player-ui-title-wrapper">
+      
+      {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
+        <div class="player-ui-title-panel">
+          <h2 class="player-ui-title">
+            {{#if media.isMobile}}
+              <span class="nowrap ellipses">{{player.firstName}}</span>
+              <br>
+              <span class="nowrap ellipses">{{player.lastName}}</span>
+            {{else}}
+              <span class="nowrap ellipses">{{player.name}}</span>
+            {{/if}}
+          </h2>
+        </div>
+        <div class="player-ui-avatar-wrapper">
+          <div class="player-avatar-light player-avatar-ui"></div>
+        </div>
+      {{/link-to}}
+      
+      {{#if player.transfer}}
+        {{#link-to 'players.player.sale' player.id class="player-ui-for-sale a-no-underline btn-events"}}
+          <i class="icon-tag icon-md"></i>
+        {{/link-to}}
+      {{/if}}
+      
+    </div>
 
     {{player-ui/player-info player=player singleMode=singleMode}}
     

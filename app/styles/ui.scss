@@ -257,6 +257,10 @@ table.light {
   @include user-image( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
 }
 
+.player-avatar-light {
+  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png' );
+}
+
 
 /**
  * Placeholders
