@@ -39,13 +39,13 @@
       
       {{list.tab tab="player-info-panel" name-t="player.player" icon-class="icon-user icon-lg"}}
       
+      {{list.tab tab="player-sale-panel" name-t="buttons.for-sale" icon-class="icon-tag icon-lg" class="player-ui-sale-tab" hide=(not player.transfer)}}
+      
       {{list.tab tab="player-statistics-panel" name-t="buttons.statistics" icon-class="icon-chart-bar icon-lg"}}
       
       {{list.tab tab="player-history-panel" name-t="buttons.history" icon-class="icon-history icon-lg"}}
       
       {{list.tab tab="player-manage-panel" name-t="buttons.manage" icon-class="icon-wrench icon-lg tab-icon-straight tab-icon-flip" hide=(not playerIsOwned)}}
-      
-      {{list.tab tab="player-sale-panel" name-t="buttons.for-sale" icon-class="icon-tag icon-lg" hide=(not player.transfer)}}
       
     {{/tabs.list}}
       
@@ -54,6 +54,11 @@
       
       {{#content.tab id="player-info-panel"}}
         {{player-ui/player-info player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-info-panel'}}
+      {{/content.tab}}
+      
+      
+      {{#content.tab id="player-sale-panel"}}
+        {{player-ui/player-sale player=player}}
       {{/content.tab}}
       
       
@@ -72,18 +77,13 @@
       {{/content.tab}}
       
       
-      {{#content.tab id="player-sale-panel"}}
-        {{player-ui/player-sale player=player}}
-      {{/content.tab}}
-      
-      
     {{/tabs.content}}
     
   {{/dash-tabs}}
 
 {{else}}
 
-  <div class="dash-box no-gap hide-overflow">
+  <div class="dash-box no-gap hide-overflow player-ui-squad-box border-radius-fix">
     
     <div class="player-ui-title-wrapper">
       

@@ -1,3 +1,6 @@
+.player-ui-squad-box {
+  //border-top-left-radius: 29px;
+}
 
 .player-ui-top {
   margin-top: 55px !important;
@@ -189,6 +192,29 @@ $skew-angle: 14deg;
   }
   &.press, &:active {
     background-color: darken($color,4%);
+  }
+}
+
+.player-ui-sale-tab {
+  $color: $secondary-master;
+  
+ /*  background: $color;
+  color: lighten($color,35%);
+  &:hover {
+    background-color: lighten($color,2%);
+    transition: none;
+    color: white !important;
+  } */
+  
+  > div {
+    color: saturate(lighten($color,15%),22%);
+  }
+  
+  &.active {
+    background: white;
+    > div {
+      color: $color;
+    }
   }
 }
 

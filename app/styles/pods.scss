@@ -1,6 +1,9 @@
 @import "application/style";
 @import "components/responsive-nav/style";
 @import "components/game-nav/style";
+@import "app/components/blackout-tabs/style";
+@import "app/components/blackout-tabs-slider/style";
+@import "app/components/dash-tabs/style";
 @import "index/style";
 @import "login/style";
 @import "components/perfect-scroll/style";
@@ -40,9 +43,6 @@
 @import "app/account/account-route/style";
 @import "app/components/blackout-form/style";
 @import "app/nope/style";
-@import "app/components/blackout-tabs/style";
-@import "app/components/blackout-tabs-slider/style";
-@import "app/components/dash-tabs/style";
 @import "app/components/responsive-table/style";
 @import "app/components/user-image/style";
 @import "app/components/float-window/style";
