@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   userImages: Ember.inject.service(),
   preferences: Ember.inject.service(),
   user: Ember.inject.service(),
+  tagName: 'span',
   
   /**
    * e.g. manager, club, or empty for custom
@@ -29,7 +30,7 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    this.$('.user-image').addClass( this.get('type') + '-avatar' );
+    this.$('.user-image').addClass( this.get('type') + '-avatar' + (this.get('inline')?'-inline':'') );
     let imageUrl = '';
     
     // Check for special cases
