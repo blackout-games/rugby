@@ -159,11 +159,13 @@ $active-border-color: darken($secondary-master, 22%);
  * Form basics
  */
 
-// Must precede with 'form' to avoid affecting label elements added sometimes by ember-i18n 
-form label {
+// Must precede with 'form' to avoid affecting label elements added sometimes by ember-i18n
+// Use class="label" if not in a form
+form label, .label {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+  display: block;
   @media #{$mobile} {
     font-size:15px;
   }
