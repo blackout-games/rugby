@@ -55,6 +55,22 @@ $padding-bottom-factor: 1;//11/14;
   
 }
 
+.dash-box-side-padding {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: 0 $padding-mobile;
+  @media #{$mobile-wide-and-up} {
+    padding: 0 $padding-landscape;
+  }
+  @media #{$tablet-and-up} {
+    padding: 0 $padding-tablet-up;
+  }
+  
+}
+
 .dash-box-no-side-padding {
   
   /**
