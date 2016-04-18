@@ -17,7 +17,23 @@
         {{#each model.squad as |player index|}}
           
           {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
-            <div class="player-avatar player-avatar-sub-nav"></div>{{player.name}}
+            <div class="row row-nowrap">
+            
+              <div class="col-auto">
+                <div class="player-avatar player-avatar-sub-nav"></div>
+              </div>
+              
+              <div class="col-flex vc-parent ellipses right-gap-lg">
+                {{player.name}}
+              </div>
+              
+              {{#if player.transfer}}
+              <div class="col-auto vc-parent">
+                <i class="icon-tag icon-lg for-sale-color"></i>
+              </div>
+              {{/if}}
+              
+            </div>
           {{/link-to}}
         
         {{/each}}

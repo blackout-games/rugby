@@ -81,7 +81,10 @@
 <div class="row top-gap-md row-center">
   <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">{{t 'player.csr'}}</div>
   <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide pad-right">{{number player.csr}}</div>
-  <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
+  
+  {{#if (owned-club player.club)}}
+    <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
+  {{/if}}
 </div>
 
 <div class="divider gap-md hidden-xs-up"></div>
@@ -89,49 +92,51 @@
           
 {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
 
-<div class="row">
-  
-  <div class="col-xs-6 pad-right">
-  
-    {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="stamina" }}
-    <div class="player-ui-label ellipses">{{t 'player.stamina'}}</div>
-  
-    {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="attack" }}
-    <div class="player-ui-label ellipses">{{t 'player.attack'}}</div>
-  
-    {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="technique" }}
-    <div class="player-ui-label ellipses">{{t 'player.technique'}}</div>
-  
-    {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="jumping" }}
-    <div class="player-ui-label ellipses">{{t 'player.jumping'}}</div>
-  
-    {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="agility" }}
-    <div class="player-ui-label ellipses">{{t 'player.agility'}}</div>
+{{#if (or player.transfer (owned-club player.club))}}
+  <div class="row">
+    
+    <div class="col-xs-6 pad-right">
+    
+      {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="stamina" }}
+      <div class="player-ui-label ellipses">{{t 'player.stamina'}}</div>
+    
+      {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="attack" }}
+      <div class="player-ui-label ellipses">{{t 'player.attack'}}</div>
+    
+      {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="technique" }}
+      <div class="player-ui-label ellipses">{{t 'player.technique'}}</div>
+    
+      {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="jumping" }}
+      <div class="player-ui-label ellipses">{{t 'player.jumping'}}</div>
+    
+      {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="agility" }}
+      <div class="player-ui-label ellipses">{{t 'player.agility'}}</div>
+      
+    </div>
+    
+    <div class="col-xs-6">
+    
+      {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="handling" }}
+      <div class="player-ui-label ellipses">{{t 'player.handling'}}</div>
+    
+      {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="defence" }}
+      <div class="player-ui-label ellipses">{{t 'player.defence'}}</div>
+    
+      {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="strength" }}
+      <div class="player-ui-label ellipses">{{t 'player.strength'}}</div>
+    
+      {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="speed" }}
+      <div class="player-ui-label ellipses">{{t 'player.speed'}}</div>
+    
+      {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="kicking" }}
+      <div class="player-ui-label ellipses">{{t 'player.kicking'}}</div>
+      
+    </div>
     
   </div>
-  
-  <div class="col-xs-6">
-  
-    {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="handling" }}
-    <div class="player-ui-label ellipses">{{t 'player.handling'}}</div>
-  
-    {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="defence" }}
-    <div class="player-ui-label ellipses">{{t 'player.defence'}}</div>
-  
-    {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="strength" }}
-    <div class="player-ui-label ellipses">{{t 'player.strength'}}</div>
-  
-    {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="speed" }}
-    <div class="player-ui-label ellipses">{{t 'player.speed'}}</div>
-  
-    {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="kicking" }}
-    <div class="player-ui-label ellipses">{{t 'player.kicking'}}</div>
-    
-  </div>
-  
-</div>
 
-<div class="player-ui-help-text gap-sm">{{t 'player.skills-max'}}</div>
+  <div class="player-ui-help-text gap-sm">{{t 'player.skills-max'}}</div>
+{{/if}}
 
 <div class="divider {{if singleMode 'gap-2x' 'gap-lg'}} hidden-xs-up"></div>
 

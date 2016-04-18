@@ -52,7 +52,7 @@ export default Ember.Service.extend({
   
   playerIsOwned(player){
     
-    if(this.get('session.isAuthenticated')){
+    if(player && this.get('session.isAuthenticated')){
       let store = this.get('store');
       let manager = store.peekRecord('manager',this.get('session.data.manager.id'));
       let clubid = player.get('club.id');

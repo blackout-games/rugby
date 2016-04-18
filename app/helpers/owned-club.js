@@ -6,10 +6,14 @@ export function ownedClub(params/*, hash*/) {
   let store = this.get('store');
   let club = params[0];
   
-  if(session.get('isAuthenticated')){
-    let manager = store.peekRecord('manager',this.get('session.data.manager.id'));
-    let clubFound = manager.get('clubs').findBy('id',club.get('id'));
-    return clubFound;
+  if(club){
+    
+    if(session.get('isAuthenticated')){
+      let manager = store.peekRecord('manager',this.get('session.data.manager.id'));
+      let clubFound = manager.get('clubs').findBy('id',club.get('id'));
+      return clubFound;
+    }
+    
   }
   
   return false;

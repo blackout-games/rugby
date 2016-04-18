@@ -2,13 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   
-  model ( /*params*/ ){
+  model ( params ){
+    
+    let clubId = params.club_id === 'me' ? this.get('session.data.manager.currentClub') : params.club_id;
     
     let query = {
       
       filter: {
-        'club.id': this.get('session.data.manager.currentClub'),// + ',57630',
-        //'club.id': '57630',
+        'club.id': clubId,
       }
       
     };

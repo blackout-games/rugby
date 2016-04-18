@@ -8,13 +8,13 @@ export default Ember.Route.extend({
       filter: {
         'id': params.player_id,
       },
-      include: 'nationality,dual-nationality,club.country',
+      include: 'club,nationality,dual-nationality,club.country,transfer,transfer.bidding-club',
     };
     
     let squadQuery = {
-      filter: {
-        'club.id': this.get('session.data.manager.currentClub'),
-      }
+      fields: 'first-name,last-name,transfer',
+      'squad-for-player': params.player_id,
+      include: '',
     };
     
     let statsQuery = {
@@ -56,4 +56,11 @@ export default Ember.Route.extend({
     });
     
   },
+  
+  afterModel(model){
+    if(!model.player){
+      this.transitionTo('nope');
+    }
+  },
+  
 });
