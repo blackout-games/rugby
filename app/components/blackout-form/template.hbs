@@ -56,7 +56,7 @@
             {{! This is a date DISPLAY only }}
             {{#if (is 'dateDisplay' item.type)}}
             
-              {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "blackout-form-display-text" (if item.isWarning " blackout-form-warning") (if item.isError " blackout-form-error")) }}
+              {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "color-bg-text" (if item.isWarning " warning") (if item.isError " error")) }}
             
             {{else}}
               

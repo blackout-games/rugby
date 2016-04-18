@@ -12,32 +12,3 @@
 .blackout-form-server-error {
   margin-top:-10px;
 }
-
-.blackout-form-display-text {
-  
-  padding: 10px 17px;
-  position:relative;
-  
-  display: inline-block;
-  background-color: $bg-light;
-  border-radius: $border-radius;
-  font-weight: bold;
-  color: $bg-dark-lighter;
-  font-size:1.2em;
-  
-  font-family: $sports-font;
-  text-transform: uppercase;
-  
-  &.blackout-form-warning {
-    $color: $warning-background-color;
-    background-color: lighten($color,11%);
-    //color: desaturate(darken($red-color,11%),22%);
-  }
-  
-  &.blackout-form-error {
-    $color: $error-color;
-    background-color: lighten($color,22%);
-    //color: desaturate(darken($red-color,11%),22%);
-  }
-  
-}
