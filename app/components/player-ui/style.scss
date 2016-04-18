@@ -331,13 +331,10 @@ $infobar-dark-mode: false;
 }
 
 .player-ui-csr-value {
-  font-family: $sports-font;
-  font-weight: 900;
-  font-size: 29px;
+  @extend .large-number;
   margin-bottom: -10px;
   margin-top:2px;
   @media #{$tablet-tall-and-up} {
-    font-size: 44px;
     margin-top:0;
   }
 }

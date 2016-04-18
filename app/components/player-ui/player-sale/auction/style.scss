@@ -1,0 +1,6 @@
+.player-bid-button {
+  margin-top: 22px;
+  @media #{$tablet-and-up} {
+    margin-top: 31px;
+  }
+}

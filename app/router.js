@@ -52,7 +52,10 @@ Router.map(function() {
       });
       this.route('history');
       this.route('manage');
-      this.route('sale');
+      this.route('sale', function() {
+        this.route('auction');
+        this.route('bids');
+      });
     });
   });
   this.route('account');

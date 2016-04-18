@@ -1,0 +1,29 @@
+<div class="row gap-md">
+  <div class="col-auto right-gap-2x">
+    <label class="label">{{t 'player.for-sale.current-price'}}</label>
+    <div class="large-number">{{money-ui value=transfer.price}}</div>
+  </div>
+  <div class="col-flex">
+    <button {{action 'openBid'}} class="btn btn-big player-bid-button {{if (or (not session.isAuthenticated) (owned-club player.club)) "hidden"}}">{{t 'buttons.bid'}}</button>
+  </div>
+</div>
+
+<div class="gap-2x">
+  {{#if transfer.biddingClub.id}}
+    <label class="label">{{t 'player.for-sale.offered-by'}}</label>
+    {{club-link club=transfer.biddingClub class=""}}
+  {{else}}
+    {{t 'player.for-sale.no-bids-yet'}}.
+  {{/if}}
+</div>
+
+<div class="gap-2x">
+  <label class="label">{{t 'player.for-sale.deadline'}}</label>
+  {{date-ui date=transfer.deadline initial="fullDateShort" alt="gameDate" class="color-bg-text"}}
+</div>
+
+<div class="">
+  {{t 'language.plurals.view' count=transfer.views}}
+  <span class="text-light">&bullet;</span>
+  {{t 'language.plurals.manager-watching' count=transfer.watchers}}
+</div>

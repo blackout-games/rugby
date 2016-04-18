@@ -1,1 +1,31 @@
-Sale
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-for-sale" tabRoute="sale" isOnScreen=isOnScreen as |tabs| }}
+  
+  {{#tabs.list as |list|}}
+    
+    {{list.tab tab="player-for-sale-auction-panel" name-t="player.for-sale.auction" icon-class="icon-hammer icon-lg" }}
+    
+    {{list.tab tab="player-for-sale-bids-panel" name-t="player.for-sale.bids" icon-class="icon-money-1 icon-lg" hide=(not transfer.biddingClub) }}
+    
+  {{/tabs.list}}
+  
+  
+  {{#tabs.content as |content|}}
+    
+    
+    {{#content.tab id="player-for-sale-auction-panel"}}
+      
+      {{player-ui/player-sale/auction player=player transfer=transfer}}
+      
+    {{/content.tab}}
+    
+    
+    {{#content.tab id="player-for-sale-bids-panel" sidePaddingOnly=true}}
+      
+      {{player-ui/player-sale/bids player=player transfer=transfer isOnScreen=isOnScreen}}
+      
+    {{/content.tab}}
+    
+    
+  {{/tabs.content}}
+  
+{{/component}}

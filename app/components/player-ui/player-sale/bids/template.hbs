@@ -1,0 +1,11 @@
+{{#if bids}}
+  
+  {{#blackout-timeline data=bids as |bid|}}
+  <b>{{money-ui value=bid.bid}}</b> {{t 'language.by-(someone)'}} {{club-link club=bid.club inline=true}} {{#if bid.autoBid}}<span class="text-lightish">({{t 'misc.auto-(automatic-short)'}})</span>{{/if}}
+  {{/blackout-timeline}}
+  
+{{else}}
+  
+  {{loading-spinner class="gap-2x top-gap-lg" color="light" align="left"}}
+  
+{{/if}}
