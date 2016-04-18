@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   locale: Ember.inject.service(),
+  tagName: 'span',
   
   /**
    * The amount of money
