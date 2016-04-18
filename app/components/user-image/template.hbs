@@ -11,7 +11,7 @@
     </div>
   </a>
   
-  {{#float-window isOnScreen=(mut showingEditor) onClose=(action 'onCancel')}}
+  {{#float-window showWindow=(mut showingEditor) onClose=(action 'onCancel')}}
     
     <div class="row row-center gap-lg">
       {{user-image type=type size=(if media.isMobile 'large' 'gigantic') class='avatar-editor' defaultColor='light'}}

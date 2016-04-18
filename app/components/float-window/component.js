@@ -7,7 +7,7 @@ export default Ember.Component.extend({
    * Set this outside of the component
    * @type {Boolean}
    */
-  isOnScreen: false,
+  showWindow: false,
   
   /**
    * When true, float window slides all the way from the top offscreen
@@ -61,8 +61,8 @@ export default Ember.Component.extend({
   
   detectAttrs: Ember.on('didReceiveAttrs',function(opts){
     
-    if( this.attrChanged(opts,'isOnScreen')){
-      if( this.get('isOnScreen') ){
+    if( this.attrChanged(opts,'showWindow')){
+      if( this.get('showWindow') ){
         this.show();
       } else {
         this.hide();
@@ -165,7 +165,7 @@ export default Ember.Component.extend({
   
   actions: {
     close(){
-      this.set('isOnScreen',false);
+      this.set('showWindow',false);
     }
   }
   

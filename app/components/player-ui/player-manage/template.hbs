@@ -16,7 +16,7 @@
 </div>
 {{/if}}
   
-{{#float-window isOnScreen=(mut showingSellPlayerBox) onClose=(action 'onCancelSellPlayer')}}
+{{#float-window showWindow=(mut showingSellPlayerBox) onClose=(action 'onCancelSellPlayer')}}
   
   <h5 class="no-top-gap gap-2x">{{t 'buttons.sell-player'}}</h5>
   
