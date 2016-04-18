@@ -9,18 +9,18 @@ $height: 11px;
 
 .spinner.bars {
   margin: 0 auto;
-  width: 80px;
+  width: 39px;
   height: $height;
   text-align: center;
   font-size: 10px;
 }
 
-.spinner.left {
-  text-align: left;
+.spinner.bars.left {
+  margin: 0 auto 0 0;
 }
 
-.spinner.right {
-  text-align: right;
+.spinner.bars.right {
+  margin: 0 0 0 auto;
 }
 
 .spinner.bars > div {
