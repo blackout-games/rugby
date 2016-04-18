@@ -1,8 +1,19 @@
-<div class="{{unless stacked "row row-nowrap"}}">
-  <div class="{{unless stacked "col-auto right-gap-md"}} text-center">
-    {{user-image type='club' defaultColor='dark' club=club size=imageSize}}
-  </div>
-  <div class="{{unless stacked "col-auto vc-parent"}}">
+{{#if inline}}
+
+  <span class="nowrap">
+    {{user-image type='club' defaultColor='dark' club=club size='small' class="club-avatar-inline"}}
     <span>{{if text text club.name}}</span>
+  </span>
+  
+{{else}}
+  
+  <div class="{{unless stacked "row row-nowrap"}}">
+    <div class="{{unless stacked "col-auto right-gap-md"}} text-center">
+      {{user-image type='club' defaultColor='dark' club=club size=imageSize}}
+    </div>
+    <div class="{{unless stacked "col-auto vc-parent"}}">
+      <span>{{if text text club.name}}</span>
+    </div>
   </div>
-</div>
+  
+{{/if}}
