@@ -46,9 +46,7 @@ export default Ember.Component.extend({
           }
         });
         
-      }
-      
-      if(this.get('noPaddingMobile')){
+      } else if(this.get('noPaddingMobile')){
         
         Ember.$.each(this.get('dashTabs'),(i,$tab)=>{
           if(!$tab.data('tab-no-padding')){
@@ -59,8 +57,10 @@ export default Ember.Component.extend({
       } else {
         
         Ember.$.each(this.get('dashTabs'),(i,$tab)=>{
-          if(!$tab.data('tab-no-padding')){
+          if(!$tab.data('tab-no-padding') && !$tab.data('tab-side-padding-only')){
             $tab.addClass('dash-box-padding');
+          } else if($tab.data('tab-side-padding-only')){
+            $tab.addClass('dash-box-side-padding');
           }
         });
         

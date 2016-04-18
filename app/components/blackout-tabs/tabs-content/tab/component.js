@@ -8,6 +8,10 @@ export default Ember.Component.extend({
       this.$().data('tab-no-padding',true);
     }
     
+    if(this.get('sidePaddingOnly')){
+      this.$().data('tab-side-padding-only',true);
+    }
+    
   }),
   
 });
