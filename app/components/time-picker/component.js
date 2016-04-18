@@ -26,7 +26,7 @@ export default Ember.Component.extend({
   }),
   
   amPm: Ember.computed('hour',function(){
-    return this.get('hour')>=12 ? 'pm' : 'am';
+    return this.get('hour')>=12 ? this.get('i18n').t('date.time.pm') : this.get('i18n').t('date.time.am');
   }),
   
   displayHour: Ember.computed('hour','12HourTime',function(){

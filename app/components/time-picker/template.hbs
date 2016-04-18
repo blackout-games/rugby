@@ -23,7 +23,7 @@
 <div class="time-picker-sliders">
 
   <div>
-    <label for="{{hourName}}">Hour</label>
+    <label for="{{hourName}}">{{t 'date.hour'}}</label>
   </div>
 
   <div class="gap-lg">
@@ -31,7 +31,7 @@
   </div>
 
   <div>
-    <label for="{{minuteName}}">Minute</label>
+    <label for="{{minuteName}}">{{t 'date.minute'}}</label>
   </div>
   {{blackout-slider min=0 max=59 step=1 noBubble=true onChange=(action 'onMinuteChange') name=minuteName value=(readonly startMinute) }}
   
