@@ -6,7 +6,7 @@ import Ember from 'ember';
 
 export function manager(params) {
   
-  let userImages = Ember.Blackout.App.lookup('service:user-images');
+  let userImages = this.get('userImages');
   
   let html = Ember.Blackout.promiseHTML(params,function(data){
     
@@ -23,4 +23,7 @@ export function manager(params) {
   
 }
 
-export default Ember.Helper.helper(manager);
+export default Ember.Helper.extend({
+  userImages: Ember.inject.service(),
+  compute: manager,
+});
