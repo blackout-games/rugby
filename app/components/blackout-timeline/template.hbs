@@ -18,7 +18,17 @@
     {{#each minute.events as |event|}}
       
       <div class="blackout-timeline-event">
-        {{{event.event}}}
+      
+        {{#if event.item}}
+      
+          {{yield event.item}}
+          
+        {{else}}
+          
+          {{{event.event}}}
+          
+        {{/if}}
+        
       </div>
       
     {{/each}}

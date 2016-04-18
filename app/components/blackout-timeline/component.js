@@ -1,5 +1,4 @@
 import Ember from 'ember';
-const { $ } = Ember;
 const { toZonedTime, toUTCTime } = Ember.Blackout;
 
 export default Ember.Component.extend({
@@ -17,7 +16,7 @@ export default Ember.Component.extend({
     let currentMindex = null;
     
     
-    $.each(this.get('data'),(i,event)=>{
+    this.get('data').forEach((event)=>{
       
       let msPerDay = 24*60*60*1000;
       let msPerMin = 60*1000;
@@ -57,15 +56,30 @@ export default Ember.Component.extend({
         currentMindex = events[currentIndex].minutes.length-1;
       }
       
-      events[currentIndex].minutes[currentMindex].events.push({
+      let finalEvent = {
         date: event.get('date'),
-        event: this.get('text').parse(event.get('event')), 
-      });
+      };
+      
+      if(event.get('event')){
+        finalEvent.event = this.get('text').parse(event.get('event'));
+      } else {
+        finalEvent.item = event;
+      }
+      
+      events[currentIndex].minutes[currentMindex].events.push(finalEvent);
       
     });
     
     
     return events;
+    
+  }),
+  
+  setup: Ember.on('didInsertElement',function(){
+    
+    if(this.get('no-bumper')){
+      this.$('.blackout-timeline-bumper').hide();
+    }
     
   }),
   
