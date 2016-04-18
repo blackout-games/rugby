@@ -1163,29 +1163,6 @@ class Blackout {
    */
   
   /**
-   * Print record returned from ember data
-   */
-  printRecord(data){
-    let model = data._internalModel;
-    print('TYPE',model.modelName,'ID',data.id,'JSON',model.record.toJSON());
-  }
-  
-  /**
-   * Print arrays of models returned from ember data
-   */
-  printData(data){
-    Ember.$.each(data.content,(i,val)=>{
-      print('TYPE',val.modelName,'ID',val.id,'JSON',val.record.toJSON());
-    });
-  }
-  
-  /**
-   * Aliases
-   */
-  printModel(data){ this.printRecord(data); }
-  printRecords(data){ this.printData(data); }
-  
-  /**
    * Print object
    */
   inspectObject(obj){
@@ -1195,6 +1172,10 @@ class Blackout {
       Ember.Logger.warn('Please ensure ember inspector is open before calling EmberInspector');
     }
   }
+  inspectModel(data){ this.inspectObject(data); }
+  inspectRecord(data){ this.inspectObject(data); }
+  inspectRecords(data){ this.inspectObject(data); }
+  inspect(data){ this.inspectObject(data); }
   
   /**
    * Env
