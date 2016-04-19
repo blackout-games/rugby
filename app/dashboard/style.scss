@@ -2,13 +2,11 @@
 
 $full-real-estate-on-mobile: false;
 
-
-.dash-box-container {
+/**
+ * Outer padding for page edge
+ */
+.dash-page {
   
-  /**
-   * Padding for small 1/3rd columns
-   * @type {[type]}
-   */
   padding: 12px 12px 0;
   @media #{$mobile-wide-and-up} {
     padding: 15px 15px 0;
@@ -24,9 +22,60 @@ $full-real-estate-on-mobile: false;
     padding: 17px 17px 0;
   }
   
-  &.dash-box-container-left {
-    @media #{$tablet-and-up} {
+}
+
+/**
+ * Only needs side padding between containers
+ */
+.dash-box-container {
+  
+  /**
+   * Padding for small 1/3rd columns
+   * @type {[type]}
+   */
+  padding: 12px 12px 0;
+  @media #{$mobile-wide-and-up} {
+    padding: 15px 15px 0;
+  }
+  @media #{$mobile-tall} {
+    @if $full-real-estate-on-mobile {
+      padding: 11px 0 0;
+    } @else {
+      padding: 11px 11px 0;
+    }
+  }
+  @media #{$tablet-and-up} {
+    padding: 17px 17px 0;
+  }
+
+  &.dash-left, &.dash-left-xs {
+    padding-right:0;
+  }
+
+  @media only screen and (min-width: $screen-sm-min) {
+    &.dash-left-sm {
       padding-right:0;
+    }
+    &.dash-left-reset-sm {
+      padding-right:17px;
+    }
+  }
+
+  @media only screen and (min-width: $screen-md-min) {
+    &.dash-left-md {
+      padding-right:0;
+    }
+    &.dash-left-reset-md {
+      padding-right:17px;
+    }
+  }
+
+  @media only screen and (min-width: $screen-lg-min) {
+    &.dash-left-lg {
+      padding-right:0;
+    }
+    &.dash-left-reset-lg {
+      padding-right:17px;
     }
   }
   

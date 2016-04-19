@@ -101,6 +101,18 @@ a {
       color: rgba($primary-master, 0.5);
       text-decoration: none;
     }
+    
+    /**
+     * Disable hover on anchor
+     */
+    &.no-hover {
+      border-bottom: none;
+    }
+    
+    &.no-hover:hover {
+      border-bottom: none;
+      text-decoration: none;
+    }
   }
 
   &.btn-a.white, &.btn-a.white:hover {

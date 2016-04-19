@@ -1,0 +1,12 @@
+.help-ui {
+  display: inline-block;
+  i {
+    color: $bg-light-darker-5x;
+  }
+  
+  &.hover {
+    i {
+      color: saturate($bg-light-darker-4x,11%);
+    }
+  }
+}

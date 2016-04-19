@@ -803,6 +803,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "17ebadd1e3f274ff0205601eef7b9cc4",
+      "css": "help-circled",
+      "code": 59490,
+      "src": "fontawesome"
+    },
+    {
       "uid": "4c95899d8ee2f5b09735c3835354c056",
       "css": "country",
       "code": 59393,

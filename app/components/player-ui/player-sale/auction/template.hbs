@@ -1,10 +1,12 @@
+{{message-ui type='warning' showIf=transfer.linked message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
+
 <div class="row gap-md">
   <div class="col-auto right-gap-2x">
     <label class="label">{{t 'player.for-sale.current-price'}}</label>
     <div class="large-number">{{money-ui value=transfer.price}}</div>
   </div>
   <div class="col-flex">
-    <button {{action 'openBid'}} class="btn btn-big player-bid-button {{if (or (not session.isAuthenticated) (owned-club player.club)) "hidden"}}">{{t 'buttons.bid'}}</button>
+    <button {{action 'openBid'}} class="btn btn-big player-bid-button {{if (or (not session.isAuthenticated) (owned-club player.club) transfer.linked) "hidden"}}">{{t 'buttons.bid'}}</button>
   </div>
 </div>
 
@@ -27,3 +29,14 @@
   <span class="text-light">&bullet;</span>
   {{t 'language.plurals.manager-watching' count=transfer.watchers}}
 </div>
+  
+{{#float-window showWindow=(mut showBiddingWindow)}}
+  
+  <h5 class="no-top-gap gap-2x">{{t 'player.for-sale.make-a-bid'}}</h5>
+  
+  {{!blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") serverError=serverError onSave=(action "listPlayer") confirm=true isOnScreen=showBiddingWindow submitLabel=(t 'player.selling.list-player') debugFader=true }}
+  
+  
+  {{!scroll-tester}}
+  
+{{/float-window}}

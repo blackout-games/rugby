@@ -8,6 +8,7 @@ export default DS.Model.extend({
   listPrice: DS.attr(),
   listed: DS.attr(),
   fireIfUnsold: DS.attr(),
+  linked: DS.attr(),
   player: DS.belongsTo('player',{ async: false}),
   club: DS.belongsTo('club',{ async: false}),
   biddingClub: DS.belongsTo('club',{ async: false}),

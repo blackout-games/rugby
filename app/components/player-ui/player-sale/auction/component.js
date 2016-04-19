@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   
   actions: {
     openBid(){
-      log('bidding');
+      this.set('showBiddingWindow',true);
     }
   },
   
