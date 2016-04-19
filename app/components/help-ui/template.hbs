@@ -1,6 +1,7 @@
 <i class="icon-help-circled icon-lg icon-vcenter"></i>
 {{#float-window showWindow=(mut showHelpWindow)}}
   
-  {{t t}}
+  {{if t (t t)}}
+  {{yield}}
   
 {{/float-window}}
