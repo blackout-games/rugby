@@ -1,0 +1,16 @@
+{{#if hideFeature}}
+  
+  {{t 'premium.premium-feature' star='<i class="icon-star"></i>'}}
+  {{!#help-ui}}
+    {{!#if featureName}}
+      {{!if messageT (t messageT star='<i class="icon-star"></i>' feature=(t featureName)) message}}
+    {{!else}}
+      {{!if messageT (t messageT star='<i class="icon-star"></i>') message}}
+    {{!/if}}
+  {{!/help-ui}}
+  
+{{else}}
+  
+  {{yield}}
+  
+{{/if}}
