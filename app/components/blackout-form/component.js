@@ -94,9 +94,11 @@ export default Ember.Component.extend({
       }
     },
     onCancel(){
+      
       // Reset the form
       //this.$('form')[0].reset();
-      if(this.get('model').rollbackAttributes){
+      // We must also check if the model is new, because calling rollbackAttrs on a new model will delete it from the store
+      if(this.get('model').rollbackAttributes && !this.get('model.isNew')){
         this.get('model').rollbackAttributes();
       }
       
