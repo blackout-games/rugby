@@ -49,6 +49,12 @@ $slideMode: false; // Other option is fadeInUp
   .has-feedback {
     pointer-events: auto;
   }
+  &.is-closing {
+    pointer-events: none;
+    .has-feedback, .float-box-content {
+      pointer-events: none;
+    }
+  }
 }
 
 .float-box-content {

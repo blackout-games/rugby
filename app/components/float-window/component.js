@@ -89,6 +89,9 @@ export default Ember.Component.extend({
         
       },50);
       
+      // Allow any mouse events
+      this.$('.float-box-content-wrapper').removeClass('is-closing');
+      
       // Animate
       let $scroller = this.$('.float-box-content-scroller');
         
@@ -128,6 +131,9 @@ export default Ember.Component.extend({
       if(this.attrs.onClose){
         this.attrs.onClose();
       }
+      
+      // Disallow any mouse events
+      this.$('.float-box-content-wrapper').addClass('is-closing');
         
       if(!this.get('slideMode')){
         
