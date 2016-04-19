@@ -11,9 +11,27 @@ SessionService.reopen({
   /**
    * The current club if the user is logged in
    */
+  manager: Ember.computed('isAuthenticated','sessionBuilt','data.manager', function() {
+    if (this.get('isAuthenticated') && this.get('data.manager')) {
+      return this.get('data.manager');
+    } else {
+      return null;
+    }
+  }),
+  
+  /**
+   * The current club if the user is logged in
+   */
+  club: Ember.computed.alias('currentClub'),
+  
+  /**
+   * The current club if the user is logged in
+   */
   currentClub: Ember.computed('isAuthenticated','sessionBuilt','data.manager','data.manager.currentClub', function() {
     if (this.get('isAuthenticated') && this.get('data.manager.currentClub')) {
-      return this.get('store').findRecord('club', this.get('data.manager.currentClub'));
+      return this.get('store').peekRecord('club', this.get('data.manager.currentClub'));
+    } else {
+      return null;
     }
   }),
   
@@ -22,6 +40,7 @@ SessionService.reopen({
    * Will be true if any of the user's clubs have active premium
    */
   isPremium: Ember.computed('isAuthenticated','data.manager','data.manager.isPremium',function(){
+    //return false;
     return this.get('isAuthenticated') && this.get('data.manager') && this.get('data.manager.isPremium');
   }),
   
