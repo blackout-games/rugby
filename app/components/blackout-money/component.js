@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'input',
+  value: 0,
   
   setup: Ember.on('didInsertElement',function(){
     
@@ -43,6 +44,14 @@ export default Ember.Component.extend({
     
   }),
   
+  receiveNewValue: Ember.on('didUpdateAttrs',function(opts){
+    
+    if(this.attrChanged(opts,'value')){
+      this.monetize(true);
+    }
+    
+  }),
+  
   cleanup: Ember.on('willDestroyElement',function(){
     
     this.$().off('keydown keyup focus blur');
@@ -66,7 +75,10 @@ export default Ember.Component.extend({
     if(!isNaN(value)){
       // Set initial money values
       let money = '$' + parseFloat(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      
+      // Update value
       this.$().val(money);
+      this.set('value',money);
       
       // Send onChange event
       if( this.attrs.onChange && typeof this.attrs.onChange === 'function'){
