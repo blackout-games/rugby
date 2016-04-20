@@ -102,7 +102,7 @@ export default Ember.Component.extend({
     this.set('hasSucceeded',false);
     this.set('loading',false);
     
-    this.$().off(Ember.Blackout.afterCSSTransition);
+    this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed);
     
     if(this.get('laterId')){
       Ember.run.cancel(this.get('laterId'));
@@ -124,23 +124,26 @@ export default Ember.Component.extend({
         
         if(!this.get('isDestroyed')){
           this.$().addClass('unsucceed');
-          this.$().off(Ember.Blackout.afterCSSTransition).one(Ember.Blackout.afterCSSTransition,()=>{
-            if(!this.get('isDestroyed')){
-              Ember.run.later(()=>{
-                if(!this.get('isDestroyed')){
-                  this.$().removeClass('unsucceed');
-                }
-              },44);
-              // If reset() is not called by a consumer soon after succeeded()
-              this.set('ignoreNextReset',false);
-              this.reset();
-            }
-          });
+          this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed).one(Ember.Blackout.afterCSSTransition,this,this.afterSucceed);
         }
       },1777);
       
       this.set('laterId',laterId);
       
+    }
+  },
+  
+  afterSucceed(e){
+    let _this = e.data;
+    if(!_this.get('isDestroyed')){
+      Ember.run.later(()=>{
+        if(!_this.get('isDestroyed')){
+          _this.$().removeClass('unsucceed');
+        }
+      },44);
+      // If reset() is not called by a consumer soon after succeeded()
+      _this.set('ignoreNextReset',false);
+      _this.reset();
     }
   },
   

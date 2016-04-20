@@ -219,14 +219,14 @@ export default Ember.Component.extend({
           $yes.css({
             transform: `translateX(${yesLeft}px)`,
             opacity: 1,
-          }).off(Ember.Blackout.afterCSSTransition);
+          }).off(Ember.Blackout.afterCSSTransition,$yes.hide);
           
           $no.css({
             transform: `translateX(${noLeft}px)`,
             opacity: 1,
-          }).off(Ember.Blackout.afterCSSTransition);
+          }).off(Ember.Blackout.afterCSSTransition,$no.hide);
           
-          $button.css('background-color','transparent');
+          $button.css('background-color','transparent').off(Ember.Blackout.afterCSSTransition,this.afterButtonClose);
           
         });
         
@@ -294,16 +294,12 @@ export default Ember.Component.extend({
       $yes.css({
         transform: `translateX(0)`,
         opacity: 0,
-      }).off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
-        $yes.hide();
-      });
+      }).off(Ember.Blackout.afterCSSTransition,$yes.hide).on(Ember.Blackout.afterCSSTransition,$yes.hide);
       
       $no.css({
         transform: `translateX(0)`,
         opacity: 0,
-      }).off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
-        $no.hide();
-      });
+      }).off(Ember.Blackout.afterCSSTransition,$no.hide).on(Ember.Blackout.afterCSSTransition,$no.hide);
       
       $timer.css({
         transform: `translateX(0)`,
@@ -312,11 +308,8 @@ export default Ember.Component.extend({
       
       let button = this.get('button');
       button.enable();
-      $button.addClass('reverse');
-      $button.removeClass('hover press');
-      $button.css('background-color','').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
-        $button.addClass('no-transition');
-      });
+      $button.addClass('reverse').removeClass('hover press');
+      $button.css('background-color','').off(Ember.Blackout.afterCSSTransition,this.afterButtonClose).on(Ember.Blackout.afterCSSTransition,{ $button: $button },this.afterButtonClose);
       
       this.set('timerIsGoing',false);
       
@@ -327,6 +320,10 @@ export default Ember.Component.extend({
       
     }
     
+  },
+  
+  afterButtonClose(e){
+    e.data.$button.addClass('no-transition').removeClass('reverse');
   },
   
 });
