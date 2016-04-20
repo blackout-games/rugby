@@ -67,6 +67,11 @@ export default Ember.Component.extend({
           this.$().addClass('no-transition');
         }).removeClass('no-margin');
         
+        if(immediate){
+          this.$().css('max-height','none');
+          this.$().addClass('no-transition');
+        }
+        
       });
       
     });
@@ -112,6 +117,11 @@ export default Ember.Component.extend({
             $el.hide();
             
           });
+          
+          if(immediate){
+            this.$().hide();
+          }
+          
         } else {
           print('CSS didnt exist',this.$());
         }
