@@ -14,14 +14,14 @@
     
     {{#content.tab id="player-for-sale-auction-panel"}}
       
-      {{player-ui/player-sale/auction player=player transfer=transfer}}
+      {{player-ui/player-sale/auction player=player transfer=transfer onBid=(action 'onBid')}}
       
     {{/content.tab}}
     
     
     {{#content.tab id="player-for-sale-bids-panel" sidePaddingOnly=true}}
       
-      {{player-ui/player-sale/bids player=player transfer=transfer isOnScreen=isOnScreen}}
+      {{player-ui/player-sale/bids player=player transfer=transfer isOnScreen=isOnScreen reloadBids=(readonly reloadBids)}}
       
     {{/content.tab}}
     

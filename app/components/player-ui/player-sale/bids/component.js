@@ -6,20 +6,26 @@ export default Ember.Component.extend({
   
   hasSetup: false,
   
-  onShow: Ember.on('didReceiveAttrs',function(opts){
+  handleAttrs: Ember.on('didReceiveAttrs',function(opts){
     
     if( this.attrChanged(opts,'isOnScreen') ){
       
       if(this.get('isOnScreen') && !this.get('hasSetup')){
-        this.setup();
+        this.loadBids();
         this.set('hasSetup',true);
       }
       
     }
     
+    if( this.attrChanged(opts,'reloadBids') && this.get('reloadBids') ){
+      
+      this.loadBids();
+      
+    }
+    
   }),
   
-  setup(){
+  loadBids(){
     
     let store = this.get('store');
     let transferId = this.get('transfer.id');
@@ -34,6 +40,7 @@ export default Ember.Component.extend({
         sort: '-id',
       };
       
+      this.set('bids',null);
       store.query('bid',bidsQuery).then((data)=>{
         this.set('bids',data);
       });

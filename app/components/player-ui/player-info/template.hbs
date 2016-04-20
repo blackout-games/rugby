@@ -84,6 +84,8 @@
   
   {{#if (owned-club player.club)}}
     <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
+  {{else}}
+    <div class="iblock divider" style="width:50px;"></div>
   {{/if}}
 </div>
 

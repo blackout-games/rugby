@@ -1,4 +1,4 @@
-{{message-ui type='warning' showIf=transfer.linked message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
+{{message-ui type='warning' showIf=(and transfer.linked (not (owned-club transfer.club))) message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
 
 <div class="row gap-md">
   <div class="col-auto right-gap-2x">
@@ -34,9 +34,10 @@
   
   <h5 class="no-top-gap gap-2x">{{t 'player.for-sale.make-a-bid'}}</h5>
   
-  {{!blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") serverError=serverError onSave=(action "listPlayer") confirm=true isOnScreen=showBiddingWindow submitLabel=(t 'player.selling.list-player') debugFader=true }}
+  <div class="gap-lg">
+    Bidding as {{club-link inline=true}}
+  </div>
   
-  
-  {{!scroll-tester}}
+  {{blackout-form form=(readonly bidForm) model=bid onSave=(action "placeBid") onCancel=(action 'closeBid') confirm=true isOnScreen=showBiddingWindow submitLabel=(t 'player.for-sale.place-bid') }}
   
 {{/float-window}}
