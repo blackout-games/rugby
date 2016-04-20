@@ -250,11 +250,55 @@
 }
 
 /**
+ * Left gaps
+ */
+
+.no-left-gap, .left-gap-reset {
+  margin-left: 0px !important;
+}
+
+.left-gap-xs {
+  margin-left: 2px !important;
+}
+
+.left-gap-sm {
+  margin-left: 5px !important;
+}
+
+.left-gap-md {
+  margin-left: 10px !important;
+}
+
+.left-gap-lg,.left-gap-1x {
+  margin-left: 15px !important;
+}
+
+.left-gap-2x {
+  margin-left: 20px !important;
+}
+
+.left-gap-3x {
+  margin-left: 30px !important;
+}
+
+.left-gap-4x {
+  margin-left: 40px !important;
+}
+
+.left-gap-5x {
+  margin-left: 50px !important;
+}
+
+/**
  * Right gaps
  */
 
 .no-right-gap, .right-gap-reset {
   margin-right: 0px !important;
+}
+
+.right-gap-xs {
+  margin-left: 2px !important;
 }
 
 .right-gap-sm {

@@ -164,7 +164,8 @@ $active-border-color: darken($secondary-master, 22%);
 form label, .label {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 5px;
+  padding-bottom: 5px; // Use padding so there's no hover gap between label and element
+  margin-bottom: 0;
   display: block;
   @media #{$mobile} {
     font-size:15px;
