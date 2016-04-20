@@ -122,7 +122,8 @@ export default Ember.Component.extend({
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url).then((w,h)=>{
+      Ember.Blackout.preloadImage(url).then((size)=>{
+        let { w, h } = size;
         
         if(this.assertComponentStillExists()){
           
@@ -165,7 +166,8 @@ export default Ember.Component.extend({
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url).then((w,h)=>{
+      Ember.Blackout.preloadImage(url).then((size)=>{
+        let { w, h } = size;
         
         if(this.assertComponentStillExists()){
           

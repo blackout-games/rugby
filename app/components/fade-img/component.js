@@ -29,7 +29,8 @@ export default Ember.Component.extend({
       let url = this.get('url');
       
       // Preload image
-      Ember.Blackout.preloadImage(url).then((w,h)=>{
+      Ember.Blackout.preloadImage(url).then((size)=>{
+        let { w, h } = size;
         
         if(this.assertComponentStillExists()){
           

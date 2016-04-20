@@ -756,7 +756,8 @@ class Blackout {
       
       img.on('load',function() {
         $(this).remove();
-        resolve(this.width,this.height);
+        // Promises can only return one value, so use a hash
+        resolve({ w:this.width, h:this.height });
       }).on('error', function(e,other) {
         print('error',path,e,other);
         reject();
