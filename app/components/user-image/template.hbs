@@ -17,7 +17,7 @@
       {{user-image type=type size=(if media.isMobile 'large' 'gigantic') class='avatar-editor' defaultColor='light'}}
     </div>
     
-    {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") serverError=serverError onSave=(action "onSave") useCloseButton=true}}
+    {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") onSave=(action "onSave") useCloseButton=true}}
     
   {{/float-window}}
   

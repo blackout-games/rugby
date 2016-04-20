@@ -1163,6 +1163,17 @@ class Blackout {
    */
   
   /**
+   * Format error information JSON API style for blackout-form
+   */
+  error(obj){
+    
+    return {
+      errors: obj,
+    };
+    
+  }
+  
+  /**
    * Print object
    */
   inspectObject(obj){

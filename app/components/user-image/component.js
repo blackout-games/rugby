@@ -149,7 +149,7 @@ export default Ember.Component.extend({
     
   }),
   
-  editorForm: Ember.computed('serverErrors.customUrl.title',function(){
+  editorForm: Ember.computed(function(){
     
     let editorForm = [];
     
@@ -189,7 +189,6 @@ export default Ember.Component.extend({
       id: 'customUrl',
       label: t('user-image-editor.custom-url'),
       valuePath: 'customUrl',
-      serverError: this.get('serverErrors.customUrl.title'),
       onChanged: Ember.run.bind(this,this.actions.onChangedCustomUrl),
       placeholder: 'http://',
       //helper: t('user-image-editor.custom-url-helper'),
@@ -207,9 +206,6 @@ export default Ember.Component.extend({
   }),
   
   showingEditor: false,
-  serverErrors: Ember.Object.create({
-    customUrl: Ember.Object.create(),
-  }),
   
   actions: {
     showEditor(){
@@ -219,7 +215,7 @@ export default Ember.Component.extend({
       this.set('showingEditor',false);
       this.get('editorModel').rollbackAttributes();
     },
-    onSave(succeeded,failed,finaled){
+    onSave(succeed,fail,final){
       
       let model = this.get('model');
       let prefs = this.get('preferences');
@@ -242,17 +238,15 @@ export default Ember.Component.extend({
             { key:'managerImageType', value: imageType },
             { key:'managerImageUrl', value: url },
           ]).then(()=>{
-            this.set('serverError','');
             
             // Refresh manager in session
             return this.get('user').refreshSessionManager().finally(()=>{
               this.updateSavedModel();
-              succeeded();
+              succeed();
             });
             
-          },()=>{
-            this.set('serverError',t('errors.save-failed'));
-            failed();
+          },(error)=>{
+            fail(error);
           });
           
         }
@@ -272,17 +266,18 @@ export default Ember.Component.extend({
       }
       
       // Load image
-      Ember.Blackout.preloadImage(url).then((w,h)=>{
-        
-        // Reset errors
-        this.set('serverErrors.customUrl.title','');
-        this.set('serverError','');
+      Ember.Blackout.preloadImage(url).then((size)=>{
+        let { w, h } = size;
         
         // Check size
         if(w < minSize || h < minSize){
-          this.set('serverErrors.customUrl.minSize',minSize);
-          this.set('serverErrors.customUrl.title',t('user-image-editor.errors.image-too-small',{ minSize: 'minSize' }));
-          failed();
+          
+          fail(Ember.Blackout.error({
+            item: 'customUrl',
+            title: t('user-image-editor.errors.image-too-small',{ minSize: 'minSize' }),
+            minSize: minSize,
+          }));
+          
           return;
         }
         
@@ -308,25 +303,23 @@ export default Ember.Component.extend({
               this.notifyPropertyChange('prefs');
               this.get('userImages').updateSessionImages();
               this.updateSavedModel();
-              succeeded();
+              succeed();
             });
             
-          },()=>{
-            this.set('serverError',t('errors.save-failed'));
-            failed();
-          }).finally(()=>{
-            finaled();
-          });
+          },(error)=>{
+            fail(error);
+          }).finally(final);
           
-        },()=>{
-          this.set('serverError',t('errors.save-failed'));
-          failed();
+        },(error)=>{
+          fail(error);
         });
         
         
       },()=>{
-        this.set('serverErrors.customUrl.title',t('user-image-editor.errors.image-not-found'));
-        failed();
+        fail(Ember.Blackout.error({
+          item: 'customUrl',
+          title: t('user-image-editor.errors.image-not-found'),
+        }));
       });
       
     },

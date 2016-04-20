@@ -73,7 +73,6 @@ export default Ember.Component.extend({
         
         // Success without animating
         succeed(true);
-        this.resetErrors();
         
         this.set('showingSellPlayerBox',false);
         
@@ -82,33 +81,13 @@ export default Ember.Component.extend({
         Ember.Blackout.transitionTo(`/players/${playerId}/sale`);
         
       }).catch((error)=>{
-        
-        this.resetErrors();
-        fail();
-        
-        let errObject = Ember.Object.create(error);
-        
-        let item = errObject.get('errors.item');
-        if(item){
-          this.set('serverErrors.'+item,errObject.get('errors'));
-          this.notifyPropertyChange('serverErrors');
-        } else {
-          this.set('serverError',errObject.get('errors.title'));
-        }
-        
+        fail(error);
       }).finally(final);
       
     },
     cancelSell(){
       this.set('showingSellPlayerBox',false);
     },
-  },
-  
-  serverErrors: {},
-  
-  resetErrors(){
-    this.set('serverError',null);
-    this.set('serverErrors',{});
   },
   
   sellModel: Ember.computed(function(){
@@ -147,7 +126,7 @@ export default Ember.Component.extend({
     }
   }),
   
-  sellForm: Ember.computed('serverErrors',function(){
+  sellForm: Ember.computed(function(){
     
     let minDate = Date.now() + this.get('settings.auctionMinDeadlineDays')*24*60*60*1000;
     let maxDate = Date.now() + this.get('settings.auctionMaxDeadlineDays')*24*60*60*1000;
@@ -159,7 +138,6 @@ export default Ember.Component.extend({
         label: t('player.selling.list-price'),
         placeholder: '$',
         valuePath: 'listPrice',
-        serverError: this.get('serverErrors.listPrice.title'),
       },
       {
         id: 'transferTax',
@@ -175,7 +153,6 @@ export default Ember.Component.extend({
         label: t('player.selling.auction-length'),
         options: this.get('deadlineLengthOptions'),
         valuePath: 'deadlineLength',
-        serverError: this.get('serverErrors.deadline.title'),
       },
       {
         id: 'customDatetime',

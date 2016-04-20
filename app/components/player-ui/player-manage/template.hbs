@@ -20,7 +20,7 @@
   
   <h5 class="no-top-gap gap-2x">{{t 'buttons.sell-player'}}</h5>
   
-  {{blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") serverError=serverError onSave=(action "listPlayer") confirm=true isOnScreen=showingSellPlayerBox submitLabel=(t 'player.selling.list-player') debugFader=true }}
+  {{blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") onSave=(action "listPlayer") confirm=true isOnScreen=showingSellPlayerBox submitLabel=(t 'player.selling.list-player') debugFader=true }}
   
   
   {{!scroll-tester}}

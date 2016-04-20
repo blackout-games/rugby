@@ -95,11 +95,11 @@
                   {{! So that we can edit the model in the sub-component }}
                   {{#if item.valuePath}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
                     
                   {{else}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=item.serverError hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
                     
                   {{/if}}
                   

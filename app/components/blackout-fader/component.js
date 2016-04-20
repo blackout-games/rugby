@@ -118,7 +118,7 @@ export default Ember.Component.extend({
             
           });
           
-          if(immediate){
+          if(immediate && this.$()){
             this.$().hide();
           }
           
