@@ -69,7 +69,7 @@ export default Ember.Component.extend({
     
   }),
   
-  updateVisibility: Ember.on('didReceiveAttrs',function(opts){
+  updateVisibility: Ember.on('didUpdateAttrs',function(opts){
     
     if(this.attrChanged(opts,'hide')){
       

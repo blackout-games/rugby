@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   
   classNames: ['donut-timer'],
   
-  onAttrChange: Ember.on('didReceiveAttrs',function(opts){
+  onAttrChange: Ember.on('didUpdateAttrs',function(opts){
     
     if(this.attrChanged(opts,'isTiming')){
       
