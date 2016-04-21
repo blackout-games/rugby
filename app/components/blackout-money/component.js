@@ -76,9 +76,35 @@ export default Ember.Component.extend({
       // Set initial money values
       let money = '$' + parseFloat(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       
+      // Save carat position
+      let start = this.$()[0].selectionStart;
+      let end = this.$()[0].selectionEnd;
+      
+      // Check how many extra chars before carat
+      let preVal = this.$().val();
+      let numExtrasBefore = 0, numExtrasAfter = 0;
+      preVal.replace(/[\$,]/g,(fullMatch,offset)=>{
+        if(offset<start){
+          numExtrasBefore++;
+        }
+        return fullMatch;
+      });
+      money.replace(/[\$,]/g,(fullMatch,offset)=>{
+        if(offset<start){
+          numExtrasAfter++;
+        }
+        return fullMatch;
+      });
+      let caratDiff = numExtrasAfter-numExtrasBefore;
+      start += caratDiff;
+      end += caratDiff;
+      
       // Update value
       this.$().val(money);
       this.set('value',money);
+      
+      // Restore carat position
+      this.$()[0].setSelectionRange(start,end);
       
       // Send onChange event
       if( this.attrs.onChange && typeof this.attrs.onChange === 'function'){
