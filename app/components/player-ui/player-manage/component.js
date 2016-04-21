@@ -40,9 +40,6 @@ export default Ember.Component.extend({
         // Go to squad route
         Ember.Blackout.transitionTo('squad.club','me');
         
-        // TODO
-        //Ember.Blackout.transitionTo('squad.club',clubId);
-        
       },(err)=>{
         if(err && err.errors && err.errors.title){
           this.set('actionsError',err.errors.title);

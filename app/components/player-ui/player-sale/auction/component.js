@@ -43,7 +43,40 @@ export default Ember.Component.extend({
     cancelSell(){
       this.set('showingSellPlayerBox',false);
     },
+    withdrawPlayer(button){
+      
+      let store = this.get('store');
+      let model = store.peekRecord('transfer',this.get('transfer.id'));
+      
+      model.deleteRecord();
+      model.save().then(()=>{
+        
+        // Success without animating
+        button.succeed(false,true);
+        
+        // Transition to player home
+        let playerId = this.get('player.id');
+        Ember.Blackout.transitionTo(`/players/${playerId}`);
+        
+      },(error)=>{
+        print('rats',error);
+        this.set('withdrawError',error.errors.title);
+      });
+      
+    }
   },
+  
+  canWithdraw: Ember.computed('player','transfer',function(){
+    let playerListed = new Date(this.get('transfer.listed')).getTime();
+    let currentTime = Date.now();
+    return this.get('session').ownedClub(this.get('player.club.id'))
+      && (currentTime-playerListed) < 48*60*60*1000;
+  }),
+  
+  withdrawDeadline: Ember.computed('transfer',function(){
+    let playerListed = new Date(this.get('transfer.listed')).getTime();
+    return new Date(playerListed + 48*60*60*1000);
+  }),
   
   refreshTransferAndBids(){
     
