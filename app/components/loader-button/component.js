@@ -94,7 +94,9 @@ export default Ember.Component.extend({
     
     if(allowFocus){
       Ember.run.debounce(Ember.FormContext,()=>{
-        this.$().focus();
+        if(this.$()){
+          this.$().focus();
+        }
       },1);
     }
     
