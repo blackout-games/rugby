@@ -1,7 +1,55 @@
+
 {{#if bids}}
   
   {{#blackout-timeline data=bids as |bid|}}
-  <b>{{money-ui value=bid.bid}}</b> {{t 'language.by-(someone)'}} {{club-link club=bid.club inline=true}} {{#if bid.autoBid}}<span class="text-lightish">({{t 'misc.auto-(automatic-short)'}})</span>{{/if}}
+    
+    {{#if bid.newAutoBid}}
+      
+      {{t-t 'player.for-sale.bids.new-auto-bid'
+        club=(component 'club-link' club=bid.club inline=true)
+        bid=(component 'money-ui' value=bid.bid class='text-bold')}}
+      
+      {{#if (owned-club bid.club)}}
+        {{t 'player.for-sale.bids.only-you'}}
+      {{else}}
+        {{t 'player.for-sale.bids.only-bid-owner'}}
+      {{/if}}
+      
+    {{else}}
+    
+      {{#if bid.auctionReverted}}
+        
+        {{#if bid.manager}}
+        
+          {{manager-link manager=bid.manager inline=true}} {{t 'player.for-sale.bids.bid-reverted'}} <b>{{money-ui value=bid.bid}}</b>.
+          
+        {{else}}
+          
+          {{t-t 'player.for-sale.bids.auction-reverted'
+            bid=(component 'money-ui' value=bid.bid class='text-bold')}}
+          
+        {{/if}}
+        
+      {{else}}
+        
+        <b>{{money-ui value=bid.bid}}</b> {{t 'language.by-(someone)'}} {{club-link club=bid.club inline=true}}.
+        
+        {{#if bid.autoBidRace}}
+          
+          <span class="text-lightish">{{t 'player.for-sale.bids.bid-race'}}</span>
+          
+        {{else}}
+        
+          {{#if bid.autoBid}}
+            <span class="text-lightish">({{t 'misc.auto-(automatic-short)'}})</span>
+          {{/if}}
+          
+        {{/if}}
+        
+      {{/if}}
+      
+    {{/if}}
+    
   {{/blackout-timeline}}
   
 {{else}}
