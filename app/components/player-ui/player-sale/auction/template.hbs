@@ -20,11 +20,6 @@
   </div>
   
   
-  <div class="col-auto player-bid-buttons">
-    <button {{action 'openBid'}} class="btn btn-big {{if (or (not session.isAuthenticated) (owned-club player.club) transfer.linked transfer.deadlinePassed) "hidden"}}">{{t 'buttons.bid'}}</button>
-  </div>
-  
-  
 </div>
 
 
@@ -35,6 +30,11 @@
   {{else}}
     {{t 'player.for-sale.no-bids-yet'}}.
   {{/if}}
+</div>
+  
+  
+<div class="gap-2x {{if (or (not session.isAuthenticated) (owned-club player.club) transfer.linked transfer.deadlinePassed) "hidden"}}">
+  <button {{action 'openBid'}} class="btn btn-big">{{t 'player.for-sale.place-bid'}}</button>
 </div>
 
 
