@@ -51,6 +51,17 @@ SessionService.reopen({
     return this.get('isAuthenticated') && this.get('currentClub.isPremium');
   }),
   
+  ownedClub(clubId){
+    let store = this.get('store');
+    if(this.get('isAuthenticated')){
+      let manager = store.peekRecord('manager',this.get('data.manager.id'));
+      let clubFound = manager.get('clubs').findBy('id',clubId);
+      return clubFound;
+    } else {
+      return false;
+    }
+  },
+  
 });
 
 export function initialize(application) {
