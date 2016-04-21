@@ -8,14 +8,13 @@ export default Ember.Component.extend({
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){
-      if(!this.get('club') && this.get('session.isAuthenticated')){
+      if(!this.get('manager') && this.get('session.isAuthenticated')){
         
-        // Use current user club
-        this.set('club',this.get('session.club'));
+        // Use current manager
+        this.set('manager',this.get('session.manager'));
         
       }
       this.set('hasInit',true);
-      
     }
   }),
   

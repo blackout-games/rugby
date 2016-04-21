@@ -61,7 +61,7 @@ a {
   color: $default-link-color;
 
   &:visited {
-    color: darken($primary-master, 11%);
+    color: $default-link-color;
   }
   
   $initial-border: 2px solid rgba(darken($primary-master, 11%),0);
@@ -72,7 +72,7 @@ a {
   border-bottom: $initial-border;
 
   &:hover {
-    color: darken($primary-master, 11%);
+    color: $default-link-color;
     //text-decoration: underline;
     text-decoration: none;
     border-color: $hover-border;
@@ -88,17 +88,30 @@ a {
     border-box: content-box;
     padding: 3px 7px;
     margin: -3px -7px;
-    border-bottom: none;
-    color: $primary-master;
+    color: $default-link-color;
     text-decoration: none;
+    border-bottom: none;
+    
+    /**
+     * For CHILDREN of the btn-a element
+     */
+    .btn-a-hover {
+      color: $default-link-color;
+      border-bottom: $initial-border;
+      transition: $hover-transition;
+    }
 
     &.hover {
-      color: saturate(lighten($primary-master, 15%), 22%);
+      color: saturate(lighten($default-link-color, 11%), 11%);
       text-decoration: none;
+      .btn-a-hover {
+        color: $default-link-color;
+        border-color: $hover-border;
+      }
     }
 
     &.press {
-      color: rgba($primary-master, 0.5);
+      color: rgba($default-link-color, 0.5);
       text-decoration: none;
     }
     

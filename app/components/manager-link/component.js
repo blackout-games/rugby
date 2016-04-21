@@ -9,18 +9,18 @@ export default Ember.Component.extend({
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){
-      if(!this.get('club') && this.get('session.isAuthenticated')){
+      if(!this.get('manager') && this.get('session.isAuthenticated')){
         
-        // Use current user club
-        this.set('club',this.get('session.club'));
+        // Use current manager
+        this.set('manager',this.get('session.manager'));
         
       }
       this.set('hasInit',true);
     }
   }),
   
-  href: Ember.computed('club',function(){
-    return 'https://www.blackoutrugby.com/game/club.lobby.php?id=' + this.get('club.id');
+  href: Ember.computed('manager',function(){
+    return 'https://www.blackoutrugby.com/game/me.lobby.php?id=' + this.get('manager.id');
   }),
   
 });
