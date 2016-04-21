@@ -10,11 +10,7 @@
   
 </div>
 
-{{#if actionsError}}
-<div class="has-error">
-  <div class="control-label">{{actionsError}}</div>
-</div>
-{{/if}}
+{{error-ui error=actionsError}}
   
 {{#float-window showWindow=(mut showingSellPlayerBox) onClose=(action 'onCancelSellPlayer')}}
   

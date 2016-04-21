@@ -124,9 +124,7 @@
   {{/each}}
   
   {{#blackout-fader showing=serverError active=true class="gap-lg blackout-form-server-error"}}
-    <div class="has-error">
-      <span class="control-label">{{serverError}}</span>
-    </div>
+    {{error-ui error=serverError}}
   {{/blackout-fader}}
   
   {{#if confirm}}
