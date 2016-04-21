@@ -138,4 +138,27 @@ export default Ember.Component.extend({
     
   }),
   
+  
+  lastIncremented: 0,
+  
+  incrementViews: Ember.on('didReceiveAttrs',function(opts){
+    
+    if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen')){
+      
+      // Give 30 second gap between view increments
+      if(this.get('lastIncremented') < Date.now() - 30*1000){
+        
+        let transfer = this.get('store').peekRecord('transfer',this.get('transfer.id'));
+        transfer.set('increment',{
+          views: 1,
+        });
+        transfer.patch();
+        
+        this.set('lastIncremented',Date.now());
+      }
+      
+    }
+    
+  }),
+  
 });

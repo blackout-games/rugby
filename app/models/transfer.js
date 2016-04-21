@@ -10,6 +10,7 @@ export default DS.Model.extend({
   fireIfUnsold: DS.attr(),
   linked: DS.attr(),
   minimumNextBid: DS.attr(),
+  increment: DS.attr(),
   player: DS.belongsTo('player',{ async: false}),
   club: DS.belongsTo('club',{ async: false}),
   biddingClub: DS.belongsTo('club',{ async: false}),
