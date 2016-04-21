@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+/**
+ * We made this a component so that we can move the symbol when the language is changed.
+ * This is not possible with helpers.
+ */
 export default Ember.Component.extend({
   locale: Ember.inject.service(),
   tagName: 'span',
