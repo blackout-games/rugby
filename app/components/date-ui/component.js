@@ -57,6 +57,22 @@ export default Ember.Component.extend({
     return m.fromNow();
   }),
   
+  relativeFuture: Ember.computed('date','i18n.locale', function() {
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.fromNow();
+  }),
+  
+  calendar: Ember.computed('date','i18n.locale', function() {
+    let m = moment(this.get('date'));
+    if(this.get('timeZone')){
+      m = m.tz(this.get('timeZone'));
+    }
+    return m.calendar().lcFirst();
+  }),
+  
   gameSeason: Ember.computed('date',function(){
     return Ember.Blackout.getSeasonRoundDay(this.get('date'))['season'];
   }),
