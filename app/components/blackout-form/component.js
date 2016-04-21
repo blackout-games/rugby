@@ -83,7 +83,7 @@ export default Ember.Component.extend({
           this.attrs.onSave((dontAnimate=false)=>{
             
             this.resetErrors();
-            button.succeeded(true,dontAnimate);
+            button.succeed(true,dontAnimate);
             this.$('.blackout-cancel-button').prop('disabled',false);
             
           },(error)=>{

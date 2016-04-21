@@ -35,7 +35,7 @@ export default Ember.Component.extend({
       player.save().then(()=>{
         
         // Stop button loading
-        button.succeeded();
+        button.succeed();
         
         // Go to squad route
         Ember.Blackout.transitionTo('squad.club','me');
