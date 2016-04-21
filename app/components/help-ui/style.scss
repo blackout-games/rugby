@@ -1,12 +1,24 @@
 .help-ui {
   display: inline-block;
+  
   i {
     color: $bg-light-darker-5x;
+    font-size:33px;
+    @media #{$tablet-and-up} {
+      font-size:33px;
+    }
   }
   
   &.hover {
     i {
       color: saturate($bg-light-darker-4x,11%);
+    }
+  }
+  
+  &.help-ui-beside-button, &.help-ui-beside-button:hover, &.help-ui-beside-button.hover {
+    margin-top: -1px;
+    @media #{$tablet-and-up} {
+      margin-top: 3px;
     }
   }
 }

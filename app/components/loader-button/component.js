@@ -6,12 +6,12 @@ export default Ember.Component.extend({
   spinnerColor: "primary",
   classNames: ['loader-button','btn'],
   classNameBindings: ['confirmMode:confirm-button'],
+  attributeBindings: ['disabled'],
   
   isAnimating: false,
   whoAmI: 'loaderButton', // To verify this is a loader button component.
   
-  
-  attributeBindings: [],
+  disabled: false,
   
   setAction: Ember.on('init', function(){
     this.set('clickAction',this.get('action'));
@@ -72,7 +72,7 @@ export default Ember.Component.extend({
     },1);
     
     // Disable button
-    this.$().attr('disabled',true);
+    this.disable();
     
     this.set('isAnimating',true);
   },
@@ -84,7 +84,7 @@ export default Ember.Component.extend({
       return;
     }
     
-    this.$().attr('disabled',false);
+    this.enable();
     this.$().removeClass('loading');
     this.$().find('.content').show();
     
@@ -150,11 +150,11 @@ export default Ember.Component.extend({
   },
   
   disable(){
-    this.$().prop('disabled',true);
+    this.set('disabled',true);
   },
   
   enable(){
-    this.$().prop('disabled',false);
+    this.set('disabled',false);
   },
   
 });

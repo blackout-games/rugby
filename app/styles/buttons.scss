@@ -87,6 +87,8 @@ $border: none;
     border-color: $button-disabled-color;
     opacity:1;
     cursor: default;
+    color: saturate(lighten($button-disabled-color,22%),11%);
+    cursor: not-allowed;
   }
   
   &.no-focus {
@@ -339,7 +341,7 @@ form .btn-fb {
 
 .btn-red, .btn-red:hover {
   $red-color: #EA4B45;
-  $red-disabled-color: rgba(desaturate(darken($red-color,4%),11%),1);
+  $red-disabled-color: rgba(desaturate(darken($red-color,4%),22%),1);
   background-color: $red-color;
 
   &.hover {
@@ -360,6 +362,8 @@ form .btn-fb {
   &:disabled{
     background-color: $red-disabled-color;
     border-color: $red-disabled-color;
+    color: saturate(lighten($red-disabled-color,22%),11%);
+    cursor: not-allowed;
   }
   
 }
