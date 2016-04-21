@@ -1,0 +1,9 @@
+{{#each parts as |part|}}
+  
+  {{#if part.isComponent}}
+    {{component part.content}}
+  {{else}}
+    {{part.content}}
+  {{/if}}
+  
+{{/each}}
