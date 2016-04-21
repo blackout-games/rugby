@@ -18,12 +18,16 @@ export default Ember.Service.extend({
     return this.parse(localStorage.getItem(this.get('namespace')+key));
   },
   
+  remove(key) {
+    localStorage.removeItem(this.get('namespace')+key);
+  },
+  
   stringify(val) {
     return JSON.stringify(val);
   },
   
   parse(val) {
-    if(!val){
+    if(!val || val === 'undefined'){
       return undefined;
     } else {
       return JSON.parse(val);

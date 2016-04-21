@@ -10,13 +10,15 @@ export default Ember.Service.extend({
     if(this.get('session.isAuthenticated')){
       
       let managerId = this.get('session.data.managerId');
-      let manager = this.get('store').findRecord('manager',managerId,{reload: true});
-      
-      return manager.then((data)=>{
-        this.rebuildSession(data);
-        return data;
+      if(managerId){
+        let manager = this.get('store').findRecord('manager',managerId,{reload: true});
         
-      });
+        return manager.then((data)=>{
+          this.rebuildSession(data);
+          return data;
+          
+        });
+      }
       
     }
     

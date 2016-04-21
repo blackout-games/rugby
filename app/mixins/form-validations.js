@@ -65,18 +65,22 @@ export default Ember.Mixin.create({
   
   displayServerErrors(response) {
     
-    var errors = response.errors;
-    
-    if(errors.item){
-      this.set('serverErrors.'+errors.item, errors.message);
-      Ember.$('#'+errors.item).focus();
-      this.set('refocusButton',false);
+    if(response.errors){
+      var errors = response.errors;
+      
+      if(errors.item){
+        this.set('serverErrors.'+errors.item, errors.message);
+        Ember.$('#'+errors.item).focus();
+        this.set('refocusButton',false);
+      } else {
+        this.set('formErrorMessage',errors.message);
+      }
+      
+      if(this.get('submitButton')){
+        this.get('submitButton').reset(this.get('refocusButton'));
+      }
     } else {
-      this.set('formErrorMessage',errors.message);
-    }
-    
-    if(this.get('submitButton')){
-      this.get('submitButton').reset(this.get('refocusButton'));
+      print('Unknown error object',response);
     }
     
   },

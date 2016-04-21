@@ -35,7 +35,7 @@ export default OAuth2.extend({
         const data                = { 'grant_type': 'refresh_token', 'refresh_token': refreshToken };
         
       // BLACKOUT END ------------- //
-        
+      
         //this.makeRequest(serverTokenEndpoint, data).then((response) => {
         return this.makeRequest(serverTokenEndpoint, data).then((response) => {
           run(() => {
@@ -120,6 +120,17 @@ export default OAuth2.extend({
   },
   
   restore(data) {
+    
+    /**
+     * Prevent auto re-authenticating
+     * Probs just a simple-auth bug
+     */
+    let isLoggedOut = this.get('locals').read('isLoggedOut');
+    if(isLoggedOut){
+      return new RSVP.Promise((resolve, reject) => {
+        reject();
+      });
+    }
     
     // Auth recover
     if(Ember.$.isEmptyObject(data)){

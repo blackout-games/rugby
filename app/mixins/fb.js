@@ -124,6 +124,9 @@ export default Ember.Mixin.create({
     
     this.clearSessionData();
     
+    // Allow logins
+    this.get('locals').remove('isLoggedOut');
+    
     this.get('session').authenticate('authenticator:facebook', '', authResponse.accessToken
     ).then(()=>{
       

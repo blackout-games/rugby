@@ -16,6 +16,7 @@ export default BlackoutAuth.extend({
       // BLACKOUT START ----------- //
       const data                = { 'grant_type': 'facebook-connect', access_token: password };
       // BLACKOUT END ------------- //
+      //const data                = { 'grant_type': 'password', username: identification, password };
       
       const serverTokenEndpoint = this.get('serverTokenEndpoint');
       const scopesString = Ember.makeArray(scope).join(' ');

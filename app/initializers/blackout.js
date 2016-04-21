@@ -1174,6 +1174,18 @@ class Blackout {
     
   }
   
+  logStrackTrace(){
+    var obj = {};
+    Error.captureStackTrace(obj, this.logStrackTrace);
+    console.log(obj.stack);
+  }
+  
+  getStrackTrace(){
+    var obj = {};
+    Error.captureStackTrace(obj, this.getStrackTrace);
+    return obj.stack;
+  }
+  
   /**
    * Print object
    */

@@ -29,6 +29,15 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   
   sessionAuthenticated() {
     
+    /**
+     * Prevent auto re-authenticating
+     * Probs just a simple-auth bug
+     */
+    let isLoggedOut = this.get('locals').read('isLoggedOut');
+    if(isLoggedOut){
+      return false;
+    }
+    
     this.buildSession();
     
     var attemptedTrans = this.session.get('data.attemptedTransition');
@@ -67,6 +76,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
     Ember.$('#splash').show().removeClass('bounceOutLeft fadeOut').addClass('animated-fast fadeIn');
     
+    // Prevent re-validations (probs just a simple-auth bug)
+    this.get('locals').write('isLoggedOut',true);
+    
     Ember.$("#splash").off( Ember.Blackout.afterCSSAnimation ).on(Ember.Blackout.afterCSSAnimation, ()=> {
       //Ember.$(this).hide();
       this.clearSessionData();
@@ -81,7 +93,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
   
   sessionInvalidated() {
     if (!Ember.testing) {
-      window.location = '/';
+      Ember.run.next(()=>{
+        window.location = '/';
+      });
     }
   },
   
@@ -184,7 +198,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     var session = this.get('session');
     var store = this.get('store');
     var payload;
-
+    
     // This may be an ember bug. We must encode and unencode the JSON payload to ensure there are no references to the payload passed into ember data. Ember data can create circular references on the object, which then cause errors when simple auth tries to JSON encode again for local storage.
     
     // DONT use data.sessionBuilt so that this variable is cleared on reload
@@ -304,6 +318,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
         this.clearAllSessionData();
       }*/
       
+      session.set('data.releaseMarker',releaseMarker);
       this.get('user').refreshSessionManager();
       
     }

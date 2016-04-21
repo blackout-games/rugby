@@ -20,6 +20,7 @@ const Validations = buildValidations({
 export default Ember.Component.extend(FullHeight,FormValidations,{
   Modal: Ember.inject.service('modal'),
   classNames: ['login-background', 'tint-dark', 'clearfix', 'vf-parent'],
+  locals: Ember.inject.service(),
   
   onInit: Ember.on('init',function(){
     
@@ -52,6 +53,9 @@ export default Ember.Component.extend(FullHeight,FormValidations,{
     
     var app = getOwner(this).lookup('route:application');
     app.clearSessionData();
+    
+    // Allow logins
+    this.get('locals').remove('isLoggedOut');
     
     // simple-auth-authenticator:oauth2-password-grant 
     // authenticator:password
