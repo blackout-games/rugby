@@ -85,6 +85,9 @@ export default Ember.Component.extend({
     }
     
     this.enable();
+    Ember.run.next(()=>{
+      this.enable();
+    });
     this.$().removeClass('loading');
     this.$().find('.content').show();
     

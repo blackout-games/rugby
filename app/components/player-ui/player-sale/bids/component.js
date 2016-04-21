@@ -25,6 +25,8 @@ export default Ember.Component.extend({
     
   }),
   
+  bidsLoaded: false,
+  
   loadBids(){
     
     let store = this.get('store');
@@ -41,8 +43,10 @@ export default Ember.Component.extend({
       };
       
       this.set('bids',null);
+      this.set('bidsLoaded',false);
       store.query('bid',bidsQuery).then((data)=>{
         this.set('bids',data);
+        this.set('bidsLoaded',true);
       });
       
     }

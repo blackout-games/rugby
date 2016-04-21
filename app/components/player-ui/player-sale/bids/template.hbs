@@ -1,7 +1,7 @@
 
-{{#if bids}}
+{{#if bidsLoaded}}
   
-  {{#blackout-timeline data=bids as |bid|}}
+  {{#blackout-timeline noDataT='player.for-sale.no-bids-yet' data=bids as |bid|}}
     
     {{#if bid.newAutoBid}}
       

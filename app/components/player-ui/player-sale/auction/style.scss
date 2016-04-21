@@ -1,10 +1,21 @@
-.player-bid-button {
-  margin-top: 22px;
+.player-bid-buttons {
+  padding-top: 22px;
   @media #{$tablet-and-up} {
-    margin-top: 31px;
+    padding-top: 31px;
   }
 }
 
 .for-sale-color {
   color: $secondary-master;
+}
+
+.player-auction-refresh-button {
+  width:44px;
+  @media #{$tablet-and-up} {
+    width:59px;
+  }
+  i {
+    margin-left: -50%;
+    margin-right: -50%;
+  }
 }

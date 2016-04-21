@@ -63,7 +63,12 @@ export default Ember.Component.extend({
         this.set('withdrawError',error.errors.title);
       });
       
-    }
+    },
+    refreshAuction(button){
+      button.reset();
+      button.disable();
+      this.refreshTransferAndBids(button);
+    },
   },
   
   canWithdraw: Ember.computed('player','transfer',function(){
@@ -78,7 +83,7 @@ export default Ember.Component.extend({
     return new Date(playerListed + 48*60*60*1000);
   }),
   
-  refreshTransferAndBids(){
+  refreshTransferAndBids(button){
     
     let store = this.get('store');
     
@@ -87,6 +92,9 @@ export default Ember.Component.extend({
     let transfer = store.peekRecord('transfer',this.get('transfer.id'));
     transfer.reload().then(()=>{
       Ember.Blackout.stopLoading();
+      if(button){
+        button.enable();
+      }
       this.createNewBid();
     });
     
@@ -94,6 +102,12 @@ export default Ember.Component.extend({
     this.attrs.onBid();
     
   },
+  
+  refreshBid: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'transfer')){
+      this.createNewBid();
+    }
+  }),
   
   createNewBid(){
     

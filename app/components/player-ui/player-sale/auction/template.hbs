@@ -1,16 +1,27 @@
-{{message-ui type='warning' showIf=(and transfer.linked (not (owned-club transfer.club))) message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
+{{#if transfer.deadlinePassed}}
+  {{message-ui type='warning' message=(t 'player.for-sale.auction-pending')}}
+{{else}}
+  {{message-ui type='warning' showIf=(and transfer.linked (not (owned-club transfer.club))) message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
+{{/if}}
 
 <div class="row gap-md">
 
 
-  <div class="col-auto right-gap-2x">
+  <div class="col-auto right-gap-lg">
     <label class="label">{{t 'player.for-sale.current-price'}}</label>
     <div class="large-number">{{money-ui value=transfer.price}}</div>
   </div>
   
   
-  <div class="col-flex">
-    <button {{action 'openBid'}} class="btn btn-big player-bid-button {{if (or (not session.isAuthenticated) (owned-club player.club) transfer.linked) "hidden"}}">{{t 'buttons.bid'}}</button>
+  <div class="col-auto player-bid-buttons right-gap-md">
+    {{#loader-button class="btn-big player-auction-refresh-button" clickAction=(action 'refreshAuction') }}
+      <i class="icon-refresh icon-md"></i>
+    {{/loader-button}}
+  </div>
+  
+  
+  <div class="col-auto player-bid-buttons">
+    <button {{action 'openBid'}} class="btn btn-big {{if (or (not session.isAuthenticated) (owned-club player.club) transfer.linked transfer.deadlinePassed) "hidden"}}">{{t 'buttons.bid'}}</button>
   </div>
   
   
@@ -27,7 +38,7 @@
 </div>
 
 
-{{#if canWithdraw}}
+{{#if (and canWithdraw (not transfer.deadlinePassed))}}
   <div class="gap-sm">
     {{#confirm-button class="btn-big" clickAction=(action 'withdrawPlayer') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.withdraw-player-message' }}{{t 'player.for-sale.withdraw'}}{{/confirm-button}}
   </div>
