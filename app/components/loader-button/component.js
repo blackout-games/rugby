@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   myContext: { name: "loadingButtonState" },
   spinnerColor: "primary",
   classNames: ['loader-button','btn'],
-  classNameBindings: ['confirmMode:confirm-button'],
+  classNameBindings: ['confirmMode:confirm-button','noDisabledCursor:default-cursor'],
   attributeBindings: ['disabled'],
   
   isAnimating: false,
