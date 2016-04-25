@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  classNames: ['donut-timer'],
+  classNames: ['pie-timer'],
   
   onAttrChange: Ember.on('didUpdateAttrs',function(opts){
     
@@ -21,25 +21,25 @@ export default Ember.Component.extend({
   startTimer(){
     
     if(this.get('duration')){
-      this.$('.donut-timer-filler').css({
+      this.$('.pie-timer-filler').css({
         'animation-duration': this.get('duration')+'s',
       });
-      this.$('.donut-timer-spinner').css({
+      this.$('.pie-timer-spinner').css({
         'animation-duration': this.get('duration')+'s',
       });
-      this.$('.donut-timer-mask').css({
+      this.$('.pie-timer-mask').css({
         'animation-duration': this.get('duration')+'s',
       });
     }
     
     // Start the timer
-    this.$().addClass('donut-timer-go-reverse');
+    this.$().addClass('pie-timer-go-reverse');
     
     // Start the timer
-    this.$('.donut-timer-spinner').off(Ember.Blackout.afterCSSAnimation).on(Ember.Blackout.afterCSSAnimation,()=>{
+    this.$('.pie-timer-spinner').off(Ember.Blackout.afterCSSAnimation).on(Ember.Blackout.afterCSSAnimation,()=>{
       if(this.attrs.onComplete){
         this.attrs.onComplete();
-        this.$().removeClass('donut-timer-go-reverse');
+        this.$().removeClass('pie-timer-go-reverse');
       }
     });
     
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
   
   cancelTimer(){
     
-    this.$().removeClass('donut-timer-go-reverse');
+    this.$().removeClass('pie-timer-go-reverse');
     
   },
   

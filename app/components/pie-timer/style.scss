@@ -1,4 +1,4 @@
-.donut-timer {
+.pie-timer {
   position: relative;
   background: white;
   display: inline-block;
@@ -12,7 +12,7 @@
     height: $size;
   }
 
-  #{$item} .donut-timer-pie {
+  #{$item} .pie-timer-pie {
     width: 50%;
     height: 100%;
     transform-origin: 100% 50%;
@@ -21,7 +21,7 @@
     border: $border;
   }
 
-  #{$item} .donut-timer-spinner {
+  #{$item} .pie-timer-spinner {
     @if $reverse {
       border-radius: 0 100% 100% 0 / 0 50% 50% 0;
       transform-origin: 0% 50%;
@@ -35,13 +35,13 @@
     animation: rota $duration + s linear;
   }
 
-  #{$item}:hover .donut-timer-spinner,
-  #{$item}:hover .donut-timer-filler, 
-  #{$item}:hover .donut-timer-mask {
+  #{$item}:hover .pie-timer-spinner,
+  #{$item}:hover .pie-timer-filler, 
+  #{$item}:hover .pie-timer-mask {
     animation-play-state: $hover;    
   }
 
-  #{$item} .donut-timer-filler {
+  #{$item} .pie-timer-filler {
     opacity: 0;
     z-index: 100;
     @if $reverse {
@@ -56,7 +56,7 @@
     border-left: none;
   }
 
-  #{$item} .donut-timer-mask {
+  #{$item} .pie-timer-mask {
     width: 50%;
     height: 100%;
     position: absolute;
@@ -84,6 +84,6 @@
   
 }
 
-@include timer('.donut-timer-go', 5, 33px, $bg-light-darker, none, false);
-@include timer('.donut-timer-go-reverse', 5, 33px, $bg-light-darker, none, true);
+@include timer('.pie-timer-go', 5, 33px, $bg-light-darker, none, false);
+@include timer('.pie-timer-go-reverse', 5, 33px, $bg-light-darker, none, true);
 

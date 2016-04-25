@@ -6,7 +6,7 @@ $transition-time-reverse: 0.444s ease(in-quad);
   position:relative;
   transition: width $transition-time;
   
-  .donut-timer {
+  .pie-timer {
     position: absolute;
     top: 7px;
     @media #{$mobile} {

@@ -186,7 +186,7 @@ export default Ember.Component.extend({
         let $confirm = this.$('.confirm-button-confirmation');
         let $original = this.$('.confirm-button-original');
         let $button = this.$('.confirm-button');
-        let $timer = this.$('.donut-timer');
+        let $timer = this.$('.pie-timer');
         let originalWidth = this.get('originalWidth');
         let width = this.get('confirmWidth');
         let rightGap = this.get('rightGap');
@@ -277,7 +277,7 @@ export default Ember.Component.extend({
       let $confirm = this.$('.confirm-button-confirmation');
       let $original = this.$('.confirm-button-original');
       let $button = this.$('.confirm-button');
-      let $timer = this.$('.donut-timer');
+      let $timer = this.$('.pie-timer');
       let width = this.get('originalWidth');
       $button.css('width',width+'px');
       
