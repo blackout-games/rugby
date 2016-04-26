@@ -27,6 +27,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   cleanup: Ember.on('willDestroyElement',function(){
     this.cleanupListeners();
+    this.cleanupReferences();
   }),
   
   handleAttrChanges: Ember.on('didUpdateAttrs',function(o){
@@ -281,6 +282,14 @@ export default Ember.Component.extend(PreventBodyScroll,{
       this._log('cleaned up listeners');
       
     }
+    
+  },
+  
+  cleanupReferences(){
+    
+    this.set('$newSel',null);
+    this.set('$options',null);
+    this.set('$currentOption',null);
     
   },
   

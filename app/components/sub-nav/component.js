@@ -309,6 +309,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this.set('navIsActive',false);
     
+    // Clean references
+    this.set('$subNavContent',null);
+    this.set('$innerContent',null);
+    
     this.hide( true );
   },
   

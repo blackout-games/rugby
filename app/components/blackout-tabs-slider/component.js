@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   locale: Ember.inject.service(),
   
   classNames: [],
+  tabIds: [],
   preSelectTabId: '',
   tabs: Ember.Object.create(),
   
@@ -98,6 +99,7 @@ export default Ember.Component.extend({
       
       // Mark tab with panel id
       this.set('tabs.'+tabId,$tab);
+      this.get('tabIds').pushObject('tabs.'+tabId);
       
       if(this.get('preSelectTabId') === tabId){
         $defaultTab = $tab;
@@ -220,6 +222,14 @@ export default Ember.Component.extend({
     
     //this.updateTabWidthBound = Ember.run.bind(this,this.updateTabWidth);
     //$(window).on('resize',this.updateTabWidthBound);
+    
+  }),
+  
+  unbuildTabs: Ember.on('willDestroyElement',function(){
+    
+    this.get('tabIds').forEach((id)=>{
+      this.set(id,null);
+    });
     
   }),
   
