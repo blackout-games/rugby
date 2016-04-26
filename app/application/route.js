@@ -178,7 +178,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
           }
           
       } else if (error.status === '404') {
-          this.transitionTo('nope');
+          this.intermediateTransitionTo('nope');
           return false;
       } else {
         
