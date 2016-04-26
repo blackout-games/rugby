@@ -1,6 +1,6 @@
 import Ember from 'ember';
 const { Blackout } = Ember;
-import t from "../../../utils/translation-macro";
+import t from "rugby-ember/utils/translation-macro";
 //import DS from 'ember-data';
 
 export default Ember.Component.extend({

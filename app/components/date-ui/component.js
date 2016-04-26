@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { translationMacro as t } from "ember-i18n";
-//import t from "../../utils/translation-macro";
+//import t from "rugby-ember/utils/translation-macro";
 
 export default Ember.Component.extend({
 

@@ -5,7 +5,7 @@ import FbMixin from '../mixins/fb';
 import RouteHistoryMixin from 'ember-cli-history-mixin/mixins/route-history';
 import config from '../config/environment';
 //import { translationMacro as t } from "ember-i18n";
-import t from "../utils/translation-macro";
+import t from "rugby-ember/utils/translation-macro";
 
 const { $ } = Ember;
 

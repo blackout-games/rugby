@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import t from "../utils/translation-macro";
+import t from "rugby-ember/utils/translation-macro";
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({

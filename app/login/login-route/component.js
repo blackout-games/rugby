@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import FullHeight from '../../mixins/full-height';
 import FormValidations from '../../mixins/form-validations';
-import t from "../../utils/translation-macro";
+import t from "rugby-ember/utils/translation-macro";
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const { getOwner } = Ember;

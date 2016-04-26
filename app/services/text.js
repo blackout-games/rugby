@@ -1,6 +1,6 @@
 import Ember from 'ember';
 const { $ } = Ember;
-//import t from "../../utils/translation-macro";
+//import t from "rugby-ember/utils/translation-macro";
 
 export default Ember.Service.extend({
   

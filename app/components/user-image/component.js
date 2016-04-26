@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import t from "../../utils/translation-macro";
+import t from "rugby-ember/utils/translation-macro";
 
 export default Ember.Component.extend({
   userImages: Ember.inject.service(),
