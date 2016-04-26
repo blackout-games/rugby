@@ -54,6 +54,13 @@
   </div>
 {{/if}}
 
+{{#if (and (owned-club player.club) (not transfer.deadlinePassed))}}
+  <label>{{t 'player.selling.fire-if-unsold'}}</label>
+  <div class="gap-2x">
+    {{blackout-toggle toggled=(readonly transfer.fireIfUnsold) onChange=(action 'updateFireIfUnsold')}}
+  </div>
+{{/if}}
+
 
 <div class="gap-2x">
   <label class="label">{{t 'player.for-sale.deadline'}}</label>

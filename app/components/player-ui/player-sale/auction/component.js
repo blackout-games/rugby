@@ -59,7 +59,6 @@ export default Ember.Component.extend({
         Ember.Blackout.transitionTo(`/players/${playerId}`);
         
       },(error)=>{
-        print('rats',error);
         this.set('withdrawError',error.errors.title);
       });
       
@@ -68,6 +67,25 @@ export default Ember.Component.extend({
       button.reset();
       button.disable();
       this.refreshTransferAndBids(button);
+    },
+    updateFireIfUnsold(toggled){
+      
+      let store = this.get('store');
+      let model = store.peekRecord('transfer',this.get('transfer.id'));
+      let fireIfUnsold = this.get('transfer.fireIfUnsold');
+      
+      if(fireIfUnsold !== toggled){
+        model.set('fireIfUnsold',toggled);
+        Ember.Blackout.startLoading();
+        model.patch({ fireIfUnsold: true }).then(()=>{
+          
+          Ember.Blackout.stopLoading();
+          
+        },(error)=>{
+          print(error);
+        });
+      }
+      
     },
   },
   
