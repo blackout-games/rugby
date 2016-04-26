@@ -403,7 +403,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       this.$('#sub-nav-panel,#sub-nav-touch-blocker').addClass('open');
       this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
       let customIcon = this.get('buttonIcon');
-      this.$('i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
+      this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
       this.set('isOpen',true);
       return true;
     }
@@ -420,7 +420,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       });
       this.$('#sub-nav-touch-blocker').off('mousedown touchstart', this.blockerTouchBound);
       let customIcon = this.get('buttonIcon');
-      this.$('i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
+      this.$('#sub-nav-button i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
       this.set('isOpen',false);
       return true;
     } else {
