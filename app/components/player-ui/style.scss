@@ -24,19 +24,6 @@
   }
 }
 
-.player-avatar-single-container {
-  position: absolute;
-  width:100%;
-  height:auto;
-  background-color:tomato;
-  top:-150px;
-  left:0;
-  @media #{$tablet-tall-and-up} {
-    top:-150px;
-    left:0;
-  }
-}
-
 .player-avatar-single {
   @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
   width:80px;
@@ -127,6 +114,14 @@ $skew-angle: 14deg;
     }
     .player-ui-title {
       color: pressColor($bg-light-darker-4x);
+    }
+  }
+}
+
+body.touch .player-ui-title-link {
+  &.press, &:active {
+    .player-ui-title-panel {
+      background: $secondary-master;
     }
   }
 }
@@ -394,17 +389,6 @@ $infobar-dark-mode: false;
   position: relative;
   z-index:1;
   margin: 0 -50px -4px;
-}
-
-.player-ui-big-label {
-  text-transform: uppercase;
-  font-family: $sports-font;
-  font-weight: bold;
-  font-size: 12.9px;
-  //letter-spacing: 1px;
-  @media #{$tablet-tall-and-up} {
-    font-size: 15.9px;
-  }
 }
 
 .player-ui-big-label {
