@@ -245,9 +245,7 @@ export default Ember.Component.extend({
               succeed();
             });
             
-          },(error)=>{
-            fail(error);
-          });
+          },fail);
           
         }
       }
@@ -306,13 +304,9 @@ export default Ember.Component.extend({
               succeed();
             });
             
-          },(error)=>{
-            fail(error);
-          }).finally(final);
+          },fail).finally(final);
           
-        },(error)=>{
-          fail(error);
-        });
+        },fail);
         
         
       },()=>{

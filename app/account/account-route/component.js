@@ -68,9 +68,7 @@ export default Ember.Component.extend({
         
         succeed();
         
-      }).catch((error)=>{
-        fail(error);
-      }).finally(final);
+      }).catch(fail).finally(final);
       
     },
     onCancel(){

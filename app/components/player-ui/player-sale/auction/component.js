@@ -32,9 +32,7 @@ export default Ember.Component.extend({
         
         this.set('showBiddingWindow',false);
         
-      }).catch((error)=>{
-        fail(error);
-      }).finally(()=>{
+      }).catch(fail).finally(()=>{
         this.refreshTransferAndBids();
         final();
       });
@@ -72,18 +70,21 @@ export default Ember.Component.extend({
       
       let store = this.get('store');
       let model = store.peekRecord('transfer',this.get('transfer.id'));
-      let fireIfUnsold = this.get('transfer.fireIfUnsold');
       
-      if(fireIfUnsold !== toggled){
-        model.set('fireIfUnsold',toggled);
-        Ember.Blackout.startLoading();
-        model.patch({ fireIfUnsold: true }).then(()=>{
-          
-          Ember.Blackout.stopLoading();
-          
-        },(error)=>{
-          print(error);
-        });
+      if(model){
+        let fireIfUnsold = this.get('transfer.fireIfUnsold');
+        
+        if(fireIfUnsold !== toggled){
+          model.set('fireIfUnsold',toggled);
+          Ember.Blackout.startLoading();
+          model.patch({ fireIfUnsold: true }).then(()=>{
+            
+            Ember.Blackout.stopLoading();
+            
+          },(error)=>{
+            print(error);
+          });
+        }
       }
       
     },
