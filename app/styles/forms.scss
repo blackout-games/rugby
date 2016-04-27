@@ -324,18 +324,20 @@ input:-webkit-autofill:active {
  * Placeholder color
  */
 
+$placeholder-color: darken($form-border-color,7%);
+
 ::-webkit-input-placeholder {
-   color: $placeholder-color;
+   color: $placeholder-color !important;
 }
 
 :-moz-placeholder { /* Firefox 18- */
-   color: $placeholder-color;  
+   color: $placeholder-color !important;  
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: $placeholder-color;  
+   color: $placeholder-color !important;  
 }
 
 input:-ms-input-placeholder {  
-   color: $placeholder-color;  
+   color: $placeholder-color !important;  
 }
