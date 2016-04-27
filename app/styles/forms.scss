@@ -181,20 +181,17 @@ form label, .label {
 
 $form-border-color: lighten(desaturate($secondary-master,30%),30%);
 
-input[type="text"], input[type="password"], input[type="email"] {
+input[type="text"], input[type="password"], input[type="email"], textarea, textarea.form-control {
   border-radius: $border-radius;
   border-width: $focus-border-thickness !important;
   border-color: $form-border-color;
-  height:48px;
-  padding: 5px 15px 7px;
-  font-size:18px;
   line-height:normal;
 
+  font-size:18px;
   @media #{$mobile} {
-    height:44px;
-    padding: 6px 12px;
     font-size:16px;
   }
+  
   color: $primary-text-color;
   -webkit-appearance: none;
   box-shadow: none;
@@ -202,6 +199,21 @@ input[type="text"], input[type="password"], input[type="email"] {
   @include active-form;
   @include hover-form;
   
+}
+input[type="text"], input[type="password"], input[type="email"] {
+  height:48px;
+  padding: 5px 15px 7px;
+  @media #{$mobile} {
+    height:44px;
+    padding: 6px 12px;
+  }
+}
+textarea, textarea.form-control {
+  padding: 11px 15px;
+  @media #{$mobile} {
+    padding: 8px 12px;
+  }
+  min-height:44px;
 }
 
 /**

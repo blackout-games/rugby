@@ -5,12 +5,13 @@ import Ember from 'ember';
  * It happens when this element resides at the bottom of a parent element with a bottom margin, and below another element with a bottom margin. These margins will "collapse" when no other element separates them, therefore when this fader is removed, those two margins remaining will collapse instantly giving the "jump" effect.
  * 
  * Two options:
- * 1. We add a dummy div here in the fader so this can never happen, or
+ * 1. We add a dummy div here in the fader so this can never happen (implemented), or
  * 2. We change the layout of the parent and sibling div so their margins won't overlap.
  */
 
 export default Ember.Component.extend({
   classNames: ['blackout-fader','inactive','clearfix'],
+  active: true,
   
   setup: Ember.on('didInsertElement',function(){
     if(this.get('active')){
@@ -114,11 +115,13 @@ export default Ember.Component.extend({
             /**
              * We've since added animations for the margins too, so we can now just hide the parent
              */
-            $el.hide();
+            if(!this.get('dontDisplayNone')){
+              $el.hide();
+            }
             
           });
           
-          if(immediate && this.$()){
+          if(immediate && this.$() && !this.get('dontDisplayNone')){
             this.$().hide();
           }
           

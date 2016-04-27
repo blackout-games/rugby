@@ -35,6 +35,30 @@ export default Ember.Component.extend({
     
   }),
   
+  textareaIsShowing:false,
+  checkUpdateTextareaSize: Ember.on('didReceiveAttrs',function(opts){
+    
+    if(this.get('type') === 'textarea'){
+      if(this.attrChanged(opts,'value') || (this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen'))){
+        Ember.run.debounce(this,this.updateTextareaSize,11);
+      }
+    }
+    
+  }),
+  
+  updateTextareaSize(){
+    if(!this.get('textareaIsShowing')){
+      let og = this.get('value');
+      this.set('value','');
+      Ember.run.next(()=>{
+        this.set('value',og);
+        Ember.run.next(()=>{
+          this.set('textareaIsShowing',true);
+        });
+      });
+    }
+  },
+  
   hasDirtied: false,
   hasFocus: false,
   notValidating: computed.not('validation.isValidating'),

@@ -33,8 +33,18 @@
           {{/blackout-select}}
           
         {{else}}
+        
+          {{#if (is 'textarea' type)}}
+            
+            {{#blackout-fader showing=textareaIsShowing dontDisplayNone=true}}
+              {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1}}
+            {{/blackout-fader}}
+            
+          {{else}}
+            
+            {{input value=(mut value) type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
           
-          {{input value=value type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
+          {{/if}}
           
         {{/if}}
       

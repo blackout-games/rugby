@@ -9,7 +9,8 @@ html {
   overflow-y: scroll;
   
   // Set webkit highlight color
-  -webkit-tap-highlight-color: rgba($bg-dark,0.33);
+  //-webkit-tap-highlight-color: rgba($bg-dark,0.33);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 body {

@@ -40,7 +40,13 @@
         class="gap-3x blackout-form-item" }}
         
         <div>
-          <label for="{{item.id}}">{{item.label}}</label>
+          <label for="{{item.id}}">
+            {{#if item.bigLabel}}
+              <h6 class="no-top-gap">{{item.label}}</h6>
+            {{else}}
+              {{item.label}}
+            {{/if}}
+          </label>
         </div>
           
         {{#premium-ui messageT=item.isPremium featureName=item.premiumFeatureName active=item.isPremium classIfHidden="gap-md"}}
@@ -95,11 +101,34 @@
                   {{! So that we can edit the model in the sub-component }}
                   {{#if item.valuePath}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder model=model valuePath=item.valuePath serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{validated-input
+                      type=item.type
+                      inputId=item.id
+                      placeholder=item.placeholder
+                      model=model
+                      valuePath=item.valuePath
+                      serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated
+                      inputClass=""
+                      onChanged=(readonly item.onChanged)
+                      options=item.options
+                      minDate=item.minDate
+                      maxDate=item.maxDate
+                      isOnScreen=isOnScreen }}
                     
                   {{else}}
                     
-                    {{validated-input type=item.type inputId=item.id placeholder=item.placeholder value=item.value serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated inputClass="" onChanged=(readonly item.onChanged) options=item.options minDate=item.minDate maxDate=item.maxDate }}
+                    {{validated-input
+                      type=item.type
+                      inputId=item.id
+                      placeholder=item.placeholder
+                      value=item.value serverError=(get (get serverErrors item.id) 'title')
+                      hasValidated=hasValidated
+                      inputClass=""
+                      onChanged=(readonly item.onChanged)
+                      options=item.options
+                      minDate=item.minDate
+                      maxDate=item.maxDate
+                      isOnScreen=isOnScreen }}
                     
                   {{/if}}
                   
@@ -137,6 +166,8 @@
   
   {{/if}}
   
-  <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{if useCloseButton (t 'buttons.close') (t 'buttons.cancel')}}</button>
+  {{#if (not hideCancelButton)}}
+    <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{if useCloseButton (t 'buttons.close') (t 'buttons.cancel')}}</button>
+  {{/if}}
   
 </form>
