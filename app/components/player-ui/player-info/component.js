@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   
   energyChartOptions: {
     
-    animation: true,
+    animation: false,
 
     // Number - Number of animation steps
     animationSteps: 50,
@@ -17,12 +17,12 @@ export default Ember.Component.extend({
     
   },
   
-  setup: Ember.on('init',function(){
+  setup: Ember.on('init','didRender',function(){
     
     // Since the chart settings are static, ember won't manage them between instances of this component, so we need to manually reset.
     this.set('energyChartOptions.animation',true);
     
-    if( window.os.touchOS ){
+    if( window.os.touchOS || !this.get('singleMode') ){
       this.set('energyChartOptions.animation',false);
     }
     
@@ -48,15 +48,19 @@ export default Ember.Component.extend({
   },
   
   hasAppearedBars: Ember.computed('media.isMobile','media.isTablet','hasAppeared',function(){
-    if(this.get('hasAppeared') || window.os.touchOS){
+    return true;
+    // Turn off animations for squad view. Too annoying and hard to compare skills.
+    /*if(this.get('hasAppeared') || window.os.touchOS){
       return true;
     } else {
       return false;
-    }
+    }*/
   }),
   
   animateBars: Ember.computed('media.isMobile','media.isTablet',function(){
-    return !window.os.touchOS;
+    return this.get('singleMode');
+    // Turn off animations for squad view. Too annoying and hard to compare skills.
+    //return !window.os.touchOS;
   }),
   
   attrBarHeight: Ember.computed('media.isMobile',function(){
