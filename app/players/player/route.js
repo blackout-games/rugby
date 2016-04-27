@@ -59,7 +59,7 @@ export default Ember.Route.extend({
   
   afterModel(model){
     if(!model.player){
-      this.transitionTo('nope');
+      this.intermediateTransitionTo('nope');
     }
   },
   

@@ -1,28 +1,40 @@
-<h5 class="gap-2x no-top-gap">{{t 'player.manage.actions'}}</h5>
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-manage" tabRoute="manage" onTabChange=(action 'tabChanged') isOnScreen=isOnScreen as |tabs| }}
+  
+  {{#tabs.list as |list|}}
+    
+    {{list.tab tab="player-manage-actions-panel" name-t="player.manage.actions" icon-class="icon-wrench icon-lg tab-icon-straight" }}
+    
+    {{list.tab tab="player-manage-customise-panel" name-t="player.manage.customise" icon-class="icon-pencil icon-lg tab-icon-straight" }}
+    
+  {{/tabs.list}}
+  
+  
+  {{#tabs.content as |content|}}
+    
+    
+    {{#content.tab id="player-manage-actions-panel"}}
+      
+      {{player-ui/player-manage/actions player=player isOnScreen=(and isOnScreen (is 'player-manage-actions-panel' selectedTab))}}
+      
+    {{/content.tab}}
+    
+    
+    {{#content.tab id="player-manage-customise-panel"}}
+      
+      {{player-ui/player-manage/customise player=player isOnScreen=(and isOnScreen (is 'player-manage-customise-panel' selectedTab))}}
+      
+    {{/content.tab}}
+    
+    
+  {{/tabs.content}}
+  
+{{/component}}
 
-<div class="gap-md vt-parent">
 
-  {{#confirm-button class="btn-big btn-right-gap btn-red" clickAction=(action 'firePlayer') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.sell-player-button' disabled=(if player.transfer true false)}}{{t 'buttons.fire-player'}}{{/confirm-button}}
-  
-  {{#if player.transfer}}
-    {{help-ui t='help.player.cannot-fire' besideButton=true}}
-  {{/if}}
-  
-  {{#unless player.transfer}}
-    <button {{action 'openSellPlayer'}} class="btn btn-big right-gap-md gap-md sell-player-button">{{t 'buttons.sell-player'}}</button>
-  {{/unless}}
-  
-</div>
 
-{{error-ui error=actionsError}}
-  
-{{#float-window showWindow=(mut showingSellPlayerBox) onClose=(action 'onCancelSellPlayer')}}
-  
-  <h5 class="no-top-gap gap-2x">{{t 'buttons.sell-player'}}</h5>
-  
-  {{blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") onSave=(action "listPlayer") confirm=true isOnScreen=showingSellPlayerBox submitLabel=(t 'player.selling.list-player') debugFader=true }}
-  
-  
-  {{!scroll-tester}}
-  
-{{/float-window}}
+
+
+
+
+
+

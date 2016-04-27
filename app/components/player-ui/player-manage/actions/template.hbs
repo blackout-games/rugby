@@ -1,0 +1,28 @@
+<h5 class="gap-2x no-top-gap">{{t 'player.manage.actions'}}</h5>
+
+<div class="gap-md vt-parent">
+
+  {{#confirm-button class="btn-big btn-right-gap btn-red" clickAction=(action 'firePlayer') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.sell-player-button' disabled=(if player.transfer true false)}}{{t 'buttons.fire-player'}}{{/confirm-button}}
+  
+  {{#if player.transfer}}
+    {{help-ui t='help.player.cannot-fire' besideButton=true}}
+  {{/if}}
+  
+  {{#unless player.transfer}}
+    <button {{action 'openSellPlayer'}} class="btn btn-big right-gap-md gap-md sell-player-button">{{t 'buttons.sell-player'}}</button>
+  {{/unless}}
+  
+</div>
+
+{{error-ui error=actionsError}}
+  
+{{#float-window showWindow=(mut showingSellPlayerBox) onClose=(action 'onCancelSellPlayer')}}
+  
+  <h5 class="no-top-gap gap-2x">{{t 'buttons.sell-player'}}</h5>
+  
+  {{blackout-form form=(readonly sellForm) model=sellModel onCancel=(action "cancelSell") onSave=(action "listPlayer") confirm=true isOnScreen=showingSellPlayerBox submitLabel=(t 'player.selling.list-player') debugFader=true }}
+  
+  
+  {{!scroll-tester}}
+  
+{{/float-window}}

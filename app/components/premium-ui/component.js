@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
+  active:true,
   classNameBindings: ['classNamesIfHidden'],
   
   classNamesIfHidden: Ember.computed('classIfHidden','hideFeature',function(){

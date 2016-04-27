@@ -1,7 +1,23 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default DS.Model.extend({
+const Validations = buildValidations({
+  nickname: [
+    validator('length', {
+      allowBlank: true,
+      max: 18
+    }),
+  ],
+  blurb: [
+    validator('length', {
+      allowBlank: true,
+      max: 180
+    }),
+  ],
+});
+
+export default DS.Model.extend(Validations,{
   age: DS.attr(),
   birthdate: DS.attr(),
   salary: DS.attr(),
@@ -31,6 +47,8 @@ export default DS.Model.extend({
   footed: DS.attr(),
   energy: DS.attr(),
   defence: DS.attr(),
+  nickname: DS.attr(),
+  blurb: DS.attr(),
   club: DS.belongsTo('club'),
   nationality: DS.belongsTo('country',{ async: false}),
   dualNationality: DS.belongsTo('country',{ async: false}),

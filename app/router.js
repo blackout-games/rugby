@@ -51,7 +51,10 @@ Router.map(function() {
         this.route('caps');
       });
       this.route('history');
-      this.route('manage');
+      this.route('manage', function() {
+        this.route('actions');
+        this.route('customise');
+      });
       this.route('sale', function() {
         this.route('auction');
         this.route('bids');

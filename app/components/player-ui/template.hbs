@@ -45,7 +45,7 @@
       
       {{list.tab tab="player-history-panel" name-t="buttons.history" icon-class="icon-history icon-lg"}}
       
-      {{list.tab tab="player-manage-panel" name-t="buttons.manage" icon-class="icon-wrench icon-lg tab-icon-straight tab-icon-flip" hide=(not playerIsOwned)}}
+      {{list.tab tab="player-manage-panel" name-t="buttons.manage" icon-class="icon-wrench icon-lg tab-icon-straight" hide=(not playerIsOwned)}}
       
     {{/tabs.list}}
       
@@ -72,7 +72,7 @@
       {{/content.tab}}
       
       
-      {{#content.tab id="player-manage-panel"}}
+      {{#content.tab id="player-manage-panel" noPadding=true}}
         {{player-ui/player-manage player=player isOnScreen=(is 'player-manage-panel' selectedTab)}}
       {{/content.tab}}
       
