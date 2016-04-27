@@ -1,5 +1,9 @@
 {{#if transfer.deadlinePassed}}
-  {{message-ui type='warning' message=(t 'player.for-sale.auction-pending')}}
+  {{#if transfer.biddingClub}}
+    {{message-ui type='warning' message=(t 'player.for-sale.auction-pending')}}
+  {{else}}
+    {{message-ui type='warning' message=(t 'player.for-sale.auction-closing')}}
+  {{/if}}
 {{else}}
   {{message-ui type='warning' showIf=(and transfer.linked (not (owned-club transfer.club))) message=(t 'player.for-sale.cannot-bid') help-ui='help.player.for-sale.cannot-bid'}}
 {{/if}}
