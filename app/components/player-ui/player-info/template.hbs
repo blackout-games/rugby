@@ -1,3 +1,15 @@
+{{#if singleMode}}
+  <div class="row gap-2-5x">
+    <div class="col-flex">
+      {{club-link club=player.club class="player-ui-club top-gap-xs"}}
+    </div>
+    <div class="col-flex text-right">
+      {{flag-icon country=player.nationality size=(if media.isMobile 'medium' 'big')}}
+      {{flag-icon country=player.dualNationality size=(if media.isMobile 'medium' 'big')}}
+    </div>
+  </div>
+{{/if}}
+
 <div class="row gap-md {{unless singleMode "player-ui-top"}}">
   <div class="col-flex">
     
