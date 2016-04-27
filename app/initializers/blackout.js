@@ -1387,6 +1387,9 @@ String.prototype.ucFirst = function() {
 String.prototype.lcFirst = function() {
   return this.charAt(0).toLowerCase() + this.slice(1);
 };
+String.prototype.nl2br = function() {
+  return this.replace(/(?:\r\n|\r|\n)/g, '<br>');
+};
 
 String.prototype.regexIndexOf = function(regex, startpos) {
     var indexOf = this.substring(startpos || 0).search(regex);

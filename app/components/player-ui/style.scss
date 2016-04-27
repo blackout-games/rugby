@@ -436,3 +436,22 @@ $infobar-dark-mode: false;
   text-transform: none;
   font-family: $primary-font;
 }
+
+.player-ui-blurb {
+  display: inline-block;
+  width:auto;
+  font-size: 19px;
+  @media #{$tablet-and-up} {
+    font-size: 22px;
+  }
+  max-width: 80%;
+  font-family: $sports-font;
+  text-transform: uppercase;
+  font-style: italic;
+  
+  > i {
+    margin-left: -22px;
+    color: $secondary-master;
+    color: $bg-light-darker-2x;
+  }
+}

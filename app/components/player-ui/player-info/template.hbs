@@ -212,6 +212,20 @@
 
 
 {{#if singleMode}}
+
+  {{#if player.blurb}}
+    
+    <div class="divider gap-2-5x"></div>
+    
+    <div class="text-center">
+      <div class="has-position player-ui-blurb">
+        <i class="icon-quote-left icon-lg icon-vcenter"></i>
+        {{nl2br player.blurb}}
+        {{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a"}}<i class="icon-pencil"></i>{{/link-to}}{{/if}}
+      </div>
+    </div>
+    
+  {{/if}}
   
   <div class="divider gap-2-5x"></div>
   
