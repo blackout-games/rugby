@@ -33,7 +33,7 @@ $primary-on-image: saturate(lighten($primary-master,1%),3%);
 /**
  * Secondary Colors
  */
-$secondary-on-dark: lighten(saturate($secondary-master,1%),15%);
+$secondary-on-dark: saturate(lighten($secondary-master,27%),100%);
 $secondary-dark: darken(desaturate($secondary-master,11%),22%);
 $secondary-dark-on-dark: darken(desaturate($secondary-master,11%),17%);
 

@@ -116,6 +116,8 @@ export default Ember.Component.extend({
       } else {
         button.reset();
       }
+      
+      this.set('button',button);
     },
     onCancel(){
       
@@ -141,5 +143,14 @@ export default Ember.Component.extend({
   },
   
   linksShowing: Ember.Object.create(),
+  
+  handleOnAndOffScreen: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'isOnScreen') && !this.get('isOnScreen')){
+      this.send('onCancel');
+    }
+    if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen') && this.get('button')){
+      this.get('button').reset(false,true);
+    }
+  }),
   
 });

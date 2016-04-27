@@ -146,11 +146,12 @@ $scrollbar-height:17px;
     @include unselectable;
   }
   
-  color:$bg-dark-lighter-5x;
+  $color: $secondary-on-dark;
+  color:$color;
   
   &:hover {
     background-color: lighten($bg-color,7%);
-    color:$bg-dark-lighter-5x !important;
+    color:$color !important;
   }
   
   &.active, &.active:hover {

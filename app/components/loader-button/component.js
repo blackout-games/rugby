@@ -85,9 +85,10 @@ export default Ember.Component.extend({
     }
     
     this.enable();
-    Ember.run.next(()=>{
-      this.enable();
-    });
+    // Don't do this, or it removes the ability to disable the button immediately after reset
+    //Ember.run.next(()=>{
+      //this.enable();
+    //});
     this.$().removeClass('loading');
     this.$().find('.content').show();
     
@@ -107,6 +108,8 @@ export default Ember.Component.extend({
     this.set('hasSucceeded',false);
     this.set('loading',false);
     
+    this.$().removeClass('unsucceed');
+    
     this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed);
     
     if(this.get('laterId')){
@@ -116,8 +119,9 @@ export default Ember.Component.extend({
   },
   
   succeed(ignoreNextReset=false, dontAnimate=false){
-    this.reset();
+    this.reset(false);
     if(!dontAnimate){
+      this.disable();
       
       if(ignoreNextReset){
         // If reset() is called by a consumer soon after succeed()
@@ -144,16 +148,18 @@ export default Ember.Component.extend({
       Ember.run.later(()=>{
         if(!_this.get('isDestroyed')){
           _this.$().removeClass('unsucceed');
+          // If reset() is not called by a consumer soon after succeed()
+          _this.set('ignoreNextReset',false);
+          _this.reset(false);
         }
       },44);
-      // If reset() is not called by a consumer soon after succeed()
-      _this.set('ignoreNextReset',false);
-      _this.reset();
+      _this.set('hasSucceeded',false);
     }
   },
   
   disable(){
     this.set('disabled',true);
+    this.$().removeClass('hover');
   },
   
   enable(){

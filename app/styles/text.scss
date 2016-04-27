@@ -141,9 +141,10 @@ a {
   }
 
   &.btn-a.on-dark, &.btn-a.on-dark:hover {
-    $color: desaturate(lighten($secondary-master,40%),11%);
+    $color: saturate(lighten($secondary-master,27%),100%);
+    $color: $primary-on-dark;
     color: $color;
-    text-shadow: 0 0 11px rgba(black,0.7);
+    text-shadow: 0 0 22px rgba(black,0.88);
     
     &.hover {
       color: #FFF;
@@ -380,6 +381,8 @@ p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: inline-block;
+  width:100%;
 }
 
 /**
