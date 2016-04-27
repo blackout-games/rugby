@@ -3,10 +3,6 @@
 }
 
 .player-ui-top {
-  margin-top: 55px !important;
-  @media #{$tablet-tall-and-up} {
-    margin-top: 59px !important;
-  }
 }
 
 .player-ui-title-club {
@@ -52,7 +48,8 @@ $bg-tint: linear-gradient(
   
 .player-ui-title-wrapper {
   //background: $bg-light;
-  position: absolute;
+  position: relative;
+  z-index:1;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -87,11 +84,11 @@ $skew-angle: 14deg;
   display: inline-block;
   width:auto;
   max-width:70%;
-  padding: 7px 14px 6px;
-  margin-left:-11px;
+  padding: 0 14px 0 22px;
+  margin-left:-17px;
   @media #{$tablet-tall-and-up} {
-    padding: 19px 22px 17px;
-    margin-left:-11px;
+    padding: 0 22px 0 29px;
+    margin-left:-17px;
   }
   background: $primary-master;
   background: lighten($bg-dark-lighter,3%);
@@ -100,12 +97,16 @@ $skew-angle: 14deg;
 }
 
 .player-ui-title-link {
+  $color: saturate($bg-light-darker-3x,100%);
   &.hover {
     .player-ui-title-panel {
       //background: $bg-dark-lighter-2x;
     }
     .player-ui-title {
       color: white;
+    }
+    .player-ui-nickname {
+      color: lighten($color,11%);
     }
   }
   &.press, &:active {
@@ -114,6 +115,9 @@ $skew-angle: 14deg;
     }
     .player-ui-title {
       color: pressColor($bg-light-darker-4x);
+    }
+    .player-ui-nickname {
+      color:desaturate(darken($color,17%),33%);
     }
   }
 }
@@ -128,13 +132,20 @@ body.touch .player-ui-title-link {
 
 .player-ui-title {
   padding-left:59px;
-  margin-top:7px;
   font-style: normal;
   font-size:15px;
-  margin-bottom:7px;
   @media #{$tablet-tall-and-up} {
     padding-left:70px;
     font-size:22px;
+  }
+  
+  margin-top:12px;
+  margin-bottom:12px;
+  min-height: 36px;
+  @media #{$tablet-tall-and-up} {
+    margin-top:15px;
+    margin-bottom:15px;
+    min-height: 42px;
   }
   
   transform: skewX($skew-angle);
@@ -153,9 +164,12 @@ body.touch .player-ui-title-link {
   font-size:22px;
   font-style: normal;
   color: white;
+  margin: 11px 0 5px;
   @media #{$tablet-tall-and-up} {
     font-size:29px;
+    margin: 11px 0;
   }
+  width: 100%;
 }
 
 .player-ui-for-sale {
@@ -163,15 +177,15 @@ body.touch .player-ui-title-link {
   position: relative;
   z-index:1;
   display: inline-block;
-  padding: 4px 11px 4px 14px;
+  padding: 4px 11px 4px 22px;
   background-color: $color;
   transform: skewX(-$skew-angle);
   vertical-align: top;
   
-  margin-left:-5px;
+  margin-left:-12px;
   
   @media #{$tablet-tall-and-up} {
-    margin-left:-3px;
+    margin-left:-7px;
   }
   
   i {
@@ -193,16 +207,17 @@ body.touch .player-ui-title-link {
 .player-ui-sale-tab {
   $color: $secondary-master;
   
- /*  background: $color;
+  background: $color;
   color: lighten($color,35%);
   &:hover {
     background-color: lighten($color,2%);
     transition: none;
     color: white !important;
-  } */
+  }
   
   > div {
-    color: saturate(lighten($color,15%),22%);
+    //color: saturate(lighten($color,15%),22%);
+    color: lighten($color,44%);
   }
   
   &.active {
@@ -413,4 +428,11 @@ $infobar-dark-mode: false;
   position: absolute;
   top:0;
   left:0;
+}
+
+.player-ui-nickname {
+  font-weight: bold;
+  color: saturate($bg-light-darker-3x,100%);
+  text-transform: none;
+  font-family: $primary-font;
 }

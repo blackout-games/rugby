@@ -3,7 +3,7 @@
   
   <div class="{{if flatTitleMode 'center-parent-md top-gap-md'}} has-position">
     
-    {{back-button to='squad.club' toId=player.club.id class="player-ui-back"}}
+    {{#link-to 'squad.club' player.club.id class="player-ui-back btn-a on-dark"}}<i class="icon-team icon-lg icon-vcenter gap-sm"></i>{{#if (not media.isMobile)}} {{t 'squad.title'}}{{/if}}{{/link-to}}
     {{player-ui/nav-button class="left" squad=squad currentPlayer=player}}
     {{player-ui/nav-button class="right" squad=squad currentPlayer=player}}
     
@@ -15,19 +15,36 @@
       <div class="gap-sm {{if flatTitleMode 'hidden-md-up'}} divider"></div>
       
       <div class="col-xs-12 {{if flatTitleMode 'col-flex-md pad-right-md'}} center-parent">
-        <h2 class="player-ui-title-single no-wrap reset-box ellipses">{{player.name}}</h2>
+        <h2 class="player-ui-title-single reset-box text-center">
+          {{#if player.nickname}}
+            
+            {{player.firstName}}<br>
+            
+            <span class="player-ui-nickname nowrap">&quot;{{player.nickname}}&quot;{{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a on-dark"}}<i class="icon-pencil"></i>{{/link-to}}{{/if}}</span><br>
+            
+            {{player.lastName}}
+            
+          {{else}}
+            {{player.name}}
+          {{/if}}
+        </h2>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-flex">
+        {{club-link club=player.club class="player-ui-club on-dark top-gap-xs"}}
+      </div>
+      <div class="col-flex text-right">
         {{flag-icon country=player.nationality size=(if media.isMobile 'medium' 'big')}}
         {{flag-icon country=player.dualNationality size=(if media.isMobile 'medium' 'big')}}
       </div>
-    </div>
-    <div class="row row-flex row-center">
-      {{club-link club=player.club class="player-ui-club on-dark"}}
     </div>
     
   </div>
   
   <div class="divider gap-md hidden-sm-up"></div>
-  <div class="divider gap-2x hidden-xs"></div>
+  <div class="divider gap-md hidden-xs"></div>
 
 {{/if}}
     
@@ -83,19 +100,45 @@
 
 {{else}}
 
-  <div class="dash-box no-gap hide-overflow player-ui-squad-box border-radius-fix">
+  <div class="dash-box dash-box-no-padding no-gap hide-overflow player-ui-squad-box border-radius-fix">
     
     <div class="player-ui-title-wrapper">
       
       {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
         <div class="player-ui-title-panel">
-          <h2 class="player-ui-title">
+          <h2 class="player-ui-title vc-parent">
             {{#if media.isMobile}}
-              <span class="nowrap ellipses">{{player.firstName}}</span>
-              <br>
-              <span class="nowrap ellipses">{{player.lastName}}</span>
+            
+              <span class="ellipses">
+              
+                {{player.firstName}}<br>
+              
+                {{#if player.nickname}}
+                  
+                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
+                  
+                {{/if}}
+                
+                {{player.lastName}}
+              
+              </span>
+              
             {{else}}
-              <span class="nowrap ellipses">{{player.name}}</span>
+              
+              <span class="ellipses">
+                {{#if player.nickname}}
+                  
+                  {{player.firstName}}<br>
+                  
+                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
+                  
+                  {{player.lastName}}
+                  
+                {{else}}
+                  {{player.name}}
+                {{/if}}
+              </span>
+              
             {{/if}}
           </h2>
         </div>
@@ -111,8 +154,10 @@
       {{/if}}
       
     </div>
-
-    {{player-ui/player-info player=player singleMode=singleMode}}
+    
+    <div class="dash-box-padding">
+      {{player-ui/player-info player=player singleMode=singleMode }}
+    </div>
     
   </div>
   
