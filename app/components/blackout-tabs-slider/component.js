@@ -32,6 +32,12 @@ export default Ember.Component.extend({
   onTabSelect: null, // Action
   
   /**
+   * Force buttons to stay visible while debugging
+   * @type {Boolean}
+   */
+  testButtons: false,
+  
+  /**
    * Not sure why we need to do this.
    * Ember should be creating a fresh instance of this component every time. But sometimes it seems to reuse old versions, with stale data
    * 
@@ -145,12 +151,12 @@ export default Ember.Component.extend({
         globalID = requestAnimationFrame(repeatOften);
         if(this.canScrollLeft()){
           this.$('.blackout-tabs-slider-button.left').stop().fadeIn(222);
-        } else {
+        } else if(!this.get('testButtons')) {
           this.$('.blackout-tabs-slider-button.left').stop().fadeOut(222);
         }
         if(this.canScrollRight()){
           this.$('.blackout-tabs-slider-button.right').stop().fadeIn(222);
-        } else {
+        } else if(!this.get('testButtons')) {
           this.$('.blackout-tabs-slider-button.right').stop().fadeOut(222);
         }
       };
@@ -162,7 +168,7 @@ export default Ember.Component.extend({
       
       // Hide buttons on mouseout
       this.$('.blackout-tabs-slider-hider').on('mouseleave',(e)=>{
-        if( !$(e.relatedTarget).hasClass('blackout-tabs-slider-button') && !$(e.relatedTarget).hasParent('.blackout-tabs-slider-button') ){
+        if( !$(e.relatedTarget).hasClass('blackout-tabs-slider-button') && !$(e.relatedTarget).hasParent('.blackout-tabs-slider-button') && !this.get('testButtons') ){
           this.$('.blackout-tabs-slider-button').stop().fadeOut(222);
           stopAnimating();
         }
@@ -170,13 +176,15 @@ export default Ember.Component.extend({
       
       // Hide buttons on mouse wheel
       this.$('.blackout-tabs-slider-scroller').on('mousewheel',()=>{
-        this.$('.blackout-tabs-slider-button').stop().fadeOut(222);
-        stopAnimating();
+        if(!this.get('testButtons')){
+          this.$('.blackout-tabs-slider-button').stop().fadeOut(222);
+          stopAnimating();
+        }
       });
       
       // Hide buttons on mouseout from buttons
       this.$('.blackout-tabs-slider-button').on('mouseleave',(e)=>{
-        if( !$(e.relatedTarget).hasClass('blackout-tabs-slider-hider') && !$(e.relatedTarget).hasParent('.blackout-tabs-slider-hider') ){
+        if( !$(e.relatedTarget).hasClass('blackout-tabs-slider-hider') && !$(e.relatedTarget).hasParent('.blackout-tabs-slider-hider') && !this.get('testButtons') ){
           this.$('.blackout-tabs-slider-button').stop().fadeOut(222);
           stopAnimating();
         }
@@ -222,6 +230,11 @@ export default Ember.Component.extend({
     
     //this.updateTabWidthBound = Ember.run.bind(this,this.updateTabWidth);
     //$(window).on('resize',this.updateTabWidthBound);
+    
+    if(!this.get('testButtons')){
+      this.$('.blackout-tabs-slider-button.left').hide();
+      this.$('.blackout-tabs-slider-button.right').hide();
+    }
     
   }),
   

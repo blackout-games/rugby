@@ -251,7 +251,6 @@ $scrollbar-height:17px;
   
   z-index:2;
   cursor: pointer;
-  display:none;
   border-radius: $border-radius;
   box-shadow: 0 2px 7px rgba(black,0.44);
   @media #{$tablet-and-up} {
@@ -262,7 +261,7 @@ $scrollbar-height:17px;
     left: -11px;
     text-align: center;
     i {
-      margin-left: 5px;
+      margin-left: 10px;
     }
   }
   
@@ -270,16 +269,12 @@ $scrollbar-height:17px;
     right:-11px;
     text-align: center;
     i {
-      margin-right: 7px;
+      margin-left: 2px;
     }
   }
   
   i {
-    margin-top: 12px;
     display: inline-block;
-    @media #{$tablet-and-up} {
-      margin-top: 4px;
-    }
     color:$bg-light;
   }
   
@@ -303,8 +298,19 @@ $scrollbar-height:17px;
   }
   
   i {
-    margin-top: 2px;
     color:$bg-light;
+  }
+  
+  &.left {
+    i {
+      margin-left: 8px;
+    }
+  }
+  
+  &.right {
+    i {
+      margin-left: 0px;
+    }
   }
   
 }
