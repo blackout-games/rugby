@@ -16,7 +16,7 @@
     
       <div class="standalone-bumper"></div>
       
-      <div id="home-page-language">
+      <div id="home-page-language" class="home-page-block-link">
         <div class="standalone-bumper"></div>
         <a {{action 'toggleSettings'}} class="btn-a white">{{locale.currentLocaleName}}</a>
       </div>
@@ -84,8 +84,13 @@
         </div>
       {{/fast-button}}
       
-      <div id="home-more-button" class="{{if session.isAuthenticated "is-authenticated"}}">
-        {{#scroll-to href='#about' class="btn-a"}}<i class="icon-more"></i>{{/scroll-to}}
+      <div id="home-more-button" class="home-page-block-link {{if session.isAuthenticated "is-authenticated"}}">
+        {{#scroll-to href='#about' class="btn-a"}}
+          <div class="iblock">
+            <div>{{t 'home-page.learn-more'}}</div>
+            <div class="text-center"><i class="icon-down-open"></i></div>
+          </div>
+        {{/scroll-to}}
       </div>
       
       {{#unless session.isAuthenticated}}
