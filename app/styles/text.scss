@@ -381,8 +381,12 @@ p {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  display: inline-block;
-  width:100%;
+  /**
+   * Must be display block to work
+   * Can be inline-block, but if needed, should be done using override
+   * otherwise we break other things like squad energy on mobile
+   */
+  display: block;
 }
 
 /**

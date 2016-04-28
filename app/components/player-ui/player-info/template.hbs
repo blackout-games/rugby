@@ -103,8 +103,10 @@
 
 <div class="divider gap-md hidden-xs-up"></div>
 <div class="divider gap-lg hidden-xxs"></div>
-          
-{{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
+
+{{#if singleMode}}      
+  {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
+{{/if}}
 
 {{#if (or player.transfer (owned-club player.club))}}
   <div class="row">

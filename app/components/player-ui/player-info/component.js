@@ -3,8 +3,6 @@ const { $ } = Ember;
 
 export default Ember.Component.extend({
   
-  hasAppeared: false,
-  
   energyChartOptions: {
     
     animation: false,
@@ -46,6 +44,10 @@ export default Ember.Component.extend({
       }
     },
   },
+  
+  hasAppeared: Ember.computed(function(){
+    return !this.get('singleMode');
+  }),
   
   hasAppearedBars: Ember.computed('media.isMobile','media.isTablet','hasAppeared',function(){
     return true;
