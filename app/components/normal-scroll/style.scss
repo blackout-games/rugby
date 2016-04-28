@@ -40,7 +40,7 @@ body:not(.touch) {
   }
   
   $color: rgba(0,0,0,0.33);
-  $color: rgba($bg-light-darker-4x,0.59);
+  $color: rgba(desaturate($bg-dark-lighter-4x,7%),0.77);
    
   // Handle
   ::-webkit-scrollbar-thumb {

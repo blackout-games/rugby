@@ -440,9 +440,10 @@ $infobar-dark-mode: false;
 .player-ui-blurb {
   display: inline-block;
   width:auto;
-  font-size: 20px;
+  font-size: 19px;
   @media #{$tablet-and-up} {
-    font-size: 25px;
+    font-size: 22px;
+    margin-bottom: 7px;
   }
   max-width: 80%;
   
@@ -452,8 +453,15 @@ $infobar-dark-mode: false;
   font-style: italic; */
   
   
-  font-family: $primary-font;
-  font-weight: bold;
+  /* font-family: $primary-font;
+  font-weight: bold; */
+  
+  
+  font-family: $sports-font;
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 800;
+  font-weight: 300;
   
   
   
