@@ -38,12 +38,15 @@ body:not(.touch) {
   ::-webkit-scrollbar-track {
     background: none;
   }
+  
+  $color: rgba(0,0,0,0.33);
+  $color: rgba($bg-light-darker-4x,0.59);
    
   // Handle
   ::-webkit-scrollbar-thumb {
     border-radius: 7px;
     -webkit-border-radius: 7px;
-    background: rgba(0,0,0,0.33);
+    background: $color;
     background-clip: padding-box;
     
     // Add padding
@@ -51,7 +54,7 @@ body:not(.touch) {
     //width:6px;
   }
   ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(0,0,0,0.33);
+    background: $color;
   }
 
   // Alt light
@@ -74,9 +77,18 @@ body:not(.touch) {
   }
   
   // Just hide *body* scrollbar even on desktop
-  body::-webkit-scrollbar, #nav-body::-webkit-scrollbar {
+  // Nope, it comes in handy when we want to scroll long distances fast
+  // Other users miss it too
+  /* body::-webkit-scrollbar, #nav-body::-webkit-scrollbar {
     width: 0px;
     display:none;
+  } */
+  // Instead, we'll just hide it for smaller devices where body is full width
+  @media #{$nav-sm-down} {
+    body::-webkit-scrollbar, #nav-body::-webkit-scrollbar {
+      width: 0px;
+      display:none;
+    }
   }
   
 }

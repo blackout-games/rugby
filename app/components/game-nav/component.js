@@ -830,6 +830,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       }
       
       $('.nav-burger,.nav-tab-menu').addClass('nav-close');
+      $('#sub-nav-panel').addClass('game-nav-open');
 
       $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
 
@@ -856,6 +857,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       this.deselectAllTabs();
       $('.nav-burger,.nav-tab-menu').removeClass('nav-close');
+      $('#sub-nav-panel').removeClass('game-nav-open');
 
       this.allowBodyScroll();
 

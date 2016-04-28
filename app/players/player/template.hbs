@@ -1,46 +1,43 @@
 {{top-level images="squad" mobileHigher=true}}
 
 
-<div class="row show-overflow">
-  <div class="col-md-8 dash-box-container show-overflow">
+<div class="row show-overflow row-max-md">
+  <div class="col-12 dash-box-container show-overflow">
     
     {{player-ui player=model.player stats=model.stats history=model.history singleMode=true squad=model.squad}}
     {{outlet}}
     
   </div>
-  <div class="col-md-4 dash-box-container hidden-sm-down">
+</div>
   
-    {{#sub-nav-content keepSubRoutes=true buttonIcon="icon-team"}}
+{{#sub-nav-content keepSubRoutes=true buttonIcon="icon-team"}}
+  
+  <div class="sub-nav-inner-padding">
+    
+    {{#each model.squad as |player index|}}
       
-      <div class="sub-nav-inner-padding">
+      {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
+        <div class="row row-nowrap">
         
-        {{#each model.squad as |player index|}}
+          <div class="col-auto opacity-4">
+            <div class="player-avatar player-avatar-sub-nav"></div>
+          </div>
           
-          {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
-            <div class="row row-nowrap">
-            
-              <div class="col-auto">
-                <div class="player-avatar player-avatar-sub-nav"></div>
-              </div>
-              
-              <div class="col-flex vc-parent ellipses right-gap-lg">
-                {{player.name}}
-              </div>
-              
-              {{#if player.transfer}}
-              <div class="col-auto vc-parent">
-                <i class="icon-tag icon-lg for-sale-color"></i>
-              </div>
-              {{/if}}
-              
-            </div>
-          {{/link-to}}
-        
-        {{/each}}
-        
-      </div>
-        
-    {{/sub-nav-content}}
+          <div class="col-flex vc-parent right-gap-lg ellipses">
+            <div class="ellipses">{{player.name}}</div>
+          </div>
+          
+          {{#if player.transfer}}
+          <div class="col-auto vc-parent">
+            <i class="icon-tag icon-lg for-sale-color"></i>
+          </div>
+          {{/if}}
+          
+        </div>
+      {{/link-to}}
+    
+    {{/each}}
     
   </div>
-</div>
+    
+{{/sub-nav-content}}

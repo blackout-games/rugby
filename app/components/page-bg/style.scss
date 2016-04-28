@@ -3,9 +3,9 @@
   height: 100vh;
   
   @media #{$tablet-tall-and-down} {
-    height: calc(#{$page-header-height} + 50px);
+    height: calc(#{$page-header-height} + 77px);
     &.higher {
-      height: calc(#{$page-header-height} + 77px);
+      height: calc(#{$page-header-height} + 177px);
     }
   }
   @media #{$mobile-landscape} {
@@ -53,8 +53,8 @@
 
 $tint-fade-out-bottom: linear-gradient(
   to bottom,
-  rgba($bg-dark,0.88),
-  rgba($bg-dark,0.22) 44%,
+  rgba($bg-dark,0.99),
+  rgba($bg-dark,0.44) 44%,
   $bg-dark 100%
 );
 

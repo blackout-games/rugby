@@ -11,11 +11,16 @@
  * 30   => Back to top button (floating button, in own component)
  */
 
-$animation-time: 0.333s;
+$nav-animation-time: 0.333s;
+$animation-time: $nav-animation-time;
 $topbar-height: 59px;
 $tabbar-height: 50px;
 $min-tabbar-height: 44px;
 $panel-width: 88vw;
+
+// Sub-nav
+$sub-nav-on-left: true;
+$sub-panel-mod: -44px;
 
 // Fluid
 $max-panel-width: 333px;
@@ -203,6 +208,37 @@ $selected-arrow-pokes-out: 7px;
   
   @media #{$nav-vs-not-mobile} {
     margin-left: $sidebar-width;
+  }
+
+  @media #{$nav-md},#{$nav-lg} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        margin-left:$max-block-size + $max-panel-width + $sub-panel-mod;
+      } @else {
+        margin-right:$max-panel-width + $sub-panel-mod;
+      }
+    }
+  }
+        
+  @media #{$tablet-wide} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        margin-left:$max-panel-width;
+      }
+    }
+  }
+
+  @media #{$nav-lg} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        &.open {
+          margin-left: $max-panel-width + $max-panel-width + $sub-panel-mod;
+          @media #{$nav-vs} {
+            margin-left: calc(#{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size});
+          }
+        }
+      }
+    }
   }
   
   &.resizing {

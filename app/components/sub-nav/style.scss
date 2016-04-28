@@ -1,4 +1,4 @@
-$animation-time: 0.333s;
+$animation-time: $nav-animation-time;
 
 #sub-nav-panel {
   
@@ -7,16 +7,19 @@ $animation-time: 0.333s;
   //background-color:rgba($primary-master,0.95);
   //background-color:rgba(white,0.95);
   @if $dark-colors {
-    background-color:rgba($bg-dark-lighter,0.95);
+    $bg-color: rgba($bg-dark,0.95);
   } @else {
-    background-color:rgba($bg-light,0.95);
+    $bg-color: rgba($bg-light,0.95);
   }
   
+  background-color: $bg-color;
   padding: 0px;
   position:fixed;
   top:0;
   z-index:35;
   display:none;
+  height: 100vh;
+  max-height: none;
   
   &.active {
     display:block;
@@ -24,19 +27,41 @@ $animation-time: 0.333s;
   
   @media #{$tablet-tall-and-down} {
     
-    width:$panel-width;
-    @media #{$mobile-wide-and-up} {
-      width:$max-panel-width;
-    }
+    width:$max-panel-width + $sub-panel-mod;
     height:100vh;
-    
     left:100%;
+    
     transition: transform $animation-time;
     
     &.open {
-      transform: translate3d(-$panel-width,0,0);
-      @media #{$mobile-wide-and-up} {
-        transform: translate3d( -$max-panel-width,0,0);
+      transform: translate3d(-($max-panel-width + $sub-panel-mod),0,0);
+    }
+    
+  }
+  
+  @media #{$tablet-wide-and-up} {
+    
+    width: 100%;
+    
+    @if $sub-nav-on-left {
+      left: $max-block-size;
+    } @else {
+      right: 0%;
+    }
+    
+    max-width:$max-panel-width + $sub-panel-mod;
+  }
+  
+  @media #{$tablet-wide} {
+    max-width:$max-panel-width - $max-block-size;
+  }
+  
+  @media #{$desktop} {
+    
+    @if $sub-nav-on-left {
+      transition: transform $animation-time;
+      &.game-nav-open {
+        transform: translate3d($max-panel-width - $max-block-size,0,0);
       }
     }
     
@@ -56,7 +81,7 @@ $animation-time: 0.333s;
     &.press,&.hover {
       //color: white;
       @if $dark-colors {
-        background-color: rgba(desaturate(lighten($bg-dark-lighter,4%),1%),0.95);
+        background-color: rgba(desaturate(lighten($bg-color,5%),3%),0.95);
       } @else {
         background-color: rgba(desaturate(darken($bg-light,6%),15%),0.95);
       }
@@ -65,20 +90,14 @@ $animation-time: 0.333s;
       //color: saturate(darken($primary-master,11%),11%);
       //color: saturate(lighten($color,22%),11%);
       @if $dark-colors {
-        color: saturate(lighten($color,27%),11%);
-        background-color: rgba(saturate(lighten($bg-dark-lighter,11%),1%),0.75);
+        color: saturate(lighten($color,17%),15%);
+        background-color: rgba(saturate(lighten($bg-color,11%),1%),0.75);
       } @else {
         color: desaturate(darken($color,22%),33%);
         background-color: rgba(desaturate(darken($bg-light,11%),12%),0.75);
       }
       
     }
-  }
-  
-  @media #{$tablet-wide-and-up} {
-    width: 100%;
-    border-radius: $border-radius;
-    max-width:300px;
   }
   
 }

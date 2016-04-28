@@ -5,8 +5,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   navIsActive: false,
   navButtonIsShowing: false,
-  subNavMode: '',
-  setNavMode: 'd', // a-d
   
   // Prevent body scroll
   preventBodyScrollSelectors: ['#sub-nav-scroller'],
@@ -137,11 +135,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
         this.updateSubNavNonMobile(true,animationAlreadyTookPlace);
       });
       
-      if(this.get('subNavMode') !== 'd'){
-        // Fade
-        Ember.Blackout.animateUI($panel);
-      }
-      
     }
   },
   
@@ -177,14 +170,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.set('$innerContent',$innerContent);
     this.set('content',content);
     
-    // Set mode
-    this.set('subNavMode',this.get('setNavMode'));
-    
     // Set nav as active (i.e. we're on a page containing sub-nav)
     this.set('navIsActive',true);
     
     // Show subnav
     this.$('#sub-nav-panel').addClass('active');
+    
+    Ember.$('#nav-body').addClass('sub-nav-showing');
     
   },
   
@@ -215,15 +207,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
       return;
     }
     
-    let subNavMode = this.get('subNavMode');
-    
     let $innerContent = this.get('$innerContent');
-    let $panel = Ember.$('#sub-nav-panel');
     let $scoller = Ember.$('#sub-nav-scroller');
     
     // Get properties of sub-nav-content
     let pos = $innerContent.offsetWindow();
-    let w = $innerContent.outerWidth();
+    //let w = $innerContent.outerWidth();
     let margin = 30;
     let padding = 2;
     
@@ -233,48 +222,16 @@ export default Ember.Component.extend(PreventBodyScroll,{
     }
     
     // Fix at top
-    if(pos.top < margin || subNavMode === 'b' || subNavMode === 'c'){
+    if(pos.top < margin){
       pos.top = margin;
     }
     
-    // Fix top
-    if(subNavMode === 'a'){
-      if(this.get('initialTop')){
-        pos.top = this.get('initialTop');
-      } else {
-        this.set('initialTop',pos.top);
-      }
-    }
-    
     // Determine max height, leaving room for back to top button
-    let backToTopButtonGap = subNavMode === 'c' ? 103 : 0; // 103
+    let backToTopButtonGap = 0;
     let contentHeight = $scoller[0].scrollHeight;
     let maxHeight = Ember.$(window).height() - backToTopButtonGap - margin - pos.top;
-    let h = Math.min(contentHeight+padding*2+2,maxHeight);
     
-    $panel.css({
-      top: pos.top,
-      position: 'fixed',
-      left: pos.left,
-      width: w,
-      height: h,
-      'max-height': maxHeight,
-    });
-    
-    if(subNavMode === 'd'){
-      
-      $panel.css({
-        top: 0,
-        left: 'auto',
-        right: '0px',
-        height: '100vh',
-        'max-height': 'none',
-        'border-radius': 0,
-      });
-      
-      maxHeight = Ember.$(window).height();
-      
-    }
+    maxHeight = Ember.$(window).height();
     
     // Update perfect scroll height
     $scoller.height(Math.min(contentHeight,maxHeight-padding*2));
@@ -304,14 +261,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.unwatchMenuLinks();
     Ember.$('#sub-nav-scroller').html('');
     
-    // Unset mode
-    this.set('subNavMode','');
-    
     this.set('navIsActive',false);
     
     // Clean references
     this.set('$subNavContent',null);
     this.set('$innerContent',null);
+    
+    Ember.$('#nav-body').removeClass('sub-nav-showing');
     
     this.hide( true );
   },
