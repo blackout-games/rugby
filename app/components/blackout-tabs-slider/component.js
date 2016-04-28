@@ -62,6 +62,10 @@ export default Ember.Component.extend({
     
     if(this.attrChanged(options,'isOnScreen')){
       if(this.get('isOnScreen')){
+        // Attempt to run now if switching to a tab which holds this sub-tab group
+        // This avoids visible 'jumping' after showing this slider.
+        this.updateTabWidth();
+        // Also run later, for when we open the page straight onto this tab
         Ember.run.debounce(this,this.updateTabWidth,1);
         Ember.run.debounce(this,this.scrollToSelectedTab,1);
       }
@@ -247,6 +251,10 @@ export default Ember.Component.extend({
   }),
   
   updateTabWidth(){
+    
+    if(!this.$()){
+      return;
+    }
     
     // Get width of scroller
     let scrollerWidth = this.$().findClosest('.blackout-tabs-slider-scroller').width();
