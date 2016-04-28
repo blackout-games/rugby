@@ -193,48 +193,25 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let maxHeight = Ember.$(window).height();
     //let h = Math.min(contentHeight,maxHeight);
     
+    let tabBarHeight = 0;
+    // If is mobile, allow for tab bar
+    if(this.get('media.isMobile')){
+      tabBarHeight = 49;
+    }
+    
     // Update perfect scroll height
     let padding = 0;
-    $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2 - 49));
+    $scoller.height(Math.min(contentHeight+1,maxHeight-padding*2 - tabBarHeight));
     
     this.updateScrollArea();
     
   },
   
-  updateSubNavNonMobile( mediaUpdateOnly, animationAlreadyTookPlace ){
+  updateSubNavNonMobile( /*mediaUpdateOnly, animationAlreadyTookPlace*/ ){
     
     if(!this.get('navIsActive')){
       return;
     }
-    
-    let $innerContent = this.get('$innerContent');
-    let $scoller = Ember.$('#sub-nav-scroller');
-    
-    // Get properties of sub-nav-content
-    let pos = $innerContent.offsetWindow();
-    //let w = $innerContent.outerWidth();
-    let margin = 30;
-    let padding = 2;
-    
-    // Adjust for animation
-    if(mediaUpdateOnly && !animationAlreadyTookPlace){
-      pos.top -= this.get('animateDistance');
-    }
-    
-    // Fix at top
-    if(pos.top < margin){
-      pos.top = margin;
-    }
-    
-    // Determine max height, leaving room for back to top button
-    let backToTopButtonGap = 0;
-    let contentHeight = $scoller[0].scrollHeight;
-    let maxHeight = Ember.$(window).height() - backToTopButtonGap - margin - pos.top;
-    
-    maxHeight = Ember.$(window).height();
-    
-    // Update perfect scroll height
-    $scoller.height(Math.min(contentHeight,maxHeight-padding*2));
     
     this.updateScrollArea();
     
