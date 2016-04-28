@@ -25,7 +25,11 @@
 }
 
 // Prevents scrollbars from showing when testing mobile on a desktop
-@media #{$nav-sm-up} {
+// Why only desktop sizes? We want nice scrollbars when testing mobile too
+//@media #{$nav-sm-up} {
+  
+// Let's try using the .touch class instead
+body:not(.touch) {
 
   ::-webkit-scrollbar {
     width: 9px;
