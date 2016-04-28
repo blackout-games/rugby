@@ -57,7 +57,12 @@ export default Ember.Component.extend({
       this.get('eventBus').publish('showNav');
     },
     toggleSettings(){
-      this.get('eventBus').publish('toggleSettings');
+      if(!this.get('media.isJumbo')){
+        this.get('eventBus').publish('showSettings');
+      } else {
+        this.get('eventBus').publish('toggleSettings');
+      }
+      
     },
   },
   

@@ -603,6 +603,21 @@ $margin: 5vmin;
   }
 }
 
+.home-page-block-link {
+  font-family: $sports-font;
+  font-size:12px;
+  @media #{$nav-sm-up} {
+    font-size:13px;
+  }
+  a {
+    text-transform: uppercase;
+    color: rgba(white, 0.7) !important;
+    &.hover {
+      color: rgba(white, 1) !important;
+    }
+  }
+}
+
 #home-page-language {
   position:absolute;
   top:11px;
@@ -623,6 +638,7 @@ $margin: 5vmin;
     margin-top: -11px;
     display:inline-block;
   }
+  //font-weight: bold;
   position: absolute;
   bottom:$margin*0.5;
   width:100%;
@@ -633,20 +649,6 @@ $margin: 5vmin;
     
     &.is-authenticated {
       padding-right:0px;
-    }
-  }
-}
-
-.home-page-block-link {
-  font-size:12px;
-  @media #{$nav-sm-up} {
-    font-size:13px;
-  }
-  a {
-    text-transform: uppercase;
-    color: rgba(white, 0.7) !important;
-    &.hover {
-      color: rgba(white, 1) !important;
     }
   }
 }
