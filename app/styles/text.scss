@@ -403,6 +403,9 @@ p {
 .text-right-xs {
   text-align: right;
 }
+.text-left-xs {
+  text-align: left;
+}
 
 // Mobile portrait only
 @media only screen and (max-width: $screen-xs-min) {
@@ -428,6 +431,9 @@ p {
   .text-right-sm {
     text-align: right;
   }
+  .text-left-sm {
+    text-align: left;
+  }
 }
 
 // Laptops
@@ -441,6 +447,9 @@ p {
   .text-right-md {
     text-align: right;
   }
+  .text-left-md {
+    text-align: left;
+  }
 }
 
 // Large screens
@@ -453,6 +462,9 @@ p {
   }
   .text-right-lg {
     text-align: right;
+  }
+  .text-left-lg {
+    text-align: left;
   }
 }
 
