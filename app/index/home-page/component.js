@@ -56,8 +56,8 @@ export default Ember.Component.extend({
     showMenu(){
       this.get('eventBus').publish('showNav');
     },
-    showSettings(){
-      this.get('eventBus').publish('showSettings');
+    toggleSettings(){
+      this.get('eventBus').publish('toggleSettings');
     },
   },
   

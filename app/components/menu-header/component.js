@@ -12,16 +12,23 @@ export default Ember.Component.extend({
     
     // Listen for settings toggle events
     this.get('eventBus').subscribe('showSettings', this, this.showSettings);
+    this.get('eventBus').subscribe('toggleSettings', this, this.toggleSettings);
+    
   }),
 
   cleanup: Ember.on('willDestroyElement', function(){
     
     this.get('eventBus').unsubscribe('showSettings', this, this.showSettings);
+    this.get('eventBus').unsubscribe('toggleSettings', this, this.toggleSettings);
     
   }),
   
   showSettings(){
     this.send('toggleSettings','show');
+  },
+  
+  toggleSettings(){
+    this.send('toggleSettings');
   },
 
   currentClub: Ember.computed('session.sessionBuilt', function() {
@@ -33,14 +40,10 @@ export default Ember.Component.extend({
   logoutAction: 'invalidateSession',
   fbLoginAction: 'loginWithFacebook',
   
-  deselectSettingsCog: Ember.on('didUpdateAttrs',function(options){
-    var o = options.oldAttrs;
-    var n = options.newAttrs;
-    
-    if(o.settingsPanelIsShowing.value && !n.settingsPanelIsShowing.value){
+  deselectSettingsCog: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'settingsPanelIsShowing') && !this.get('settingsPanelIsShowing')){
       this.$('.settings-cog > .btn-a').removeClass('active');
     }
-    
   }),
 
   actions: {
@@ -80,6 +83,10 @@ export default Ember.Component.extend({
         }
         
         this.set('settingsLastToggled',Date.now());
+        
+        if(this.attrs.onToggle){
+          this.attrs.onToggle($item.hasClass('active'));
+        }
         
       }
     },

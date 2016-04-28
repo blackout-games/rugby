@@ -356,40 +356,13 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   }),
   
   /**
-   * No way to not use an observer here
-   */
-  /*detectSettingsMenu: Ember.observer('settingsPanelIsShowing',function(){
-    //log('x',this.get('settingsPanelChangedLocally'));
-    if(this.get('settingsPanelIsShowing')){
-      this.selectTab('settings','misc');
-    //} else if(!this.get('settingsPanelChangedLocally')){
-    } else {
-      log('settings hidden');
-      this.selectCurrentMenu();
-    }
-  }),*/
-  
-  /**
-   * No way to not use an observer here
-   */
-  reactToSettingsMenu: Ember.observer('settingsPanelIsShowing',function(){
-    if(this.get('settingsPanelIsShowing')){
-      this.selectTab('settings','misc');
-    } else if(!this.get('settingsPanelChangedLocally')){
-      this.selectCurrentMenu();
-    }
-  }),
-  
-  /**
    * Deselect misc top level menu items
    * For now is just settings.
    */
   deselectMisc(){
     
     // Settings
-    this.set('settingsPanelChangedLocally',true);
     this.set('settingsPanelIsShowing',false);
-    this.set('settingsPanelChangedLocally',false);
     
   },
   
@@ -506,7 +479,16 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       //this.set('lastTabType','menu');
       
-      this.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
+      if(menuOpenedOnThisClick){
+        
+        this.selectTab( 'settings', 'menu', true, menuOpenedOnThisClick );
+        this.set('settingsPanelIsShowing',true);
+        
+      } else {
+        
+        this.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
+        
+      }
       
     } else if( isJumbo ){
       
@@ -669,6 +651,15 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
+    settingsPanelToggled(showing){
+      this.set('settingsPanelIsShowing',showing);
+      if(showing){
+        this.show();
+        this.selectTab('settings','misc');
+      } else {
+        this.selectCurrentMenu();
+      }
+    },
   },
 
   selectTab(tabName, type, programatic, menuOpenedOnThisClick) {
@@ -728,7 +719,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       if( tabName === 'settings' ){
         
-        this.set('lastMenuBeforeSettings',this.get('lastMenu'));
+        if( this.get('lastMenu') !== 'settings' ){
+          this.set('lastMenuBeforeSettings',this.get('lastMenu'));
+        }
         this.set('lastMenu',tabName);
         
       } else if( type === 'menu' ){

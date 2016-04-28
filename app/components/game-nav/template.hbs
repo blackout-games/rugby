@@ -35,7 +35,7 @@
                   
               <div id="gameNav-menuPanel" class="tab-panel">
                 
-                {{menu-header settingsPanelIsShowing=(mut settingsPanelIsShowing)}}
+                {{menu-header settingsPanelIsShowing=(readonly settingsPanelIsShowing) onToggle=(action 'settingsPanelToggled')}}
                 
                 {{#side-switcher direction=menuSwitcherDirection currentlyShowing=menuSwitcherSelected switchCallback=scrollMenuBackToTop afterSwitchCallback=updateMenuScrollArea }}
                   
