@@ -1,7 +1,7 @@
 <div class="blackout-tabs-slider-container">
   <div class="blackout-tabs-slider-hider border-radius-fix">
 
-    {{#normal-scroll horizontal=true class="blackout-tabs-slider-scroller" debug=debug}}
+    {{#normal-scroll horizontal=true useMousewheelForHorizontal=true stealAllMousewheelEvents=true class="blackout-tabs-slider-scroller" debug=debug}}
     
       <div class="blackout-tabs-slider row row-nowrap">
         {{yield (hash

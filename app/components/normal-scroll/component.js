@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import PreventBodyScroll from '../../mixins/prevent-body-scroll';
+import PreventBodyScroll from 'rugby-ember/mixins/prevent-body-scroll';
 
 export default Ember.Component.extend(PreventBodyScroll,{
 
@@ -24,7 +24,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       this.$().addClass('horizontal');
       
-      this.$().on('mouseenter',Ember.run.bind(this,this.setupHorizontalMouseWheel));
+      if(this.get('useMousewheelForHorizontal')){
+        this.$().on('mouseenter',Ember.run.bind(this,this.setupHorizontalMouseWheel));
+      } else {
+        this.$().removeClass('fix-mousewheel-scroll');
+      }
       
     } else {
       
@@ -77,9 +81,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
             delta = e.deltaY;
           }
           
+          let scrollWas = e.currentTarget.scrollLeft;
           e.currentTarget.scrollLeft -= (delta * 30);
-
-          e.preventDefault();
+          
+          if(scrollWas !== e.currentTarget.scrollLeft
+            || this.get('stealAllMousewheelEvents')){
+            e.preventDefault();
+          }
 
         });
         

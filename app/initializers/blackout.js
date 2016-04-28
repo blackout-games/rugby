@@ -2264,12 +2264,16 @@ if(navigator.userAgent.match(/MSIE 10/i) || navigator.userAgent.match(/MSIE 11/i
 
 /**
  * Fixes a bug with scrollable divs where the mousewheel doesn't work, and it just scrolls the document/body
+ * 
+ * Apr 28 2016
+ * Made changes to prevent this from stealing all mouse
+ * events once a div had been scrolled all the way to either extreme.
+ * If bug re-appear that this was supposed to fix, note them here.
  */
 $(document).on('DOMMouseScroll mousewheel', '.fix-mousewheel-scroll', function(ev) {
     var $this = $(this),
-        scrollTop = this.scrollTop,
-        scrollHeight = this.scrollHeight,
-        height = $this.height(),
+        scrollWidth = this.scrollWidth,
+        width = $this.width(),
         delta = (ev.type === 'DOMMouseScroll' ?
             ev.originalEvent.detail * -40 :
             ev.originalEvent.wheelDelta),
@@ -2281,15 +2285,41 @@ $(document).on('DOMMouseScroll mousewheel', '.fix-mousewheel-scroll', function(e
         ev.returnValue = false;
         return false;
     };
+    
+    // Horizontal scrolling
+    if(scrollWidth > width){
+      
+      var scrollLeft = this.scrollLeft,
+        maxScrollLeft = scrollWidth - width;
+      
+      if (!up && -delta > scrollWidth - width - scrollLeft && scrollLeft < maxScrollLeft) {
+          // Scrolling down, but this will take us past the bottom.
+          $this.scrollLeft(maxScrollLeft);
+          return prevent();
+      } else if (up && delta > scrollLeft && scrollLeft > 0) {
+          // Scrolling up, but this will take us past the top.
+          $this.scrollLeft(0);
+          return prevent();
+      }
+      
+    // Vertical scrolling
+    } else {
+      
+      var scrollTop = this.scrollTop,
+        scrollHeight = this.scrollHeight,
+        height = $this.height(),
+        maxScrollTop = scrollHeight - height;
 
-    if (!up && -delta > scrollHeight - height - scrollTop) {
-        // Scrolling down, but this will take us past the bottom.
-        $this.scrollTop(scrollHeight);
-        return prevent();
-    } else if (up && delta > scrollTop) {
-        // Scrolling up, but this will take us past the top.
-        $this.scrollTop(0);
-        return prevent();
+      if (!up && -delta > scrollHeight - height - scrollTop && scrollTop < maxScrollTop) {
+          // Scrolling down, but this will take us past the bottom.
+          $this.scrollTop(maxScrollTop);
+          return prevent();
+      } else if (up && delta > scrollTop && scrollTop > 0) {
+          // Scrolling up, but this will take us past the top.
+          $this.scrollTop(0);
+          return prevent();
+      }
+      
     }
 });
 
