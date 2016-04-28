@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   store: Ember.inject.service(),
   locale: Ember.inject.service(),
   text: Ember.inject.service(),
+  userImages: Ember.inject.service(),
   
   // Naked URL regex (Blackout Entertainment)
   // This regex will also match square brackets in the query section only
@@ -43,7 +44,8 @@ export default Ember.Component.extend({
     }
     
     // Update any remote version links, to testing links, if we're testing
-    markdown = this.modifyLinksWhenTesting(markdown);
+    // Secure all links if in production
+    markdown = this.modifyLinks(markdown);
     
     // Process BR markdown
     markdown = this.processVideos(markdown);
@@ -75,7 +77,7 @@ export default Ember.Component.extend({
     
   },
   
-  modifyLinksWhenTesting(markdown){
+  modifyLinks(markdown){
     
     var currentHost = window.location.host;
     
@@ -100,7 +102,13 @@ export default Ember.Component.extend({
       });
       
     } else {
-      return markdown;
+      
+      return markdown.replace(this.get('nakedUrlRegex'),function( fullMatch, url){
+        
+        return Ember.Blackout.secureURLIfHttps(url);
+        
+      });
+      
     }
       
   },
@@ -408,7 +416,6 @@ export default Ember.Component.extend({
    * Code adapted from showdown image subparser
    */
   processVideos(markdown) {
-    'use strict';
 
     var inlineRegExp = /\$\[(.*?)]\s?\([ \t]*<?(\S+?)>?[ \t]*\)/g;
 
@@ -458,19 +465,21 @@ export default Ember.Component.extend({
    * Regex from showdown source code
    */
   processImages(markdown) {
-    'use strict';
 
     var inlineRegExp = /!\[(.*?)]\s?\([ \t]*<?(\S+?)>?(?: =([*\d]+[A-Za-z%]{0,4})x([*\d]+[A-Za-z%]{0,4}))?[ \t]*(?:(['"])(.*?)\6[ \t]*)?\)/g;
 
-    function writeImageTag (wholeMatch, altText, url) {
+    let writeImageTag = (wholeMatch, altText, url)=>{
 
       if (url === '' || url === null) {
         return wholeMatch;
       }
       var fixedUrl = Ember.Blackout.assertURL(url);
+      
+      // Run through cache so that we get https
+      fixedUrl = this.get('userImages').getCacheUrl(url,1000);
 
       return wholeMatch.replace(url,fixedUrl);
-    }
+    };
 
     markdown = markdown.replace(inlineRegExp, writeImageTag);
 

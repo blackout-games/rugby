@@ -113,6 +113,9 @@ export default Ember.Component.extend({
       // Get image url
       let url = Ember.Blackout.getCSSPseudoValue('background-image',this.get('imageClass'),':before').replace(/url\(/,'').rtrim(')');
       
+      // Get secure url
+      url = Ember.Blackout.secureURLIfHttps(url);
+      
       let startTime = Date.now();
       
       if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
@@ -157,6 +160,9 @@ export default Ember.Component.extend({
       
       // Get image url
       let url = this.get('imageUrl');
+      
+      // Get secure url
+      url = Ember.Blackout.secureURLIfHttps(url);
       
       let startTime = Date.now();
       
@@ -258,6 +264,9 @@ export default Ember.Component.extend({
       
       // Get image url
       let url = this.get('imageUrl');
+      
+      // Get secure url
+      url = Ember.Blackout.secureURLIfHttps(url);
       
       // Get a unique className
       let className = 'fade-bg-' + url.hashCode();

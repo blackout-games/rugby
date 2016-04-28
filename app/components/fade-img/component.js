@@ -28,6 +28,9 @@ export default Ember.Component.extend({
       // Get image url
       let url = this.get('url');
       
+      // Get secure url
+      url = Ember.Blackout.secureURLIfHttps(url);
+      
       // Preload image
       Ember.Blackout.preloadImage(url).then((size)=>{
         let { w, h } = size;

@@ -697,13 +697,32 @@ class Blackout {
     
   }
   
-  assertURL(url) {
-    
+  /**
+   * Add url protocol if not already there
+   */
+  assertURL( url, securingURL ) {
+    url = url.trim('"');
     if( url.search(/\/\/[^\/]|https?:\/\/|ftps?:\/\/|mailto:/) !== 0 ){
-      url = '//' + url;
+      url = 'http://' + url;
+    }
+    if(!securingURL){
+      url = this.secureURLIfHttps(url,true);
     }
     return url;
     
+  }
+  
+  /**
+   * Checks if we're current using https, and if so, changes insecure URLs to match
+   */
+  secureURLIfHttps( url, assertingURL ){
+    if(!assertingURL){
+      url = this.assertURL(url,true);
+    }
+    if(window.location.protocol==='https:' && url.substr(0,5)!=='https'){
+      url = url.replace('http:','https:');
+    }
+    return url;
   }
 
   /**

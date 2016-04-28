@@ -263,8 +263,11 @@ export default Ember.Component.extend({
         url += separator + 'v=' + version;
       }
       
+      // Run through cache so that we get https
+      let tmpURL = this.get('userImages').getCacheUrl(url,200);
+      
       // Load image
-      Ember.Blackout.preloadImage(url).then((size)=>{
+      Ember.Blackout.preloadImage(tmpURL).then((size)=>{
         let { w, h } = size;
         
         // Check size

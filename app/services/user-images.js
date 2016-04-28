@@ -334,9 +334,9 @@ export default Ember.Service.extend({
     }
   }),
   
-  getCacheUrl(url,size=100){
-    if(url){
-      return 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(url) + '&size=' + size;
+  getCacheUrl(url,maxSize=100){
+    if(url && url.indexOf('dgx5waunvf836.cloudfront.net')<0){
+      return 'https://dgx5waunvf836.cloudfront.net/img.php?src=' + encodeURIComponent(url) + '&size=' + maxSize;
     } else {
       return url;
     }
@@ -454,7 +454,7 @@ export default Ember.Service.extend({
       if (club) {
         var logo = club.get('logo');
         if (logo) {
-          return logo;
+          return this.getCacheUrl(logo);
         } else {
           return 'assets/images/user/club.png';
         }
