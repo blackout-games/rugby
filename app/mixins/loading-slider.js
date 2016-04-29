@@ -8,20 +8,19 @@ export default Ember.Mixin.create({
   
   actions: {
     loading: function() {
-      var controller = this.controllerFor('application');
-      controller.set('loading', true);
+      Ember.Blackout.startLoading();
       this.incrementProperty('routesLoading');
       if( this.router ){
         this.router.one('didTransition', () => {
           this.splashRouteFinished();
-          controller.set('loading', false);
+          Ember.Blackout.stopLoading();
         }); 
       }
       return true; // Bubble event
     },
     finished: function() {
       this.splashRouteFinished();
-      this.controllerFor('application').set('loading', false);
+      Ember.Blackout.stopLoading();
     }
   },
   

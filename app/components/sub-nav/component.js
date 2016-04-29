@@ -28,6 +28,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.get('eventBus').subscribe('createSubNav',this,this.createSubNav);
     this.get('eventBus').subscribe('destroySubNav',this,this.destroySubNav);
     this.get('eventBus').subscribe('selectSubNavLink',this,this.selectMenuLinkExternal);
+    this.get('eventBus').subscribe('hideSubNav',this,this.hide);
     
     this.blockerTouchBound = Ember.run.bind(this,this.blockerTouch);
     this.handleScrollBound = Ember.run.bind(this,this.handleScroll);
@@ -143,6 +144,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // Globalise opts
     this.set('opts',opts);
     
+    // See if custom button icon is set
+    if(opts.buttonIcon){
+      this.set('buttonIcon',opts.buttonIcon);
+    }
+    
+    this.resetMenuLinks();
+    
     // Determine content holder
     let $innerContent = Ember.$('#sub-nav-content').length ? Ember.$('#sub-nav-content') : $subNavContent;
     
@@ -150,33 +158,37 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let content = $innerContent.html();
     $innerContent.html('');
     
-    // See if custom button icon is set
-    if(opts.buttonIcon){
-      this.set('buttonIcon',opts.buttonIcon);
-    }
-    
-    // Fade in the button (will still be hidden if not mobile)
-    this.$('#sub-nav-button').fadeIn();
-    
     // Add content to sub-nav panel
     Ember.$('#sub-nav-scroller').html(content);
+    this.set('content',content);
+    
     this.watchMenuLinks();
     
     // Manually update hover watchers
     Ember.Blackout.refreshHoverWatchers();
     
-    // Save elements for use later
-    this.set('$subNavContent',$subNavContent);
-    this.set('$innerContent',$innerContent);
-    this.set('content',content);
-    
-    // Set nav as active (i.e. we're on a page containing sub-nav)
-    this.set('navIsActive',true);
-    
-    // Show subnav
-    this.$('#sub-nav-panel').addClass('active');
-    
-    Ember.$('#nav-body').addClass('sub-nav-showing');
+    /**
+     * Only update based on opts changes for now
+     * Later may need to also update content on re-renders.
+     */
+    if(!this.get('navIsActive')){
+      
+      // Fade in the button (will still be hidden if not mobile)
+      this.$('#sub-nav-button').fadeIn();
+      
+      // Save elements for use later
+      this.set('$subNavContent',$subNavContent);
+      this.set('$innerContent',$innerContent);
+      
+      // Set nav as active (i.e. we're on a page containing sub-nav)
+      this.set('navIsActive',true);
+      
+      // Show subnav
+      this.$('#sub-nav-panel').addClass('active');
+      
+      Ember.$('#nav-body').addClass('sub-nav-showing');
+      
+    }
     
   },
   
@@ -288,6 +300,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
     }
   },
   
+  resetMenuLinks(){
+    Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
+  },
+  
   selectMenuLink ( self, $link, e, wasExternal ) {
     
     Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
@@ -325,7 +341,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     }
     
     if(self){
-      self.hide();
+      //self.hide();
     }
     
   },

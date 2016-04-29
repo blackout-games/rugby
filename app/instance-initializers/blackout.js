@@ -62,6 +62,9 @@ export function initialize( application ) {
     
     application.lookup('controller:application').set('loading',false);
     
+    let eventBus = application.lookup('service:event-bus');
+    eventBus.publish('hideSubNav');
+    
   };
   
   /**

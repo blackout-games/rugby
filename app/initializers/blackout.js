@@ -1232,6 +1232,15 @@ class Blackout {
    * ---------------------------- Util
    */
   
+  processAttrs(attrs){
+    $.each(attrs,(i,attr)=>{
+      if(typeof(attr) === 'object' && 'value' in attr){
+        attrs[i] = attr.value;
+      }
+    });
+    return attrs;
+  }
+  
   refreshHoverWatchers(){
     _refreshWatchers();
   }
