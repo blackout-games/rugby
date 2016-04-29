@@ -50,7 +50,7 @@ export default Ember.Component.extend(NewsMixin, {
     var page = this.get('page');
     var query = this.get('query');
     var isNational = this.get('storeType') === "national-news";
-    query.page.number = page + 1;
+    query.page.number = Number(page) + 1;
 
     if (isNational) {
       
