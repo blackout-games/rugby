@@ -701,7 +701,7 @@ class Blackout {
    * Add url protocol if not already there
    */
   assertURL( url, securingURL ) {
-    url = url.trim('"');
+    url = url.trim('"').trim('[').trim(']');
     if( url.search(/\/\/[^\/]|https?:\/\/|ftps?:\/\/|mailto:/) !== 0 ){
       url = 'http://' + url;
     }

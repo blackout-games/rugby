@@ -163,6 +163,12 @@ export default Ember.Component.extend({
             $('.'+className).html(data.get('name'));
             return data.get('name');
             
+          },()=>{
+            
+            let name = this.get('i18n').t('player.not-found').toString();
+            $('.'+className).html(name);
+            return name;
+            
           });
           if(typeof(playerName)==='string'){
             visibleText = playerName;
