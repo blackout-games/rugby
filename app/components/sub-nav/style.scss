@@ -75,7 +75,7 @@ $animation-time: $nav-animation-time;
       $color: $secondary-master;
     }
     
-    color: desaturate($color,33%);
+    color: lighten(desaturate($color,22%),11%);
     padding:8px 25px 7px;
     font-size:14px;
     &.press,&.hover {
@@ -90,7 +90,9 @@ $animation-time: $nav-animation-time;
       //color: saturate(darken($primary-master,11%),11%);
       //color: saturate(lighten($color,22%),11%);
       @if $dark-colors {
-        color: saturate(lighten($color,17%),15%);
+        color: saturate(lighten($color,17%),22%);
+        font-weight: bold;
+        font-size:15px;
         background-color: rgba(saturate(lighten($bg-color,11%),1%),0.75);
       } @else {
         color: desaturate(darken($color,22%),33%);

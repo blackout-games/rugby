@@ -277,7 +277,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     let self = e.data;
     let $link = Ember.$(this);
-    
     Ember.run.debounce(this,self.selectMenuLink,self,$link,e,1);
     
   },

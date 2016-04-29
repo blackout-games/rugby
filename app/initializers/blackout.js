@@ -1854,6 +1854,12 @@ function _refreshWatchers() {
   
   //log('refreshing watchers');
   
+  // Prevent click after drag
+  Ember.$('body').find('.btn,.btn-a').off('click touchend mouseup', _preventClickAfterDrag);
+  Ember.$('body').find('.btn,.btn-a').onFirst('click', _preventClickAfterDrag);
+  Ember.$('body').find('.btn,.btn-a').onFirst('touchend', _preventClickAfterDrag);
+  Ember.$('body').find('.btn,.btn-a').onFirst('mouseup', _preventClickAfterDrag);
+  
   // Hover
   Ember.$('body').find('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
   Ember.$('body').find('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
@@ -1887,6 +1893,7 @@ function _mouse (e) {
   
     // Run a click shortly
     _clickTimeout = window.setTimeout(() => {
+      print('Click soon');
       $(this).click();
       _clickTimeout = null;
     },11);
@@ -1954,6 +1961,14 @@ function _hover (e) {
   }
 }
 
+function _preventClickAfterDrag(e) {
+  if($(this).data('isDrag')){
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+}
+
 function _leave (e) {
 
   //log('leave > ' + e.type);
@@ -1982,8 +1997,11 @@ function _leave (e) {
       // (Basing this behaviour on facebook app main menu)
       if(BlackoutInstance.elementOrParentIsScrollable(e.target)){
         
-        $(this).data('isTouching',false);
-        $(this).data('isDrag',false);
+        // Wait to mark as not dragging
+        Ember.run.next(()=>{
+          $(this).data('isTouching',false);
+          $(this).data('isDrag',false);
+        });
         
       }
       
@@ -1993,7 +2011,6 @@ function _leave (e) {
 }
 
 function _click () {
-  
   // Remove focus after click so buttons don't just sit there in the 'focused' state event after clicking. e.e. login button > sidebar > home screen > desktop.
   $(this).blur();
   
@@ -2685,171 +2702,16 @@ $.fn.insertAt = function(index, element) {
 })();
 
 
-
-
-
-
-
-
-
 /**
-
-Mutex locking for localstorage.
-Allows us to get a lock using localstorage, across tabs
-
-Copyright (c) 2012, Benjamin Dumke-von der Ehe
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions
-of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-*/
-/*
-(function () {
-
-    function now() {
-        return new Date().getTime();
-    }
-    
-    function someNumber() {
-        return Math.random() * 1000000000 | 0;
-    }
-
-    var myId = now() + ":" + someNumber();
-    
-    /**
-     * Gets expiring key from localStorage
-     * If key does not exist, or exists but expired, returns null.
-     *
-    function getter(lskey) {
-        return function () {
-            var value = localStorage[lskey];
-            if (!value){
-              return null;
-            }
-            
-            var splitted = value.split(/\|/);
-            if (parseInt(splitted[1]) < now()) {
-                return null;
-            }
-            return splitted[0];
-        };
-    }
-    
-    /**
-     * 
-     *
-    function _mutexTransaction(key, callback, wait) {
-        var xKey = key + "__MUTEX_x",
-            yKey = key + "__MUTEX_y",
-            getY = getter(yKey);
-
-        function criticalSection() {
-            try {
-                callback();
-            } finally {
-                localStorage.removeItem(yKey);
-            }
-        }
-        
-        localStorage[xKey] = myId;
-        if (getY()) {
-            if (wait){
-              setTimeout(function () { _mutexTransaction(key, callback); }, 0);
-            }
-            return false;
-        }
-        localStorage[yKey] = myId + "|" + (now() + 40);
-        
-        if (localStorage[xKey] !== myId) {
-            if (wait) {
-                setTimeout(function () {
-                    if (getY() !== myId) {
-                        setTimeout(function () { _mutexTransaction(key, callback); }, 0);
-                    } else {
-                      console.log('x');
-                        criticalSection();
-                    }
-                }, 50);
-            }
-            return false;
-        } else {
-          console.log('y');
-            criticalSection();
-            return true;
-        }
-    }
-    
-    function lockImpl(key, callback, maxDuration=5000, wait=false) {
-        console.log('a');
-        var mutexKey = key + "__MUTEX",
-            getMutex = getter(mutexKey),
-            mutexValue = myId + ":" + someNumber() + "|" + (now() + maxDuration);
-        console.log('mutexValue',mutexValue);
-        function restart () {
-            setTimeout(function () { lockImpl(key, callback, maxDuration, wait); }, 10);
-        }
-        
-        /**
-         * If lock exists, return false, or wait
-         *
-        if (getMutex()) {
-            if (wait){
-              restart();
-            }
-            return false;
-        }
-        
-        /**
-         * Get lock
-         *
-        var aquiredSynchronously = _mutexTransaction(key, function () {
-            if (getMutex()) {
-                if (wait){
-                  restart();
-                }
-                return false;
-            }
-            localStorage[mutexKey] = mutexValue;
-            console.log('set mutex',mutexValue);
-            if (wait){
-              setTimeout(mutexAquired, 0);
-            }
-        }, wait);
-        
-        if (!wait && aquiredSynchronously) {
-            mutexAquired();
-            return true;
-        }
-        return false;
-        function mutexAquired() {
-            try {
-                callback();
-            } finally {
-                _mutexTransaction(key, function () {
-                    if (localStorage[mutexKey] !== mutexValue){
-                      console.log('expexting mutex',mutexValue, 'got',localStorage[mutexKey]);
-                      throw key + " was locked by a different process while I held the lock";
-                    }
-                
-                    localStorage.removeItem(mutexKey);
-                });
-            }
-        }
-        
-    }
-    
-    window.LockableStorage = {
-      lockAndRunNow: function (key, callback, maxDuration) { return lockImpl(key, callback, maxDuration); },
-      waitForLock: function (key, callback, maxDuration) { return lockImpl(key, callback, maxDuration, true); },
-    };
-})();*/
+ * Allows us to bind an event to be called first when
+ * the event is fired
+ */
+$.fn.onFirst = function(name, fn) {
+  var elem, handlers, i, _len;
+  this.bind(name, fn);
+  for (i = 0, _len = this.length; i < _len; i++) {
+    elem = this[i];
+    handlers = $._data(elem).events[name.split('.')[0]];
+    handlers.unshift(handlers.pop());
+  }
+};

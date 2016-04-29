@@ -440,9 +440,12 @@ $infobar-dark-mode: false;
 .player-ui-blurb {
   display: inline-block;
   width:auto;
-  font-size: 17px;
+  font-size: 5vw;
   margin: 17px 0;
   max-width: 88%;
+  @media #{$mobile-wide} {
+    font-size: 22px;
+  }
   @media #{$tablet-and-up} {
     font-size: 27px;
     margin: 17px 0;
