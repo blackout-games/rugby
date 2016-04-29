@@ -165,7 +165,7 @@ export default Ember.Component.extend({
             
           },()=>{
             
-            let name = this.get('i18n').t('player.not-found').toString();
+            let name = this.get('i18n').t('misc.not-found').toString();
             $('.'+className).html(name);
             return name;
             
@@ -218,6 +218,12 @@ export default Ember.Component.extend({
             $('.'+className).html(text);
             
             return text;
+            
+          },()=>{
+            
+            let name = this.get('i18n').t('misc.not-found').toString();
+            $('.'+className).html(name);
+            return name;
             
           });
           if(typeof(fixtureText)==='string'){
@@ -294,6 +300,12 @@ export default Ember.Component.extend({
             Blackout.fadeIn($('.'+className));
             return data.get('name');
             
+          },()=>{
+            
+            let name = this.get('i18n').t('misc.not-found').toString();
+            $('.'+className).html(name);
+            return name;
+            
           });
           if(typeof(itemName)==='string'){
             visibleText = itemName;
@@ -324,6 +336,12 @@ export default Ember.Component.extend({
             
             $('.'+className).html(data.get('name'));
             return data.get('name');
+            
+          },()=>{
+            
+            let name = this.get('i18n').t('misc.not-found').toString();
+            $('.'+className).html(name);
+            return name;
             
           });
           if(typeof(itemName)==='string'){
@@ -373,6 +391,12 @@ export default Ember.Component.extend({
               $('.'+className).html(item.get('name'));
               return item.get('name');
               
+            },()=>{
+              
+              let name = this.get('i18n').t('misc.not-found').toString();
+              $('.'+className).html(name);
+              return name;
+              
             });
             
             iconName = 'flag-filled';
@@ -384,6 +408,12 @@ export default Ember.Component.extend({
               
               $('.'+className).html(data.get('name'));
               return data.get('name');
+              
+            },()=>{
+              
+              let name = this.get('i18n').t('misc.not-found').toString();
+              $('.'+className).html(name);
+              return name;
               
             });
             
