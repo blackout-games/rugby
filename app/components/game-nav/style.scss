@@ -18,10 +18,6 @@ $tabbar-height: 50px;
 $min-tabbar-height: 44px;
 $panel-width: 88vw;
 
-// Sub-nav
-$sub-nav-on-left: true;
-$sub-panel-mod: -44px;
-
 // Fluid
 $max-panel-width: 333px;
 $body-max-width: 1222px;
@@ -35,6 +31,10 @@ $colored-tabs: true;
 $sidebar-width: 10vh;
 $max-block-size: 59px;
 $max-sidebar-block-height:55px;
+
+// Sub-nav
+$sub-nav-on-left: true;
+$sub-panel-mod: -$max-block-size;
 
 // Fluid for mobile landscape
 $sidebar-width-mobile-landscape: 15vh;

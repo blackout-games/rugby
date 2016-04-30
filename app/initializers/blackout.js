@@ -793,6 +793,9 @@ class Blackout {
    */
   animateUI($jqueryItem){
     this.fadeInUp($jqueryItem);
+    $jqueryItem.on(this.afterCSSAnimation,()=>{
+      Ember.run.debounce(this,this.unFadeInUp,$jqueryItem,11);
+    });
   }
   animateFast($jqueryItem){
     $jqueryItem.removeClass('animated-fastish');
@@ -1301,15 +1304,7 @@ class Blackout {
  * A global store for all your stuff
  * @type {Object}
  */
-Blackout.prototype.store = {
-
-  /**
-   * jQuery event string for css animation end detection
-   * @type {String}
-   */
-  cssAnimationEndEvents: 'animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd',
-
-};
+Blackout.prototype.store = {};
 
 var BlackoutInstance = new Blackout();
 
@@ -1319,7 +1314,7 @@ export function initialize( /*application*/ ) {
   
   // Variables
   Ember.Blackout.afterCSSTransition = 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd';
-  Ember.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd';
+  Ember.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd';
 
   /**
    * Shortcut to blackout console logging
