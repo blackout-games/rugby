@@ -79,7 +79,7 @@ export default Ember.Component.extend({
     
     // Set number at 1
     this.set('currentNumber',1);
-    this.$('.skill-bar-number').html('1');
+    this.set('displayLevel',1);
     
     this.updateBar();
     
@@ -122,7 +122,7 @@ export default Ember.Component.extend({
       if( this.get('animateNumber') ){
         this.startAnimatingNumber();
       } else {
-        this.$('.skill-bar-number').html(this.get('level'));
+        this.set('displayLevel',this.get('level'));
       }
       
     }
@@ -168,7 +168,7 @@ export default Ember.Component.extend({
     }
     
     this.set('currentNumber',currentNumber);
-    this.$('.skill-bar-number').html(currentNumber);
+    this.set('displayLevel',currentNumber);
     
     if(Number(currentNumber)===Number(this.get('level')) && this.get('intervalId')){
       
