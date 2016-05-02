@@ -38,7 +38,7 @@ $slideMode: false; // Other option is fadeInUp
   
   @if $slideMode {
     transition: transform $transition-duration ease(out-expo);
-    transform: translate3d(0,-100vh,0);
+    transform: translateY(-100vh);
   }
   
   /**
@@ -102,7 +102,7 @@ body.standalone .float-box-content-wrapper {
   &.showing {
     .float-box-content-wrapper {
       @if $slideMode {
-        transform: translate3d(0,0vh,0);
+        transform: translateY(0vh);
       }
     }
     .float-box-bg {

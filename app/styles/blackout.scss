@@ -164,7 +164,7 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 // Overuse can cause crios to crash
 .make3d {
-  -webkit-transform: translate3d(0,0,0);
+  -webkit-transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   //transform:translateZ(1px);
 }

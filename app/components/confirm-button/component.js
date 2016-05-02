@@ -119,7 +119,7 @@ export default Ember.Component.extend({
         width: width + 'px',
         height: buttonHeight
       });
-      $confirm.css('transform',`translate3d(${width}px,0,0)`);
+      $confirm.css('transform',`translateX(${width}px)`);
       this.$().css({
         width: (width + rightGap) + 'px',
       });

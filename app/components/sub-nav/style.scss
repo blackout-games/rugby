@@ -34,7 +34,7 @@ $animation-time: $nav-animation-time;
     transition: transform $animation-time;
     
     &.open {
-      transform: translate3d(-($max-panel-width + $sub-panel-mod),0,0);
+      transform: translateX(-($max-panel-width + $sub-panel-mod));
     }
     
   }
@@ -61,7 +61,7 @@ $animation-time: $nav-animation-time;
     @if $sub-nav-on-left {
       transition: transform $animation-time;
       &.game-nav-open {
-        transform: translate3d($max-panel-width - $max-block-size,0,0);
+        transform: translateX($max-panel-width - $max-block-size);
       }
     }
     

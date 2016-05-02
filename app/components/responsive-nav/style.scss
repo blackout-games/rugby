@@ -27,7 +27,7 @@ $ease-time: 0.222s;
     @include line;
     position:relative;
     
-    transform: translate3d(0,-3px,0);
+    transform: translateY(-3px);
     
     /*create the upper and lower lines as pseudo-elements of the middle line*/
     &:before, &:after {
@@ -37,19 +37,19 @@ $ease-time: 0.222s;
       content: '';
     }
     &:before {
-      transform: translate3d(0,6px,0);
+      transform: translateY(6px);
     }
     &:after {
-      transform: translate3d(0,-6px,0);
+      transform: translateY(-6px);
     }
   }
   &.nav-cross.nav-close .lines {
-    transform: translate3d(0,-3px,0) rotate3d(0, 0, 1, 45deg);
+    transform: translateY(-3px) rotate3d(0, 0, 1, 45deg);
     &:before {
-      transform: translate3d(0,0,0) scale3d(1.11,1,1);
+      transform: translateY(0) scale3d(1.11,1,1);
     }
     &:after {
-      transform: rotate3d(0, 0, 1, -90deg) translate3d(0,0,0) scale3d(1.11,1,1);
+      transform: rotate3d(0, 0, 1, -90deg) translateY(0) scale3d(1.11,1,1);
     }
   }
   

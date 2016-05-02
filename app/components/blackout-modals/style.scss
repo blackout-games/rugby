@@ -34,7 +34,7 @@ $transition-duration: 0.277s;
     transition: transform $transition-duration ease(in-out-back);
   }
   &.showing {
-    transform: translate3d(0,-50vh,0);
+    transform: translateY(-50vh);
   }
 }
 
@@ -55,7 +55,7 @@ $transition-duration: 0.277s;
   }
   
   &.showing {
-    transform: translate3d(0,-50%,0);
+    transform: translateY(-50%);
   }
   
   .modal-content {

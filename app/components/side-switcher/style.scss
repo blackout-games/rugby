@@ -28,20 +28,22 @@ $height-transition: height $side-switcher-time $side-switcher-ease;
   &.dont-animate-height {
     transition: none;
   }
-  transform: translate3d(-50%,0,0);
+  transform: translateX(-50%);
 }
 .switcher-ready-right, .switcher-ready-disable {
   transition: $height-transition;
   &.dont-animate-height {
     transition: none;
   }
-  transform: translate3d(0,0,0);
+  // Breaks visibility of long pages like player history
+  //transform: translate3d(0,0,0);
+  transform: translateX(0);
 }
 .switcher-move-left {
-  transform: translate3d(-50%,0,0);
+  transform: translateX(-50%);
 }
 .switcher-move-right {
-  transform: translate3d(0,0,0);
+  transform: translateX(0);
 }
 .switcher-panel {
   width: 100%;

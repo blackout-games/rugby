@@ -51,7 +51,7 @@ $border: none;
   &.press {
     background-color: pressColor($button-color);
     border-color: pressColor($button-color);
-    transform: translate3d(0, 1px, 0);
+    transform: translateY(1px);
     box-shadow: $button-inset-shadow;
     &:disabled {
       transform: none;
@@ -69,7 +69,7 @@ $border: none;
   &:active {
     background-color: pressColor($button-color);
     border-color: pressColor($button-color);
-    transform: translate3d(0, 1px, 0);
+    transform: translateY(1px);
     box-shadow: $button-inset-shadow;
     &:disabled {
       transform: none;

@@ -24,7 +24,7 @@ $animateCSSTime: 0.777s;
 @keyframes fadeInRight {
   from {
     opacity: 0;
-    transform: translate3d($distance, 0, 0);
+    transform: translateX($distance);
   }
 
   to {
@@ -36,7 +36,7 @@ $animateCSSTime: 0.777s;
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translate3d(0, $distance, 0);
+    transform: translateY($distance);
   }
 
   to {
@@ -53,14 +53,14 @@ $animateCSSTime: 0.777s;
 
   to {
     opacity: 0;
-    transform: translate3d(0, $distance*2, 0);
+    transform: translateY($distance*2);
   }
 }
 
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translate3d(0, -$distance, 0);
+    transform: translateY(-$distance);
   }
 
   to {
@@ -77,6 +77,6 @@ $animateCSSTime: 0.777s;
 
   to {
     opacity: 0;
-    transform: translate3d(0, -$distance*2, 0);
+    transform: translateY(-$distance*2);
   }
 }

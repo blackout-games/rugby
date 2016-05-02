@@ -403,7 +403,7 @@ body.free{
     transition: transform $animation-time;
 
     &.open {
-      transform: translate3d(0,-101vh,0);
+      transform: translateY(-101vh);
     }
 
     &.alt {
@@ -411,7 +411,7 @@ body.free{
       top:0;
 
       &.open {
-        transform: translate3d($sidebar-width,0,0);
+        transform: translateX($sidebar-width);
       }
     }
 
@@ -424,7 +424,7 @@ body.free{
       left: -$sidebar-width-mobile-landscape;
       top:0;
       &.open {
-        transform: translate3d(#{$sidebar-width-mobile-landscape - 0.1vh},0,0);
+        transform: translateX(#{$sidebar-width-mobile-landscape - 0.1vh});
       }
     }
   }
@@ -540,10 +540,10 @@ body.free{
 
   &.open {
     @media #{$nav-xs} {
-      transform: translate3d($panel-width,0,0);
+      transform: translateX($panel-width);
     }
     @media #{$nav-sm-up} {
-      transform: translate3d( #{$max-panel-width - $max-block-size} ,0,0);
+      transform: translateX( #{$max-panel-width - $max-block-size});
     }
   }
 

@@ -793,9 +793,9 @@ class Blackout {
    */
   animateUI($jqueryItem){
     this.fadeInUp($jqueryItem);
-    $jqueryItem.on(this.afterCSSAnimation,()=>{
-      Ember.run.debounce(this,this.unFadeInUp,$jqueryItem,11);
-    });
+    //$jqueryItem.on(this.afterCSSAnimation,()=>{
+    //  Ember.run.debounce(this,this.unFadeInUp,$jqueryItem,11);
+    //});
   }
   animateFast($jqueryItem){
     $jqueryItem.removeClass('animated-fastish');

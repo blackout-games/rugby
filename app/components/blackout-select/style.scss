@@ -124,7 +124,8 @@
   }
   
   // Must use 3d to fix render bug in IE11
-  transform: translate3d(0px,1px,0);
+  transform: translateX(0px);
+  transform: translateY(1px);
   
   .bs-options-scroller {
     padding:7px;
