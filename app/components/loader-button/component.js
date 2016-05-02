@@ -56,7 +56,7 @@ export default Ember.Component.extend({
       this.set('originalWidth',this.$().css('width'));
       
       // Remove padding
-      this.$().addClass('loading');
+      this.$().addClass('is-loading');
       this.$().css('width',this.get('outerWidth'));
       
     }
@@ -73,6 +73,7 @@ export default Ember.Component.extend({
     
     // Disable button
     this.disable();
+    this.loadingCursor(true);
     
     this.set('isAnimating',true);
   },
@@ -89,7 +90,7 @@ export default Ember.Component.extend({
     //Ember.run.next(()=>{
       //this.enable();
     //});
-    this.$().removeClass('loading');
+    this.$().removeClass('is-loading');
     this.$().find('.content').show();
     
     if(!this.get('confirmMode')){
@@ -107,6 +108,7 @@ export default Ember.Component.extend({
     this.set('isAnimating',false);
     this.set('hasSucceeded',false);
     this.set('loading',false);
+    this.loadingCursor(false);
     
     this.$().removeClass('unsucceed');
     
@@ -160,10 +162,20 @@ export default Ember.Component.extend({
   disable(){
     this.set('disabled',true);
     this.$().removeClass('hover');
+    this.$().addClass('disabled');
   },
   
   enable(){
     this.set('disabled',false);
+    this.$().removeClass('disabled');
+  },
+  
+  loadingCursor(on){
+    if(on){
+      this.$().addClass('loading');
+    } else {
+      this.$().removeClass('loading');
+    }
   },
   
 });

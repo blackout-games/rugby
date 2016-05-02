@@ -86,9 +86,18 @@ $border: none;
     background-color: $button-disabled-color;
     border-color: $button-disabled-color;
     opacity:1;
-    cursor: default;
     color: saturate(lighten($button-disabled-color,22%),11%);
-    cursor: not-allowed;
+    cursor: default;
+    //cursor: not-allowed;
+  }
+  
+  &.disabled {
+    cursor: default;
+    //cursor: not-allowed;
+  }
+  
+  &.loading {
+    cursor: wait;
   }
   
   &.no-focus {

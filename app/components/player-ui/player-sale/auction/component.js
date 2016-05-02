@@ -64,6 +64,7 @@ export default Ember.Component.extend({
     refreshAuction(button){
       button.reset();
       button.disable();
+      button.loadingCursor(true);
       this.refreshTransferAndBids(button);
     },
     updateFireIfUnsold(toggled){
@@ -113,6 +114,7 @@ export default Ember.Component.extend({
       Ember.Blackout.stopLoading();
       if(button){
         button.enable();
+        button.loadingCursor(false);
       }
       this.createNewBid();
     });
