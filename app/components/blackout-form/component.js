@@ -3,33 +3,98 @@ const { $ } = Ember;
 
 export default Ember.Component.extend({
   
+  classNames: ['blackout-form'],
+  
   /**
    * An object describing form elements
    * See 'account' for example
    */
   form: [],
   
+  inputSelector: 'form input, form label, form textarea',
+  handlerSelector: '.touch-handler',
+  
   setup: Ember.on('didInsertElement',function(){
     
-    // Force fast focus | use touchend for mobile so that we can still drag scrollable forms. Touchend still saves some time as sometimes there is a delay before the click event fires.
-    $('form input').on('mousedown touchend',(e)=>{
-      let $el = $(e.target);
-      if(e.type==='mousedown' || $el.data('can-focus')){
+    let inputSelector = this.get('inputSelector');
+    let handlerSelector = this.get('handlerSelector');
+    
+    if(window.os.touchOS){
+      
+      // Prevent pointer events
+      // This stops flickering when scrolling on touch devices
+      let preventPointerEvents = ($input) => {
+        if($input){
+          if(!$input.is(":focus")){
+            $input.css({
+              'pointer-events': 'none',
+            });
+          }
+        } else {
+          this.$(inputSelector).css({
+            'pointer-events': 'none',
+          });
+        }
+      };
+      
+      let restorePointerEvents = ($input) => {
+        $input.css({
+          'pointer-events': 'auto',
+        });
+      };
+      
+      preventPointerEvents();
+      
+      // Force fast focus | use touchend for mobile so that we can still drag scrollable forms. Touchend still saves some time as sometimes there is a delay before the click event fires.
+      this.$(handlerSelector).on('touchend',(e)=>{
+        let $el = $(e.currentTarget);
+        let $input = $el.find('input, textarea');
+        if($el.data('can-focus')){
+          restorePointerEvents($input);
+          if(!$input.is(":focus")){
+            Ember.run.next(()=>{
+              $input.focus();
+            });
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          $input.focus();
+        }
+      });
+      this.$(handlerSelector).on('touchstart',(e)=>{
+        let $el = $(e.currentTarget);
+        let $input = $el.find('input, textarea');
+        $el.data('can-focus',true);
+        preventPointerEvents($input);
+      });
+      this.$(handlerSelector).on('touchmove',(e)=>{
+        let $el = $(e.currentTarget);
+        $el.data('can-focus',false);
+      });
+      this.$(inputSelector).on('blur',(e)=>{
+        let $input = $(e.currentTarget);
+        preventPointerEvents($input);
+      });
+      
+    } else {
+      
+      // Force fast focus
+      this.$(inputSelector).on('mousedown',(e)=>{
+        let $el = $(e.target);
         $el.focus();
-      }
-    });
-    $('form input').on('touchstart',(e)=>{
-      $(e.target).data('can-focus','1');
-    });
-    $('form input').on('touchmove',(e)=>{
-      $(e.target).data('can-focus',null);
-    });
+      });
+      
+    }
     
   }),
   
   cleanup: Ember.on('willDestroyElement',function(){
     
-    $('form input').off('mousedown touchstart touchmove touchend');
+    let inputSelector = this.get('inputSelector');
+    let handlerSelector = this.get('handlerSelector');
+    
+    this.$(handlerSelector).off('mousedown touchstart touchmove touchend');
+    this.$(inputSelector).off('blur');
     
   }),
   

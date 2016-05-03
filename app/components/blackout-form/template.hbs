@@ -39,98 +39,102 @@
         
         class="gap-3x blackout-form-item" }}
         
-        <div>
-          <label for="{{item.id}}">
-            {{#if item.bigLabel}}
-              <h6 class="no-top-gap">{{item.label}}</h6>
-            {{else}}
-              {{item.label}}
-            {{/if}}
-          </label>
-        </div>
-          
-        {{#premium-ui messageT=item.isPremium featureName=item.premiumFeatureName active=item.isPremium classIfHidden="gap-md"}}
+        <div class="touch-handler">
           
           <div>
+            <label for="{{item.id}}">
+              {{#if item.bigLabel}}
+                <h6 class="no-top-gap">{{item.label}}</h6>
+              {{else}}
+                {{item.label}}
+              {{/if}}
+            </label>
+          </div>
             
-            {{#if (is 'moneyDisplay' item.type)}}
-              
-              <div class="blackout-form-display-text{{if item.isWarning " blackout-form-warning"}}{{if item.isError " blackout-form-error"}}">
-                {{money-ui value=(get model item.valuePath) }}
-              </div>
+          {{#premium-ui messageT=item.isPremium featureName=item.premiumFeatureName active=item.isPremium classIfHidden="gap-md"}}
             
-            {{else}}
+            <div>
               
-              {{! This is a date DISPLAY only }}
-              {{#if (is 'dateDisplay' item.type)}}
-              
-                {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "color-bg-text" (if item.isWarning " warning") (if item.isError " error")) }}
+              {{#if (is 'moneyDisplay' item.type)}}
+                
+                <div class="blackout-form-display-text{{if item.isWarning " blackout-form-warning"}}{{if item.isError " blackout-form-error"}}">
+                  {{money-ui value=(get model item.valuePath) }}
+                </div>
               
               {{else}}
                 
-                {{#if (is 'radio' item.type)}}
+                {{! This is a date DISPLAY only }}
+                {{#if (is 'dateDisplay' item.type)}}
+                
+                  {{date-ui date=(get model item.valuePath) initial='fullDateShort' alt='gameDate' class=(concat "color-bg-text" (if item.isWarning " warning") (if item.isError " error")) }}
+                
+                {{else}}
                   
-                  {{#each item.options as |option|}}
+                  {{#if (is 'radio' item.type)}}
+                    
+                    {{#each item.options as |option|}}
+                      
+                      {{! So that we can edit the model in the sub-component }}
+                      {{#if item.valuePath}}
+                        
+                        {{#blackout-radio
+                            value=option.value
+                            model=model
+                            valuePath=item.valuePath
+                            changed=(action item.onChanged)}}
+                            {{option.label}}
+                        {{/blackout-radio}}
+                        
+                      {{else}}
+                        
+                        {{#blackout-radio
+                            value=option.value
+                            groupValue=(if item.valuePath (get model item.valuePath) item.value)
+                            changed=(action item.onChanged)}}
+                            {{option.label}}
+                        {{/blackout-radio}}
+                        
+                      {{/if}}
+                      
+                    {{/each}}
+                    
+                  {{else}}
                     
                     {{! So that we can edit the model in the sub-component }}
                     {{#if item.valuePath}}
                       
-                      {{#blackout-radio
-                          value=option.value
-                          model=model
-                          valuePath=item.valuePath
-                          changed=(action item.onChanged)}}
-                          {{option.label}}
-                      {{/blackout-radio}}
+                      {{validated-input
+                        type=item.type
+                        inputId=item.id
+                        placeholder=item.placeholder
+                        model=model
+                        valuePath=item.valuePath
+                        serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated
+                        inputClass=""
+                        onChanged=(readonly item.onChanged)
+                        options=item.options
+                        minDate=item.minDate
+                        maxDate=item.maxDate
+                        isOnScreen=isOnScreen
+                        disabled=item.disabled }}
                       
                     {{else}}
                       
-                      {{#blackout-radio
-                          value=option.value
-                          groupValue=(if item.valuePath (get model item.valuePath) item.value)
-                          changed=(action item.onChanged)}}
-                          {{option.label}}
-                      {{/blackout-radio}}
+                      {{validated-input
+                        type=item.type
+                        inputId=item.id
+                        placeholder=item.placeholder
+                        value=item.value serverError=(get (get serverErrors item.id) 'title')
+                        hasValidated=hasValidated
+                        inputClass=""
+                        onChanged=(readonly item.onChanged)
+                        options=item.options
+                        minDate=item.minDate
+                        maxDate=item.maxDate
+                        isOnScreen=isOnScreen
+                        disabled=item.disabled }}
                       
                     {{/if}}
-                    
-                  {{/each}}
-                  
-                {{else}}
-                  
-                  {{! So that we can edit the model in the sub-component }}
-                  {{#if item.valuePath}}
-                    
-                    {{validated-input
-                      type=item.type
-                      inputId=item.id
-                      placeholder=item.placeholder
-                      model=model
-                      valuePath=item.valuePath
-                      serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated
-                      inputClass=""
-                      onChanged=(readonly item.onChanged)
-                      options=item.options
-                      minDate=item.minDate
-                      maxDate=item.maxDate
-                      isOnScreen=isOnScreen
-                      disabled=item.disabled }}
-                    
-                  {{else}}
-                    
-                    {{validated-input
-                      type=item.type
-                      inputId=item.id
-                      placeholder=item.placeholder
-                      value=item.value serverError=(get (get serverErrors item.id) 'title')
-                      hasValidated=hasValidated
-                      inputClass=""
-                      onChanged=(readonly item.onChanged)
-                      options=item.options
-                      minDate=item.minDate
-                      maxDate=item.maxDate
-                      isOnScreen=isOnScreen
-                      disabled=item.disabled }}
                     
                   {{/if}}
                   
@@ -138,15 +142,15 @@
                 
               {{/if}}
               
-            {{/if}}
+              {{#if item.helper}}
+                <div class="blackout-form-helper">{{item.helper}}</div>
+              {{/if}}
             
-            {{#if item.helper}}
-              <div class="blackout-form-helper">{{item.helper}}</div>
-            {{/if}}
+            </div>
+        
+          {{/premium-ui}}
           
-          </div>
-      
-        {{/premium-ui}}
+        </div>
           
       {{/blackout-fader}}
       

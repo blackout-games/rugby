@@ -202,7 +202,7 @@ input[type="text"], input[type="password"], input[type="email"], textarea, texta
   &:disabled {
     background-color: lighten($bg-light,4%);
     border-color: lighten($form-border-color,11%);
-    color: lighten($primary-text-color,33%);
+    color: desaturate(lighten($primary-text-color,15%),4%);
     &:hover, &:active {
       border-color: lighten($form-border-color,11%) !important;
       box-shadow: none !important;
