@@ -79,7 +79,24 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 
 .page-container {
   width: 100%;
-  max-width: 1250px;
+  margin: 0 auto;
+}
+.page-container-left {
+  margin: 0 auto 0 0;
+}
+.page-container-sm {
+  @extend .page-container;
+  max-width:590px;
+}
+
+.page-container-md {
+  @extend .page-container;
+  max-width:700px;
+}
+
+.page-container-lg {
+  @extend .page-container;
+  max-width:1000px;
 }
 
 .relative {

@@ -3,6 +3,8 @@ import NewsMixin from '../../mixins/news';
 
 export default Ember.Component.extend(NewsMixin, {
   store: Ember.inject.service(),
+  
+  classNames: ['page-container-md','page-container-left'],
   scrollerSelector: null,
   articleRoute: 'news.article',
   
