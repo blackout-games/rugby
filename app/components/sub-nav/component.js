@@ -190,6 +190,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
     }
     
+    // Allow transitions again
+    Ember.run.later(()=>{
+      this.$('#sub-nav-panel').removeClass('inactive');
+    });
+    
   },
   
   updateSubNavMobile(){
@@ -232,6 +237,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
   destroySubNav(/*id*/){
     this.$('#sub-nav-button').fadeOut();
     let $panel = this.$('#sub-nav-panel');
+    
+    // Prevent transitions
+    $panel.addClass('inactive');
     
     // If in non-mobile mode, fade the panel out
     Ember.Blackout.unFadeInUp($panel);

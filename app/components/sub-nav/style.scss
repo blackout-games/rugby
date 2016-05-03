@@ -67,6 +67,10 @@ $animation-time: $nav-animation-time;
     
   }
   
+  &.inactive {
+    transition: none;
+  }
+  
   .menu-link,.menu-link:hover {
     
     @if $dark-colors {
