@@ -367,7 +367,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   },
   
   hide( forGood ){
-    if(this.get('isOpen')){
+    if(this.get('isOpen') && (this.get('media.isMobile') || this.get('media.isTablet'))){
       this.$('#sub-nav-panel,#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
         if(forGood){
           // Remove subnav

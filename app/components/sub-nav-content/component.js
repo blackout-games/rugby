@@ -15,37 +15,35 @@ export default Ember.Component.extend({
    */
   keepSubRoutes: false,
   
-  setup: Ember.on('didRender',function(){
+  setup: Ember.on('didInsertElement',function(){
+  
+    let currentName = this.get('locals').read('subNavCurrentName');
+    let queueDestroy = this.get('locals').read('subNavQueueDestroy');
     
-    Ember.run.scheduleOnce('afterRender', this, function(){
-      
-      let currentName = this.get('locals').read('subNavCurrentName');
-      let queueDestroy = this.get('locals').read('subNavQueueDestroy');
-      
-      if(queueDestroy){
-        this.get('locals').write('subNavQueueDestroy',false);
-        if(currentName !== this.get('name')){
-          // Destroy now
-          this.get('eventBus').publish('destroySubNav',this.$());
-        }
+    if(queueDestroy){
+      this.get('locals').write('subNavQueueDestroy',false);
+      if(currentName !== this.get('name')){
+        // Destroy now
+        this.get('eventBus').publish('destroySubNav',this.$());
       }
-      
-      this.get('locals').write('subNavCurrentName',this.get('name'));
-      this.get('eventBus').publish('createSubNav',this.$(),Ember.Blackout.processAttrs(this.attrs));
-      
-    });
+    }
+    
+    this.get('locals').write('subNavCurrentName',this.get('name'));
+    this.get('eventBus').publish('createSubNav',this.$(),Ember.Blackout.processAttrs(this.attrs));
     
   }),
   
   cleanup: Ember.on('willDestroyElement',function(){
     this.get('locals').write('subNavQueueDestroy',true);
     
-    Ember.run.next(()=>{
-      let queueDestroy = this.get('locals').read('subNavQueueDestroy');
-      if(queueDestroy){
-        this.get('eventBus').publish('destroySubNav',this.$());
-      }
-    });
+    Ember.run.scheduleOnce('afterRender', this, this.doDestroy);
   }),
+  
+  doDestroy(){
+    let queueDestroy = this.get('locals').read('subNavQueueDestroy');
+    if(queueDestroy){
+      this.get('eventBus').publish('destroySubNav',this.$());
+    }
+  },
   
 });
