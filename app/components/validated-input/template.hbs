@@ -37,12 +37,12 @@
           {{#if (is 'textarea' type)}}
             
             {{#blackout-fader showing=textareaIsShowing dontDisplayNone=true}}
-              {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1}}
+              {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1 disabled=disabled}}
             {{/blackout-fader}}
             
           {{else}}
             
-            {{input value=(mut value) type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp')}}
+            {{input value=(mut value) type=(readonly type) placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') disabled=disabled}}
           
           {{/if}}
           

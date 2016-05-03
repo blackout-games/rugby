@@ -199,6 +199,16 @@ input[type="text"], input[type="password"], input[type="email"], textarea, texta
   @include active-form;
   @include hover-form;
   
+  &:disabled {
+    background-color: lighten($bg-light,4%);
+    border-color: lighten($form-border-color,11%);
+    color: lighten($primary-text-color,33%);
+    &:hover, &:active {
+      border-color: lighten($form-border-color,11%) !important;
+      box-shadow: none !important;
+    }
+  }
+  
 }
 input[type="text"], input[type="password"], input[type="email"] {
   height:48px;
