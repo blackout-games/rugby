@@ -26,6 +26,10 @@ export default Ember.Component.extend({
     
   }),
   
+  isTouchOS: Ember.computed(function(){
+    return window.os.touchOS;
+  }),
+  
   /**
    * Determines when animation starts
    */
@@ -60,7 +64,7 @@ export default Ember.Component.extend({
   }),
   
   animateBars: Ember.computed('media.isMobile','media.isTablet',function(){
-    return this.get('singleMode');
+    return this.get('singleMode') && !window.os.touchOS;
     // Turn off animations for squad view. Too annoying and hard to compare skills.
     //return !window.os.touchOS;
   }),

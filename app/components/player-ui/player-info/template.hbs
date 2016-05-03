@@ -104,7 +104,7 @@
 <div class="divider gap-md hidden-xs-up"></div>
 <div class="divider gap-lg hidden-xxs"></div>
 
-{{#if singleMode}}      
+{{#if (and singleMode (not isTouchOS))}}      
   {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
 {{/if}}
 
