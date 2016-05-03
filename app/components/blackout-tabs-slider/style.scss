@@ -36,6 +36,13 @@ $sub-tabs-height-factor: 0.9;
   border-top-left-radius: $border-radius !important;
   border-top-right-radius: $border-radius !important;
   
+  @if $full-real-estate-on-mobile {
+    @media #{$mobile} {
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+    }
+  }
+  
   $shadow-color: desaturate(darken($bg-color,4%),11%);
   //$shadow-color: $bg-color;
   

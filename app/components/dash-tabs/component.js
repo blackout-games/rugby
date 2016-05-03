@@ -72,11 +72,7 @@ export default Ember.Component.extend({
     if(this.get('sub')){
       this.$().addClass('sub-tabs');
     } else {
-      
-      this.$().css({
-        'border-top-left-radius': '9px',
-        'border-top-right-radius': '9px',
-      });
+      this.$().addClass('dash-tabs');
     
     }
     

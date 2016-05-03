@@ -1,29 +1,3 @@
-
-
-$full-real-estate-on-mobile: false;
-
-/**
- * Outer padding for page edge
- */
-.dash-page {
-  
-  padding: 12px 12px 0;
-  @media #{$mobile-wide-and-up} {
-    padding: 15px 15px 0;
-  }
-  @media #{$mobile-tall} {
-    @if $full-real-estate-on-mobile {
-      padding: 15px 0 0;
-    } @else {
-      padding: 15px 11px 0;
-    }
-  }
-  @media #{$tablet-and-up} {
-    padding: 17px 17px 0;
-  }
-  
-}
-
 /**
  * Only needs side padding between containers
  */
@@ -33,15 +7,15 @@ $full-real-estate-on-mobile: false;
    * Padding for small 1/3rd columns
    * @type {[type]}
    */
-  padding: 12px 12px 0;
+  padding: 24px 12px 0;
   @media #{$mobile-wide-and-up} {
-    padding: 15px 15px 0;
+    padding: 22px 15px 0;
   }
-  @media #{$mobile-tall} {
+  @media #{$mobile} {
     @if $full-real-estate-on-mobile {
-      padding: 11px 0 0;
+      padding: 22px 0 0;
     } @else {
-      padding: 11px 11px 0;
+      padding: 22px 11px 0;
     }
   }
   @media #{$tablet-and-up} {
@@ -79,6 +53,19 @@ $full-real-estate-on-mobile: false;
     }
   }
   
+}
+
+/**
+ * Allows us to have dash padding even on mobile with full real-estate mode on
+ * Handy for header/cover areas where we still want padding, even if the main
+ * body goes right to the edge.
+ */
+.dash-header {
+  @media #{$mobile} {
+    @if $full-real-estate-on-mobile {
+      margin: 0 11px;
+    }
+  }
 }
 
 $padding-mobile: 14px;

@@ -2,3 +2,15 @@
   box-shadow: none;
   border-radius: 0;
 }
+
+.dash-box.dash-tabs {
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  
+  @if $full-real-estate-on-mobile {
+    @media #{$mobile} {
+      border-top-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+    }
+  }
+}

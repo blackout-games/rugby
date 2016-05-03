@@ -1,7 +1,7 @@
 
 {{#if singleMode}}
   
-  <div class="{{if flatTitleMode 'center-parent-md top-gap-md'}} has-position">
+  <div class="{{if flatTitleMode 'center-parent-md top-gap-md'}} has-position dash-header">
     
     {{#link-to 'squad.club' player.club.id class="player-ui-back btn-a on-dark"}}<i class="icon-team icon-lg icon-vcenter gap-sm"></i>{{#if (not media.isMobile)}} {{t 'squad.title'}}{{/if}}{{/link-to}}
     {{player-ui/nav-button class="left" squad=squad currentPlayer=player}}

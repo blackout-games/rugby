@@ -11,6 +11,8 @@
  * 30   => Back to top button (floating button, in own component)
  */
 
+$full-real-estate-on-mobile: true;
+
 $nav-animation-time: 0.333s;
 $animation-time: $nav-animation-time;
 $topbar-height: 59px;
@@ -1072,12 +1074,9 @@ a.menu-link,a.menu-link:hover {
 
 .nav-tabs-end {
   
-  height:$sidebar-width;
   max-height: $tabbar-height;
   min-height: $min-tabbar-height;
-  
   @media #{$nav-vs} {
-    height: $sidebar-width;
     line-height: $sidebar-width;
   }
   
@@ -1142,6 +1141,11 @@ a.menu-link,a.menu-link:hover {
   height: 15px;
   @media #{$nav-lg} {
     height: 17px;
+  }
+  @if $full-real-estate-on-mobile {
+    @media #{$mobile} {
+      display: none;
+    }
   }
   pointer-events: none;
 }
