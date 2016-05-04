@@ -33,7 +33,8 @@ $body-max-width: 1222px;
 // Width of window when body max width is reached
 $body-max-window-width: $body-max-width + $max-panel-width + 9px;
 
-$arrows: true;
+$arrows: false;
+$goBig: true;
 $colored-tabs: true;
 
 $sidebar-width: 10vh;
@@ -708,14 +709,46 @@ a.menu-link,a.menu-link:hover {
         }
       }
     }
+    
+    &.selected {
+      @if $goBig {
+        $scale: 1.05;
+        transform-origin: 50% 100%;
+        transform: scale3d($scale,$scale,1);
+        display:relative;
+        z-index:2;
+      }
+    }
 
-    &:active,&.press {
+    &:active,&.press, &.selected.press  {
       transform: none;
       box-shadow: none !important;
     }
+    
     &:focus {
       box-shadow: none !important;
       border: none !important;
+    }
+  }
+  
+  .nav-menu-btn {
+    &.selected {
+      @if $goBig {
+        box-shadow: 2px 4px 15px 4px rgba(black,0.4);
+      }
+    }
+  }
+  
+  .nav-tab-btn {
+    &.selected {
+      @if $goBig {
+        $scale: 1.05;
+        box-shadow: 0 4px 15px 4px rgba(black,0.5);
+        @media #{$mobile} {
+          box-shadow: 2px 2px 15px 4px rgba(black,0.55);
+          transform: scale3d(1,$scale,1);
+        }
+      }
     }
   }
 
