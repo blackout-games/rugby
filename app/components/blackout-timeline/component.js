@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     let currentMindex = null;
     
     
-    this.get('data').forEach((event)=>{
+    this.get('data').forEach(event => {
       
       let msPerDay = 24*60*60*1000;
       let msPerMin = 60*1000;
