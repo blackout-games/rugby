@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['flag-icon'],
   attributeBindings: ['title'],
+  classNameBindings: ['flagTooWhite:flag-too-white'],
   
   title: Ember.computed('country',function(){
     return this.get('country.name');
@@ -18,6 +19,7 @@ export default Ember.Component.extend({
       this.$().css({
         'background-image': 'url('+url+')',
       });
+      
       this.$().show();
     } else {
       this.$().hide();
@@ -31,6 +33,18 @@ export default Ember.Component.extend({
     }
     
   }),
+  
+  flagTooWhite: Ember.computed('country','onWhite',function(){
+    let iso = this.get('country.id');
+    if(iso){
+      iso = iso.toLowerCase();
+      return this.get('onWhite') && this.get('flagsTooWhite').indexOf(iso)>=0;
+    } else {
+      return false;
+    }
+  }),
+  
+  flagsTooWhite: ['jp','mg','mc','pl','id'],
   
   flagPaths: {
     ad: 'assets/images/flags/4x3/ad.svg',

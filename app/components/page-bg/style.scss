@@ -2,7 +2,8 @@
 .page-bg-height {
   height: 100vh;
   
-  &.page-bg-header-mode {
+  @media #{$tablet-tall-and-down} {
+  //&.page-bg-header-mode {
     height: calc(#{$page-header-height} + 77px);
     &.higher {
       height: calc(#{$page-header-height} + 111px);
@@ -122,7 +123,8 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   
   @include cover-background-tinted-min($url,$tint,$bg-position);
   
-  &.page-bg-header-mode {
+  @media #{$tablet-tall-and-down} {
+  //&.page-bg-header-mode {
     @include cover-background-tinted-min($url,$tint-fade-out-bottom-wide,$bg-position);
     @media #{$tablet-tall-and-down} {
       @include cover-background-tinted-min($url,$mobile-tint,$bg-position);
@@ -140,7 +142,8 @@ $tint-dark-at-top-and-bottom: linear-gradient(
    */
   @include cover-background-tinted-for-animation('',$tint-dark-at-top,center center,$bg-dark-lighter);
   
-  &.page-bg-header-mode {
+  @media #{$tablet-tall-and-down} {
+  //&.page-bg-header-mode {
     @include cover-background-tinted-for-animation('',$tint-fade-out-bottom-wide, center center,$bg-dark);
     @media #{$tablet-tall-and-down} {
       @include cover-background-tinted-for-animation('',$tint-fade-out-bottom, center center,$bg-dark);

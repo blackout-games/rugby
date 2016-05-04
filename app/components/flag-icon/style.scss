@@ -5,9 +5,9 @@
   background-repeat: no-repeat;
   position: relative;
   display: inline-block;
-  width:2.222em;
+  width:2.4em;
   min-width: 29px;
-  height: 2.222em*3/4;
+  height: 2.4em*3/4;
   border-radius: $border-radius;
   margin:7px;
   &:before {
@@ -34,6 +34,11 @@
     height:100%;
     background-color:rgba(white,0.25);
     border-radius: $border-radius;
+  }
+  
+  &.flag-too-white {
+    box-shadow: 2px 2px 0 1px $bg-light-darker;
+    //box-shadow: 0 0 0 2px $bg-light;
   }
 }
 
