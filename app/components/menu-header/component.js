@@ -76,6 +76,12 @@ export default Ember.Component.extend({
           $item.toggleClass('active');
         }
         
+        // For sending action up
+        if(this.attrs.onToggle){
+          this.attrs.onToggle($item.hasClass('active'));
+        }
+        
+        // For staying up to date with actions coming down
         if($item.hasClass('active')){
           this.set('settingsPanelIsShowing',true);
         } else {
@@ -84,9 +90,6 @@ export default Ember.Component.extend({
         
         this.set('settingsLastToggled',Date.now());
         
-        if(this.attrs.onToggle){
-          this.attrs.onToggle($item.hasClass('active'));
-        }
         
       }
     },

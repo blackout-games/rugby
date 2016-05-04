@@ -27,7 +27,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   // Prevent body scroll mixin
   preventBodyScrollSelectors: ['#sidebar-scroller'],
   
-  // Communicators
+  // Communicators (down)
   backToTopButtonIsShowing: false,
   subNavButtonIsShowing: false,
   settingsPanelIsShowing: false,
@@ -651,10 +651,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
-    settingsPanelToggled(showing){
+    toggleSettingsPanel(showing){
       this.set('settingsPanelIsShowing',showing);
       if(showing){
-        this.show();
         this.selectTab('settings','misc');
       } else {
         this.selectCurrentMenu();
@@ -694,14 +693,14 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     } else if( tabName === 'menu' ) {
       
       if( menuOpenedOnThisClick === undefined ){
-        menuOpenedOnThisClick = this.show();
+        menuOpenedOnThisClick = this.show(true);
       }
       this.selectCurrentMenu( menuOpenedOnThisClick );
       
     } else {
       
       if( menuOpenedOnThisClick === undefined ){
-        menuOpenedOnThisClick = this.show();
+        menuOpenedOnThisClick = this.show(true);
       }
       
       var newButton = $('.nav-' + type + '-' + tabName);
@@ -821,11 +820,11 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     
   },
 
-  show() {
+  show( dontSelect ) {
     
     if (this._super()) {
       
-      if( !$('.nav-tab-btn,.nav-menu-btn').hasClass('selected') ){
+      if( !dontSelect && !$('.nav-tab-btn,.nav-menu-btn').hasClass('selected') ){
         this.selectCurrentMenu( true );
       }
       
