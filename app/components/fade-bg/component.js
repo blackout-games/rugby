@@ -107,7 +107,7 @@ export default Ember.Component.extend({
       
       // Get image url
       let url = Ember.Blackout.getCSSPseudoValue('background-image',this.get('imageClass'),':before').replace(/url\(/,'').rtrim(')');
-      if(url && url.trim('"').substr(-4)!=='.css'){
+      if(url){
         
         // Get secure url
         url = Ember.Blackout.secureURLIfHttps(url);
@@ -315,7 +315,9 @@ export default Ember.Component.extend({
         // Must wait again or else firefox doesn't fade
         // Can't use run.next
         Ember.run.later(()=>{
-          this.set('animationClass',this.get('animationClass') + ' fade-bg-show');
+          if(!this.get('isDestroyed')){
+            this.set('animationClass',this.get('animationClass') + ' fade-bg-show');
+          }
         },111);
       }
       
@@ -337,11 +339,11 @@ export default Ember.Component.extend({
       if(Blackout.isEmpty(this.get('imageClass')) && Blackout.isEmpty(this.get('imageUrl'))){
         
         this.fadeOutImage( $fadeBg, this.afterFadeoutBound );
-      
+        
       } else {
         
         this.setup();
-      
+        
       }
       
     }

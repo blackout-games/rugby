@@ -15,6 +15,12 @@ export default Ember.Component.extend({
   attributeBindings: ['id'],
   id: 'page-bg',
   
+  /**
+   * Set to remove image
+   * @type {Boolean}
+   */
+  disableImage: false,
+  
   /*// UI Events
   uiEvents: [
     {
@@ -87,6 +93,7 @@ export default Ember.Component.extend({
       Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
       
       this.set('bgImageClass',className);
+      this.set('disableImage',false);
       
     } else if( this.get('imagesGroup') ){
       
@@ -117,6 +124,7 @@ export default Ember.Component.extend({
         }
         
         this.set('bgImageClass',imageClass);
+        this.set('disableImage',false);
         //this.$().addClass(imageClass);
         
       }
@@ -125,14 +133,18 @@ export default Ember.Component.extend({
       
       // Must wrap with afterRender to avoid deprecation warnings about double modification in single render [deprecation id: ember-views.render-double-modify]
       Ember.run.scheduleOnce('afterRender', this, ()=>{
-        this.set('bgImageClass','');
+        this.set('disableImage',true);
       });
     }
     
   },
   
-  imageClass: Ember.computed('bgImageClass',function(){
-    return this.get('baseClasses').join(' ') + ' ' + this.get('bgImageClass');
+  imageClass: Ember.computed('bgImageClass','disableImage',function(){
+    if(!this.get('disableImage')){
+      return this.get('baseClasses').join(' ') + ' ' + this.get('bgImageClass');
+    } else {
+      return '';
+    }
   }),
   
   updateHeight(mobileHigher){

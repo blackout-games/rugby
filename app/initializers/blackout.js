@@ -292,7 +292,14 @@ class Blackout {
     
     try {
       
-      return window.getComputedStyle(inspector[0], pseudoSelector).getPropertyValue(prop);
+      let val = window.getComputedStyle(inspector[0], pseudoSelector).getPropertyValue(prop);
+      
+      if( (prop === 'background-image' || prop === 'backgroundImage') && val.indexOf('.css')>=0 ){
+        val = '';
+      }
+      
+      return val;
+      
     } finally {
       if(typeof(classOrjQueryObj)==='string'){
         inspector.remove(); // and remove from DOM
@@ -777,8 +784,9 @@ class Blackout {
         $(this).remove();
         // Promises can only return one value, so use a hash
         resolve({ w:this.width, h:this.height });
-      }).on('error', function(e,other) {
-        print('error',path,e,other);
+      }).on('error', (e)=>{
+        print('Error while preloading image','Path: '+path,e,'Stack trace: ');
+        this.logStrackTrace();
         reject();
       });
       

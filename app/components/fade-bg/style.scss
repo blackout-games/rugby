@@ -3,12 +3,13 @@
 }
 
 .fade-bg-ready {
+  $duration: 0.777s;
   
   @include cover-background-tinted-for-animation('',$no-tint,center center,transparent);
   
   &:before {
     opacity:0;
-    transition: opacity 0.777s;
+    transition: opacity $duration;
   }
 }
 
@@ -19,12 +20,14 @@
 }
 
 .fade-bg-out {
+  $duration: 0.222s;
   &:before {
-    transition: opacity 0.111s;
+    opacity:0;
+    transition: opacity $duration;
   }
   
   // Fix css transition end event on pseudo element in IE
-  transition: transform 0.111s;
+  transition: transform $duration;
   transform: translate3d(0,0,0.00001px);
 }
 
