@@ -117,7 +117,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   },
   
   buildOption($opt){
-    return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + '" class="bs-option btn-a' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
+    return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + ' class="bs-option btn-a' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
   },
   
   initEvents() {
