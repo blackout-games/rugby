@@ -33,8 +33,13 @@ $body-max-width: 1222px;
 // Width of window when body max width is reached
 $body-max-window-width: $body-max-width + $max-panel-width + 9px;
 
-$arrows: false;
-$goBig: true;
+/**
+ * Menu block selected states
+ */
+$arrows: true;
+$tabbar-arrows: false;
+$floats: false;
+$floats-scale: 1.04;
 $colored-tabs: true;
 
 $sidebar-width: 10vh;
@@ -690,7 +695,7 @@ a.menu-link,a.menu-link:hover {
       //background-color: $panel-color !important;
       @if $arrows {
         &:after {
-          left: 100%;
+          left: 99%;
           top: 50%;
           border: solid transparent;
           content: " ";
@@ -709,44 +714,43 @@ a.menu-link,a.menu-link:hover {
         }
       }
     }
-    
-    &.selected {
-      @if $goBig {
-        $scale: 1.05;
-        transform-origin: 50% 100%;
-        transform: scale3d($scale,$scale,1);
-        display:relative;
-        z-index:2;
-      }
-    }
 
-    &:active,&.press, &.selected.press  {
+    &:active,&.press  {
       transform: none;
-      box-shadow: none !important;
+      box-shadow: none;
     }
     
     &:focus {
       box-shadow: none !important;
       border: none !important;
     }
+    
+    &.selected,&.selected:active,&.selected.press {
+      @if $floats {
+        transform-origin: 0% 50%;
+        transform: scale3d($floats-scale,$floats-scale,1);
+        display:relative;
+        z-index:2;
+      }
+    }
   }
   
   .nav-menu-btn {
-    &.selected {
-      @if $goBig {
-        box-shadow: 2px 4px 15px 4px rgba(black,0.4);
+    &.selected,&.selected:active,&.selected.press {
+      @if $floats {
+        box-shadow: 2px 4px 15px 4px rgba(black,0.4) !important;
       }
     }
   }
   
   .nav-tab-btn {
-    &.selected {
-      @if $goBig {
-        $scale: 1.05;
-        box-shadow: 0 4px 15px 4px rgba(black,0.5);
+    &.selected,&.selected:active,&.selected.press {
+      @if $floats {
+        box-shadow: 0 4px 15px 4px rgba(black,0.5) !important;
         @media #{$mobile} {
-          box-shadow: 2px 2px 15px 4px rgba(black,0.55);
-          transform: scale3d(1,$scale,1);
+          transform-origin: 50% 100%;
+          box-shadow: 2px 2px 15px 4px rgba(black,0.55) !important;
+          transform: scale3d(1,$floats-scale,1);
         }
       }
     }
@@ -1021,16 +1025,22 @@ a.menu-link,a.menu-link:hover {
       @if $arrows {
         &:after {
           border-left-color: $tab-selected-color;
-
+          
           @media #{$nav-xs} {
-            border-left-color: transparent;
-            border-bottom-color: $tab-selected-color;
-            top: auto;
-            bottom: 100%;
-            left: 50%;
-            margin-top: 0;
-            margin-left: -$selected-arrow-size;
-            border-width: 0 $selected-arrow-size $selected-arrow-pokes-out $selected-arrow-size;
+            @if $tabbar-arrows {
+              border-left-color: transparent;
+              border-bottom-color: $tab-selected-color;
+              top: auto;
+              bottom: 100%;
+              left: 50%;
+              margin-top: 0;
+              margin-left: -$selected-arrow-size;
+              border-width: 0 $selected-arrow-size $selected-arrow-pokes-out $selected-arrow-size;
+            } @else {
+              border-left-color: transparent;
+              border-bottom-color: transparent;
+              border-width: 0 0 0 0;
+            }
           }
         }
       }
