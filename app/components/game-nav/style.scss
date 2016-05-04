@@ -11,7 +11,13 @@
  * 30   => Back to top button (floating button, in own component)
  */
 
+/**
+ * Global settings
+ * @type {Boolean}
+ */
 $full-real-estate-on-mobile: true;
+$float-buttons-hug-side: true;
+
 
 $nav-animation-time: 0.333s;
 $animation-time: $nav-animation-time;

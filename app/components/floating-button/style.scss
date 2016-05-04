@@ -21,7 +21,11 @@
   }
 }
 
-$size: 44px;
+@if $float-buttons-hug-side {
+  $size: 48px;
+} @else {
+  $size: 44px;
+}
 $gap: 2.22vh;
 $big-gap: 5vh;
 $arrow-height: $size * 0.64;
@@ -35,7 +39,11 @@ $color: rgba($primary-master, 0.88);
   width: $size;
   height: $size;
   background-color: $color;
-  border-radius: $border-radius;
+  @if $float-buttons-hug-side {
+    border-radius: 0px;
+  } @else {
+    border-radius: $border-radius;
+  }
   overflow: hidden;
   box-shadow: 0 11px 11px rgba(black, 0.222);
   text-align: center;
@@ -44,12 +52,24 @@ $color: rgba($primary-master, 0.88);
   // ---- Positioning
   
   bottom: $gap;
-  &.left {
-    left: $gap;
+  
+  @if $float-buttons-hug-side {
+    &.left {
+      left: 0;
+    }
+    &.right {
+      right: 0;
+    }
+    bottom: $gap*2;
+  } @else {
+    &.left {
+      left: $gap;
+    }
+    &.right {
+      right: $gap;
+    }
   }
-  &.right {
-    right: $gap;
-  }
+  
   &.right-two-thirds {
     right: $gap;
     @media #{$nav-sm} {
@@ -72,11 +92,23 @@ $color: rgba($primary-master, 0.88);
   
   @media #{$nav-sm-up} {
     bottom: $big-gap;
-    &.left {
-      left: $big-gap;
-    }
-    &.right {
-      right: $big-gap;
+    
+  
+    @if $float-buttons-hug-side {
+      &.left {
+        left: 0;
+      }
+      &.right {
+        right: 0;
+      }
+      bottom: $big-gap*2;
+    } @else {
+      &.left {
+        left: $big-gap;
+      }
+      &.right {
+        right: $big-gap;
+      }
     }
     &.top {
       top: $big-gap;

@@ -301,9 +301,19 @@
 
 /**
  * Will stretch to fill any leftover gap
+ * Based on content size
  */
 .col-flex-xs, .col-flex {
   flex: 1 1 auto;
+  //max-width: optional: define on own css class
+}
+
+/**
+ * Will stretch to fill any leftover gap
+ * EQUALLY
+ */
+.col-flex-even-xs, .col-flex-even {
+  flex: 1 1 0;
   //max-width: optional: define on own css class
 }
 
@@ -715,6 +725,10 @@
   .col-flex-sm {
     flex: 1 1 auto;
   }
+  
+  .col-flex-even-sm {
+    flex: 1 1 0;
+  }
 
   .col-fixed-sm, .col-auto-sm {
     flex: 0 0 auto;
@@ -1041,6 +1055,10 @@
   .col-flex-md {
     flex: 1 1 auto;
   }
+  
+  .col-flex-even-md {
+    flex: 1 1 0;
+  }
 
   .col-max-md {
     flex: 0 1 auto;
@@ -1362,6 +1380,10 @@
   
   .col-flex-lg {
     flex: 1 1 auto;
+  }
+  
+  .col-flex-even-lg {
+    flex: 1 1 0;
   }
   
   .col-max-lg {
