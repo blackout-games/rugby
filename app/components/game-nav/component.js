@@ -9,7 +9,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   prefs: Ember.inject.service('preferences'),
   
   // Settings
-  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,.page-bg',
+  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,#page-bg',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
   disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon,#nav-menu-buffer-mobile',
@@ -682,7 +682,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       } else if (tab.hasClass('nav-close') ){
         
         // Close menu on large
-        $('#nav-panel,#nav-body,.page-bg').addClass('force-transition');
+        $('#nav-panel,#nav-body,#page-bg').addClass('force-transition');
         if( this.hide() ){
           
           // Do successful hide stuff

@@ -186,7 +186,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       // Show subnav
       this.$('#sub-nav-panel').addClass('active');
       
-      Ember.$('#nav-body').addClass('sub-nav-showing');
+      Ember.$('#nav-body,#page-bg').addClass('sub-nav-showing');
       
     }
     
@@ -264,7 +264,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.set('$subNavContent',null);
     this.set('$innerContent',null);
     
-    Ember.$('#nav-body').removeClass('sub-nav-showing');
+    Ember.$('#nav-body,#page-bg').removeClass('sub-nav-showing');
     
     this.hide( true );
   },

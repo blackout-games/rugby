@@ -2,12 +2,13 @@
 .page-bg-height {
   height: 100vh;
   
-  @media #{$tablet-tall-and-down} {
+  &.page-bg-header-mode {
     height: calc(#{$page-header-height} + 77px);
     &.higher {
-      height: calc(#{$page-header-height} + 177px);
+      height: calc(#{$page-header-height} + 111px);
     }
   }
+  
   @media #{$mobile-landscape} {
     height: 50vh;
     &.higher {
@@ -16,24 +17,38 @@
   }
 }
 
-.page-bg {
+#page-bg {
   position:fixed;
   z-index:0;
   top:0;
   right:0;
   width:100%;
 
+  @media #{$nav-md},#{$nav-lg} {
+  }
+
   @media #{$nav-sm},#{$nav-md} {
     width: calc( 100% - #{$max-block-size});
   }
+  
+  $sub-nav-width: $max-panel-width + $sub-panel-mod;
 
   @media #{$nav-lg} {
 
     width: calc( 100% - #{$max-block-size});
     transition: none;
     
+    &.sub-nav-showing.page-bg-header-mode {
+      width: calc( 100% - #{$max-block-size + $sub-nav-width});
+    }
+    
     &.open {
       width: calc( 100% - #{$max-panel-width});
+      
+      &.sub-nav-showing.page-bg-header-mode {
+        width: calc( 100% - #{$max-panel-width + $sub-nav-width});
+      }
+      
       @media #{$nav-vs} {
         width: calc(100% - ( #{$sidebar-width} + #{$max-panel-width} - #{$max-block-size} ));
       }
@@ -51,12 +66,22 @@
   
 }
 
+
+
 $tint-fade-out-bottom: linear-gradient(
   to bottom,
   rgba($bg-dark,0.99),
   rgba($bg-dark,0.44) 44%,
   $bg-dark 100%
 );
+$tint-fade-out-bottom-wide: linear-gradient(
+  to bottom,
+  rgba($body-bg-color-wide,0.99),
+  rgba($body-bg-color-wide,0.44) 44%,
+  $body-bg-color-wide 100%
+);
+
+
 
 $tint-dark-at-bottom: linear-gradient(
   to bottom,
@@ -97,8 +122,11 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   
   @include cover-background-tinted-min($url,$tint,$bg-position);
   
-  @media #{$tablet-tall-and-down} {
-    @include cover-background-tinted-min($url,$mobile-tint,$bg-position);
+  &.page-bg-header-mode {
+    @include cover-background-tinted-min($url,$tint-fade-out-bottom-wide,$bg-position);
+    @media #{$tablet-tall-and-down} {
+      @include cover-background-tinted-min($url,$mobile-tint,$bg-position);
+    }
   }
   
 }
@@ -112,8 +140,11 @@ $tint-dark-at-top-and-bottom: linear-gradient(
    */
   @include cover-background-tinted-for-animation('',$tint-dark-at-top,center center,$bg-dark-lighter);
   
-  @media #{$tablet-tall-and-down} {
-    @include cover-background-tinted-for-animation('',$tint-fade-out-bottom, center center,$bg-dark);
+  &.page-bg-header-mode {
+    @include cover-background-tinted-for-animation('',$tint-fade-out-bottom-wide, center center,$bg-dark);
+    @media #{$tablet-tall-and-down} {
+      @include cover-background-tinted-for-animation('',$tint-fade-out-bottom, center center,$bg-dark);
+    }
   }
   
   /**

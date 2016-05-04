@@ -13,8 +13,9 @@ html {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
+$body-bg-color-wide: darken($bg-dark-lighter,1%);
 body {
-  background-color: $bg-dark-lighter;
+  background-color: $body-bg-color-wide;
   
   // For mobile, where the bg image sits at top and fades to darkness
   @media #{$tablet-tall-and-down} {

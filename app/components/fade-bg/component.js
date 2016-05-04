@@ -62,11 +62,11 @@ export default Ember.Component.extend({
   
   // Internal
   classNames: ['fade-bg-default'],
-  lastImageClass: '',
   firstImageHasLoaded: false,
   thereIsACurrentImage: false,
   imageCachedTime: 100, // Milliseconds in whcih an image loads to be considered available immediately
   minResolution: 700, // At least one dimension of the image must be 700px to be displayed
+  currentUrl: '',
   
   bindFunctions: Ember.on('init',function(){
     this.afterFadeoutBound = Ember.run.bind(this,this.afterFadeout);
@@ -91,11 +91,6 @@ export default Ember.Component.extend({
     
     this.set('imageIsImmediatelyFadingOut',false);
     
-    // Add any extra classes
-    if(this.get('bgClass')){
-      $fadeBg.addClass(this.get('bgClass'));
-    }
-    
     if(this.get('placeholderClass')){
       
       // Set placeholder
@@ -112,111 +107,135 @@ export default Ember.Component.extend({
       
       // Get image url
       let url = Ember.Blackout.getCSSPseudoValue('background-image',this.get('imageClass'),':before').replace(/url\(/,'').rtrim(')');
-      
-      // Get secure url
-      url = Ember.Blackout.secureURLIfHttps(url);
-      
-      let startTime = Date.now();
-      
-      if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
-        this.set('imageIsImmediatelyFadingOut',true);
-        this.fadeOutImage( $fadeBg, this.fadeInImageBound );
+      if(url && url.trim('"').substr(-4)!=='.css'){
         
-      }
-      
-      // Load image
-      Ember.Blackout.preloadImage(url).then((size)=>{
-        let { w, h } = size;
+        // Get secure url
+        url = Ember.Blackout.secureURLIfHttps(url);
         
-        if(this.assertComponentStillExists()){
+        // Prevent loading of same image multiple times
+        if(url !== this.get('currentUrl')){
+          this.set('currentUrl',url);
           
-          if(this.assertImageRes(w,h)){
-            
-            if(!this.get('imageIsImmediatelyFadingOut')){
-              
-              if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
-                  
-                this.fadeOutImage( $fadeBg, this.fadeInImageBound );
-              
-              } else {
-                
-                let loadTime = Date.now() - startTime;
-                this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
-                
-              }
-              
-            } else {
-              
-              this.set('imageIsImmediatelyFadingOut',false);
-            }
+          let startTime = Date.now();
+          
+          if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
+            this.set('imageIsImmediatelyFadingOut',true);
+            this.fadeOutImage( $fadeBg, this.fadeInImageBound );
             
           }
           
+          // Load image
+          Ember.Blackout.preloadImage(url).then((size)=>{
+            let { w, h } = size;
+            
+            if(this.assertComponentStillExists()){
+              
+              if(this.assertImageRes(w,h)){
+                
+                if(!this.get('imageIsImmediatelyFadingOut')){
+                  
+                  if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
+                      
+                    this.fadeOutImage( $fadeBg, this.fadeInImageBound );
+                  
+                  } else {
+                    
+                    let loadTime = Date.now() - startTime;
+                    this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
+                    
+                  }
+                  
+                } else {
+                  
+                  this.set('imageIsImmediatelyFadingOut',false);
+                }
+                
+              }
+              
+            }
+            
+          });
+          
         }
         
-      });
+      }
       
     } else if(this.get('imageUrl')){
       
       // Get image url
       let url = this.get('imageUrl');
-      
-      // Get secure url
-      url = Ember.Blackout.secureURLIfHttps(url);
-      
-      let startTime = Date.now();
-      
-      if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
-        this.set('imageIsImmediatelyFadingOut',true);
-        this.fadeOutImage( $fadeBg, this.fadeInImageBound );
-      }
-      
-      // Load image
-      Ember.Blackout.preloadImage(url).then((size)=>{
-        let { w, h } = size;
+      if(url){
         
-        if(this.assertComponentStillExists()){
+        // Get secure url
+        url = Ember.Blackout.secureURLIfHttps(url);
+        
+        // Prevent loading of same image multiple times
+        if(url !== this.get('currentUrl')){
+          this.set('currentUrl',url);
           
-          if(this.assertImageRes(w,h)){
+          let startTime = Date.now();
+          
+          if(this.get('fadeOutImmediately') && this.get('thereIsACurrentImage')){
+            this.set('imageIsImmediatelyFadingOut',true);
+            this.fadeOutImage( $fadeBg, this.fadeInImageBound );
+          }
+          
+          // Load image
+          Ember.Blackout.preloadImage(url).then((size)=>{
+            let { w, h } = size;
             
-            if(!this.get('imageIsImmediatelyFadingOut')){
+            if(this.assertComponentStillExists()){
               
-              if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
-                  
-                this.fadeOutImage( $fadeBg, this.fadeInImageBound );
-              
-              } else {
+              if(this.assertImageRes(w,h)){
                 
-                let loadTime = Date.now() - startTime;
-                this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
+                if(!this.get('imageIsImmediatelyFadingOut')){
+                  
+                  if(this.get('thereIsACurrentImage') && !this.get('fadeOutImmediately')){
+                      
+                    this.fadeOutImage( $fadeBg, this.fadeInImageBound );
+                  
+                  } else {
+                    
+                    let loadTime = Date.now() - startTime;
+                    this.fadeInImage( null, $fadeBg, loadTime <= this.get('imageCachedTime') );
+                    
+                  }
+                  
+                } else {
+                  this.set('imageIsImmediatelyFadingOut',false);
+                }
                 
               }
               
-            } else {
-              this.set('imageIsImmediatelyFadingOut',false);
             }
             
-          }
+          },()=>{ // Error
+            
+            // Hide
+            $fadeBg.slideUp();
+            
+          });
           
         }
         
-      },()=>{ // Error
-        
-        // Hide
-        $fadeBg.slideUp();
-        
-      });
+      }
       
     }
     
   },
   
+  animationClass: '',
+  imageBgClass: '',
+  fadeBgClass: Ember.computed('bgClass','animationClass','imageBgClass',function(){
+    return this.get('bgClass') + ' ' + this.get('animationClass') + ' ' + this.get('imageBgClass');
+  }),
+  
   fadeOutImage($fadeBg,callback=null) {
     
+    this.set('currentUrl','');
     Ember.run.next(()=>{
       
-      $fadeBg.addClass('fade-bg-out').removeClass('fade-bg-show fade-bg-immediate');
-      
+      this.set('animationClass','fade-bg-out');
       
       $fadeBg.one(Ember.Blackout.afterCSSTransition, $fadeBg, callback);
       
@@ -257,8 +276,8 @@ export default Ember.Component.extend({
     
     if(this.get('imageClass')){
       
-      $fadeBg.addClass(this.get('imageClass') + ' fade-bg-ready');
-      this.set('lastImageClass',this.get('imageClass'));
+      this.set('imageBgClass',this.get('imageClass'));
+      this.set('animationClass','fade-bg-ready');
       
     } else if(this.get('imageUrl')){
       
@@ -274,13 +293,13 @@ export default Ember.Component.extend({
       // Create a fresh css pseudo rule
       Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
       
-      $fadeBg.addClass('fade-bg-ready ' + className);
+      this.set('animationClass','fade-bg-ready ' + className);
       this.set('lastImageUrl',url);
       
     }
   
     if(showImmediately){
-      $fadeBg.addClass('fade-bg-immediate');
+      this.set('animationClass',this.get('animationClass') + ' fade-bg-immediate');
     }
     
     Ember.run.later(()=>{ // Use later to ensure no image flashing on safari
@@ -295,8 +314,8 @@ export default Ember.Component.extend({
         
         // Must wait again or else firefox doesn't fade
         // Can't use run.next
-        Ember.run.later(function(){
-          $fadeBg.addClass('fade-bg-show');
+        Ember.run.later(()=>{
+          this.set('animationClass',this.get('animationClass') + ' fade-bg-show');
         },111);
       }
       
@@ -309,20 +328,22 @@ export default Ember.Component.extend({
     Ember.run.scheduleOnce('afterRender', this, this.setup);
   },
   
-  didUpdateAttrs( options ) {
-    //var o = options.oldAttrs;
-    var n = options.newAttrs;
+  didUpdateAttrs( opts ) {
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     
-    if(Blackout.isEmpty(n.imageClass) && Blackout.isEmpty(n.imageUrl)){
+    if(this.attrChanged(opts,'imageClass') || this.attrChanged(opts,'imageUrl')){
       
-      this.fadeOutImage( $fadeBg, this.afterFadeoutBound );
-    
-    } else {
+      if(Blackout.isEmpty(this.get('imageClass')) && Blackout.isEmpty(this.get('imageUrl'))){
+        
+        this.fadeOutImage( $fadeBg, this.afterFadeoutBound );
       
-      this.setup();
-    
+      } else {
+        
+        this.setup();
+      
+      }
+      
     }
     
   },
@@ -331,17 +352,13 @@ export default Ember.Component.extend({
     
     var $fadeBg = this.$().findClosest('.fade-bg');
     
-    if(this.get('lastImageClass')){
-      $fadeBg.removeClass(this.get('lastImageClass'));
-      this.set('lastImageClass',false);
-    }
+    this.set('imageBgClass','');
+    this.set('animationClass','');
     
     if(this.get('lastImageUrl')){
       $fadeBg.css('background-image','none');
       this.set('lastImageUrl',false);
     }
-    
-    $fadeBg.removeClass('fade-bg-out fade-bg-show fade-bg-out fade-bg-show fade-bg-immediate');
     
     $fadeBg.off(Ember.Blackout.afterCSSTransition, this.afterFadeoutBound);
     $fadeBg.off(Ember.Blackout.afterCSSTransition, this.fadeInImageBound);

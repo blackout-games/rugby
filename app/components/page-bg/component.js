@@ -11,8 +11,18 @@ var imagesList = {
 };
 
 export default Ember.Component.extend({
-  classNames: ['page-bg'],
   baseClasses: ['page-header-bg vf-child'],
+  attributeBindings: ['id'],
+  id: 'page-bg',
+  
+  /*// UI Events
+  uiEvents: [
+    {
+      eventName: 'resize',
+      callbackName: 'updateMode',
+      selector: window,
+    }
+  ],*/
   
   startListening: Ember.on('init',function(){
     
@@ -34,12 +44,20 @@ export default Ember.Component.extend({
     this.set('imageURL',url);
     this.updateImageClass();
     this.updateHeight(mobileHigher);
+    
+    Ember.run.next(()=>{
+      //this.updateMode();
+    });
   },
   
   newBackgrounds( group, mobileHigher ){
     this.set('imagesGroup',group);
     this.updateImageClass();
     this.updateHeight(mobileHigher);
+    
+    Ember.run.next(()=>{
+      //this.updateMode();
+    });
   },
   
   removeBackground(){
@@ -68,7 +86,7 @@ export default Ember.Component.extend({
       // Create a fresh css pseudo rule
       Ember.Blackout.addCSSRule( '.' + className + ':before', 'background-image: url('+url+') !important;');
       
-      this.set('imageClass',this.get('baseClasses').join(' ') + ' ' + className);
+      this.set('bgImageClass',className);
       
     } else if( this.get('imagesGroup') ){
       
@@ -98,7 +116,7 @@ export default Ember.Component.extend({
           
         }
         
-        this.set('imageClass',this.get('baseClasses').join(' ') + ' ' + imageClass);
+        this.set('bgImageClass',imageClass);
         //this.$().addClass(imageClass);
         
       }
@@ -107,18 +125,63 @@ export default Ember.Component.extend({
       
       // Must wrap with afterRender to avoid deprecation warnings about double modification in single render [deprecation id: ember-views.render-double-modify]
       Ember.run.scheduleOnce('afterRender', this, ()=>{
-        this.set('imageClass','');
+        this.set('bgImageClass','');
       });
     }
     
   },
   
+  imageClass: Ember.computed('bgImageClass',function(){
+    return this.get('baseClasses').join(' ') + ' ' + this.get('bgImageClass');
+  }),
+  
   updateHeight(mobileHigher){
     
     if(mobileHigher){
-      Ember.$('.page-bg-height').addClass('higher');
+      this.$('.page-bg-height').addClass('higher');
     } else {
-      Ember.$('.page-bg-height').removeClass('higher');
+      this.$('.page-bg-height').removeClass('higher');
+    }
+    
+  },
+  
+  extraClass: '',
+  
+  /**
+   * Turned this off due to too much headache around resizing, and showing/hiding main menu. Plus it actually just looks better with a full background when on desktop, rather than dark sides and bottom.
+   */
+  updateMode(){
+    
+    // Get visible gap between page container and body
+    let $navBody = Ember.$('#nav-body');
+    let $container = $navBody.findClosest('div[class^="page-container-"],div[class*=" page-container-"]');
+    let $el = this.$('.page-bg-height');
+    
+    if($container.length){
+      
+      let gap = $navBody.width() - $container.width();
+      let threshold = 50;
+      
+      if(gap<threshold && !$el.hasClass('page-bg-header-mode')){
+        
+        $el.addClass('page-bg-header-mode');
+        this.$().addClass('page-bg-header-mode');
+        this.set('extraClass',' page-bg-header-mode');
+        
+      } else if(gap>=threshold && $el.hasClass('page-bg-header-mode')){
+        
+        $el.removeClass('page-bg-header-mode');
+        this.$().removeClass('page-bg-header-mode');
+        this.set('extraClass','');
+        
+      }
+      
+    } else {
+    
+      $el.removeClass('page-bg-header-mode');
+      this.$().removeClass('page-bg-header-mode');
+      this.set('extraClass','');
+      
     }
     
   },
