@@ -1,9 +1,27 @@
 
 .weather-icon {
-  margin-bottom: -7px;
+  margin: -11px -11px -17px -11px;
+  @media #{$tablet-and-up} {
+    margin: -22px -22px -27px -22px;
+  }
+  svg {
+    width: 88px;
+    height: 88px;
+    @media #{$tablet-and-up} {
+      width: 144px;
+      height: 144px;
+    }
+  }
 }
 .weather-icon-text {
-  margin-bottom: -7px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-family: $sports-font;
+  text-transform: uppercase;
+  font-weight: 800;
+  @media #{$tablet-and-up} {
+    font-size: 17px;
+  }
 }
 
 
@@ -37,8 +55,6 @@
 /* SVG GLOBAL */
 svg {
   display: inline-block;
-  width: 100px;
-  height: 100px;
   shape-rendering: geometricPrecision;
 }
 

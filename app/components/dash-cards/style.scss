@@ -1,3 +1,11 @@
 #cloudDrizzleAlt {
-  margin:-15px;
+  margin:-11px;
+}
+
+.dash-weather-icon {
+  float: right;
+  margin-bottom:-4px;
+  span {
+    color: $bg-light-darker-3x;
+  }
 }

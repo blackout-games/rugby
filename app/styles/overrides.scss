@@ -66,9 +66,15 @@
 
 /**
  * Vertical align bottom
+ * 
+ * If this is a child column of another row, you'll need to set row-stretch on the parent row as well
+ * 
+ * For use with grid classes.
  */
 .vb-parent {
-  height: 100%;
+  // Don't set this, otherwise it breaks height when this is on a grid col where the parent has row-stretch
+  // If you require height: 100%, apply the full height class as well
+  //height: 100%;
   display: flex;
   align-items: flex-end;
 }

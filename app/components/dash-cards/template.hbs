@@ -1,5 +1,10 @@
 <div class="row">
   <div class="col-xs-6 col-sm-4 col-md-12 dash-box-container dash-left dash-left-reset-lg row">
+  
+  
+  
+  
+  
     {{#dash-card class="bg-override-master white" title=(t 'dashboard.cards.bank-balance') icon-class="icon-money" }}
       
       <h2 class="top-gap-sm no-gap">
@@ -16,13 +21,24 @@
       {{/unless}}
       
     {{/dash-card}}
+    
+    
+    
+    
   </div>
   <div class="col-xs-6 col-sm-4 col-md-12 dash-box-container row">
+  
+  
+  
+  
     {{#dash-card class="bg-override-secondary white" title=(t 'dashboard.cards.weather') icon-class="icon-cloud"}}
     
-      {{weather-icon weatherId=info.weather dayOrNight=info.dayOrNight label=info.weatherLabel}}
+      {{weather-icon weatherId=info.weather dayOrNight=info.dayOrNight label=info.weatherLabel class="dash-weather-icon"}}
     
     {{/dash-card}}
+    
+    
+    
   
   </div>
 </div>
