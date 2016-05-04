@@ -31,6 +31,18 @@ var blackoutComponent = {
   
 };
 
+/**
+ * Extend ember-autoresize for textareas so that we can manually measure and resize
+ */
+Ember.TextArea.reopen(blackoutComponent,{
+  onUpdateSizeManually: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'updateSizeManually') && this.get('updateSizeManually')){
+      this.set('updateSizeManually',false);
+      this.measureSize();
+    }
+  }),
+});
+
 export function initialize(/* application */) {
   Ember.Component = Ember.Component.extend(blackoutComponent);
 }

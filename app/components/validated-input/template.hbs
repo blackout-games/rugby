@@ -36,9 +36,7 @@
         
           {{#if (is 'textarea' type)}}
             
-            {{#blackout-fader showing=textareaIsShowing dontDisplayNone=true}}
-              {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1 disabled=disabled}}
-            {{/blackout-fader}}
+            {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1 disabled=disabled updateSizeManually=(readonly updateTextareaSize)}}
             
           {{else}}
             
