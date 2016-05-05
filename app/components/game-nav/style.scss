@@ -583,6 +583,8 @@ body.free{
       }
       &.selected {
         color: $primary-master;
+        font-weight: bold;
+        text-shadow: 0px 0px 11px rgba(saturate(lighten($primary-master,11%),15%),0.7);
       }
     }
   }
@@ -695,7 +697,7 @@ a.menu-link,a.menu-link:hover {
       //background-color: $panel-color !important;
       @if $arrows {
         &:after {
-          left: 99%;
+          left: 100%;
           top: 50%;
           border: solid transparent;
           content: " ";
