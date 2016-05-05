@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['inline-block'],
+  classNames: ['inline-block','club-ui'],
   imageSize: 'medium',
   tagName: 'span',
   hasInit: false,

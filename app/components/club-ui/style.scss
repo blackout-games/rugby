@@ -6,3 +6,11 @@
     text-transform: uppercase;
   }
 }
+
+.club-ui {
+  &.on-dark {
+    span {
+      color: desaturate(darken($secondary-master,9%),22%);
+    }
+  }
+}
