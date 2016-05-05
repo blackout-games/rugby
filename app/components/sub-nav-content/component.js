@@ -15,8 +15,8 @@ export default Ember.Component.extend({
    */
   keepSubRoutes: false,
   
-  setup: Ember.on('didInsertElement',function(){
-  
+  createSubNav: Ember.on('didInsertElement',function(){
+    
     let currentName = this.get('locals').read('subNavCurrentName');
     let queueDestroy = this.get('locals').read('subNavQueueDestroy');
     

@@ -20,6 +20,7 @@ $animation-time: $nav-animation-time;
   display:none;
   height: 100vh;
   max-height: none;
+  overflow: hidden;
   
   &.active {
     display:block;
@@ -63,6 +64,9 @@ $animation-time: $nav-animation-time;
       &.game-nav-open {
         transform: translateX($max-panel-width - $max-block-size);
       }
+      @media #{$nav-vs} {
+        margin-left: calc(#{$sidebar-width} - #{$max-block-size});
+      }
     }
     
   }
@@ -94,7 +98,6 @@ $animation-time: $nav-animation-time;
       //color: saturate(darken($primary-master,11%),11%);
       //color: saturate(lighten($color,22%),11%);
       @if $dark-colors {
-        color: saturate(lighten($color,17%),22%);
         color: saturate(lighten($color,22%),44%);
         font-weight: bold;
         font-size:15px;
@@ -143,4 +146,15 @@ $animation-time: $nav-animation-time;
   @media #{$tablet-wide-and-up} {
     padding: 30px 0px;
   }
+}
+
+#sub-nav-header {
+  position:relative;
+  z-index:1;
+  padding: 15px 25px 20px;
+  @media #{$tablet-wide-and-up} {
+    padding: 20px 25px 25px;
+  }
+  border-bottom: 1px solid $bg-dark-lighter;
+  //box-shadow: 0 0 15px 15px rgba(black,0.44);
 }
