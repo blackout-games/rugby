@@ -7,6 +7,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   // State
   disabled: false,
   selected: null, // An object from 'options' attr
+  classNames: ['bs-wrapper'],
   
   // Prevent body scroll
   preventBodyScrollSelectors: ['.bs-options-scroller'],
@@ -421,6 +422,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       // Always go below if can fit without scrolling
       let optsNaturalHeight = this.get('$options').outerHeight();
       let canFitAtBottom = optsNaturalHeight <= distBottom;
+      let scrollToBottom = false;
       
       // Decide if dropdown appears above or below
       if(!canFitAtBottom && distTop > distBottom + 44){
@@ -430,6 +432,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
         top = pos.top - optsGap + $scrollable[0].scrollTop - 2;
         aboveOrBelow = 'bs-options-above';
         optsHeight = distTop;
+        scrollToBottom = true;
         
       } else {
         
@@ -438,6 +441,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
         aboveOrBelow = 'bs-options-below';
         optsHeight = distBottom;
         
+      }
+      
+      // Not too high
+      if(optsHeight > screenHeight*0.5){
+        let minHeight = Math.min(300,optsHeight);
+        optsHeight = Math.max(minHeight,screenHeight*0.5);
       }
       
       // Position and show options
@@ -451,6 +460,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
       this.get('$options').find('.bs-options-scroller').css({
         'max-height': optsHeight,
       });
+      
+      // Scroll to bottom?
+      if(scrollToBottom){
+        let $scroller = this.get('$options').find('.bs-options-scroller');
+        $scroller[0].scrollTop = $scroller[0].scrollHeight - $scroller.outerHeight();
+      }
       
       // -------------------------------------------------------- //
       
