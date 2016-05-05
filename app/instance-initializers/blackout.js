@@ -58,12 +58,14 @@ export function initialize( application ) {
   /**
    * Completes loading slider
    */
-  Ember.Blackout.stopLoading = () => {
+  Ember.Blackout.stopLoading = ( dontHideSubNav ) => {
     
     application.lookup('controller:application').set('loading',false);
     
-    let eventBus = application.lookup('service:event-bus');
-    eventBus.publish('hideSubNav');
+    if(!dontHideSubNav){
+      let eventBus = application.lookup('service:event-bus');
+      eventBus.publish('hideSubNav');
+    }
     
   };
   
@@ -125,6 +127,10 @@ export function initialize( application ) {
     return givenTime;
     
   };
+  
+  // Make cache available to Blackout object
+  let cache = application.lookup('service:cache');
+  Ember.Blackout.cache = cache;
   
 }
 

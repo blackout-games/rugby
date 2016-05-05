@@ -56,15 +56,16 @@ export default Ember.Component.extend({
     let season = this.get('currentSeason');
     let stats = this.get('stats');
     let playerid = this.get('stats.id');
+    let cache = this.get('cache');
     
     // Caching
     let key = 'platerStats_' + playerid + '_' + season.value;
-    if(Blackout.keyExists(key)){
-      return Blackout.getKey(key);
+    if(cache.keyExists(key)){
+      return cache.get(key);
     }
     
     if(season.value === 0){
-      Blackout.setKey(key,stats);
+      cache.set(key,stats);
       return stats;
     } else {
       
@@ -89,7 +90,7 @@ export default Ember.Component.extend({
           if(!seasonStats){
             seasonStats = Ember.Object.create();
           }
-          Blackout.setKey(key,Blackout.camelKeys(seasonStats));
+          cache.set(key,Blackout.camelKeys(seasonStats));
           
           this.set('stats',data.get('firstObject'));
           //return data.get('firstObject.leagueStatistics.season-'+season.value);
@@ -105,7 +106,7 @@ export default Ember.Component.extend({
         
       } else {
         seasonStats = Blackout.camelKeys(seasonStats);
-        Blackout.setKey(key,seasonStats);
+        cache.set(key,seasonStats);
         return seasonStats;
       }
       

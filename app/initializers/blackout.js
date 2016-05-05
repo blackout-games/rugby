@@ -399,7 +399,7 @@ class Blackout {
     }
     let timetaken = now-opts.start;
     
-    if((size.width && size.height) || timetaken>=1000){
+    if((size.width>0 && size.height>0) || timetaken>=1000){
       if(timetaken>=1000){
         Ember.Logger.warn('waitForSizeOfHidden failed to find height within 1s');
       }
@@ -786,7 +786,7 @@ class Blackout {
         resolve({ w:this.width, h:this.height });
       }).on('error', (e)=>{
         print('Error while preloading image','Path: '+path,e,'Stack trace: ');
-        this.logStrackTrace();
+        this.logStackTrace();
         reject();
       });
       
@@ -1119,7 +1119,7 @@ class Blackout {
     
     // Caching
     let key = 'seasonRoundDay_' + String(date);
-    let cached = this.getKey(key);
+    let cached = this.cache.get(key);
     if(cached){
       return cached;
     }
@@ -1166,7 +1166,7 @@ class Blackout {
     // ----- Season Round Day
     
     let obj = { season: season, round: round, day: day };
-    this.setKey(key,obj);
+    this.cache.set(key,obj);
     
     return obj;
     
@@ -1204,15 +1204,15 @@ class Blackout {
     
   }
   
-  logStrackTrace(){
+  logStackTrace(){
     var obj = {};
-    Error.captureStackTrace(obj, this.logStrackTrace);
+    Error.captureStackTrace(obj, this.logStackTrace);
     console.log(obj.stack);
   }
   
-  getStrackTrace(){
+  getStackTrace(){
     var obj = {};
-    Error.captureStackTrace(obj, this.getStrackTrace);
+    Error.captureStackTrace(obj, this.getStackTrace);
     return obj.stack;
   }
   
@@ -1274,36 +1274,6 @@ class Blackout {
     });
     cache = null;
     return str;
-  }
-  
-  /**
-   * Get key from local cache
-   */
-  keyExists(key){
-    if(!this.cache){
-      this.cache = {};
-    }
-    return key in this.cache;
-  }
-  
-  /**
-   * Get key from local cache
-   */
-  getKey(key){
-    if(!this.cache){
-      this.cache = {};
-    }
-    return this.cache[key];
-  }
-  
-  /**
-   * Set key to local cache
-   */
-  setKey(key,val){
-    if(!this.cache){
-      this.cache = {};
-    }
-    this.cache[key] = val;
   }
 
 }
