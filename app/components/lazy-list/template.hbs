@@ -1,11 +1,11 @@
-{{#each list as |item index|}}
+{{#each lazyList as |itemIndex|}}
   
   {{way-point action="waypointDown" offset=waypointDownOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
   {{way-point action="waypointUp" offset=waypointUpOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
   
   <div class="{{compare index ">" showFirst hideClass ""}} make3d {{itemClass}}" id="list-item-{{token}}-{{index}}">
-  
-    {{yield item}}
+    {{itemIndex}}
+    {{yield (geti list itemIndex)}}
     
   </div>
   

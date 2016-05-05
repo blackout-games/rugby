@@ -44,6 +44,15 @@ export default Ember.Component.extend({
     
   }),
   
+  lazyList: Ember.computed('list',function(){
+    let lazyList = [];
+    let list = this.get('list');
+    list.forEach((item,i) => {
+      lazyList.pushObject(i);
+    });
+    return lazyList;
+  }),
+  
   actions: {
     waypointDown(direction,obj){
       //print('TOWARDS DOWN',(direction==='down'?'towards':'away'),obj.index);
