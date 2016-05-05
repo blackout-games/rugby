@@ -100,17 +100,19 @@ export default Ember.Service.extend({
     } else {
       url = this.get('clubImageURL');
     }
-    if(largeVersion){
-      url = this.getLargeUrl(url);
-      $el.data('is-large-image',true);
-    }
-    
-    if(club){
-      // Run through cloudfront
-      // Must do this after getLargeUrl
-      url = this.getCacheUrl(url);
-    } else {
-      $el.data('is-current-user-club-image',true);
+    if(url){
+      if(largeVersion){
+        url = this.getLargeUrl(url);
+        $el.data('is-large-image',true);
+      }
+      
+      if(club){
+        // Run through cloudfront
+        // Must do this after getLargeUrl
+        url = this.getCacheUrl(url);
+      } else {
+        $el.data('is-current-user-club-image',true);
+      }
     }
     
     this.registerImage($el, url, defaultBgColor, largeVersion);

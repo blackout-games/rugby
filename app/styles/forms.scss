@@ -175,6 +175,10 @@ form label, .label {
   }
 }
 
+.dark label, .dark .label {
+  color: desaturate($bg-light-darker-4x,7%);
+}
+
 /**
  * Text box basics
  */
@@ -350,4 +354,16 @@ $placeholder-color: darken($form-border-color,7%);
 
 input:-ms-input-placeholder {  
    color: $placeholder-color !important;  
+}
+
+/**
+ * Misc
+ */
+
+.sort-order-button {
+  width:40px;
+  i {
+    //margin: 0 -50%;
+  }
+  font-size: 25px;
 }

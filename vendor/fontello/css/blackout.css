@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'blackout';
-  src: url('../font/blackout.eot?91880577');
-  src: url('../font/blackout.eot?91880577#iefix') format('embedded-opentype'),
-       url('../font/blackout.woff2?91880577') format('woff2'),
-       url('../font/blackout.woff?91880577') format('woff'),
-       url('../font/blackout.ttf?91880577') format('truetype'),
-       url('../font/blackout.svg?91880577#blackout') format('svg');
+  src: url('../font/blackout.eot?58462127');
+  src: url('../font/blackout.eot?58462127#iefix') format('embedded-opentype'),
+       url('../font/blackout.woff2?58462127') format('woff2'),
+       url('../font/blackout.woff?58462127') format('woff'),
+       url('../font/blackout.ttf?58462127') format('truetype'),
+       url('../font/blackout.svg?58462127#blackout') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'blackout';
-    src: url('../font/blackout.svg?91880577#blackout') format('svg');
+    src: url('../font/blackout.svg?58462127#blackout') format('svg');
   }
 }
 */
@@ -98,8 +98,8 @@
 .icon-sliders:before { content: '\e828'; } /* '' */
 .icon-logout:before { content: '\e829'; } /* '' */
 .icon-down-open:before { content: '\e82a'; } /* '' */
-.icon-left-open:before { content: '\e82b'; } /* '' */
-.icon-up-open:before { content: '\e82c'; } /* '' */
+.icon-up-open:before { content: '\e82b'; } /* '' */
+.icon-up-dir:before { content: '\e82c'; } /* '' */
 .icon-left-big:before { content: '\e82d'; } /* '' */
 .icon-up-big:before { content: '\e82e'; } /* '' */
 .icon-ccw:before { content: '\e82f'; } /* '' */
@@ -136,7 +136,7 @@
 .icon-error:before { content: '\e84e'; } /* '' */
 .icon-error-alt:before { content: '\e84f'; } /* '' */
 .icon-cancel:before { content: '\e850'; } /* '' */
-.icon-right-open:before { content: '\e851'; } /* '' */
+.icon-down-dir:before { content: '\e851'; } /* '' */
 .icon-right-big:before { content: '\e852'; } /* '' */
 .icon-chart-bar:before { content: '\e853'; } /* '' */
 .icon-history:before { content: '\e854'; } /* '' */

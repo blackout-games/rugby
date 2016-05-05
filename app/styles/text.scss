@@ -288,6 +288,12 @@ h2 {
   font-style: italic;
   font-family: $sports-font;
   
+  
+  font-family: $heading-font;
+  font-style: normal;
+  font-size: 25px;
+  
+  
   $a-color: desaturate($secondary-dark,7%);
   
   a {
@@ -611,6 +617,12 @@ p {
 }
 .text-medium {
   font-size:14px !important;
+}
+.text-medium-2x {
+  font-size:17px !important;
+  @media #{$tablet-and-up} {
+    font-size:18px !important;
+  }
 }
 .text-big {
   font-size:18px !important;

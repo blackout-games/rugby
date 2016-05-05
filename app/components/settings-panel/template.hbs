@@ -4,6 +4,7 @@
 <label for="current-locale">{{t 'settings.language'}}</label>
 
 {{#blackout-select
+  id="current-locale"
   classes="btn-on-dark on-dark"
   selected=currentLocale
   onChange=(action "changeLocale")

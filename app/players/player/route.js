@@ -11,8 +11,12 @@ export default Ember.Route.extend({
       include: 'club,nationality,dual-nationality,club.country,transfer,transfer.bidding-club',
     };
     
+    /**
+     * Need any attributes we may want to sort by here.
+     * @type {Object}
+     */
     let squadQuery = {
-      fields: 'first-name,last-name,transfer',
+      //fields: 'first-name,last-name,transfer',
       'squad-for-player': params.player_id,
       include: '',
     };

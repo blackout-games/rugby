@@ -2,9 +2,38 @@
   
   <div class="sub-nav-inner-padding">
     
-    {{#each players as |player index|}}
+    <div class="sub-nav-header dark">
       
-      {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class="menu-link nowrap btn-a"}}
+      {{#unless (owned-club (get (geti players 0) 'club'))}}
+        
+        <div class="gap-lg text-center">
+          {{club-ui club=(get (geti players 0) 'club') stacked=true imageSize='medium-2x' class="on-dark text-medium-2x"}}
+        </div>
+        
+      {{/unless}}
+      
+      <label for="squad-sort" class="label">{{t 'buttons.sort'}}</label>
+      
+      <div>
+        {{#blackout-select
+          id="squad-sort"
+          class="gap-md right-gap-sm"
+          classes="btn-on-dark on-dark"
+          selected=currentSort
+          onChange=(action "changeSort")
+          options=sorts as |sort|
+        }}
+        {{sort.label}}
+        {{/blackout-select}}
+        
+        <a {{action 'toggleSortOrder'}} class="btn-a on-dark sort-order-button"><i class="icon-{{sortOrderIcon}}-open"></i></a>
+      </div>
+      
+    </div>
+    
+    {{#each playersSorted as |player index|}}
+      
+      {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class=(concat "menu-link nowrap btn-a" (if (eq player.id currentPlayer.id) " selected"))}}
         <div class="row row-nowrap">
         
           <div class="col-auto opacity-4">

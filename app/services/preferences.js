@@ -24,12 +24,22 @@ export default Ember.Service.extend({
     var pref = this.getPrefRecord(id);
     if(pref){
       var val = pref.get('value');
-      if(options && options.type === 'date'){
-        if(val){
-          val = new Date(val);
+      if(options){
+        if(options.type === 'date'){
+          if(val){
+            val = new Date(val);
+          }
+        } else if(options.camelize){
+          if(val){
+            val = Ember.String.camelize(val);
+          }
+        } else if(options.lowercase){
+          if(val){
+            val = val.toLowerCase();
+          }
         }
       }
-      return val;
+      return this.processDefault(id,val);
     } else {
       Ember.Logger.warn('Invalid preference (' + id + ')');
     }
@@ -93,5 +103,17 @@ export default Ember.Service.extend({
   pref(id, options) {
     return this.getPref(id,options);
   },
+  
+  processDefault(id,val){
+    
+    if((id==='squadSortBy' || id==='juniorSquadSortBy') && val==='default'){
+      val = 'lastName';
+    } else if((id==='squadSortOrder' || id==='juniorSquadSortOrder') && val==='default'){
+      val = 'ASC';
+    }
+    
+    return val;
+    
+  }
   
 });

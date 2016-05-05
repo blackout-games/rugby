@@ -7,8 +7,12 @@ $page-header-height: 15vh;
   position:relative;
   padding: 22px 22px 0;
   margin: 0;
-  @media #{$mobile-tall} {
-    padding: 24px 24px 0;
+  @media #{$mobile} {
+    @if $full-real-estate-on-mobile {
+      padding: 15px 15px 0;
+    } else {
+      padding: 24px 24px 0;
+    }
   }
   
   h1 {

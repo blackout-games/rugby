@@ -67,6 +67,7 @@ $text-lighter-2x: lighten($text-lighter,11%);
 $text-lighter-3x: lighten($text-lighter,22%);
 $text-lighter-4x: lighten($text-lighter,33%);
 $primary-text-on-dark: desaturate(lighten($secondary-master,44%),44%);
+$text-on-dark: $primary-text-on-dark;
 
 /**
  * Forms
