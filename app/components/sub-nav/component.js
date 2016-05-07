@@ -1,7 +1,9 @@
 import Ember from 'ember';
-import PreventBodyScroll from '../../mixins/prevent-body-scroll';
 
-export default Ember.Component.extend(PreventBodyScroll,{
+// Don't do this here, do it on the scrolling element (This is automatically applied in normal-scroll)
+//import PreventBodyScroll from '../../mixins/prevent-body-scroll';
+
+export default Ember.Component.extend({
 
   navIsActive: false,
   navButtonIsShowing: false,

@@ -15,7 +15,7 @@ $angle:11deg;
  * Sub tabs settings
  */
 $sub-bg-color: $bg-light;
-$sub-tabs-height-factor: 0.97;
+$sub-tabs-height-factor: 0.99;
 
 
 
@@ -232,7 +232,7 @@ $scrollbar-height:17px;
   color: $bg-dark-lighter-2x;
   
   .ellipses { // Text
-    margin-bottom:-1px;
+    margin-bottom:-2px;
   }
   
   &:hover {

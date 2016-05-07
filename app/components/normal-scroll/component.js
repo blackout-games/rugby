@@ -1,9 +1,8 @@
 import Ember from 'ember';
 
-// Was preventing scrolling back up in sub-nav.
-//import PreventBodyScroll from 'rugby-ember/mixins/prevent-body-scroll';
+import PreventBodyScroll from 'rugby-ember/mixins/prevent-body-scroll';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(PreventBodyScroll,{
 
   classNames: ['normal-scroll','fix-mousewheel-scroll','light-scrollbar'],
   

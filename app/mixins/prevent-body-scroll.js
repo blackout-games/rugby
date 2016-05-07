@@ -94,21 +94,27 @@ export default Ember.Mixin.create({
     }
     
     var up = (pageY > this.lastY),
-      down = !up;
+      down = (pageY < this.lastY);
     
     if ((this.lastDirectionUp && !up) || (!this.lastDirectionUp && up)) {
-      Ember.$(e.target).trigger('touchstart');
+      if(this.triggerTouchStart){
+        Ember.run.once(this,this.triggerTouchStart,e);
+      }
     }
     
     this.lastY = pageY;
     this.lastDirectionUp = up;
     
-    if ((up && this.allowUp) || (down && this.allowDown)) {
+    if ((up && this.allowUp) || (down && this.allowDown) || (!up&&!down)) {
       e.stopPropagation();
     } else {
       e.preventDefault();
     }
 
+  },
+  
+  triggerTouchStart(e){
+    Ember.$(e.target).trigger('touchstart');
   },
   
 });
