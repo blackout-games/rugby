@@ -70,6 +70,42 @@ export function initialize( application ) {
   };
   
   /**
+   * Completes loading slider on the next run loop
+   */
+  Ember.Blackout.stopLoadingNext = ( dontHideSubNav ) => {
+    
+    Ember.run.next(()=>{
+      Ember.Blackout.stopLoading(dontHideSubNav);
+    });
+    
+  };
+  
+  /**
+   * Run a short loader
+   */
+  Ember.Blackout.quickLoader = ( dontHideSubNav ) => {
+    
+    Ember.Blackout.startLoading();
+    Ember.Blackout.stopLoadingNext( dontHideSubNav );
+    
+  };
+  
+  /**
+   * Run a short loader, but wait a decent amount of time at the start
+   * This is needed sometimes. e.g. squad page when data is already loaded
+   * If we don't do this, ember rendering just starts and we never really see the loader
+   */
+  Ember.Blackout.longLoader = ( dontHideSubNav ) => {
+    
+    Ember.Blackout.startLoading();
+    Ember.run.later(()=>{
+      Ember.Blackout.stopLoading(dontHideSubNav);
+    },44);
+    
+  };
+      
+  
+  /**
    * Track current route name
    */
   Ember.Blackout.getCurrentRoute = () => {

@@ -1,4 +1,4 @@
-{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-for-sale" tabRoute="sale" isOnScreen=isOnScreen as |tabs| }}
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-for-sale" tabRoute="sale" isOnScreen=(readonly isOnScreen) as |tabs| }}
   
   {{#tabs.list as |list|}}
     
@@ -14,14 +14,14 @@
     
     {{#content.tab id="player-for-sale-auction-panel"}}
       
-      {{player-ui/player-sale/auction player=player transfer=transfer onBid=(action 'onBid') isOnScreen=isOnScreen}}
+      {{player-ui/player-sale/auction player=player transfer=transfer onBid=(action 'onBid') isOnScreen=(readonly isOnScreen)}}
       
     {{/content.tab}}
     
     
     {{#content.tab id="player-for-sale-bids-panel" sidePaddingOnly=true}}
       
-      {{player-ui/player-sale/bids player=player transfer=transfer isOnScreen=isOnScreen reloadBids=(readonly reloadBids)}}
+      {{player-ui/player-sale/bids player=player transfer=transfer isOnScreen=(readonly isOnScreen) reloadBids=(readonly reloadBids)}}
       
     {{/content.tab}}
     

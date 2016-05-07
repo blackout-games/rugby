@@ -1,3 +1,7 @@
-<div class="dash-box-negate-padding-top-and-bottom">
-  {{blackout-timeline data=history country=player.club.country}}
+{{#if isLoadingData}}
+  {{loading-spinner color="light"}}
+{{/if}}
+
+<div class="dash-box-negate-padding-top-and-bottom {{if isLoadingData 'hidden'}}">
+  {{blackout-timeline data=data country=player.club.country}}
 </div>

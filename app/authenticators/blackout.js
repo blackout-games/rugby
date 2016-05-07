@@ -127,9 +127,10 @@ export default OAuth2.extend({
      */
     let isLoggedOut = this.get('locals').read('isLoggedOut');
     if(isLoggedOut){
-      return new RSVP.Promise((resolve, reject) => {
+      return Ember.RSVP.reject();
+      /*return new RSVP.Promise((resolve, reject) => {
         reject();
-      });
+      });*/
     }
     
     // Auth recover

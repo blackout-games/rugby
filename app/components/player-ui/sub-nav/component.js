@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   
   onInit: Ember.on('init',function(){
     
+    let usedPrefSort = false;
+    
     // Check session
     let sort = this.get('cache.squadSort');
     if(sort){
@@ -13,6 +15,7 @@ export default Ember.Component.extend({
     } else {
       let sortBy = this.get('preferences').getPref('squadSortBy', {camelize:true});
       this.updateSort(this.get('sorts').findBy('value',sortBy),true);
+      usedPrefSort = true;
     }
     
     // Check session
@@ -24,140 +27,182 @@ export default Ember.Component.extend({
       this.updateSortOrder(order,true);
     }
     
+    // Make sure sort exists
+    // (may not exist if viewing others squad and can't sort by skills)
+    let sorts = this.get('sorts');
+    let currentSort = this.get('currentSort');
+    
+    if(sorts.indexOf(currentSort)<0){
+      if(!usedPrefSort){
+        // Try pref
+        let sortBy = this.get('preferences').getPref('squadSortBy', {camelize:true});
+        this.updateSort(this.get('sorts').findBy('value',sortBy),true);
+      }
+      currentSort = this.get('currentSort');
+      if(sorts.indexOf(currentSort)<0){
+        this.updateSort(this.get('sorts').findBy('value','lastName'),true);
+      }
+    }
+    
   }),
   
-  sortOrderIcon: Ember.computed('currentSortOrder',function(){
-    return this.get('currentSortOrder')==='asc' ? 'up' : 'down';
+  sortIconReversed: Ember.computed('currentSortOrder',function(){
+    return this.get('currentSortOrder')==='asc' ? '' : 'reverse-scale-y';
   }),
   
-  sorts: [
+  sorts: Ember.computed('players',function(){
+    
+    let clubId = parseInt(this.get('players.firstObject.club.id'));
+    let isOwned = (clubId===0 || this.get('session').ownedClub(clubId));
+    let sorts = [];
     
     /**
      * General attributes
      */
     
-    {
-      label: t('player.first-name'),
-      value: 'firstName',
-    },
-    {
-      label: t('player.last-name'),
-      value: 'lastName',
-    },
-    {
-      label: t('player.csr'),
-      value: 'csr',
-    },
-    {
-      label: t('player.age'),
-      value: 'birthdate',
-    },
-    {
-      label: t('player.birthday'),
-      value: 'birthdayRaw',
-    },
-    {
-      label: t('player.salary'),
-      value: 'salary',
-    },
-    {
-      label: t('player.weight'),
-      value: 'weight',
-    },
-    {
-      label: t('player.height'),
-      value: 'height',
-    },
+    sorts = sorts.concat([
+      {
+        label: t('player.first-name'),
+        value: 'firstName',
+      },
+      {
+        label: t('player.last-name'),
+        value: 'lastName',
+      },
+      {
+        label: t('player.csr'),
+        value: 'csr',
+      },
+      {
+        label: t('player.age'),
+        value: 'birthdate',
+      },
+      {
+        label: t('player.birthday'),
+        value: 'birthdayRaw',
+      },
+      {
+        label: t('player.salary'),
+        value: 'salary',
+      },
+      {
+        label: t('player.weight'),
+        value: 'weight',
+      },
+      {
+        label: t('player.height'),
+        value: 'height',
+      },
+      
+      {
+        label: t('player.joined'),
+        value: 'joined',
+      },
+    ]);
     
     /**
      * Changeables
      */
     
-    {
-      label: t('player.form'),
-      value: 'form',
-    },
-    {
-      label: t('player.energy'),
-      value: 'energy',
-    },
+    sorts = sorts.concat([
+      {
+        label: t('player.form'),
+        value: 'form',
+      },
+      {
+        label: t('player.energy'),
+        value: 'energy',
+      },
+    ]);
     
     /**
      * Traits
      */
     
-    {
-      label: t('player.aggression'),
-      value: 'aggression',
-    },
-    {
-      label: t('player.discipline'),
-      value: 'discipline',
-    },
-    {
-      label: t('player.leadership'),
-      value: 'leadership',
-    },
-    {
-      label: t('player.experience'),
-      value: 'experience',
-    },
+    sorts = sorts.concat([
+      {
+        label: t('player.aggression'),
+        value: 'aggression',
+      },
+      {
+        label: t('player.discipline'),
+        value: 'discipline',
+      },
+      {
+        label: t('player.leadership'),
+        value: 'leadership',
+      },
+      {
+        label: t('player.experience'),
+        value: 'experience',
+      },
+    ]);
     
     /**
      * Skills
      */
     
-    {
-      label: t('player.stamina'),
-      value: 'stamina',
-    },
-    {
-      label: t('player.handling'),
-      value: 'handling',
-    },
-    {
-      label: t('player.attack'),
-      value: 'attack',
-    },
-    {
-      label: t('player.defence'),
-      value: 'defence',
-    },
-    {
-      label: t('player.technique'),
-      value: 'technique',
-    },
-    {
-      label: t('player.strength'),
-      value: 'strength',
-    },
-    {
-      label: t('player.jumping'),
-      value: 'jumping',
-    },
-    {
-      label: t('player.speed'),
-      value: 'speed',
-    },
-    {
-      label: t('player.agility'),
-      value: 'agility',
-    },
-    {
-      label: t('player.kicking'),
-      value: 'kicking',
-    },
+    if(isOwned){
+      
+      sorts = sorts.concat([
+        {
+          label: t('player.stamina'),
+          value: 'stamina',
+        },
+        {
+          label: t('player.handling'),
+          value: 'handling',
+        },
+        {
+          label: t('player.attack'),
+          value: 'attack',
+        },
+        {
+          label: t('player.defence'),
+          value: 'defence',
+        },
+        {
+          label: t('player.technique'),
+          value: 'technique',
+        },
+        {
+          label: t('player.strength'),
+          value: 'strength',
+        },
+        {
+          label: t('player.jumping'),
+          value: 'jumping',
+        },
+        {
+          label: t('player.speed'),
+          value: 'speed',
+        },
+        {
+          label: t('player.agility'),
+          value: 'agility',
+        },
+        {
+          label: t('player.kicking'),
+          value: 'kicking',
+        },
+      ]);
+      
+    }
     
     /**
      * Devs
      */
     
-    {
-      label: t('player.player-id'),
-      value: 'id',
-    },
+    sorts = sorts.concat([
+      {
+        label: t('player.player-id'),
+        value: 'id',
+      },
+    ]);
     
-  ],
+    return sorts;
+    
+  }),
   
   squadSorting: Ember.computed('currentSort','currentSortOrder',function(){
     
@@ -198,7 +243,7 @@ export default Ember.Component.extend({
   updateSortOrder(order,initting){
     
     // If initting, or on player page
-    if(initting){
+    if(initting || this.get('currentPlayer')){
     
       this.set('currentSortOrder',order);
       

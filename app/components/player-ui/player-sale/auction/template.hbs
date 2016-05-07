@@ -44,7 +44,7 @@
 
 {{#if (and canWithdraw (not transfer.deadlinePassed))}}
   <div class="gap-sm">
-    {{#confirm-button class="btn-big" clickAction=(action 'withdrawPlayer') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.withdraw-player-message' }}{{t 'player.for-sale.withdraw'}}{{/confirm-button}}
+    {{#confirm-button class="btn-big" clickAction=(action 'withdrawPlayer') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.withdraw-player-message' }}{{t 'player.for-sale.withdraw'}}{{/confirm-button}}
   </div>
   {{error-ui error=withdrawError}}
   <div class="gap-2x">

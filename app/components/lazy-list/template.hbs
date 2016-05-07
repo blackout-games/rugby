@@ -1,10 +1,10 @@
 {{#each lazyList as |itemIndex|}}
   
-  {{way-point action="waypointDown" offset=waypointDownOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
-  {{way-point action="waypointUp" offset=waypointUpOffset itemId=(concat 'list-item-' token '-' index) contextElementId=scrollContextId index=index}}
+  {{way-point action="waypointDown" offset=waypointDownOffset itemId=(concat 'list-item-' token '-' itemIndex) contextElementId=scrollContextId index=itemIndex}}
+  {{way-point action="waypointUp" offset=waypointUpOffset itemId=(concat 'list-item-' token '-' itemIndex) contextElementId=scrollContextId index=itemIndex}}
   
-  <div class="{{compare index ">" showFirst hideClass ""}} make3d {{itemClass}}" id="list-item-{{token}}-{{index}}">
-    {{itemIndex}}
+  <div class="{{compare itemIndex ">" showFirst hideClass ""}} make3d {{itemClass}}" id="list-item-{{token}}-{{itemIndex}}">
+    
     {{yield (geti list itemIndex)}}
     
   </div>

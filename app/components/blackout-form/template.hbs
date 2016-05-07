@@ -115,7 +115,7 @@
                         options=item.options
                         minDate=item.minDate
                         maxDate=item.maxDate
-                        isOnScreen=isOnScreen
+                        isOnScreen=(readonly isOnScreen)
                         disabled=item.disabled }}
                       
                     {{else}}
@@ -131,7 +131,7 @@
                         options=item.options
                         minDate=item.minDate
                         maxDate=item.maxDate
-                        isOnScreen=isOnScreen
+                        isOnScreen=(readonly isOnScreen)
                         disabled=item.disabled }}
                       
                     {{/if}}
@@ -164,7 +164,7 @@
   
   {{#if confirm}}
   
-    {{#confirm-button class="btn-big btn-right-gap" clickAction=(action 'onSave') isOnScreen=isOnScreen fullWidth=false hideSiblingsOnConfirm='.blackout-cancel-button' }}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/confirm-button}}
+    {{#confirm-button class="btn-big btn-right-gap" clickAction=(action 'onSave') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.blackout-cancel-button' }}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/confirm-button}}
   
   {{else}}
   

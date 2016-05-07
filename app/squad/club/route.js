@@ -14,11 +14,26 @@ export default Ember.Route.extend({
       
       filter: {
         'club.id': clubId,
-      }
+      },
+      include: 'club,nationality,dual-nationality,club.country,transfer,transfer.bidding-club',
       
     };
+      
+    // Get players from this squad in the store
+    var squad = this.get('store').peekAll('player').filterBy('club.id',clubId).filterBy('isDeleted',false);
     
-    return this.get('store').query('player',query);
+    // See if squad is available now
+    if(squad && squad.get('length')){
+      
+      Ember.Blackout.longLoader();
+      
+      return squad;
+      
+    } else {
+      
+      return this.get('store').query('player',query);
+      
+    }
     
   }
   

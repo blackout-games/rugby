@@ -1,6 +1,6 @@
 
 .icon-logo:before { content: '\e800'; } /* '' */
-.icon-ios-back:before { content: '\e801'; } /* '' */
+.icon-sort:before { content: '\e801'; } /* '' */
 .icon-cloud:before { content: '\e802'; } /* '' */
 .icon-conv:before { content: '\e803'; } /* '' */
 .icon-key:before { content: '\e804'; } /* '' */
@@ -18,9 +18,8 @@
 .icon-skill-agility:before { content: '\e810'; } /* '' */
 .icon-skill-kicking:before { content: '\e811'; } /* '' */
 .icon-ball:before { content: '\e812'; } /* '' */
-.icon-ios-backtotop:before { content: '\e813'; } /* '' */
-.icon-dropdown:before { content: '\e814'; } /* '' */
-.icon-crown:before { content: '\e815'; } /* '' */
+.icon-left-open:before { content: '\e813'; } /* '' */
+.icon-right-open:before { content: '\e814'; } /* '' */
 .icon-mail:before { content: '\e816'; } /* '' */
 .icon-mail-alt:before { content: '\e817'; } /* '' */
 .icon-heart:before { content: '\e818'; } /* '' */
@@ -55,14 +54,13 @@
 .icon-gift:before { content: '\e835'; } /* '' */
 .icon-tasks:before { content: '\e836'; } /* '' */
 .icon-money-1:before { content: '\e837'; } /* '' */
-.icon-sort:before { content: '\e838'; } /* '' */
+.icon-select:before { content: '\e838'; } /* '' */
 .icon-sitemap:before { content: '\e839'; } /* '' */
 .icon-user-md:before { content: '\e83a'; } /* '' */
 .icon-cubes:before { content: '\e83b'; } /* '' */
 .icon-facebook:before { content: '\e83c'; } /* '' */
 .icon-twitter:before { content: '\e83d'; } /* '' */
 .icon-menu-1:before { content: '\e83e'; } /* '' */
-.icon-network:before { content: '\e83f'; } /* '' */
 .icon-info-1:before { content: '\e840'; } /* '' */
 .icon-flag-filled:before { content: '\e841'; } /* '' */
 .icon-warning-empty:before { content: '\e842'; } /* '' */
@@ -94,7 +92,6 @@
 .icon-plus:before { content: '\e85c'; } /* '' */
 .icon-minus:before { content: '\e85d'; } /* '' */
 .icon-star:before { content: '\e85e'; } /* '' */
-.icon-star-circled:before { content: '\e85f'; } /* '' */
 .icon-hammer:before { content: '\e860'; } /* '' */
 .icon-help-circled:before { content: '\e861'; } /* '' */
 .icon-refresh:before { content: '\e862'; } /* '' */

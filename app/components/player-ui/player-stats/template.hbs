@@ -1,4 +1,4 @@
-{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isOnScreen=isOnScreen noPaddingMobile=false as |tabs| }}
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-statistics" tabRoute="statistics" isOnScreen=(readonly isOnScreen) noPaddingMobile=false as |tabs| }}
   
   {{#tabs.list as |list|}}
     
@@ -40,8 +40,8 @@
   {{#tabs.content as |content|}}
     
     
-    {{#content.tab id="player-statistics-all-panel"}}
-    
+    {{#content.tab id="player-statistics-all-panel" isLoadingData=isLoadingSeasonStats}}
+      
       <h5 class="gap-lg no-top-gap">{{t 'buttons.misc'}}</h5>
       
       {{player-ui/player-stats/stats-group stats=seasonStats group=miscGroup}}
@@ -81,42 +81,42 @@
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-points-panel"}}
+    {{#content.tab id="player-statistics-points-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=pointsGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-attack-panel"}}
+    {{#content.tab id="player-statistics-attack-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=attackGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-defence-panel"}}
+    {{#content.tab id="player-statistics-defence-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=defenceGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-kicking-panel"}}
+    {{#content.tab id="player-statistics-kicking-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=kickingGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-handling-panel"}}
+    {{#content.tab id="player-statistics-handling-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=handlingGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-discipline-panel"}}
+    {{#content.tab id="player-statistics-discipline-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=disciplineGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-lineout-panel"}}
+    {{#content.tab id="player-statistics-lineout-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=lineoutGroup}}
     {{/content.tab}}
     
     
-    {{#content.tab id="player-statistics-caps-panel"}}
+    {{#content.tab id="player-statistics-caps-panel" isLoadingData=isLoadingSeasonStats}}
       {{player-ui/player-stats/stats-group stats=seasonStats group=capsGroup percent=true}}
     {{/content.tab}}
     

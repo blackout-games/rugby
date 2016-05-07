@@ -190,6 +190,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     Ember.run.later(()=>{
       this.$('#sub-nav-panel').removeClass('inactive');
     });
+    
+    // Run a resize
+    this.handleResize();
 
   },
 
@@ -301,19 +304,18 @@ export default Ember.Component.extend(PreventBodyScroll,{
   },
 
   watchMenuLinks (){
-    this.$('#sub-nav-scroller a.menu-link').on('click',this,this.debounceMenuLink);
+    // Don't debounce, otherwise we can't preventDefault
+    this.$('#sub-nav-scroller a.menu-link').on('click',this,this.handleMenuLink);
   },
 
   unwatchMenuLinks (){
-    this.$('#sub-nav-scroller a.menu-link').off('click',this,this.debounceMenuLink);
+    this.$('#sub-nav-scroller a.menu-link').off('click',this,this.handleMenuLink);
   },
 
-  debounceMenuLink ( e ) {
-
+  handleMenuLink ( e ) {
     let self = e.data;
     let $link = Ember.$(this);
-    Ember.run.debounce(this,self.selectMenuLink,self,$link,e,1);
-
+    self.selectMenuLink(self,$link,e,true);
   },
 
   selectMenuLinkExternal(id){
@@ -326,27 +328,44 @@ export default Ember.Component.extend(PreventBodyScroll,{
   selectMenuLink ( self, $link, e, wasExternal ) {
     
     Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
-
+    
     if($link && $link.length){
-
-      if(self && self.get('opts.keepSubRoutes') && (e || wasExternal)){
-
-        let route = Ember.Blackout.getCurrentRoute();
-        let linkId = $link.attr('id').replace('sub-menu-link-','');
-        Ember.Blackout.transitionTo(route,linkId);
-        if(e){
-          e.preventDefault();
-        }
-
-      }
       
-      /**
-       * 'next' added when we were seeing the player in the sub-nav get deselected upon clicking one of the circle player-nav buttons first after page load
-       */
-      $link.addClass('selected');
-      Ember.run.next(()=>{
+      // Make sure link has an id
+      let linkId = $link.attr('id');
+      if(linkId){
+        
+        if(e || wasExternal){
+          
+          let linkId = $link.attr('id').replace('sub-menu-link-','');
+          
+          // If on player route
+          if(self && self.get('opts.keepSubRoutes')){
+            let route = Ember.Blackout.getCurrentRoute();
+            
+            Ember.Blackout.transitionTo(route,linkId);
+            
+          // If on squad route
+          } else {
+            Ember.Blackout.transitionTo('players.player',linkId);
+          }
+          if(e){
+            e.preventDefault();
+          }
+
+        }
+        
+        /**
+         * 'next' added when we were seeing the player in the sub-nav get deselected upon clicking one of the circle player-nav buttons first after page load
+         */
         $link.addClass('selected');
-      });
+        Ember.run.next(()=>{
+          $link.addClass('selected');
+        });
+        
+      } else {
+        Ember.Logger.warn('Sub menu link doesn\'t have an Id');
+      }
 
     } else {
       Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');

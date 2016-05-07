@@ -106,10 +106,11 @@ export default Ember.Component.extend({
     
     // Else run set direction
     } else if( direction === 'immediate' ){
-      
+    
       if(oldObj){
         this.putAway( oldObj );
       }
+      
       this.disableAnimation();
       this.putLeft( newObj );
       
@@ -187,7 +188,6 @@ export default Ember.Component.extend({
     
     // Must run next to get correct height
     // Set height before switching for smoothest effect
-    
     Ember.run.next(()=>{
       pane.css({
         // Use outerHeight on item with .clearfix applied to 

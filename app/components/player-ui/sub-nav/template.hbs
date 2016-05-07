@@ -26,14 +26,14 @@
         {{sort.label}}
         {{/blackout-select}}
         
-        <a {{action 'toggleSortOrder'}} class="btn-a on-dark sort-order-button"><i class="icon-{{sortOrderIcon}}-open"></i></a>
+        <a {{action 'toggleSortOrder'}} class="btn-a on-dark sort-order-button"><i class="icon-sort icon-vcenter {{sortIconReversed}}"></i></a>
       </div>
       
     </div>
     
     {{#each playersSorted as |player index|}}
       
-      {{#link-to 'players.player' player.id id=(concat 'sub-menu-link-' player.id) class=(concat "menu-link nowrap btn-a" (if (eq player.id currentPlayer.id) " selected"))}}
+      <a class="menu-link nowrap btn-a {{if (eq player.id currentPlayer.id) " selected"}}" id="sub-menu-link-{{player.id}}">
         <div class="row row-nowrap">
         
           <div class="col-auto opacity-4">
@@ -51,7 +51,7 @@
           {{/if}}
           
         </div>
-      {{/link-to}}
+      </a>
     
     {{/each}}
     

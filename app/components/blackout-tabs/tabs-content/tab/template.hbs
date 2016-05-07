@@ -1,1 +1,12 @@
-{{yield}}
+{{#if isShowing}}
+  <div class="{{if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab)) 'hidden'}}">
+    {{yield}}
+  </div>
+{{/if}}
+
+{{#if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab))}}
+  <div class="{{if noPadding 'dash-box-padding'}}">
+    {{loading-spinner color="light"}}
+  </div>
+{{/if}}
+

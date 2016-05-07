@@ -3,7 +3,7 @@
 
 {{#dash-tabs onTabChange=(action 'tabChanged')
   sub=true
-  isOnScreen=isOnScreen
+  isOnScreen=(readonly isOnScreen)
   tabGroup=tabGroup
   tabRoute=tabRoute
   noPadding=noPadding

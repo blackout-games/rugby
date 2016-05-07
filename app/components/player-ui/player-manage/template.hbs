@@ -1,4 +1,4 @@
-{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-manage" tabRoute="manage" onTabChange=(action 'tabChanged') isOnScreen=isOnScreen as |tabs| }}
+{{#component 'dash-tabs/sub-tabs' class="no-gap show-overflow" tabGroup="player-manage" tabRoute="manage" onTabChange=(action 'tabChanged') isOnScreen=(readonly isOnScreen) as |tabs| }}
   
   {{#tabs.list as |list|}}
     
@@ -14,14 +14,14 @@
     
     {{#content.tab id="player-manage-actions-panel"}}
       
-      {{player-ui/player-manage/actions player=player isOnScreen=(and isOnScreen (is 'player-manage-actions-panel' selectedTab))}}
+      {{player-ui/player-manage/actions player=player isOnScreen=(and (readonly isOnScreen) (is 'player-manage-actions-panel' selectedTab))}}
       
     {{/content.tab}}
     
     
     {{#content.tab id="player-manage-customise-panel"}}
       
-      {{player-ui/player-manage/customise player=player isOnScreen=(and isOnScreen (is 'player-manage-customise-panel' selectedTab))}}
+      {{player-ui/player-manage/customise player=player isOnScreen=(and (readonly isOnScreen) (is 'player-manage-customise-panel' selectedTab))}}
       
     {{/content.tab}}
     

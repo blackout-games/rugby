@@ -170,7 +170,7 @@
             {{player.energy}}%
           </div>
           
-          {{component chartComponent type='Doughnut' data=energyChartData width=(if (and media.isMobile (not singleMode)) 77 122) height=(if (and media.isMobile (not singleMode)) 77 122) options=energyChartOptions class="player-ui-energy-chart"}}
+          {{component chartComponent type='Doughnut' data=(readonly energyChartData) width=(if (and media.isMobile (not singleMode)) 77 122) height=(if (and media.isMobile (not singleMode)) 77 122) options=(readonly energyChartOptions) class="player-ui-energy-chart"}}
           
           <div class="chartjs-tooltip"></div>
           

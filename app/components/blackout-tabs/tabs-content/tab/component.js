@@ -2,6 +2,93 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
+  isShowing: false,
+  isLoadingTab: true,
+  isLoadingData: false, // Can be set on tabs consumer
+  
+  // The following commented sections allow preloading of tabs after the initial tab is loaded. However, this results in lagginess when the user may be acting. Plus we don't know if the user will actually ever go to these tabs, so we only load them when needed.
+  //hasInsert: false,
+  //timeToWait: 2222, // Allow enough time for animations, and enough time so that if user clicks a whole different route quickly, we won't have even bothered setting up other tabs
+  
+  preSetup: Ember.on('didReceiveAttrs',function(opts){
+    
+    if(this.attrChanged(opts,'resetOn')){
+      this.cancelRunLater();
+      if(this.get('currentlyShowing') !== this.get('id')){
+        this.set('isShowing',false);
+      }
+      
+      /*if(this.get('hasInsert')){
+        let runLater = Ember.run.later(()=>{
+          this.cancelRunLater();
+          this.set('isShowing',true);
+        },this.get('timeToWait'));
+        this.set('runLater',runLater);
+      }*/
+    }
+    
+    if(this.attrChanged(opts,'currentlyShowing') && this.get('currentlyShowing')){
+      
+      if(this.get('currentlyShowing') === this.get('id')){
+
+        if(!this.get('isShowing')){          
+          if(this.get('loadTabsImmediatelyWithLoader')){
+            this.set('isLoadingTab',true);
+            
+            if(this.get('isSubTabs')||this.get('wasViaURL')){
+              
+              this.set('isShowing',true);
+              Ember.run.next(()=>{
+                this.set('isLoadingTab',false);
+                this.tabIsSelected();
+              });
+              
+            } else {
+              
+              // Wait a little extra for tabs which have heavy ember content, otherwise ember just jumps straight into loading the tab without displaying the loader. Then loader flashes only for an instance. e.g. player history
+              Ember.run.later(()=>{
+                this.set('isShowing',true);
+                Ember.run.next(()=>{
+                  this.set('isLoadingTab',false);
+                  this.tabIsSelected();
+                });
+              },77);
+            }
+          } else {
+            this.set('isShowing',true);
+          }
+          
+        } else {
+          
+          // Already rendered DOM
+          this.tabIsSelected();
+          
+        }
+      }
+      
+    }
+    
+  }),
+  
+  tabIsSelected(){
+    // For sending changes out publicly
+    // Only call once tab is actually selected
+    // (And onluf if loadTabsImmediatelyWithLoader is true)
+    if(this.attrs.onTabChange){
+      this.attrs.onTabChange(this.get('id'));
+    }
+  },
+  
+  cancelRunLater(){
+    let runLater = this.get('runLater');
+    if(runLater){
+      Ember.run.cancel(runLater);
+      if(!this.get('isDestroyed')){
+        this.set('runLater',false);
+      }
+    }
+  },
+  
   setup: Ember.on('didInsertElement',function(){
     
     if(this.get('noPadding')){
@@ -11,6 +98,17 @@ export default Ember.Component.extend({
     if(this.get('sidePaddingOnly')){
       this.$().data('tab-side-padding-only',true);
     }
+    
+    /*if(!this.get('isShowing')){
+      this.cancelRunLater();
+      let runLater = Ember.run.later(()=>{
+        this.cancelRunLater();
+        this.set('isShowing',true);
+      },this.get('timeToWait'));
+      this.set('runLater',runLater);
+    }
+    
+    this.set('hasInsert',true);*/
     
   }),
   

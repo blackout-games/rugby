@@ -15,7 +15,11 @@ export function initialize( application ) {
   application.lookup('service:bites'); 
   
   // Handles user images like manager avatars
-  application.lookup('service:user-images'); 
+  application.lookup('service:user-images');
+  
+  // We need session in the router for force router loaders
+  let router = application.lookup('router:main');
+  router.set('session', application.lookup('service:session'));
   
 }
 

@@ -18,7 +18,7 @@ export default Ember.Component.extend({
     this.animateNumberStepBound = Ember.run.bind(this,this.animateNumberStep);
   }),
   
-  setup: Ember.on('didRender',function(){
+  setup: Ember.on('didInsertElement',function(){
     
     this.$().css('width',this.get('width'));
     this.$('.skill-bar-placeholder').css('height',this.get('height'));
@@ -30,11 +30,25 @@ export default Ember.Component.extend({
       this.$('.skill-bar-number').css('font-size',this.get('numberSize'));
     }
     
-    if(!this.get('animate')){
-      this.updateBar();
-    } else {
+    if(this.get('animate')){
       this.$('.skill-bar').addClass('skill-bar-animate');
     }
+    
+    Ember.run.once(this,this.updateBar);
+    
+  }),
+  
+  handleUpdate: Ember.on('didUpdateAttrs',function(){
+    
+    // Set number at 1
+    this.set('currentNumber',1);
+    this.set('displayLevel',1);
+    
+    Ember.run.once(this,this.updateBar);
+    
+  }),
+  
+  updateBar(){
     
     if(this.get('primarySkill')){
       
@@ -71,21 +85,6 @@ export default Ember.Component.extend({
       }
       
     }
-    
-    
-  }),
-  
-  handleUpdate: Ember.on('didUpdateAttrs',function(){
-    
-    // Set number at 1
-    this.set('currentNumber',1);
-    this.set('displayLevel',1);
-    
-    this.updateBar();
-    
-  }),
-  
-  updateBar(){
     
     if(this.get('hasAppeared')){
       

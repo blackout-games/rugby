@@ -106,26 +106,26 @@ export default Ember.Component.extend({
     },
     
     selectTab( newTab ){
-      this.tabChanged(newTab);
       /**
        * Avoid ember telling us we have modified a value twice in a single render
        */
       Ember.run.once(this,this.setTabs,newTab);
     },
     
+    /**
+     * For sending an action up
+     * Should only be called once tab has actually changed (Not internally while changing tab communicating between internal tabs components)
+     */
+    tabChanged(tab){
+      if(this.attrs.onTabChange){
+        this.attrs.onTabChange(tab);
+      }
+    },
+    
   },
   
   setTabs(newTab){
     this.set('selectedTab',newTab);
-  },
-  
-  /**
-   * For sending an action up
-   */
-  tabChanged(tab){
-    if(this.attrs.onTabChange){
-      this.attrs.onTabChange(tab);
-    }
   },
   
 });

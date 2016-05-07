@@ -75,7 +75,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     let $options = $('<div class="bs-options bs-options-ready" aria-hidden="true"><ul>' + options + '</ul></div>');
     
-    let $placeholder = $('<span class="bs-placeholder" aria-hidden="true"><span class="bs-placeholder-text"></span><span class="bs-dropdown center-parent"><i class="icon-sort icon-smd"></i></span>');
+    let $placeholder = $('<span class="bs-placeholder" aria-hidden="true"><span class="bs-placeholder-text"></span><span class="bs-dropdown center-parent"><i class="icon-select icon-smd"></i></span>');
     
     let $newSel = $('<div class="bs-container no-webkit-highlight'+disabledClass+'"></div>');
     $placeholder.addClass($sel.prop('className'));

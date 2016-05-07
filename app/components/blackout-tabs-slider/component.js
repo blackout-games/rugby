@@ -270,7 +270,7 @@ export default Ember.Component.extend({
     
     let totalTabsWidth = tabWidth * this.get('numTabs');
     
-    if(totalTabsWidth > scrollerWidth + tabWidth*0.77){
+    if(scrollerWidth && totalTabsWidth > scrollerWidth + tabWidth*0.77){
       
       // Find best width for tabs
       let newWidth = Math.round(scrollerWidth / (Math.floor(scrollerWidth/tabWidth) + 0.5)) - 1;
@@ -284,7 +284,7 @@ export default Ember.Component.extend({
       
       this.$().findClosest('.blackout-tabs-slider-end').show();
       
-    } else if(totalTabsWidth > scrollerWidth){
+    } else if(scrollerWidth && totalTabsWidth > scrollerWidth){
       
       // Tabs are only just longer than scroller so just shorten tabs
       let newWidth = Math.round(scrollerWidth / this.get('numTabs')) - 3;
@@ -292,6 +292,8 @@ export default Ember.Component.extend({
       // Set width for tabs
       this.$('.blackout-tabs-slider-tab').width(newWidth);
       
+    } else {
+      this.$('.blackout-tabs-slider-tab').css('width','');
     }
       
   },

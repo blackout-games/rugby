@@ -1,4 +1,4 @@
-<div class="blackout-timeline-bumper {{unless days "hidden"}}"></div>
+<div class="blackout-timeline-bumper {{unless days 'hidden'}}"></div>
 
 {{#each days as |day|}}
   
@@ -34,16 +34,15 @@
     {{/each}}
       
   {{/each}}
-  
-  <div class="blackout-timeline-bumper"></div>
+
+<div class="blackout-timeline-bumper"></div>
 
 {{else}}
   
-  <div class="divider gap-2x"></div>
-  {{t (if noDataT noDataT 'misc.no-events')}}
-  <div class="divider gap-2x"></div>
-  
+  <div class="dash-box-padding">
+    {{t (if noDataT noDataT 'misc.no-events')}}
+  </div>
 
 {{/each}}
 
-<div class="blackout-timeline-bumper {{unless days "hidden"}}"></div>
+<div class="blackout-timeline-bumper {{unless days 'hidden'}}"></div>

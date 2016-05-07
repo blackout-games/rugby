@@ -33,6 +33,11 @@ export default Ember.Service.extend({
   
   update(url) {
     
+    Ember.run.debounce(this,this._update,url,111);
+    
+  },
+  
+  _update(url){
     if( url !== this.get('current') ){
       
       // Add to history store
@@ -50,7 +55,6 @@ export default Ember.Service.extend({
     
     // Communicate
     //print('Current',this.get('current'),'Previous',this.get('previous'));
-    
   },
   
   addToHistory(url) {

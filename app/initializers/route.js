@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 let forceLoaderRoutes = [
-  { name: 'squad.club', authenticated: true },
+  //{ name: 'squad.club', authenticated: true },
+  { name: 'squad.club' },
+  //{ name: 'players.player' },
 ];
 
 let isForcedLoaderRoute = function( routeName, authenticated ){
@@ -25,9 +27,9 @@ let isForcedLoaderRoute = function( routeName, authenticated ){
  * Modify the global route object here
  * @type {Object}
  */
-var blackoutRoute = {
+var blackoutRouter = {
   
-  transitionTo(){
+  _doTransition(){
     
     let name = arguments[0];
     
@@ -35,6 +37,7 @@ var blackoutRoute = {
      * This allows us to force the loader to appear on certain routes, even when not returning a promise, or thier promise is already fulfilled.
      * Example, the squad page, since it takes so long to render it's helpful for the user to see a loading bar.
      */
+    
     if(!this.get('_forceNormalTransitionTo') && isForcedLoaderRoute(name,this.get('session.isAuthenticated')) ){
       
       let currentRoute = Ember.Blackout.getCurrentRoute();
@@ -43,21 +46,21 @@ var blackoutRoute = {
       currentRoute = currentRoute.replace(/\.index/g,'');
       
       if(currentRoute !== name){
-        
         Ember.Blackout.startLoading();
         
         let args = arguments;
         Ember.run.later(()=>{
           this.set('_forceNormalTransitionTo',true);
-          this.transitionTo.apply(this, args);
+          this._doTransition.apply(this, args);
         },44);
         
-        return;
+        return false;
         
       }
       
     }
     
+    Ember.Blackout.stopLoading();
     this.set('_forceNormalTransitionTo',false);
     this._super.apply(this, arguments);
     
@@ -66,7 +69,7 @@ var blackoutRoute = {
 };
 
 export function initialize(/* application */) {
-  Ember.Route = Ember.Route.extend(blackoutRoute);
+  Ember.Router = Ember.Router.reopen(blackoutRouter);
 }
 
 export default {

@@ -392,11 +392,25 @@ class Blackout {
       callback = $elToMove;
       $elToMove = null;
     }
+    
     let size = this.getSizeOfHidden($el,$elToMove,opts);
     let now = Date.now();
-    if(!opts.start){
+    
+    /**
+     * Defaults
+     */
+    
+    if(!('debug' in opts)){
+      opts.debug = false;
+    }
+    if(!('start' in opts)){
       opts.start = now;
     }
+    // Limit by parent width
+    if(!('limitWidth' in opts)){
+      opts.limitWidth = true;
+    }
+    
     let timetaken = now-opts.start;
     
     if((size.width>0 && size.height>0) || timetaken>=1000){
@@ -415,9 +429,12 @@ class Blackout {
   getSizeOfHidden($el,$elToMove=null,opts={}){
     
     // Save originals
-    let previousCss  = $el.attr("style");
+    let previousCss,previousCssElToMove;
+    let elToMoveWasGiven = false;
     if(!$elToMove){
       $elToMove = $el;
+    } else {
+      elToMoveWasGiven = true;
     }
     let index = $elToMove.index();
     let $parent = $elToMove.parent();
@@ -436,16 +453,42 @@ class Blackout {
       parentHeight = $elToMove.parent().height();
     }
     
-    $el.css({
-      position:   'absolute',
-      visibility: 'visible',
-      display:    'inline-block',
-      'max-height': 'none',
-      'max-width': parentWidth,
-      opacity: '1',
-      width: 'auto',
-      height: opts.limitHeight ? parentHeight : 'auto',
-    });
+    if(elToMoveWasGiven){
+      
+      previousCssElToMove = $elToMove.attr("style");
+      $elToMove.css({
+        position:   'absolute',
+        visibility: 'visible',
+        height: opts.limitHeight ? parentHeight : 'auto',
+      });
+      
+      previousCss = $el.attr("style");
+      $el.css({
+        position:   'absolute',
+        visibility: 'visible',
+        display:    'inline-block',
+        'max-height': 'none',
+        'max-width': opts.limitWidth ? parentWidth : 'none',
+        opacity: '1',
+        width: 'auto',
+        height: opts.limitHeight ? parentHeight : 'auto',
+      });
+      
+    } else {
+      
+      previousCss = $el.attr("style");
+      $el.css({
+        position:   'absolute',
+        visibility: 'visible',
+        display:    'inline-block',
+        'max-height': 'none',
+        'max-width': opts.limitWidth ? parentWidth : 'none',
+        opacity: '1',
+        width: 'auto',
+        height: opts.limitHeight ? parentHeight : 'auto',
+      });
+      
+    }
     
     let width = $el.width();
     let height = $el.height();
@@ -454,8 +497,13 @@ class Blackout {
     let outerWidth = $el.outerWidth();
     let outerHeight = $el.outerHeight();
     
+    if(!opts.debug){
+      if(elToMoveWasGiven){
+        $elToMove.attr("style", previousCssElToMove ? previousCssElToMove : "");
+      }
+      $el.attr("style", previousCss ? previousCss : "");
+    }
     
-    $el.attr("style", previousCss ? previousCss : "");
     if(moved){
       $parent.insertAt(index,$elToMove);
     }
@@ -1875,7 +1923,6 @@ function _mouse (e) {
   
     // Run a click shortly
     _clickTimeout = window.setTimeout(() => {
-      print('Click soon');
       $(this).click();
       _clickTimeout = null;
     },11);

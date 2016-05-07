@@ -6,6 +6,7 @@ import t from "rugby-ember/utils/translation-macro";
 export default Ember.Component.extend({
   
   store: Ember.inject.service(),
+  stats: null,
   
   seasons: [
     {
@@ -38,10 +39,18 @@ export default Ember.Component.extend({
     },
   },
   
-  isLoadingSeasonStats: false,
+  resetOnPlayerChange: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'player')){
+      this.set('isLoadingSeasonStats',true);
+    }
+  }),
   
-  seasonStats: Ember.computed( 'currentSeason', 'stats', function(){
+  // Show loader only on first stats load per player
+  isLoadingSeasonStats: true,
+  
+  seasonStats: Ember.computed( 'currentSeason', 'player', function(){
     let stats = this.seasonStatsProxy();
+    
     if(stats && stats.then){
       return this.get('previousSeasonStats');
     } else if(!stats){
@@ -54,74 +63,61 @@ export default Ember.Component.extend({
   seasonStatsProxy(){
     
     let season = this.get('currentSeason');
-    let stats = this.get('stats');
-    let playerid = this.get('stats.id');
+    let playerid = this.get('player.id');
     let cache = this.get('cache');
     
     // Caching
-    let key = 'platerStats_' + playerid + '_' + season.value;
+    let key = 'playerStats_' + playerid + '_' + season.value;
     if(cache.keyExists(key)){
+      this.set('isLoadingSeasonStats',false);
       return cache.get(key);
     }
     
-    if(season.value === 0){
-      cache.set(key,stats);
-      return stats;
-    } else {
-      
-      let seasonStats = stats.get('leagueStatistics.season-'+season.value);
-      
-      if(typeof(seasonStats)==='undefined'){
-        
-        let statsQuery = {
-          filter: {
-            'id': playerid,
-          },
-          'league-season': season.value,
-        };
-        
-        Blackout.startLoading();
-        
-        return this.get('store').queryRecord('player-statistics',statsQuery).then((data)=>{
-          
-          Blackout.stopLoading();
-          
-          seasonStats = data.get('firstObject.leagueStatistics.season-'+season.value);
-          if(!seasonStats){
-            seasonStats = Ember.Object.create();
-          }
-          cache.set(key,Blackout.camelKeys(seasonStats));
-          
-          this.set('stats',data.get('firstObject'));
-          //return data.get('firstObject.leagueStatistics.season-'+season.value);
-          
-        }).finally(()=>{
-          // Force refresh of currentSeason stats
-          this.notifyPropertyChange('currentSeason');
-        });
-        
-        /*return DS.PromiseObject.create({
-          promise: promise
-        });*/
-        
-      } else {
-        seasonStats = Blackout.camelKeys(seasonStats);
-        cache.set(key,seasonStats);
-        return seasonStats;
-      }
-      
+    let statsQuery = {
+      filter: {
+        'id': playerid,
+      },
+    };
+    if(season.value!==0){
+      statsQuery['league-season'] = season.value;
     }
+    
+    Blackout.startLoading();
+    //this.set('isLoadingSeasonStats',true);
+    
+    return this.get('store').queryRecord('player-statistics',statsQuery).then((data)=>{
+      
+      Blackout.stopLoading();
+      let seasonStats;
+      
+      if(season.value===0){
+        if(data.get('firstObject')){
+          seasonStats = data.get('firstObject').toJSON();
+        }
+      } else {
+        seasonStats = data.get('firstObject.leagueStatistics.season-'+season.value);
+      }
+      if(!seasonStats){
+        seasonStats = Ember.Object.create();
+      }
+      cache.set(key,Blackout.camelKeys(seasonStats));
+      
+      //return data.get('firstObject.leagueStatistics.season-'+season.value);
+      
+    }).finally(()=>{
+      // Force refresh of currentSeason stats
+      this.notifyPropertyChange('currentSeason');
+      this.set('isLoadingSeasonStats',false);
+    });
+    
+    /*return DS.PromiseObject.create({
+      promise: promise
+    });*/
     
   },
   
   setupCurrentSeason: Ember.on('init',function(){
     this.set('currentSeason',this.get('seasons')[0]);
-  }),
-  
-  isOnScreen: Ember.computed('selectedTab',function(){
-    
-    return this.get('selectedTab') === this.get('waitForTab');
-    
   }),
   
   miscGroup: [

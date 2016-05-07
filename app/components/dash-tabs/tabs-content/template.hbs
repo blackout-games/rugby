@@ -1,4 +1,16 @@
-{{#blackout-tabs receiveTabs=receiveTabs selectedTab=(readonly selectedTab) onTabChange=tabChanged tabRegistration=tabRegistration hideTabs=true tabGroup=tabGroup tabRoute=tabRoute isOnScreen=isOnScreen as |tabs| }}
+{{#blackout-tabs
+  isSubTabs=isSubTabs
+  resetOn=(readonly resetOn)
+  receiveTabs=receiveTabs
+  selectedTab=(readonly selectedTab)
+  onTabChange=tabChanged
+  selectTab=selectTab
+  tabRegistration=tabRegistration
+  hideTabs=true
+  tabGroup=tabGroup
+  tabRoute=tabRoute
+  isOnScreen=(readonly isOnScreen)
+  as |tabs| }}
   
   {{yield tabs}}
   

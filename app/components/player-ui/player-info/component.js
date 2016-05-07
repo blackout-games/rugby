@@ -3,6 +3,8 @@ const { $ } = Ember;
 
 export default Ember.Component.extend({
   
+  isOnScreen: true,
+  
   energyChartOptions: {
     
     animation: false,
@@ -15,8 +17,23 @@ export default Ember.Component.extend({
     
   },
   
-  setup: Ember.on('init','didRender',function(){
-    
+  setupInit: Ember.on('init',function(){
+    this.resetChartOptions();
+  }),
+  
+  onNewPlayer: Ember.on('didUpdateAttrs',function(opts){
+    if(this.attrChanged(opts,'player')){
+      this.resetChartOptions();
+    }
+  }),
+  
+  setup: Ember.on('didInsertElement',function(){
+    if(!this.get('singleMode')){
+      this.updateChartData();
+    }
+  }),
+  
+  resetChartOptions(){
     // Since the chart settings are static, ember won't manage them between instances of this component, so we need to manually reset.
     this.set('energyChartOptions.animation',true);
     
@@ -24,7 +41,8 @@ export default Ember.Component.extend({
       this.set('energyChartOptions.animation',false);
     }
     
-  }),
+    this.set('hasAnimatedChartOnce',false);
+  },
   
   isTouchOS: Ember.computed(function(){
     return window.os.touchOS;
@@ -85,35 +103,33 @@ export default Ember.Component.extend({
     }
   }),
   
-  chartComponent: Ember.computed('selectedTab',function(){
-    
-    let comp;
-    
-    if(this.get('waitForTab')){
-      if(this.get('selectedTab') === this.get('waitForTab')){
-        comp = 'ember-chart';
+  updateChart: Ember.on('didReceiveAttrs',function(opts){
+    if((this.attrChanged(opts,'isOnScreen') || this.attrChanged(opts,'hasAppeared') || this.attrChanged(opts,'player')) && this.get('isOnScreen') && this.get('singleMode')){
+      
+      // This is the only way to get the chartOptions to refresh
+      if(!this.attrChanged(opts,'player')){
+        this.set('chartComponent',null);
       }
-    } else {
-      comp = 'ember-chart';
+      
+      // Wait to make sure we've rendered the base, before rendering a new chart
+      Ember.run.next(()=>{
+        this.updateChartData();
+      });
     }
-    
-    if(comp){
-      if(this.get('hasAnimatedChartOnce')){
-        this.set('energyChartOptions.animation',false);
-      } else {
-        Ember.run.later(()=>{
-          this.set('hasAnimatedChartOnce',true);
-        },500);
-      }
-    }
-    
-    return comp;
   }),
   
-  energyChartData: Ember.computed( 'player.energy', 'hasAppeared', 'selectedTab', 'chartComponent' , function(){
+  updateChartData(){
     
     if(!this.get('hasAppeared') && !window.os.touchOS){
       return;
+    }
+    
+    this.set('chartComponent','blackout-chart');
+    
+    if(this.get('hasAnimatedChartOnce')){
+      this.set('energyChartOptions.animation',false);
+    } else {
+      this.set('hasAnimatedChartOnce',true);
     }
     
     // Hide any remaining tool tips
@@ -159,8 +175,8 @@ export default Ember.Component.extend({
       label: this.get('i18n').t('player.energy'),
     });
     
-    return data;
+    this.set('energyChartData',data);
     
-  }),
+  },
   
 });

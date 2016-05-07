@@ -4,7 +4,6 @@ $transition-time-reverse: 0.444s ease(in-quad);
 .confirm-button-wrapper {
   display: inline-block;
   position:relative;
-  transition: width $transition-time;
   
   .pie-timer {
     position: absolute;
@@ -16,6 +15,10 @@ $transition-time-reverse: 0.444s ease(in-quad);
     transform: translateX(0);
     opacity: 0;
     transition: transform $transition-time, opacity $transition-time;
+  }
+  
+  &.has-setup {
+    transition: width $transition-time;
   }
 }
 

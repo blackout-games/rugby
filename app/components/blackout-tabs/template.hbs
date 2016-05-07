@@ -9,8 +9,14 @@
     hide=hideList
   )
   content=(component 'blackout-tabs/tabs-content'
+    isSubTabs=isSubTabs
+    resetOn=(readonly resetOn)
     switcherTab=(readonly switcherTab)
+    yieldTab=(readonly yieldTab)
+    wasViaURL=(readonly wasViaURL)
     receivePanels=(action 'receivePanels')
     tabDirection=tabDirection
+    loadTabsImmediatelyWithLoader=loadTabsImmediatelyWithLoader
+    onTabChange=onTabChange
   )
 )}}

@@ -41,7 +41,7 @@
     
 {{#if singleMode}}
   
-  {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="player" as |tabs|}}
+  {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="player" resetOn=(readonly player) as |tabs|}}
     
     {{#tabs.list as |list|}}
       
@@ -61,7 +61,7 @@
     
       
       {{#content.tab id="player-info-panel"}}
-        {{player-ui/player-info player=player singleMode=singleMode selectedTab=selectedTab waitForTab='player-info-panel'}}
+        {{player-ui/player-info player=player singleMode=singleMode isOnScreen=(is selectedTab 'player-info-panel')}}
       {{/content.tab}}
       
       
@@ -71,7 +71,7 @@
       
       
       {{#content.tab id="player-statistics-panel" noPadding=true}}
-        {{player-ui/player-stats selectedTab=selectedTab waitForTab='player-statistics-panel' stats=stats player=player}}
+        {{player-ui/player-stats selectedTab=selectedTab isOnScreen=(is 'player-statistics-panel' selectedTab) player=player}}
       {{/content.tab}}
       
       

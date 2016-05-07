@@ -1,5 +1,5 @@
 {{#component 'dash-tabs/tabs-list'
-    isOnScreen=isOnScreen
+    isOnScreen=(readonly isOnScreen)
     selectTab=(action 'selectTab')
     registerTab=(action 'registerTab')
     deregisterTab=(action 'deregisterTab')
@@ -7,9 +7,12 @@
     debug=debug as |list|}}
 
   {{#component 'dash-tabs/tabs-content'
+    isSubTabs=sub
+    resetOn=(readonly resetOn)
     tabGroup=tabGroup
     tabRoute=tabRoute
-    tabChanged=(action 'selectTab')
+    selectTab=(action 'selectTab')
+    tabChanged=(action 'tabChanged')
     receiveTabs=(action 'receiveTabs')
     tabRegistration=(action 'receiveTabRegistration')
     selectedTab=(readonly selectedTab) as |content|}}

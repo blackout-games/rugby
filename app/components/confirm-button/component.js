@@ -108,6 +108,9 @@ export default Ember.Component.extend({
       }
       
       this.$().css('width',wrapperWidth);
+      Ember.run.next(()=>{
+        this.$().addClass('has-setup');
+      });
       
     };
     
@@ -124,7 +127,7 @@ export default Ember.Component.extend({
         width: (width + rightGap) + 'px',
       });
       
-    });
+    },{ limitWidth:false });
     
     Ember.Blackout.waitForSizeOfHidden($confirm,$button,(size)=>{
       
@@ -137,7 +140,7 @@ export default Ember.Component.extend({
         setWrapperWidth();
       }
       
-    });
+    },{ limitWidth:false });
     
     Ember.Blackout.waitForSizeOfHidden($yes,(size)=>{
       
@@ -149,7 +152,7 @@ export default Ember.Component.extend({
         setWrapperWidth();
       }
       
-    });
+    },{ limitWidth:false });
     
     Ember.Blackout.waitForSizeOfHidden($no,(size)=>{
       
@@ -161,7 +164,7 @@ export default Ember.Component.extend({
         setWrapperWidth();
       }
       
-    });
+    },{ limitWidth:false });
     
     let paddingLeft = $button.css('padding-left');
     let paddingRight = $button.css('padding-right');

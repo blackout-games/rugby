@@ -308,3 +308,8 @@ table.light {
 .has-position {
   position: relative;
 }
+
+.reverse-scale-y {
+  display: inline-block;
+  transform: scaleY(-1);
+}

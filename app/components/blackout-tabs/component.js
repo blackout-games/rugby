@@ -25,6 +25,14 @@ export default Ember.Component.extend({
   hasInittedAttrs: false,
   
   /**
+   * If true, tabs won't wait until loaded before switching,
+   * and instead show a loader while ember renders.
+   * This gives a more responsive feel overall I think.
+   * @type {Boolean}
+   */
+  loadTabsImmediatelyWithLoader: true,
+  
+  /**
    * Use this to set new tabs externally
    */
   selectedTab: null,
@@ -58,7 +66,6 @@ export default Ember.Component.extend({
     
     if(this.get('tabGroup')){
       this.get('eventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.actions.selectTabFromURL);
-      this.get('eventBus').subscribe('selectBlackoutTab-'+this.get('tabGroup'),this,this.iamcool);
       
       if(!this.get('tabRoute')){
         Ember.run.schedule('afterRender',this,()=>{
@@ -77,7 +84,7 @@ export default Ember.Component.extend({
   
   onAttrChange: Ember.on('didReceiveAttrs',function(options){
     
-    if(this.attrChanged(options,'selectedTab') && this.get('selectedTab') !== this.get('switcherTab')){
+    if(this.attrChanged(options,'selectedTab') && this.get('selectedTab') !== this.get('yieldTab')){
       this.send('selectTab',this.get('selectedTab'),true);
     }
     
@@ -108,7 +115,7 @@ export default Ember.Component.extend({
     // Add id to list
     this.get('tabIds').removeObject(id);
     
-    if(this.get('switcherTab') === id){
+    if(this.get('yieldTab') === id){
       this.send('selectTab',this.get('indexTab'));
     }
     
@@ -125,8 +132,8 @@ export default Ember.Component.extend({
       // Select default
       Ember.run.next(()=>{
         // If a tab hasn't been selected by some other method (e.g. blackout-tab-selector)
-        // Must use switcherTab since 'selectedTab' can be overwritten with the default value from the parent component *after* a tab has already been selected via URL (eventbus)
-        if(!this.get('switcherTab')){
+        // Must use yieldTab since 'selectedTab' can be overwritten with the default value from the parent component *after* a tab has already been selected via URL (eventbus)
+        if(!this.get('yieldTab')){
           this.send('selectTab',this.get('indexTab'),false,false,true);
         } else {
           // Don't do this or it creates multiple calls to selectTab in one loop (e.g. when loading the player page direct from url)
@@ -154,8 +161,11 @@ export default Ember.Component.extend({
     },
     selectTabFromURL( panelId ){
       if(!this.get('URLSet')){
-        // Don't set wasExternal here
-        this.send('selectTab',this.get('tabGroup')+'-'+panelId+'-panel',false,true);
+        let tabId = this.get('tabGroup')+'-'+panelId+'-panel';
+        if(tabId !== this.get('yieldTab')){
+          // Don't set wasExternal here
+          this.send('selectTab',tabId,false,true);
+        }
       } else {
         this.set('URLSet',false);
       }
@@ -164,7 +174,7 @@ export default Ember.Component.extend({
       
       if(Date.now() - this.get('tabLastSelected') >= 111){
         
-        let previousTab = this.get('switcherTab');
+        let previousTab = this.get('yieldTab');
         
         if(wasViaURL||forceImmediate){
           this.set('tabDirection','immediate');
@@ -172,14 +182,56 @@ export default Ember.Component.extend({
           this.set('tabDirection',this.determineDirection(tabId));
         }
         
-        this.set('switcherTab',tabId);
+        let changeTab = ()=>{
+          this.set('switcherTab',tabId);
+          
+          if(!this.get('loadTabsImmediatelyWithLoader')){
+            // For sending changes out publicly
+            // Only call once tab is actually selected
+            if(this.attrs.onTabChange){
+              this.attrs.onTabChange(tabId);
+            }
+          }
+          
+          this.set('tabLastSelected',Date.now());
+          
+        };
         
-        // For sending changes out
+        // Set a commicator attr if this is from the URL so the we can skip
+        // the small waiting period at the tab component
+        this.set('wasViaURL',wasViaURL);
+        
+        // Set yield first
+        // Causes child tab element to 'yield' the DOM elements for rendering
+        this.set('yieldTab',tabId);
+        
+        // For sending changes out of this component, but still internally within tab components
+        // MUST happen after we set yieldTab to prevent this action from going up and back down and running this function again
         if(!wasExternal){
           
-          if(this.attrs.onTabChange){
-            this.attrs.onTabChange(tabId);
+          if(this.attrs.selectTab){
+            this.attrs.selectTab(tabId);
           }
+          
+        }
+        
+        // Get already waiting group
+        let tabGroupWaiting = this.get('cache.tabGroupWaiting');
+        
+        if(tabGroupWaiting && !this.get('loadTabsImmediatelyWithLoader')){
+          
+          // If there is already a group waiting, it's most likely a parent of this group, so we don't need to wait
+          changeTab();
+          
+        } else {
+          
+          this.set('cache.tabGroupWaiting',this.get('tabGroup'));
+          
+          // We wait to ensure any sub tab groups can get setup. Otherwise we see them flash and flicker and render once this tab is loaded.
+          Ember.run.next(()=>{
+            this.set('cache.tabGroupWaiting',false);
+            changeTab();
+          });
           
         }
         
@@ -187,22 +239,23 @@ export default Ember.Component.extend({
         // TODO: If tabs are ever used without an external tab control (e.g. tabs-slider) wasManual should actually represent when the user has manually selected a tab.
         // For now, since we only use external controls (e.g. tabs-slider) to handle user clicks, this works fine.
         let wasManual = wasExternal;
-        
+        //log('tab1',tabId);
         // Set route (later so that it doesn't slow down animation)
         if(this.get('tabRoute') && !wasViaURL && wasManual){
+          //log('tab2',tabId);
           Ember.run.later(()=>{
-            
             
             let route = Ember.Blackout.getCurrentRoute();
             let parts = route.split('.');
             let newRoute = this.get('previousRoutes.'+tabId);
             let success = true;
+            //log('tab3','newRoute',newRoute);
             
             // Save route of current tab first
             this.set('previousRoutes.'+previousTab,route);
             
             if(Ember.isEmpty(newRoute)){
-              
+              //log('tab4',tabId);
               newRoute = '';
               let tabGroup = this.get('tabGroup');
               
@@ -220,8 +273,6 @@ export default Ember.Component.extend({
                     
                     if(this.get('indexTab') !== tabId){
                       newRoute += tabId.replace(new RegExp(tabGroup+'-|-panel', 'g'),'');
-                    } else {
-                      newRoute = newRoute.rtrim('.');
                     }
                     
                     return false;
@@ -229,11 +280,14 @@ export default Ember.Component.extend({
                   }
                 });
                 
+                newRoute = newRoute.rtrim('.');
+                //log('tab5',newRoute);
               }
               
             }
             
             if(success && newRoute!==route){
+            //log('tab6','newRoute',newRoute);
               this.set('URLSet',true);
               Ember.Blackout.transitionTo(newRoute);
             }
@@ -242,15 +296,13 @@ export default Ember.Component.extend({
           
         }
         
-        this.set('tabLastSelected',Date.now());
-        
       }
     },
   },
   
   determineDirection( newTab ){
     
-    let currentTab = this.get('switcherTab');
+    let currentTab = this.get('yieldTab');
     let direction = 'left';
     
     $.each(this.get('tabIds'),(i,tabId)=>{

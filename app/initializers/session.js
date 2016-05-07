@@ -55,7 +55,7 @@ SessionService.reopen({
     let store = this.get('store');
     if(this.get('isAuthenticated')){
       let manager = store.peekRecord('manager',this.get('data.manager.id'));
-      let clubFound = manager.get('clubs').findBy('id',clubId);
+      let clubFound = manager.get('clubs').findBy('id',String(clubId));
       return clubFound;
     } else {
       return false;

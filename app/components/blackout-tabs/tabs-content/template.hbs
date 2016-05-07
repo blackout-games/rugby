@@ -1,8 +1,19 @@
 <div class="blackout-tabs-content-container">
-  {{#side-switcher direction=tabDirection currentlyShowing=(readonly switcherTab) receivePanels=receivePanels allowAnimation=false }}
+  {{#side-switcher
+    direction=tabDirection
+    currentlyShowing=(readonly switcherTab)
+    receivePanels=receivePanels
+    allowAnimation=false }}
 
     {{yield (hash
-      tab=(component 'blackout-tabs/tabs-content/tab')
+      tab=(component 'blackout-tabs/tabs-content/tab'
+        isSubTabs=(readonly isSubTabs)
+        resetOn=(readonly resetOn)
+        currentlyShowing=(readonly yieldTab)
+        wasViaURL=(readonly wasViaURL)
+        loadTabsImmediatelyWithLoader=loadTabsImmediatelyWithLoader
+        onTabChange=onTabChange
+      )
     )}}
     
   {{/side-switcher}}
