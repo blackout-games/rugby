@@ -56,7 +56,7 @@ export default Ember.Component.extend({
             this.attrs.selectTab( this.get('tab'), true );
           }
         }
-      },77);
+      },144);
       canClick = true;
     });
     this.$().on('touchmove',()=>{
