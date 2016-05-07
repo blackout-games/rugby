@@ -292,8 +292,6 @@ export default Ember.Component.extend({
       // Set width for tabs
       this.$('.blackout-tabs-slider-tab').width(newWidth);
       
-    } else {
-      this.$('.blackout-tabs-slider-tab').css('width','');
     }
       
   },
