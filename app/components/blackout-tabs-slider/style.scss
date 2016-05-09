@@ -16,6 +16,7 @@ $angle:11deg;
  */
 $sub-bg-color: $bg-light;
 $sub-tabs-height-factor: 0.99;
+$sub-tabs-height-factor-tablet-up: 0.9;
 
 
 
@@ -63,7 +64,7 @@ $sub-tabs-height-factor: 0.99;
   
   height:$tab-height * $sub-tabs-height-factor;
   @media #{$tablet-and-up} {
-    height:$tab-height-tablet-up * $sub-tabs-height-factor;
+    height:$tab-height-tablet-up * $sub-tabs-height-factor-tablet-up;
   }
   
   border-top-left-radius: 0px !important;
@@ -90,7 +91,7 @@ $scrollbar-height:17px;
 .sub-tabs .blackout-tabs-slider-scroller {
   height:$tab-height * $sub-tabs-height-factor + $scrollbar-height;
   @media #{$tablet-and-up} {
-    height:$tab-height-tablet-up * $sub-tabs-height-factor + $scrollbar-height;
+    height:$tab-height-tablet-up * $sub-tabs-height-factor-tablet-up + $scrollbar-height;
   }
   background-color: $sub-bg-color;
 }
@@ -225,7 +226,7 @@ $scrollbar-height:17px;
   
   height:$tab-height * $sub-tabs-height-factor;
   @media #{$tablet-and-up} {
-    height:$tab-height-tablet-up * $sub-tabs-height-factor;
+    height:$tab-height-tablet-up * $sub-tabs-height-factor-tablet-up;
   }
   
   background-color: $sub-bg-color;
@@ -307,7 +308,7 @@ $scrollbar-height:17px;
   height:40px;
   top: ($tab-height * $sub-tabs-height-factor - 40px) * 0.5;
   @media #{$tablet-and-up} {
-    top: ($tab-height-tablet-up * $sub-tabs-height-factor - 40px) * 0.5;
+    top: ($tab-height-tablet-up * $sub-tabs-height-factor-tablet-up - 40px) * 0.5;
   }
   
   i {
