@@ -13,7 +13,15 @@ export default EmberChartComponent.extend({
       var context = this.get('element').getContext('2d');
       var data = this.get('data');
       var type = Ember.String.classify(this.get('type'));
-      var chart = new Chart(context)[type](data, this.get('options'));
+      
+      // Get previous chart
+      var chart = this.get('chart');
+      if(chart){
+        chart.destroy();
+      }
+      
+      // Make new with new options
+      chart = new Chart(context)[type](data, this.get('options'));
       this.set('chart', chart);
     }
   }),
