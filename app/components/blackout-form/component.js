@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   form: [],
   
   inputSelector: 'form .touch-handler input, form .touch-handler label, form .touch-handler textarea, form .touch-handler select',
-  inputSelectorRaw: 'form input:text, form input:password, form input[type="email"], form label, form textarea, form select',
+  inputSelectorRaw: 'form input:text, form input:password, form input[type="email"], form label:not(.x-toggle-btn), form textarea, form select',
   handlerSelector: '.touch-handler',
   
   setup: Ember.on('didInsertElement',function(){
@@ -67,11 +67,12 @@ export default Ember.Component.extend({
           restorePointerEvents($input);
           if(!$input.is(":focus")){
             Ember.run.next(()=>{
-              $input.focus();
+              $input.putCursorAtEnd(); // Also adds focus
             });
             e.preventDefault();
             e.stopPropagation();
           }
+          // Run mousedown, mouseup, and click events here
           $input.focus();
         }
       });

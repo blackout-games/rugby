@@ -1354,6 +1354,9 @@ export function initialize( /*application*/ ) {
   // Variables
   Ember.Blackout.afterCSSTransition = 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd';
   Ember.Blackout.afterCSSAnimation = 'animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd';
+  
+  // Link some local functions
+  Ember.Blackout.runManualEvent = _runManualEvent;
 
   /**
    * Shortcut to blackout console logging
@@ -1896,7 +1899,7 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent;
 
 document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
@@ -1905,7 +1908,7 @@ document.documentElement.addEventListener('touchstart', function(){
 }, true);
 
 document.documentElement.addEventListener('mousedown', function(e){
-  if(_preventMouseDown){
+  if(_preventMouseDown&&!_manualEvent){
     //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseDown = false;
@@ -1913,7 +1916,7 @@ document.documentElement.addEventListener('mousedown', function(e){
 }, true);
 
 document.documentElement.addEventListener('mouseup', function(e){
-  if(_preventMouseUp){
+  if(_preventMouseUp&&!_manualEvent){
     //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseUp = false;
@@ -1925,10 +1928,9 @@ document.documentElement.addEventListener('mouseup', function(e){
  */
 if(window.browsers.standalone){
   
-  var _canClick;
   
   document.documentElement.addEventListener('click', function(e){
-    if(!_canClick){
+    if(!_manualEvent){
       e.preventDefault();
       e.stopImmediatePropagation();
     }
@@ -1940,21 +1942,28 @@ if(window.browsers.standalone){
   
   document.documentElement.addEventListener('touchend', function(e){
     if(!_touchMoved){
-      
-      var theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-      if(theTarget.nodeType === 3){
-        theTarget = theTarget.parentNode;
-      }
-
-      var theEvent = document.createEvent('MouseEvents');
-      theEvent.initEvent('click', true, true);
-      _canClick = true;
-      theTarget.dispatchEvent(theEvent);
-      _canClick = false;
-      
+      _runManualEvent(e,'click');
     }
   }, true);
   
+}
+
+function _runManualEvent(e,eventType){
+  if(e.originalEvent){
+    e = e.originalEvent;
+  }
+  if(e.changedTouches){
+    var theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+    if(theTarget.nodeType === 3){
+      theTarget = theTarget.parentNode;
+    }
+
+    var theEvent = document.createEvent('MouseEvents');
+    theEvent.initEvent(eventType, true, true);
+    _manualEvent = true;
+    theTarget.dispatchEvent(theEvent);
+    _manualEvent = false;
+  }
 }
 
 
@@ -2912,4 +2921,38 @@ $.fn.onFirst = function(name, fn) {
       handlers.unshift(handlers.pop());
     }
   }
+};
+
+/**
+ * Put cursor at end of text field or textarea
+ */
+$.fn.putCursorAtEnd = function(){
+
+  return this.each(function() {
+
+    $(this).focus();
+
+    // If this function exists...
+    if (this.setSelectionRange) {
+      // ... then use it (Doesn't work in IE)
+
+      // Double the length because Opera is inconsistent about whether a carriage return is one character or two. Sigh.
+      var len = $(this).val().length * 2;
+
+      this.setSelectionRange(len, len);
+    
+    } else {
+    // ... otherwise replace the contents with itself
+    // (Doesn't work in Google Chrome)
+
+      $(this).val($(this).val());
+      
+    }
+
+    // Scroll to the bottom, in case we're in a tall textarea
+    // (Necessary for Firefox and Google Chrome)
+    this.scrollTop = 999999;
+
+  });
+  
 };
