@@ -42,11 +42,11 @@ export default Ember.Component.extend({
   }),
 
   setupOnInsert: Ember.on('didInsertElement',function(){
-
+    
     if(!this.get('navIsActive')){
       this.$('#sub-nav-button').hide();
     }
-
+    
   }),
 
   uiEventsActive: Ember.computed('navIsActive',function(){
@@ -378,11 +378,17 @@ export default Ember.Component.extend({
 
   open(){
     if(!this.get('isOpen')){
-      this.$('#sub-nav-panel,#sub-nav-touch-blocker').addClass('open');
+      this.$('#sub-nav-panel').addClass('open');
       this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
       let customIcon = this.get('buttonIcon');
       this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
       this.set('isOpen',true);
+      
+      this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
+      Ember.run.next(()=>{
+        this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
+      });
+      
       return true;
     }
     return false;
@@ -390,7 +396,7 @@ export default Ember.Component.extend({
 
   hide( forGood ){
     if(this.get('isOpen') && (this.get('media.isMobile') || this.get('media.isTablet'))){
-      this.$('#sub-nav-panel,#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+      this.$('#sub-nav-panel').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
         if(forGood){
           // Remove subnav
           this.$('#sub-nav-panel').removeClass('active');
@@ -401,6 +407,12 @@ export default Ember.Component.extend({
       let customIcon = this.get('buttonIcon');
       this.$('#sub-nav-button i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
       this.set('isOpen',false);
+      
+      this.$('#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        // Remove subnav
+        this.$('#sub-nav-touch-blocker').removeClass('ready');
+      });
+      
       return true;
     } else {
       if(forGood){

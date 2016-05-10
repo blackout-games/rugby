@@ -164,15 +164,20 @@ $selected-arrow-pokes-out: 7px;
   top: 0;
   left: 0;
   background-color: rgba(black,0.444);
-  opacity: 0;
-  transition: opacity $animation-time;
-  visibility: hidden;
+  display:none;
+  &.ready {
+    transition: opacity $animation-time;
+    display:block;
+    opacity: 0;
+    pointer-events: none;
+  }
   &.open {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
   }
   @media #{$nav-lg} {
-    display:none;
+    display:none !important;
   }
 }
 

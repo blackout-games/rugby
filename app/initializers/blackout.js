@@ -268,6 +268,17 @@ class Blackout {
     }
 
   }
+  
+  /**
+   * Hammer-time
+   */
+  makeFastClick($el){
+    $el.css({
+      'touch-action': 'manipulation',
+      '-ms-touch-action': 'manipulation',
+      'cursor': 'pointer',
+    });
+  }
 
   /**
    * Gets the value of a CSS pseudo property based on a class.

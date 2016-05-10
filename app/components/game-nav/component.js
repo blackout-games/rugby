@@ -9,7 +9,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   prefs: Ember.inject.service('preferences'),
   
   // Settings
-  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-touch-blocker,#nav-topbar,#page-bg',
+  selector: '#nav-sidebar,#nav-panel,#nav-body,#nav-topbar,#page-bg',
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
   disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon,#nav-menu-buffer-mobile',
@@ -846,6 +846,11 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       });
       
       this.updateLoadingSlider(true);
+      
+      this.$('#nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
+      Ember.run.next(()=>{
+        this.$('#nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
+      });
 
       return true;
     }
@@ -865,6 +870,11 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       if (this.get('topbarWasShowing')) {
         this.showTopBar(true);
       }
+      
+      this.$('#nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+        // Remove subnav
+        this.$('#nav-touch-blocker').removeClass('ready');
+      });
       
       this.updateLoadingSlider(false);
 

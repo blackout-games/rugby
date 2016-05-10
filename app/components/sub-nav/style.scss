@@ -130,11 +130,18 @@ $animation-time: $nav-animation-time;
   left: 0;
   background-color: rgba(black,0.444);
   opacity: 0;
-  transition: opacity $animation-time;
-  visibility: hidden;
+  pointer-events: none;
+  display:none;
+  &.ready {
+    transition: opacity $animation-time;
+    display:block;
+    opacity: 0;
+    pointer-events: none;
+  }
   &.open {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
   }
   @media #{$tablet-wide-and-up} {
     display:none;

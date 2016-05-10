@@ -115,6 +115,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
     // Hide real select element but make sure it's still accessible by screen readers
     $sel.addClass('hidden-but-accessible');
     
+    // Fastclick (Using hammertime)
+    Ember.Blackout.makeFastClick($newSel);
+    
+    $options.find('li').each((i,option)=>{
+      // Fastclick (Using hammertime)
+      Ember.Blackout.makeFastClick(this.$(option));
+    });
   },
   
   buildOption($opt){
