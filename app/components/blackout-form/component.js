@@ -11,15 +11,26 @@ export default Ember.Component.extend({
    */
   form: [],
   
-  inputSelector: 'form .touch-handler input, form .touch-handler label, form .touch-handler textarea',
+  inputSelector: 'form .touch-handler input, form .touch-handler label, form .touch-handler textarea, form .touch-handler select',
+  inputSelectorRaw: 'form input:text, form input:password, form input[type="email"], form label, form textarea, form select',
   handlerSelector: '.touch-handler',
   
   setup: Ember.on('didInsertElement',function(){
     
     let inputSelector = this.get('inputSelector');
+    let inputSelectorRaw = this.get('inputSelectorRaw');
     let handlerSelector = this.get('handlerSelector');
     
-    if(window.os.touchOS&&false){
+    if(window.os.touchOS){
+      
+      // Surround inputs with touch handlers
+      let $inputs = this.$(inputSelectorRaw);
+      $inputs.each((i,el)=>{
+        let $touchHandler = Ember.$('<div class="touch-handler"></div>');
+        let $el = this.$(el);
+        $touchHandler.insertBefore($el);
+        $touchHandler.append($el);
+      });
       
       // Prevent pointer events
       // This stops flickering when scrolling on touch devices
@@ -48,7 +59,10 @@ export default Ember.Component.extend({
       // Force fast focus | use touchend for mobile so that we can still drag scrollable forms. Touchend still saves some time as sometimes there is a delay before the click event fires.
       this.$(handlerSelector).on('touchend',(e)=>{
         let $el = $(e.currentTarget);
-        let $input = $el.find('input, textarea');
+        let $input = $el.find('input, textarea, select');
+        if($input.prop("tagName")==='SELECT'){
+          return;
+        }
         if($el.data('can-focus')){
           restorePointerEvents($input);
           if(!$input.is(":focus")){
@@ -63,7 +77,10 @@ export default Ember.Component.extend({
       });
       this.$(handlerSelector).on('touchstart',(e)=>{
         let $el = $(e.currentTarget);
-        let $input = $el.find('input, textarea');
+        let $input = $el.find('input, textarea, select');
+        if($input.prop("tagName")==='SELECT'){
+          return;
+        }
         $el.data('can-focus',true);
         preventPointerEvents($input);
       });

@@ -112,6 +112,9 @@ body.standalone .float-box-content-wrapper {
         transition: transform $transition-duration ease(out-expo) !important;
       }
     }
+    .float-box-bg {
+      pointer-events: none;
+    }
   }
 }
 

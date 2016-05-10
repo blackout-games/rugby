@@ -164,11 +164,55 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
  * Hidden from view, but not from screen-readers
  */
 .hidden-but-accessible {
+  
   position: absolute !important;
   top:0px;
-  left:0px;
+  left:-999em;
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
+  
+  pointer-events: none;
+  @media reader, speech, aural {
+    pointer-events: auto;
+  }
+  
+  /**
+   * ID: form-flicker-mobile-issue
+   * https://youtu.be/YPiQ8oOF_kI (youtube)
+   * 
+   * Changed to this tactic due to select element still
+   * causing flickering issues when scrolling in the
+   * elastic area near top and bottom of floating window forms
+   * 
+   * Not sure how well this is supported by screen readers, but
+   * time will tell.
+   * 
+   * Nope, this breaks the ability to tab to select elements
+   * 
+   * However!, see .touch below
+   */
+  /* display: none;
+  @media reader, speech, aural {
+    display: inline-block;
+  } */
+}
+
+/**
+ * ID: form-flicker-mobile-issue
+ * https://youtu.be/YPiQ8oOF_kI (youtube)
+ * 
+ * Flickering when scrolling the elastic near the top and bottom edges of a scrollable form (generally in a float window) on mobile devices
+ * 
+ * This fixes the flickering issues. Yet tabbing still works on non-touch devices.
+ * 
+ * Breaks tabbing to select elements (using the little arrows) on mobile devices
+ * But is only way to fix
+ */
+.touch .hidden-but-accessible {
+  display: none;
+  @media reader, speech, aural {
+    display: inline-block;
+  }
 }
 
 /**

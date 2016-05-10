@@ -5,10 +5,10 @@ $animateCSSTime: 0.777s;
   animation-duration: $animateCSSTime;
 }
 .animated-fast {
-  animation-duration: 0.222s;
+  animation-duration: 0.333s;
 }
 .animated-fastish {
-  animation-duration: 0.333s;
+  animation-duration: 0.444s;
 }
 .animated-out-expo {
   animation-timing-function: ease(out-expo);
