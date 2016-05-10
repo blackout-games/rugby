@@ -39,7 +39,7 @@
         
         class="gap-3x blackout-form-item" }}
         
-        <div class="touch-handler">
+        <div class="{{if (or (is 'text' item.type) (is 'money' item.type) (is 'textarea' item.type) (is 'password' item.type) (is 'email' item.type)) 'touch-handler'}}">
           
           <div>
             <label for="{{item.id}}">

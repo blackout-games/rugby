@@ -1890,9 +1890,13 @@ Array.prototype.remove = function() {
  * even if stopImmediatePropagation is used on the event target
  * 
  * The 'true' is for event capturing, meaning these are fired first, always.
+ * 
+ * Added this to prevent mousedown being fired on the same element
+ * where touchstart had already been fired (when closing a float window,
+ * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_canClick;
+let _preventMouseDown,_preventMouseUp,_touchMoved;
 
 document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
@@ -1902,7 +1906,7 @@ document.documentElement.addEventListener('touchstart', function(){
 
 document.documentElement.addEventListener('mousedown', function(e){
   if(_preventMouseDown){
-    e.preventDefault();
+    //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseDown = false;
   }
@@ -1910,44 +1914,9 @@ document.documentElement.addEventListener('mousedown', function(e){
 
 document.documentElement.addEventListener('mouseup', function(e){
   if(_preventMouseUp){
-    e.preventDefault();
+    //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseUp = false;
-  }
-}, true);
-
-document.documentElement.addEventListener('mouseenter', function(e){
-  if(_preventMouseDown||_preventMouseUp){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-}, true);
-
-document.documentElement.addEventListener('mouseover', function(e){
-  if(_preventMouseDown||_preventMouseUp){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-}, true);
-
-document.documentElement.addEventListener('mouseleave', function(e){
-  if(_preventMouseDown||_preventMouseUp){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-}, true);
-
-document.documentElement.addEventListener('mouseout', function(e){
-  if(_preventMouseDown||_preventMouseUp){
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-}, true);
-
-document.documentElement.addEventListener('mousemove', function(e){
-  if(_preventMouseDown||_preventMouseUp){
-    e.preventDefault();
-    e.stopImmediatePropagation();
   }
 }, true);
 
@@ -1955,7 +1924,9 @@ document.documentElement.addEventListener('mousemove', function(e){
  * Hammer-time doesn't fix clicks on standalone
  */
 if(window.browsers.standalone){
-
+  
+  var _canClick;
+  
   document.documentElement.addEventListener('click', function(e){
     if(!_canClick){
       e.preventDefault();

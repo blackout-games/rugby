@@ -38,6 +38,7 @@
         margin: parseFloat(x) + parseFloat(i) + "px auto"
       })), this.bubbleColor && (this.bubbleArrow.css("background", this.bubbleColor), this.bubble.css("background", this.bubbleColor)), this.bubbleFontColor && this.bubbleSpan.css("color", this.bubbleFontColor), this.thumbColor && (this.minus.css("color", this.thumbColor), this.plus.css("color", this.thumbColor), this.thumb.css("background", this.thumbColor)), this.thumbFontColor && this.thumbSpan.css("color", this.thumbFontColor), this.trackColor && (this.minus.css("border-color", this.trackColor), this.plus.css("border-color", this.trackColor), this.track.css("background", this.trackColor)), this.dragging = !1, this.thumbOffset = this.thumb.outerWidth() / 2, this.setValue(this.value), this.positionThumb(this.value), this.toggleBubble && this.value.toString().length <= this.toggleLimit ? (this.bubble.hide(), this.thumbSpan.show()) : this.thumbSpan.hide(), this.thumb.css("-ms-touch-action", "none"), this.thumb.on("mousedown touchstart", function(t) {
         return function(s) {
+          s.stopPropagation();
           var touchPos = "touchstart" === s.type ? s.originalEvent.touches[0].pageX : s.originalEvent.pageX;
           var thumbPos = t.thumb.offset().left + t.thumbOffset;
           t.thumbTouchOffset = touchPos - thumbPos;
@@ -45,18 +46,22 @@
         };
       }(this)), this.thumb.parent().parent().parent().on("mousemove touchmove", function(t) {
         return function(s) {
+          s.stopPropagation();
           return t.dragging ? (s.preventDefault(), "touchmove" === s.type ? t.dragThumb(s.originalEvent.touches[0].pageX) : t.dragThumb(s.originalEvent.pageX)) : void 0;
         };
       }(this)).on("mouseup touchend", function(t) {
         return function(s) {
+          s.stopPropagation();
           return t.dragging ? (s.preventDefault(), t.dragging = !1, t.bubbleState(!1)) : void 0;
         };
       }(this)), this.track.on("mousedown touchstart", function(t) {
         return function(s) {
+          s.stopPropagation();
           return !t.dragging ? (s.preventDefault(), "touchstart" === s.type ? t.dragThumb(s.originalEvent.touches[0].pageX) : t.dragThumb(s.originalEvent.pageX)) : void 0, t.setValue(t.calcValue());
         };
       }(this)), this.minus.on("mousedown touchstart", function(t) {
         return function(s) {
+          s.stopPropagation();
           var e;
           var update = function(){
             if(t.minus.data('isPressing')){
@@ -75,7 +80,8 @@
           return s.preventDefault(), e = t.value - t.step, e = Math.max(t.min, e), t.setValue(e), t.positionThumb(e);
         };
       }(this)), this.minus.on("mouseup touchend", function(t) {
-        return function() {
+        return function(s) {
+          s.stopPropagation();
           t.minus.data('isPressing',false);
         };
       }(this)), this.plus.on("mousedown touchstart", function(t) {

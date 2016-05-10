@@ -11,7 +11,7 @@ export default Ember.Component.extend({
    */
   form: [],
   
-  inputSelector: 'form input, form label, form textarea',
+  inputSelector: 'form .touch-handler input, form .touch-handler label, form .touch-handler textarea',
   handlerSelector: '.touch-handler',
   
   setup: Ember.on('didInsertElement',function(){
@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     let inputSelector = this.get('inputSelector');
     let handlerSelector = this.get('handlerSelector');
     
-    if(window.os.touchOS){
+    if(window.os.touchOS&&false){
       
       // Prevent pointer events
       // This stops flickering when scrolling on touch devices

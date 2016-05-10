@@ -133,7 +133,9 @@ export default Ember.Mixin.create({
   },
   
   triggerTouchStart(e){
-    Ember.$(e.target).trigger('touchstart');
+    if(e.currentTarget){
+      Ember.$(e.currentTarget).trigger('touchstart');
+    }
   },
   
 });
