@@ -106,7 +106,7 @@ $border: none;
   }
   
   &.btn-right-gap {
-    margin-right:4px;
+    margin-right:7px;
     @media #{$mobile-wide-and-up} {
       margin-right:8px;
     }
@@ -142,9 +142,9 @@ form .btn {
   }
   
   &.btn-right-gap {
-    margin-right:3px;
+    margin-right:4px;
     @media #{$mobile-wide-and-up} {
-      margin-right:7px;
+      margin-right:5px;
     }
   }
 }
@@ -193,9 +193,9 @@ form .btn {
   }
   
   &.btn-right-gap {
-    margin-right:5px;
+    margin-right:11px;
     @media #{$mobile-wide-and-up} {
-      margin-right:10px;
+      margin-right:15px;
     }
   }
 }

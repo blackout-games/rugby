@@ -11,7 +11,8 @@ export default Ember.Component.extend({
    * @type {Number}
    */
   rightGap: Ember.computed('media.isMobile',function(){
-    return this.get('media.isMobile') ? 11 : 15;
+    let rightGap = Ember.Blackout.getCSSValue('margin-right','btn btn-big btn-right-gap');
+    return parseInt(rightGap);
   }),
   
   /**
@@ -19,7 +20,7 @@ export default Ember.Component.extend({
    * @type {Number}
    */
   buttonsGap: Ember.computed('media.isMobile',function(){
-    return this.get('media.isMobile') ? 5 : 7;
+    return this.get('media.isMobile') ? 7 : 11;
   }),
   
   /**
@@ -104,7 +105,7 @@ export default Ember.Component.extend({
       if( this.get('fullWidth') ){
         wrapperWidth = itemsWidth + buttonsGap + timerSize + rightGap*3;
       } else {
-        wrapperWidth = this.get('originalWidth') + buttonsGap;
+        wrapperWidth = this.get('originalWidth') + rightGap;
       }
       
       this.$().css('width',wrapperWidth);

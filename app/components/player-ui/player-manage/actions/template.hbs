@@ -2,7 +2,7 @@
 
 <div class="gap-md vt-parent">
 
-  {{#confirm-button class="btn-big btn-right-gap btn-red gap-md" clickAction=(action 'firePlayer') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.sell-player-button' disabled=(if player.transfer true false)}}{{t 'buttons.fire-player'}}{{/confirm-button}}
+  {{#confirm-button class="btn-big btn-red gap-md" clickAction=(action 'firePlayer') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.sell-player-button' disabled=(if player.transfer true false)}}{{t 'buttons.fire-player'}}{{/confirm-button}}
   
   {{#if player.transfer}}
     {{help-ui t='help.player.cannot-fire' besideButton=true}}
