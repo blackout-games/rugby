@@ -37,13 +37,15 @@ export default Ember.Mixin.create({
       
       Ember.$.each(selectors,(key,val)=>{
         
-        this.$(val).on('touchstart', this.handleTouchStart);
-        this.$(val).on('touchmove', this.handleTouchMove);
+        this.$(val).on('touchstart', this, this.handleTouchStart);
+        this.$(val).on('touchmove', this, this.handleTouchMove);
         
         if(this.get('preventMouseWheelPropagation')){
-          this.$(val).on('mousewheel',this.handleMouseWheel);
+          this.$(val).on('mousewheel',this, this.handleMouseWheel);
         }
+        
       });
+      
       
     }
     
@@ -83,33 +85,50 @@ export default Ember.Mixin.create({
     this.prevTop = null;
     this.prevBot = null;
     this.lastY = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : this.lastY;
+    
+    // For doing it ourselves when we reverse direction after being blocked
+    //this.startY = this.lastY;
+    //this.startTop = this.scrollTop;
 
   },
 
   handleTouchMove(e) {
-    
+    let _this = e.data;
     var pageY = e.originalEvent.touches[0].pageY;
     if (!this.lastY) {
       this.lastY = pageY;
     }
-    
-    var up = (pageY > this.lastY),
-      down = (pageY < this.lastY);
-    
-    if ((this.lastDirectionUp && !up) || (!this.lastDirectionUp && up)) {
-      if(this.triggerTouchStart){
-        Ember.run.once(this,this.triggerTouchStart,e);
-      }
+    if (!this.lastScrollTop) {
+      this.lastScrollTop = this.scrollTop;
     }
     
-    this.lastY = pageY;
-    this.lastDirectionUp = up;
+    // Do it ourselves
+    /*if(this.lastWasAllowed && this.lastScrollTop===this.scrollTop){
+      
+      let moved = pageY - this.startY;
+      this.scrollTop = this.startTop - moved;
+      // Needs momentum
+      
+    }*/
+    
+    var up = (pageY > this.lastY),
+        down = (pageY < this.lastY);
+    
+    if ((this.lastDirectionUp && !up) || (!this.lastDirectionUp && up)) {
+      Ember.run.once(this,_this.triggerTouchStart,e);
+    }
     
     if ((up && this.allowUp) || (down && this.allowDown) || (!up&&!down)) {
       e.stopPropagation();
+      this.lastWasAllowed = true;
     } else {
       e.preventDefault();
+      this.lastWasAllowed = false;
     }
+    
+    this.lastY = pageY;
+    this.lastScrollTop = this.scrollTop;
+    this.lastDirectionUp = up;
 
   },
   
