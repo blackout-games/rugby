@@ -824,32 +824,33 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     
     if (this._super()) {
       
-      if( !dontSelect && !$('.nav-tab-btn,.nav-menu-btn').hasClass('selected') ){
-        this.selectCurrentMenu( true );
-      }
-      
-      $('.nav-burger,.nav-tab-menu').addClass('nav-close');
-      $('#sub-nav-panel').addClass('game-nav-open');
-
-      $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
-
-      this.preventBodyScroll();
-
-      if (this.hideTopBar && this.get('media.isMobile')) {
-        var wasShowing = this.hideTopBar(true);
-        this.set('topbarWasShowing',wasShowing);
-      }
-      
-      //$('#sidebar-scroller')[0].scrollTop = 0;
-      Ember.run.next(function(){
-        //$('#sidebar-scroller').perfectScrollbar('update');
-      });
-      
-      this.updateLoadingSlider(true);
-      
       this.$('#nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
       Ember.run.next(()=>{
         this.$('#nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
+        
+        
+        if( !dontSelect && !$('.nav-tab-btn,.nav-menu-btn').hasClass('selected') ){
+          this.selectCurrentMenu( true );
+        }
+        
+        $('.nav-burger,.nav-tab-menu').addClass('nav-close');
+        $('#sub-nav-panel').addClass('game-nav-open');
+
+        $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
+
+        this.preventBodyScroll();
+
+        if (this.hideTopBar && this.get('media.isMobile')) {
+          var wasShowing = this.hideTopBar(true);
+          this.set('topbarWasShowing',wasShowing);
+        }
+        
+        //$('#sidebar-scroller')[0].scrollTop = 0;
+        Ember.run.next(function(){
+          //$('#sidebar-scroller').perfectScrollbar('update');
+        });
+        
+        this.updateLoadingSlider(true);
       });
 
       return true;

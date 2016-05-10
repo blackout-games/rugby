@@ -297,7 +297,7 @@ export default Ember.Component.extend({
 
   },
 
-  blockerTouch(e) {
+  blockerTouch() {
     
     if( !this.get('media.isJumbo') && !this.get('media.isDesktop') ){
       this.hide();
@@ -378,26 +378,28 @@ export default Ember.Component.extend({
 
   open(){
     
-    this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
-    
-    /**
-     * Used window.setTimeout here because cancellation of Ember.run timers was
-     * not working. Worked perfectly with window.clearTimeout
-     * Could break ember on iOS standalone by just going nuts with opening and closing sub-nav while tapping menu links (players) as well.
-     */
-    let subNavTimer = window.setTimeout(()=>{
-      this.set('subNavTimer',false);
-      this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
-    },1);
-    
-    this.set('subNavTimer',subNavTimer);
-    
     if(!this.get('isOpen')){
-      this.$('#sub-nav-panel').addClass('open');
-      this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
-      let customIcon = this.get('buttonIcon');
-      this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
-      this.set('isOpen',true);
+      
+      this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
+      
+      /**
+       * Used window.setTimeout here because cancellation of Ember.run timers was
+       * not working. Worked perfectly with window.clearTimeout
+       * Could break ember on iOS standalone by just going nuts with opening and closing sub-nav while tapping menu links (players) as well.
+       */
+      let subNavTimer = window.setTimeout(()=>{
+      //let subNavTimer = Ember.run.next(()=>{
+        this.set('subNavTimer',false);
+        this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
+      
+        this.$('#sub-nav-panel').addClass('open');
+        this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
+        let customIcon = this.get('buttonIcon');
+        this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
+        this.set('isOpen',true);
+      },1);
+    
+      this.set('subNavTimer',subNavTimer);
       
       return true;
     }
