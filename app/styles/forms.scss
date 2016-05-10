@@ -50,17 +50,18 @@ $button-inset-shadow-on-dark: inset 0 3px 5px rgba(0, 0, 0, 0.25);
 /**
  * Needs to be this heavy since no blue border
  */
+$form-focus-glow-shadow: 0 0 11px rgba($focus-border-color, 0.59);
 @mixin form-focus-glow {
-  box-shadow: 0 0 11px rgba($focus-border-color, 0.59) !important;
+  box-shadow: $form-focus-glow-shadow !important;
 }
 
 /**
  * Needs to be this heavy since no blue border
  */
+$color: rgba($primary-master, 0.888);
+$form-focus-glow-shadow-on-dark: 0 0 11px $color;
 @mixin form-focus-glow-on-dark {
-  $color: rgba(lighten(saturate($focus-border-color,11%),11%), 0.999);
-  $color: rgba($primary-master, 0.888);
-  box-shadow: 0 0 11px $color !important;
+  box-shadow: $form-focus-glow-shadow-on-dark !important;
 }
 
 @mixin hover-form-raw {

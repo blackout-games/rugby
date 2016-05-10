@@ -14,9 +14,15 @@
 
 .bs-focus {
   @include form-focus-glow();
+  &:active {
+    @extend .btn:active:focus;
+  }
   
   &.on-dark {
     @include form-focus-glow-on-dark();
+    &:active {
+      @extend .btn-on-dark:active:focus;
+    }
   }
 }
 

@@ -72,6 +72,9 @@ $border: none;
     border-color: pressColor($button-color);
     transform: translateY(1px);
     box-shadow: $button-inset-shadow;
+    &:focus {
+      box-shadow: $button-inset-shadow, $form-focus-glow-shadow !important;
+    }
     &:disabled {
       transform: none;
       box-shadow: none;
@@ -80,6 +83,9 @@ $border: none;
   
   &.btn-on-dark:active {
     box-shadow: $button-inset-shadow-on-dark;
+    &:focus {
+      box-shadow: $button-inset-shadow-on-dark, $form-focus-glow-shadow-on-dark !important;
+    }
   }
   
   &:disabled{
