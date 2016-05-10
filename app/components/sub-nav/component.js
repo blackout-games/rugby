@@ -113,7 +113,9 @@ export default Ember.Component.extend({
 
     // Mobile mode
     if(this.get('navButtonIsShowing')){
-
+      
+      this.set('cache.subNavIsOpen',false);
+      
       // Clear any element level styles
       this.resetStyle($panel);
 
@@ -125,6 +127,8 @@ export default Ember.Component.extend({
       Ember.Blackout.unFadeInUp($panel);
 
     } else {
+      
+      this.set('cache.subNavIsOpen',true);
 
       Ember.run.next(() => {
         this.updateSubNavNonMobile(true,animationAlreadyTookPlace);
@@ -396,9 +400,11 @@ export default Ember.Component.extend({
         this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
         let customIcon = this.get('buttonIcon');
         this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
-        this.set('isOpen',true);
+        
       },1);
-    
+      
+      this.set('isOpen',true);
+      this.set('cache.subNavIsOpen',true);
       this.set('subNavTimer',subNavTimer);
       
       return true;
@@ -430,7 +436,9 @@ export default Ember.Component.extend({
       
       let customIcon = this.get('buttonIcon');
       this.$('#sub-nav-button i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
+      
       this.set('isOpen',false);
+      this.set('cache.subNavIsOpen',false);
       
       return true;
     } else {

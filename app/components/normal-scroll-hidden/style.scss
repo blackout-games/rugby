@@ -1,8 +1,9 @@
 .normal-scroll-concealer {
   width: calc(100% - 20px);
-  overflow: hidden;
+  //overflow: hidden; // Just show scroll bar now that this wrapper is full-screen width. Scrollbar doesn't look out of place there.
 }
 
 .normal-scroll-force-scrollbar {
   overflow-y: scroll;
+  width: calc(100% + 20px);
 }

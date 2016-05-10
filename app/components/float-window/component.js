@@ -24,6 +24,7 @@ export default Ember.Component.extend({
   fadeDirection: 'up',
   
   classNames: ['float-box'],
+  classNameBindings: ['cache.gameNavIsOpen:game-nav-open'],
   
   isFirefox: Ember.computed(function(){
     return window.browsers.firefox;
@@ -79,7 +80,10 @@ export default Ember.Component.extend({
       
       Ember.run.later(()=>{
         this.$().addClass('showing');
-        this.$('.float-box-bg').on('mousedown touchstart',(e)=>{
+        this.$('.float-box-bg, .has-feedback').on('mousedown touchstart',(e)=>{
+          if(this.$(e.target).hasParent('.float-dash-box')){
+            return;
+          }
           // Left mouse button only
           if(e.type==='mousedown' && e.which!==1){
             return;

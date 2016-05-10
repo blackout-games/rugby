@@ -852,6 +852,8 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         
         this.updateLoadingSlider(true);
       });
+      
+      this.set('cache.gameNavIsOpen',true);
 
       return true;
     }
@@ -878,6 +880,8 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       });
       
       this.updateLoadingSlider(false);
+      
+      this.set('cache.gameNavIsOpen',false);
 
       return true;
     }

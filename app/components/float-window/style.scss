@@ -30,50 +30,38 @@ $slideMode: false; // Other option is fadeInUp
   
   margin:0 auto;
   
-  width:97vw;
-  max-width:400px;
-  @media #{$mobile-wide-and-up} {
-    max-width:444px;
-  }
+  width:100vw;
   
   @if $slideMode {
     transition: transform $transition-duration ease(out-expo);
     transform: translateY(-100vh);
   }
-  
-  /**
-   * Allow taps on the wrapper (outside the main window) to close
-   * We re-add pointer events in the .float-box-content css
-   */
-  pointer-events: none;
-  .has-feedback {
-    pointer-events: auto;
-  }
-  &.is-closing {
-    pointer-events: none;
-    .has-feedback, .float-box-content {
-      pointer-events: none;
-    }
-  }
 }
 
 .float-box-content {
-  pointer-events: auto;
 }
 
 .float-box-content-scroller {
   position:relative;
   height:100vh;
+  width:100%;
+  box-sizing: border-box;
   
-  padding:22px 0;
-  @media #{$tablet-and-up} {
-    padding:33px 0;
+  .dash-box-container {
+    padding:22px 0 !important;
+    @media #{$tablet-and-up} {
+      padding:33px 0 !important;
+    }
   }
   
-  width:97vw;
-  max-width:400px;
-  @media #{$mobile-wide-and-up} {
-    max-width:444px;
+  @media #{$tablet-wide-and-up} {
+    padding-left: $max-block-size;
+  }
+}
+
+.float-box.game-nav-open .float-box-content-scroller {
+  @media #{$tablet-wide-and-up} {
+    padding-left: $max-panel-width;
   }
 }
 
@@ -96,6 +84,14 @@ body.standalone .float-box-content-wrapper {
 
 .float-dash-box {
   box-shadow: 0 11px 29px rgba(black,0.11);
+  
+  margin: 0 auto;
+  width:90vw;
+  max-width:400px;
+  @media #{$mobile-wide-and-up} {
+    max-width:444px;
+  }
+  border-radius: $border-radius*1.5;
 }
 
 .float-box {
