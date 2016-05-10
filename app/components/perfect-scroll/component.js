@@ -7,6 +7,7 @@ import Ember from 'ember';
  * Even with best solution getting event propagation prevention to work, it doesn't feel natural when scrolling at the bottom and the reversing to scroll back up.
  * You have to take your finger off the screen then start again.
  * Plus occasionally it would lock up completely.
+ * Most of above is fixed (May 2016)
  */
 
 export default Ember.Component.extend({

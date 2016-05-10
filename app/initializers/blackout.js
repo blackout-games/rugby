@@ -1852,9 +1852,139 @@ Array.prototype.pushUnique = function (item){
         return true;
     }
     return false;
-}; 
+};
+
+/**
+ * Remove item by value
+ * array.remove(value);
+ */
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
+
+/**
+ * Prevent mouse events up and down from being fired if the event chain
+ * started with touchstart
+ * 
+ * These functions will be always called if an event is fired,
+ * even if stopImmediatePropagation is used on the event target
+ * 
+ * The 'true' is for event capturing, meaning these are fired first, always.
+ */
+
+let _preventMouseDown,_preventMouseUp,_touchMoved,_canClick;
+
+document.documentElement.addEventListener('touchstart', function(){
+  _preventMouseDown = true;
+  _preventMouseUp = true;
+  _touchMoved = false;
+}, true);
+
+document.documentElement.addEventListener('mousedown', function(e){
+  if(_preventMouseDown){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    _preventMouseDown = false;
+  }
+}, true);
+
+document.documentElement.addEventListener('mouseup', function(e){
+  if(_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    _preventMouseUp = false;
+  }
+}, true);
+
+document.documentElement.addEventListener('mouseenter', function(e){
+  if(_preventMouseDown||_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+}, true);
+
+document.documentElement.addEventListener('mouseover', function(e){
+  if(_preventMouseDown||_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+}, true);
+
+document.documentElement.addEventListener('mouseleave', function(e){
+  if(_preventMouseDown||_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+}, true);
+
+document.documentElement.addEventListener('mouseout', function(e){
+  if(_preventMouseDown||_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+}, true);
+
+document.documentElement.addEventListener('mousemove', function(e){
+  if(_preventMouseDown||_preventMouseUp){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+}, true);
+
+/**
+ * Hammer-time doesn't fix clicks on standalone
+ */
+if(window.browsers.standalone){
+
+  document.documentElement.addEventListener('click', function(e){
+    if(!_canClick){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }, true);
+  
+  document.documentElement.addEventListener('touchmove', function(){
+    _touchMoved = true;
+  }, true);
+  
+  document.documentElement.addEventListener('touchend', function(e){
+    if(!_touchMoved){
+      
+      var theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+      if(theTarget.nodeType === 3){
+        theTarget = theTarget.parentNode;
+      }
+
+      var theEvent = document.createEvent('MouseEvents');
+      theEvent.initEvent('click', true, true);
+      _canClick = true;
+      theTarget.dispatchEvent(theEvent);
+      _canClick = false;
+      
+    }
+  }, true);
+  
+}
 
 
+
+// The magic code // Shows all events triggered
+/*var oldAddEventListener = EventTarget.prototype.addEventListener;
+
+EventTarget.prototype.addEventListener = function(eventName, eventHandler)
+{
+  oldAddEventListener.call(this, eventName, function(event) {
+    print(event.type);
+    eventHandler(event);
+  });
+};*/
 
 /**
  * Add functionality to the ember view class to manage hover states manually by applying a .hover class to .btn elements whenever a new section is rendered.
@@ -1877,7 +2007,6 @@ Ember.Component.reopen({
 });
 
 
-
 var _hoverStartEvent,_hoverEventObj,_hoverEndEvent,_mouseDownTime=0,_clickTimeout;
 
 function _refreshWatchers() {
@@ -1885,29 +2014,38 @@ function _refreshWatchers() {
   //log('refreshing watchers');
   
   // Prevent click after drag
-  Ember.$('body').find('.btn,.btn-a').off('click touchend mouseup', _preventClickAfterDrag);
-  Ember.$('body').find('.btn,.btn-a').onFirst('click', _preventClickAfterDrag);
-  Ember.$('body').find('.btn,.btn-a').onFirst('touchend', _preventClickAfterDrag);
-  Ember.$('body').find('.btn,.btn-a').onFirst('mouseup', _preventClickAfterDrag);
+  Ember.$('.btn,.btn-a').off('click touchend mouseup', _preventClickAfterDrag);
+  Ember.$('.btn,.btn-a').onFirst('click', _preventClickAfterDrag);
+  Ember.$('.btn,.btn-a').onFirst('touchend', _preventClickAfterDrag);
+  Ember.$('.btn,.btn-a').onFirst('mouseup', _preventClickAfterDrag);
   
   // Hover
-  Ember.$('body').find('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
-  Ember.$('body').find('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
+  Ember.$('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
+  Ember.$('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
+  
+  // Fastclick (Using hammertime)
+  // This is automatically added to a, button, input, etc.
+  /*Ember.$('.btn,.btn-a,.btn-events').css({
+    'touch-action': 'manipulation',
+    '-ms-touch-action': 'manipulation',
+    'cursor': 'pointer',
+  });*/
 
   // Leave
-  Ember.$('body').find('.btn,.btn-a,.btn-events').off('mouseleave touchend', _leave);
-  Ember.$('body').find('.btn,.btn-a,.btn-events').on('mouseleave touchend', _leave);
+  Ember.$('.btn,.btn-a,.btn-events').off('mouseleave touchend', _leave);
+  Ember.$('.btn,.btn-a,.btn-events').on('mouseleave touchend', _leave);
   
   // Click
-  Ember.$('body').find('.btn').off('click', _click);
-  Ember.$('body').find('.btn').on('click', _click);
+  Ember.$('.btn').off('click', _click);
+  Ember.$('.btn').on('click', _click);
   
   // Detect clicks on btn-a
   // First click doesn't work when inside perfect-scrollbar on safari os x
-  Ember.$('body').find('.btn-a').off('mousedown mouseup click', _mouse);
-  Ember.$('body').find('.btn-a').on('mousedown mouseup click', _mouse);
-
+  Ember.$('.btn-a').off('mousedown mouseup click', _mouse);
+  Ember.$('.btn-a').on('mousedown mouseup click', _mouse);
+  
 }
+
 
 /**
  * First click doesn't work when inside perfect-scrollbar on safari os x
@@ -1940,6 +2078,7 @@ function _mouse (e) {
 function _hover (e) {
 
   //log('hover > ' + e.type);
+  //print('hover > ' + e.type);
 
   if (!_hoverEndEvent ||
 
@@ -1965,7 +2104,13 @@ function _hover (e) {
         if(!$(this).data('isTouching')){
           
           // Wait before allowing 'press' event
-          let timeoutId = Ember.run.later(this,_delayedPress,77);
+          let timeoutId = Ember.run.later(this,()=>{
+            _removeTouchTimeout($(this),timeoutId,'delayedPresses');
+            _delayedPress($(this));
+          },77);
+          
+          _addTouchTimeout($(this),timeoutId,'delayedPresses');
+          
           
           let ogY = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : false;
 
@@ -1990,6 +2135,35 @@ function _hover (e) {
   }
 }
 
+function _addTouchTimeout($item,timeoutId,groupName){
+  var group = $item.data(groupName);
+  if(!group){
+    group = [];
+  }
+  group.push(timeoutId);
+  $item.data(groupName,group);
+}
+
+function _removeTouchTimeout($item,timeoutId,groupName){
+  var group = $item.data(groupName);
+  if(!group){
+    return;
+  }
+  group.remove(timeoutId);
+  $item.data(groupName,group);
+}
+
+function _cancelAllTouchTimeouts($item,groupName){
+  var group = $item.data(groupName);
+  if(!group){
+    return;
+  }
+  group.forEach(timeoutId=>{
+    Ember.run.cancel(timeoutId);
+  });
+  $item.data(groupName,[]);
+}
+
 function _preventClickAfterDrag(e) {
   if($(this).data('isDrag')){
     e.preventDefault();
@@ -2001,6 +2175,7 @@ function _preventClickAfterDrag(e) {
 function _leave (e) {
 
   //log('leave > ' + e.type);
+  //print('leave > ' + e.type);
 
   if (!_hoverStartEvent ||
 
@@ -2013,7 +2188,7 @@ function _leave (e) {
     if (!_hoverEndEvent) {
       _hoverEndEvent = e.type;
     }
-
+    
     $(this).removeClass('press hover');
     
     /**
@@ -2025,6 +2200,9 @@ function _leave (e) {
       // If item is scrollable
       // (Basing this behaviour on facebook app main menu)
       if(BlackoutInstance.elementOrParentIsScrollable(e.target)){
+        
+        // Cancel any delayed press events
+        _cancelAllTouchTimeouts($(this),'delayedPresses');
         
         // Wait to mark as not dragging
         Ember.run.next(()=>{
@@ -2045,10 +2223,14 @@ function _click () {
   
 }
 
-function _delayedPress () {
-  if($(this).data('isTouching') && !$(this).data('isDrag')){
-    $(this).siblings().removeClass('press');
-    $(this).addClass('press');
+/**
+ * Not sure 
+ * @return {[type]} [description]
+ */
+function _delayedPress ( $el ) {
+  if($el.data('isTouching') && !$el.data('isDrag')){
+    $el.siblings().removeClass('press');
+    $el.addClass('press');
   }
 }
 
@@ -2061,6 +2243,7 @@ function _move (e) {
     
     if(timeoutId){
       Ember.run.cancel(timeoutId);
+      _removeTouchTimeout($(this),timeoutId,'delayedPresses');
     }
     $(this).data('isDrag',true);
     $(this).removeClass('press');
@@ -2741,6 +2924,8 @@ $.fn.onFirst = function(name, fn) {
   for (i = 0, _len = this.length; i < _len; i++) {
     elem = this[i];
     handlers = $._data(elem).events[name.split('.')[0]];
-    handlers.unshift(handlers.pop());
+    if(handlers){
+      handlers.unshift(handlers.pop());
+    }
   }
 };

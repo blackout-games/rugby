@@ -297,8 +297,8 @@ export default Ember.Component.extend({
 
   },
 
-  blockerTouch() {
-
+  blockerTouch(e) {
+    
     if( !this.get('media.isJumbo') && !this.get('media.isDesktop') ){
       this.hide();
     }
@@ -397,6 +397,7 @@ export default Ember.Component.extend({
         }
       });
       this.$('#sub-nav-touch-blocker').off('mousedown touchstart', this.blockerTouchBound);
+      
       let customIcon = this.get('buttonIcon');
       this.$('#sub-nav-button i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
       this.set('isOpen',false);

@@ -122,7 +122,6 @@ $scrollbar-height:17px;
     height:$tab-height-tablet-up+1px; // Add 2px to avoid potential seam below tab
     width:$tab-size-tablet-up;
   }
-  background-color: $bg-color;
   
   .tab-icon { // Icon
     position: absolute;
@@ -156,14 +155,18 @@ $scrollbar-height:17px;
   }
   
   $color: $secondary-on-dark;
-  color:$color;
+  &, &:hover {
+    color:$color;
+    background-color: $bg-color;
+  }
   
-  &:hover {
+  &.hover {
     background-color: lighten($bg-color,7%);
+    background-color: tomato;
     color:$color !important;
   }
   
-  &.active, &.active:hover {
+  &.active, &.active.hover {
     
     // Mode A (Tab turns same colour as content background)
     background-color: white;

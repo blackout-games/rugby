@@ -172,8 +172,10 @@ a {
   
   &.no-hover:hover {
     border-bottom: none;
-    color: $primary-master;
     text-decoration: none;
+    // Don't specify color here
+    // Should be done elsewhere. Otherwise breaks styling in other classes.
+    //color: $primary-master;
   }
   
   .restore-hover {

@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   classNameBindings: [
     'icon-class:vc-parent',
     'icon-class:blackout-tabs-slider-tab',
+    'icon-class:btn-events',
     'icon-class:col-fixed',
     'icon-class:no-webkit-highlight',
     'icon-class:no-hover',

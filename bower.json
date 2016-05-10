@@ -17,6 +17,7 @@
     "ember-qunit-notifications": "0.1.0",
     "air-datepicker": "^1.2.3",
     "Chart.js": "chartjs#2.0.2",
-    "dom-ruler": "0.1.13"
+    "dom-ruler": "0.1.13",
+    "hammer-time": "1.0.0"
   }
 }
