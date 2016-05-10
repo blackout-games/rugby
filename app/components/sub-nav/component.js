@@ -377,6 +377,21 @@ export default Ember.Component.extend({
   },
 
   open(){
+    
+    this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
+    
+    /**
+     * Used window.setTimeout here because cancellation of Ember.run timers was
+     * not working. Worked perfectly with window.clearTimeout
+     * Could break ember on iOS standalone by just going nuts with opening and closing sub-nav while tapping menu links (players) as well.
+     */
+    let subNavTimer = window.setTimeout(()=>{
+      this.set('subNavTimer',false);
+      this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
+    },1);
+    
+    this.set('subNavTimer',subNavTimer);
+    
     if(!this.get('isOpen')){
       this.$('#sub-nav-panel').addClass('open');
       this.$('#sub-nav-touch-blocker').on('mousedown touchstart', this.blockerTouchBound);
@@ -384,17 +399,24 @@ export default Ember.Component.extend({
       this.$('#sub-nav-button i').removeClass('icon-md '+(customIcon?customIcon:'icon-sub-menu')).addClass('icon-cancel icon-smd');
       this.set('isOpen',true);
       
-      this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('ready');
-      Ember.run.next(()=>{
-        this.$('#sub-nav-touch-blocker').off(Ember.Blackout.afterCSSTransition).addClass('open');
-      });
-      
       return true;
     }
     return false;
   },
 
   hide( forGood ){
+    
+    if(this.get('subNavTimer')){
+      window.clearTimeout(this.get('subNavTimer'));
+      this.set('subNavTimer',false);
+    }
+    
+    this.$('#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
+      // Remove subnav
+      this.$('#sub-nav-touch-blocker').removeClass('ready');
+    });
+    
+    
     if(this.get('isOpen') && (this.get('media.isMobile') || this.get('media.isTablet'))){
       this.$('#sub-nav-panel').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
         if(forGood){
@@ -407,11 +429,6 @@ export default Ember.Component.extend({
       let customIcon = this.get('buttonIcon');
       this.$('#sub-nav-button i').removeClass('icon-cancel icon-smd').addClass('icon-md '+(customIcon?customIcon:'icon-sub-menu'));
       this.set('isOpen',false);
-      
-      this.$('#sub-nav-touch-blocker').removeClass('open').off(Ember.Blackout.afterCSSTransition).on(Ember.Blackout.afterCSSTransition,()=>{
-        // Remove subnav
-        this.$('#sub-nav-touch-blocker').removeClass('ready');
-      });
       
       return true;
     } else {
