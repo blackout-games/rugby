@@ -61,7 +61,10 @@ $slideMode: false; // Other option is fadeInUp
 
 .float-box.game-nav-open .float-box-content-scroller {
   @media #{$tablet-wide-and-up} {
-    padding-left: $max-panel-width;
+    /**
+     * Removed. Looks too weird.
+     */
+    //padding-left: $max-panel-width;
   }
 }
 
