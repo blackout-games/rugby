@@ -1899,12 +1899,36 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent,_waitingForClick;
 
 document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
   _preventMouseUp = true;
   _touchMoved = false;
+}, true);
+
+document.documentElement.addEventListener('touchend', function(e){
+  
+  // Sometimes on mobile, touchstart and touchend can happen without triggering a click
+  // No freakin idea why
+  // Have seen time between touchend and click get up to 119, but that was on Samsung S3, while connected to laptop for debugging.
+  
+  if(!window.browsers.standalone){
+    
+    _waitingForClick = true;
+    
+    window.setTimeout(()=>{
+      if(_waitingForClick){
+        _runManualEvent(e,'click');
+      }
+    },111);
+    
+  }
+  
+}, true);
+
+document.documentElement.addEventListener('click', function(){
+  _waitingForClick = false;
 }, true);
 
 document.documentElement.addEventListener('mousedown', function(e){
