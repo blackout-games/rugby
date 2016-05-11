@@ -1,17 +1,22 @@
+
 {{top-level images="dash"}}
 {{page-header title=title}}
 
-
-
-<div class="row">
   <div class="col-12 dash-box-container news-page-container">
     <div class="dash-box">
       
       {{back-button to="dashboard" colored=true}}
       
-      {{#each model key="id" as |article|}}
-      
+      {{#infinite-scroll
+        content=items
+        defaultHeight=150
+        lastReached=(action 'fetchMore')
+        isLoadingData=isLoadingData
+        as |article|
+      }}
+        
         <div class="gap-3x">
+        
           <h2>{{#link-to articleRoute article.id}}{{article.title}}{{/link-to}}</h2>
           
           {{#if article.img}}
@@ -45,12 +50,7 @@
           
         </div>
         
-      {{/each}}
-
-      {{#infinite-scroll content=model hasMore=hasMore scrollable=scrollerSelector}}
-        {{loading-spinner class="gap-2x" color="light"}}
       {{/infinite-scroll}}
       
     </div>
   </div>
-</div>

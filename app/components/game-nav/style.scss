@@ -197,8 +197,8 @@ $selected-arrow-pokes-out: 7px;
 
     // Normal
 
-    overflow-y: scroll;
     overflow-x: hidden;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     //-webkit-overflow-scrolling: auto;
   }

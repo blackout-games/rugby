@@ -77,8 +77,10 @@ export default Ember.Component.extend({
     
     if(this.get('showLoader')){
       Ember.run.later(()=>{
-        if(!this.get('firstImageHasLoaded')){
-          this.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
+        if(!this.get('isDestroyed')){
+          if(!this.get('firstImageHasLoaded')&&this.$()){
+            this.$().findClosest('.spinner').removeClass('hidden').addClass('animated fadeIn');
+          }
         }
       },this.get('imageCachedTime'));
     }

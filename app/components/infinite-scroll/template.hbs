@@ -1,0 +1,20 @@
+{{#vertical-collection
+  tagName=verticalCollectionTag
+  content=content
+  defaultHeight=defaultHeight
+  alwaysUseDefaultHeight=false
+  useContentProxy=false
+  lastReached=lastReached
+  containerSelector=scrollerSelectorProp
+  as |item index|
+}}
+
+  <div class="clearfix">
+    {{yield item index}}
+  </div>
+  
+{{/vertical-collection}}
+
+{{#if isLoadingData}}
+  {{loading-spinner class="gap-2x" color="light"}}
+{{/if}}

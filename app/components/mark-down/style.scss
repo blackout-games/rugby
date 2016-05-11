@@ -6,8 +6,7 @@
   width:27px;
   height:27px;
   vertical-align: middle;
-  margin: -4px 4px 0 0;
-  
+  margin: -14px 4px -10px 0; // Prevent from taking more height that surrounding text
 }
 
 .club-avatar-inline {

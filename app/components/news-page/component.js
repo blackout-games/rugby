@@ -37,14 +37,19 @@ export default Ember.Component.extend(NewsMixin, {
     this.set('page', this.get('meta.page'));
     this.set('pages', this.get('meta.num-pages'));
   }),
-
-  hasMore: Ember.computed('page', 'pages', function() {
-
-    var page = this.get('page');
-    var pages = this.get('pages');
-    //print('hasMore',page+' of '+pages,page < pages);
-    return page < pages;
-
+  
+  /**
+   * We should use ember array
+   * @type {[type]}
+   */
+  items: [],
+  
+  newItems: Ember.on('didReceiveAttrs',function(opts){
+    if(this.attrChanged(opts,'model')){
+      let items = [];
+      items.pushObjects(this.get('model').toArray());
+      this.set('items',items);
+    }
   }),
 
   fetchMoreItems() {
@@ -60,11 +65,18 @@ export default Ember.Component.extend(NewsMixin, {
       query['include'] = 'author,country';
 
     }
-
-    return this.get('store').query(this.get('storeType'), query).then((data)=>{
+    
+    this.set('isLoadingData',true);
+    this.get('store').query(this.get('storeType'), query).then((data)=>{
+      
       this.set('page', data.get('meta.page'));
       this.set('pages', data.get('meta.num-pages'));
+      
       this.processNews(data, null, isNational);
+      this.get('items').pushObjects(data.toArray());
+      
+      this.set('isLoadingData',false);
+      
       return data;
     }, function(error) {
       print('Failed', error);
@@ -73,10 +85,9 @@ export default Ember.Component.extend(NewsMixin, {
   },
 
   actions: {
-    fetchMore(callback) {
-      var promise = this.fetchMoreItems();
-      callback(promise);
-    }
+    fetchMore(/*opts*/){
+      this.fetchMoreItems();
+    },
   },
 
 });
