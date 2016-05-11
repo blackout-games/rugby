@@ -148,9 +148,18 @@ export default OAuth2.extend({
       return data;
     },()=>{
       print('session could not be restored');
-      Ember.run.next(()=>{
-        this.get('eventBus').publish('accessTokenWasNotRefreshed');
-      });
+      
+      /**
+       * Not sure why we waited.
+       * If session can't be restored, we must logout immediately.
+       * Otherwise the app will try an initiate things which could
+       * rely on session data, and crash or stall before we even get
+       * a chance to logout.
+       */
+      this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+      /*Ember.run.next(()=>{
+        this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+      });*/
     });
     
   },
