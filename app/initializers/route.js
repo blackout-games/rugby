@@ -27,7 +27,6 @@ let isForcedLoaderRoute = function( routeName, authenticated, router, newParams 
       
       if(params[route.name]){
         oldParams = Object.keys(params[route.name]).map(key => params[route.name][key]);
-        
       }
       
       // Make sure not coming from subroute, or if we are, the params need to have changed
