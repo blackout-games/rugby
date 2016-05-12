@@ -2,10 +2,15 @@
   {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
 </div>
 
-{{!#each model as |player|}}
-{{#lazy-list  itemClass="gap-4x no-gap-on-last" list=playersSorted as |player|}}
+{{#infinite-scroll
+  content=playersSorted
+  defaultHeight=defaultItemHeight
+  bufferSize=1.5
+  as |player|
+}}
+{{!#lazy-list  itemClass="gap-4x no-gap-on-last" content=playersSorted as |player|}}
   <!--div class="gap-7x no-gap-on-last"-->
-    {{player-ui player=player}}
+    {{player-ui player=player class="gap-4x"}}
   <!--/div-->
-{{/lazy-list}}
-{{!/each}}
+{{!/lazy-list}}
+{{/infinite-scroll}}

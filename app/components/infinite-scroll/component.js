@@ -3,6 +3,11 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   defaultHeight: 150,
+  
+  /**
+   * Multiples of scroller height
+   * @type {Number}
+   */
   bufferSize: 1,
   
   onInit: Ember.on('init',function(){
