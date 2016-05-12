@@ -70,8 +70,13 @@
       {{/content.tab}}
       
       
-      {{#content.tab id="player-statistics-panel" noPadding=true}}
-        {{player-ui/player-stats selectedTab=selectedTab isOnScreen=(is 'player-statistics-panel' selectedTab) player=player}}
+      {{#content.tab id="player-statistics-panel" noPadding=true as |tab|}}
+        {{player-ui/player-stats
+          selectedTab=selectedTab
+          isOnScreen=(is 'player-statistics-panel' selectedTab)
+          player=player
+          registerTabLoading=tab.registerTabLoading
+          finishTabLoading=tab.finishTabLoading}}
       {{/content.tab}}
       
       
@@ -84,8 +89,8 @@
       {{/content.tab}}
       
       
-      {{#content.tab id="player-manage-panel" noPadding=true}}
-        {{player-ui/player-manage player=player isOnScreen=(is 'player-manage-panel' selectedTab)}}
+      {{#content.tab id="player-manage-panel" noPadding=true as |tab|}}
+        {{player-ui/player-manage player=player isOnScreen=(is 'player-manage-panel' selectedTab) parentTab=tab}}
       {{/content.tab}}
       
     {{/tabs.content}}

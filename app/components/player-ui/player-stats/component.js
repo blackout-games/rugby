@@ -60,6 +60,8 @@ export default Ember.Component.extend({
     return stats;
   }),
   
+  firstLoad:true,
+  
   seasonStatsProxy(){
     
     let season = this.get('currentSeason');
@@ -83,7 +85,15 @@ export default Ember.Component.extend({
     }
     
     Blackout.startLoading();
-    //this.set('isLoadingSeasonStats',true);
+    
+    
+    let firstLoad = this.get('firstLoad');
+    if (firstLoad) {
+      // Let tab know we're going to load more stuff
+      this.attrs.registerTabLoading();
+      this.set('firstLoad',false);
+    }
+    
     
     return this.get('store').queryRecord('player-statistics',statsQuery).then((data)=>{
       
@@ -108,6 +118,10 @@ export default Ember.Component.extend({
       // Force refresh of currentSeason stats
       this.notifyPropertyChange('currentSeason');
       this.set('isLoadingSeasonStats',false);
+      if (firstLoad) {
+        // Let tab know we're done
+        this.attrs.finishTabLoading();
+      }
     });
     
     /*return DS.PromiseObject.create({

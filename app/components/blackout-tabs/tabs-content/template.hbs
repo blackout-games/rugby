@@ -8,6 +8,7 @@
     {{yield (hash
       tab=(component 'blackout-tabs/tabs-content/tab'
         isSubTabs=(readonly isSubTabs)
+        parentTab=(readonly parentTab)
         resetOn=(readonly resetOn)
         currentlyShowing=(readonly yieldTab)
         wasViaURL=(readonly wasViaURL)

@@ -26,9 +26,9 @@ export default Ember.Component.extend({
   //hasInsert: false,
   //timeToWait: 2222, // Allow enough time for animations, and enough time so that if user clicks a whole different route quickly, we won't have even bothered setting up other tabs
   
-  preSetup: Ember.on('didReceiveAttrs',function(opts){
+  preSetup: Ember.on('didReceiveAttrs',function(attrs){
     
-    if(this.attrChanged(opts,'resetOn')){
+    if(this.attrChanged(attrs,'resetOn')){
       this.cancelRunLater();
       if(this.get('currentlyShowing') !== this.get('id')){
         this.set('isShowing',false);
@@ -43,30 +43,57 @@ export default Ember.Component.extend({
       }*/
     }
     
-    if(this.attrChanged(opts,'currentlyShowing') && this.get('currentlyShowing')){
+    if(this.attrChanged(attrs,'currentlyShowing') && this.get('currentlyShowing')){
       
       if(this.get('currentlyShowing') === this.get('id')){
 
-        if(!this.get('isShowing')){          
+        if(!this.get('isShowing')){  
+          
+          
+          // Prevent parent tab from showing until we're done
+          if(this.get('isSubTabs') && this.get('parentTab')){
+            this.get('parentTab').registerTabLoading();
+          }
+          
+                  
           if(this.get('loadTabsImmediatelyWithLoader')){
-            this.set('isLoadingTab',true);
-            
-            if(this.get('isSubTabs')||this.get('wasViaURL')){
+            if(!this.get('dontWait')){
+              this.set('isLoadingTab',true);
               
-              this.set('isShowing',true);
-              Ember.run.next(()=>{
-                this.finishLoading();
-              });
-              
-            } else {
-              
-              // Wait a little extra for tabs which have heavy ember content, otherwise ember just jumps straight into loading the tab without displaying the loader. Then loader flashes only for an instance. e.g. player history
-              Ember.run.later(()=>{
+              if(this.get('isSubTabs')||this.get('wasViaURL')){
+                
                 this.set('isShowing',true);
                 Ember.run.next(()=>{
-                  this.finishLoading();
+                  if(this.get('wasViaURL')){
+                    /**
+                     * Waiting twice allows for subtabs to prevent parentTab from showing too fast.
+                     */
+                    Ember.run.next(()=>{
+                      this.finishLoading();
+                    });
+                  } else {
+                    this.finishLoading();
+                  }
                 });
-              },77); // search: render-wait-time
+                
+              } else {
+                
+                // Wait a little extra for tabs which have heavy ember content, otherwise ember just jumps straight into loading the tab without displaying the loader. Then loader flashes only for an instance. e.g. player history
+                Ember.run.later(()=>{
+                  this.set('isShowing',true);
+                  Ember.run.next(()=>{
+                    /**
+                     * Waiting twice allows for subtabs to prevent parentTab from showing too fast.
+                     */
+                    Ember.run.next(()=>{
+                      this.finishLoading();
+                    });
+                  });
+                },77); // search: render-wait-time
+              }
+            } else {
+              this.set('isShowing',true);
+              this.finishLoading();
             }
           } else {
             this.set('isShowing',true);
@@ -88,6 +115,10 @@ export default Ember.Component.extend({
     if(!this.get('isLoadingTabContent')){
       this.set('isLoadingTab',false);
       this.tabIsSelected();
+      
+      if(this.get('isSubTabs') && this.get('parentTab')){
+        this.get('parentTab').finishTabLoading();
+      }
     }
   },
   
