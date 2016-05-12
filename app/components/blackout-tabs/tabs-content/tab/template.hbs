@@ -1,5 +1,5 @@
 {{#if isShowing}}
-  <div class="{{if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab)) 'hidden'}}">
+  <div class="blackout-tab {{if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab)) 'hidden'}} {{if (and (not hasFaded) (not isLoadingTab)) 'animated fadeIn'}}">
     {{yield (hash
       registerTabLoading=(action 'registerTabLoading')
       finishTabLoading=(action 'finishTabLoading')

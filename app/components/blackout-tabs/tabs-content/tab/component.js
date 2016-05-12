@@ -63,6 +63,7 @@ export default Ember.Component.extend({
               if(this.get('isSubTabs')||this.get('wasViaURL')){
                 
                 this.set('isShowing',true);
+                this.set('hasFaded',true);
                 Ember.run.next(()=>{
                   if(this.get('wasViaURL')){
                     /**
@@ -115,6 +116,12 @@ export default Ember.Component.extend({
     if(!this.get('isLoadingTabContent')){
       this.set('isLoadingTab',false);
       this.tabIsSelected();
+      
+      if(!this.get('hasFaded')){
+        this.$('.blackout-tab').one(Ember.Blackout.afterCSSAnimation,()=>{
+          this.set('hasFaded',true);
+        });
+      }
       
       if(this.get('isSubTabs') && this.get('parentTab')){
         this.get('parentTab').finishTabLoading();
