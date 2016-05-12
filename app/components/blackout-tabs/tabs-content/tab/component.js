@@ -32,6 +32,7 @@ export default Ember.Component.extend({
       this.cancelRunLater();
       if(this.get('currentlyShowing') !== this.get('id')){
         this.set('isShowing',false);
+        this.set('hasFaded',false);
       }
       
       /*if(this.get('hasInsert')){
@@ -63,7 +64,12 @@ export default Ember.Component.extend({
               if(this.get('isSubTabs')||this.get('wasViaURL')){
                 
                 this.set('isShowing',true);
-                this.set('hasFaded',true);
+                
+                // Removed as we should still see a fade via URL
+                if(!this.get('wasViaURL')){
+                  this.set('hasFaded',true);
+                }
+                
                 Ember.run.next(()=>{
                   if(this.get('wasViaURL')){
                     /**
