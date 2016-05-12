@@ -90,7 +90,7 @@ export default Ember.Component.extend({
                       this.finishLoading();
                     });
                   });
-                },77); // search: render-wait-time
+                },111); // search: render-wait-time
               }
             } else {
               this.set('isShowing',true);
