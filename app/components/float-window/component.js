@@ -80,14 +80,28 @@ export default Ember.Component.extend({
       
       Ember.run.later(()=>{
         this.$().addClass('showing');
-        this.$('.float-box-bg, .has-feedback').on('mousedown touchstart',(e)=>{
-          if(this.$(e.target).hasParent('.float-dash-box')){
+        
+        
+        this.$('.float-dash-box').on('mousedown touchstart',(e)=>{
+          if(e.originalEvent){
+            e.originalEvent.notYou = true;
+          } else {
+            e.notYou = true;
+          }
+        });
+        
+        this.$('.float-box-bg, .float-box-content-wrapper').on('mousedown touchstart',(e)=>{
+          
+          // Not if we're clicking select options. And not if this is a manually created event.
+          if(this.$(e.target).hasParent('.bs-options') || this.$(e.target).hasClass('.bs-options') || !e.originalEvent || e.originalEvent.notYou || e.notYou){
             return;
           }
+          
           // Left mouse button only
           if(e.type==='mousedown' && e.which!==1){
             return;
           }
+          print(e);
           this.send('close');
         });
         

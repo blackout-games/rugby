@@ -46,6 +46,7 @@ $slideMode: false; // Other option is fadeInUp
   height:100vh;
   width:100%;
   box-sizing: border-box;
+  overflow-y: scroll;
   
   .dash-box-container {
     padding:22px 0 !important;
