@@ -147,7 +147,7 @@ export default OAuth2.extend({
     return this._super(data).then((data)=>{
       return data;
     },()=>{
-      print('session could not be restored');
+      log('Session could not be restored. Please manually refresh (Temporary)');
       
       /**
        * Not sure why we waited.
@@ -156,7 +156,8 @@ export default OAuth2.extend({
        * rely on session data, and crash or stall before we even get
        * a chance to logout.
        */
-      this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+      //this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
+      
       /*Ember.run.next(()=>{
         this.get('eventBus').publish('accessTokenWasNotRefreshedServer');
       });*/

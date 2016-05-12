@@ -1,10 +1,11 @@
 {{#vertical-collection
   tagName=verticalCollectionTag
-  content=content
+  content=contentProxy
   defaultHeight=defaultHeight
   alwaysUseDefaultHeight=false
   useContentProxy=false
   lastReached=lastReached
+  bufferSize=bufferSize
   containerSelector=scrollerSelectorProp
   as |item index|
 }}
@@ -16,5 +17,7 @@
 {{/vertical-collection}}
 
 {{#if isLoadingData}}
-  {{loading-spinner class="gap-2x" color="light"}}
+  <div class="loader-padding">
+    {{loading-spinner class="gap-2x" color="light"}}
+  </div>
 {{/if}}

@@ -69,6 +69,8 @@ export default Ember.Component.extend(NewsMixin, {
     this.set('isLoadingData',true);
     this.get('store').query(this.get('storeType'), query).then((data)=>{
       
+      log('page',data.get('meta.page'));
+      log('pages',data.get('meta.num-pages'));
       this.set('page', data.get('meta.page'));
       this.set('pages', data.get('meta.num-pages'));
       

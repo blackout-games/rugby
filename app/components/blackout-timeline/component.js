@@ -2,21 +2,44 @@ import Ember from 'ember';
 const { toZonedTime, toUTCTime } = Ember.Blackout;
 
 export default Ember.Component.extend({
-  
-  classNames: ['blackout-timeline'],
-  
   text: Ember.inject.service(),
   
-  days: Ember.computed('data',function(){
+  classNames: ['blackout-timeline'],
+  defaultItemHeight: 150,
+  days: Ember.A(),
+  
+  /**
+   * Start building a new days array
+   */
+  onReceive: Ember.on('didReceiveAttrs',function(attrs){
+    if(this.attrChanged(attrs,'data') && this.get('data')){
+      let days = Ember.A();
+      days.pushObjects(this.makeDays(this.get('data')));
+      this.set('days',days);
+    }
+  }),
+  
+  /**
+   * Add to days array
+   */
+  onUpdate: Ember.on('didUpdateAttrs',function(attrs){
+    if(this.attrChanged(attrs,'addToData') && this.get('addToData')){
+      let days = this.get('days');
+      days.pushObjects(this.makeDays(this.get('addToData')));
+      this.set('days',days);
+    }
+  }),
+  
+  makeDays(data){
     
-    let events = [];
+    let days = [];
     let currentDay = null;
     let currentIndex = null;
     let currentMin = null;
     let currentMindex = null;
     
-    if(this.get('data')){
-      this.get('data').forEach(event => {
+    if(data){
+      data.forEach(event => {
         
         let msPerDay = 24*60*60*1000;
         let msPerMin = 60*1000;
@@ -39,21 +62,21 @@ export default Ember.Component.extend({
         minute = toZonedTime( minute, this.get('country.timeZone'));
         
         if(day!==currentDay){
-          events.push({
+          days.push({
             date: day,
             minutes: [],
           });
           currentDay = day;
-          currentIndex = events.length-1;
+          currentIndex = days.length-1;
         }
         
         if(minute!==currentMin){
-          events[currentIndex].minutes.push({
+          days[currentIndex].minutes.push({
             date: minute,
             events: [],
           });
           currentMin = minute;
-          currentMindex = events[currentIndex].minutes.length-1;
+          currentMindex = days[currentIndex].minutes.length-1;
         }
         
         let finalEvent = {
@@ -66,12 +89,11 @@ export default Ember.Component.extend({
           finalEvent.item = event;
         }
         
-        events[currentIndex].minutes[currentMindex].events.push(finalEvent);
+        days[currentIndex].minutes[currentMindex].events.push(finalEvent);
         
       });
       
-      
-      return events;
+      return days;
       
     } else {
       
@@ -79,7 +101,7 @@ export default Ember.Component.extend({
       
     }
     
-  }),
+  },
   
   setup: Ember.on('didInsertElement',function(){
     

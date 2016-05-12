@@ -75,8 +75,12 @@
       {{/content.tab}}
       
       
-      {{#content.tab id="player-history-panel"}}
-        {{player-ui/player-history history=history player=player}}
+      {{#content.tab id="player-history-panel" as |tab|}}
+        {{player-ui/player-history
+          history=history
+          player=player
+          registerTabLoading=tab.registerTabLoading
+          finishTabLoading=tab.finishTabLoading}}
       {{/content.tab}}
       
       

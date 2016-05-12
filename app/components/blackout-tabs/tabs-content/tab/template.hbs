@@ -1,11 +1,14 @@
 {{#if isShowing}}
   <div class="{{if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab)) 'hidden'}}">
-    {{yield}}
+    {{yield (hash
+      registerTabLoading=(action 'registerTabLoading')
+      finishTabLoading=(action 'finishTabLoading')
+    )}}
   </div>
 {{/if}}
 
 {{#if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab))}}
-  <div class="{{if noPadding 'dash-box-padding'}}">
+  <div class="{{if noPadding 'loader-padding' 'dash-loader-padding'}}">
     {{loading-spinner color="light"}}
   </div>
 {{/if}}

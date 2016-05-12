@@ -52,7 +52,7 @@ var blackoutRouter = {
         Ember.run.later(()=>{
           this.set('_forceNormalTransitionTo',true);
           this._doTransition.apply(this, args);
-        },44);
+        },77); // search: render-wait-time
         
         return false;
         

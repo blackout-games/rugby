@@ -1,7 +1,10 @@
-{{#if isLoadingData}}
-  {{loading-spinner color="light"}}
-{{/if}}
-
-<div class="dash-box-negate-padding-top-and-bottom {{if isLoadingData 'hidden'}}">
-  {{blackout-timeline data=data country=player.club.country}}
+<div class="dash-box-negate-padding-top-and-bottom">
+  {{blackout-timeline
+    data=data
+    addToData=addToData
+    country=player.club.country
+    isLoadingData=isLoadingData
+    defaultItemHeight=135
+    lastReached=(action 'fetchMore')
+  }}
 </div>

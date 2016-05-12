@@ -165,3 +165,29 @@ $finish: 100%;
 .btn-red .spinner.primary > div {
   background-color:saturate(lighten(#EA4B45,11%),22%);
 }
+
+/**
+ * Unify loader padding in various places
+ */
+
+$padding: 77px;
+
+.loader-padding {
+  padding:$padding;
+}
+
+.dash-loader-padding {
+  
+  /**
+   * Padding for bigger 2/3rd width boxes
+   * @type {[type]}
+   */
+  padding: #{$padding - $dash-padding-mobile} #{$padding - $dash-padding-mobile} #{$padding - $dash-padding-mobile*$dash-padding-bottom-factor};
+  @media #{$mobile-wide-and-up} {
+    padding: #{$padding - $dash-padding-landscape} #{$padding - $dash-padding-landscape} #{$padding - $dash-padding-landscape*$dash-padding-bottom-factor};
+  }
+  @media #{$tablet-and-up} {
+    padding: #{$padding - $dash-padding-tablet-up} #{$padding - $dash-padding-tablet-up} #{$padding - $dash-padding-tablet-up*$dash-padding-bottom-factor};
+  }
+  
+}

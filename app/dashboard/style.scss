@@ -68,12 +68,12 @@
   }
 }
 
-$padding-mobile: 14px;
-$padding-landscape: 19px;
-$padding-tablet-up: 30px;
+$dash-padding-mobile: 14px;
+$dash-padding-landscape: 19px;
+$dash-padding-tablet-up: 30px;
 
 // Not sure why this was smaller. Next time, add a comment.
-$padding-bottom-factor: 1;//11/14;
+$dash-padding-bottom-factor: 1;//11/14;
 
 .dash-box-padding {
   
@@ -81,12 +81,12 @@ $padding-bottom-factor: 1;//11/14;
    * Padding for bigger 2/3rd width boxes
    * @type {[type]}
    */
-  padding: $padding-mobile $padding-mobile $padding-mobile*$padding-bottom-factor;
+  padding: $dash-padding-mobile $dash-padding-mobile $dash-padding-mobile*$dash-padding-bottom-factor;
   @media #{$mobile-wide-and-up} {
-    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+    padding: $dash-padding-landscape $dash-padding-landscape $dash-padding-landscape*$dash-padding-bottom-factor;
   }
   @media #{$tablet-and-up} {
-    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+    padding: $dash-padding-tablet-up $dash-padding-tablet-up $dash-padding-tablet-up*$dash-padding-bottom-factor;
   }
   
 }
@@ -97,12 +97,12 @@ $padding-bottom-factor: 1;//11/14;
    * Padding for bigger 2/3rd width boxes
    * @type {[type]}
    */
-  padding: 0 $padding-mobile;
+  padding: 0 $dash-padding-mobile;
   @media #{$mobile-wide-and-up} {
-    padding: 0 $padding-landscape;
+    padding: 0 $dash-padding-landscape;
   }
   @media #{$tablet-and-up} {
-    padding: 0 $padding-tablet-up;
+    padding: 0 $dash-padding-tablet-up;
   }
   
 }
@@ -113,12 +113,12 @@ $padding-bottom-factor: 1;//11/14;
    * Padding for bigger 2/3rd width boxes
    * @type {[type]}
    */
-  padding: $padding-mobile 0 $padding-mobile*$padding-bottom-factor;
+  padding: $dash-padding-mobile 0 $dash-padding-mobile*$dash-padding-bottom-factor;
   @media #{$mobile-wide-and-up} {
-    padding: $padding-landscape 0 $padding-landscape*$padding-bottom-factor;
+    padding: $dash-padding-landscape 0 $dash-padding-landscape*$dash-padding-bottom-factor;
   }
   @media #{$tablet-and-up} {
-    padding: $padding-tablet-up 0 $padding-tablet-up*$padding-bottom-factor;
+    padding: $dash-padding-tablet-up 0 $dash-padding-tablet-up*$dash-padding-bottom-factor;
   }
 }
 
@@ -128,12 +128,12 @@ $padding-bottom-factor: 1;//11/14;
    * Padding for bigger 2/3rd width boxes
    * @type {[type]}
    */
-  padding: $padding-mobile 0 $padding-mobile*$padding-bottom-factor;
+  padding: $dash-padding-mobile 0 $dash-padding-mobile*$dash-padding-bottom-factor;
   @media #{$mobile-wide-and-up} {
-    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+    padding: $dash-padding-landscape $dash-padding-landscape $dash-padding-landscape*$dash-padding-bottom-factor;
   }
   @media #{$tablet-and-up} {
-    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+    padding: $dash-padding-tablet-up $dash-padding-tablet-up $dash-padding-tablet-up*$dash-padding-bottom-factor;
   }
 }
 
@@ -145,10 +145,10 @@ $padding-bottom-factor: 1;//11/14;
    */
   padding: 0;
   @media #{$mobile-wide-and-up} {
-    padding: $padding-landscape $padding-landscape $padding-landscape*$padding-bottom-factor;
+    padding: $dash-padding-landscape $dash-padding-landscape $dash-padding-landscape*$dash-padding-bottom-factor;
   }
   @media #{$tablet-and-up} {
-    padding: $padding-tablet-up $padding-tablet-up $padding-tablet-up*$padding-bottom-factor;
+    padding: $dash-padding-tablet-up $dash-padding-tablet-up $dash-padding-tablet-up*$dash-padding-bottom-factor;
   }
 }
 
@@ -158,7 +158,7 @@ $padding-bottom-factor: 1;//11/14;
    * Padding for bigger 2/3rd width boxes
    * @type {[type]}
    */
-  padding: $padding-mobile $padding-mobile $padding-mobile*$padding-bottom-factor;
+  padding: $dash-padding-mobile $dash-padding-mobile $dash-padding-mobile*$dash-padding-bottom-factor;
   @media #{$mobile-wide-and-up} {
     padding: 0;
   }
@@ -206,60 +206,60 @@ $padding-bottom-factor: 1;//11/14;
    * Allows us to place div inside a dash-box which goes to the edges
    */
   .dash-box-negate-padding {
-    margin-right: #{ -$padding-mobile} !important;
-    margin-left: #{ -$padding-mobile} !important;
+    margin-right: #{ -$dash-padding-mobile} !important;
+    margin-left: #{ -$dash-padding-mobile} !important;
     @media #{$mobile-wide-and-up} {
-      margin-right: #{ -$padding-landscape} !important;
-      margin-left: #{ -$padding-landscape} !important;
+      margin-right: #{ -$dash-padding-landscape} !important;
+      margin-left: #{ -$dash-padding-landscape} !important;
     }
     @media #{$tablet-and-up} {
-      margin-right: #{ -$padding-tablet-up} !important;
-      margin-left: #{ -$padding-tablet-up} !important;
+      margin-right: #{ -$dash-padding-tablet-up} !important;
+      margin-left: #{ -$dash-padding-tablet-up} !important;
     }
   }
   .dash-box-negate-padding-top {
-    margin: #{ -$padding-mobile} #{ -$padding-mobile} $padding-mobile*$padding-bottom-factor !important;
+    margin: #{ -$dash-padding-mobile} #{ -$dash-padding-mobile} $dash-padding-mobile*$dash-padding-bottom-factor !important;
     @media #{$mobile-wide-and-up} {
-      margin: #{ -$padding-landscape} #{ -$padding-landscape} $padding-landscape*$padding-bottom-factor !important;
+      margin: #{ -$dash-padding-landscape} #{ -$dash-padding-landscape} $dash-padding-landscape*$dash-padding-bottom-factor !important;
     }
     @media #{$tablet-and-up} {
-      margin: #{ -$padding-tablet-up} #{ -$padding-tablet-up} $padding-tablet-up*$padding-bottom-factor !important;
+      margin: #{ -$dash-padding-tablet-up} #{ -$dash-padding-tablet-up} $dash-padding-tablet-up*$dash-padding-bottom-factor !important;
     }
   }
   .dash-box-negate-padding-top-and-bottom {
-    margin: #{ -$padding-mobile} 0 #{ -$padding-mobile*$padding-bottom-factor} !important;
+    margin: #{ -$dash-padding-mobile} 0 #{ -$dash-padding-mobile*$dash-padding-bottom-factor} !important;
     @media #{$mobile-wide-and-up} {
-      margin: #{ -$padding-landscape} 0 #{ -$padding-landscape*$padding-bottom-factor} !important;
+      margin: #{ -$dash-padding-landscape} 0 #{ -$dash-padding-landscape*$dash-padding-bottom-factor} !important;
     }
     @media #{$tablet-and-up} {
-      margin: #{ -$padding-tablet-up} 0 #{ -$padding-tablet-up*$padding-bottom-factor} !important;
+      margin: #{ -$dash-padding-tablet-up} 0 #{ -$dash-padding-tablet-up*$dash-padding-bottom-factor} !important;
     }
   }
   .dash-box-negate-padding-bottom {
-    margin: 0 #{ -$padding-mobile} #{ -$padding-mobile * $padding-bottom-factor} !important;
+    margin: 0 #{ -$dash-padding-mobile} #{ -$dash-padding-mobile * $dash-padding-bottom-factor} !important;
     @media #{$mobile-wide-and-up} {
-      margin: 0 #{ -$padding-landscape} #{ -$padding-landscape * $padding-bottom-factor} !important;
+      margin: 0 #{ -$dash-padding-landscape} #{ -$dash-padding-landscape * $dash-padding-bottom-factor} !important;
     }
     @media #{$tablet-and-up} {
-      margin: 0 #{ -$padding-tablet-up} #{ -$padding-tablet-up * $padding-bottom-factor} !important;
+      margin: 0 #{ -$dash-padding-tablet-up} #{ -$dash-padding-tablet-up * $dash-padding-bottom-factor} !important;
     }
   }
   .dash-box-negate-padding-half {
-    margin: 0 #{ -$padding-mobile*0.5} !important;
+    margin: 0 #{ -$dash-padding-mobile*0.5} !important;
     @media #{$mobile-wide-and-up} {
-      margin: 0 #{ -$padding-landscape*0.5} !important;
+      margin: 0 #{ -$dash-padding-landscape*0.5} !important;
     }
     @media #{$tablet-and-up} {
-      margin: 0 #{ -$padding-tablet-up*0.5} !important;
+      margin: 0 #{ -$dash-padding-tablet-up*0.5} !important;
     }
   }
   .dash-box-negate-padding-half-bottom {
-    margin: 0 #{ -$padding-mobile*0.5} #{ -$padding-mobile*$padding-bottom-factor*0.5} !important;
+    margin: 0 #{ -$dash-padding-mobile*0.5} #{ -$dash-padding-mobile*$dash-padding-bottom-factor*0.5} !important;
     @media #{$mobile-wide-and-up} {
-      margin: 0 #{ -$padding-landscape*0.5} #{ -$padding-landscape*$padding-bottom-factor*0.5} !important;
+      margin: 0 #{ -$dash-padding-landscape*0.5} #{ -$dash-padding-landscape*$dash-padding-bottom-factor*0.5} !important;
     }
     @media #{$tablet-and-up} {
-      margin: 0 #{ -$padding-tablet-up*0.5} #{ -$padding-tablet-up * $padding-bottom-factor*0.5} !important;
+      margin: 0 #{ -$dash-padding-tablet-up*0.5} #{ -$dash-padding-tablet-up * $dash-padding-bottom-factor*0.5} !important;
     }
   }
   

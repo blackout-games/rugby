@@ -6,6 +6,22 @@ export default Ember.Component.extend({
   isLoadingTab: true,
   isLoadingData: false, // Can be set on tabs consumer
   
+  actions: {
+    
+    /**
+     * This allows us to let the actual tab content, whatever that may be
+     * to call these actions and cause the loader to show for longer
+     */
+    registerTabLoading(){
+      this.set('isLoadingTabContent',true);
+    },
+    finishTabLoading(){
+      this.set('isLoadingTabContent',false);
+      this.finishLoading();
+    },
+    
+  },
+  
   // The following commented sections allow preloading of tabs after the initial tab is loaded. However, this results in lagginess when the user may be acting. Plus we don't know if the user will actually ever go to these tabs, so we only load them when needed.
   //hasInsert: false,
   //timeToWait: 2222, // Allow enough time for animations, and enough time so that if user clicks a whole different route quickly, we won't have even bothered setting up other tabs
@@ -39,8 +55,7 @@ export default Ember.Component.extend({
               
               this.set('isShowing',true);
               Ember.run.next(()=>{
-                this.set('isLoadingTab',false);
-                this.tabIsSelected();
+                this.finishLoading();
               });
               
             } else {
@@ -49,10 +64,9 @@ export default Ember.Component.extend({
               Ember.run.later(()=>{
                 this.set('isShowing',true);
                 Ember.run.next(()=>{
-                  this.set('isLoadingTab',false);
-                  this.tabIsSelected();
+                  this.finishLoading();
                 });
-              },77);
+              },77); // search: render-wait-time
             }
           } else {
             this.set('isShowing',true);
@@ -69,6 +83,13 @@ export default Ember.Component.extend({
     }
     
   }),
+  
+  finishLoading(){
+    if(!this.get('isLoadingTabContent')){
+      this.set('isLoadingTab',false);
+      this.tabIsSelected();
+    }
+  },
   
   tabIsSelected(){
     // For sending changes out publicly

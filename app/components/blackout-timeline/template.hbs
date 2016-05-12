@@ -1,48 +1,60 @@
 <div class="blackout-timeline-bumper {{unless days 'hidden'}}"></div>
 
-{{#each days as |day|}}
+{{#if (or isLoadingData days)}}
   
-  <div class="blackout-timeline-day">
-    <span>{{date-ui date=day.date initial='dayDate' alt='gameDate' timeZone=country.timeZone}}</span>
-    <div class="blackout-timeline-icon-backer"></div>
-    <i class="icon-attach-circled"></i>
-  </div>
-  
-  {{#each day.minutes as |minute|}}
+  {{!#each days as |day|}}
+  {{#infinite-scroll
+    content=days
+    defaultHeight=defaultItemHeight
+    lastReached=lastReached
+    isLoadingData=isLoadingData
+    as |day|
+  }}
     
-    <div class="blackout-timeline-time">
-      {{date-ui date=minute.date initial='timeDate' timeZone=country.timeZone}}
-      <div class="blackout-timeline-dot"></div>
+    <div class="blackout-timeline-day">
+      <span>{{date-ui date=day.date initial='dayDate' alt='gameDate' timeZone=country.timeZone}}</span>
+      <div class="blackout-timeline-icon-backer"></div>
+      <i class="icon-attach-circled"></i>
     </div>
+    
+    {{#each day.minutes as |minute|}}
       
-    {{#each minute.events as |event|}}
-      
-      <div class="blackout-timeline-event">
-      
-        {{#if event.item}}
-      
-          {{yield event.item}}
-          
-        {{else}}
-          
-          {{{event.event}}}
-          
-        {{/if}}
-        
+      <div class="blackout-timeline-time">
+        {{date-ui date=minute.date initial='timeDate' timeZone=country.timeZone}}
+        <div class="blackout-timeline-dot"></div>
       </div>
-      
+        
+      {{#each minute.events as |event|}}
+        
+        <div class="blackout-timeline-event">
+        
+          {{#if event.item}}
+            
+            {{yield event.item}}
+            
+          {{else}}
+            
+            {{{event.event}}}
+            
+          {{/if}}
+          
+        </div>
+        
+      {{/each}}
+        
     {{/each}}
-      
-  {{/each}}
+    
+    <div class="blackout-timeline-bumper"></div>
 
-<div class="blackout-timeline-bumper"></div>
-
+  {{/infinite-scroll}}
+  {{!/each}}
+  
 {{else}}
   
   <div class="dash-box-padding">
     {{t (if noDataT noDataT 'misc.no-events')}}
   </div>
 
-{{/each}}
+{{/if}}
 
 <div class="blackout-timeline-bumper {{unless days 'hidden'}}"></div>
