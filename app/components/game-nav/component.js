@@ -30,7 +30,17 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   // Communicators (down)
   backToTopButtonIsShowing: false,
   subNavButtonIsShowing: false,
+  
+  /**
+   * Misc panels
+   * @type {Array}
+   */
+  miscPanels: [
+    'settings',
+    'clubSwitcher',
+  ],
   settingsPanelIsShowing: false,
+  clubSwitcherPanelIsShowing: false,
   
   // --------------------------------- Computed
   
@@ -357,12 +367,14 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   
   /**
    * Deselect misc top level menu items
-   * For now is just settings.
    */
-  deselectMisc(){
+  deselectMisc( miscSelected ){
     
-    // Settings
-    this.set('settingsPanelIsShowing',false);
+    this.get('miscPanels').forEach(panelName=>{
+      if(panelName !== miscSelected){
+        this.set(panelName+'PanelIsShowing',false);
+      }
+    });
     
   },
   
@@ -425,16 +437,16 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         if(item.menuRoute){
           
           // For routes which don't appear in the menu but will cause a different menu link to highlight
-          itemLink = $('<a id="menuItem_'+item.cssRoute+'" class="menu-link hidden" data-menu-route="'+item.menuRoute+'"></a>');
+          itemLink = $('<a id="menuItem_'+item.cssRoute+'" class="menu-link game-nav hidden" data-menu-route="'+item.menuRoute+'"></a>');
           addEvent = false;
           
         } else if(item.tempRoute){
-          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link">'+item.tLabel+'</a>');
+          itemLink = $('<a href="/'+item.tempRoute+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link game-nav">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.tempRoute;
           
         } else if(item.route){
-          itemLink = $('<a href="/'+item.route+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link">'+item.tLabel+'</a>');
+          itemLink = $('<a href="/'+item.route+'" id="menuItem_'+item.cssRoute+'" class="btn-a menu-link game-nav">'+item.tLabel+'</a>');
           action = 'transitionAction';
           realRoute = item.route;
           
@@ -443,7 +455,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
           }
           
         } else if(item.action) {
-          itemLink = $('<a class="btn-a menu-link">'+item.tLabel+'</a>');
+          itemLink = $('<a class="btn-a menu-link game-nav">'+item.tLabel+'</a>');
           let actionName = 'menuAction'+item.label.alphaNumeric();
           action = actionName;
           this.set(actionName,item.action);
@@ -475,18 +487,18 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     
     let isJumbo = this.get('media.isJumbo') && this.get('lastTab');
     
-    if(this.get('lastMenu')==='settings'){
+    if(this.get('miscPanels').indexOf(this.get('lastMenu'))>=0){
       
       //this.set('lastTabType','menu');
       
       if(menuOpenedOnThisClick){
         
-        this.selectTab( 'settings', 'menu', true, menuOpenedOnThisClick );
-        this.set('settingsPanelIsShowing',true);
+        this.selectTab( this.get('lastMenu'), 'menu', true, menuOpenedOnThisClick );
+        this.set(this.get('lastMenu')+'PanelIsShowing',true);
         
       } else {
         
-        this.selectTab( this.get('lastMenuBeforeSettings'), 'menu', true, menuOpenedOnThisClick );
+        this.selectTab( this.get('lastMenuBeforeMisc'), 'menu', true, menuOpenedOnThisClick );
         
       }
       
@@ -553,8 +565,8 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       //log('deselecting all menu links');
       
-      $('#nav-panel a.menu-link').removeClass('selected');
-      //$('a.menu-link[href="/'+selectPath+'"]').addClass('selected');
+      $('#nav-panel a.menu-link.game-nav').removeClass('selected');
+      //$('a.menu-link.game-nav[href="/'+selectPath+'"]').addClass('selected');
       
       let $matchedMenu = Ember.Blackout.findPathInMenu(selectPath);
       
@@ -651,10 +663,10 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     loginWithFacebook(button) {
       this.sendAction('fbLoginAction',button);
     },
-    toggleSettingsPanel(showing){
-      this.set('settingsPanelIsShowing',showing);
-      if(showing){
-        this.selectTab('settings','misc');
+    toggleMiscPanel(panelName,show){
+      this.set(panelName+'PanelIsShowing',show);
+      if(show){
+        this.selectTab(panelName,'misc');
       } else {
         this.selectCurrentMenu();
       }
@@ -707,6 +719,8 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       $('.nav-tab-btn,.nav-menu-btn').removeClass('selected');
       if(type!=='misc'){
         this.deselectMisc();
+      } else {
+        this.deselectMisc(tabName);
       }
       newButton.addClass('selected');
       
@@ -716,10 +730,10 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         type = 'tab';
       }
       
-      if( tabName === 'settings' ){
+      if( this.get('miscPanels').indexOf(tabName)>=0 ){
         
-        if( this.get('lastMenu') !== 'settings' ){
-          this.set('lastMenuBeforeSettings',this.get('lastMenu'));
+        if( this.get('lastMenu') !== tabName && this.get('miscPanels').indexOf(this.get('lastMenu'))<0 ){
+          this.set('lastMenuBeforeMisc',this.get('lastMenu'));
         }
         this.set('lastMenu',tabName);
         

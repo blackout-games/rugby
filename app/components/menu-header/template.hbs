@@ -1,7 +1,6 @@
 <div class="settings-cog">
   <div class="standalone-bumper"></div>
-<a {{action "toggleSettings"}} class="btn-a"><i class="icon-cog" aria-label="Settings"></i></a>
-  
+  {{#fast-a action=(action 'togglePanel' 'settings') class="btn-a activatable"}}<i class="icon-cog" aria-label="Settings"></i>{{/fast-a}}
 </div>
 
 <div class="standalone-bumper"></div>
@@ -9,17 +8,17 @@
 {{#if session.isAuthenticated}}
   
   
-  <div class="row menu-manager">
+  <div class="row">
     
     <div class="col-max menu-manager-wrapper">
-      {{#link-to 'account' class="btn-a no-extra-hitarea "}}
+      {{#link-to 'account' class="btn-a dark-on-dark no-extra-hitarea "}}
         <div class="row row-nowrap">
           <div class="col-fixed">
             {{user-image type='manager' class='manager-avatar-menu' defaultColor='dark'}}
           </div>
           <div class="col-flex">
             <div class="menu-manager-text row">
-              <div class="col-max menu-manager-name ellipses">
+              <div class="col-max menu-manager-name ellipsis">
                 {{session.data.manager.username}}
               </div>
             </div>
@@ -29,19 +28,21 @@
     </div>
     
     <div class="col-fixed menu-logout-wrapper">
-      <a {{ action 'invalidateSession' }} class="menu-logout btn-a"><i class="icon-logout icon-1-5x" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
+      <a {{ action 'invalidateSession' }} class="menu-logout btn-a dark-on-dark"><i class="icon-logout icon-1-5x" aria-label="{{t 'buttons.logout'}}" title="{{t 'buttons.logout'}}"></i></a>
     </div>
   </div>
   
   
   <div class="text-center">
-    <div>
-      {{user-image type='club' class='club-avatar-menu' defaultColor='dark'}}
-    </div>
-    
-    <div class="menu-club-text">
-      {{currentClub.name}}
-    </div>
+    {{club-link
+      action=(action 'togglePanel' 'clubSwitcher')
+      club=session.currentClub
+      imageSize='medium-4x'
+      defaultColor='dark'
+      inline=true
+      stacked=true
+      fast=true
+      class="menu-club menu-club-text btn-a activatable"}}
   </div>
   
   

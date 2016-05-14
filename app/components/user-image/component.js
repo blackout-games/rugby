@@ -68,6 +68,14 @@ export default Ember.Component.extend({
     
   }),
   
+  onUpdate: Ember.on('didUpdateAttrs',function(attrs){
+    if(this.get('type')==='club' && this.attrChanged(attrs,'club')){
+      
+      this.get('userImages').updateClubImage(this.$('.user-image'),this.get('club'));
+      
+    }
+  }),
+  
   isLargeSize(size){
     return size==='large'
       || size==='huge'

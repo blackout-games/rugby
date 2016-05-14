@@ -9,6 +9,7 @@ export default OAuth2.extend({
   eventBus: Ember.inject.service(),
   locals: Ember.inject.service(),
   session: Ember.inject.service(),
+  user: Ember.inject.service(),
   serverTokenEndpoint: config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/token?official',
   
   saveSessionData(response) {
@@ -120,7 +121,6 @@ export default OAuth2.extend({
   },
   
   restore(data) {
-    
     /**
      * Prevent auto re-authenticating
      * Probs just a simple-auth bug

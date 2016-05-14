@@ -7,12 +7,14 @@ export default Ember.Component.extend({
   classNames: ['menu-header'],
   
   settingsPanelIsShowing: false,
+  clubSwitcherPanelIsShowing: false,
 
   setup: Ember.on('didInsertElement', function() {
     
     // Listen for settings toggle events
     this.get('eventBus').subscribe('showSettings', this, this.showSettings);
     this.get('eventBus').subscribe('toggleSettings', this, this.toggleSettings);
+    this.get('eventBus').subscribe('hideClubSwitcher', this, this.hideClubSwitcher);
     
   }),
 
@@ -20,29 +22,35 @@ export default Ember.Component.extend({
     
     this.get('eventBus').unsubscribe('showSettings', this, this.showSettings);
     this.get('eventBus').unsubscribe('toggleSettings', this, this.toggleSettings);
+    this.get('eventBus').unsubscribe('hideClubSwitcher', this, this.hideClubSwitcher);
     
   }),
   
   showSettings(){
-    this.send('toggleSettings','show');
+    this.send('togglePanel','settings','show');
   },
   
   toggleSettings(){
-    this.send('toggleSettings');
+    this.send('togglePanel','settings');
+  },
+  
+  hideClubSwitcher(){
+    this.send('togglePanel','clubSwitcher','hide');
   },
 
-  currentClub: Ember.computed('session.sessionBuilt', function() {
-    if (this.get('session.isAuthenticated') && this.get('session.data.manager.currentClub')) {
-      return this.get('store').findRecord('club', this.get('session.data.manager.currentClub'));
-    }
+  currentClub: Ember.computed('session.currentClub', function() {
+    return this.get('session.currentClub');
   }),
 
   logoutAction: 'invalidateSession',
   fbLoginAction: 'loginWithFacebook',
   
-  deselectSettingsCog: Ember.on('didUpdateAttrs',function(opts){
+  deselectMiscPanels: Ember.on('didUpdateAttrs',function(opts){
     if(this.attrChanged(opts,'settingsPanelIsShowing') && !this.get('settingsPanelIsShowing')){
       this.$('.settings-cog > .btn-a').removeClass('active');
+    }
+    if(this.attrChanged(opts,'clubSwitcherPanelIsShowing') && !this.get('clubSwitcherPanelIsShowing')){
+      this.$('.menu-club').removeClass('active');
     }
   }),
 
@@ -56,17 +64,24 @@ export default Ember.Component.extend({
     goAction(){
       // Used for testing some random action
     },
-    toggleSettings(force){
+    togglePanel(panelName,force){
       
-      let lastToggled = this.get('settingsLastToggled');
+      let $item;
+      if(panelName==='settings'){
+        $item = this.$('.settings-cog > .btn-a');
+      } else if(panelName==='clubSwitcher'){
+        $item = this.$('.menu-club');
+      } else {
+        return;
+      }
+      
+      let lastToggled = this.get(panelName+'LastToggled');
       if(Ember.isEmpty(lastToggled)){
         lastToggled = 0;
       }
       
       // Enforce a minimum time between taps
       if(Date.now()-lastToggled>=222){
-        
-        let $item = this.$('.settings-cog > .btn-a');
         
         if(force==='show'){
           $item.addClass('active');
@@ -77,19 +92,18 @@ export default Ember.Component.extend({
         }
         
         // For sending action up
-        if(this.attrs.onToggle){
-          this.attrs.onToggle($item.hasClass('active'));
+        if(this.attrs.onPanelToggle){
+          this.attrs.onPanelToggle(panelName,$item.hasClass('active'));
         }
         
         // For staying up to date with actions coming down
         if($item.hasClass('active')){
-          this.set('settingsPanelIsShowing',true);
+          this.set(panelName+'PanelIsShowing',true);
         } else {
-          this.set('settingsPanelIsShowing',false);
+          this.set(panelName+'PanelIsShowing',false);
         }
         
-        this.set('settingsLastToggled',Date.now());
-        
+        this.set(panelName+'LastToggled',Date.now());
         
       }
     },

@@ -1,0 +1,9 @@
+{{#each session.manager.clubs as |club|}}
+  <a {{action 'switchToClub' club}} class="menu-link nowrap btn-a {{if (eq session.currentClub.id club.id) "selected"}}" id="club-switcher-link-{{club.id}}">
+    {{club-ui club=club}}
+  </a>
+{{/each}}
+
+<div class="top-gap-lg" style="padding-left:27px;">
+  <button class="btn ellipsis" disabled="disabled"><i class="icon-plus"></i> {{t 'club.create-new'}}</button>
+</div>

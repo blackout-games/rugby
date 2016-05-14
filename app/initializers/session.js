@@ -12,11 +12,16 @@ SessionService.reopen({
    * The current club if the user is logged in
    */
   manager: Ember.computed('isAuthenticated','sessionBuilt','data.manager', function() {
-    if (this.get('isAuthenticated') && this.get('data.manager')) {
-      return this.get('data.manager');
-    } else {
-      return null;
+    let store = this.get('store');
+    if(this.get('isAuthenticated')){
+      let manager = store.peekRecord('manager',this.get('data.manager.id'));
+      if(manager){
+        return manager;
+      } else if(this.get('data.manager')) {
+        return this.get('data.manager');
+      }
     }
+    return null;
   }),
   
   /**

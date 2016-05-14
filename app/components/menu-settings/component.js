@@ -4,7 +4,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  classNames: ['settings-panel-container'],
+  classNames: ['menu-settings-container'],
   locale: Ember.inject.service(),
   
   setup: Ember.on('init',function(){

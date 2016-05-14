@@ -16,27 +16,31 @@ let isForcedLoaderRoute = function( routeName, authenticated, router, newParams 
     routeName = routeName.substr(0,routeName.length-6);
   }
   
-  Ember.$.each(forceLoaderRoutes,(index,route)=>{
+  let currentRoute = router.get('currentPath');
+  if(currentRoute){
     
-    if(routeName.indexOf(route.name) === 0 && (!route.authenticated || authenticated )){
+    Ember.$.each(forceLoaderRoutes,(index,route)=>{
       
-      let currentRoute = router.get('currentPath');
-      let params = router.get('router.state.params');
-      let subRoute = route.name+'.';
-      let oldParams = [];
+      if(routeName.indexOf(route.name) === 0 && (!route.authenticated || authenticated )){
       
-      if(params[route.name]){
-        oldParams = Object.keys(params[route.name]).map(key => params[route.name][key]);
+        let params = router.get('router.state.params');
+        let subRoute = route.name+'.';
+        let oldParams = [];
+        
+        if(params[route.name]){
+          oldParams = Object.keys(params[route.name]).map(key => params[route.name][key]);
+        }
+        
+        // Make sure not coming from subroute, or if we are, the params need to have changed
+        if(currentRoute.indexOf(subRoute)<0 || (fullRoute===currentRoute && oldParams!==newParams)){
+          found = true;
+          return false;
+        }
       }
       
-      // Make sure not coming from subroute, or if we are, the params need to have changed
-      if(currentRoute.indexOf(subRoute)<0 || (fullRoute===currentRoute && oldParams!==newParams)){
-        found = true;
-        return false;
-      }
-    }
+    });
     
-  });
+  }
   
   return found;
   

@@ -139,8 +139,27 @@ a {
       color: rgba(#FFF, 0.5);
     }
   }
-
-  &.btn-a.on-dark, &.btn-a.on-dark:hover {
+  
+  /**
+   * dark-on-dark is for when over a dark background,
+   * but normal color is darkish too
+   */
+  &.btn-a.dark-on-dark, &.btn-a.dark-on-dark:hover {
+    $color: desaturate(darken($secondary-master,9%),22%);
+    
+    color: $color;
+    
+    &:hover,&:active {
+      color: $primary-on-dark;
+      border: none;
+    }
+    
+  }
+  
+  /**
+   * on-image is for when over an image
+   */
+  &.btn-a.on-image, &.btn-a.on-image:hover {
     $color: saturate(lighten($secondary-master,27%),100%);
     $color: $primary-on-dark;
     color: $color;
@@ -153,6 +172,43 @@ a {
     &.press {
       color: lighten($color,5%);
     }
+  }
+  
+  /**
+   * on-panel is for when on the dark menu panel but when hovering, doesn't go primary, just lighter
+   */
+  &.btn-a.activatable, &.btn-a.activatable:hover {
+    
+    $color: desaturate(darken($secondary-master,9%),22%);
+    
+    color:$color;
+    
+    &.hover {
+      color:lighten($color,11%);
+    }
+    
+    &.active, &.active:hover {
+      color:$primary-master;
+      text-shadow: 0 0 11px rgba(lighten($primary-master,17%),0.27);
+    }
+    
+    &.secondary {
+      
+      $color: $secondary-on-dark;
+      
+      //color:$color;
+      
+      &.hover {
+        //color:lighten($color,11%);
+      }
+      
+      &.active, &.active:hover {
+        color:$color;
+        text-shadow: 0 0 11px rgba(lighten($color,22%),0.22);
+      }
+      
+    }
+    
   }
 
   &:active, &:focus {
@@ -395,6 +451,9 @@ p {
    * otherwise we break other things like squad energy on mobile
    */
   display: block;
+  &.ellipsis-clip {
+    text-overflow: string ".";
+  }
 }
 
 /**
@@ -654,6 +713,9 @@ p {
 .text-bigger {
   font-size:1.1em !important;
 }
+.text-bigger-2x {
+  font-size:1.25em !important;
+}
 
 /**
  * General properties
@@ -661,8 +723,11 @@ p {
 .text-caps {
   text-transform: uppercase;
 }
-.text-fat,.text-bold {
+.text-bold {
   font-weight: bold;
+}
+.text-fat {
+  font-weight: 800;
 }
 
 /**

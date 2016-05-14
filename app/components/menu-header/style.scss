@@ -5,25 +5,15 @@
   right:0;
   top:0;
   
-  $color: desaturate(darken($secondary-master,9%),27%);
-  
   .btn-a, .btn-a:hover {
-    color:$color;
     
-    &.hover {
-      color:lighten($color,11%);
-    }
-    
-    //$side-switcher-time:2s;
-    
-    transition: transform $side-switcher-time $side-switcher-ease,
-                  color $side-switcher-time $side-switcher-ease;
+    transition: transform $side-switcher-time ease(out-cubic),
+                  color $side-switcher-time ease(out-cubic);
     transform-origin: 50.1% 53.2%;
     
-    &.active {
-      
-      color:$primary-master;
+    &.active, &.active:hover {
       transform: rotate3d(0,0,1,90deg);
+      //color:$primary-master;
     }
     
     i {
@@ -48,19 +38,6 @@
 }
 
 $color: desaturate(darken($secondary-master,9%),22%);
-
-.menu-manager {
-  
-  a {
-    color: $color;
-    //text-transform: uppercase;
-    &:hover,&:active {
-      color: $primary-on-dark;
-      border: none;
-    }
-  }
-  
-}
 
 .menu-manager-text {
   //color: $color;
@@ -93,19 +70,13 @@ $color: desaturate(darken($secondary-master,9%),22%);
   width:40px;
 }
 
-.club-avatar-menu {
-  display: inline-block;
-  width:77px !important;
-  height:77px !important;
+.menu-club-text-wrapper {
+  margin-top:-4px;
 }
 
 .menu-club-text {
-  text-align: center;
   font-size: 1.4em;
   color: $color;
-  cursor: default;
-  display: inline-block;
-  margin-top:-4px;
 }
 
 .menu-header-login {

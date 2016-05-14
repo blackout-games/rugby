@@ -103,3 +103,9 @@ $ease: (
   @warn "Unkown '#{$key}' in $ease.";
   @return null;
 }
+
+/**
+ * Game nav
+ */
+$side-switcher-time: 0.444s;
+$side-switcher-ease: ease('out-expo');

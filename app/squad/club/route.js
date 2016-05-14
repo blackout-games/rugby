@@ -2,6 +2,16 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   
+  beforeModel( transition ){
+    
+    if(this.get('session.isAuthenticated') && transition.params['squad.club'].club_id === this.get('session.currentClub.id')){
+      
+      this.transitionTo('squad.club','me');
+      
+    }
+    
+  },
+  
   model ( params ){
     
     if(!params.club_id){

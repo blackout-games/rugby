@@ -194,7 +194,7 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     
   },
 
-  buildSession(transition) {
+  buildSession(transition,refreshManager) {
     var session = this.get('session');
     var store = this.get('store');
     var payload;
@@ -254,6 +254,13 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
         // Let the world know user has logged in and session is complete
         this.eventBus.publish('sessionBuilt');
       }
+      
+      // Refresh manager?
+      // Should only call this in place where a fresh manager hasn't
+      // just been given, like when logging in.
+      if(refreshManager){
+        this.get('user').refreshSessionManager();
+      }
 
     } else {
 
@@ -294,103 +301,110 @@ export default Ember.Route.extend(ApplicationRouteMixin, LoadingSliderMixin, Rou
     });
     
   },
+  
+  hasLoadedAppModels: false,
 
   beforeModel( transition ) {
     
-    /**
-     * Maintenance/resets on new releases.
-     * 
-     * Change this if you need to clear session data, local storage, etc. for a new release.
-     */
-    let releaseMarker = 12;
-    
-    let session = this.get('session');
-    let oldReleaseMarker = session.get('data.releaseMarker');
-    
-    if(!oldReleaseMarker || oldReleaseMarker<releaseMarker){
+    if(!this.get('hasLoadedAppModels')){
+      this.set('hasLoadedAppModels',true);
       
-      //this.get('locals').write('authRecover',null);
+      /**
+       * Maintenance/resets on new releases.
+       * 
+       * Change this if you need to clear session data, local storage, etc. for a new release.
+       */
+      let releaseMarker = 12;
       
-      /*if(this.get('session.isAuthenticated')){
-        this.invalidateSession();
-      } else {
+      let session = this.get('session');
+      let oldReleaseMarker = session.get('data.releaseMarker');
+      
+      if(!oldReleaseMarker || oldReleaseMarker<releaseMarker){
+        
+        //this.get('locals').write('authRecover',null);
+        
+        /*if(this.get('session.isAuthenticated')){
+          this.invalidateSession();
+        } else {
+          session.set('data.releaseMarker',releaseMarker);
+          this.clearAllSessionData();
+        }*/
+        
         session.set('data.releaseMarker',releaseMarker);
-        this.clearAllSessionData();
-      }*/
-      
-      session.set('data.releaseMarker',releaseMarker);
-      this.get('user').refreshSessionManager();
-      
-    }
+        this.get('user').refreshSessionManager();
+        
+      }
 
-    /**
-     * At this stage we don't actually load and return a model for use in the "application route".
-     * We use this opportunity (while the app waits for us to resolve data) to run other data retrieval tasks while the app boots up. This is recommended by ember to be done here instead of during app initializers with deferAppReadiness etc.
-     * http://guides.emberjs.com/v2.1.0/applications/initializers/
-     *
-     */
-    
-    let hash = {
+      /**
+       * At this stage we don't actually load and return a model for use in the "application route".
+       * We use this opportunity (while the app waits for us to resolve data) to run other data retrieval tasks while the app boots up. This is recommended by ember to be done here instead of during app initializers with deferAppReadiness etc.
+       * http://guides.emberjs.com/v2.1.0/applications/initializers/
+       *
+       */
       
-      // Load and wait for preferences promise whether logged in or not
-      info: this.get('info').initInfo(),
+      let hash = {
+        
+        // Load and wait for preferences promise whether logged in or not
+        info: this.get('info').initInfo(),
+        
+        // Load and wait for preferences promise whether logged in or not
+        preferences: this.get('preferences').loadPreferences(),
+        
+        // Load and wait for preferences promise whether logged in or not
+        settings: this.get('settings').loadSettings(),
+        
+        // Load general i18n document
+        translation: this.get('locale').initLocale(),
+        
+      };
       
-      // Load and wait for preferences promise whether logged in or not
-      preferences: this.get('preferences').loadPreferences(),
+      /**
+       * Check for browser default locale using the server
+       */
       
-      // Load and wait for preferences promise whether logged in or not
-      settings: this.get('settings').loadSettings(),
+      let locale = this.get('locals').read('locale');
       
-      // Load general i18n document
-      translation: this.get('locale').initLocale(),
+      // If a locale has not been set before
+      if(Ember.isEmpty(locale)){
+        
+        // Check browser locale
+        let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/headers/Accept-Language';
+        
+        hash.browserLocale = Ember.$.getJSON(url,function(data){
+          if( data && data.data && data.data.id === 'Accept-Language' ){
+            window.blackout.languageHeader = data.data.attributes.value;
+          }
+          
+        });
+        
+      }
       
-    };
-    
-    /**
-     * Check for browser default locale using the server
-     */
-    
-    let locale = this.get('locals').read('locale');
-    
-    // If a locale has not been set before
-    if(Ember.isEmpty(locale)){
       
-      // Check browser locale
-      let url = config.APP.apiProtocol + '://' + config.APP.apiHost + config.APP.apiBase + '/headers/Accept-Language';
+      /**
+       * check if the user is logged in, and if so, load the manager and club into ember data, along with user preferences, etc.
+       */
       
-      hash.browserLocale = Ember.$.getJSON(url,function(data){
-        if( data && data.data && data.data.id === 'Accept-Language' ){
-          window.blackout.languageHeader = data.data.attributes.value;
-        }
+      if (this.get('session.isAuthenticated')) {
+        
+        this.buildSession(transition,true);
+
+      } else {
+
+        // Else just let the app load straight away
+
+      }
+      
+      /**
+       * Promise hash
+       */
+      
+      return Ember.RSVP.hash(hash).then((data) => {
+        
+        return data;
         
       });
       
     }
-    
-    
-    /**
-     * check if the user is logged in, and if so, load the manager and club into ember data, along with user preferences, etc.
-     */
-    
-    if (this.get('session.isAuthenticated')) {
-
-      this.buildSession(transition);
-
-    } else {
-
-      // Else just let the app load straight away
-
-    }
-    
-    /**
-     * Promise hash
-     */
-    
-    return Ember.RSVP.hash(hash).then((data) => {
-      
-      return data;
-      
-    });
 
   },
 

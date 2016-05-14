@@ -121,6 +121,48 @@ export default Ember.Service.extend({
     
   },
   
+  updateClubImage($el,club){
+    
+    let url = club.get('logo');
+    this.updateImageAndStore($el,url);
+    
+  },
+  
+  updateImageAndStore($el,url){
+    
+    // ---------------------------------- Images
+    
+    var notFound = [];
+    
+    Ember.$.each(this.get('imageStore'),(index,img)=>{
+      
+      if(img.el && (!$el.length || img.el[0]===$el[0])){
+        
+        if($el.length){
+          
+          if($el.data('is-large-image')){
+            url = this.getLargeUrl(url);
+          }
+          
+          this.updateImage($el, url, img.defaultBgColor);
+          
+        } else {
+          notFound.push(index);
+        }
+        
+        return false;
+        
+      }
+      
+    });
+    
+    // Remove not found
+    notFound.forEach(function(i){
+      this.get('imageStore').splice(i,1);
+    });
+    
+  },
+  
   getSmallUrl(url){
     
     /**
@@ -231,6 +273,14 @@ export default Ember.Service.extend({
             
       });
     
+    } else {
+      
+      // No URL, if this is an update from another image, we need to remove the image url and reset background
+      
+      // Set background as color to block out "Logo Not Found" image
+      $el.css('background-color', defaultBgColor);
+      $el.css('background-image', '');
+      
     }
     
   },
@@ -447,11 +497,11 @@ export default Ember.Service.extend({
     
   },
 
-  clubImageURL: Ember.computed('session.sessionBuilt', function() {
+  clubImageURL: Ember.computed('session.currentClub', function() {
     
-    if (this.get('session.isAuthenticated') && this.get('session.data.manager.currentClub')) {
+    if (this.get('session.isAuthenticated') && this.get('session.currentClub')) {
 
-      var club = this.get('store').peekRecord('club', this.get('session.data.manager.currentClub'));
+      var club = this.get('session.currentClub');
 
       if (club) {
         var logo = club.get('logo');

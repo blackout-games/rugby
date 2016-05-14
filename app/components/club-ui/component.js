@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   imageSize: 'medium',
   tagName: 'span',
   hasInit: false,
+  defaultColor: 'dark',
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){

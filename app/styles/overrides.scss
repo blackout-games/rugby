@@ -349,6 +349,10 @@
   margin-right: 50px !important;
 }
 
+.negate-right-gap-md {
+  margin-right: -10px !important;
+}
+
 /**
  * Padding helpers
  */
@@ -373,6 +377,12 @@
 
 .hidden-xxs {
   @media #{$mobile-tall} {
+    display: none !important;
+  }
+}
+
+.hidden-xs {
+  @media #{$mobile} {
     display: none !important;
   }
 }
