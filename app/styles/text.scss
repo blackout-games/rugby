@@ -159,7 +159,7 @@ a {
   /**
    * on-image is for when over an image
    */
-  &.btn-a.on-image, &.btn-a.on-image:hover {
+  &.btn-a.on-dark, &.btn-a.on-dark:hover {
     $color: saturate(lighten($secondary-master,27%),100%);
     $color: $primary-on-dark;
     color: $color;
