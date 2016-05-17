@@ -6,12 +6,9 @@ export default Ember.Component.extend({
   spinnerColor: "primary",
   classNames: ['loader-button','btn'],
   classNameBindings: ['confirmMode:confirm-button','noDisabledCursor:default-cursor'],
-  attributeBindings: ['disabled'],
   
   isAnimating: false,
   whoAmI: 'loaderButton', // To verify this is a loader button component.
-  
-  disabled: false,
   
   setAction: Ember.on('init', function(){
     this.set('clickAction',this.get('action'));
@@ -84,6 +81,8 @@ export default Ember.Component.extend({
       this.set('ignoreNextReset',false);
       return;
     }
+    
+    this.set('ignoreNextReset',false);
     
     this.enable();
     // Don't do this, or it removes the ability to disable the button immediately after reset
@@ -160,13 +159,13 @@ export default Ember.Component.extend({
   },
   
   disable(){
-    this.set('disabled',true);
+    this.$().prop('disabled',true);
     this.$().removeClass('hover');
     this.$().addClass('disabled');
   },
   
   enable(){
-    this.set('disabled',false);
+    this.$().prop('disabled',false);
     this.$().removeClass('disabled');
   },
   

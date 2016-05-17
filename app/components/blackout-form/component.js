@@ -183,7 +183,7 @@ export default Ember.Component.extend({
               this.set('serverError',errObject.get('errors.title'));
             }
             
-            button.reset();
+            button.reset(false,true);
             this.$('.blackout-cancel-button').prop('disabled',false);
             
           },(forceReset)=>{

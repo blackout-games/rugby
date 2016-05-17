@@ -77,7 +77,12 @@ export default Ember.Component.extend({
         let playerId = this.get('player.id');
         Ember.Blackout.transitionTo(`/players/${playerId}/sale`);
         
-      }).catch(fail).finally(final);
+      },(error)=>{
+        
+        transfer.destroyRecord();
+        fail(error);
+        
+      }).finally(final);
       
     },
     cancelSell(){
