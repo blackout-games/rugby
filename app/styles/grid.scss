@@ -124,6 +124,11 @@
   max-width: 16.667%;
 }
 
+.col-xs-5th,.col-5th {
+  flex-basis: 20%;
+  max-width: 20%;
+}
+
 .col-xs-3,.col-3 {
   flex-basis: 25%;
   max-width: 25%;
@@ -139,9 +144,21 @@
   max-width: 41.667%;
 }
 
+// 8/18ths
+.col-xs-18-8,.col-18-8 {
+  flex-basis: 44.444%;
+  max-width: 44.444%;
+}
+
 .col-xs-6,.col-6 {
   flex-basis: 50%;
   max-width: 50%;
+}
+
+// 10/18ths
+.col-xs-18-10,.col-18-10 {
+  flex-basis: 55.555%;
+  max-width: 55.555%;
 }
 
 .col-xs-7,.col-7 {
@@ -184,6 +201,11 @@
   > .col-xs-2 {
     max-width: none;
     max-height: 16.667%;
+  }
+
+  > .col-xs-5th {
+    max-width: none;
+    max-height: 20%;
   }
 
   > .col-xs-3 {
@@ -319,14 +341,14 @@
 
 /**
  * Will not automatically stretch to fill gap, but allows content to stretch it, stopping at a max width.
- * Good for use with .ellipses.
+ * Good for use with .ellipsis.
  */
 .col-max-xs, .col-max {
   flex: 0 1 auto;
   //max-width: define on own css class
 }
 
-.row-start-xs {
+.row-left,.row-left-xs,.row-start-xs {
   justify-content: flex-start;
   text-align: start;
 }
@@ -336,7 +358,7 @@
   text-align: center;
 }
 
-.row-end-xs {
+.row-right,.row-right-xs,.row-end-xs {
   justify-content: flex-end;
   text-align: end;
 }
@@ -397,14 +419,14 @@
 
 .pad-right {
   padding-right: 7px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     padding-right: 15px;
   }
 }
 
 .pad-right-2x {
   padding-right: 14px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     padding-right: 28px;
   }
 }
@@ -433,6 +455,11 @@
   .col-xxs-2 {
     flex-basis: 16.667%;
     max-width: 16.667%;
+  }
+
+  .col-xxs-5th {
+    flex-basis: 20%;
+    max-width: 20%;
   }
 
   .col-xxs-3 {
@@ -552,6 +579,11 @@
     max-width: 16.667%;
   }
 
+  .col-sm-5th {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+
   .col-sm-3 {
     flex-basis: 25%;
     max-width: 25%;
@@ -612,6 +644,11 @@
     > .col-sm-2 {
       max-width: none;
       max-height: 16.667%;
+    }
+
+    > .col-sm-5th {
+      max-width: none;
+      max-height: 20%;
     }
 
     > .col-sm-3 {
@@ -743,7 +780,7 @@
     @include row;
   }
 
-  .row-start-sm {
+  .row-left-sm,.row-start-sm {
     justify-content: flex-start;
     text-align: start;
   }
@@ -753,7 +790,7 @@
     text-align: center;
   }
 
-  .row-end-sm {
+  .row-right-sm,.row-end-sm {
     justify-content: flex-end;
     text-align: end;
   }
@@ -878,6 +915,11 @@
     max-width: 16.667%;
   }
 
+  .col-md-5th {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+
   .col-md-3 {
     flex-basis: 25%;
     max-width: 25%;
@@ -938,6 +980,11 @@
     > .col-md-2 {
       max-width: none;
       max-height: 16.667%;
+    }
+
+    > .col-md-5th {
+      max-width: none;
+      max-height: 20%;
     }
 
     > .col-md-3 {
@@ -1069,7 +1116,7 @@
     @include row;
   }
 
-  .row-start-md {
+  .row-left-md,.row-start-md {
     justify-content: flex-start;
     text-align: start;
   }
@@ -1079,7 +1126,7 @@
     text-align: center;
   }
 
-  .row-end-md {
+  .row-right-md,.row-end-md {
     justify-content: flex-end;
     text-align: end;
   }
@@ -1204,6 +1251,11 @@
     max-width: 16.667%;
   }
 
+  .col-lg-5th {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+
   .col-lg-3 {
     flex-basis: 25%;
     max-width: 25%;
@@ -1264,6 +1316,11 @@
     > .col-lg-2 {
       max-width: none;
       max-height: 16.667%;
+    }
+
+    > .col-lg-5th {
+      max-width: none;
+      max-height: 20%;
     }
 
     > .col-lg-3 {
@@ -1395,7 +1452,7 @@
     @include row;
   }
 
-  .row-start-lg {
+  .row-left-lg,.row-start-lg {
     justify-content: flex-start;
     text-align: start;
   }
@@ -1405,7 +1462,7 @@
     text-align: center;
   }
 
-  .row-end-lg {
+  .row-right-lg,.row-end-lg {
     justify-content: flex-end;
     text-align: end;
   }

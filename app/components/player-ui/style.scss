@@ -12,7 +12,7 @@
     font-size:22px;
     font-style: normal;
     font-weight: 900;
-    @media #{$tablet-tall-and-up} {
+    @media #{$tablet-and-up} {
       font-size:29px;
     }
     color: white;
@@ -24,7 +24,7 @@
   @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
   width:80px;
   height:80px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     width:100px;
     height:100px;
   }
@@ -46,7 +46,7 @@ $bg-tint: linear-gradient(
   $primary-master 100%
 );
   
-.player-ui-title-wrapper {
+.player-ui-header-wrapper {
   //background: $bg-light;
   position: relative;
   z-index:1;
@@ -61,7 +61,7 @@ $bg-tint: linear-gradient(
   z-index:2;
   top:7px;
   left:7px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     top:11px;
     left:15px;
   }
@@ -70,23 +70,35 @@ $bg-tint: linear-gradient(
 .player-avatar-ui {
   width:44px;
   height:44px;
-  @media #{$tablet-tall-and-up} {
-    width:50px;
-    height:50px;
+  @media #{$tablet-and-up} {
+    width:55px;
+    height:55px;
   }
   //border: 4px solid white;
 }
 
 $skew-angle: 14deg;
 
+.player-ui-title-wrapper {
+  max-width:59%;
+  white-space: nowrap;
+}
+
 .player-ui-title-panel {
   transform: skewX(-$skew-angle);
   display: inline-block;
-  width:auto;
-  max-width:70%;
+  /**
+   * Must use a hard number, not percentage of parent because parent is flexible
+   * so it just uses percentage of self which is too small
+   * @type {[type]}
+   */
+  max-width:calc(59vw - 30px);
+  @media #{$tablet-and-up} {
+    max-width:300px;
+  }
   padding: 0 14px 0 22px;
   margin-left:-17px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     padding: 0 22px 0 29px;
     margin-left:-17px;
   }
@@ -134,7 +146,7 @@ body.touch .player-ui-title-link {
   padding-left:59px;
   font-style: normal;
   font-size:15px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     padding-left:70px;
     font-size:22px;
   }
@@ -142,7 +154,7 @@ body.touch .player-ui-title-link {
   margin-top:12px;
   margin-bottom:12px;
   min-height: 36px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     margin-top:15px;
     margin-bottom:15px;
     min-height: 42px;
@@ -165,7 +177,7 @@ body.touch .player-ui-title-link {
   font-style: normal;
   color: white;
   margin: 11px 0 5px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size:29px;
     margin: 11px 0;
   }
@@ -184,7 +196,7 @@ body.touch .player-ui-title-link {
   
   margin-left:-12px;
   
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     margin-left:-7px;
   }
   
@@ -233,7 +245,7 @@ body.touch .player-ui-title-link {
   span {
     font-size:15px;
     font-style: normal;
-    @media #{$tablet-tall-and-up} {
+    @media #{$tablet-and-up} {
       font-size:17px;
     }
   }
@@ -251,13 +263,12 @@ body.touch .player-ui-title-link {
   font-weight: 900;
   font-size: 17px;
   margin-bottom: -1px;
-  text-align:left;
   @media #{$mobile} {
     font-size:15px;
-    text-align:center;
   }
-  //font-family: $sports-font;
-  //text-transform: uppercase;
+  @media #{$mobile-tiny} {
+    font-size:4vw;
+  }
 }
 
 .player-ui-info-label {
@@ -267,9 +278,8 @@ body.touch .player-ui-title-link {
   font-family: $sports-font;
   font-weight: 400;
   letter-spacing: 1px;
-  text-align:left;
-  @media #{$mobile} {
-    text-align:center;
+  @media #{$mobile-tiny} {
+    font-size:3vw;
   }
 }
 
@@ -310,42 +320,59 @@ $infobar-dark-mode: false;
   font-weight: bold;
   font-size: 11px;
   text-transform: uppercase;
-  margin-bottom: 4px;
-  @media #{$tablet-tall-and-up} {
+  margin-bottom: 11px;
+  margin-right: -5px;
+  @media #{$tablet-and-up} {
     font-size: 13px;
     margin-bottom: 11px;
   }
-  &.bigger {
-    font-size: 12px;
-    @media #{$tablet-tall-and-up} {
-      font-size: 14px;
-    }
+}
+table .player-ui-label {
+  font-size: 14px;
+  @media #{$tablet-and-up} {
+    font-size: 16px;
   }
+  font-weight: normal;
+  color: $bg-dark-lighter-4x;
+}
+table .player-ui-value {
+  font-weight: bold;
 }
 
 .player-ui-attr-label {
   font-size: 11px;
   margin-bottom: 7px;
-  @media #{$tablet-tall-and-up} {
+  padding-right: 11px;
+  @media #{$tablet-and-up} {
     font-size: 13px;
     margin-bottom: 4px;
+    padding-right: 15px;
   }
 }
 
 .player-ui-csr-wrapper {
   width: 100%;
-  text-align: center;
-  @media #{$tablet-tall-and-up} {
-    margin-top:15px;
-  }
+  //text-align: center;
 }
 
 .player-ui-csr-value {
   @extend .large-number;
   margin-bottom: -10px;
   margin-top:2px;
-  @media #{$tablet-tall-and-up} {
+  padding: 0 7px;
+  @media #{$tablet-and-up} {
     margin-top:0;
+    padding: 0 11px;
+  }
+  &.player-ui-csr-tall {
+    font-size: 22px;
+    margin-top:-9px;
+    margin-bottom: -7px;
+    @media #{$tablet-and-up} {
+      font-size: 39px;
+      margin-top:-17px;
+      margin-bottom: -14px;
+    }
   }
 }
 
@@ -353,10 +380,18 @@ $infobar-dark-mode: false;
   color: $text-lighter-4x;
   font-family: $sports-font;
   font-weight: 900;
-  margin-bottom: -7px;
   font-size: 15.9px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size: 17.9x;
+  }
+  &.player-ui-csr-tall {
+    font-size: 12px;
+    @media #{$tablet-and-up} {
+      font-size: 16px;
+    }
+  }
+  &:not(.flat-csr){
+    margin-bottom: -4px;
   }
 }
 
@@ -364,59 +399,73 @@ $infobar-dark-mode: false;
   margin: 0 4px 0 0;
 }
 
-.player-ui-energy-wrapper {
+.player-ui-chart-wrapper {
   position: relative;
-  margin-top:-11px;
-  @media #{$tablet-tall-and-up} {
-    margin-top:0px;
+  margin-top:-4px;
+  @media #{$tablet-and-up} {
+    margin-top:-2px;
     
   }
 }
 
-.player-ui-energy {
-  position: absolute;
-  z-index:0;
-  text-align: center;
-  width: 100%;
+.player-ui-donut-value {
   font-family: $sports-font;
   font-weight: 900;
-  font-size: 22px;
+  font-size: 15px;
   top: 44px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size: 22px;
     top: 44px;
   }
-  &.squadPageMode {
-    font-size: 15px;
-    top: 28px;
-    @media #{$tablet-tall-and-up} {
+  
+  &.side {
+    padding: 0 22px 0 7px;
+    font-size: 20px;
+    top: 44px;
+    @media #{$tablet-and-up} {
       font-size: 22px;
       top: 44px;
     }
   }
 }
 
-.player-ui-energy-chart {
+.player-ui-donut-chart {
   position: relative;
   z-index:1;
   margin: 0 -50px -4px;
+}
+
+.player-ui-donuts {
+  @media #{$mobile-wide-and-up} {
+    margin-bottom: -10px;
+  }
+}
+
+.player-ui-donuts-and-traits {
+  &.single {
+    @media #{$mobile-tall} {
+      padding: 0 30px 0 15px;
+    }
+  }
 }
 
 .player-ui-big-label {
   text-transform: uppercase;
   font-family: $sports-font;
   font-weight: bold;
-  font-size: 14.9px;
+  font-size: 12px;
   //letter-spacing: 1px;
-  @media #{$tablet-tall-and-up} {
-    font-size: 17.9px;
+  @media #{$tablet-and-up} {
+    font-size: 16px;
+  }
+
+  &.player-ui-csr-wide, .csr-label {
+    font-size: 1.1em;
+    font-weight: 800;
   }
 }
 
 .player-ui-help-text {
-  color: $text-lighter-4x;
-  font-size: 12px;
-  font-weight: bold;
   margin-top: -5px;
 }
 

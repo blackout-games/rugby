@@ -5,7 +5,6 @@ export default Ember.Component.extend(NewsMixin, {
   store: Ember.inject.service(),
   
   classNames: ['page-container-md','page-container-left'],
-  scrollerSelector: null,
   articleRoute: 'news.article',
   
   title: Ember.computed('storeType','i18n.locale',function(){
@@ -21,9 +20,6 @@ export default Ember.Component.extend(NewsMixin, {
   }),
 
   setScrollSelector: Ember.on('didReceiveAttrs', function() {
-    if (typeof window.features.lockBodyScroller !== 'undefined') {
-      this.set('scrollerSelector', window.features.lockBodyScroller);
-    }
     this.set('query', {
       sort: '-date',
       page: {
@@ -69,8 +65,6 @@ export default Ember.Component.extend(NewsMixin, {
     this.set('isLoadingData',true);
     this.get('store').query(this.get('storeType'), query).then((data)=>{
       
-      log('page',data.get('meta.page'));
-      log('pages',data.get('meta.num-pages'));
       this.set('page', data.get('meta.page'));
       this.set('pages', data.get('meta.num-pages'));
       

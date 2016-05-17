@@ -233,6 +233,14 @@
  * Top gaps
  */
 
+.top-gap--sm {
+  margin-top: -5px !important;
+}
+
+.top-gap--md {
+  margin-top: -10px !important;
+}
+
 .no-top-gap, .top-gap-reset {
   margin-top: 0px !important;
 }
@@ -354,6 +362,62 @@
 }
 
 /**
+ * Padding
+ */
+
+.no-right-pad, .right-pad-reset {
+  padding-right: 0px !important;
+}
+
+.right-pad-xs {
+  padding-right: 2px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -2px !important;
+  }
+}
+
+.right-pad-sm {
+  padding-right: 5px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -5px !important;
+  }
+}
+
+.right-pad-md {
+  padding-right: 10px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -10px !important;
+  }
+}
+
+.right-pad-lg,.right-pad-1x {
+  padding-right: 15px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -15px !important;
+  }
+}
+
+.right-pad-2x {
+  padding-right: 20px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -20px !important;
+  }
+}
+
+.right-pad-3x {
+  padding-right: 30px !important;
+  &.negate {
+    padding-right: 0 !important;
+    margin-right: -30px !important;
+  }
+}
+
+/**
  * Padding helpers
  */
 
@@ -369,7 +433,6 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-
 
 /**
  * Hiding stuff
@@ -400,7 +463,7 @@
 }
 
 .hidden-md-down {
-  @media #{$tablet-wide-and-down} {
+  @media #{$tablet-and-down} {
     display: none !important;
   }
 }

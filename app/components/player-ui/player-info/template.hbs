@@ -1,272 +1,403 @@
-{{#if singleMode}}
-  <div class="row gap-2-5x">
-    <div class="col-flex">
-      {{club-link club=player.club class="player-ui-club top-gap-xs"}}
-    </div>
-    <div class="col-flex text-right">
-      {{flag-icon country=player.nationality size=(if media.isMobile 'medium' 'big') onWhite=true}}
-      {{flag-icon country=player.dualNationality size=(if media.isMobile 'medium' 'big') onWhite=true}}
-    </div>
-  </div>
-{{/if}}
+{{#unless singleMode}}
 
-<div class="row gap-md {{unless singleMode "player-ui-top"}}">
-  <div class="col-flex">
-    
+  <div class="player-ui-header-wrapper">
+  
     <div class="row row-nowrap">
-    
-      <div class="row col-flex">
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{player.age}}</div>
-          <div class="player-ui-info-label">{{t 'player.years-old-(short)'}}</div>
-        </div>
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{money-ui value=player.wage}}</div>
-          <div class="player-ui-info-label">{{t 'player.per-week-(wages)'}}</div>
-        </div>
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{number player.form}}%</div>
-          <div class="player-ui-info-label">{{t 'player.form'}}</div>
-        </div>
-        
-      </div>
-    
-      <div class="hidden-xxs row col-flex">
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{player.height}}</div>
-          <div class="player-ui-info-label">{{t 'player.centimeters-(short)'}}</div>
-        </div>
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{player.weight}}</div>
-          <div class="player-ui-info-label">{{t 'player.kilograms-(short)'}}</div>
-        </div>
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
-          <div class="player-ui-info-label">{{t 'player.handed-(left/right)'}}</div>
-        </div>
-        
-        <div class="col-flex player-ui-infobox col-auto-width">
-          <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
-          <div class="player-ui-info-label">{{t 'player.footed-(left/right)'}}</div>
-        </div>
-        
-      </div>
-      
-    </div>
-  </div>
-</div>
-
-<div class="dash-box-negate-padding player-ui-infobar hidden-xs-up">
-  
-  <div class="row">
-    
-    <div class="col-flex player-ui-infobox col-auto-width">
-      <div class="player-ui-info-value">{{player.height}}</div>
-      <div class="player-ui-info-label">{{t 'player.centimeters-(short)'}}</div>
-    </div>
-    
-    <div class="col-flex player-ui-infobox col-auto-width">
-      <div class="player-ui-info-value">{{player.weight}}</div>
-      <div class="player-ui-info-label">{{t 'player.kilograms-(short)'}}</div>
-    </div>
-    
-    <div class="col-flex player-ui-infobox col-auto-width">
-      <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
-      <div class="player-ui-info-label">{{t 'player.handed-(left/right)'}}</div>
-    </div>
-    
-    <div class="col-flex player-ui-infobox col-auto-width">
-      <div class="player-ui-info-value">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
-      <div class="player-ui-info-label">{{t 'player.footed-(left/right)'}}</div>
-    </div>
-    
-  </div>
-  
-</div>
-      
-<div class="row top-gap-md row-center">
-  <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide pad-right">{{t 'player.csr'}}</div>
-  <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide pad-right">{{number player.csr}}</div>
-  
-  {{#if (owned-club player.club)}}
-    <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide">{{number player.csrChange prefix=true}}</div>
-  {{else}}
-    <div class="iblock divider" style="width:50px;"></div>
-  {{/if}}
-</div>
-
-<div class="divider gap-md hidden-xs-up"></div>
-<div class="divider gap-lg hidden-xxs"></div>
-
-{{#if (and singleMode (not isTouchOS))}}      
-  {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
-{{/if}}
-
-{{#if (or player.transfer (owned-club player.club))}}
-  <div class="row">
-    
-    <div class="col-xs-6 pad-right">
-    
-      {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="stamina" }}
-      <div class="player-ui-label ellipses">{{t 'player.stamina'}}</div>
-    
-      {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="attack" }}
-      <div class="player-ui-label ellipses">{{t 'player.attack'}}</div>
-    
-      {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="technique" }}
-      <div class="player-ui-label ellipses">{{t 'player.technique'}}</div>
-    
-      {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="jumping" }}
-      <div class="player-ui-label ellipses">{{t 'player.jumping'}}</div>
-    
-      {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="agility" }}
-      <div class="player-ui-label ellipses">{{t 'player.agility'}}</div>
-      
-    </div>
-    
-    <div class="col-xs-6">
-    
-      {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="handling" }}
-      <div class="player-ui-label ellipses">{{t 'player.handling'}}</div>
-    
-      {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="defence" }}
-      <div class="player-ui-label ellipses">{{t 'player.defence'}}</div>
-    
-      {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="strength" }}
-      <div class="player-ui-label ellipses">{{t 'player.strength'}}</div>
-    
-      {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="speed" }}
-      <div class="player-ui-label ellipses">{{t 'player.speed'}}</div>
-    
-      {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true icon="kicking" }}
-      <div class="player-ui-label ellipses">{{t 'player.kicking'}}</div>
-      
-    </div>
-    
-  </div>
-
-  <div class="player-ui-help-text gap-sm">{{t 'player.skills-max'}}</div>
-{{/if}}
-
-<div class="divider {{if singleMode 'gap-2x' 'gap-lg'}} hidden-xs-up"></div>
-
-<div class="row">
-  
-  <div class="{{if singleMode 'col-xxs-12 col-first-xxs'}} col-xs-4 col-last-xs">
-  
-    <div class="row">
-      
-      <div class="col-xs-12 text-center">
-        
-        <div class="player-ui-energy-wrapper">
-          
-          <div class="player-ui-energy {{unless singleMode 'squadPageMode'}}">
-            {{player.energy}}%
+      <div class="col-max player-ui-title-wrapper">
+        {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
+          <div class="player-ui-title-panel">
+            <h2 class="player-ui-title vc-parent">
+            
+              <span class="ellipsis">
+              
+                {{player.firstName}}<br>
+              
+                {{#if player.nickname}}
+                  
+                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
+                  
+                {{/if}}
+                
+                {{player.lastName}}
+              
+              </span>
+                
+            </h2>
           </div>
+          <div class="player-ui-avatar-wrapper">
+            <div class="player-avatar-light player-avatar-ui"></div>
+          </div>
+        {{/link-to}}
+        
+        {{#if player.transfer}}
+          {{#link-to 'players.player.sale' player.id class="player-ui-for-sale a-no-underline btn-events"}}
+            <i class="icon-tag icon-md"></i>
+          {{/link-to}}
+        {{/if}}
+      </div>
+      <div class="col-flex text-center center-parent player-ui-csr-wrapper">
+        <div class="{{if flatCSR 'row row-center'}}">
+          <div class="divider gap-xs hidden-xs"></div>
           
-          {{component chartComponent type='Doughnut' data=(readonly energyChartData) width=(if (and media.isMobile (not singleMode)) 77 122) height=(if (and media.isMobile (not singleMode)) 77 122) options=(readonly energyChartOptions) class="player-ui-energy-chart"}}
+          <div class="player-ui-big-label center-parent player-ui-csr-tall {{if flatCSR 'col-auto'}}"><span class="csr-label">{{t 'player.csr'}}</span></div>
           
-          <div class="chartjs-tooltip"></div>
+          <div class="player-ui-csr-value center-parent player-ui-csr-tall {{if flatCSR 'col-auto'}}">{{number player.csr}}</div>
           
-          <div class="player-ui-big-label text-center ellipses">
-            {{t 'player.energy'}}
+          {{#if (owned-club player.club)}}
+            <div class="player-ui-csr-change center-parent player-ui-csr-tall {{if flatCSR 'col-auto flat-csr'}}">
+              <span class="csr-change">{{number player.csrChange prefix=true}}</span>
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+{{/unless}}
+
+<div class="{{unless singleMode 'dash-box-padding'}}">
+  
+  <div class="divider top-gap--md hidden-xs"></div>
+  
+  <div class="row">
+    <div class="col-12 {{if (and attrBarIsAtTopWhenSingleMode singleMode) 'col-last'}}">
+    
+    
+      {{#if singleMode}}
+      <div class="row gap-lg row-center">
+        <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide">{{t 'player.csr'}}</div>
+        <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
+        
+        {{#if (owned-club player.club)}}
+          <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide flat-csr">{{number player.csrChange prefix=true}}</div>
+        {{else}}
+          <div class="iblock divider" style="width:50px;"></div>
+        {{/if}}
+      </div>
+      {{/if}}
+
+      {{#if (and singleMode (not isTouchOS))}}      
+        {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
+      {{/if}}
+
+      {{#if (or player.transfer (owned-club player.club))}}
+        <div class="right-pad-2x negate">
+          <div class="row">
+            
+            <div class="{{if singleMode 'col-xs-6 right-pad-2x' 'col-12 row row-nowrap negate-right-gap-md'}}">
+              
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="stamina" label=(t 'player.stamina') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="attack" label=(t 'player.attack') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="technique" label=(t 'player.technique') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="jumping" label=(t 'player.jumping') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="agility" label=(t 'player.agility') }}
+              </div>
+              
+            </div>
+            
+            <div class="{{if singleMode 'col-xs-6 right-pad-2x' 'col-12 row row-nowrap'}}">
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="handling" label=(t 'player.handling') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="defence" label=(t 'player.defence') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="strength" label=(t 'player.strength') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="speed" label=(t 'player.speed') }}
+              </div>
+            
+              <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
+                {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="kicking" label=(t 'player.kicking') }}
+              </div>
+              
+            </div>
+            
           </div>
           
         </div>
+
+        {{#if singleMode}}
+        <div class="player-ui-help-text helper-text gap-sm">{{t 'player.skills-max'}}</div>
+        {{/if}}
+        
+      {{/if}}
+      
+      {{#if singleMode}}
+        <div class="divider gap-lg"></div>
+      {{else}}
+        <div class="divider gap-xs hidden-xs-up"></div>
+      {{/if}}
+      
+      
+    </div>
+    <div class="col-12">
+    
+    
+      <div class="dash-box-negate-padding player-ui-infobar gap-lg">
+        
+        <div class="row">
+          <div class="col-flex">
+            
+            <div class="row">
+            
+              <div class="row col-flex">
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.age}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.years-old-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{money-ui value=player.wage}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.per-week-(wages)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.height}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.centimeters-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.weight}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.kilograms-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.handed-(left/right)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.footed-(left/right)'}}</div>
+                </div>
+                
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {{#if singleMode}}
+        {{#unless attrBarIsAtTopWhenSingleMode}}
+          <div class="divider gap-lg"></div>
+        {{/unless}}
+      {{else}}
+        <div class="divider gap-xs hidden-xs-up"></div>
+        <div class="divider gap-sm hidden-xxs"></div>
+      {{/if}}
+      
+    </div>
+  </div>
+
+  <div class="row player-ui-donuts-and-traits {{if singleMode 'row-wrap-xxs row-nowrap-xs single' 'row-nowrap'}}">
+    
+    <div class="{{if singleMode 'col-xxs-12'}} col-flex player-ui-donuts">
+    
+      <div class="row row-nowrap">
+        
+        <div class="{{if singleMode 'col-xxs-12'}} col-flex">
+        
+          <div class="row row-nowrap">
+            
+            <div class="col-fixed text-center" style={{donutChartSizeStyle}}>
+              
+              <div class="player-ui-chart-wrapper">
+                
+                {{component chartComponent
+                  type='Doughnut'
+                  data=(readonly formChartData)
+                  width=donutChartSize
+                  height=donutChartSize
+                  options=(readonly donutChartOptions)
+                  class="player-ui-donut-chart"}}
+                
+                <div class="chartjs-tooltip"></div>
+                
+                <div class="player-ui-big-label text-center ellipsis">
+                  <span class="player-ui-donut-value {{if singleMode 'hidden' 'hidden-xs-up'}}">{{player.form}}%</span> {{t 'player.form'}}
+                </div>
+                
+              </div>
+              
+            </div>
+            <div class="{{unless singleMode 'hidden-xxs'}} col-flex vc-parent">
+              
+              <div class="col-12">
+                <div class="player-ui-donut-value side gap-3x">{{player.form}}%</div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        <div class="col-flex">
+        
+          <div class="row row-nowrap">
+            
+            <div class="col-fixed text-center" style={{donutChartSizeStyle}}>
+              
+              <div class="player-ui-chart-wrapper">
+                
+                {{component chartComponent
+                  type='Doughnut'
+                  data=(readonly energyChartData)
+                  width=donutChartSize
+                  height=donutChartSize
+                  options=(readonly donutChartOptions)
+                  class="player-ui-donut-chart"}}
+                
+                <div class="chartjs-tooltip"></div>
+                
+                <div class="player-ui-big-label text-center ellipsis">
+                  <span class="player-ui-donut-value {{if singleMode 'hidden' 'hidden-xs-up'}}">{{player.energy}}%</span> {{t 'player.energy'}}
+                </div>
+                
+              </div>
+              
+            </div>
+            <div class="{{unless singleMode 'hidden-xxs'}} col-flex vc-parent">
+              
+              <div class="col-12">
+                <div class="player-ui-donut-value side gap-3x">{{player.energy}}%</div>
+              </div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+        
+    </div>
+        
+    {{#if singleMode}}
+      <div class="divider gap-lg hidden-xs-up"></div>
+    {{/if}}
+    
+    <div class="{{if singleMode 'col-xxs-12'}} col-18-8 vc-parent">
+      
+      <div class="col-xs-12">
+        
+        <div class="right-pad-lg negate">
+          
+          <div class="row row-nowrap">
+            
+            <div class="col-xs-6 right-pad-lg">
+              
+              {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              <div class="player-ui-label player-ui-attr-label ellipsis gap-lg">{{t 'player.aggression'}}</div>
+              
+              {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              <div class="player-ui-label player-ui-attr-label ellipsis">{{t 'player.discipline'}}</div>
+              
+            </div>
+            
+            {{#if singleMode}}
+              <div class="divider gap-sm hidden-xs-up"></div>
+            {{/if}}
+            
+            <div class="col-xs-6 right-pad-lg"> 
+              
+              {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              <div class="player-ui-label player-ui-attr-label ellipsis gap-lg">{{t 'player.leadership'}}</div> 
+              
+              {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              <div class="player-ui-label player-ui-attr-label ellipsis">{{t 'player.experience'}}</div>
+              
+            </div>
+            
+          </div>
+          
+        </div>
+        
+        {{#if singleMode}}
+        <div class="player-ui-help-text helper-text">{{t 'player.traits-max'}}</div>
+        {{/if}}
         
       </div>
       
     </div>
-      
-  </div>
-  
-  <div class="divider {{if singleMode 'col-xxs-12' 'hidden-xxs'}} hidden-xs-up gap-2x"></div>
-  
-  <div class="{{if singleMode 'col-xxs-12'}} col-xs-8 vc-parent">
-    
-    <div class="col-xs-12">
-      
-      <div class="row">
-        
-        <div class="col-xs-6">
-          
-          {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.aggression'}}</div>
-          
-          {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.discipline'}}</div>
-          
-        </div>
-        
-        <div class="col-xs-6"> 
-          
-          {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses gap-md">{{t 'player.leadership'}}</div> 
-          
-          {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" }}
-          <div class="player-ui-label player-ui-attr-label ellipses">{{t 'player.experience'}}</div>
-          
-        </div>
-        
-      </div>
-      
-      <div class="player-ui-help-text">{{t 'player.traits-max'}}</div>
-      
-    </div>
     
   </div>
-  
-</div>
 
 
-{{#if singleMode}}
-
-  {{#if player.blurb}}
+  {{#if singleMode}}
     
     <div class="divider gap-2-5x"></div>
+
+    {{#if player.blurb}}
+      
+      <div class="text-center">
+        <div class="has-position player-ui-blurb">
+          <i class="icon-quote-left icon-lg icon-vcenter"></i>
+          {{nl2br player.blurb}}
+          {{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a"}}<i class="icon-pencil"></i>{{/link-to}}{{/if}}
+        </div>
+      </div>
     
-    <div class="text-center">
-      <div class="has-position player-ui-blurb">
-        <i class="icon-quote-left icon-lg icon-vcenter"></i>
-        {{nl2br player.blurb}}
-        {{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a"}}<i class="icon-pencil"></i>{{/link-to}}{{/if}}
+      <div class="divider gap-sm"></div>
+      
+    {{/if}}
+  
+    <div class="row gap-2-5x">
+      <div class="col-flex">
+        {{club-link club=player.club class="player-ui-club top-gap-xs"}}
+      </div>
+      <div class="col-flex text-right">
+        {{flag-icon country=player.nationality size=(if media.isMobile 'medium' 'big') onWhite=true}}
+        {{flag-icon country=player.dualNationality size=(if media.isMobile 'medium' 'big') onWhite=true}}
       </div>
     </div>
-    
-  {{/if}}
   
-  <div class="divider gap-2-5x"></div>
-  
-  <div class="dash-box-negate-padding-half-bottom">
-    <table class="table">
+    <table class="table light">
       
       <tbody>
         <tr>
-          <td class="player-ui-label bigger">{{t 'player.salary'}}</td>
-          <td>{{money-ui value=player.salary}}</td>
+          <td class="player-ui-label">{{t 'player.salary'}}</td>
+          <td class="player-ui-value">{{money-ui value=player.salary}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">{{t 'player.birthday'}}</td>
-          <td>{{t 'player.birth-round-and-day' round=player.birthRound day=player.birthDay}}</td>
+          <td class="player-ui-label">{{t 'player.birthday'}}</td>
+          <td class="player-ui-value">{{t 'player.birth-round-and-day' round=player.birthRound day=player.birthDay}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">{{t 'player.joined-club'}}</td>
-          <td>{{date-ui date=player.joined initial=(if media.isMobile 'gameDateShort' 'gameDate') alt='fullDate'}}</td>
+          <td class="player-ui-label">{{t 'player.joined-club'}}</td>
+          <td class="player-ui-value">{{date-ui date=player.joined initial=(if media.isMobile 'gameDateShort' 'gameDate') alt='fullDate'}}</td>
         </tr>
         <tr>
-          <td class="player-ui-label bigger">{{t 'player.player-id'}}</td>
-          <td>{{player.id}}</td>
+          <td class="player-ui-label">{{t 'player.player-id'}}</td>
+          <td class="player-ui-value">{{player.id}}</td>
         </tr>
       </tbody>
       
     </table>
     
-  </div>
+  {{/if}}
   
-{{/if}}
+</div>

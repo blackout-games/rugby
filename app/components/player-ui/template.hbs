@@ -100,63 +100,8 @@
 {{else}}
 
   <div class="dash-box dash-box-no-padding no-gap hide-overflow player-ui-squad-box border-radius-fix">
-    
-    <div class="player-ui-title-wrapper">
-      
-      {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
-        <div class="player-ui-title-panel">
-          <h2 class="player-ui-title vc-parent">
-            {{#if media.isMobile}}
-            
-              <span class="ellipses">
-              
-                {{player.firstName}}<br>
-              
-                {{#if player.nickname}}
-                  
-                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
-                  
-                {{/if}}
-                
-                {{player.lastName}}
-              
-              </span>
-              
-            {{else}}
-              
-              <span class="ellipses">
-                {{#if player.nickname}}
-                  
-                  {{player.firstName}}<br>
-                  
-                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
-                  
-                  {{player.lastName}}
-                  
-                {{else}}
-                  {{player.name}}
-                {{/if}}
-              </span>
-              
-            {{/if}}
-          </h2>
-        </div>
-        <div class="player-ui-avatar-wrapper">
-          <div class="player-avatar-light player-avatar-ui"></div>
-        </div>
-      {{/link-to}}
-      
-      {{#if player.transfer}}
-        {{#link-to 'players.player.sale' player.id class="player-ui-for-sale a-no-underline btn-events"}}
-          <i class="icon-tag icon-md"></i>
-        {{/link-to}}
-      {{/if}}
-      
-    </div>
-    
-    <div class="dash-box-padding">
-      {{player-ui/player-info player=player singleMode=singleMode }}
-    </div>
+  
+    {{player-ui/player-info player=player singleMode=singleMode }}
     
   </div>
   

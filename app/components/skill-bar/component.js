@@ -3,7 +3,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  classNames: ['skill-bar-wrapper','vc-parent','row'],
   width: '100%',
   height: '33px',
   level: 0,
@@ -11,8 +10,7 @@ export default Ember.Component.extend({
   hasAppeared: true,
   animate: true,
   animateNumber: false,
-  numberSizeMobile: '17px',
-  numberSize: '19px',
+  notVertMode: Ember.computed.not('vertMode'),
   
   setupBinds: Ember.on('init',function(){
     this.animateNumberStepBound = Ember.run.bind(this,this.animateNumberStep);
@@ -22,13 +20,6 @@ export default Ember.Component.extend({
     
     this.$().css('width',this.get('width'));
     this.$('.skill-bar-placeholder').css('height',this.get('height'));
-    
-    if(this.get('numberSizeMobile') && this.get('media.isMobile')){
-      this.$('.skill-bar-number').css('font-size',this.get('numberSizeMobile'));
-    }
-    if(this.get('numberSize') && !this.get('media.isMobile')){
-      this.$('.skill-bar-number').css('font-size',this.get('numberSize'));
-    }
     
     if(this.get('animate')){
       this.$('.skill-bar').addClass('skill-bar-animate');
@@ -73,6 +64,7 @@ export default Ember.Component.extend({
         color = 'purple';
       }
       
+      
       this.$('.skill-bar').removeClass(function (index, css) {
         return (css.match (/(^|\s)skill-bar-color-\S+/g) || []).join(' ');
       });
@@ -83,6 +75,17 @@ export default Ember.Component.extend({
         this.$('.skill-bar-icon-inner > i').addClass('icon-skill-'+this.get('icon'));
         
       }
+      
+      if(this.get('vertMode')){
+        this.$('.skill-bar-label-number').removeClass(function (index, css) {
+          return (css.match (/(^|\s)text-color-\S+/g) || []).join(' ');
+        });
+        this.$('.skill-bar-label-number').addClass('text-color-'+color);
+      }
+      
+    } else if(this.get('barColor')){
+      
+      this.$('.skill-bar').css('background-color',this.get('barColor'));
       
     }
     
@@ -97,7 +100,27 @@ export default Ember.Component.extend({
           });
           
           let w = this.get('level')/this.get('max');
+          
+          // Remove element-level css shadow
+          this.$('.skill-bar').css('box-shadow','');
+          
+          // Get shadow (glow)
+          let shadow = this.$('.skill-bar').css('box-shadow');
+          
+          if(shadow!=='none'){
             
+            shadow = shadow.replace(/[0-9]+px [0-9]+px ([0-9]+px) [0-9]+px/,( fullMatch, blur)=>{
+              
+              // Make bigger for wide skill bars
+              blur = parseInt(blur)*2;
+              
+              return '0px 0px ' + Math.round(parseInt(blur)/w) + 'px 0px';
+            });
+            
+            this.$('.skill-bar').css('box-shadow',shadow);
+            
+          }
+          
           this.$('.skill-bar').css('transform','scale3d('+w+',1,1)').addClass('animatable');
           
         });

@@ -21,7 +21,6 @@ $border: none;
   border-radius: $button-border-radius;
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
   border: $border;
-  font-size: 17px;
   height:36px;
   font-weight: $button-text-weight;
   //text-transform: uppercase;
@@ -29,8 +28,9 @@ $border: none;
   padding: 0 11px 2px;
   vertical-align: top;
 
+  font-size: 14px;
   @media #{$mobile} {
-    font-size: 15px;
+    font-size: 13px;
   }
 }
 
@@ -96,6 +96,10 @@ $border: none;
     color: saturate(lighten($button-disabled-color,22%),11%);
     cursor: default;
     //cursor: not-allowed;
+    
+    &.disabled-cursor {
+      cursor: not-allowed !important;
+    }
   }
   
   &.disabled {
@@ -117,6 +121,12 @@ $border: none;
       margin-right:8px;
     }
   }
+  
+  &.btn-icon-at-start {
+    i {
+      margin-left: -5px !important;
+    }
+  }
 }
 
 form .btn {
@@ -132,8 +142,12 @@ form .btn {
 .btn-small,
 .btn-small:hover {
   padding: 5px 11px 1px;
-  font-size: 14px;
   height:33px;
+
+  font-size: 14px;
+  @media #{$mobile} {
+    font-size: 13px;
+  }
 
   @media #{$mobile} {
     //font-size: 4.8vmin;
@@ -178,10 +192,10 @@ form .btn {
 .btn-big,
 .btn-big:hover {
   padding: 0 20px 2px;
-  font-size: 17px;
   text-shadow: 0 1px 1px rgba(black,0.111);
   height:48px;
 
+  font-size: 17px;
   @media #{$mobile} {
     font-size: 15px;
     height:44px;

@@ -101,7 +101,7 @@ export default Ember.Component.extend({
           if(e.type==='mousedown' && e.which!==1){
             return;
           }
-          print(e);
+          
           this.send('close');
         });
         

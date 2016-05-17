@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   preferences: Ember.inject.service(),
+  store: Ember.inject.service(),
   
   /**
    * See initializers/route.js
@@ -23,7 +24,11 @@ export default Ember.Component.extend({
   playersSorted: Ember.computed.sort('model','sortProps'),
   
   defaultItemHeight: Ember.computed('media.isMobile',function(){
-    return this.get('media.isMobile') ? 580 : 750;
+    return this.get('media.isMobile') ? 340 : 360;
+  }),
+  
+  bufferSize: Ember.computed(function(){
+    return window.os.touchOS ? 3 : 1;
   }),
   
 });

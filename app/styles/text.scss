@@ -439,9 +439,9 @@ p {
 }
 
 /**
- * Truncate long works with ellipses
+ * Truncate long works with ellipsis
  */
-.ellipses {
+.ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -601,7 +601,7 @@ p {
   font-family: $sports-font;
   font-weight: 900;
   font-size: 29px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size: 44px;
   }
   margin-top: -7px;
@@ -652,6 +652,12 @@ p {
     //color: desaturate(darken($red-color,11%),22%);
   }
   
+}
+
+.helper-text {
+  color: $text-lighter-4x;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 /**

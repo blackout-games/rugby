@@ -5,7 +5,6 @@
 .skill-bar-placeholder {
   background-color: $bg-light;
   border-radius: $border-radius;
-  margin-right: 7px;
   overflow: hidden;
   position:relative; // For icon positioning
 }
@@ -21,7 +20,7 @@
   //outline: 2px solid white;
   
   // Use :after instead
-  &:after {
+  /* &:after {
     position:absolute;
     top:0;
     left:100%;
@@ -29,7 +28,7 @@
     height:100%;
     content:"";
     background-color: white;
-  }
+  } */
 }
 
 .skill-bar-animate {
@@ -53,18 +52,24 @@
 
 .skill-bar-number-col {
   width: 27px;
-  @media #{$tablet-tall-and-up} {
-    width: 44px;
+  @media #{$tablet-and-up} {
+    width: 27px;
   }
-  margin: -9px 0;
+  margin: -9px 0 -9px 7px;
 }
 
 .skill-bar-number {
   font-family: $sports-font;
   font-weight: 900;
   font-size: 17px;
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size: 19px;
+  }
+  &.primary-skill {
+    font-size: 20px;
+    @media #{$tablet-and-up} {
+      font-size: 24px;
+    }
   }
 }
 
@@ -84,7 +89,7 @@ $diff: 40%;
 $sat: 88%;
 
 // Flatter
-$diff: 22%;
+$diff: 22%; // Lower is flatter
 $sat: 70%;
 
 // Flat
@@ -92,70 +97,128 @@ $sat: 70%;
 //$diff: 0%;
 //$sat: 57%;
 
+$shadow: 0 0 10px;
+$extra-sat: 0%;
+$glass: true;
+
+@mixin skill-bar($color,$extra-sat){
+  @if $glass {
+    background: linear-gradient(
+      hsl($hue, $sat + $extra-sat, $brightness + $diff*1.1 ),
+      hsl($hue, $sat + $extra-sat, $brightness + $diff*0.17 ) 50%,
+      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.17 ) 51%,
+      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.7 )
+    );
+  } @else {
+    background: linear-gradient(
+      hsl($hue, $sat + $extra-sat, $brightness + $diff*0.5 ),
+      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.5 )
+    );
+  }
+  box-shadow: 0 0 11px hsl($hue, $sat + $extra-sat, $brightness );
+}
+
+@mixin text-color($color){
+  color: $color;
+  //text-shadow: 0 0 10px rgba($color,0.44);
+}
+
+@mixin icon-text-color($color){
+  //color: rgba(darken($color,27%),0.22);
+}
+
 // Dark blue
 $hue: 214;
 .skill-bar-color-dark-blue {
-  background: linear-gradient(
-    hsl($hue, $sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-dark-blue {
+  @include text-color($color);
+}
+i.text-color-dark-blue {
+  @include icon-text-color($color);
 }
 
 // Blue
 $hue: 195;
 .skill-bar-color-blue {
-  background: linear-gradient(
-    hsl($hue, $sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-blue {
+  @include text-color($color);
+}
+i.text-color-blue {
+  @include icon-text-color($color);
 }
 
 // Teal
 $hue: 165;
 .skill-bar-color-teal {
-  background: linear-gradient(
-    hsl($hue, $sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-teal {
+  @include text-color($color);
+}
+i.text-color-teal {
+  @include icon-text-color($color);
 }
 
 // Green
 $hue: 81;
 .skill-bar-color-green {
-  background: linear-gradient(
-    hsl($hue, $sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness - 4% );
+.text-color-green {
+  @include text-color($color);
+}
+i.text-color-green {
+  @include icon-text-color($color);
 }
 
 // Yellow
 $hue: 44;
 $extra-sat: 11%;
 .skill-bar-color-yellow {
-  background: linear-gradient(
-    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-yellow {
+  @include text-color($color);
+}
+i.text-color-yellow {
+  @include icon-text-color($color);
 }
 
 // Red
-$hue: 4;
-$extra-sat: 11%;
+$hue: 5;
+$extra-sat: 4%;
 .skill-bar-color-red {
-  background: linear-gradient(
-    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-red {
+  @include text-color($color);
+}
+i.text-color-red {
+  @include icon-text-color($color);
 }
 
 // Purple
 $hue: 244;
 $extra-sat: -33%;
 .skill-bar-color-purple {
-  background: linear-gradient(
-    hsl($hue, $sat+$extra-sat, $brightness + $diff*0.5 ),
-    hsl($hue, $sat+$extra-sat, $brightness - $diff*0.5 )
-  );
+  @include skill-bar($hue,$extra-sat);
+}
+$color: hsl($hue, $sat+$extra-sat, $brightness );
+.text-color-purple {
+  @include text-color($color);
+}
+i.text-color-dark-blue {
+  @include icon-text-color($color);
 }
 
 /**
@@ -172,15 +235,17 @@ $mobile-extra-top:4px;
     position:absolute;
     left:0;
     
-    color:rgba($bg-dark,0.22);
+    //color:rgba($bg-dark,0.22);
+    color: rgba($bg-dark-lighter,0.7);
     background-blend-mode: multiply;
   
     &.icon-skill-stamina {
       $size:37px;
       $top:-12px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: -1px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -190,9 +255,10 @@ $mobile-extra-top:4px;
     &.icon-skill-handling {
       $size:44px;
       $top:-18px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -202,9 +268,10 @@ $mobile-extra-top:4px;
     &.icon-skill-attack {
       $size:64px;
       $top:-29px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 2px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -212,10 +279,11 @@ $mobile-extra-top:4px;
   
     &.icon-skill-defence {
       $size:59px;
-      $top:-31px;
-      top:$top+$mobile-extra-top;
+      $top:-27px;
+      $mob-top-extra: 2px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -224,9 +292,10 @@ $mobile-extra-top:4px;
     &.icon-skill-technique {
       $size:69px;
       $top:-41px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 4px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -236,9 +305,10 @@ $mobile-extra-top:4px;
     &.icon-skill-strength {
       $size:44px;
       $top:-17px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -247,9 +317,10 @@ $mobile-extra-top:4px;
     &.icon-skill-jumping {
       $size:74px;
       $top:-26px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -258,10 +329,11 @@ $mobile-extra-top:4px;
   
     &.icon-skill-speed {
       $size:59px;
-      $top:-22px;
-      top:$top+$mobile-extra-top;
+      $top:-21px;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -271,9 +343,10 @@ $mobile-extra-top:4px;
     &.icon-skill-agility {
       $size:45px;
       $top:-17px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
@@ -282,14 +355,20 @@ $mobile-extra-top:4px;
     &.icon-skill-kicking {
       $size:47px;
       $top:-30px;
-      top:$top+$mobile-extra-top;
+      $mob-top-extra: 0px;
+      top:$top+$mobile-extra-top + $mob-top-extra;
       font-size:$size*$mobile-factor;
-      @media #{$tablet-tall-and-up} {
+      @media #{$tablet-and-up} {
         font-size:$size;
         top:$top;
       }
       left:3px;
     }
+  }
+}
+.skill-bar-vert .skill-bar-icon-inner {
+  i {
+    margin-left:-10px;
   }
 }
 

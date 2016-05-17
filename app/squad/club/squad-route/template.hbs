@@ -5,13 +5,20 @@
 {{#infinite-scroll
   content=playersSorted
   defaultHeight=defaultItemHeight
-  bufferSize=2.5
+  bufferSize=bufferSize
   as |player index|
 }}
 {{!#lazy-list  itemClass="gap-4x no-gap-on-last" content=playersSorted as |player|}}
   <!--div class="gap-7x no-gap-on-last"-->
     
-    {{player-ui player=player class=(if (not (last index playersSorted)) 'gap-4x')}}
+    {{player-ui player=player}}
+    
+    {{#if (not (last index playersSorted))}}
+      
+      <div class="gap-4x hidden-xs"></div>
+      <div class="gap-3x hidden-sm-up"></div>
+      
+    {{/if}}
     
   <!--/div-->
 {{!/lazy-list}}

@@ -5,17 +5,60 @@ export default Ember.Component.extend({
   
   isOnScreen: true,
   
-  energyChartOptions: {
+  attrBarIsAtTopWhenSingleMode: false,
+  
+  donutChartOptions: Ember.computed('singleMode','media.isMobile',function(){
     
-    animation: false,
+    let opts = {
+      
+      animation: false,
 
-    // Number - Number of animation steps
-    animationSteps: 50,
+      // Number - Number of animation steps
+      animationSteps: 50,
+      
+      //animationEasing: "easeOutBounce",
+      animationEasing: "easeOutExpo",
+      
+      // Thickness
+      percentageInnerCutout: 38,
+
+      showTooltips: false,
+      
+    };
     
-    //animationEasing: "easeOutBounce",
-    animationEasing: "easeOutExpo",
+    if( this.get('media.isMobile') ){
+      if(this.get('singleMode')){
+        opts.percentageInnerCutout = 33;
+      } else {
+        opts.percentageInnerCutout = 33;
+      }
+    } else {
+      if(this.get('singleMode')){
+        opts.percentageInnerCutout = 40;
+      } else {
+        opts.percentageInnerCutout = 33;
+      }
+    }
     
-  },
+    return opts;
+    
+  }),
+  
+  donutChartSize: Ember.computed('media.isMobile',function(){
+    if( this.get('media.isMobile') ){
+      if(this.get('singleMode')){
+        return 70;
+      } else {
+        return 59;
+      }
+    } else {
+      if(this.get('singleMode')){
+        return 90;
+      } else {
+        return 77;
+      }
+    }
+  }),
   
   setupInit: Ember.on('init',function(){
     this.resetChartOptions();
@@ -29,16 +72,35 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     if(!this.get('singleMode')){
-      this.updateChartData();
+      Ember.run.once(this,this.updateChartData);
+      //Ember.run.debounce(this,this.updateChartData,1);
     }
+    this.set('hasRendered',true);
+  }),
+  
+  flatCSR: Ember.computed('media.@each','hasRendered',function(){
+    
+    if(this.$() && this.$().length){
+      // Can we display flat csr?
+      let labelWidth = this.$('.csr-label').outerWidth();
+      let csrWidth = this.$('.player-ui-csr-value').outerWidth();
+      let csrChangeWidth = this.$('.csr-change').outerWidth();
+      let wrapperWidth = this.$('.player-ui-csr-wrapper').outerWidth();
+      
+      let totalContentWidth = labelWidth + csrWidth + csrChangeWidth + 25;
+      
+      return totalContentWidth < wrapperWidth;
+    }
+    return false;
+    
   }),
   
   resetChartOptions(){
     // Since the chart settings are static, ember won't manage them between instances of this component, so we need to manually reset.
-    this.set('energyChartOptions.animation',true);
+    this.set('donutChartOptions.animation',true);
     
     if( window.os.touchOS || !this.get('singleMode') ){
-      this.set('energyChartOptions.animation',false);
+      this.set('donutChartOptions.animation',false);
     }
     
     this.set('hasAnimatedChartOnce',false);
@@ -97,24 +159,39 @@ export default Ember.Component.extend({
   
   skillBarHeight: Ember.computed('media.isMobile',function(){
     if(this.get('media.isMobile')){
-      return '19px';
+      if(this.get('singleMode')){
+        return '24px';
+      } else {
+        return '22px';
+      }
     } else {
-      return '29px';
+      if(this.get('singleMode')){
+        return '33px';
+      } else {
+        return '29px';
+      }
     }
   }),
   
+  traitBarColor: Ember.computed(function(){
+    //return '#367cd6';
+    return null;
+  }),
+  
+  donutChartSizeStyle: Ember.computed('media.isMobile',function(){
+    return Ember.String.htmlSafe(`min-width: ${this.get('donutChartSize')}px;`);
+  }),
+  
   updateChart: Ember.on('didReceiveAttrs',function(opts){
-    if((this.attrChanged(opts,'isOnScreen') || this.attrChanged(opts,'hasAppeared') || this.attrChanged(opts,'player')) && this.get('isOnScreen') && this.get('singleMode')){
-      
-      // This is the only way to get the chartOptions to refresh
-      if(!this.attrChanged(opts,'player')){
-        this.set('chartComponent',null);
-      }
+    if((this.attrChanged(opts,'isOnScreen') || this.attrChanged(opts,'hasAppeared') || this.attrChanged(opts,'player')) && this.get('isOnScreen')){
       
       // Wait to make sure we've rendered the base, before rendering a new chart
-      Ember.run.next(()=>{
-        this.updateChartData();
-      });
+      if(this.get('singleMode')){
+        Ember.run.debounce(this,this.updateChartData,1);
+      } else {
+        Ember.run.once(this,this.updateChartData);
+        //Ember.run.debounce(this,this.updateChartData,1);
+      }
     }
   }),
   
@@ -127,13 +204,16 @@ export default Ember.Component.extend({
     this.set('chartComponent','blackout-chart');
     
     if(this.get('hasAnimatedChartOnce')){
-      this.set('energyChartOptions.animation',false);
+      this.set('donutChartOptions.animation',false);
     } else {
       this.set('hasAnimatedChartOnce',true);
     }
     
     // Hide any remaining tool tips
     Ember.Blackout.hideAllToolTips();
+    
+    // ------------------------------------- ENERGY
+    
     
     let data = [];
     //color: "#FDB45C", // Yellow
@@ -155,7 +235,7 @@ export default Ember.Component.extend({
       
       // Secondary color
       color:Ember.Blackout.getCSSColor('bg-light'),
-      highlight: "#e44d46",
+      //highlight: "#e44d46",
       
       label: this.get('i18n').t('player.used-energy'),
     });
@@ -169,13 +249,111 @@ export default Ember.Component.extend({
       //highlight: "#e63d3d",
       
       // Lighter red
-      color:"#e44d46",
-      highlight: "#f6665c",
+      //color:"#e44d46",
+      //highlight: "#f6665c",
+      
+      // Gradient
+      color: (ctx)=>{
+        var gradient1 = ctx.createLinearGradient(0, 0, 0, this.get('donutChartSize'));
+        gradient1.addColorStop(0.0, '#f19f96');
+        gradient1.addColorStop(0.5, '#e54e3b');
+        gradient1.addColorStop(0.51, '#de3119');
+        gradient1.addColorStop(1.0, '#ab2410');
+        return gradient1;
+      },
       
       label: this.get('i18n').t('player.energy'),
     });
     
     this.set('energyChartData',data);
+    
+    
+    // ------------------------------------- FORM
+    
+    
+    let formData = [];
+    
+    formData.push({
+      value: 100 - this.get('player.form'),
+      
+      // Secondary color
+      color:Ember.Blackout.getCSSColor('bg-light'),
+    });
+    
+    // Add form
+    formData.push({
+      value: this.get('player.form'),
+      
+      //color:Ember.Blackout.getCSSColor('bg-dark-lighter-3x'),
+      //color:'#3D73D6',
+      
+      // Gradient (full blue)
+      color: (ctx)=>{
+        var gradient1 = ctx.createLinearGradient(0, 0, 0, this.get('donutChartSize'));
+        gradient1.addColorStop(0.0, '#99bdf0');
+        gradient1.addColorStop(0.5, '#3e85e1');
+        gradient1.addColorStop(0.51, '#2172da');
+        gradient1.addColorStop(1.0, '#1655a6');
+        return gradient1;
+      },
+      
+      // Gradient (Faded secondary)
+      /*color: (ctx)=>{
+        var gradient1 = ctx.createLinearGradient(0, 0, 0, this.get('donutChartSize'));
+        gradient1.addColorStop(0.0, '#a7b6dd');
+        gradient1.addColorStop(0.5, '#6479b7');
+        gradient1.addColorStop(0.51, '#4e67ac');
+        gradient1.addColorStop(1.0, '#354981');
+        return gradient1;
+      },*/
+      
+      
+      label: this.get('i18n').t('player.form'),
+    });
+    
+    this.set('formChartData',formData);
+    
+    /**
+     * On chrome, if you go to player page, then back to squad, on retina
+     * Sometimes the charts will disappear after about 700ms??
+     * We fix by redrawing from 700-1200ms later
+     * @type {Boolean}
+     */
+    let isFixing = this.get('cache.chromeWorkaround');
+    if(!isFixing && window.browsers.chrome && !this.get('singleMode')){
+      this.set('cache.chromeWorkaround',true);
+      Ember.run.later(()=>{
+        this.set('cache.chromeWorkaround',false);
+        if(!this.get('isDestroyed')){
+          this.$().hide().show(0);
+          Ember.run.later(()=>{
+            if(!this.get('isDestroyed')){
+              this.$().hide().show(0);
+              Ember.run.later(()=>{
+                if(!this.get('isDestroyed')){
+                  this.$().hide().show(0);
+                  Ember.run.later(()=>{
+                    if(!this.get('isDestroyed')){
+                      this.$().hide().show(0);
+                      Ember.run.later(()=>{
+                        if(!this.get('isDestroyed')){
+                          this.$().hide().show(0);
+                          Ember.run.later(()=>{
+                            if(!this.get('isDestroyed')){
+                              this.$().hide().show(0);
+                            }
+                          },100);
+                        }
+                      },100);
+                    }
+                  },100);
+                }
+              },100);
+            }
+          },100);
+        }
+      },700);
+    }
     
   },
   

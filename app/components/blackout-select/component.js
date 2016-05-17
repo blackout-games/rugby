@@ -470,8 +470,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       // Scroll to bottom?
       if(scrollToBottom){
-        let $scroller = this.get('$options').find('.bs-options-scroller');
-        $scroller[0].scrollTop = $scroller[0].scrollHeight - $scroller.outerHeight();
+        
+        // No, don't do this, it should always be scrolled at top until
+        // TODO: scroll so that selected item is relative to options list
+        
+        //let $scroller = this.get('$options').find('.bs-options-scroller');
+        //$scroller[0].scrollTop = $scroller[0].scrollHeight - $scroller.outerHeight();
+        
       }
       
       // -------------------------------------------------------- //

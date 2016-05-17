@@ -3,7 +3,7 @@
  * Primaries
  */
 
-$hue-adjust: 0; // Degrees
+$hue-adjust: 0deg; // Degrees
 $primary-master: adjust-hue(hsl(88, 55%, 57%),$hue-adjust);
 $primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
 $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
@@ -13,7 +13,7 @@ $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
 
 // More colour in secondary
 //$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust);
-$secondary-master: adjust-hue(hsl(224,52%,50%),$hue-adjust); // Used this for a long time
+$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust); // Used this for a long time
 //$secondary-master: adjust-hue(hsl(227,52%,50%),$hue-adjust); // More contrast against the green
 //$secondary-master: adjust-hue(hsl(233,52%,50%),$hue-adjust); // Getting too purple?
 
@@ -112,11 +112,26 @@ $warning-text-color: #4f3517;
 .bg-master {
   background-color: $primary-master;
 }
+.bg-secondary {
+  background-color: $secondary-master;
+}
 .bg-dark {
   background-color: $bg-dark;
 }
 .bg-dark-lighter {
   background-color: $bg-dark-lighter;
+}
+.bg-dark-lighter-2x {
+  background-color: $bg-dark-lighter-2x;
+}
+.bg-dark-lighter-3x {
+  background-color: $bg-dark-lighter-3x;
+}
+.bg-dark-lighter-4x {
+  background-color: $bg-dark-lighter-4x;
+}
+.bg-dark-lighter-5x {
+  background-color: $bg-dark-lighter-5x;
 }
 .bg-light {
   background-color: $bg-light;

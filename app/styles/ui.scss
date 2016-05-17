@@ -86,7 +86,8 @@ table {
   //}
   
   border-color: #FFF;
-  background-color: desaturate(darken($secondary-master,11%),22%);
+  $bg-color: desaturate(darken($secondary-master,11%),22%);
+  background-color: $bg-color;
   overflow: hidden;
   color: white;
   margin-bottom: 0px !important;
@@ -108,7 +109,8 @@ table {
   }
   
   > tbody > tr:hover {
-    background-color: desaturate(darken($secondary-master,7%),25%);
+    background-color: desaturate(lighten($bg-color,4%),3%);
+    //background-color: $bg-color;
   }
   
   &.table-striped {
@@ -130,11 +132,12 @@ table {
 
 table.light {
   border-color: #FFF;
-  background-color: lighten($secondary-master,47%);
+  $bg-color: $bg-light;
+  background-color: $bg-color;
   color: $primary-text-color;
   
   > thead > tr {
-    background-color: lighten($secondary-master,44%);
+    background-color: darken($bg-color,4%);
   }
   
   > thead > tr > th {
@@ -152,7 +155,8 @@ table.light {
   }
   
   > tbody > tr:hover {
-    background-color: lighten($secondary-master,43%);
+    background-color: darken($bg-color,3%);
+    //background-color: $bg-color;
   }
 }
 

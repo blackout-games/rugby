@@ -10,23 +10,23 @@
   as |item index|
 }}
 
-{{#if itemClass}}
+  {{#if itemClass}}
 
-  {{! Be sure not to add margins to this div}}
-  <div class="clearfix">
-    <div class="{{itemClass}}">
+    {{! Be sure not to add margins to this div}}
+    <div class="clearfix">
+      <div class="{{itemClass}}">
+        {{yield item index}}
+      </div>
+    </div>
+    
+  {{else}}
+
+    {{! Be sure not to add margins to this div}}
+    <div class="clearfix">
       {{yield item index}}
     </div>
-  </div>
-  
-{{else}}
-
-  {{! Be sure not to add margins to this div}}
-  <div class="clearfix">
-    {{yield item index}}
-  </div>
-  
-{{/if}}
+    
+  {{/if}}
   
 {{/vertical-collection}}
 

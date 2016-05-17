@@ -47,7 +47,12 @@ export default Ember.Component.extend({
           
           // Refresh the current route
           var appRoute = getOwner(this).lookup('route:application');
-          appRoute.refresh();
+          let transition = appRoute.refresh();
+          
+          // Scroll to top
+          transition.promise.then(()=>{
+            Ember.$('#nav-body')[0].scrollTop = 0;
+          });
           
           // Allow menu to select
           Ember.run.later(()=>{

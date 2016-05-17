@@ -10,6 +10,7 @@ export default Ember.Component.extend({
     
     // Check session
     let sort = this.get('cache.squadSort');
+    
     if(sort){
       this.updateSort(sort,true);
     } else {
@@ -32,14 +33,14 @@ export default Ember.Component.extend({
     let sorts = this.get('sorts');
     let currentSort = this.get('currentSort');
     
-    if(sorts.indexOf(currentSort)<0){
+    if(!sorts.findBy('value',currentSort.value)){
       if(!usedPrefSort){
         // Try pref
         let sortBy = this.get('preferences').getPref('squadSortBy', {camelize:true});
         this.updateSort(this.get('sorts').findBy('value',sortBy),true);
       }
       currentSort = this.get('currentSort');
-      if(sorts.indexOf(currentSort)<0){
+      if(!sorts.findBy('value',currentSort)){
         this.updateSort(this.get('sorts').findBy('value','lastName'),true);
       }
     }

@@ -12,7 +12,7 @@ $color: lighten(saturate($bg-dark-lighter-2x,4%),7%);
   @media #{$mobile-wide-and-up} {
     font-size:130px;
   }
-  @media #{$tablet-tall-and-up} {
+  @media #{$tablet-and-up} {
     font-size:180px;
   }
   @media #{$tablet-wide-and-up} {

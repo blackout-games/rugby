@@ -49,12 +49,12 @@
       {{#unless session.isAuthenticated}}
       
         <div class="fbcontinue-container">
-          {{#loader-button action="loginWithFacebook" class="btn btn-fat btn-fb fbcontinue-button no-outline home-signup-buttons ellipses"   spinnerColor="fb" }}
+          {{#loader-button action="loginWithFacebook" class="btn btn-fat btn-fb fbcontinue-button no-outline home-signup-buttons ellipsis"   spinnerColor="fb" }}
             <i class="icon-facebook btn-fb-icon"></i> {{t 'home-page.continue-with-fb'}}{{/loader-button}}
         </div>
 
         <div class="signup-container">
-          {{#link-to 'signup' tagName='button' class="btn btn-fat no-outline home-signup-buttons gap-md ellipses"}}{{t 'home-page.signup-with-email'}}{{/link-to}}
+          {{#link-to 'signup' tagName='button' class="btn btn-fat no-outline home-signup-buttons gap-md ellipsis"}}{{t 'home-page.signup-with-email'}}{{/link-to}}
         </div>
         
       {{/unless}}

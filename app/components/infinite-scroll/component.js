@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   defaultHeight: 150,
+  content: [],
   
   /**
    * Multiples of scroller height
@@ -17,12 +18,14 @@ export default Ember.Component.extend({
     // Create a fresh css pseudo rule
     Ember.Blackout.addCSSRule( vcTagName + ' .vertical-item', 'min-height: '+this.get('defaultHeight')+'px;');
     
+    this.set('contentProxy',this.get('content'));
+    
   }),
   
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
     
     /**
-     * contentProxy fixes some and mirrors vertical-collection when it's rendered
+     * contentProxy fixes smoke and mirrors vertical-collection when it's rendered
      * while under display: none.
      * We wait till next run-loop before passing on content, when it's ready to go
      */

@@ -147,7 +147,7 @@ export default OAuth2.extend({
     return this._super(data).then((data)=>{
       return data;
     },()=>{
-      log('Session could not be restored. Please manually refresh (Temporary)');
+      print('Session could not be restored. Please manually refresh (Temporary)');
       
       /**
        * Not sure why we waited.
