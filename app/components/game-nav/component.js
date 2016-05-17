@@ -195,8 +195,9 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     this.touchBlocker = function(e) {
       e.preventDefault();
       e.stopPropagation();
+      Ember.Blackout.preventNextClick();
     };
-    $('#nav-touch-blocker').on('touchstart touchmove', this.touchBlocker).on('click');
+    $('#nav-touch-blocker').on('touchstart touchmove', this.touchBlocker).off('click');
 
     // Top bar for standalone app
     if (this.get('allowTopbar') && window.browsers.standalone) {

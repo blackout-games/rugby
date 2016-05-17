@@ -307,11 +307,15 @@ export default Ember.Component.extend({
 
   },
 
-  blockerTouch() {
+  blockerTouch(e) {
     
     if( !this.get('media.isJumbo') && !this.get('media.isDesktop') ){
       this.hide();
     }
+    
+    e.preventDefault();
+    e.stopPropagation();
+    Ember.Blackout.preventNextClick();
 
   },
 

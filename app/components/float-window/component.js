@@ -102,6 +102,10 @@ export default Ember.Component.extend({
             return;
           }
           
+          e.preventDefault();
+          e.stopPropagation();
+          Ember.Blackout.preventNextClick();
+          
           this.send('close');
         });
         

@@ -1359,6 +1359,7 @@ export function initialize( /*application*/ ) {
   
   // Link some local functions
   Ember.Blackout.runManualEvent = _runManualEvent;
+  Ember.Blackout.preventNextClick = _preventNextClick;
 
   /**
    * Shortcut to blackout console logging
@@ -1902,7 +1903,7 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent,_waitingForClick;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent,_waitingForClick,_stopNextClick;
 
 document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
@@ -1934,8 +1935,13 @@ document.documentElement.addEventListener('touchend', function(e){
   
 }, true);
 
-document.documentElement.addEventListener('click', function(){
+document.documentElement.addEventListener('click', function(e){
   _waitingForClick = false;
+  if(_stopNextClick){
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    _stopNextClick = false;
+  }
 }, true);
 
 document.documentElement.addEventListener('mousedown', function(e){
@@ -1993,7 +1999,12 @@ function _runManualEvent(e,eventType){
   }
 }
 
-
+function _preventNextClick(){
+  _stopNextClick = true;
+  window.setTimeout(function(){
+    _stopNextClick = false;
+  },1000);
+}
 
 // The magic code // Shows all events triggered
 /*var oldAddEventListener = EventTarget.prototype.addEventListener;
