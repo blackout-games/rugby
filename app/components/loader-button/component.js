@@ -130,11 +130,13 @@ export default Ember.Component.extend({
       }
       this.set('hasSucceeded',true);
       let laterId = Ember.run.later(()=>{
-        this.set('laterId',false);
-        
         if(!this.get('isDestroyed')){
-          this.$().addClass('unsucceed');
-          this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed).one(Ember.Blackout.afterCSSTransition,this,this.afterSucceed);
+          this.set('laterId',false);
+          
+          if(!this.get('isDestroyed')){
+            this.$().addClass('unsucceed');
+            this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed).one(Ember.Blackout.afterCSSTransition,this,this.afterSucceed);
+          }
         }
       },1777);
       

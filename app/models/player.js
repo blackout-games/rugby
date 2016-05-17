@@ -29,6 +29,7 @@ export default DS.Model.extend(Validations,{
   leadership: DS.attr('number'),
   experience: DS.attr('number'),
   joined: DS.attr('date'),
+  injury: DS.attr('date'),
   birthRound: DS.attr('number'),
   birthDay: DS.attr('number'),
   stamina: DS.attr('number'),
@@ -63,6 +64,13 @@ export default DS.Model.extend(Validations,{
   wage: Ember.computed('salary',function(){
     //return (this.get('salary')/16).toFixed(2);
     return this.get('salary')/16;
+  }),
+  isInjured: Ember.computed('injury',function(){
+    if(this.get('injury')){
+      return this.get('injury').getTime() > Date.now();
+    } else {
+      return false;
+    }
   }),
   birthdayRaw: Ember.computed('birthRound','birthDay',function(){
     return (parseInt(this.get('birthRound'))-1)*7 + parseInt(this.get('birthDay'));

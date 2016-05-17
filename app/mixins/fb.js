@@ -95,8 +95,10 @@ export default Ember.Mixin.create({
         
         // Try again soon
         let laterId = Ember.run.later(()=>{
-          this.set('laterId',false);
-          this.loginToFB(button,delay);
+          if(!this.get('isDestroyed')){
+            this.set('laterId',false);
+            this.loginToFB(button,delay);
+          }
         },100);
         
         this.set('laterId',laterId);

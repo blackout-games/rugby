@@ -46,7 +46,13 @@
           
           {{#if player.transfer}}
           <div class="col-auto vc-parent">
-            <i class="icon-tag icon-lg for-sale-color"></i>
+            <i class="icon-tag icon-lg for-sale-color on-dark"></i>
+          </div>
+          {{/if}}
+          
+          {{#if player.isInjured}}
+          <div class="col-auto vc-parent">
+            <i class="icon-medkit icon-lg injury-color on-dark"></i>
           </div>
           {{/if}}
           

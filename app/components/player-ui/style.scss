@@ -92,8 +92,10 @@ $skew-angle: 14deg;
    * @type {[type]}
    */
   max-width:calc(59vw - 30px);
+  min-height:60px;
   @media #{$tablet-and-up} {
     max-width:300px;
+    min-height:78px;
   }
   padding: 0 14px 0 22px;
   margin-left:-17px;
@@ -183,20 +185,55 @@ body.touch .player-ui-title-link {
   width: 100%;
 }
 
-.player-ui-for-sale {
-  $color: $secondary-master;
+.player-ui-flags {
+  transform: skewX(-$skew-angle);
+}
+
+.injury-color {
+  $color: $error-color;
+  color: $color;
+  &.dark {
+    color: desaturate(darken($color,11%),17%);
+  }
+  &.on-dark {
+    color: saturate(lighten($color,4%),7%);
+  }
+}
+
+.player-ui-for-sale,.player-ui-injured {
   position: relative;
   z-index:1;
   display: inline-block;
-  padding: 4px 11px 4px 22px;
-  background-color: $color;
-  transform: skewX(-$skew-angle);
+  padding: 1px 0 4px 7px;
   vertical-align: top;
-  
-  margin-left:-12px;
+  width:44px;
+  height:30px;
+  text-align: center;
+  font-size: 17px;
+  margin-left:-7px;
   
   @media #{$tablet-and-up} {
-    margin-left:-7px;
+    width:50px;
+    height:39px;
+    padding: 3px 0 4px 0;
+    font-size: 20px;
+    margin-left:-2px;
+  }
+  
+  &.hover {
+    i {
+      color: white;
+    }
+  }
+}
+
+.player-ui-injured {
+  $color: $error-color;
+  background-color: $color;
+  padding: 1px 0 4px 5px;
+  
+  @media #{$tablet-and-up} {
+    padding: 3px 0 4px 0;
   }
   
   i {
@@ -205,10 +242,19 @@ body.touch .player-ui-title-link {
     color: lighten($color,35%);
   }
   
-  &.hover {
-    i {
-      color: white;
-    }
+  &.press, &:active {
+    background-color: darken($color,4%);
+  }
+}
+
+.player-ui-for-sale {
+  $color: $secondary-master;
+  background-color: $color;
+  
+  i {
+    transform: skewX($skew-angle);
+    display: inline-block;
+    color: lighten($color,35%);
   }
   &.press, &:active {
     background-color: darken($color,4%);

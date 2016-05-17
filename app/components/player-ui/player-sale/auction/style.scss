@@ -7,6 +7,9 @@
 
 .for-sale-color {
   color: $secondary-master;
+  &.on-dark {
+    color: saturate(lighten($secondary-master,7%),11%);
+  }
 }
 
 .player-auction-refresh-button {

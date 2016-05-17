@@ -3,37 +3,55 @@
   <div class="player-ui-header-wrapper">
   
     <div class="row row-nowrap">
-      <div class="col-max player-ui-title-wrapper">
-        {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
-          <div class="player-ui-title-panel">
-            <h2 class="player-ui-title vc-parent">
-            
-              <span class="ellipsis">
+      <div class="col-max player-ui-title-wrapper row row-nowrap">
+      
+        <div class="col-auto">
+          {{#link-to 'players.player' player.id class="player-ui-title-link a-no-underline btn-events"}}
+            <div class="player-ui-title-panel">
+              <h2 class="player-ui-title vc-parent">
               
-                {{player.firstName}}<br>
-              
-                {{#if player.nickname}}
-                  
-                  <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
-                  
-                {{/if}}
+                <span class="ellipsis">
                 
-                {{player.lastName}}
-              
-              </span>
+                  {{player.firstName}}<br>
                 
-            </h2>
-          </div>
-          <div class="player-ui-avatar-wrapper">
-            <div class="player-avatar-light player-avatar-ui"></div>
-          </div>
-        {{/link-to}}
-        
-        {{#if player.transfer}}
-          {{#link-to 'players.player.sale' player.id class="player-ui-for-sale a-no-underline btn-events"}}
-            <i class="icon-tag icon-md"></i>
+                  {{#if player.nickname}}
+                    
+                    <span class="player-ui-nickname">"{{player.nickname}}"</span><br>
+                    
+                  {{/if}}
+                  
+                  {{player.lastName}}
+                
+                </span>
+                  
+              </h2>
+            </div>
+            <div class="player-ui-avatar-wrapper">
+              <div class="player-avatar-light player-avatar-ui"></div>
+            </div>
           {{/link-to}}
-        {{/if}}
+        </div>
+        
+        <div class="col-auto player-ui-flags">
+        
+          {{#if player.transfer}}
+            <div>
+              {{#link-to 'players.player.sale' player.id class="player-ui-for-sale a-no-underline btn-events"}}
+                <i class="icon-tag"></i>
+              {{/link-to}}
+            </div>
+          {{/if}}
+          
+          {{#if player.isInjured}}
+            <div>
+              {{#link-to 'players.player' player.id class="player-ui-injured a-no-underline btn-events"}}
+                <i class="icon-medkit"></i>
+              {{/link-to}}
+            </div>
+          {{/if}}
+          
+        </div>
+        
       </div>
       <div class="col-flex text-center center-parent player-ui-csr-wrapper">
         <div class="{{if flatCSR 'row row-center'}}">
@@ -65,16 +83,27 @@
     
     
       {{#if singleMode}}
-      <div class="row gap-lg row-center">
-        <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide">{{t 'player.csr'}}</div>
-        <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
-        
-        {{#if (owned-club player.club)}}
-          <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide flat-csr">{{number player.csrChange prefix=true}}</div>
-        {{else}}
-          <div class="iblock divider" style="width:50px;"></div>
+      
+        {{#if player.isInjured}}
+          
+          <div class="color-bg-text error full text-center gap-md">
+            <i class="icon-medkit icon-xl icon-vcenter injury-color dark"></i> {{t-t 'player.injured' date=(component 'date-ui' date=player.injury initial='fullDateShort' alt='gameDateShort')}}
+          </div>
+          
         {{/if}}
-      </div>
+        
+        <div class="row gap-lg row-center">
+          <div class="player-ui-big-label col-fixed center-parent player-ui-csr-wide">{{t 'player.csr'}}</div>
+          <div class="player-ui-csr-value col-fixed center-parent player-ui-csr-wide">{{number player.csr}}</div>
+          
+          {{#if (owned-club player.club)}}
+            <div class="player-ui-csr-change col-fixed center-parent player-ui-csr-wide flat-csr">{{number player.csrChange prefix=true}}</div>
+          {{else}}
+            <div class="iblock divider" style="width:50px;"></div>
+          {{/if}}
+        </div>
+        
+        
       {{/if}}
 
       {{#if (and singleMode (not isTouchOS))}}      
