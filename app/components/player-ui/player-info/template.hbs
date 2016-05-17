@@ -86,8 +86,8 @@
       
         {{#if player.isInjured}}
           
-          <div class="color-bg-text error full text-center gap-md">
-            <i class="icon-medkit icon-xl icon-vcenter injury-color dark"></i> {{t-t 'player.injured' date=(component 'date-ui' date=player.injury initial='fullDateShort' alt='gameDateShort')}}
+          <div class="color-bg-text error dark full text-center gap-md">
+            <i class="icon-medkit icon-xl icon-vcenter injury-color player-ui-icon"></i> {{t-t 'player.injured' date=(component 'date-ui' date=player.injury initial='fullDateShort' alt='gameDateShort')}}
           </div>
           
         {{/if}}

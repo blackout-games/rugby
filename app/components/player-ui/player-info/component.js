@@ -34,7 +34,7 @@ export default Ember.Component.extend({
       }
     } else {
       if(this.get('singleMode')){
-        opts.percentageInnerCutout = 40;
+        opts.percentageInnerCutout = 33;
       } else {
         opts.percentageInnerCutout = 33;
       }

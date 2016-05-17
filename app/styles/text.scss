@@ -659,8 +659,16 @@ p {
   
   &.error {
     $color: $error-color;
-    background-color: lighten($color,22%);
-    //color: desaturate(darken($red-color,11%),22%);
+    background-color: lighten($color,27%);
+    
+    &.dark {
+      // Dark box
+      background-color: desaturate(darken($color,11%),15%);
+      border: none;
+      color: saturate(lighten($color,22%),44%);
+      color: white;
+    }
+    
   }
   
 }

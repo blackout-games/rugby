@@ -12,8 +12,8 @@ $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
 //$secondary-master: adjust-hue(hsl(211,59%,44%),$hue-adjust);
 
 // More colour in secondary
-//$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust);
-$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust); // Used this for a long time
+//$secondary-master: adjust-hue(hsl(222,52%,50%),$hue-adjust); // Used this for a long time
+$secondary-master: adjust-hue(hsl(222,55%,50%),$hue-adjust);
 //$secondary-master: adjust-hue(hsl(227,52%,50%),$hue-adjust); // More contrast against the green
 //$secondary-master: adjust-hue(hsl(233,52%,50%),$hue-adjust); // Getting too purple?
 
@@ -96,7 +96,7 @@ $dark-button-content-color: darken($secondary-master,22%);
 /**
  * Errors
  */
-$error-color: hsl(4, 70, 55 );
+$error-color: hsl(352, 70, 55 );
 $error-color-on-dark: saturate(lighten($error-color,9%),44%);
 
 /**

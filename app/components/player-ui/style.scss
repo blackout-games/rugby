@@ -192,8 +192,8 @@ body.touch .player-ui-title-link {
 .injury-color {
   $color: $error-color;
   color: $color;
-  &.dark {
-    color: desaturate(darken($color,11%),17%);
+  &.player-ui-icon {
+    color: saturate(lighten($color,15%),44%);
   }
   &.on-dark {
     color: saturate(lighten($color,4%),7%);
