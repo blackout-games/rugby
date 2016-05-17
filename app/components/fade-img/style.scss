@@ -1,6 +1,40 @@
-.fade-img-placeholder {
+
+
+.fade-img-default-bg {
   background-color: $placeholder-bg-color;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  &.cover {
+    .fade-img-not-found, .fade-img-placeholder, .fade-img {
+      background-size: cover;
+    }
+  }
 }
+
+.fade-img-not-found {
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.fade-img-placeholder {
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.fade-img {
+  position:relative;
+  z-index: 3;
+}
+
 
 .fade-img-ready {
   opacity:0;
@@ -13,4 +47,14 @@
 
 .fade-img-immediate {
   transition: none;
+}
+
+/**
+ * For cover mode
+ */
+.fade-img-ww {
+  width:100% !important;
+}
+.fade-img-wh {
+  height:100% !important;
 }

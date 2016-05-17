@@ -1,3 +1,22 @@
-{{loading-spinner class="hidden center-child" spinner="bars" color='placeholder'}}
 
-<img class="hidden img-responsive fade-img-ready">
+{{#if (and isLoadingImage loaderAnimation)}}
+  {{loading-spinner class="center-child animated fadeIn" spinner="bars" color='placeholder'}}
+{{/if}}
+
+{{#if cover}}
+  <div class="fade-img-not-found"></div>
+{{else}}
+  <img class="fade-img-not-found">
+{{/if}}
+
+{{#if cover}}
+  <div class="fade-img-placeholder"></div>
+{{else}}
+  <img class="fade-img-placeholder">
+{{/if}}
+
+{{#if cover}}
+  <div class="{{if isLoadingImage 'hidden'}} fade-img fade-img-ready"></div>
+{{else}}
+  <img class="{{if isLoadingImage 'hidden'}} fade-img img-responsive fade-img-ready">
+{{/if}}

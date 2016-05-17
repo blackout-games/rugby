@@ -1,10 +1,10 @@
-{{#sub-nav-content name="squadList" keepSubRoutes=keepSubRoutes buttonIcon="icon-team"}}
+{{#sub-nav-content name="squadList" keepSubRoutes=keepSubRoutes buttonIcon="icon-team" updateOn=players}}
   
   <div class="sub-nav-inner-padding">
     
     <div class="sub-nav-header dark">
       
-      {{#unless (owned-club (get (geti players 0) 'club'))}}
+      {{#unless (current-club (get (geti players 0) 'club'))}}
         
         <div class="gap-lg text-center">
           {{club-ui club=(get (geti players 0) 'club') stacked=true imageSize='medium-2x' class="on-dark text-medium-2x"}}

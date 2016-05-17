@@ -24,46 +24,80 @@ export default Ember.Component.extend({
   
   /**
    * The image URL
-   * Only needs to be set if not using a special mode such as manager or club
+   * This is set automatically for special types (managers, clubs)
    */
-  imageUrl: '',
+  imageUrl: null,
+  
+  imageClasses: ['user-image'],
+  
+  onInit: Ember.on('init',function(){
+    
+    /**
+     * Not sure why ember doesn't reset component properties sometimes.
+     */
+    this.set('imageClasses',['user-image']);
+    
+  }),
+  
+  addImageClass(className){
+    let imageClasses = this.get('imageClasses');
+    imageClasses.pushObject(className);
+    imageClasses = imageClasses.uniq();
+    this.set('imageClasses',imageClasses);
+  },
   
   setup: Ember.on('didInsertElement',function(){
     
-    this.$('.user-image').addClass( this.get('type') + '-avatar' + (this.get('inline')?'-inline':'') );
-    let imageUrl = '';
+    this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
+    
+    let imageUrl;
+    
+    let updateImage = Ember.run.bind(this,this.updateImage);
     
     // Check for special cases
     if(this.get('type')==='manager'){
       
-      imageUrl = this.get('userImages').registerManagerImage(this.$('.user-image'),this.get('defaultColor'),this.isLargeSize(this.get('size')),this.get('manager'));
+      if(this.get('isCurrentUserImage')){
+        
+        imageUrl = this.get('userImages').registerManagerImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
+        
+      }
       
     } else if(this.get('type')==='club'){
       
-      imageUrl = this.get('userImages').registerClubImage(this.$('.user-image'),this.get('defaultColor'),this.isLargeSize(this.get('size')),this.get('club'));
+      if(this.get('isCurrentUserImage')){
+        
+        imageUrl = this.get('userImages').registerClubImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
+        
+      } else {
+        
+        imageUrl = this.updateClubImage(this.get('club'));
+        
+      }
       
     } else {
       
       // TODO: support custom images
-      this.get('userImages').registerImage(this.$('.user-image'),this.get('defaultColor'), this.get('type'));
+      log('Attempted to register custom image in user-image component');
+      //this.get('userImages').registerImage();
       
     }
     
-    // Save image URL
-    this.set('imageUrl',imageUrl);
+    // Save image URL for use with editor
+    this.set('modelImageUrl',imageUrl);
     
     // Move classes
     let classes = this.$()[0].className.split(/\s+/);
     Ember.$.each(classes,(i,className)=>{
       if(className!=='ember-view'){
-        this.$('.user-image').addClass(className);
+        this.addImageClass(className);
         this.$().removeClass(className);
       }
     });
     
     // Add size
     if(this.get('size')){
-      this.$('.user-image').addClass('user-image-'+this.get('size'));
+      this.addImageClass('user-image-'+this.get('size'));
     }
     
   }),
@@ -71,10 +105,21 @@ export default Ember.Component.extend({
   onUpdate: Ember.on('didUpdateAttrs',function(attrs){
     if(this.get('type')==='club' && this.attrChanged(attrs,'club')){
       
-      this.get('userImages').updateClubImage(this.$('.user-image'),this.get('club'));
+      this.updateClubImage(this.get('club'));
       
     }
   }),
+  
+  updateClubImage(club){
+    let opts = {
+      club: club,
+      large: this.isLargeSize(this.get('size')),
+      defaultBgColor: this.get('defaultColor'),
+    };
+    opts.url = this.get('userImages').getClubUrl(opts);
+    this.updateImage(opts);
+    return opts.url;
+  },
   
   isLargeSize(size){
     return size==='large'
@@ -135,7 +180,7 @@ export default Ember.Component.extend({
     
     let model = this.get('model');
     
-    model.set('customUrl',this.get('imageUrl'));
+    model.set('customUrl',this.get('modelImageUrl'));
     
     if( this.get('type') === 'manager' ){
       model.set('imageType',this.get('managerImageType'));
@@ -354,6 +399,64 @@ export default Ember.Component.extend({
     onChangedCustomUrl(/*value*/){
       //log('changed url',value);
     },
+  },
+  
+  /**
+   * 
+   * ==== WIP
+   * Changes a user image. Checks if it exists, and if not, removes background color so we see through to default "no image found" image.
+   * Expects the given selector to refer to an image object where an under bg image, and a default bg image are applied (See CSS mixin .user-image)
+   * 
+   * 
+   */
+  updateImage ( opts ) {
+    
+    if(!this.get('isDestroyed') && !this.get('isDestroying')){
+      
+      if(opts.bgColor==='dark'){
+        this.set('notFoundUrl','/assets/images/user/no-image.png');
+      } else {
+        this.set('notFoundUrl','/assets/images/user/no-image-light.png');
+      }
+      
+      if(opts.isClub){
+        this.set('placeholderUrl','/assets/images/user/club.png');
+      }
+      
+      this.set('defaultBgColor',opts.defaultBgColor);
+      
+      if(opts.url){
+        
+        // BREAKS DEFAULT COLOR
+        //Ember.run.next(()=>{
+          
+          this.set('imageUrl',opts.url);
+          
+          // Ensure parent has z-index of more than 0
+          /*$el.each(function(){
+            if($(this).parent().css('z-index')==='auto'){
+              $(this).parent().css('z-index',1);
+            }
+            if($(this).parent().css('position')==='static'){
+              $(this).parent().css('position','relative');
+            }
+          });*/
+              
+        //});
+      
+      } else {
+        
+        // No URL, if this is an update from another image, we need to remove the image url
+        this.set('imageUrl','');
+        
+      }
+      
+      return true;
+      
+    } else {
+      return false;
+    }
+    
   },
   
 });

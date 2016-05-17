@@ -46,4 +46,15 @@ export default Ember.Component.extend({
     }
   },
   
+  /**
+   * Allows us to update heights etc. when a property changes
+   */
+  onUpdate: Ember.on('didUpdateAttrs',function(attrs){
+    if(this.attrChanged(attrs,'updateOn')){
+      Ember.run.scheduleOnce('afterRender', this, ()=>{
+        this.get('eventBus').publish('updateSubNav',this.$(),Ember.Blackout.processAttrs(this.attrs));
+      });
+    }
+  }),
+  
 });

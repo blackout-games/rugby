@@ -29,6 +29,7 @@ export default Ember.Component.extend({
 
     this.get('eventBus').subscribe('createSubNav',this,this.createSubNav);
     this.get('eventBus').subscribe('destroySubNav',this,this.destroySubNav);
+    this.get('eventBus').subscribe('updateSubNav',this,this.updateSubNav);
     this.get('eventBus').subscribe('selectSubNavLink',this,this.selectMenuLinkExternal);
     this.get('eventBus').subscribe('hideSubNav',this,this.hide);
 
@@ -75,12 +76,7 @@ export default Ember.Component.extend({
   },
 
   handleResize(){
-    if(!this.get('navButtonIsShowing')){
-      this.updateSubNavNonMobile();
-    } else {
-      this.updateSubNavMobile();
-    }
-    this.updateScrollArea();
+    this.updateSubNav();
   },
 
   getScrollSelectorToWatch() {
@@ -141,7 +137,7 @@ export default Ember.Component.extend({
 
     // Globalise opts
     this.set('opts',opts);
-
+    
     // See if custom button icon is set
     if(opts.buttonIcon){
       this.set('buttonIcon',opts.buttonIcon);
@@ -248,6 +244,16 @@ export default Ember.Component.extend({
     this.hide( true );
     
   },
+  
+  updateSubNav(){
+    if(!this.get('navButtonIsShowing')){
+      this.updateSubNavNonMobile();
+    } else {
+      this.updateSubNavMobile();
+    }
+    this.updateScrollArea();
+    this.watchMenuLinks();
+  },
 
   updateSubNavMobile(){
 
@@ -311,7 +317,7 @@ export default Ember.Component.extend({
 
   watchMenuLinks (){
     // Don't debounce, otherwise we can't preventDefault
-    this.$('#sub-nav-scroller a.menu-link').on('click',this,this.handleMenuLink);
+    this.$('#sub-nav-scroller a.menu-link').off('click').on('click',this,this.handleMenuLink);
   },
 
   unwatchMenuLinks (){

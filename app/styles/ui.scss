@@ -223,12 +223,24 @@ table.light {
  * User images
  */
 
-@mixin user-image ( $defaultImg, $notFoundImg ) {
+@mixin user-image-direct ( $defaultImg, $notFoundImg, $inlineBlock: false, $inline: false ) {
+  
+  display: block;
   width:44px;
   height:44px;
+  vertical-align: middle;
   border-radius: 50%;
-  display: block;
   position:relative;
+  
+  @if $inlineBlock {
+    display: inline-block;
+  }
+  
+  @if $inline {
+    display: inline-block;
+    margin: -14px 4px -10px 0; // Prevent from taking more height that surrounding text
+  }
+  
   @include cover-background($defaultImg);
   
   &:before {
@@ -249,20 +261,30 @@ table.light {
   }
 }
 
+@mixin user-image () {
+  width:44px;
+  height:44px;
+  border-radius: 50%;
+  display: inline-block;
+  position:relative;
+}
+
 .club-avatar {
-  @include user-image( '/assets/images/user/club.png', '/assets/images/user/no-logo.png' );
+  @include user-image();
+  //( '/assets/images/user/club.png', '/assets/images/user/no-logo.png' );
 }
 
 .manager-avatar {
-  @include user-image( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
+  @include user-image();
+  //( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
 }
 
 .player-avatar {
-  @include user-image( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
+  @include user-image-direct( '/assets/images/user/manager.png', '/assets/images/user/no-image.png' );
 }
 
 .player-avatar-light {
-  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png' );
+  @include user-image-direct( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png' );
 }
 
 

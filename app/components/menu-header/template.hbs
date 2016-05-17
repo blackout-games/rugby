@@ -14,7 +14,7 @@
       {{#link-to 'account' class="btn-a dark-on-dark no-extra-hitarea "}}
         <div class="row row-nowrap">
           <div class="col-fixed">
-            {{user-image type='manager' class='manager-avatar-menu' defaultColor='dark'}}
+            {{user-image type='manager' class='manager-avatar-menu' defaultColor='dark' isCurrentUserImage=true}}
           </div>
           <div class="col-flex">
             <div class="menu-manager-text row">
@@ -42,6 +42,7 @@
       inline=true
       stacked=true
       fast=true
+      isCurrentUserImage=true
       class="menu-club menu-club-text btn-a activatable"}}
   </div>
   

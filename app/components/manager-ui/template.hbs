@@ -1,7 +1,7 @@
 {{#if inline}}
 
   <span class="nowrap">
-    {{user-image type='manager' defaultColor='dark' manager=manager size='small' class="manager-avatar-inline no-right-gap left-gap-xs"}}
+    {{user-image type='manager' defaultColor='dark' manager=manager size='small' class="manager-avatar-inline no-right-gap left-gap-xs" isCurrentUserImage=isCurrentUserImage}}
     <span class="btn-a-hover">{{if text text manager.username}}</span>
   </span>
   
@@ -9,7 +9,7 @@
   
   <div class="{{unless stacked "row row-nowrap"}}">
     <div class="{{unless stacked "col-auto right-gap-md"}} text-center">
-      {{user-image type='manager' defaultColor='dark' manager=manager size=imageSize}}
+      {{user-image type='manager' defaultColor='dark' manager=manager size=imageSize isCurrentUserImage=isCurrentUserImage}}
     </div>
     <div class="{{unless stacked "col-auto vc-parent"}}">
       <span>{{if text text manager.username}}</span>

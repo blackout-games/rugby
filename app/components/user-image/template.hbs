@@ -14,7 +14,7 @@
   {{#float-window showWindow=(mut showingEditor) onClose=(action 'onCancel')}}
     
     <div class="row row-center gap-lg">
-      {{user-image type=type size=(if media.isMobile 'large' 'gigantic') class='avatar-editor' defaultColor='light'}}
+      {{user-image type=type size=(if media.isMobile 'large' 'gigantic') class='avatar-editor' defaultColor='light' isCurrentUserImage=isCurrentUserImage}}
     </div>
     
     {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") onSave=(action "onSave") useCloseButton=true}}
@@ -22,7 +22,17 @@
   {{/float-window}}
   
 {{else}}
-
-  <div class="user-image"></div>
+  
+  {{fade-img
+    url=(readonly imageUrl)
+    imageClasses=(readonly imageClasses)
+    minResolution=0
+    placeholderUrl=placeholderUrl
+    notFoundUrl=notFoundUrl
+    bgColor=defaultBgColor
+    cover=true
+    loaderAnimation=false
+  }}
+  {{!<div class="user-image"></div>}}
   
 {{/if}}

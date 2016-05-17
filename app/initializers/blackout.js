@@ -770,7 +770,7 @@ class Blackout {
    */
   assertURL( url, securingURL ) {
     url = url.trim('"').trim('[').trim(']');
-    if( url.search(/\/\/[^\/]|https?:\/\/|ftps?:\/\/|mailto:/) !== 0 ){
+    if( url.substr(0,7)!=='/assets' && url.substr(0,7)!=='assets/' && url.search(/\/\/[^\/]|https?:\/\/|ftps?:\/\/|mailto:/) !== 0 ){
       url = 'http://' + url;
     }
     if(!securingURL){
@@ -787,7 +787,7 @@ class Blackout {
     if(!assertingURL){
       url = this.assertURL(url,true);
     }
-    if(window.location.protocol==='https:' && url.substr(0,5)!=='https'){
+    if(url.substr(0,7)!=='/assets' && url.substr(0,7)!=='assets/' && window.location.protocol==='https:' && url.substr(0,5)!=='https'){
       url = url.replace('http:','https:');
     }
     return url;
@@ -834,6 +834,8 @@ class Blackout {
    */
   preloadImage(path) {
     
+    var self = this;
+    
     return new Ember.RSVP.Promise(function(resolve,reject){
       
       // Trim any potential quotes
@@ -847,7 +849,7 @@ class Blackout {
         resolve({ w:this.width, h:this.height });
       }).on('error', (e)=>{
         print('Error while preloading image','Path: '+path,e,'Stack trace: ');
-        this.logStackTrace();
+        self.logStackTrace();
         reject();
       });
       

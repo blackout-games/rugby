@@ -1,22 +1,14 @@
 .manager-avatar-inline {
   
-  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png' );
-  
-  display: inline-block;
+  @include user-image-direct( '/assets/images/user/manager-light.png', '/assets/images/user/no-image-light.png', true, true );
   width:27px;
   height:27px;
-  vertical-align: middle;
-  margin: -14px 4px -10px 0; // Prevent from taking more height that surrounding text
 }
 
 .club-avatar-inline {
   
-  @include user-image( '/assets/images/user/club.png', '/assets/images/user/no-image-light.png' );
-  
-  display: inline-block;
+  @include user-image-direct( '/assets/images/user/club.png', '/assets/images/user/no-image-light.png', true, true );
   width:27px;
   height:27px;
-  vertical-align: middle;
-  margin: -4px 4px 0 0;
   
 }

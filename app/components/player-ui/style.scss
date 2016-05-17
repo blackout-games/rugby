@@ -21,7 +21,7 @@
 }
 
 .player-avatar-single {
-  @include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
+  @include user-image-direct( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
   width:80px;
   height:80px;
   @media #{$tablet-and-up} {
@@ -31,7 +31,6 @@
 }
   
 .player-avatar-sub-nav {
-  //@include user-image( '/assets/images/user/manager-light.png', '/assets/images/user/no-image.png' );
   display: inline-block;
   width:33px;
   height:33px;
@@ -473,6 +472,7 @@ table .player-ui-value {
   position: absolute;
   top:0;
   left:0;
+  font-weight: bold;
 }
 
 .player-ui-nickname {

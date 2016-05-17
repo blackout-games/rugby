@@ -2,9 +2,7 @@ import Ember from 'ember';
 const { Blackout, $ } = Ember;
 
 /**
- * This service handles manager images and club images for the currently logged in manager, as well as general user images, like manager and club images for other managers around the game.
- * 
- * What you get here is a layered image which has the ability to show an "image not found" image if the user-image is not loading, and also a placeholder if the user has not provided an image URL.
+ * This service handles manager images and club images for the currently logged in manager. It should only be used for images that need to change when a user logs in or out, or switches active club.
  */
 
 export default Ember.Service.extend({
@@ -19,70 +17,31 @@ export default Ember.Service.extend({
     this.get('eventBus').subscribe('sessionBuilt',this,this.updateSessionImages);
   }),
   
-  registerImage($el, url, defaultColor){
-    
-    if(defaultColor==='dark'){
-      defaultColor = Ember.$('#nav-sidebar').css('background-color');
-    } else { // light
-      defaultColor = Ember.Blackout.getCSSColor('bg-light');
-    }
+  registerImage(url, opts){
     
     // Register for later updates
-    this.get('imageStore').pushUnique({el: $el, defaultBgColor: defaultColor});
+    this.get('imageStore').pushUnique(opts);
     
     // Update the image now
-    this.updateImage($el, url, defaultColor);
+    opts.url = url;
     
-  },
-  
-  deregisterImage($el){
-    
-    $.each(this.get('imageStore'),(i,img)=>{
-      
-      let $managerEl = img.el ? img.el : $(img.selector);
-      
-      if($el === $managerEl){
-        this.get('imageStore').splice(i,1);
-        return false;
-      }
-      
-    });
+    opts.callback(opts);
     
   },
   
   /**
    * Register a manager image (for *currently logged in* manager)
    */
-  registerManagerImage($el,defaultBgColor,largeVersion,manager){
+  registerManagerImage(callback,defaultBgColor,largeVersion){
     
-    // Get large image url
-    let url;
-    if(manager){
-      url = manager.get('imageUrl');
-    } else {
-      url = this.get('managerImageURL');
-    }
-    let isGravatar = url.indexOf('gravatar.com')>=0;
+    let opts = {
+      callback: callback,
+      large: largeVersion,
+      defaultBgColor: defaultBgColor,
+    };
+    let url = this.getManagerUrl(opts);
     
-    if(largeVersion){
-      url = this.getLargeUrl(url);
-      $el.data('is-large-image',true);
-    }
-    
-    if(isGravatar){
-      let separator = Ember.Blackout.getSeparator(url);
-      url += separator + 'default=' + encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
-    }
-    
-    if(manager){
-      // Run through cloudfront
-      // Must do this after getLargeUrl
-      url = this.getCacheUrl(url);
-    } else {
-      $el.data('is-current-user-image',true);
-    }
-    
-    this.registerImage($el, url, defaultBgColor, largeVersion);
+    this.registerImage(url, opts);
     
     return url;
     
@@ -91,75 +50,94 @@ export default Ember.Service.extend({
   /**
    * Register a club image (for *currently logged in* manager)
    */
-  registerClubImage($el,defaultBgColor,largeVersion,club){
+  registerClubImage(callback,defaultBgColor,largeVersion){
     
-    // Get large image url
-    let url;
-    if(club){
-      url = club.get('logo');
-    } else {
-      url = this.get('clubImageURL');
-    }
-    if(url){
-      if(largeVersion){
-        url = this.getLargeUrl(url);
-        $el.data('is-large-image',true);
-      }
-      
-      if(club){
-        // Run through cloudfront
-        // Must do this after getLargeUrl
-        url = this.getCacheUrl(url);
-      } else {
-        $el.data('is-current-user-club-image',true);
-      }
-    }
+    let opts = {
+      callback: callback,
+      large: largeVersion,
+      defaultBgColor: defaultBgColor,
+    };
+    let url = this.getClubUrl(opts);
     
-    this.registerImage($el, url, defaultBgColor, largeVersion);
+    this.registerImage(url, opts);
     
     return url;
     
   },
   
-  updateClubImage($el,club){
+  processColors(opts){
     
-    let url = club.get('logo');
-    this.updateImageAndStore($el,url);
+    opts.bgColor = opts.defaultBgColor;
+    
+    if(opts.defaultBgColor==='dark'){
+      opts.defaultBgColor = Ember.$('#nav-sidebar').css('background-color');
+    } else { // light
+      opts.defaultBgColor = Ember.Blackout.getCSSColor('bg-light');
+    }
     
   },
   
-  updateImageAndStore($el,url){
+  getManagerUrl(opts){
     
-    // ---------------------------------- Images
+    // Get large image url
+    let url;
+    if(opts.manager){
+      url = opts.manager.get('imageUrl');
+    } else {
+      url = this.get('managerImageURL');
+    }
+    let isGravatar = url.indexOf('gravatar.com')>=0;
     
-    var notFound = [];
+    if(opts.largeVersion){
+      url = this.getLargeUrl(url);
+    }
     
-    Ember.$.each(this.get('imageStore'),(index,img)=>{
-      
-      if(img.el && (!$el.length || img.el[0]===$el[0])){
-        
-        if($el.length){
-          
-          if($el.data('is-large-image')){
-            url = this.getLargeUrl(url);
-          }
-          
-          this.updateImage($el, url, img.defaultBgColor);
-          
-        } else {
-          notFound.push(index);
-        }
-        
-        return false;
-        
+    if(isGravatar){
+      let separator = Ember.Blackout.getSeparator(url);
+      url += separator + 'default=' + encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
+    }
+    
+    if(opts.manager){
+      // Run through cloudfront
+      // Must do this after getLargeUrl
+      url = this.getCacheUrl(url);
+    }
+    
+    opts.isManager = true;
+    
+    this.processColors(opts);
+    
+    return url;
+    
+  },
+  
+  getClubUrl(opts){
+    
+    // Get large image url
+    let url;
+    if(opts.club){
+      url = opts.club.get('logo');
+    } else {
+      url = this.get('clubImageURL');
+    }
+    
+    if(url){
+      if(opts.largeVersion){
+        url = this.getLargeUrl(url);
       }
       
-    });
+      if(opts.club){
+        // Run through cloudfront
+        // Must do this after getLargeUrl
+        url = this.getCacheUrl(url);
+      }
+    }
     
-    // Remove not found
-    notFound.forEach(function(i){
-      this.get('imageStore').splice(i,1);
-    });
+    opts.isClub = true;
+    
+    this.processColors(opts);
+    
+    return url;
     
   },
   
@@ -222,70 +200,6 @@ export default Ember.Service.extend({
   },
   
   /**
-   * Changes a user image. Checks if it exists, and if not, removes background color so we see through to default "no image found" image.
-   * Expects the given selector to refer to an image object where an under bg image, and a default bg image are applied (See CSS mixin .user-image)
-   * @param  {string}    selector JQuery selector for the club image
-   * @param  {string}    imgUrl   The user's image URL
-   * @param  {css color} defaultBgColor  The color for the background in the case of a user image with transparency 
-   */
-  updateImage ( $el, imgUrl, defaultBgColor ) {
-    
-    if(imgUrl){
-    
-      Ember.run.next(function() {
-        
-        // Set background as color to block out "Logo Not Found" image
-        $el.css('background-color', defaultBgColor);
-        
-        // Set image
-        Blackout.preloadImage(imgUrl).then(() => {
-          $el.css('background-image', 'url(' + imgUrl + ')');
-        });
-        
-        
-        // Ensure parent has z-index of more than 0
-        $el.each(function(){
-          if($(this).parent().css('z-index')==='auto'){
-            $(this).parent().css('z-index',1);
-          }
-          if($(this).parent().css('position')==='static'){
-            $(this).parent().css('position','relative');
-          }
-        });
-        
-        // Test image availability
-        var tmpImg = Ember.$("<img/>")
-          .on('load', function() {
-            // Remove temp image
-            tmpImg.remove();
-          })
-          .on('error', function() {
-            console.log("error loading image");
-            
-            // Change background color back to transparent, so we can see "Logo not found"
-            $el.css('background-color', 'transparent');
-            
-            // Remove temp image
-            tmpImg.remove();
-          })
-          .attr("src", imgUrl);
-          
-            
-      });
-    
-    } else {
-      
-      // No URL, if this is an update from another image, we need to remove the image url and reset background
-      
-      // Set background as color to block out "Logo Not Found" image
-      $el.css('background-color', defaultBgColor);
-      $el.css('background-image', '');
-      
-    }
-    
-  },
-  
-  /**
    * This is called if a new manager logs in
    */
   updateSessionImages( forceType ){
@@ -302,41 +216,36 @@ export default Ember.Service.extend({
       
       var notFound = [];
       
-      this.get('imageStore').forEach((img,index)=>{
+      this.get('imageStore').forEach((opts,index)=>{
         
-        let $el = img.el ? img.el : $(img.selector);
+        let url;
         
-        if($el.length){
+        if(opts.isManager){
           
-          if($el.data('is-current-user-image')){
-            
-            let url = this.get('managerImageURL');
-            
-            if($el.data('is-large-image')){
-              url = this.getLargeUrl(url);
-            }
-            
-            this.updateImage($el, url, img.defaultBgColor);
-            
-          } else if($el.data('is-current-user-club-image')){
-            
-            let url = this.get('clubImageURL');
-            if($el.data('is-large-image')){
-              url = this.getLargeUrl(url);
-            }
-            
-            this.updateImage($el, url, img.defaultBgColor);
-            
-          }
+          url = this.get('managerImageURL');
           
-        } else {
+        } else if(opts.isClub){
+          
+          url = this.get('clubImageURL');
+          
+        }
+        
+        if(opts.large){
+          url = this.getLargeUrl(url);
+        }
+        
+        opts.url = url;
+        
+        let success = opts.callback(opts);
+          
+        if(!success){
           notFound.push(index);
         }
         
       });
       
       // Remove not found
-      notFound.forEach(function(i){
+      notFound.forEach((i)=>{
         this.get('imageStore').splice(i,1);
       });
       
@@ -381,9 +290,27 @@ export default Ember.Service.extend({
       if (imageUrl) {
         return imageUrl;
       } else {
-        return 'assets/images/user/manager.png';
+        return null;
       }
     }
+  }),
+
+  clubImageURL: Ember.computed('session.currentClub', function() {
+    
+    if (this.get('session.isAuthenticated') && this.get('session.currentClub')) {
+
+      var club = this.get('session.currentClub');
+
+      if (club) {
+        var logo = club.get('logo');
+        if (logo) {
+          return this.getCacheUrl(logo);
+        }
+      }
+      return null;
+
+    }
+
   }),
   
   getCacheUrl(url,maxSize=100){
@@ -426,7 +353,7 @@ export default Ember.Service.extend({
     
     // Load image, check if available, etc.
     Ember.run.next(()=>{
-      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+      this.updateImageDirect($('.'+imageClassName),imageUrl,'transparent');
     });
     
     return html;
@@ -457,7 +384,7 @@ export default Ember.Service.extend({
     
     // Load image, check if available, etc.
     Ember.run.next(()=>{
-      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+      this.updateImageDirect($('.'+imageClassName),imageUrl,'transparent');
     });
     
     return html;
@@ -490,34 +417,73 @@ export default Ember.Service.extend({
     
     // Load image, check if available, etc.
     Ember.run.next(()=>{
-      this.updateImage($('.'+imageClassName),imageUrl,'transparent');
+      this.updateImageDirect($('.'+imageClassName),imageUrl,'transparent');
     });
     
     return html;
     
   },
-
-  clubImageURL: Ember.computed('session.currentClub', function() {
+  
+  /**
+   * Changes a user image. Checks if it exists, and if not, removes background color so we see through to default "no image found" image.
+   * Expects the given selector to refer to an image object where an under bg image, and a default bg image are applied (See CSS mixin .user-image)
+   * @param  {string}    selector JQuery selector for the club image
+   * @param  {string}    imgUrl   The user's image URL
+   * @param  {css color} defaultBgColor  The color for the background in the case of a user image with transparency 
+   * 
+   * TODO, support fade in.
+   * TODO, make img, rather than background-image
+   */
+  updateImageDirect ( $el, imgUrl, defaultBgColor ) {
     
-    if (this.get('session.isAuthenticated') && this.get('session.currentClub')) {
-
-      var club = this.get('session.currentClub');
-
-      if (club) {
-        var logo = club.get('logo');
-        if (logo) {
-          return this.getCacheUrl(logo);
-        } else {
-          return 'assets/images/user/club.png';
+    if(imgUrl){
+      
+      // Set background as color to block out "Logo Not Found" image
+      $el.css('background-color', defaultBgColor);
+      
+      // Set image
+      Blackout.preloadImage(imgUrl).then(() => {
+        $el.css('background-image', 'url(' + imgUrl + ')');
+      });
+      
+      
+      // Ensure parent has z-index of more than 0
+      $el.each(function(){
+        if($(this).parent().css('z-index')==='auto'){
+          $(this).parent().css('z-index',1);
         }
-      } else {
-        return 'assets/images/user/club.png';
-      }
-      //*
-      return 'assets/images/user/club.png';
-
+        if($(this).parent().css('position')==='static'){
+          $(this).parent().css('position','relative');
+        }
+      });
+      
+      // Test image availability
+      var tmpImg = Ember.$("<img/>")
+        .on('load', function() {
+          // Remove temp image
+          tmpImg.remove();
+        })
+        .on('error', function() {
+          console.log("error loading image");
+          
+          // Change background color back to transparent, so we can see "Logo not found"
+          $el.css('background-color', 'transparent');
+          
+          // Remove temp image
+          tmpImg.remove();
+        })
+        .attr("src", imgUrl);
+    
+    } else {
+      
+      // No URL, if this is an update from another image, we need to remove the image url and reset background
+      
+      // Set background as color to block out "Logo Not Found" image
+      $el.css('background-color', defaultBgColor);
+      $el.css('background-image', '');
+      
     }
-
-  }),
+    
+  },
   
 });
