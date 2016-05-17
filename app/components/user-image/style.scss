@@ -45,13 +45,14 @@
   
   .user-image {
     position:relative;
-    i {
-      color:$bg-dark-lighter-3x;
-      position:absolute;
-      bottom:-4px;
-      right:-7px;
-      //display:none;
-    }
+  }
+  
+  i {
+    color:$bg-dark-lighter-3x;
+    position:absolute;
+    bottom:-4px;
+    right:-7px;
+    //display:none;
   }
   
   &:hover, &:active {

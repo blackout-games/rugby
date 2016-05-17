@@ -339,3 +339,10 @@ table.light {
   display: inline-block;
   transform: scaleY(-1);
 }
+
+/**
+ * Ember hammertime
+ */
+[data-ember-action], a, button, input, .link {
+  cursor: pointer;
+}

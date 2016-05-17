@@ -39,6 +39,7 @@ export default Ember.Service.extend({
       large: largeVersion,
       defaultBgColor: defaultBgColor,
     };
+    
     let url = this.getManagerUrl(opts);
     
     this.registerImage(url, opts);
@@ -88,7 +89,7 @@ export default Ember.Service.extend({
     }
     let isGravatar = url.indexOf('gravatar.com')>=0;
     
-    if(opts.largeVersion){
+    if(opts.large){
       url = this.getLargeUrl(url);
     }
     
@@ -122,7 +123,7 @@ export default Ember.Service.extend({
     }
     
     if(url){
-      if(opts.largeVersion){
+      if(opts.large){
         url = this.getLargeUrl(url);
       }
       

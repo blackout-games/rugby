@@ -2,7 +2,11 @@
 {{#if editable}}
 
   <a {{action 'showEditor'}} class="user-image-editable btn-a">
-    <div class="user-image"><i class="icon-edit-circle icon-2x"></i></div>
+    
+    <div class="has-position">
+      {{user-image type=type size=(if media.isMobile 'large' 'huge') defaultColor='light' isCurrentUserImage=isCurrentUserImage}}
+      <i class="icon-edit-circle icon-2x"></i>
+    </div>
     
     <div class="manager-avatar-edit top-gap-sm text-medium">
       
