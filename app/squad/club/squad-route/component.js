@@ -24,7 +24,7 @@ export default Ember.Component.extend({
   playersSorted: Ember.computed.sort('model','sortProps'),
   
   defaultItemHeight: Ember.computed('media.isMobile',function(){
-    return this.get('media.isMobile') ? 340 : 360;
+    return this.get('media.isMobile') ? 350 : 360;
   }),
   
   bufferSize: Ember.computed(function(){
