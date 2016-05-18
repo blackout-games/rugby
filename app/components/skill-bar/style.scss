@@ -101,18 +101,18 @@ $shadow: 0 0 10px;
 $extra-sat: 0%;
 $glass: true;
 
-@mixin skill-bar($color,$extra-sat){
+@mixin skill-bar($color,$extra-sat: 0%,$extra-bright: 0%){
   @if $glass {
     background: linear-gradient(
-      hsl($hue, $sat + $extra-sat, $brightness + $diff*1.1 ),
-      hsl($hue, $sat + $extra-sat, $brightness + $diff*0.17 ) 50%,
-      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.17 ) 51%,
-      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.7 )
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright + $diff*1.1 ),
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright + $diff*0.17 ) 50%,
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright - $diff*0.17 ) 51%,
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright - $diff*0.7 )
     );
   } @else {
     background: linear-gradient(
-      hsl($hue, $sat + $extra-sat, $brightness + $diff*0.5 ),
-      hsl($hue, $sat + $extra-sat, $brightness - $diff*0.5 )
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright + $diff*0.5 ),
+      hsl($hue, $sat + $extra-sat, $brightness + $extra-bright - $diff*0.5 )
     );
   }
   box-shadow: 0 0 11px hsl($hue, $sat + $extra-sat, $brightness );
@@ -139,6 +139,10 @@ $color: hsl($hue, $sat+$extra-sat, $brightness );
 i.text-color-dark-blue {
   @include icon-text-color($color);
 }
+// For Javascript
+.bg-skillbar-dark-blue {
+  background-color: $color;
+}
 
 // Blue
 $hue: 195;
@@ -151,6 +155,10 @@ $color: hsl($hue, $sat+$extra-sat, $brightness );
 }
 i.text-color-blue {
   @include icon-text-color($color);
+}
+// For Javascript
+.bg-skillbar-blue {
+  background-color: $color;
 }
 
 // Teal
@@ -165,18 +173,27 @@ $color: hsl($hue, $sat+$extra-sat, $brightness );
 i.text-color-teal {
   @include icon-text-color($color);
 }
+// For Javascript
+.bg-skillbar-teal {
+  background-color: $color;
+}
 
 // Green
-$hue: 81;
+$hue: 88;
+$extra-bright: -3%;
 .skill-bar-color-green {
-  @include skill-bar($hue,$extra-sat);
+  @include skill-bar($hue,$extra-sat,$extra-bright);
 }
-$color: hsl($hue, $sat+$extra-sat, $brightness - 4% );
+$color: hsl($hue, $sat+$extra-sat, $brightness );
 .text-color-green {
   @include text-color($color);
 }
 i.text-color-green {
   @include icon-text-color($color);
+}
+// For Javascript
+.bg-skillbar-green {
+  background-color: $color;
 }
 
 // Yellow
@@ -192,33 +209,47 @@ $color: hsl($hue, $sat+$extra-sat, $brightness );
 i.text-color-yellow {
   @include icon-text-color($color);
 }
+// For Javascript
+.bg-skillbar-yellow {
+  background-color: $color;
+}
 
 // Red
-$hue: 5;
+$hue: $error-hue + 2;
 $extra-sat: 4%;
+$extra-bright: 4%;
 .skill-bar-color-red {
-  @include skill-bar($hue,$extra-sat);
+  @include skill-bar($hue,$extra-sat,$extra-bright);
 }
-$color: hsl($hue, $sat+$extra-sat, $brightness );
+$color: hsl($hue, $sat+$extra-sat, $brightness+$extra-bright );
 .text-color-red {
   @include text-color($color);
 }
 i.text-color-red {
   @include icon-text-color($color);
 }
+// For Javascript
+.bg-skillbar-red {
+  background-color: $color;
+}
 
 // Purple
-$hue: 244;
-$extra-sat: -33%;
+$hue: 270;
+$extra-sat: -22%;
+$extra-bright: 7%;
 .skill-bar-color-purple {
-  @include skill-bar($hue,$extra-sat);
+  @include skill-bar($hue,$extra-sat,$extra-bright);
 }
-$color: hsl($hue, $sat+$extra-sat, $brightness );
+$color: hsl($hue, $sat+$extra-sat, $brightness+$extra-bright );
 .text-color-purple {
   @include text-color($color);
 }
 i.text-color-dark-blue {
   @include icon-text-color($color);
+}
+// For Javascript
+.bg-skillbar-purple {
+  background-color: $color;
 }
 
 /**

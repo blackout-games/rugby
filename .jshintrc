@@ -11,6 +11,7 @@
     "Storage",
     "LockableStorage",
     "EmberInspector",
+    "tinycolor",
     "log"
   ],
   "browser": true,

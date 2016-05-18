@@ -665,8 +665,8 @@ p {
       // Dark box
       background-color: desaturate(darken($color,11%),15%);
       border: none;
-      color: saturate(lighten($color,22%),44%);
-      color: white;
+      color: saturate(lighten($color,29%),44%);
+      //color: white;
     }
     
   }

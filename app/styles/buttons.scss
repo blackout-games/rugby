@@ -386,7 +386,7 @@ form .btn-fb {
 }
 
 .btn-red, .btn-red:hover {
-  $red-color: #EA4B45;
+  $red-color: $error-color;
   $red-disabled-color: rgba(desaturate(darken($red-color,4%),22%),1);
   background-color: $red-color;
 

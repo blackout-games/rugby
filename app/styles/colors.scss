@@ -7,6 +7,7 @@ $hue-adjust: 0deg; // Degrees
 $primary-master: adjust-hue(hsl(88, 55%, 57%),$hue-adjust);
 $primary-master: adjust-hue(hsl(83, 50%, 53%),$hue-adjust);
 $primary-master: adjust-hue(hsl(82, 50%, 50%),$hue-adjust);
+$primary-master: adjust-hue(hsl(88, 52%, 50%),$hue-adjust);
 
 // Greener
 //$secondary-master: adjust-hue(hsl(211,59%,44%),$hue-adjust);
@@ -96,7 +97,8 @@ $dark-button-content-color: darken($secondary-master,22%);
 /**
  * Errors
  */
-$error-color: hsl(352, 70, 55 );
+$error-hue: 352;
+$error-color: hsl($error-hue, 70, 55 );
 $error-color-on-dark: saturate(lighten($error-color,9%),44%);
 
 /**
@@ -138,6 +140,9 @@ $warning-text-color: #4f3517;
 }
 .primary-text-color {
   background-color: $primary-text-color;
+}
+.bg-error {
+  background-color: $error-color;
 }
 
 /**

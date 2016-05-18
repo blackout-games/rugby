@@ -240,6 +240,24 @@ export default Ember.Component.extend({
       label: this.get('i18n').t('player.used-energy'),
     });
     
+    let color = tinycolor(Ember.Blackout.getCSSColor('bg-skillbar-red'));
+    let diff = 0.22;
+    let sat = 0.74;
+    let brightness = 0.57;
+    
+    let b1 = brightness + 1.1*diff;
+    let b2 = brightness + 0.2*diff;
+    let b3 = brightness - 0.2*diff;
+    let b4 = brightness - 0.7*diff;
+    
+    // Match red skill bar
+    let hue = color.toHsl().h;
+    let energy1 = tinycolor(`hsl ${hue} ${sat} ${b1}`).toHexString();
+    let energy2 = tinycolor(`hsl ${hue} ${sat} ${b2}`).toHexString();
+    let energy3 = tinycolor(`hsl ${hue} ${sat} ${b3}`).toHexString();
+    let energy4 = tinycolor(`hsl ${hue} ${sat} ${b4}`).toHexString();
+    
+    
     // Add energy
     data.push({
       value: this.get('player.energy'),
@@ -255,10 +273,10 @@ export default Ember.Component.extend({
       // Gradient
       color: (ctx)=>{
         var gradient1 = ctx.createLinearGradient(0, 0, 0, this.get('donutChartSize'));
-        gradient1.addColorStop(0.0, '#f19f96');
-        gradient1.addColorStop(0.5, '#e54e3b');
-        gradient1.addColorStop(0.51, '#de3119');
-        gradient1.addColorStop(1.0, '#ab2410');
+        gradient1.addColorStop(0.0, energy1);
+        gradient1.addColorStop(0.5, energy2);
+        gradient1.addColorStop(0.51, energy3);
+        gradient1.addColorStop(1.0, energy4);
         return gradient1;
       },
       
@@ -269,6 +287,23 @@ export default Ember.Component.extend({
     
     
     // ------------------------------------- FORM
+    
+    color = tinycolor(Ember.Blackout.getCSSColor('bg-skillbar-dark-blue'));
+    diff = 0.22;
+    sat = 0.74;
+    brightness = 0.57;
+    
+    b1 = brightness + 1.1*diff;
+    b2 = brightness + 0.2*diff;
+    b3 = brightness - 0.2*diff;
+    b4 = brightness - 0.7*diff;
+    
+    // Match red skill bar
+    hue = color.toHsl().h;
+    let form1 = tinycolor(`hsl ${hue} ${sat} ${b1}`).toHexString();
+    let form2 = tinycolor(`hsl ${hue} ${sat} ${b2}`).toHexString();
+    let form3 = tinycolor(`hsl ${hue} ${sat} ${b3}`).toHexString();
+    let form4 = tinycolor(`hsl ${hue} ${sat} ${b4}`).toHexString();
     
     
     let formData = [];
@@ -290,10 +325,10 @@ export default Ember.Component.extend({
       // Gradient (full blue)
       color: (ctx)=>{
         var gradient1 = ctx.createLinearGradient(0, 0, 0, this.get('donutChartSize'));
-        gradient1.addColorStop(0.0, '#99bdf0');
-        gradient1.addColorStop(0.5, '#3e85e1');
-        gradient1.addColorStop(0.51, '#2172da');
-        gradient1.addColorStop(1.0, '#1655a6');
+        gradient1.addColorStop(0.0, form1);
+        gradient1.addColorStop(0.5, form2);
+        gradient1.addColorStop(0.51, form3);
+        gradient1.addColorStop(1.0, form4);
         return gradient1;
       },
       

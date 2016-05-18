@@ -91,6 +91,11 @@ module.exports = function(defaults) {
   
   app.import('vendor/bubble-slider-master/build/jquery.bubble-slider.js');
   app.import('vendor/bubble-slider-master/build/bubble-slider.css');
+  
+  /**
+   * Color library
+   */
+  app.import('bower_components/tinycolor/tinycolor.js');
 
 
   return app.toTree();
