@@ -58,9 +58,11 @@ export default Ember.Component.extend({
     
     if(!Ember.$(e.target).hasParent($panels)){
       
-      e.preventDefault();
-      e.stopPropagation();
-      Ember.Blackout.preventNextClick();
+      if(Ember.$(e.target)[0]===_this.$('action-box-blocker')[0]){
+        e.preventDefault();
+        e.stopPropagation();
+        Ember.Blackout.preventNextClick();
+      }
       
       _this.send('toggle','hide');
       

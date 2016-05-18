@@ -64,8 +64,10 @@ $opacity: 0.33;
   z-index:3;
 }
 
+$lighter-color: saturate(lighten($primary-master,22%),22%);
+
 .action-box-button-showing {
-  color: saturate(lighten($primary-master,22%),22%) !important;
+  color: $lighter-color !important;
 }
 
 /**
@@ -191,14 +193,18 @@ $opacity: 0.33;
  */
 
 .action-box-button-panel, .action-box-content-panel, .action-box-angle-panel {
-  background: $primary-master;
+  background: desaturate(darken($primary-master,1%),1%);
   position:relative;
   z-index: 1;
 }
 
 .action-box-content-panel {
-  padding: 11px 19px;
-  box-shadow: 0 15px 15px rgba(black,0.33);
+  padding: 19px;
+  box-shadow: 0 15px 15px rgba(black,0.44);
+  
+  label {
+    color: white;
+  }
 }
 
 .action-box-angle-panel {
