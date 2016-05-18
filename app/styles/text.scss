@@ -163,7 +163,10 @@ a {
     $color: saturate(lighten($secondary-master,27%),100%);
     $color: $primary-on-dark;
     color: $color;
-    text-shadow: 0 0 22px rgba(black,0.88);
+    
+    &:not(.no-text-shadow){
+      text-shadow: 0 0 22px rgba(black,0.88);
+    }
     
     &.hover {
       color: #FFF;
@@ -663,7 +666,7 @@ p {
     
     &.dark {
       // Dark box
-      background-color: desaturate(darken($color,11%),15%);
+      background-color: desaturate(darken($color,7%),15%);
       border: none;
       color: saturate(lighten($color,29%),44%);
       //color: white;

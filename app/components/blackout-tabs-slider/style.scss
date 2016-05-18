@@ -9,7 +9,7 @@ $bg-color: $bg-dark-lighter;
 $angledTabText: false;
 $angledTabs: true;
 $angledLeft: false;
-$angle:11deg;
+$angle:$global-angle;
 
 /**
  * Sub tabs settings

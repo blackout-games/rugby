@@ -1,0 +1,19 @@
+<div class="action-box-blocker"></div>
+
+{{yield (hash
+
+  button=(component 'action-box/button'
+    getButton=(action 'getButton')
+    onToggle=(action 'toggle')
+    outerPaddingSides=outerPaddingSides
+    outerPaddingTop=outerPaddingTop
+    onDark=onDark
+    isShowing=isShowing)
+    
+  content=(component 'action-box/content'
+    button=button
+    outerPaddingSides=outerPaddingSides
+    outerPaddingTop=outerPaddingTop
+    buttonHeightOffset=buttonHeightOffset)
+    
+)}}

@@ -325,7 +325,7 @@ export default Ember.Component.extend({
   },
 
   unwatchMenuLinks (){
-    this.$('#sub-nav-scroller a.menu-link').off('click',this,this.handleMenuLink);
+    this.$('#sub-nav-scroller a.menu-link').off('click',this.handleMenuLink);
   },
 
   handleMenuLink ( e ) {

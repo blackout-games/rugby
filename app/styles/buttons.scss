@@ -94,7 +94,7 @@ $border: none;
     border-color: $button-disabled-color;
     opacity:1;
     color: saturate(lighten($button-disabled-color,22%),11%);
-    cursor: default;
+    cursor: default !important;
     //cursor: not-allowed;
     
     &.disabled-cursor {

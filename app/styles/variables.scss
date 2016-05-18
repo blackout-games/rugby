@@ -46,6 +46,9 @@ $mobile-landscape: "(max-height: 479px) and #{$mobile}";
 $border-radius: 4px;
 $border-radius-lg: 5px;
 
+// Global angle for things like tabs
+$global-angle: 11deg;
+
 
 /**
  * Retina

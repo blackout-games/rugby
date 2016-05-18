@@ -96,3 +96,5 @@
 .icon-left-open:before { content: '\e85e'; } /* '' */
 .icon-right-open:before { content: '\e85f'; } /* '' */
 .icon-medkit:before { content: '\e860'; } /* '' */
+.icon-export:before { content: '\e861'; } /* '' */
+.icon-export-alt:before { content: '\e862'; } /* '' */

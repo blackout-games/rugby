@@ -61,6 +61,11 @@
   @extend .icon-vcenter;
 }
 
+.icon-less-width {
+  margin-left: -3px;
+  margin-right: -3px;
+}
+
 /**
  * Special settings per icon
  */

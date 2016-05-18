@@ -109,6 +109,8 @@ export default Ember.Component.extend({
 
     this.$().findClosest('.initial-date').attr('title', this.get(this.get('alt')));
     this.$().findClosest('.alt-date').attr('title', this.get(this.get('initial'))).hide();
+    
+    Ember.Blackout.makeFastClick(this.$());
 
   }),
   

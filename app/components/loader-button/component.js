@@ -160,6 +160,18 @@ export default Ember.Component.extend({
     }
   },
   
+  onReceive: Ember.on('didReceiveAttrs',function(attrs){
+    if(this.attrChanged(attrs,'disabled')){
+      Ember.run.scheduleOnce('afterRender', this, ()=>{
+        if(this.get('disabled')){
+          this.disable();
+        } else {
+          this.enable();
+        }
+      });
+    }
+  }),
+  
   disable(){
     this.$().prop('disabled',true);
     this.$().removeClass('hover');

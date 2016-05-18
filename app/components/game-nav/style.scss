@@ -198,7 +198,7 @@ $selected-arrow-pokes-out: 7px;
     // Normal
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll; // Must be scroll to force scrollbar and remove side-jumps when transitioning / switching tabs, etc.
     -webkit-overflow-scrolling: touch;
     //-webkit-overflow-scrolling: auto;
   }

@@ -1,0 +1,212 @@
+.action-box {
+  position:relative;
+  z-index:0;
+}
+
+$duration: 0.222s;
+$opacity: 0.33;
+
+@keyframes actionBoxBlockerfadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: $opacity;
+  }
+}
+
+@keyframes actionBoxBlockerfadeOut {
+  from {
+    opacity: $opacity;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.action-box-blocker {
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  z-index:1;
+  content:"";
+  box-sizing: border-box;
+  background-color: #000;
+  top:0;
+  left:0;
+  visibility: hidden;
+  opacity: 0;
+  animation-timing-function: ease(out-cubic);
+  
+  &.showing {
+    visibility: visible;
+    opacity: $opacity;
+    animation-duration: $duration*0.5;
+    animation-name: actionBoxBlockerfadeIn;
+  }
+  &.hiding {
+    visibility: visible;
+    animation-duration: $duration;
+    animation-name: actionBoxBlockerfadeOut;
+    pointer-events: none;
+  }
+}
+
+/**
+ * Button
+ */
+
+.action-box-button {
+  position:relative;
+  display:inline-block;
+  z-index:3;
+}
+
+.action-box-button-showing {
+  color: saturate(lighten($primary-master,22%),22%) !important;
+}
+
+/**
+ * Content
+ */
+
+@keyframes actionBoxfadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes actionBoxfadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.action-box-content {
+  position: absolute;
+  z-index:2;
+  visibility: hidden;
+  animation-timing-function: ease(out-cubic);
+  
+  &.showing {
+    visibility: visible;
+    animation-duration: $duration*0.5;
+    animation-name: actionBoxfadeIn;
+  }
+  &.hiding {
+    visibility: visible;
+    animation-duration: $duration;
+    animation-name: actionBoxfadeOut;
+    pointer-events: none;
+  }
+}
+
+/**
+ * Flow
+ */
+
+.action-box.top-left .action-box-content {
+  top:0;
+  left:0;
+  > div {
+    float: left;
+  }
+}
+.action-box.top-right .action-box-content {
+  top:0;
+  right:0;
+  > div {
+    float: right;
+  }
+}
+.action-box.bottom-left .action-box-content {
+  bottom:0;
+  left:0;
+  > div {
+    float: left;
+  }
+}
+.action-box.bottom-right .action-box-content {
+  bottom:0;
+  right:0;
+  > div {
+    float: right;
+  }
+}
+
+/**
+ * Button panel flow
+ */
+
+.action-box.top-left .action-box-button-panel {
+  border-top-left-radius: $border-radius;
+}
+.action-box.top-right .action-box-button-panel {
+  border-top-right-radius: $border-radius;
+}
+.action-box.bottom-left .action-box-button-panel {
+  border-bottom-left-radius: $border-radius;
+}
+.action-box.bottom-right .action-box-button-panel {
+  border-bottom-right-radius: $border-radius;
+}
+
+/**
+ * Content panel flow
+ */
+
+.action-box.top-left .action-box-content-panel {
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
+}
+.action-box.top-right .action-box-content-panel {
+  border-bottom-right-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+}
+.action-box.bottom-left .action-box-content-panel {
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+.action-box.bottom-right .action-box-content-panel {
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+}
+
+/**
+ * Panels general
+ */
+
+.action-box-button-panel, .action-box-content-panel, .action-box-angle-panel {
+  background: $primary-master;
+  position:relative;
+  z-index: 1;
+}
+
+.action-box-content-panel {
+  padding: 11px 19px;
+  box-shadow: 0 15px 15px rgba(black,0.33);
+}
+
+.action-box-angle-panel {
+  width:20px;
+  height:100%;
+  transform: skewX(-$global-angle);
+  z-index: 0;
+  margin: 0 -11px;
+  border-top-right-radius: $border-radius;
+  border-top-left-radius: $border-radius;
+}
