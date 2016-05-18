@@ -81,13 +81,20 @@ export default Ember.Component.extend({
   flatCSR: Ember.computed('media.@each','hasRendered',function(){
     
     if(this.$() && this.$().length){
+      
       // Can we display flat csr?
       let labelWidth = this.$('.csr-label').outerWidth();
       let csrWidth = this.$('.player-ui-csr-value').outerWidth();
       let csrChangeWidth = this.$('.csr-change').outerWidth();
       let wrapperWidth = this.$('.player-ui-csr-wrapper').outerWidth();
+      let offset = 25;
       
-      let totalContentWidth = labelWidth + csrWidth + csrChangeWidth + 25;
+      // Extra offset needed for mobile browsers
+      if(this.get('player.isInjured') || this.get('player.isForSale')){
+        offset += 25;
+      }
+      
+      let totalContentWidth = labelWidth + csrWidth + csrChangeWidth + offset;
       
       return totalContentWidth < wrapperWidth;
     }
@@ -241,6 +248,7 @@ export default Ember.Component.extend({
     });
     
     let color = tinycolor(Ember.Blackout.getCSSColor('bg-skillbar-red'));
+    //let color = tinycolor(Ember.Blackout.getCSSColor('bg-skillbar-blue'));
     let diff = 0.22;
     let sat = 0.74;
     let brightness = 0.57;

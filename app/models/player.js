@@ -65,6 +65,13 @@ export default DS.Model.extend(Validations,{
     //return (this.get('salary')/16).toFixed(2);
     return this.get('salary')/16;
   }),
+  isForSale: Ember.computed('transfer',function(){
+    if(this.get('transfer.content')){
+      return true;
+    } else {
+      return false;
+    }
+  }),
   isInjured: Ember.computed('injury',function(){
     if(this.get('injury')){
       return this.get('injury').getTime() > Date.now();
