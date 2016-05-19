@@ -1912,6 +1912,7 @@ document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
   _preventMouseUp = true;
   _touchMoved = false;
+  _stopNextClick = false;
 }, true);
 
 document.documentElement.addEventListener('touchmove', function(){
@@ -1968,26 +1969,17 @@ document.documentElement.addEventListener('mouseup', function(e){
  */
 if(forceFastClick){
   
-  
-  document.documentElement.addEventListener('click', function(e){
-    if(e.originalEvent){
-      e = e.originalEvent;
-    }
-    if(!e.isManual){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  }, true);
-  
   document.documentElement.addEventListener('touchend', function(e){
     if(e.originalEvent){
       e = e.originalEvent;
     }
+    _stopNextClick = false;
     if(!_touchMoved && !e.isManual){
       _stopNextFastClick = false;
       window.setTimeout(()=>{
         if(!_stopNextFastClick){
           _runManualEvent(e,'click',e.target);
+          _stopNextClick = true;
         }
         _stopNextFastClick = false;
       },1);
