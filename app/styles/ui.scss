@@ -341,9 +341,15 @@ table.light {
 }
 
 /**
- * Ember hammertime
+ * Ability to select inputs on touch
  */
 [data-ember-action], a, button, input, textarea, .link {
-  cursor: pointer;
+  cursor: pointer; // Encouraged by hammertime (which we no longer use, but can still have pointers)
   -webkit-user-select: text;
+}
+
+.unselectable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

@@ -1903,7 +1903,7 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent,_waitingForClick,_stopNextClick;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_waitingForClick,_stopNextClick;
 let forceFastClick = window.os.touchOS || window.browsers.standalone;
 
 
@@ -1947,7 +1947,7 @@ document.documentElement.addEventListener('click', function(e){
 }, true);
 
 document.documentElement.addEventListener('mousedown', function(e){
-  if(_preventMouseDown&&!_manualEvent){
+  if(_preventMouseDown&&!e.isManual){
     //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseDown = false;
@@ -1955,7 +1955,7 @@ document.documentElement.addEventListener('mousedown', function(e){
 }, true);
 
 document.documentElement.addEventListener('mouseup', function(e){
-  if(_preventMouseUp&&!_manualEvent){
+  if(_preventMouseUp&&!e.isManual){
     //e.preventDefault(); // Breaks text inputs on mobile
     e.stopImmediatePropagation();
     _preventMouseUp = false;
@@ -1969,7 +1969,7 @@ if(forceFastClick){
   
   
   document.documentElement.addEventListener('click', function(e){
-    if(!_manualEvent){
+    if(!e.isManual){
       e.preventDefault();
       e.stopImmediatePropagation();
     }
@@ -1992,12 +1992,32 @@ function _runManualEvent(e,eventType){
     if(theTarget.nodeType === 3){
       theTarget = theTarget.parentNode;
     }
-
-    var theEvent = document.createEvent('MouseEvents');
-    theEvent.initEvent(eventType, true, true);
-    _manualEvent = true;
+    
+    let theEvent;
+    if((eventType==='touchstart' || eventType==='touchmove' || eventType==='touchend')){
+      
+      try {
+        theEvent = document.createEvent('TouchEvent');
+        theEvent.isManual = true;
+        theEvent.initTouchEvent(eventType, true, true);
+      } catch (err) {
+        try {
+          theEvent = document.createEvent('UIEvent');
+          theEvent.isManual = true;
+          theEvent.initUIEvent(eventType, true, true);
+        } catch (err2) {
+          theEvent = document.createEvent('Event');
+          theEvent.isManual = true;
+          theEvent.initEvent(eventType, true, true);
+        }
+      }
+    } else {
+      theEvent = document.createEvent('MouseEvent');
+      theEvent.isManual = true;
+      theEvent.initMouseEvent(eventType, true, true);
+    }
+    
     theTarget.dispatchEvent(theEvent);
-    _manualEvent = false;
   }
 }
 
