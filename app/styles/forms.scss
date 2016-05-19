@@ -229,6 +229,10 @@ textarea, textarea.form-control {
     padding: 8px 12px;
   }
   min-height:44px;
+  
+  // Make scrollable
+  //overflow:auto !important;
+  //-webkit-overflow-scrolling: touch !important;
 }
 
 input[readonly], textarea[readonly="readonly"], textarea[readonly]{

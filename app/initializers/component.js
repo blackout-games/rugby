@@ -38,7 +38,26 @@ Ember.TextArea.reopen(blackoutComponent,{
   onUpdateSizeManually: Ember.on('didUpdateAttrs',function(opts){
     if(this.attrChanged(opts,'updateSizeManually') && this.get('updateSizeManually')){
       this.set('updateSizeManually',false);
-      this.measureSize();
+      
+      /**
+       * The following structure is necessary to get a properly sized box across browsers, after switching tabs and back again.
+       * Unfortunately.
+       */
+      
+      let updated=false;
+      if(this.$().width()!==100){
+        this.measureSize();
+        updated = true;
+      }
+      
+      Ember.run.next(()=>{
+        Ember.run.next(()=>{
+          if(!updated){
+            this.measureSize();
+          }
+        });
+      });
+      
     }
   }),
 });
