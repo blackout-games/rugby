@@ -1969,6 +1969,15 @@ document.documentElement.addEventListener('mouseup', function(e){
  */
 if(forceFastClick){
   
+  let _touchElement;
+  
+  document.documentElement.addEventListener('touchstart', function(e){
+    if(e.originalEvent){
+      e = e.originalEvent;
+    }
+    _touchElement = e.target;
+  }, true);
+  
   document.documentElement.addEventListener('touchend', function(e){
     if(e.originalEvent){
       e = e.originalEvent;
@@ -1976,13 +1985,17 @@ if(forceFastClick){
     _stopNextClick = false;
     if(!_touchMoved && !e.isManual){
       _stopNextFastClick = false;
-      window.setTimeout(()=>{
-        if(!_stopNextFastClick){
-          _runManualEvent(e,'click',e.target);
-          _stopNextClick = true;
-        }
-        _stopNextFastClick = false;
-      },1);
+      if(_touchElement===e.target){
+        window.setTimeout(()=>{
+          if(!_stopNextFastClick){
+            _runManualEvent(e,'click',e.target);
+            _stopNextClick = true;
+          }
+          _stopNextFastClick = false;
+        },1);
+      } else {
+        _stopNextClick = true;
+      }
     }
   }, true);
   

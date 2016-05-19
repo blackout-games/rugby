@@ -147,7 +147,7 @@ export default Ember.Component.extend({
       });
       this.$(inputSelector).on('blur',()=>{
         preventPointerEvents();
-        Ember.$('body').off('touchstart',this.removeFocus);
+        Ember.$('body').off('touchend',this.removeFocus);
       });
       /**
        * This allows the inputs so still be selected manually elsewhere
@@ -158,7 +158,13 @@ export default Ember.Component.extend({
         restorePointerEvents($input);
         
         Ember.run.next(()=>{
-          Ember.$('body').on('touchstart',$input,this.removeFocus);
+          
+          /**
+           * Must be touchend as opposed to touchstart to prevent
+           * refocus when the input moves down as the keyboard hides
+           * and touchend event fires on element again//
+           */
+          Ember.$('body').on('touchend',$input,this.removeFocus);
           
           /**
            * Run for all so we can switch easy
