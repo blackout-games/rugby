@@ -13,6 +13,11 @@
     useContentProxy=true
     as |player index|
   }}
+  
+  {{!#ember-collection
+    items=playersSorted
+    cell-layout=(mixed-grid-layout itemSizes) as |player index|
+  }}
   {{!#lazy-list  itemClass="gap-4x no-gap-on-last" content=playersSorted as |player|}}
     <!--div class="gap-7x no-gap-on-last"-->
       
@@ -27,6 +32,7 @@
       
     <!--/div-->
   {{!/lazy-list}}
+  {{!/ember-collection}}
   {{/infinite-scroll}}
 
 </div>
