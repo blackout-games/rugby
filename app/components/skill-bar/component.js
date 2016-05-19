@@ -18,9 +18,6 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    this.$().css('width',this.get('width'));
-    this.$('.skill-bar-placeholder').css('height',this.get('height'));
-    
     if(this.get('animate')){
       this.$('.skill-bar').addClass('skill-bar-animate');
     }
@@ -40,6 +37,9 @@ export default Ember.Component.extend({
   }),
   
   updateBar(){
+    
+    this.$().css('width',this.get('width'));
+    this.$('.skill-bar-placeholder').css('height',this.get('height'));
     
     if(this.get('primarySkill')){
       

@@ -167,13 +167,13 @@ export default Ember.Component.extend({
   skillBarHeight: Ember.computed('media.isMobile',function(){
     if(this.get('media.isMobile')){
       if(this.get('singleMode')){
-        return '24px';
+        return '29px';
       } else {
         return '22px';
       }
     } else {
       if(this.get('singleMode')){
-        return '33px';
+        return '35px';
       } else {
         return '29px';
       }

@@ -22,7 +22,7 @@
             
             {{player.firstName}}<br>
             
-            <span class="player-ui-nickname nowrap">&quot;{{player.nickname}}&quot;{{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a on-dark"}}<i class="icon-pencil"></i>{{/link-to}}{{/if}}</span><br>
+            <span class="player-ui-nickname nowrap">&quot;{{player.nickname}}&quot;{{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a on-dark"}}<i class="icon-edit-circle"></i>{{/link-to}}{{/if}}</span><br>
             
             {{player.lastName}}
             
