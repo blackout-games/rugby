@@ -43,14 +43,18 @@
 
 <button class="copy-button hidden-but-accessible"></button>
 
-{{#float-window showWindow=(mut showingClipboardBox) onClose=(action 'onHideClipboardBox') class='player-export-float-window'}}
+{{#if clipboardNotSupported}}
 
-  <h5 class="no-top-gap gap-2x">{{t 'misc.clipboard-failure.heading'}}</h5>
-  
-  <div class="gap-2x">{{t 'misc.clipboard-failure.blurb'}}</div>
-  
-  {{blackout-form form=(readonly clipboardBoxForm) noButtons=true}}
-  
-  <button {{action 'hideClipboardBox'}} class="blackout-cancel-button btn btn-big btn-ghost">{{t 'buttons.close'}}</button>
+  {{#float-window showWindow=(mut showingClipboardBox) onClose=(action 'onHideClipboardBox') class='player-export-float-window'}}
 
-{{/float-window}}
+    <h5 class="no-top-gap gap-2x">{{t 'misc.clipboard-failure.heading'}}</h5>
+    
+    <div class="gap-2x">{{t 'misc.clipboard-failure.blurb'}}</div>
+    
+    {{blackout-form form=(readonly clipboardBoxForm) noButtons=true}}
+    
+    <button {{action 'hideClipboardBox'}} class="blackout-cancel-button btn btn-big btn-ghost">{{t 'buttons.close'}}</button>
+
+  {{/float-window}}
+
+{{/if}}

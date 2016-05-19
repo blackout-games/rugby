@@ -65,33 +65,42 @@ export default Ember.Component.extend({
         ]);
       }
       
-      /**
-       * iOS has a feature which prevents keyboard display
-       * if the user has not tapped the input element
-       * http://stackoverflow.com/questions/30752250/ios-workaround-for-manually-focusing-on-an-input-textarea
-       */
+      // Render float window with ember
+      this.set('clipboardNotSupported',true);
+      
       Ember.run.next(()=>{
+        this.set('showingClipboardBox',true);
         
-        if(!window.os.iOS){
-        
-          select(Ember.$('#clipboardText')[0]);
+        /**
+         * iOS has a feature which prevents keyboard display
+         * if the user has not tapped the input element
+         * http://stackoverflow.com/questions/30752250/ios-workaround-for-manually-focusing-on-an-input-textarea
+         */
+        Ember.run.next(()=>{
           
-        } else {
-          
-          Ember.$('#clipboardText').focus(()=>{
+          if(!window.os.iOS){
             
-            Ember.run.next(()=>{
-              select(Ember.$('#clipboardText')[0]);
+            //Ember.$('#clipboardText').focus();
+            select(Ember.$('#clipboardText')[0]);
+            
+          } else {
+            
+            Ember.$('#clipboardText').focus(()=>{
+              
+              Ember.run.next(()=>{
+                select(Ember.$('#clipboardText')[0]);
+              });
+              
             });
             
-          });
+          }
           
-        }
+        });
         
       });
       
-      this.set('showingClipboardBox',true);
       this.set('clipboardButton',button);
+      
     },
     hideClipboardBox(){
       this.get('clipboardButton').reset();
@@ -147,9 +156,13 @@ export default Ember.Component.extend({
     if(this.get('player')){
       text += this.generatePlayer(this.get('player'));
     } else if(this.get('squad')){
-      this.get('squad').forEach(player=>{
+      this.get('squad').forEach((player,i)=>{
         text += this.generatePlayer(player);
-        text += "\n\n";
+        if((i+1)<this.get('squad').length){
+          text += "\n\n";
+          text += "---------------------------------";
+          text += "\n\n";
+        }
       });
     }
     
