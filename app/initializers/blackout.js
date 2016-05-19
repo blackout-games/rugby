@@ -1904,6 +1904,8 @@ Array.prototype.remove = function() {
  */
 
 let _preventMouseDown,_preventMouseUp,_touchMoved,_manualEvent,_waitingForClick,_stopNextClick;
+let forceFastClick = window.os.touchOS || window.browsers.standalone;
+
 
 document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
@@ -1921,7 +1923,7 @@ document.documentElement.addEventListener('touchend', function(e){
   // No freakin idea why
   // Have seen time between touchend and click get up to 119, but that was on Samsung S3, while connected to laptop for debugging.
   
-  if(!window.browsers.standalone && !_touchMoved){
+  if(!forceFastClick && !_touchMoved){
     
     _waitingForClick = true;
     
@@ -1963,7 +1965,7 @@ document.documentElement.addEventListener('mouseup', function(e){
 /**
  * Hammer-time doesn't fix clicks on standalone
  */
-if(window.browsers.standalone){
+if(forceFastClick){
   
   
   document.documentElement.addEventListener('click', function(e){
