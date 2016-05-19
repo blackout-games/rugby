@@ -1360,6 +1360,7 @@ export function initialize( /*application*/ ) {
   // Link some local functions
   Ember.Blackout.runManualEvent = _runManualEvent;
   Ember.Blackout.preventNextClick = _preventNextClick;
+  Ember.Blackout.preventNextFastClick = _preventNextFastClick;
 
   /**
    * Shortcut to blackout console logging
@@ -1903,7 +1904,7 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_waitingForClick,_stopNextClick;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_waitingForClick,_stopNextClick,_stopNextFastClick;
 let forceFastClick = window.os.touchOS || window.browsers.standalone;
 
 
@@ -1969,6 +1970,9 @@ if(forceFastClick){
   
   
   document.documentElement.addEventListener('click', function(e){
+    if(e.originalEvent){
+      e = e.originalEvent;
+    }
     if(!e.isManual){
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -1976,19 +1980,36 @@ if(forceFastClick){
   }, true);
   
   document.documentElement.addEventListener('touchend', function(e){
-    if(!_touchMoved){
-      _runManualEvent(e,'click');
+    if(e.originalEvent){
+      e = e.originalEvent;
+    }
+    if(!_touchMoved && !e.isManual){
+      _stopNextFastClick = false;
+      window.setTimeout(()=>{
+        if(!_stopNextFastClick){
+          _runManualEvent(e,'click',e.target);
+        }
+        _stopNextFastClick = false;
+      },1);
     }
   }, true);
   
 }
 
-function _runManualEvent(e,eventType){
+function _runManualEvent(e,eventType,theTarget=null){
   if(e.originalEvent){
     e = e.originalEvent;
   }
   if(e.changedTouches){
-    var theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+    
+    if(!theTarget){
+      theTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+    }
+    
+    if(!theTarget){
+      Ember.Logger.warn('No target found at client position ['+e.changedTouches[0].clientX+', '+e.changedTouches[0].clientY+']');
+      theTarget = e.target;
+    }
     if(theTarget.nodeType === 3){
       theTarget = theTarget.parentNode;
     }
@@ -2026,6 +2047,10 @@ function _preventNextClick(){
   window.setTimeout(function(){
     _stopNextClick = false;
   },1000);
+}
+
+function _preventNextFastClick(){
+  _stopNextFastClick = true;
 }
 
 // The magic code // Shows all events triggered

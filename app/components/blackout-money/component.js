@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'input',
   value: 0,
+  classNames: ['blackout-money'],
   
   setup: Ember.on('didInsertElement',function(){
     

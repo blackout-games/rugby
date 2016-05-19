@@ -4,9 +4,10 @@ module.exports = function(environment) {
   
   
   var offlineMode = true;
-  var localIP = '192.168.20.5'; // Home
+  //var localIP = '192.168.20.5'; // Home
   //var localIP = 'localhost'; // Localhost
-  //var localIP = '192.168.1.150'; // Nat's + parents
+  var localIP = '192.168.178.52'; // Nat's
+  //var localIP = '192.168.1.150'; // Nat's parents
   
   /*********************/
   // Development API (Local)

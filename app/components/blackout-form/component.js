@@ -96,42 +96,36 @@ export default Ember.Component.extend({
         }
         if($el.data('can-focus')){
           
-          let wasPrevented = $input.data('was-prevented-on-start');
+          //let wasPrevented = $input.data('was-prevented-on-start');
           
           restorePointerEvents($input);
           if(!$input.is(":focus") && !e.originalEvent.isManual){
             
-            Ember.run.next(()=>{
-              //$input.putCursorAtEnd(); // Also adds focus
+            if(!window.browsers.standalone){
+              $input.focus();
+            }
+            if(!$input.data('hasFocusedOnce')){
               
-              /**
-               * Run for all so we can switch easy
-               * We run in next runloop to get inputs which were
-               * blurred as a result of this one being focused
-               */
-              restorePointerEvents();
-            });
-            
-            $input.focus();
-            
-            if(wasPrevented){
-              
-              if(!$input.data('hasFocusedOnce')){
+              // Only do this for blackout-money
+              if($input.hasClass('blackout-money')){
                 $input.putCursorAtEnd();
-                $input.data('hasFocusedOnce',true);
               }
               
-              // Run mousedown, mouseup, and click events here
-              // Once we have focus, attempt to put the cursor where we touched
-              // Working on iOS 9.3.2 Safari (Only when debugging though?)
-              // Working on iOS Chrome 50
-              Ember.Blackout.runManualEvent(e,'touchstart');
-              Ember.Blackout.runManualEvent(e,'touchend');
-              Ember.Blackout.runManualEvent(e,'mousedown');
-              Ember.Blackout.runManualEvent(e,'mouseup');
-              Ember.Blackout.runManualEvent(e,'click');
-              
+              $input.data('hasFocusedOnce',true);
             }
+            
+            // Run mousedown, mouseup, and click events here
+            // Once we have focus, attempt to put the cursor where we touched
+            // Working on iOS 9.3.2 Safari (Only when debugging though?)
+            // Working on iOS Chrome 50
+            Ember.run.next(()=>{
+              Ember.Blackout.preventNextFastClick();
+              Ember.Blackout.runManualEvent(e,'touchstart',$input[0]);
+              Ember.Blackout.runManualEvent(e,'touchend',$input[0]);
+              Ember.Blackout.runManualEvent(e,'mousedown',$input[0]);
+              Ember.Blackout.runManualEvent(e,'mouseup',$input[0]);
+              Ember.Blackout.runManualEvent(e,'click',$input[0]);
+            });
             
           }
         }
@@ -165,8 +159,19 @@ export default Ember.Component.extend({
         
         Ember.run.next(()=>{
           Ember.$('body').on('touchstart',$input,this.removeFocus);
+          
+          /**
+           * Run for all so we can switch easy
+           * We run in next runloop to get inputs which were
+           * blurred as a result of this one being focused
+           */
+          restorePointerEvents();
         });
       });
+      
+      /*Ember.$('body').on('touchstart touchend mousedown mouseup click',(e)=>{
+        log('hey',e.type);
+      });*/
       
     } else {
       
