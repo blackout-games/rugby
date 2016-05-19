@@ -114,7 +114,9 @@
                       minDate=item.minDate
                       maxDate=item.maxDate
                       isOnScreen=(readonly isOnScreen)
-                      disabled=item.disabled }}
+                      disabled=item.disabled
+                      readonly=item.readonly
+                      maxHeight=item.maxHeight }}
                     
                   {{else}}
                     
@@ -130,7 +132,9 @@
                       minDate=item.minDate
                       maxDate=item.maxDate
                       isOnScreen=(readonly isOnScreen)
-                      disabled=item.disabled }}
+                      disabled=item.disabled
+                      readonly=item.readonly
+                      maxHeight=item.maxHeight }}
                     
                   {{/if}}
                   
@@ -141,7 +145,7 @@
             {{/if}}
             
             {{#if item.helper}}
-              <div class="blackout-form-helper">{{item.helper}}</div>
+              <div class="helper-text">{{item.helper}}</div>
             {{/if}}
           
           </div>
@@ -158,18 +162,22 @@
     {{error-ui error=serverError}}
   {{/blackout-fader}}
   
-  {{#if confirm}}
-  
-    {{#confirm-button class="btn-big btn-right-gap" clickAction=(action 'onSave') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.blackout-cancel-button' }}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/confirm-button}}
-  
-  {{else}}
-  
-    {{#loader-button class="btn btn-big btn-right-gap" clickAction=(action 'onSave')}}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/loader-button}}
-  
-  {{/if}}
-  
-  {{#if (not hideCancelButton)}}
-    <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{if useCloseButton (t 'buttons.close') (t 'buttons.cancel')}}</button>
-  {{/if}}
+  {{#unless noButtons}}
+    
+    {{#if confirm}}
+    
+      {{#confirm-button class="btn-big btn-right-gap" clickAction=(action 'onSave') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.blackout-cancel-button' }}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/confirm-button}}
+    
+    {{else}}
+    
+      {{#loader-button class="btn btn-big btn-right-gap" clickAction=(action 'onSave')}}{{if submitLabel submitLabel (t 'buttons.save-changes')}}{{/loader-button}}
+    
+    {{/if}}
+    
+    {{#if (not hideCancelButton)}}
+      <button {{action 'onCancel'}} class="blackout-cancel-button btn btn-big btn-ghost">{{if useCloseButton (t 'buttons.close') (t 'buttons.cancel')}}</button>
+    {{/if}}
+    
+  {{/unless}}
   
 </form>

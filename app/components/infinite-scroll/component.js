@@ -11,6 +11,8 @@ export default Ember.Component.extend({
    */
   bufferSize: 1,
   
+  useContentProxy: false,
+  
   onInit: Ember.on('init',function(){
     
     let vcTagName = this.get('verticalCollectionTag');

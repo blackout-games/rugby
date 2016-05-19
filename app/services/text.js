@@ -403,7 +403,7 @@ export default Ember.Service.extend({
     let wasPeeked = false;
     let userImages = this.get('userImages');
     let natPath = natType === 'nat' ? 'national-' : (natType === 'u20' ? 'u20-' : '');
-    
+    print('decoratingClub');
     // Get manager
     let html = store.findRecord(natPath+'club',String(id).pkString()).then((data)=>{
       
@@ -414,9 +414,10 @@ export default Ember.Service.extend({
         } else {
           html = userImages.getClubHTML(data);
         }
-        
+        //print('node',html);
+        //let node = $(html);
         // Update HTML
-        $('.'+className).html(html);
+        $('.'+className).replaceWith(html);
         wasPeeked = true;
         return html;
       } else {

@@ -104,7 +104,7 @@ export default Ember.Component.extend({
   
   resetChartOptions(){
     // Since the chart settings are static, ember won't manage them between instances of this component, so we need to manually reset.
-    this.set('donutChartOptions.animation',true);
+    //this.set('donutChartOptions.animation',true);
     
     if( window.os.touchOS || !this.get('singleMode') ){
       this.set('donutChartOptions.animation',false);

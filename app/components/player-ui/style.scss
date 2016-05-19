@@ -1,5 +1,8 @@
 .player-ui-squad-box {
   //border-top-left-radius: 29px;
+  &.active {
+    //background-color: $bg-light-darker;
+  }
 }
 
 .player-ui-top {
@@ -518,6 +521,16 @@ table .player-ui-value {
   position: absolute;
   top:0;
   left:0;
+  font-weight: bold;
+}
+
+.player-ui-export-wrapper {
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.player-ui-export {
   font-weight: bold;
 }
 

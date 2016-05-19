@@ -12,6 +12,7 @@
     "LockableStorage",
     "EmberInspector",
     "tinycolor",
+    "Clipboard",
     "log"
   ],
   "browser": true,

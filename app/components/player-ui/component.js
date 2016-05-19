@@ -20,4 +20,33 @@ export default Ember.Component.extend({
     
   }),
   
+  onInsert: Ember.on('didInsertElement',function(){
+    if(this.get('clickable')){
+      
+      let $box = this.$('.player-ui-squad-box');
+      
+      $box.on('click',()=>{
+        Ember.Blackout.transitionTo('players.player',this.get('player.id'));
+      });
+      $box.css('cursor','pointer');
+      
+      $box.on('mouseenter touchstart',()=>{
+        $box.addClass('active');
+      });
+      $box.on('mouseleave touchmove touchend',()=>{
+        $box.removeClass('active');
+      });
+      
+    }
+  }),
+  
+  onDestroy: Ember.on('willDestroyElement',function(){
+    if(this.get('clickable')){
+      
+      let $box = this.$('.player-ui-squad-box');
+      $box.off('click mouseenter touchstart mouseleave touchmove touchend');
+      
+    }
+  }),
+  
 });

@@ -93,6 +93,14 @@ export default Ember.Component.extend({
         let $input = $(e.currentTarget);
         preventPointerEvents($input);
       });
+      /**
+       * This allows the inputs so still be selected manually elsewhere
+       * e.g. auto-selecting all text in player-ui/export
+       */
+      this.$(inputSelector).on('focus',(e)=>{
+        let $input = $(e.currentTarget);
+        restorePointerEvents($input);
+      });
       
     } else {
       
@@ -112,22 +120,23 @@ export default Ember.Component.extend({
     let handlerSelector = this.get('handlerSelector');
     
     this.$(handlerSelector).off('mousedown touchstart touchmove touchend');
-    this.$(inputSelector).off('blur');
+    this.$(inputSelector).off('blur focus');
     
   }),
   
   computedForm: Ember.computed('form',function(){
     
     let form = this.get('form');
-    
-    Ember.$.each(form,(key,item)=>{
-      
-      // Set default type if not given
-      if(!item.type){
-        item.type = 'text';
-      }
-      
-    });
+    if(form){
+      Ember.$.each(form,(key,item)=>{
+        
+        // Set default type if not given
+        if(!item.type){
+          item.type = 'text';
+        }
+        
+      });
+    }
     
     return form;
     

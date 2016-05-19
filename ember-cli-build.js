@@ -96,6 +96,11 @@ module.exports = function(defaults) {
    * Color library
    */
   app.import('bower_components/tinycolor/tinycolor.js');
+  
+  /**
+   * Clipboard.js
+   */
+  app.import('bower_components/clipboard/dist/clipboard.js');
 
 
   return app.toTree();

@@ -1,25 +1,32 @@
-<div class="text-center">
-  {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
-</div>
+<div class="has-position">
 
-{{#infinite-scroll
-  content=playersSorted
-  defaultHeight=defaultItemHeight
-  bufferSize=bufferSize
-  as |player index|
-}}
-{{!#lazy-list  itemClass="gap-4x no-gap-on-last" content=playersSorted as |player|}}
-  <!--div class="gap-7x no-gap-on-last"-->
-    
-    {{player-ui player=player}}
-    
-    {{#if (not (last index playersSorted))}}
+  <div class="text-center">
+    {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
+  </div>
+
+  {{component 'player-ui/export' class="player-ui-export-wrapper" squad=playersSorted }}
+
+  {{#infinite-scroll
+    content=playersSorted
+    defaultHeight=defaultItemHeight
+    bufferSize=bufferSize
+    useContentProxy=true
+    as |player index|
+  }}
+  {{!#lazy-list  itemClass="gap-4x no-gap-on-last" content=playersSorted as |player|}}
+    <!--div class="gap-7x no-gap-on-last"-->
       
-      <div class="gap-4x hidden-xs"></div>
-      <div class="gap-4x hidden-sm-up"></div>
+      {{player-ui player=player clickable=false}}
       
-    {{/if}}
-    
-  <!--/div-->
-{{!/lazy-list}}
-{{/infinite-scroll}}
+      {{#if (not (last index playersSorted))}}
+        
+        <div class="gap-4x hidden-xs"></div>
+        <div class="gap-4x hidden-sm-up"></div>
+        
+      {{/if}}
+      
+    <!--/div-->
+  {{!/lazy-list}}
+  {{/infinite-scroll}}
+
+</div>

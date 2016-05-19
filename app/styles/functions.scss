@@ -28,13 +28,17 @@
   }
 }
 
-@function hoverColor($color, $lighten: true) {
+@function hoverColor($color, $lighten: true, $no-saturate: false) {
   @if $lighten {
-    @return saturate(lighten($color, 7%), 11%);
+    @if $no-saturate {
+      @return lighten($color, 7%);
+    } @else {
+      @return saturate(lighten($color, 7%), 11%);
+    }
   }
 
   @else {
-    @return darken($color, 5%);
+    @return desaturate(darken($color, 5%), 5%);
   }
 }
 

@@ -8,7 +8,7 @@ function pad(num, size) {
     return s;
 }
 
-export function number(val, params/*, hash*/) {
+export function number(val, params={}/*, hash*/) {
   
   if( params.roundMillions ){
     if(val>=1000000){

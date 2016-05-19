@@ -343,6 +343,7 @@ table.light {
 /**
  * Ember hammertime
  */
-[data-ember-action], a, button, input, .link {
+[data-ember-action], a, button, input, textarea, .link {
   cursor: pointer;
+  -webkit-user-select: text;
 }

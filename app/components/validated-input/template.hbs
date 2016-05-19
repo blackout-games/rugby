@@ -36,7 +36,7 @@
         
           {{#if (is 'textarea' type)}}
             
-            {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1 disabled=disabled updateSizeManually=(readonly updateTextareaSize)}}
+            {{textarea value=(mut value) autoresize=true placeholder=(readonly placeholder) class=(concat inputClass ' form-control') id=(readonly inputId) autocomplete="off" focus-in=(action 'onFocus') focus-out=(action 'onBlur') key-up=(action 'onKeyUp') rows=1 disabled=disabled updateSizeManually=(readonly updateTextareaSize) readonly=readonly max-height=maxHeight}}
             
           {{else}}
             

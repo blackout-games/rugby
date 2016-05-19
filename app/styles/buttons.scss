@@ -21,16 +21,16 @@ $border: none;
   border-radius: $button-border-radius;
   // So that the focus border doesn't mess with button sizing, have a border the same color as the button
   border: $border;
-  height:36px;
+  height:40px;
   font-weight: $button-text-weight;
   //text-transform: uppercase;
   //
-  padding: 0 11px 2px;
+  padding: 0 15px 4px;
   vertical-align: top;
 
-  font-size: 14px;
+  font-size: 15px;
   @media #{$mobile} {
-    font-size: 13px;
+    font-size: 14px;
   }
 }
 
@@ -414,14 +414,19 @@ form .btn-fb {
   
 }
 
-.btn-dark-lighter, .btn-dark-lighter {
+.btn-dark, .btn-dark:hover {
   $color: $bg-dark-lighter-2x;
-  $disabled-color: rgba(desaturate(darken($color,4%),22%),1);
+  $disabled-color: rgba(desaturate(darken($color,7%),7%),1);
   background-color: $color;
+  
+  //$text-color: $secondary-on-dark-lighter-3x;
+  $text-color: white;
+  color: $text-color;
 
   &.hover {
-    background-color: hoverColor($color);
-    border-color: hoverColor($color);
+    background-color: hoverColor($color,true,true);
+    border-color: hoverColor($color,true,true);
+    color: $text-color;
   }
 
   &.press {
@@ -437,8 +442,12 @@ form .btn-fb {
   &:disabled{
     background-color: $disabled-color;
     border-color: $disabled-color;
-    color: saturate(lighten($disabled-color,22%),11%);
+    color: saturate(lighten($disabled-color,22%),0%);
     cursor: not-allowed;
+  }
+  
+  .spinner.bars > div {
+    background-color: saturate(lighten($color,11%),8%);
   }
   
 }

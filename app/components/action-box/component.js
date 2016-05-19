@@ -54,9 +54,10 @@ export default Ember.Component.extend({
       return;
     }
     
-    let $panels = _this.$('.action-box-button-panel, .action-box-content-panel, .action-box-button');
+    let panelsSelector = '.action-box-button-panel, .action-box-content-panel, .action-box-button' + (_this.get('ignore') ? ','+_this.get('ignore') : '');
+    //let $panels = _this.$(panelsSelector);
     
-    if(!Ember.$(e.target).hasParent($panels)){
+    if(!Ember.$(e.target).hasParent(panelsSelector)){
       
       if(Ember.$(e.target)[0]===_this.$('action-box-blocker')[0]){
         e.preventDefault();

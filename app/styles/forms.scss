@@ -231,6 +231,10 @@ textarea, textarea.form-control {
   min-height:44px;
 }
 
+input[readonly], textarea[readonly="readonly"], textarea[readonly]{
+  background-color: desaturate($bg-light,25%) !important;
+}
+
 /**
  * Fix IE padding
  * IE 9 and above

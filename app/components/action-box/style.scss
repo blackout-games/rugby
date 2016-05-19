@@ -64,10 +64,8 @@ $opacity: 0.33;
   z-index:3;
 }
 
-$lighter-color: saturate(lighten($primary-master,22%),22%);
-
 .action-box-button-showing {
-  color: $lighter-color !important;
+  color: $primary-on-dark !important;
 }
 
 /**
@@ -193,7 +191,7 @@ $lighter-color: saturate(lighten($primary-master,22%),22%);
  */
 
 .action-box-button-panel, .action-box-content-panel, .action-box-angle-panel {
-  background: desaturate(darken($primary-master,1%),1%);
+  background: saturate(lighten($bg-dark,4%),4%);
   position:relative;
   z-index: 1;
 }
@@ -204,6 +202,9 @@ $lighter-color: saturate(lighten($primary-master,22%),22%);
   
   label {
     color: white;
+  }
+  .helper-text {
+    color: $bg-light-darker-5x;
   }
 }
 

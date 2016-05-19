@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import formatMoney from 'rugby-ember/utils/money';
 
 /**
  * We made this a component so that we can move the symbol when the language is changed.
@@ -19,30 +20,9 @@ export default Ember.Component.extend({
    */
   roundMillions: false,
   
-  
   formatedMoney: Ember.computed('value','roundMillions','locale.currentLocale',function(){
     
-    let val = this.get('value');
-    
-    let roundMillions = this.get('roundMillions');
-    
-    if( roundMillions ){
-      if(val>=1000000){
-        val = (Math.round(val/500000)*0.5) + 'm';
-      }
-    } else {
-      val = Number(val).toFixed(0);
-    }
-    
-    // TODO Get currency symbol from preferences
-    let symbol = '$';
-    
-    let locale = this.get('locale.currentLocale');
-    let symbolIsAfter = locale==='es' || locale==='es-ar';
-    let symbolBefore = symbolIsAfter ? '' : symbol;
-    let symbolAfter = symbolIsAfter ? symbol : '';
-    
-    return symbolBefore + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + symbolAfter;
+    return formatMoney(this.get('value'),this.get('locale.currentLocale'),this.get('roundMillions'));
     
   }),
   
