@@ -209,7 +209,7 @@ export default Ember.Component.extend({
     
     // ------------------------------ CSR
     
-    text += i18n.t('player.csr') + ' ' + number.compute(p.get('csr')) + (p.get('csrChange') ? ' (' + ((p.get('csrChange')>=0 ? '+' : '-') + p.get('csrChange')) + ')' : '');
+    text += i18n.t('player.csr') + ' ' + number.compute(p.get('csr')) + (p.get('csrChange') ? ' (' + ((p.get('csrChange')>=0 ? '+' : '') + p.get('csrChange')) + ')' : '');
     text += nl;
     
     // ------------------------------ Age / Birthday
