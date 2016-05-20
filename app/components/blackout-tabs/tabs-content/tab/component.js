@@ -108,8 +108,10 @@ export default Ember.Component.extend({
           
         } else {
           
-          // Already rendered DOM
-          this.tabIsSelected();
+          Ember.run.scheduleOnce('afterRender', this, ()=>{
+            // Already rendered DOM
+            this.tabIsSelected();
+          });
           
         }
       }

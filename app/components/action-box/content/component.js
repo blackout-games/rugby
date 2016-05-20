@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['action-box-content'],
   
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
-    if(this.attrChanged(attrs,'button')){
+    if(this.attrChanged(attrs,'button') && this.get('button')){
       
       Ember.run.scheduleOnce('afterRender', this, ()=>{
         

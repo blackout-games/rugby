@@ -45,7 +45,9 @@ export default Ember.Component.extend({
   isShowingLoader: Ember.computed.and('isLoadingImage','loaderAnimation'),
   
   setup: Ember.on('didInsertElement',function(){
-    this.updateImage();
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      this.updateImage();
+    });
   }),
   
   imageClassNames: Ember.computed('imageClasses', function(){

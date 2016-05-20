@@ -221,7 +221,10 @@ export default Ember.Component.extend({
     }
     
     // Store in session for use in squad route
-    this.set('cache.squadSorting',sorting);
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      this.set('cache.squadSorting',sorting);
+    });
+    
     return sorting;
     
   }),

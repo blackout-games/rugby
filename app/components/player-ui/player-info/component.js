@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { $ } = Ember;
+//const { $ } = Ember;
 
 export default Ember.Component.extend({
   
@@ -75,7 +75,9 @@ export default Ember.Component.extend({
       Ember.run.once(this,this.updateChartData);
       //Ember.run.debounce(this,this.updateChartData,1);
     }
-    this.set('hasRendered',true);
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      this.notifyPropertyChange('hasRendered');
+    });
   }),
   
   flatCSR: Ember.computed('media.@each','hasRendered',function(){

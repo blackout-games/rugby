@@ -48,57 +48,61 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
-    
-    let imageUrl;
-    
-    let updateImage = Ember.run.bind(this,this.updateImage);
-    
-    // Check for special cases
-    if(this.get('type')==='manager'){
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
       
-      if(this.get('isCurrentUserImage')){
-        
-        imageUrl = this.get('userImages').registerManagerImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
-        
-      }
+      this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
       
-    } else if(this.get('type')==='club'){
+      let imageUrl;
       
-      if(this.get('isCurrentUserImage')){
+      let updateImage = Ember.run.bind(this,this.updateImage);
+      
+      // Check for special cases
+      if(this.get('type')==='manager'){
         
-        imageUrl = this.get('userImages').registerClubImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
+        if(this.get('isCurrentUserImage')){
+          
+          imageUrl = this.get('userImages').registerManagerImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
+          
+        }
+        
+      } else if(this.get('type')==='club'){
+        
+        if(this.get('isCurrentUserImage')){
+          
+          imageUrl = this.get('userImages').registerClubImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
+          
+        } else {
+          
+          imageUrl = this.updateClubImage(this.get('club'));
+          
+        }
         
       } else {
         
-        imageUrl = this.updateClubImage(this.get('club'));
+        // TODO: support custom images
+        log('Attempted to register custom image in user-image component');
+        //this.get('userImages').registerImage();
         
       }
       
-    } else {
+      // Save image URL for use with editor
+      this.set('modelImageUrl',imageUrl);
       
-      // TODO: support custom images
-      log('Attempted to register custom image in user-image component');
-      //this.get('userImages').registerImage();
+      // Move classes
+      let classes = this.$()[0].className.split(/\s+/);
+      Ember.$.each(classes,(i,className)=>{
+        if(className!=='ember-view'){
+          this.addImageClass(className);
+          this.$().removeClass(className);
+        }
+      });
       
-    }
-    
-    // Save image URL for use with editor
-    this.set('modelImageUrl',imageUrl);
-    
-    // Move classes
-    let classes = this.$()[0].className.split(/\s+/);
-    Ember.$.each(classes,(i,className)=>{
-      if(className!=='ember-view'){
-        this.addImageClass(className);
-        this.$().removeClass(className);
+      // Add size
+      if(this.get('size')){
+        this.addImageClass('user-image-'+this.get('size'));
       }
+      
     });
-    
-    // Add size
-    if(this.get('size')){
-      this.addImageClass('user-image-'+this.get('size'));
-    }
     
   }),
   

@@ -51,7 +51,9 @@ export function initialize( application ) {
    */
   Ember.Blackout.startLoading = () => {
     
-    application.lookup('controller:application').set('loading',true);
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      application.lookup('controller:application').set('loading',true);
+    });
     
   };
   

@@ -7,40 +7,44 @@ export default Ember.Component.extend({
   
   setup: Ember.on('didInsertElement',function(){
     
-    this.$().prop('type','text');
-    this.monetize(true);
-    
-    this.$().on('paste',()=>{
-      this.monetizeOnChange(this.$().val());
-    });
-    
-    this.$().on('keydown',(e)=>{
-      let modifier = e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
-      let paste = modifier && e.keyCode===86;
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
       
-      if(paste){
-        
-        // Wait for value to change
-        this.monetizeOnChange(this.$().val());
-        
-      } else if(!modifier){
-        
-        this.monetizeOnChange(this.$().val());
-        
-      }
+      this.$().prop('type','text');
+      this.monetize(true);
       
-    });
-    
-    this.$().on('focus',()=>{
-      if(this.attrs.onFocus && typeof this.attrs.onFocus === 'function'){
-        this.attrs.onFocus();
-      }
-    });
-    
-    this.$().on('blur',()=>{
-      if(this.attrs.onBlur && typeof this.attrs.onBlur === 'function'){
-        this.attrs.onBlur();
-      }
+      this.$().on('paste',()=>{
+        this.monetizeOnChange(this.$().val());
+      });
+      
+      this.$().on('keydown',(e)=>{
+        let modifier = e.metaKey||e.ctrlKey||e.shiftKey||e.altKey;
+        let paste = modifier && e.keyCode===86;
+        
+        if(paste){
+          
+          // Wait for value to change
+          this.monetizeOnChange(this.$().val());
+          
+        } else if(!modifier){
+          
+          this.monetizeOnChange(this.$().val());
+          
+        }
+        
+      });
+      
+      this.$().on('focus',()=>{
+        if(this.attrs.onFocus && typeof this.attrs.onFocus === 'function'){
+          this.attrs.onFocus();
+        }
+      });
+      
+      this.$().on('blur',()=>{
+        if(this.attrs.onBlur && typeof this.attrs.onBlur === 'function'){
+          this.attrs.onBlur();
+        }
+      });
+      
     });
     
   }),

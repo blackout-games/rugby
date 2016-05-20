@@ -10,9 +10,11 @@ export default Ember.Component.extend({
       'padding-right': this.get('outerPaddingSides')+'px',
     });
     
-    if(this.attrs.getButton){
-      this.attrs.getButton(this.$());
-    }
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      if(this.attrs.getButton){
+        this.attrs.getButton(this.$());
+      }
+    });
     
   }),
   

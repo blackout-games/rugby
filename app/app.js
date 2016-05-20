@@ -10,7 +10,7 @@ import config from './config/environment';
  * Allow this on update day only, so that we can fix any deprecations in our own code
  * Chrome regex filter: ^((?!DEPRECATION: ).)*$
  */
-const allowDeprecations = false;
+const allowDeprecations = true;
 
 const alreadyShownFactory = () => {
   let alreadyShown = [];

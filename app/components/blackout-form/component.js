@@ -323,12 +323,16 @@ export default Ember.Component.extend({
   linksShowing: Ember.Object.create(),
   
   handleOnAndOffScreen: Ember.on('didUpdateAttrs',function(opts){
-    if(this.attrChanged(opts,'isOnScreen') && !this.get('isOnScreen')){
-      this.send('onCancel');
-    }
-    if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen') && this.get('button')){
-      this.get('button').reset(false,true);
-    }
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      
+      if(this.attrChanged(opts,'isOnScreen') && !this.get('isOnScreen')){
+        this.send('onCancel');
+      }
+      if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen') && this.get('button')){
+        this.get('button').reset(false,true);
+      }
+      
+    });
   }),
   
 });

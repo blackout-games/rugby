@@ -134,67 +134,72 @@ export default Ember.Component.extend({
   },
 
   createSubNav($subNavContent,opts){
-
-    // Globalise opts
-    this.set('opts',opts);
     
-    // See if custom button icon is set
-    if(opts.buttonIcon){
-      this.set('buttonIcon',opts.buttonIcon);
-    }
-
-    // Check for header
-    let $headerContent = $subNavContent.find('.sub-nav-header');
-    let $header = this.$('#sub-nav-header');
-    if($headerContent.length){
-
-      this.set('subNavHeader',true);
-      this.set('headerParent',$headerContent.parent());
-      this.set('headerIndex',$headerContent.index());
-      this.set('headerContent',$headerContent);
-      $header.empty().append($headerContent);
+    // Ensure this can't happen during didInsertElement
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
       
-    }
+      // Globalise opts
+      this.set('opts',opts);
+      
+      // See if custom button icon is set
+      if(opts.buttonIcon){
+        this.set('buttonIcon',opts.buttonIcon);
+      }
 
-    // Add content to sub-nav panel
-    this.set('contentParent',$subNavContent.parent());
-    this.set('contentIndex',$subNavContent.index());
-    this.$('#sub-nav-scroller').empty().append($subNavContent);
-    
-    this.watchMenuLinks();
+      // Check for header
+      let $headerContent = $subNavContent.find('.sub-nav-header');
+      let $header = this.$('#sub-nav-header');
+      if($headerContent.length){
 
-    // Manually update hover watchers
-    Ember.Blackout.refreshHoverWatchers();
+        this.set('subNavHeader',true);
+        this.set('headerParent',$headerContent.parent());
+        this.set('headerIndex',$headerContent.index());
+        this.set('headerContent',$headerContent);
+        $header.empty().append($headerContent);
+        
+      }
 
-    /**
-     * Only update based on opts changes for now
-     * Later may need to also update content on re-renders.
-     */
-    if(!this.get('navIsActive')){
+      // Add content to sub-nav panel
+      this.set('contentParent',$subNavContent.parent());
+      this.set('contentIndex',$subNavContent.index());
+      this.$('#sub-nav-scroller').empty().append($subNavContent);
+      
+      this.watchMenuLinks();
 
-      // Fade in the button (will still be hidden if not mobile)
-      this.$('#sub-nav-button').fadeIn();
+      // Manually update hover watchers
+      Ember.Blackout.refreshHoverWatchers();
 
-      // Save elements for use later
-      this.set('$subNavContent',$subNavContent);
+      /**
+       * Only update based on opts changes for now
+       * Later may need to also update content on re-renders.
+       */
+      if(!this.get('navIsActive')){
 
-      // Set nav as active (i.e. we're on a page containing sub-nav)
-      this.set('navIsActive',true);
+        // Fade in the button (will still be hidden if not mobile)
+        this.$('#sub-nav-button').fadeIn();
 
-      // Show subnav
-      this.$('#sub-nav-panel').addClass('active');
+        // Save elements for use later
+        this.set('$subNavContent',$subNavContent);
 
-      Ember.$('#nav-body,#page-bg').addClass('sub-nav-showing');
+        // Set nav as active (i.e. we're on a page containing sub-nav)
+        this.set('navIsActive',true);
 
-    }
+        // Show subnav
+        this.$('#sub-nav-panel').addClass('active');
 
-    // Allow transitions again
-    Ember.run.later(()=>{
-      this.$('#sub-nav-panel').removeClass('inactive');
+        Ember.$('#nav-body,#page-bg').addClass('sub-nav-showing');
+
+      }
+
+      // Allow transitions again
+      Ember.run.later(()=>{
+        this.$('#sub-nav-panel').removeClass('inactive');
+      });
+      
+      // Run a resize
+      this.handleResize();
+      
     });
-    
-    // Run a resize
-    this.handleResize();
 
   },
 
