@@ -117,6 +117,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     // Fastclick (Using hammertime)
     Ember.Blackout.makeFastClick($newSel);
+    Ember.Blackout.refreshHoverWatchers();
     
     $options.find('li').each((i,option)=>{
       // Fastclick (Using hammertime)
@@ -602,7 +603,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     // Prevent clicks on the 
     if(this.get('blurTarget') && ($(this.get('blurTarget')).hasParent(this.get('$newSel')) || $(this.get('blurTarget')).hasParent(this.get('$options')))){
-      e.preventDefault();
+      if(e){
+        e.preventDefault();
+      }
       this.set('blurTarget',false);
       return false;
     }

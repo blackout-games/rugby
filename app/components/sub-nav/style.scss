@@ -90,7 +90,7 @@ $animation-time: $nav-animation-time;
     &.press,&.hover {
       //color: white;
       @if $dark-colors {
-        background-color: rgba(desaturate(lighten($bg-color,7%),3%),0.95);
+        background-color: rgba(desaturate(lighten($bg-color,15%),1%),0.5);
       } @else {
         background-color: rgba(desaturate(darken($bg-light,6%),15%),0.95);
       }

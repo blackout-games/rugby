@@ -1315,10 +1315,6 @@ class Blackout {
     return attrs;
   }
   
-  refreshHoverWatchers(){
-    _refreshWatchers();
-  }
-  
   /**
    * Print JSON string of object, handling circular references
    */
@@ -1361,6 +1357,7 @@ export function initialize( /*application*/ ) {
   Ember.Blackout.runManualEvent = _runManualEvent;
   Ember.Blackout.preventNextClick = _preventNextClick;
   Ember.Blackout.preventNextFastClick = _preventNextFastClick;
+  Ember.Blackout.refreshHoverWatchers = _refreshWatchers;
 
   /**
    * Shortcut to blackout console logging
@@ -1983,13 +1980,17 @@ if(forceFastClick){
       e = e.originalEvent;
     }
     _stopNextClick = false;
+    
     if(!_touchMoved && !e.isManual){
       _stopNextFastClick = false;
       if(_touchElement===e.target){
+        _stopNextClick = true;
         window.setTimeout(()=>{
           if(!_stopNextFastClick){
+            let ogStopper = _stopNextClick;
+            _stopNextClick = false;
             _runManualEvent(e,'click',e.target);
-            _stopNextClick = true;
+            _stopNextClick = ogStopper;
           }
           _stopNextFastClick = false;
         },1);
@@ -2023,20 +2024,15 @@ function _runManualEvent(e,eventType,theTarget=null){
     if((eventType==='touchstart' || eventType==='touchmove' || eventType==='touchend')){
       
       try {
-        theEvent = document.createEvent('TouchEvent');
+        theEvent = document.createEvent('UIEvent');
         theEvent.isManual = true;
-        theEvent.initTouchEvent(eventType, true, true);
-      } catch (err) {
-        try {
-          theEvent = document.createEvent('UIEvent');
-          theEvent.isManual = true;
-          theEvent.initUIEvent(eventType, true, true);
-        } catch (err2) {
-          theEvent = document.createEvent('Event');
-          theEvent.isManual = true;
-          theEvent.initEvent(eventType, true, true);
-        }
+        theEvent.initUIEvent(eventType, true, true);
+      } catch (err2) {
+        theEvent = document.createEvent('Event');
+        theEvent.isManual = true;
+        theEvent.initEvent(eventType, true, true);
       }
+      
     } else {
       theEvent = document.createEvent('MouseEvent');
       theEvent.isManual = true;
@@ -2210,9 +2206,20 @@ function _hover (e) {
             },1);
           }
           
-          $(this).on('touchmove',$(this).siblings(),_move);
+          let moveWrapper = (e)=>{
+            e.callbackFunction = moveWrapper;
+            e.realTarget = this;
+            _move(e);
+          };
+          
+          $(document)[0].addEventListener('touchmove',moveWrapper,true);
+          //$('body').on('touchmove',$(this).siblings(),_move);
           
           $(this).data('isTouching',true);
+          if(ogE.isManual){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
         }
         
       } else {
@@ -2332,10 +2339,10 @@ function _move (e) {
     Ember.run.cancel(timeoutId);
     _removeTouchTimeout($(this),timeoutId,'delayedPresses');
   }*/
-  $(this).data('isDrag',true);
-  $(this).removeClass('press');
-  e.data.removeClass('press');
-  $(this).off('touchmove',_move);
+  $(e.realTarget).removeClass('press');
+  $(e.realTarget).siblings().removeClass('press');
+  $(e.realTarget).data('isDrag',true);
+  $(document)[0].removeEventListener('touchmove',e.callbackFunction,true);
 }
 
 /*
