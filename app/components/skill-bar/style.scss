@@ -376,13 +376,13 @@ $mobile-extra-top:4px;
   
     &.icon-skill-kicking {
       $size:47px;
-      $top:-30px;
-      $mob-top-extra: 0px;
-      top:$top+$mobile-extra-top + $mob-top-extra;
+      $bottom:-12px;
+      $mob-bottom-extra: -1px;
+      bottom:$bottom + $mobile-extra-top + $mob-bottom-extra;
       font-size:$size*$mobile-factor;
       @media #{$tablet-and-up} {
         font-size:$size;
-        top:$top;
+        bottom:$bottom;
       }
       left:3px;
     }
