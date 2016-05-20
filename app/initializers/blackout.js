@@ -2177,8 +2177,13 @@ function _hover (e) {
     }
     
     _hoverEventObj = e;
+    
+    let ogE = e;
+    if(ogE.originalEvent){
+      ogE = ogE.originalEvent;
+    }
 
-    if (e.type === 'touchstart') {
+    if (e.type === 'touchstart'||ogE.isManual) {
       
       // If item is scrollable
       // (Basing this behaviour on facebook app main menu)
@@ -2187,22 +2192,25 @@ function _hover (e) {
         if(!$(this).data('isTouching')){
           
           // Wait before allowing 'press' event
-          let timeoutId = Ember.run.later(this,()=>{
-            _removeTouchTimeout($(this),timeoutId,'delayedPresses');
-            _delayedPress($(this));
-          },77);
+          //let timeoutId = Ember.run.later(this,()=>{
+          //  _removeTouchTimeout($(this),timeoutId,'delayedPresses');
+          //  _delayedPress($(this));
+          //},77);
           
-          _addTouchTimeout($(this),timeoutId,'delayedPresses');
+          //_addTouchTimeout($(this),timeoutId,'delayedPresses');
           
+          // Add press straight away. It makes the app feel more reactive.
+          // Press will then be removed if the user drags.
+          $(this).siblings().removeClass('press');
+          $(this).addClass('press');
           
-          let ogY = e.originalEvent && e.originalEvent.touches && e.originalEvent.touches[0] ? e.originalEvent.touches[0].pageY : false;
-
-          if(ogY!==false){
-            
-            // Watch for touch move
-            $(this).on('touchmove',{ogY:ogY,timeoutId:timeoutId},_move);
-            
+          if(!ogE.isManual){
+            window.setTimeout(()=>{
+              _runManualEvent(ogE,e.type);
+            },1);
           }
+          
+          $(this).on('touchmove',$(this).siblings(),_move);
           
           $(this).data('isTouching',true);
         }
@@ -2218,7 +2226,7 @@ function _hover (e) {
   }
 }
 
-function _addTouchTimeout($item,timeoutId,groupName){
+/*function _addTouchTimeout($item,timeoutId,groupName){
   var group = $item.data(groupName);
   if(!group){
     group = [];
@@ -2234,7 +2242,7 @@ function _removeTouchTimeout($item,timeoutId,groupName){
   }
   group.remove(timeoutId);
   $item.data(groupName,group);
-}
+}*/
 
 function _cancelAllTouchTimeouts($item,groupName){
   var group = $item.data(groupName);
@@ -2310,29 +2318,24 @@ function _click () {
  * Not sure 
  * @return {[type]} [description]
  */
-function _delayedPress ( $el ) {
+/*function _delayedPress ( $el ) {
   if($el.data('isTouching') && !$el.data('isDrag')){
     $el.siblings().removeClass('press');
     $el.addClass('press');
   }
-}
+}*/
 
 function _move (e) {
-  let newY = e.originalEvent.touches[0].pageY;
-  let ogY = e.data.ogY;
-  let timeoutId = e.data.timeoutId;
+  //let timeoutId = e.data.timeoutId;
   
-  if(Math.abs(newY-ogY)>11){
-    
-    if(timeoutId){
-      Ember.run.cancel(timeoutId);
-      _removeTouchTimeout($(this),timeoutId,'delayedPresses');
-    }
-    $(this).data('isDrag',true);
-    $(this).removeClass('press');
-    $(this).off('touchmove',_move);
-    
-  }
+  /*if(timeoutId){
+    Ember.run.cancel(timeoutId);
+    _removeTouchTimeout($(this),timeoutId,'delayedPresses');
+  }*/
+  $(this).data('isDrag',true);
+  $(this).removeClass('press');
+  e.data.removeClass('press');
+  $(this).off('touchmove',_move);
 }
 
 /*
