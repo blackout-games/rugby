@@ -4,6 +4,7 @@ export default Ember.Component.extend({
   
   defaultHeight: 150,
   content: [],
+  contentProxy: [],
   
   /**
    * Multiples of scroller height
@@ -19,9 +20,8 @@ export default Ember.Component.extend({
     
     // Create a fresh css pseudo rule
     Ember.Blackout.addCSSRule( vcTagName + ' .vertical-item', 'min-height: '+this.get('defaultHeight')+'px;');
-    
-    this.set('contentProxy',this.get('content'));
-    
+    //log('initting iscroll');
+    this.set('contentProxy',null);
   }),
   
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
@@ -32,8 +32,18 @@ export default Ember.Component.extend({
      * We wait till next run-loop before passing on content, when it's ready to go
      */
     if(this.attrChanged(attrs,'content') && this.get('content')){
+      
+      /**
+       * We need two run loops
+       * Test by loading a player, go to history.
+       * Switch to another player. Go to info tab.
+       * Switch back to original player where history is already loaded.
+       * Go to history tab. History should load fine.
+       */
       Ember.run.next(()=>{
-        this.set('contentProxy',this.get('content'));
+        Ember.run.next(()=>{
+          this.set('contentProxy',this.get('content'));
+        });
       });
     }
     
