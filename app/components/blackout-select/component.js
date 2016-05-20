@@ -197,7 +197,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     $options.find('ul').on('mouseenter touchstart',this.get('clearActiveOptionBound'));
 
     // Close the select element if the target it´s not the select element or one of its descendants
-    $(document).on( 'mousedown touchstart mousewheel', this.get('docClickBound'));
+    $('body')[0].addEventListener("mousedown", this.get('docClickBound'), true);
+    $('body')[0].addEventListener("touchstart", this.get('docClickBound'), true);
+    $('body')[0].addEventListener("mousewheel", this.get('docClickBound'), true);
 
     // keyboard navigation events
     $sel.on( 'keydown', ( e ) => {
@@ -273,7 +275,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
       let $sel = this.$('select');
       let $options = this.$('options');
       
-      $(document).off( 'mousedown touchstart mousewheel', this.get('docClickBound'));
+      $("body")[0].removeEventListener("mousedown", this.get('docClickBound'), true);
+      $("body")[0].removeEventListener("touchstart", this.get('docClickBound'), true);
+      $("body")[0].removeEventListener("mousewheel", this.get('docClickBound'), true);
+      
       $sel.off( 'focus', this.get('addFocusBound'));
       $sel.off( 'blur', this.get('removeFocusBound'));
       $(document).off('mousedown touchstart',this.get('trackBlurTargetBound'));
