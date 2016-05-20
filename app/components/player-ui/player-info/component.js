@@ -142,7 +142,7 @@ export default Ember.Component.extend({
       }
     } else {
       if(this.get('singleMode')){
-        return '35px';
+        return '33px';
       } else {
         return '29px';
       }
