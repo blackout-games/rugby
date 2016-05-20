@@ -207,7 +207,7 @@ i.text-color-yellow {
 
 // Red
 $hue: $error-hue + 2;
-$extra-sat: 4%;
+$extra-sat: 1%;
 $extra-bright: 4%;
 .skill-bar-color-red {
   @include skill-bar($hue,$extra-sat,$extra-bright);
