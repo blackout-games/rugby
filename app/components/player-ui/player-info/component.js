@@ -117,39 +117,6 @@ export default Ember.Component.extend({
     return window.os.touchOS;
   }),
   
-  /**
-   * Determines when animation starts
-   */
-  waypointOffset: Ember.computed(function(){
-    // Full window height means as soon as the waypoint appears at the *bottom* of the screen, the waypoint will fire.
-    return Math.round($(window).height()) - (window.os.touchOS ? 111 : (this.get('media.isMobile') ? 111 : 333));
-  }),
-  
-  actions: {
-    handleWaypoint(direction){
-      if(direction === 'down'){
-        Ember.run.scheduleOnce('afterRender',this,function(){
-          this.set('hasAppeared',true);
-          this.set('hasAppearedBars',true);
-        });
-      }
-    },
-  },
-  
-  hasAppeared: Ember.computed(function(){
-    return !this.get('singleMode');
-  }),
-  
-  hasAppearedBars: Ember.computed('media.isMobile','media.isTablet','hasAppeared',function(){
-    return true;
-    // Turn off animations for squad view. Too annoying and hard to compare skills.
-    /*if(this.get('hasAppeared') || window.os.touchOS){
-      return true;
-    } else {
-      return false;
-    }*/
-  }),
-  
   animateBars: Ember.computed('media.isMobile','media.isTablet',function(){
     return this.get('singleMode') && !window.os.touchOS;
     // Turn off animations for squad view. Too annoying and hard to compare skills.
@@ -190,7 +157,7 @@ export default Ember.Component.extend({
   }),
   
   updateChart: Ember.on('didReceiveAttrs',function(opts){
-    if((this.attrChanged(opts,'isOnScreen') || this.attrChanged(opts,'hasAppeared') || this.attrChanged(opts,'player')) && this.get('isOnScreen')){
+    if((this.attrChanged(opts,'isOnScreen') || this.attrChanged(opts,'player')) && this.get('isOnScreen')){
       
       // Wait to make sure we've rendered the base, before rendering a new chart
       if(this.get('singleMode')){
@@ -203,10 +170,6 @@ export default Ember.Component.extend({
   }),
   
   updateChartData(){
-    
-    if(!this.get('hasAppeared') && !window.os.touchOS){
-      return;
-    }
     
     this.set('chartComponent','blackout-chart');
     

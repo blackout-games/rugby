@@ -106,10 +106,6 @@
         
       {{/if}}
 
-      {{#if (and singleMode (not isTouchOS))}}      
-        {{way-point action="handleWaypoint" offset=waypointOffset id=(concat 'player_' player.id) contextElementId=scrollContextId}}
-      {{/if}}
-
       {{#if (or player.transfer (owned-club player.club))}}
         <div class="right-pad-2x negate">
           <div class="row">
@@ -117,23 +113,23 @@
             <div class="{{if singleMode 'col-xs-6 right-pad-2x' 'col-12 row row-nowrap negate-right-gap-md'}}">
               
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.stamina max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="stamina" label=(t 'player.stamina') }}
+                {{skill-bar level=player.stamina max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="stamina" label=(t 'player.stamina') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.attack max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="attack" label=(t 'player.attack') }}
+                {{skill-bar level=player.attack max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="attack" label=(t 'player.attack') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.technique max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="technique" label=(t 'player.technique') }}
+                {{skill-bar level=player.technique max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="technique" label=(t 'player.technique') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.jumping max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="jumping" label=(t 'player.jumping') }}
+                {{skill-bar level=player.jumping max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="jumping" label=(t 'player.jumping') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.agility max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="agility" label=(t 'player.agility') }}
+                {{skill-bar level=player.agility max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="agility" label=(t 'player.agility') }}
               </div>
               
             </div>
@@ -141,23 +137,23 @@
             <div class="{{if singleMode 'col-xs-6 right-pad-2x' 'col-12 row row-nowrap'}}">
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.handling max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="handling" label=(t 'player.handling') }}
+                {{skill-bar level=player.handling max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="handling" label=(t 'player.handling') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.defence max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="defence" label=(t 'player.defence') }}
+                {{skill-bar level=player.defence max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="defence" label=(t 'player.defence') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.strength max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="strength" label=(t 'player.strength') }}
+                {{skill-bar level=player.strength max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="strength" label=(t 'player.strength') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.speed max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="speed" label=(t 'player.speed') }}
+                {{skill-bar level=player.speed max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="speed" label=(t 'player.speed') }}
               </div>
             
               <div class="{{unless singleMode 'col-5th right-pad-2x'}}">
-                {{skill-bar level=player.kicking max=50 height=skillBarHeight hasAppeared=hasAppearedBars animate=animateBars primarySkill=true vertMode=(not singleMode) icon="kicking" label=(t 'player.kicking') }}
+                {{skill-bar level=player.kicking max=50 height=skillBarHeight animate=animateBars primarySkill=true vertMode=(not singleMode) icon="kicking" label=(t 'player.kicking') }}
               </div>
               
             </div>
@@ -339,10 +335,10 @@
             
             <div class="col-xs-6 right-pad-lg">
               
-              {{skill-bar level=player.aggression max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              {{skill-bar level=player.aggression max=20 height=attrBarHeight animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
               <div class="player-ui-label player-ui-attr-label ellipsis gap-lg">{{t 'player.aggression'}}</div>
               
-              {{skill-bar level=player.discipline max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              {{skill-bar level=player.discipline max=20 height=attrBarHeight animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
               <div class="player-ui-label player-ui-attr-label ellipsis">{{t 'player.discipline'}}</div>
               
             </div>
@@ -353,10 +349,10 @@
             
             <div class="col-xs-6 right-pad-lg"> 
               
-              {{skill-bar level=player.leadership max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              {{skill-bar level=player.leadership max=20 height=attrBarHeight animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
               <div class="player-ui-label player-ui-attr-label ellipsis gap-lg">{{t 'player.leadership'}}</div> 
               
-              {{skill-bar level=player.experience max=20 height=attrBarHeight hasAppeared=hasAppearedBars animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
+              {{skill-bar level=player.experience max=20 height=attrBarHeight animate=animateBars numberSizeMobile="15px" barColor=traitBarColor }}
               <div class="player-ui-label player-ui-attr-label ellipsis">{{t 'player.experience'}}</div>
               
             </div>

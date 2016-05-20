@@ -1,24 +1,24 @@
 <div class="skill-bar-wrapper vc-parent {{if vertMode 'skill-bar-vert' 'row full-size'}}">
-
+  
   <div class="skill-bar-placeholder border-radius-fix col-flex">
-    <div class="skill-bar">
+    <div class="skill-bar {{colorClass}} {{animateClass}}">
       
     </div>
-    {{#if primarySkill}}
-      <div class="skill-bar-icon-inner">
-        <i></i>
-      </div>
+    {{#if iconClass}}
+    <div class="skill-bar-icon-inner">
+      <i class="{{iconClass}}"></i>
+    </div>
     {{/if}}
   </div>
 
   {{#if notVertMode}}
-  <div class="col-fixed {{if notVertMode 'skill-bar-number-col'}}">
-    <span class="skill-bar-number skill-bar-label-number {{if primarySkill 'primary-skill'}}">{{displayLevel}}</span><!--span class="skill-bar-max">/{{max}}</span-->
-  </div>
+    <div class="col-fixed skill-bar-number-col">
+      <span class="skill-bar-number skill-bar-label-number {{if primarySkill 'primary-skill'}}">{{level}}</span>
+    </div>
   {{/if}}
   
 </div>
 
 {{#if label}}
-  <div class="player-ui-label ellipsis">{{#if vertMode}}<span class="text-bigger-2x text-fat skill-bar-label-number">{{displayLevel}}</span> {{/if}}{{label}}</div>
+  <div class="player-ui-label ellipsis">{{#if vertMode}}<span class="text-bigger-2x text-fat skill-bar-label-number {{textClass}}">{{level}}</span> {{/if}}{{label}}</div>
 {{/if}}
