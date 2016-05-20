@@ -12,6 +12,12 @@ export default Ember.Component.extend({
    */
   bufferSize: 1,
   
+  /**
+   * This should be set to true from the consumer before initialisation if data needs to be loaded, this will keep infinite scroll from just showing nothing.
+   * @type {Boolean}
+   */
+  doesLoadData: false,
+  
   useContentProxy: false,
   
   onInit: Ember.on('init',function(){
@@ -20,7 +26,7 @@ export default Ember.Component.extend({
     
     // Create a fresh css pseudo rule
     Ember.Blackout.addCSSRule( vcTagName + ' .vertical-item', 'min-height: '+this.get('defaultHeight')+'px;');
-    //log('initting iscroll');
+    
     this.set('contentProxy',null);
   }),
   
@@ -40,11 +46,15 @@ export default Ember.Component.extend({
        * Switch back to original player where history is already loaded.
        * Go to history tab. History should load fine.
        */
-      Ember.run.next(()=>{
+      if(this.get('doesLoadData')){
         Ember.run.next(()=>{
-          this.set('contentProxy',this.get('content'));
+          Ember.run.next(()=>{
+            this.set('contentProxy',this.get('content'));
+          });
         });
-      });
+      } else {
+        this.set('contentProxy',this.get('content'));
+      }
     }
     
   }),

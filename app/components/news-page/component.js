@@ -47,6 +47,8 @@ export default Ember.Component.extend(NewsMixin, {
       this.set('items',items);
     }
   }),
+  
+  isLoadingData: true,
 
   fetchMoreItems() {
 
