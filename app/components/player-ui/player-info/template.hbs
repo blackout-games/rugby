@@ -79,7 +79,62 @@
   <div class="divider top-gap--md hidden-xs"></div>
   
   <div class="row">
-    <div class="col-12 {{if (and attrBarIsAtTopWhenSingleMode singleMode) 'col-last'}}">
+    <div class="col-12">
+    
+    
+      <div class="dash-box-negate-padding player-ui-infobar gap-lg">
+        
+        <div class="row">
+          <div class="col-flex">
+            
+            <div class="row">
+            
+              <div class="row col-flex">
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.age}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.years-old-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{money-ui value=player.wage}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.per-week-(wages)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.height}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.centimeters-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{player.weight}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.kilograms-(short)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.handed-(left/right)'}}</div>
+                </div>
+                
+                <div class="col-flex player-ui-infobox">
+                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
+                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.footed-(left/right)'}}</div>
+                </div>
+                
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {{#unless singleMode}}
+        <div class="divider gap-xs hidden-xs-up"></div>
+        <div class="divider gap-sm hidden-xxs"></div>
+      {{/unless}}
+      
+    </div>
+    <div class="col-12">
     
     
       {{#if singleMode}}
@@ -171,68 +226,10 @@
       {{#if singleMode}}
         <div class="divider gap-lg"></div>
       {{else}}
-        <div class="divider gap-xs hidden-xs-up"></div>
+        <div class="divider gap-sm hidden-xs-up"></div>
+        <div class="divider gap-md hidden-xxs"></div>
       {{/if}}
       
-      
-    </div>
-    <div class="col-12">
-    
-    
-      <div class="dash-box-negate-padding player-ui-infobar gap-lg">
-        
-        <div class="row">
-          <div class="col-flex">
-            
-            <div class="row">
-            
-              <div class="row col-flex">
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{player.age}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.years-old-(short)'}}</div>
-                </div>
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{money-ui value=player.wage}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.per-week-(wages)'}}</div>
-                </div>
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{player.height}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.centimeters-(short)'}}</div>
-                </div>
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{player.weight}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.kilograms-(short)'}}</div>
-                </div>
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.handed) '-(handed/footed)')}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.handed-(left/right)'}}</div>
-                </div>
-                
-                <div class="col-flex player-ui-infobox">
-                  <div class="player-ui-info-value text-center ellipsis">{{t (concat 'player.' (lowerCase player.footed) '-(handed/footed)')}}</div>
-                  <div class="player-ui-info-label text-center ellipsis">{{t 'player.footed-(left/right)'}}</div>
-                </div>
-                
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {{#if singleMode}}
-        {{#unless attrBarIsAtTopWhenSingleMode}}
-          <div class="divider gap-lg"></div>
-        {{/unless}}
-      {{else}}
-        <div class="divider gap-xs hidden-xs-up"></div>
-        <div class="divider gap-sm hidden-xxs"></div>
-      {{/if}}
       
     </div>
   </div>

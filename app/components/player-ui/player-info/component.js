@@ -5,8 +5,6 @@ export default Ember.Component.extend({
   
   isOnScreen: true,
   
-  attrBarIsAtTopWhenSingleMode: false,
-  
   donutChartOptions: Ember.computed('singleMode','media.isMobile',function(){
     
     let opts = {
