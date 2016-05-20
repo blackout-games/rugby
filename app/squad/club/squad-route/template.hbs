@@ -1,7 +1,7 @@
 <div class="has-position">
 
   <div class="text-center">
-    {{club-ui club=model.firstObject.club imageSize='medium-3x' stacked=true class="gap-4x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
+    {{club-ui club=model.firstObject.club imageSize='large' stacked=true class="gap-3x player-ui-title-club top-gap-md" text=(t 'squad.club-squad' club=model.firstObject.club.name)}}
   </div>
 
   {{component 'player-ui/export' class="player-ui-export-wrapper" squad=playersSorted }}
