@@ -80,3 +80,23 @@ $animateCSSTime: 0.777s;
     transform: translateY(-$distance*2);
   }
 }
+
+.look-at-me {
+  
+  @keyframes lookAtMe {
+    from {
+      transform: translateY(-5%);
+    }
+
+    to {
+      transform: translateY(25%);
+    }
+  }
+  
+  animation-duration: 0.5s;
+  animation-timing-function: ease(in-out-quad);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-name: lookAtMe;
+  
+}

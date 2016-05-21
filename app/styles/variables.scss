@@ -30,9 +30,12 @@ $limited-height-non-mobile: "(max-height: 700px) and (min-width: #{$screen-xs-mi
 // 496px derived from safari on iphone 5 with full menus shown
 $vertically-small: "(max-height: 496px) and #{$tablet-and-up}";
 $not-vertically-small: "(min-height: 496px), #{$mobile}";
+$vertically-small-screen: "(max-height: 500px)";
+$vertically-small-mobile: "#{$vertically-small-screen} and #{$mobile}";
+$vertically-small-mobile-tall: "#{$vertically-small-screen} and #{$mobile-tall}";
 
 // For landscape mobile
-$mobile-landscape: "(max-height: 479px) and #{$mobile}";
+$mobile-landscape: "(max-height: 479px) and #{$mobile-wide}";
 
 //$limited-height-non-mobile: "(max-width: 0)";
 //$vertically-small: "(max-width: 0)";

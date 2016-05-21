@@ -115,8 +115,6 @@ export default Ember.Component.extend({
               if(this.get('cover')){
                 $img.css({
                   'background-image': 'url('+url+')',
-                  width: this.$().width() + 'px',
-                  height: this.$().height() + 'px',
                 });
               } else {
                 $img.attr('src',url);

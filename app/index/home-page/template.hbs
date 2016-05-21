@@ -5,100 +5,105 @@
 
   {{way-point action="handleWaypoint" offset=waypointOffset id="home" contextElementId=scrollContextId class="waypoint"}}
 
-  <div id="top-section-wrapper">
+  {{#component "index/home-backgrounds" id="top-section-wrapper"}}
     
-    
-    <div id="top-section-balloon"></div>
-
-    {{#component "index/home-backgrounds" id="top-section"}}
-
-    <div class="container-fluid" style="position:relative;">
-    
-      <div class="standalone-bumper"></div>
+    <div id="top-section">
       
-      <div id="home-page-language" class="home-page-block-link">
+      <div id="top-section-balloon"></div>
+      
+      <div class="container-fluid" style="position:relative;">
+      
         <div class="standalone-bumper"></div>
-        <a {{action 'toggleSettings'}} class="btn-a white">{{locale.currentLocaleName}}</a>
-      </div>
-
-      <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}">{{t 'home-page.welcome'}}</div>
-
-      {{#if session.isAuthenticated}}
         
-        <div class="row-center">
-          <div class="col white home-welcome-back">
-            {{t 'home-page.welcome-back' manager=session.data.manager.username}}
-          </div>
+        <div id="home-page-language" class="home-page-block-link">
+          <div class="standalone-bumper"></div>
+          <a {{action 'toggleSettings'}} class="btn-a white">{{locale.currentLocaleName}}</a>
         </div>
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="row">
-              <div class="col-flex"></div>
-              <div class="col-fixed">
-                {{user-image type='manager' class='manager-avatar-home' defaultColor='dark' size='large' isCurrentUserImage=true}}
+
+        <div id="welcome" class="{{if session.isAuthenticated "gap-2x"}}">{{t 'home-page.welcome'}}</div>
+
+        {{#if session.isAuthenticated}}
+          
+          <div class="home-welcome-back-wrapper">
+            <div class="iblock home-welcome-back-inner">
+              <div class="row row-nowrap-xs row-wrap-sm">
+              
+                <div class="col-flex-xs col-last-xs col-sm-12 row-center row-left-xs">
+                  <div class="col-auto white home-welcome-back text-left-xs text-center-sm">
+                    {{t 'home-page.welcome-back' manager=session.data.manager.username}}
+                  </div>
+                </div>
+                
+                <div class="col-auto-xs col-sm-12 text-center">
+                  {{user-image type='manager' imageClass='manager-avatar-home' defaultColor='dark' size='large' isCurrentUserImage=true}}
+                </div>
+                
               </div>
-              <div class="col-flex"></div>
             </div>
           </div>
-        </div>
+          
+        {{/if}}
+
+        <div id="subtitle">{{t 'home-page.your-club-awaits'}}</div>
+
+        {{#unless session.isAuthenticated}}
         
-      {{/if}}
-
-      <div id="subtitle">{{t 'home-page.your-club-awaits'}}</div>
-
-      {{#unless session.isAuthenticated}}
-      
-        <div class="fbcontinue-container">
-          {{#loader-button action="loginWithFacebook" class="btn btn-fat btn-fb fbcontinue-button no-outline home-signup-buttons ellipsis"   spinnerColor="fb" }}
-            <i class="icon-facebook btn-fb-icon"></i> {{t 'home-page.continue-with-fb'}}{{/loader-button}}
-        </div>
-
-        <div class="signup-container">
-          {{#link-to 'signup' tagName='button' class="btn btn-fat no-outline home-signup-buttons gap-md ellipsis"}}{{t 'home-page.signup-with-email'}}{{/link-to}}
-        </div>
-        
-      {{/unless}}
-      
-      <div id="testimony-container">
-        <div id="testimony" class="row row-nowrap">
-          <div id="testimony-text" class="col-xs-9">
-            {{t 'home-page.testimony'}}
-          </div>
-          <div id="testimony-writer-container" class="col-xs-3">
-            <a href="http://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Nick+Bishop&search-alias=books&field-author=Nick+Bishop&sort=relevancerank" target="_blank">
-              <div id="testimony-writer">Nick Bishop</div>
-              <div id="testimony-type">{{t 'home-page.testimony-author'}}</div>
-            </a>
+          <div class="fbcontinue-container">
+            {{#loader-button action="loginWithFacebook" class="btn btn-fat btn-fb fbcontinue-button no-outline home-signup-buttons ellipsis"   spinnerColor="fb" }}
+              <i class="icon-facebook btn-fb-icon"></i> {{t 'home-page.continue-with-fb'}}{{/loader-button}}
           </div>
 
+          <div class="signup-container">
+            {{#link-to 'signup' tagName='button' class="btn btn-fat no-outline home-signup-buttons gap-md ellipsis"}}{{t 'home-page.signup-with-email'}}{{/link-to}}
+          </div>
+          
+        {{/unless}}
+        
+        <div id="testimony-container">
+          <div id="testimony" class="row row-nowrap">
+            <div id="testimony-text" class="col-xs-9 vc-parent">
+              <div>
+                {{t 'home-page.testimony'}}
+              </div>
+            </div>
+            <div id="testimony-writer-container" class="col-xs-3 vc-parent">
+              <div>
+                <a href="http://www.amazon.com/s/ref=dp_byline_sr_book_2?ie=UTF8&text=Nick+Bishop&search-alias=books&field-author=Nick+Bishop&sort=relevancerank" target="_blank">
+                  <div id="testimony-writer">Nick Bishop</div>
+                  <div id="testimony-type">{{t 'home-page.testimony-author'}}</div>
+                </a>
+              </div>
+            </div>
+
+          </div>
         </div>
+
       </div>
 
     </div>
-      
-      {{#fast-button action="showMenu" id="home-menu-button" class="btn nav-tab-btn nav-tab-menu no-focus" }}
-        <div class="flex-col flex-col-center">
-          <div class="nav-icon-wrapper nav-burger nav-cross">
-            <span class="lines"></span>
-          </div>
+    
+    {{#fast-button action="showMenu" id="home-menu-button" class="btn nav-tab-btn nav-tab-menu no-focus" }}
+      <div class="flex-col flex-col-center">
+        <div class="nav-icon-wrapper nav-burger nav-cross">
+          <span class="lines"></span>
         </div>
-      {{/fast-button}}
-      
-      <div id="home-more-button" class="home-page-block-link {{if session.isAuthenticated "is-authenticated"}}">
-        {{#scroll-to href='#about' class="btn-a"}}
-          <div class="iblock">
-            <div>{{t 'home-page.learn-more'}}</div>
-            <div class="text-center"><i class="icon-down-open"></i></div>
-          </div>
-        {{/scroll-to}}
       </div>
-      
-      {{#unless session.isAuthenticated}}
-        {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}{{t 'buttons.login'}}{{/link-to}}
-      {{/unless}}
-
-    {{/component}} 
-  </div>
+    {{/fast-button}}
+    
+    <div id="home-more-button" class="home-page-block-link {{if session.isAuthenticated "is-authenticated"}}">
+      {{#scroll-to href='#about' class="btn-a"}}
+        <div class="iblock">
+          <div>{{t 'home-page.learn-more'}}</div>
+          <div class="text-center"><i class="icon-down-open look-at-me"></i></div>
+        </div>
+      {{/scroll-to}}
+    </div>
+    
+    {{#unless session.isAuthenticated}}
+      {{#link-to "login" id="home-login-button" class="btn btn-ghost white on-image btn-small"}}{{t 'buttons.login'}}{{/link-to}}
+    {{/unless}}
+  
+  {{/component}} 
 
 
   {{way-point action="handleWaypoint" offset=waypointOffset id="about" contextElementId=scrollContextId class="waypoint"}}

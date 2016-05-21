@@ -31,17 +31,17 @@ export default Ember.Component.extend(Timers, {
     
     this.initBackgroundImages();
     
-    let overScroll = this.get('topSectionHeight') - $(window).height();
+    //let overScroll = this.get('topSectionHeight') - $(window).height();
     
     // For parallax
-    if(window.features.canParallax && overScroll<=5){
+    /*if(window.features.canParallax && overScroll<=5){
       
-      Ember.$('#top-section-wrapper').css('height',this.get('topSectionHeight'));
+      //Ember.$('#top-section-wrapper').css('height',this.get('topSectionHeight'));
       this.inflateBalloonBound = Ember.run.bind(this,this.inflateBalloon);
       this.get('scrollable').on('scroll',this.inflateBalloonBound);
       $(window).on('resize', this.inflateBalloonBound);
       
-    }
+    }*/
     
     
   }),
@@ -52,19 +52,19 @@ export default Ember.Component.extend(Timers, {
       $(window).off('resize', this.setSizesBound);
     }
     
-    if(this.inflateBalloonBound){
+    /*if(this.inflateBalloonBound){
       $(window).off('resize', this.inflateBalloonBound);
       this.get('scrollable').off('scroll', this.inflateBalloonBound);
-    }
+    }*/
     
     this.cancelTimers();
     
   }),
   
-  inflateBalloon() {
+  /*inflateBalloon() {
   	// Inflate balloon as we scroll
   	Ember.$('#top-section-balloon').css('height',this.get('scrollable').scrollTop()*0.4);
-  },
+  },*/
   
   setSizes() {
     
@@ -77,11 +77,17 @@ export default Ember.Component.extend(Timers, {
     var welcomeTop = Ember.$('#welcome').offset().top;
     var contentHeight = bottom - welcomeTop;
     
-    var topSectionHeight = Math.max((contentHeight + 100), $(window).height());
+    var topSectionHeight = Math.max((contentHeight + 100), $(window).innerHeight());
     this.set('topSectionHeight',topSectionHeight);
     
-    Ember.$('#top-section').css('height',topSectionHeight);
-    Ember.$('#top-section-wrapper').css('height',topSectionHeight);
+    // Max with enough room for bottom buttons
+    let limitedTopSectionHeight = Math.min(topSectionHeight, $(window).innerHeight() - 77);
+    
+    Ember.$('#top-section').css('height',limitedTopSectionHeight);
+    
+    Ember.$('#top-section-wrapper').css({
+      'height': $(window).innerHeight()+'px'
+    });
     
     var menuHeight = parseInt(Ember.$('#nav-body').css('padding-top'));
     
@@ -104,7 +110,7 @@ export default Ember.Component.extend(Timers, {
       canStart = this.backgroundsThatCanStart.indexOf(this.backgrounds[0]) >= 0;
     } while(!canStart);
     
-    this.$('#top-section').addClass( "bgstart" );
+    this.$().addClass( "bgstart" );
     
     this.updateBackgroundImage();
     
@@ -125,7 +131,7 @@ export default Ember.Component.extend(Timers, {
     var path = this.backgroundPaths[this.bgCursor];
     
     // Start with bottom visible
-    Ember.$('#top-section').addClass( "hide-top" );
+    this.$().addClass( "hide-top" );
     
     B.preloadImage(path).then(()=>{
       
@@ -134,16 +140,16 @@ export default Ember.Component.extend(Timers, {
         if( this.get('topLayerIsShowing') ){
         
           // Remove old class from bottom layer
-          Ember.$('#top-section').removeClass (function (index, css) {
+          this.$().removeClass (function (index, css) {
             return (css.match (/(^|\s)bg-bottom\S+/g) || []).join(' ');
           });
           
           // Place new image on bottom layer
-          Ember.$('#top-section').addClass( "bg-bottom" + backgrounds[this.bgCursor] );
+          this.$().addClass( "bg-bottom" + backgrounds[this.bgCursor] );
           
           // Hide top layer
-          Ember.$('#top-section').removeClass( "show-top" );
-          Ember.$('#top-section').addClass( "hide-top" );
+          this.$().removeClass( "show-top" );
+          this.$().addClass( "hide-top" );
           
           // Track
           this.set('topLayerIsShowing',false);
@@ -151,16 +157,16 @@ export default Ember.Component.extend(Timers, {
         } else { // top layer is hidden
         
           // Remove old class from top layer
-          Ember.$('#top-section').removeClass (function (index, css) {
+          this.$().removeClass (function (index, css) {
             return (css.match (/(^|\s)bg-top\S+/g) || []).join(' ');
           });
           
           // Place new image on top layer
-          Ember.$('#top-section').addClass( "bg-top" + backgrounds[this.bgCursor] );
+          this.$().addClass( "bg-top" + backgrounds[this.bgCursor] );
           
           // Show top layer
-          Ember.$('#top-section').addClass( "show-top" );
-          Ember.$('#top-section').removeClass( "hide-top" );
+          this.$().addClass( "show-top" );
+          this.$().removeClass( "hide-top" );
           
           // Track
           this.set('topLayerIsShowing',true);

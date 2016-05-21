@@ -170,7 +170,7 @@ i.text-color-teal {
 }
 
 // Green
-$hue: 88;
+$hue: $primary-hue;
 $extra-bright: -3%;
 .skill-bar-color-green {
   @include skill-bar($hue,$extra-sat,$extra-bright);

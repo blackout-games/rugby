@@ -123,6 +123,7 @@ $responsive-nav-big: $tablet-and-up;
 #top-section-wrapper {
 	position: relative;
 	overflow: hidden;
+  height:100vh;
 }
 
 #welcome {
@@ -141,13 +142,32 @@ $responsive-nav-big: $tablet-and-up;
   
   @media #{$mobile-tall} {
     font-size: 9vw; //11.0vw
-    //margin-top: 7vh;
     text-align: left;
     margin-left:9vw;
   }
-  @media #{$mobile-wide} {
-    font-size: 4.4vw; //5.9vw
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 5.5vh;
+    margin-left:11vw;
   }
+  @media #{$mobile-landscape} {
+    margin-left:0;
+    font-size: 4.8vw;
+    margin-bottom: 15px !important;
+  }
+  
+}
+
+.home-welcome-back-wrapper {
+  text-align: center;
+  @media #{$mobile-tall} {
+    text-align: left;
+    margin-left:9vw;
+  }
+  @media #{$vertically-small-mobile-tall} {
+    margin-left:11vw;
+  }
+}
+.home-welcome-back-inner {
 }
 
 .home-welcome-back {
@@ -156,10 +176,36 @@ $responsive-nav-big: $tablet-and-up;
   .home-username {
     color: $primary-master;
   }
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 4vh;
+  }
+  @media #{$mobile-landscape} {
+    font-size: 2.7vw;
+  }
 }
 
 .manager-avatar-home {
-  margin: 20px 7px 0;
+  margin: 20px 0 0;
+  @media #{$mobile} {
+    margin: 0 11px 11px 0;
+  }
+  
+  $size: 12vh;
+  $min: 44px;
+  $max: 100px;
+  
+  width:$size !important;
+  height:$size !important;
+  max-width:$max;
+  max-height:$max;
+  min-width:$min;
+  min-height:$min;
+  
+  @media #{$mobile-landscape} {
+    width:9vw !important;
+    height:9vw !important;
+  }
+  
 }
 
 #subtitle {
@@ -171,7 +217,7 @@ $responsive-nav-big: $tablet-and-up;
   font-family: $heading-font;
   font-size: 70px; // 44px
   letter-spacing: -1px;
-  
+  margin-bottom: 11px;
   
   @media #{$mobile-tall} {
     padding-top: 3.5vh;
@@ -184,6 +230,15 @@ $responsive-nav-big: $tablet-and-up;
     font-size: 9vw; //5vw
     padding-top: 0.4vh;
   }
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 9vh;
+    margin-left:11vw;
+  }
+  @media #{$mobile-landscape} {
+    font-size: 8vw;
+    margin-left:0;
+    margin-bottom: -7px;
+  }
 }
 
 #testimony-container {
@@ -193,6 +248,12 @@ $responsive-nav-big: $tablet-and-up;
     padding-right: 5vw;
     //width:94%;
     width:auto;
+  }
+  @media #{$vertically-small-mobile-tall} {
+    padding-left: 11vw;
+  }
+  @media #{$mobile-landscape} {
+    padding-left: 0;
   }
 }
 
@@ -236,10 +297,15 @@ $responsive-nav-big: $tablet-and-up;
     //width:auto;
     display: inline-block;
     vertical-align: text-top;
-    padding: 12px 10px 0px 10px;
     padding-right:20px;
     max-width:none;
     width:auto;
+  }
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 3.5vh;
+  }
+  @media #{$mobile-landscape} {
+    font-size: 2.5vw;
   }
 }
 
@@ -256,29 +322,40 @@ $responsive-nav-big: $tablet-and-up;
 #testimony-writer {
   color: $primary-on-image;
   font-size: 14px;
-  padding-top: 17px;
+  //padding-top: 17px;
   @media #{$responsive-nav-big},#{$mobile-wide} {
     display: inline-block;
-    padding-top: 14px;
+    //padding-top: 14px;
   }
   @media #{$mobile-tall} {
     font-size: 5vw;
-    padding-top: 7px;
+    //padding-top: 7px;
   }
   @media #{$mobile-wide} {
     font-size: 3vw;
+  }
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 3.2vh;
+  }
+  @media #{$mobile-landscape} {
+    font-size: 2.2vw;
   }
 }
 
 #testimony-type {
   color: $primary-master;
   font-size: 12px;
-  padding-bottom: 15px;
   @media #{$mobile-tall} {
-    font-size: 4vw;
+    font-size: 3.8vw;
   }
   @media #{$mobile-wide} {
-    font-size: 2.5vw;
+    font-size: 2.4vw;
+  }
+  @media #{$vertically-small-mobile-tall} {
+    font-size: 2.3vh;
+  }
+  @media #{$mobile-landscape} {
+    font-size: 1.7vw;
   }
 }
 

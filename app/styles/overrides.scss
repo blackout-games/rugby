@@ -480,8 +480,14 @@
   }
 }
 
+.hidden-vs {
+  @media #{$vertically-small-screen} {
+    display: none !important;
+  }
+}
+
 .visible-vs {
-  @media #{$vertically-small} {
+  @media #{$vertically-small-screen} {
     display: block !important;
   }
 }
