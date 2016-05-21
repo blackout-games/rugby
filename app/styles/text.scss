@@ -157,7 +157,7 @@ a {
   }
   
   /**
-   * on-image is for when over an image
+   * on-dark is for when over a dark image
    */
   &.btn-a.on-dark, &.btn-a.on-dark:hover {
     $color: saturate(lighten($secondary-master,27%),100%);
@@ -170,6 +170,26 @@ a {
     
     &.hover {
       color: #FFF;
+    }
+
+    &.press {
+      color: lighten($color,5%);
+    }
+  }
+  
+  /**
+   * on-light is for when over a light color, but we want a light shadow
+   */
+  &.btn-a.on-light, &.btn-a.on-light:hover {
+    &:not(.no-text-shadow){
+      text-shadow: 0 0 11px rgba($bg-dark,0.11);
+    }
+    $color: $primary-master;
+    color: $color;
+    
+    &.hover {
+      //color: lighten($color,11%);
+      color: lighten($secondary-master,11%);
     }
 
     &.press {

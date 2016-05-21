@@ -379,7 +379,7 @@
         <div class="has-position player-ui-blurb">
           <i class="icon-quote-left icon-lg icon-vcenter"></i>
           {{nl2br player.blurb}}
-          {{!#if (owned-club player.club)}<br>{{#link-to 'players.player.manage.customise' player.id class="btn-a player-ui-blurb-edit"}<i class="icon-pencil"></i>{{/link-to}{{/if}}
+          {{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a player-ui-blurb-edit on-light"}}<i class="icon-edit-circle"></i>{{/link-to}}{{/if}}
         </div>
       </div>
     
