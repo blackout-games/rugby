@@ -2099,8 +2099,14 @@ function _refreshWatchers() {
   Ember.$('.btn,.btn-a').onFirst('mouseup', _preventClickAfterDrag);
   
   // Hover
-  Ember.$('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
-  Ember.$('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
+  //Ember.$('.btn,.btn-a,.btn-events').off('mouseenter touchstart', _hover);
+  //Ember.$('.btn,.btn-a,.btn-events').on('mouseenter touchstart', _hover);
+  Ember.$('.btn,.btn-a,.btn-events').each((i,el)=>{
+    el.removeEventListener('mouseenter', _hover, true);
+    el.removeEventListener('touchstart', _hover, true);
+    el.addEventListener('mouseenter', _hover, true);
+    el.addEventListener('touchstart', _hover, true);
+  });
   
   // Fastclick (Using hammertime)
   // This is automatically added to a, button, input, etc.
@@ -2112,7 +2118,7 @@ function _refreshWatchers() {
 
   // Leave
   Ember.$('.btn,.btn-a,.btn-events').off('mouseleave touchend', _leave);
-  Ember.$('.btn,.btn-a,.btn-events').on('mouseleave touchend', _leave);
+  Ember.$('.btn,.btn-a,.btn-events').onFirst('mouseleave touchend', _leave);
   
   // Click
   Ember.$('.btn').off('click', _click);
@@ -2216,10 +2222,6 @@ function _hover (e) {
           //$('body').on('touchmove',$(this).siblings(),_move);
           
           $(this).data('isTouching',true);
-          if(ogE.isManual){
-            e.preventDefault();
-            e.stopImmediatePropagation();
-          }
         }
         
       } else {
@@ -2228,6 +2230,11 @@ function _hover (e) {
       
     } else {
       $(this).addClass('hover');
+    }
+    
+    if(ogE.isManual){
+      e.preventDefault();
+      e.stopImmediatePropagation();
     }
 
   }
