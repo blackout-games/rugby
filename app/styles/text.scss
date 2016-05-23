@@ -83,6 +83,9 @@ a {
   }
 
   &.btn-a, &.btn-a:hover {
+    
+    @include unselectable;
+    
     // Increase touch area
     display: inline-block;
     border-box: content-box;

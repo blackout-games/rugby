@@ -32,6 +32,7 @@ export default Ember.Component.extend({
         type: 'password',
         helper: t('account.password.helper'),
         valuePath: 'password',
+        gap: 'md',
       },
       {
         id: 'changePassword',

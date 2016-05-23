@@ -37,7 +37,7 @@
         
         active=(or item.visibleOnKey item.showOnLink)
         
-        class="gap-3x blackout-form-item" }}
+        class=(concat (if item.gap (concat 'gap-' item.gap) 'gap-3x') " blackout-form-item") }}
           
         <div>
           <label for="{{item.id}}">
