@@ -179,7 +179,7 @@ export default Ember.Component.extend({
   
   incrementViews: Ember.on('didReceiveAttrs',function(opts){
     
-    if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen')){
+    if(this.attrChanged(opts,'isOnScreen') && this.get('isOnScreen') && this.get('session.isAuthenticated')){
       
       // Give 30 second gap between view increments
       if(this.get('lastIncremented') < Date.now() - 30*1000){
