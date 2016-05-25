@@ -9,7 +9,7 @@
     lastReached=lastReached
     isLoadingData=isLoadingData
     doesLoadData=true
-    as |day|
+    as |day index|
   }}
     
     <div class="blackout-timeline-day">
@@ -31,11 +31,11 @@
         
           {{#if event.item}}
             
-            {{yield event.item}}
+            {{yield event.item index}}
             
           {{else}}
             
-            {{{event.event}}}
+            {{event-parser event=event.event}}
             
           {{/if}}
           

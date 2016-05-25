@@ -46,15 +46,18 @@ export function initialize( application ) {
     
   };
   
+  Ember.Blackout._startLoading = () => {
+    application.lookup('controller:application').set('loading',true);
+  };
+  Ember.Blackout._stopLoading = () => {
+    application.lookup('controller:application').set('loading',false);
+  };
+  
   /**
    * Shows loading slider
    */
   Ember.Blackout.startLoading = () => {
-    
-    Ember.run.scheduleOnce('afterRender', this, ()=>{
-      application.lookup('controller:application').set('loading',true);
-    });
-    
+    Ember.run.scheduleOnce('afterRender', this, Ember.Blackout._startLoading);
   };
   
   /**
@@ -62,7 +65,7 @@ export function initialize( application ) {
    */
   Ember.Blackout.stopLoading = ( dontHideSubNav ) => {
     
-    application.lookup('controller:application').set('loading',false);
+    Ember.run.scheduleOnce('afterRender', this, Ember.Blackout._stopLoading);
     
     if(!dontHideSubNav){
       let eventBus = application.lookup('service:event-bus');

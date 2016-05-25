@@ -78,30 +78,24 @@ export default Ember.Service.extend({
     
   },
   
+  /**
+   * Gets a manager url for a given manager
+   * ... as opposed to the manager that is logged in
+   * ... see managerImageUrl property
+   */
   getManagerUrl(opts){
     
     // Get large image url
     let url;
     if(opts.manager){
       url = opts.manager.get('imageUrl');
+      url = this.processManagerUrl(url);
     } else {
       url = this.get('managerImageURL');
     }
-    let isGravatar = url.indexOf('gravatar.com')>=0;
     
     if(opts.large){
       url = this.getLargeUrl(url);
-    }
-    
-    if(isGravatar){
-      let separator = Ember.Blackout.getSeparator(url);
-      url += separator + 'default=' + encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
-    }
-    
-    if(opts.manager){
-      // Run through cloudfront
-      // Must do this after getLargeUrl
-      url = this.getCacheUrl(url);
     }
     
     opts.isManager = true;
@@ -259,6 +253,23 @@ export default Ember.Service.extend({
     
   },
   
+  processManagerUrl(url,imageType='custom'){
+    let isGravatar = url.indexOf('gravatar.com')>=0;
+    
+    if(isGravatar){
+      let def = 'retro';
+      let separator = '?';
+      url += separator + 'default=' + def;
+    }
+    
+    if(imageType==='custom'){
+      // Run the image through cloudfront
+      url = this.getCacheUrl(url);
+    }
+    
+    return url;
+  },
+  
   /**
    * Image URL for *current* logged in manager
    */
@@ -283,10 +294,7 @@ export default Ember.Service.extend({
         }
       }
       
-      if(imageType==='custom'){
-        // Run the image through cloudfront
-        imageUrl = this.getCacheUrl(imageUrl);
-      }
+      imageUrl = this.processManagerUrl(imageUrl,imageType);
       
       if (imageUrl) {
         return imageUrl;
@@ -344,8 +352,8 @@ export default Ember.Service.extend({
     let separator = '?';
     
     if(isGravatar){
-      let def = encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
-      def = 'retro';
+      //let def = encodeURIComponent('http://dah9mm7p1hhc3.cloudfront.net/assets/images/user/manager-light-7448c6ddbacf053c2832c7e5da5f37df.png');
+      let def = 'retro';
       imageUrl += separator + 'default=' + def;
     }
     

@@ -63,6 +63,10 @@ export default Ember.Component.extend({
           
           imageUrl = this.get('userImages').registerManagerImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
           
+        } else {
+          
+          imageUrl = this.updateManagerImage(this.get('manager'));
+          
         }
         
       } else if(this.get('type')==='club'){
@@ -112,6 +116,11 @@ export default Ember.Component.extend({
       this.updateClubImage(this.get('club'));
       
     }
+    if(this.get('type')==='manager' && this.attrChanged(attrs,'manager')){
+      
+      this.updateManagerImage(this.get('manager'));
+      
+    }
   }),
   
   updateClubImage(club){
@@ -121,6 +130,17 @@ export default Ember.Component.extend({
       defaultBgColor: this.get('defaultColor'),
     };
     opts.url = this.get('userImages').getClubUrl(opts);
+    this.updateImage(opts);
+    return opts.url;
+  },
+  
+  updateManagerImage(manager){
+    let opts = {
+      manager: manager,
+      large: this.isLargeSize(this.get('size')),
+      defaultBgColor: this.get('defaultColor'),
+    };
+    opts.url = this.get('userImages').getManagerUrl(opts);
     this.updateImage(opts);
     return opts.url;
   },

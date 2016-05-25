@@ -1,27 +1,37 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  store: Ember.inject.service(),
+  
   tagName: 'a',
   attributeBindings: ['href'],
   classNames: ['btn-a'],
-  imageSize: 'medium',
   hasInit: false,
-  defaultColor: 'light',
+  fast: false,
   
-  setupAttrs: Ember.on('didReceiveAttrs',function(){
-    if(!this.get('hasInit')){
-      if(!this.get('manager') && !this.get('managerId') && !this.get('managerUsername') && this.get('session.isAuthenticated')){
-        
-        // Use current manager
-        this.set('manager',this.get('session.manager'));
-        
-      }
-      this.set('hasInit',true);
+  href: Ember.computed('item',function(){
+    
+    if(this.get('type') === 'election'){
+      
+      return 'https://www.blackoutrugby.com/game/global.lobby.php?iso=' + this.get('item.country.id') + '#page=elections&iso=' + this.get('item.country.id') + '&election=' + this.get('item.id');
+      
+    } else if(this.get('type') === 'player'){
+      
+      return 'https://www.blackoutrugby.com/game/club.squad.php#player=' + this.get('item.id');
+      
+    } else if(this.get('type') === 'youth-player'){
+      
+      return 'https://www.blackoutrugby.com/game/club.squad.youth.php#player=' + this.get('item.id');
+      
+    } else if(this.get('type') === 'country'){
+      
+      return 'https://www.blackoutrugby.com/game/global.lobby.php?iso=' + this.get('item.id');
+      
+    } else {
+      Ember.Logger.warn('Unknown type ('+this.get('type')+') in item-link.');
+      return '';
     }
-  }),
-  
-  href: Ember.computed('manager',function(){
-    return 'https://www.blackoutrugby.com/game/me.lobby.php?id=' + this.get('manager.id');
+    
   }),
   
   onInsert: Ember.on('didInsertElement',function(){
@@ -70,8 +80,8 @@ export default Ember.Component.extend({
   }),
   
   actions: {
-    getManager(manager){
-      this.set('manager',manager);
+    getItem(item){
+      this.set('item',item);
     },
   },
   

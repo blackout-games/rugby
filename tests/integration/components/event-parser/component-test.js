@@ -1,25 +1,23 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('mark-down', 'Integration | Component | mark down', {
+moduleForComponent('event-parser', 'Integration | Component | event parser', {
   integration: true
 });
 
 test('it renders', function(assert) {
-  assert.expect(2);
-
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{mark-down}}`);
+  this.render(hbs`{{event-parser}}`);
 
   assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`
-    {{#mark-down}}
+    {{#event-parser}}
       template block text
-    {{/mark-down}}
+    {{/event-parser}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');

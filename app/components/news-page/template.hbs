@@ -42,7 +42,7 @@
             {{#if article.isNewToUser}}<b>{{t 'dashboard.news.new'}}</b> &bullet;{{/if}}
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
-              {{t 'dashboard.news.by-manager' manager=(manager article.author)}}
+              {{t-t 'dashboard.news.by-manager' manager=(component 'manager-link' manager=article.author inline=true)}}
             {{/if}}
             {{#if article.country}}
               {{t 'dashboard.news.in-country' country=(country article.country class="nowrap")}}

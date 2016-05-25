@@ -38,7 +38,7 @@
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
             
-              {{t 'dashboard.news.by-manager' manager=(manager article.author)}}
+              {{t-t 'dashboard.news.by-manager' manager=(component 'manager-link' manager=article.author inline=true)}}
               
             {{/if}}
           </div>
@@ -82,7 +82,7 @@
             {{date-ui date=article.date class="news-date"}}
             {{#if article.author}}
             
-              {{t 'dashboard.news.by-manager' manager=(manager article.author)}}
+              {{t-t 'dashboard.news.by-manager' manager=(component 'manager-link' manager=article.author inline=true)}}
               
             {{/if}}
             

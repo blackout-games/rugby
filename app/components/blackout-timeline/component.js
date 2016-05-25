@@ -9,6 +9,12 @@ export default Ember.Component.extend({
   days: Ember.A(),
   
   /**
+   * Set this to true when using our own format within a loop
+   * @type {Boolean}
+   */
+  isCustom: false,
+  
+  /**
    * Start building a new days array
    */
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
@@ -83,8 +89,9 @@ export default Ember.Component.extend({
           date: event.get('date'),
         };
         
-        if(event.get('event')){
-          finalEvent.event = this.get('text').parse(event.get('event'));
+        if(event.get('event') && !this.get('isCustom')){
+          //finalEvent.event = this.get('text').parse(event.get('event'));
+          finalEvent.event = event.get('event');
         } else {
           finalEvent.item = event;
         }

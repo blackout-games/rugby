@@ -1,4 +1,4 @@
-
+$duration: 0.777s;
 
 .fade-img-default-bg {
   background-color: $placeholder-bg-color;
@@ -10,6 +10,10 @@
       background-size: cover;
     }
   }
+  &.fade-out {
+    transition: background-color $duration;
+    background-color: transparent;
+  }
 }
 
 .fade-img-not-found {
@@ -19,6 +23,11 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  opacity: 1;
+  &.fade-out {
+    transition: opacity $duration;
+    opacity: 0;
+  }
 }
 
 .fade-img-placeholder {
@@ -28,6 +37,10 @@
   width: 100%;
   height: 100%;
   z-index: 2;
+  &.fade-out {
+    transition: opacity $duration;
+    opacity: 0;
+  }
 }
 
 .fade-img {
@@ -40,7 +53,7 @@
 
 .fade-img-ready {
   opacity:0;
-  transition: opacity 0.777s;
+  transition: opacity $duration;
 }
 
 .fade-img-show {

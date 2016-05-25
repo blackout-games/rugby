@@ -13,7 +13,7 @@
         <div class="news-date gap-2x">
           {{date-ui date=model.date class="news-date"}}
           {{#if model.author}}
-            {{t 'dashboard.news.by-manager' manager=(manager model.author)}}
+            {{t-t 'dashboard.news.by-manager' manager=(component 'manager-link' manager=model.author inline=true)}}
           {{/if}}
           {{#if model.country}}
             {{t 'dashboard.news.in-country' country=(country model.country class="nowrap")}}
@@ -26,7 +26,7 @@
         
         {{/if}}
         
-        {{mark-down markdown=(readonly model.body) }}
+        {{blackout-markdown markdown=(readonly model.body) }}
         
       </article>
       

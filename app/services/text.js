@@ -1,5 +1,4 @@
 import Ember from 'ember';
-const { $ } = Ember;
 //import t from "rugby-ember/utils/translation-macro";
 
 export default Ember.Service.extend({
@@ -15,6 +14,8 @@ export default Ember.Service.extend({
     // Space out comma'd events like team training, now that we have space.
     str = str.replace(/>,</g,'>, <');
     
+    // Store components here
+    let components = Ember.Object.create();
     
     
     // -------------------------------------------- Member
@@ -22,7 +23,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<member id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      return this.decorateUsername(id);
+      let componentId = 'manager_'+id;
+      
+      components.set(componentId,{
+        name: 'manager-link',
+        hash: {
+          managerId: id,
+          inline: true,
+          defaultColor: 'light',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -32,7 +44,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<(?:team|club) id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      return this.decorateClub(id);
+      let componentId = 'club_'+id;
+      
+      components.set(componentId,{
+        name: 'club-link',
+        hash: {
+          clubId: id,
+          inline: true,
+          defaultColor: 'light',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -42,7 +65,19 @@ export default Ember.Service.extend({
     
     str = str.replace(/<natteam id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      return this.decorateClub(id,'nat');
+      let componentId = 'nat_club_'+id;
+      
+      components.set(componentId,{
+        name: 'club-link',
+        hash: {
+          clubId: id,
+          inline: true,
+          nat: true,
+          defaultColor: 'light',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -52,7 +87,19 @@ export default Ember.Service.extend({
     
     str = str.replace(/<u20team id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      return this.decorateClub(id,'u20');
+      let componentId = 'u20_club_'+id;
+      
+      components.set(componentId,{
+        name: 'club-link',
+        hash: {
+          clubId: id,
+          inline: true,
+          u20: true,
+          defaultColor: 'light',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -62,8 +109,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<player id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      let url = 'https://www.blackoutrugby.com/game/club.squad.php#player='+id;
-      return '<a href="'+url+'" class="no-hover"><i class="icon-logo icon-md icon-vcenter text-dark"></i><span class="restore-hover">'+this.getItemHtml('player',id,'name')+'</span></a>';
+      let componentId = 'player_'+id;
+      
+      components.set(componentId,{
+        name: 'item-link',
+        hash: {
+          itemId: id,
+          type: 'player',
+          iconClass: 'icon-logo icon-md',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -73,8 +130,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<youthplayer id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      let url = 'https://www.blackoutrugby.com/game/club.squad.youth.php#player='+id;
-      return '<a href="'+url+'" class="no-hover"><i class="icon-logo icon-md icon-vcenter text-dark"></i><span class="restore-hover">'+this.getItemHtml('youth-player',id,'name')+'</span></a>';
+      let componentId = 'player_'+id;
+      
+      components.set(componentId,{
+        name: 'item-link',
+        hash: {
+          itemId: id,
+          type: 'youth-player',
+          iconClass: 'icon-logo icon-md',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -84,8 +151,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<country iso=([A-Z][A-Z]) ?\/>/gi,(fullMatch, id)=>{
       
-      let url = 'https://www.blackoutrugby.com/game/global.lobby.php?iso='+id;
-      return '<a href="'+url+'" class="no-hover"><i class="icon-flag-filled icon-md icon-vcenter text-dark"></i><span class="restore-hover">'+this.getItemHtml('country',id,'name')+'</span></a>';
+      let componentId = 'country_'+id;
+      
+      components.set(componentId,{
+        name: 'item-link',
+        hash: {
+          itemId: id,
+          type: 'country',
+          iconClass: 'icon-flag-filled icon-md',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -95,7 +172,17 @@ export default Ember.Service.extend({
     
     str = str.replace(/<countrylabel iso=([A-Z][A-Z]) ?\/>/gi,(fullMatch, id)=>{
       
-      return this.getItemHtml('country',id,'name');
+      let componentId = 'country_label_'+id;
+      
+      components.set(componentId,{
+        name: 'item-ui',
+        hash: {
+          itemId: id,
+          type: 'country',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -231,8 +318,18 @@ export default Ember.Service.extend({
     
     str = str.replace(/<election id=([0-9]+) ?\/>/gi,(fullMatch, id)=>{
       
-      let url = 'https://www.blackoutrugby.com/game/global.lobby.php#page=elections&election='+id;
-      return '<a href="'+url+'" class="no-hover"><i class="icon-flag-filled icon-md icon-vcenter text-dark"></i><span class="restore-hover">'+this.getElectionHtml(id)+'</span></a>';
+      let componentId = 'election_'+id;
+      
+      components.set(componentId,{
+        name: 'item-link',
+        hash: {
+          itemId: id,
+          type: 'election',
+          iconClass: 'icon-flag-filled icon-md',
+        }
+      });
+      
+      return `{{${componentId}}}`;
       
     });
     
@@ -286,154 +383,7 @@ export default Ember.Service.extend({
     
     
     
-    return str;
-    
-  },
-  
-  
-  
-  getItemHtml(type,id,key){
-    
-    let store = this.get('store');
-    let className = 'md_'+type+'_'+String(id).alphaNumeric();
-    let wasPeeked = false;
-    
-    // Get manager
-    let html = store.findRecord(type,String(id).pkString()).then((data)=>{
-      
-      if(data){
-        let html = data.get(key);
-        
-        // Update HTML
-        $('.'+className).html(html);
-        wasPeeked = true;
-        return html;
-      } else {
-        return false;
-      }
-      
-    },()=>{});
-    
-    if(wasPeeked){
-      return html;
-    } else {
-      
-      // Return base html
-      return '<span class="'+className+'">'+(isNaN(id)?id:'')+'</span>';
-      
-    }
-    
-  },
-  
-  
-  
-  getElectionHtml(id){
-    
-    let store = this.get('store');
-    let className = 'md_election_'+String(id).alphaNumeric();
-    let wasPeeked = false;
-    
-    // Get manager
-    let html = store.findRecord('election',String(id).pkString()).then((data)=>{
-      
-      if(data){
-        let html = data.get('country.name') + ' ' + data.get('title');
-        
-        // Update HTML
-        $('.'+className).html(html);
-        wasPeeked = true;
-        return html;
-      } else {
-        return false;
-      }
-      
-    },()=>{});
-    
-    if(wasPeeked){
-      return html;
-    } else {
-      
-      // Return base html
-      return '<span class="'+className+'">'+(isNaN(id)?id:'')+'</span>';
-      
-    }
-    
-  },
-  
-  
-    
-  decorateUsername(idOrUsername) {
-    
-    let store = this.get('store');
-    let className = 'md_manager_'+String(idOrUsername).alphaNumeric();
-    let wasPeeked = false;
-    let userImages = this.get('userImages');
-    
-    // Get manager
-    let html = store.findRecord('manager',String(idOrUsername).pkString()).then((data)=>{
-      
-      if(data){
-        let html = userImages.getManagerHTML(data);
-        
-        // Update HTML
-        $('.'+className).html(html);
-        wasPeeked = true;
-        return html;
-      } else {
-        return false;
-      }
-      
-    },()=>{});
-    
-    if(wasPeeked){
-      return html;
-    } else {
-      
-      // Return base html
-      return '<span class="'+className+'">'+(isNaN(idOrUsername)?idOrUsername:'')+'</span>';
-      
-    }
-    
-  },
-    
-  decorateClub(id,natType='') {
-    
-    let store = this.get('store');
-    let className = 'md_'+natType+'club_'+String(id).alphaNumeric();
-    let wasPeeked = false;
-    let userImages = this.get('userImages');
-    let natPath = natType === 'nat' ? 'national-' : (natType === 'u20' ? 'u20-' : '');
-    print('decoratingClub');
-    // Get manager
-    let html = store.findRecord(natPath+'club',String(id).pkString()).then((data)=>{
-      
-      if(data){
-        let html;
-        if(natType){
-          html = userImages.getNationalClubHTML(data,natType);
-        } else {
-          html = userImages.getClubHTML(data);
-        }
-        //print('node',html);
-        //let node = $(html);
-        // Update HTML
-        $('.'+className).replaceWith(html);
-        wasPeeked = true;
-        return html;
-      } else {
-        return false;
-      }
-      
-    },()=>{});
-    
-    if(wasPeeked){
-      return html;
-    } else {
-      
-      // Return base html
-      return '<span class="'+className+'">'+(isNaN(id)?id:'')+'</span>';
-      
-    }
+    return { str: str, components: components };
     
   },
   

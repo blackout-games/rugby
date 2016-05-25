@@ -29,6 +29,15 @@ var blackoutComponent = {
     
   },
   
+  parseAttrHash: Ember.on('didReceiveAttrs',function(attrs){
+    if(this.attrChanged(attrs,'attrsHash')){
+      let hash = this.get('attrsHash');
+      Object.keys(hash).forEach(key=>{
+        this.set(key,hash[key]);
+      });
+    }
+  }),
+  
 };
 
 /**

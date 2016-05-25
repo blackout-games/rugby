@@ -15,6 +15,11 @@ export default Ember.Component.extend({
   text: Ember.inject.service(),
   userImages: Ember.inject.service(),
   
+  /**
+   * The store for dynamic components before being passed down to showdown with blackoutMode=true
+   */
+  components: Ember.Object.create(),
+  
   // Naked URL regex (Blackout Entertainment)
   // This regex will also match square brackets in the query section only
   // if both an opening and closing bracket appear so that we won't match
@@ -68,12 +73,32 @@ export default Ember.Component.extend({
   }),
   
   detectUsers(markdown){
-    
-    return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,( fullMatch, unquotedUsername, quotedUsername)=>{
       
-      return this.get('text').decorateUsername( unquotedUsername ? unquotedUsername : quotedUsername );
+    return markdown.replace(/@([a-zA-Z0-9\-_]+)(?=[^a-zA-Z0-9]?\s)|@[\[\('"\{]([a-zA-Z0-9\-_ ]+)[\]\)'"\}]/g,( fullMatch, unquotedUsername/*, quotedUsername*/)=>{
+      
+      return this.parseUser(unquotedUsername);
       
     });
+    
+  },
+  
+  parseUser(username){
+    
+    let componentId = 'manager_'+username.alphaNumeric();
+    let components = this.get('components');
+    
+    components.set(componentId,{
+      name: 'manager-link',
+      hash: {
+        managerUsername: username,
+        inline: true,
+        defaultColor: 'light',
+      }
+    });
+    
+    //this.set('components',components);
+    
+    return `{{${componentId}}}`;
     
   },
   
@@ -756,7 +781,7 @@ export default Ember.Component.extend({
             // Make sure username exists
             if (usernameLength > 0) {
 
-              let username = this.get('text').decorateUsername(markdown.substr(usernameStart, usernameLength));
+              let username = this.parseUser(markdown.substr(usernameStart, usernameLength));
 
               let html = '<div class="quote-header '+(!isNewQuote?'quote-extend':'')+'"><span class="quote-title">'+this.get('locale').htmlT('markdown.quoting')+'</span> <span class="quote-user">' + username + '</span></div>';
 

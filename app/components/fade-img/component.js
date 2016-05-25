@@ -132,6 +132,7 @@ export default Ember.Component.extend({
               // 'run.next' doesn't work and allows image to just appear
               Ember.run.later(()=>{ 
                 $img.addClass('fade-img-show');
+                this.fadeOutOtherImages();
                 
               },(this.get('testDelayFade') ? this.get('testDelayFade') : 111));
               
@@ -225,6 +226,16 @@ export default Ember.Component.extend({
         $img.attr('src','');
       }
       
+    }
+    
+  },
+  
+  fadeOutOtherImages(){
+    
+    let $img = this.$('.fade-img-not-found,.fade-img-placeholder');
+    if($img){
+      $img.addClass('fade-out');
+      this.$().addClass('fade-out');
     }
     
   },

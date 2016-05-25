@@ -1,6 +1,7 @@
 {{! http://showdownjs.github.io/demo/ }}
 
-{{markdown-to-html class="markdown" markdown=markdown 
+{{component 'blackout-markdown/showdown'
+  class="markdown"
   omitExtraWLInCodeBlocks=true
   ghCodeBlocks=true
   strikethrough=true
@@ -8,4 +9,9 @@
   simplifiedAutoLink=true
   tables=true
   parseImgDimensions=true
-  headerLevelStart=4}}
+  headerLevelStart=4
+  
+  blackoutMode=true
+  markdown=markdown 
+  components=components
+}}

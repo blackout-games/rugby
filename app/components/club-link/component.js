@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  store: Ember.inject.service(),
+  
   tagName: 'a',
   attributeBindings: ['href'],
   classNames: ['btn-a'],
@@ -11,18 +13,25 @@ export default Ember.Component.extend({
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){
-      if(!this.get('club') && this.get('session.isAuthenticated')){
+      if(!this.get('club') && !this.get('clubId') && this.get('session.isAuthenticated')){
         
         // Use current user club
         this.set('club',this.get('session.club'));
         
       }
+      
       this.set('hasInit',true);
     }
   }),
   
-  href: Ember.computed('club',function(){
-    return 'https://www.blackoutrugby.com/game/club.lobby.php?id=' + this.get('club.id');
+  href: Ember.computed('club','nat','u20',function(){
+    if(this.get('nat')){
+      return 'https://www.blackoutrugby.com/game/global.national.php?iso=' + this.get('club.country.id') + '&type=1';
+    } else if(this.get('u20')){
+      return 'https://www.blackoutrugby.com/game/global.national.php?iso=' + this.get('club.country.id') + '&type=2';
+    } else {
+      return 'https://www.blackoutrugby.com/game/club.lobby.php?id=' + this.get('club.id');
+    }
   }),
   
   onInsert: Ember.on('didInsertElement',function(){
@@ -52,6 +61,11 @@ export default Ember.Component.extend({
       
       this.$().on('click',(e)=>{
         
+        // Left mouse button only
+        if(e.which!==1){
+          return;
+        }
+        
         if(this.get('action')){
           this.sendAction();
           e.preventDefault();
@@ -64,5 +78,11 @@ export default Ember.Component.extend({
     }
     
   }),
+  
+  actions: {
+    getClub(club){
+      this.set('club',club);
+    },
+  },
   
 });
