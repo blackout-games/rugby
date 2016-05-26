@@ -7,7 +7,8 @@ export default Ember.Component.extend({
   onInsert: Ember.on('didInsertElement',function(){
     
     this.$().css({
-      'padding-right': this.get('outerPaddingSides')+'px',
+      // Don't add anything here or else it messes with the position of the original button content
+      //'padding': this.get('outerPaddingSides')+'px',
     });
     
     Ember.run.scheduleOnce('afterRender', this, ()=>{

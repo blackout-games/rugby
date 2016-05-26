@@ -1,5 +1,6 @@
 .action-box {
   position:relative;
+  display:inline-block;
   z-index:0;
 }
 
@@ -187,6 +188,23 @@ $opacity: 0.33;
 }
 
 /**
+ * Angle panel flow
+ */
+
+.action-box.top-left .action-box-angle-panel {
+  transform: skewX($global-angle);
+}
+.action-box.top-right .action-box-angle-panel {
+  transform: skewX(-$global-angle);
+}
+.action-box.bottom-left .action-box-angle-panel {
+  transform: skewX(-$global-angle);
+}
+.action-box.bottom-right .action-box-angle-panel {
+  transform: skewX($global-angle);
+}
+
+/**
  * Panels general
  */
 
@@ -209,9 +227,8 @@ $opacity: 0.33;
 }
 
 .action-box-angle-panel {
-  width:20px;
+  width:24px;
   height:100%;
-  transform: skewX(-$global-angle);
   z-index: 0;
   margin: 0 -11px;
   border-top-right-radius: $border-radius;

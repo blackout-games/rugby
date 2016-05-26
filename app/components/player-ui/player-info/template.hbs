@@ -53,6 +53,7 @@
         </div>
         
       </div>
+      
       <div class="col-flex text-center center-parent player-ui-csr-wrapper">
         <div class="{{if flatCSR 'row row-center'}}">
           <div class="divider gap-xs hidden-xs"></div>
@@ -68,6 +69,17 @@
           {{/if}}
         </div>
       </div>
+      
+      {{#if (not-eq player.jersey 255)}}
+      <div class="col-auto center-parent">
+        <div class="player-ui-jersey squad">
+          <i class="icon-jersey"></i>
+          <div class="number">
+            {{player.jersey}}
+          </div>
+        </div>
+      </div>
+      {{/if}}
     </div>
     
   </div>
@@ -142,7 +154,7 @@
         {{#if player.isInjured}}
           
           <div class="color-bg-text error dark full text-center gap-md">
-            <i class="icon-medkit icon-xl icon-vcenter injury-color player-ui-icon"></i> {{t-t 'player.injured' date=(component 'date-ui' date=player.injury initial='fullDateShort' alt='gameDateShort')}}
+          <i class="icon-medkit icon-xl icon-vcenter injury-color player-ui-icon"></i> {{t-t 'player.injured' date=(component 'date-ui' date=player.injury initial='fullDateShort' alt='gameDateShort' class="nowrap")}}
           </div>
           
         {{/if}}

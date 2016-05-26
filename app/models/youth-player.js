@@ -18,5 +18,6 @@ export default DS.Model.extend(Validations,{
     return `${this.get('firstName')} ${this.get('lastName')}`;
   }),
   nickname: DS.attr(),
+  jersey: DS.attr('number'),
   club: DS.belongsTo('club'),
 });

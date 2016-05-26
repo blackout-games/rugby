@@ -105,6 +105,9 @@ export default Ember.Component.extend({
       } else {
         this.set('value',val);
       }
+      if(this.attrs.onChanged && typeof this.attrs.onChanged === 'function'){
+        this.attrs.onChanged(val);
+      }
     },
   },
   

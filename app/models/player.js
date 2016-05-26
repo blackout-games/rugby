@@ -51,6 +51,7 @@ export default DS.Model.extend(Validations,{
   nickname: DS.attr(),
   blurb: DS.attr(),
   club: DS.belongsTo('club'),
+  jersey: DS.attr('number'),
   nationality: DS.belongsTo('country',{ async: false}),
   dualNationality: DS.belongsTo('country',{ async: false}),
   transfer: DS.belongsTo('transfer'),

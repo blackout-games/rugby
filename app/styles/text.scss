@@ -141,6 +141,16 @@ a {
     &.press {
       color: rgba(#FFF, 0.5);
     }
+    
+    &.go-green {
+      &.hover {
+        color: $primary-on-dark;
+      }
+
+      &.press {
+        color: pressColor($primary-on-dark);
+      }
+    }
   }
   
   /**

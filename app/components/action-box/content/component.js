@@ -5,11 +5,12 @@ export default Ember.Component.extend({
   classNames: ['action-box-content'],
   
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
-    if(this.attrChanged(attrs,'button') && this.get('button')){
+    if((this.attrChanged(attrs,'isShowing') && this.get('isShowing')) || this.attrChanged(attrs,'button') && this.get('button')){
       
       Ember.run.scheduleOnce('afterRender', this, ()=>{
         
-        let w = this.get('button').outerWidth(true);
+        let sides = this.get('outerPaddingSides');
+        let w = this.get('button').outerWidth(true) + sides;
         let h = this.get('button').outerHeight(true);
         let offset = this.get('buttonHeightOffset');
         if(isNaN(offset)){ offset=0; }
@@ -30,7 +31,7 @@ export default Ember.Component.extend({
     let sides = this.get('outerPaddingSides');
     
     this.$().css({
-      margin: `-${top}px 0px 0px -${sides}px`,
+      margin: `-${top}px -${sides}px 0px -${sides}px`,
     });
     
   }),

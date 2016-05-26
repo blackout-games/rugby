@@ -1,0 +1,17 @@
+{{#action-box flowFrom="topLeft" buttonClass='white go-green player-ui-jersey-button' buttonHeightOffset=0 as |box|}}
+
+  {{#box.button class="player-ui-jersey-number"}}
+    {{#if (not-eq player.jersey 255)}}
+      {{player.jersey}}
+    {{else}}
+      <i class="icon-pencil"></i>
+    {{/if}}
+  {{/box.button}}
+  
+  {{#box.content}}
+    
+    {{component 'player-ui/jersey/form' player=player squad=squad onUpdate=box.close}}
+    
+  {{/box.content}}
+  
+{{/action-box}}

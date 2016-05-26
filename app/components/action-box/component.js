@@ -19,7 +19,7 @@ export default Ember.Component.extend({
    * @type {Number}
    */
   outerPaddingTop: 5,
-  outerPaddingSides: 7,
+  outerPaddingSides: 10,
   
   classNames: ['action-box'],
   classNameBindings: ['topLeft','topRight','bottomLeft','bottomRight'],
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
       return;
     }
     
-    let panelsSelector = '.action-box-button-panel, .action-box-content-panel, .action-box-button' + (_this.get('ignore') ? ','+_this.get('ignore') : '');
+    let panelsSelector = '.action-box-button-panel, .action-box-content-panel, .action-box-button,.bs-options' + (_this.get('ignore') ? ','+_this.get('ignore') : '');
     //let $panels = _this.$(panelsSelector);
     
     if(!Ember.$(e.target).hasParent(panelsSelector)){
@@ -73,6 +73,9 @@ export default Ember.Component.extend({
   actions: {
     getButton($el){
       this.set('button',$el);
+    },
+    hide(){
+      this.send('toggle','hide');
     },
     toggle(force){
       
@@ -119,7 +122,24 @@ export default Ember.Component.extend({
       // Get index
       this.set('domIndex',this.$().index());
       this.set('domParent',this.$().parent());
+      
+      this.set('domStyles',this.$().attr("style"));
+      this.set('buttonStyles',this.$('.action-box-button a').attr("style"));
       this.set('isGlobal',true);
+      
+      // Save box styles on element itself
+      let stylesToSave = ['line-height','height'];
+      let styles = window.getComputedStyle(this.$()[0]);
+      stylesToSave.forEach((propName)=>{
+        this.$().css(propName,styles.getPropertyValue(propName));
+      });
+      
+      // Save button styles on element itself
+      stylesToSave = ['font-family','font-weight','color','font-size','text-transform','top','left','right','bottom','padding-left','padding-right','padding-bottom','padding-top','margin-left','margin-right','margin-bottom','margin-top','line-height'];
+      styles = window.getComputedStyle(this.$('.action-box-button a')[0]);
+      stylesToSave.forEach((propName)=>{
+        this.$('.action-box-button').css(propName,styles.getPropertyValue(propName));
+      });
       
       Ember.$('body').append(this.$());
       
@@ -138,6 +158,8 @@ export default Ember.Component.extend({
     // Get index
     let index = this.get('domIndex');
     let $parent = this.get('domParent');
+    let styles = this.get('domStyles');
+    let buttonStyles = this.get('buttonStyles');
     
     $parent.insertAt(index,this.$());
     
@@ -147,6 +169,8 @@ export default Ember.Component.extend({
       top: '',
     });
     
+    this.$().attr("style", styles ? styles : '');
+    this.$('.action-box-button a').attr("style", buttonStyles ? buttonStyles : '');
     this.set('isGlobal',false);
     
   },

@@ -37,6 +37,9 @@ export default Ember.Route.extend({
       
       Ember.Blackout.longLoader();
       
+      // Load up-to-date squad in background
+      this.get('store').query('player',query);
+      
       return squad;
       
     } else {

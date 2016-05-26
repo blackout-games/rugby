@@ -27,14 +27,24 @@ export default Ember.Component.extend(PreventBodyScroll,{
   }),
   
   cleanup: Ember.on('willDestroyElement',function(){
-    this.cleanupListeners();
+    this.cleanupOptionsEvents();
+    this.cleanupEvents();
     this.cleanupReferences();
   }),
   
-  handleAttrChanges: Ember.on('didUpdateAttrs',function(o){
+  handleAttrChanges: Ember.on('didUpdateAttrs',function(attrs){
     
-    if(this.attrChanged(o,'disabled')){
+    if(this.attrChanged(attrs,'disabled')){
       this.updateState();
+    }
+    if(this.attrChanged(attrs,'options')){
+      Ember.run.next(()=>{
+        this.buildOptions();
+        this.changeOption();
+      });
+    }
+    if(this.attrChanged(attrs,'selected')){
+      this.changeOption();
     }
     
   }),
@@ -62,6 +72,68 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this.updateState();
   },
   
+  buildOptions(){
+    
+    let $sel = this.$('select'),
+      options='',
+      $options,
+      $newSel = this.get('$newSel'),
+      $placeholder = this.get('$placeholder'),
+      $scroller = this.get('$scroller');
+      
+    $sel.find('option').each((index,opt) => {
+      if( $sel.prop('disabled') ) { return; }
+      options += this.buildOption($(opt));
+    });
+    
+    if(!this.get('$options')){
+      
+      // --------------- First time build
+      
+      $options = $('<div class="bs-options bs-options-ready" aria-hidden="true"><ul>' + options + '</ul></div>');
+      
+      $newSel.append($options);
+      this.set('$options',$options);
+      
+      // Insert normal scroll component
+      let $optionsList = $newSel.find('ul');
+      $scroller.append($optionsList);
+      $options.append($scroller);
+      
+    } else {
+      
+      // --------------- Rebuild
+      
+      this.cleanupOptionsEvents();
+      $options = this.get('$options');
+      let $optionItems = $options.find('li');
+      $optionItems.remove();
+      $optionItems = $(options);
+      $scroller.find('ul').append($optionItems);
+      
+      this.refreshWatchers();
+      
+    }
+    
+    this.initOptionsEvents();
+    
+    // Figure out width based on widest option
+    // Add ready class to ensure display is not none
+    $options.css('width','auto').addClass('bs-options-ready');
+    let $firstOption = $options.find('li').first();
+    let selectWidth = 'auto';
+    let updateWidths = (optionsWidth)=>{
+      selectWidth = (optionsWidth+55)+'px';
+      $placeholder.css('width',selectWidth);
+      $options.removeClass('bs-options-ready').css('width',selectWidth);
+    };
+    if($firstOption.length){
+      let optionsWidth = $firstOption.outerWidth();
+      updateWidths(optionsWidth);
+    }
+    
+  },
+  
   buildElement(){
     
     let $sel = this.$('select'),
@@ -73,8 +145,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
       options += this.buildOption($(opt));
     } );
     
-    let $options = $('<div class="bs-options bs-options-ready" aria-hidden="true"><ul>' + options + '</ul></div>');
-    
     let $placeholder = $('<span class="bs-placeholder" aria-hidden="true"><span class="bs-placeholder-text"></span><span class="bs-dropdown center-parent"><i class="icon-select icon-smd"></i></span>');
     
     let $newSel = $('<div class="bs-container no-webkit-highlight'+disabledClass+'"></div>');
@@ -83,57 +153,88 @@ export default Ember.Component.extend(PreventBodyScroll,{
     $sel.prop('className','');
     
     // Temporary DOM insert to get sizes
-    $newSel.append($placeholder).append($options);
+    $newSel.append($placeholder);
     $('body').append($newSel);
     
     // Save for later use
     this.set('$newSel',$newSel);
-    this.set('$options',$options);
+    this.set('$placeholder',$placeholder);
+    this.set('$scroller',this.$('.bs-options-scroller'));
+    
+    this.buildOptions();
     
     this.initEvents();
-    
-    // Figure out width based on widest option
-    let $firstOption = $newSel.find('li').first();
-    let selectWidth = 'auto';
-    if($firstOption.length){
-      let optionsWidth = $firstOption.outerWidth();
-      selectWidth = (optionsWidth+55)+'px';
-    }
-    $placeholder.css('width',selectWidth);
-    $newSel.find('.bs-options').removeClass('bs-options-ready').css('width',selectWidth);
     
     // Insert DOM
     $newSel.insertAfter( $sel );
     $newSel.append( $sel );
     
-    // Insert normal scroll component
-    let $scroller = this.$('.bs-options-scroller');
-    let $optionsList = this.$('ul');
-    $scroller.append($optionsList);
-    $options.append($scroller);
-    
     // Hide real select element but make sure it's still accessible by screen readers
     $sel.addClass('hidden-but-accessible');
+    this.refreshWatchers();
+    
+  },
+  
+  refreshWatchers(){
     
     // Fastclick (Using hammertime)
-    Ember.Blackout.makeFastClick($newSel);
+    Ember.Blackout.makeFastClick(this.get('$newSel'));
     Ember.Blackout.refreshHoverWatchers();
     
-    $options.find('li').each((i,option)=>{
+    this.get('$options').find('li').each((i,option)=>{
       // Fastclick (Using hammertime)
       Ember.Blackout.makeFastClick(this.$(option));
     });
+    
   },
   
   buildOption($opt){
     return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + ' class="bs-option btn-a' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
   },
   
+  optionClick(e){
+    if(this.changeOption($(e.currentTarget))){
+      // Ensure select elem is open
+      this._log('toggleSelect via clicking on an option');
+      this.toggleSelect('close');
+      this.addFocus();
+    }
+    e.stopPropagation();
+  },
+  
+  initOptionsEvents() {
+    
+    let $options = this.get('$options');
+    
+    this.set('clearActiveOptionBound',Ember.run.bind(this,this.clearActiveOption));
+    this.set('optionClickBound',Ember.run.bind(this,this.optionClick));
+    
+    // Reset selected option on mouse enter
+    $options.find('ul').on('mouseenter touchstart',this.get('clearActiveOptionBound'));
+
+    // Clicking the options
+    $options.find('.bs-option').each( (key,opt) => {
+      $(opt).on( 'click', this.get('optionClickBound'));
+    });
+    
+  },
+  
+  cleanupOptionsEvents(){
+    let $options = this.$('options');
+    
+    $options.find('ul').off('hover touchstart',this.get('clearActiveOptionBound'));
+    this.set('clearActiveOptionBound',false);
+
+    // Clicking the options
+    $options.find('.bs-option').each( (key,opt) => {
+      $(opt).off( 'click', this.get('optionClickBound'));
+    });
+  },
+  
   initEvents() {
     
     let $sel = this.$('select');
     let $newSel = this.get('$newSel');
-    let $options = this.get('$options');
     
     // Create bound functions
     if(!this.get('docClickBound')){
@@ -142,7 +243,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
       this.set('removeFocusBound',Ember.run.bind(this,this.removeFocus));
       this.set('trackBlurTargetBound',Ember.run.bind(this,this.trackBlurTarget));
       this.set('untrackBlurTargetBound',Ember.run.bind(this,this.untrackBlurTarget));
-      this.set('clearActiveOptionBound',Ember.run.bind(this,this.clearActiveOption));
     }
     
     // Focus/blur
@@ -167,19 +267,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
       e.stopPropagation();
     });
 
-    // Clicking the options
-    $newSel.find('.bs-option').each( (key,opt) => {
-      $(opt).on( 'click', (e) => {
-        if(this.changeOption($(opt))){
-          // Ensure select elem is open
-          this._log('toggleSelect via clicking on an option');
-          this.toggleSelect('close');
-          this.addFocus();
-        }
-        e.stopPropagation();
-      });
-    });
-
     // Clicking the original select
     $sel.on( 'click', (e) => {
       e.stopPropagation();
@@ -193,9 +280,6 @@ export default Ember.Component.extend(PreventBodyScroll,{
         }
       });
     });
-    
-    // Reset selected option on mouse enter
-    $options.find('ul').on('mouseenter touchstart',this.get('clearActiveOptionBound'));
 
     // Close the select element if the target it´s not the select element or one of its descendants
     $('body')[0].addEventListener("mousedown", this.get('docClickBound'), true);
@@ -269,12 +353,11 @@ export default Ember.Component.extend(PreventBodyScroll,{
     this._log('added listeners');
   },
   
-  cleanupListeners(){
+  cleanupEvents(){
     
     if(this.get('docClickBound')){
       
       let $sel = this.$('select');
-      let $options = this.$('options');
       
       $("body")[0].removeEventListener("mousedown", this.get('docClickBound'), true);
       $("body")[0].removeEventListener("touchstart", this.get('docClickBound'), true);
@@ -284,14 +367,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
       $sel.off( 'blur', this.get('removeFocusBound'));
       $(document).off('mousedown touchstart',this.get('trackBlurTargetBound'));
       $(document).off('mouseup touchend',this.get('untrackBlurTargetBound'));
-      $options.find('ul').off('hover touchstart',this.get('clearActiveOptionBound'));
       
       this.set('docClickBound',false);
       this.set('addFocusBound',false);
       this.set('removeFocusBound',false);
       this.set('trackBlurTargetBound',false);
       this.set('untrackBlurTargetBound',false);
-      this.set('clearActiveOptionBound',false);
       
       this._log('cleaned up listeners');
       
@@ -303,6 +384,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     this.set('$newSel',null);
     this.set('$options',null);
+    this.set('$placeholder',null);
+    this.set('$scroller',null);
     this.set('$currentOption',null);
     
   },

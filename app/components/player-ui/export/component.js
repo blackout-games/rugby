@@ -204,6 +204,13 @@ export default Ember.Component.extend({
     // ------------------------------ Name
     
     text += p.get('name');
+    
+    // ------------------------------ Name
+    
+    if(p.get('jersey')!==255){
+      text += pipe;
+      text += '#' + p.get('jersey');
+    }
     text += nl;
     text += nl;
     

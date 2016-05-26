@@ -22,7 +22,7 @@
           
           {{#blackout-select
             id=(readonly inputId)
-            classes=(concat inputClass ' form-control')
+            classes=(concat inputClass ' form-control' (if onDark ' on-dark'))
             selected=value
             onChange=(action 'onChange')
             onFocus=(action 'onFocus')

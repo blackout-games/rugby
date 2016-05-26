@@ -11,7 +11,14 @@
     
     <div class="row row-flex">
       <div class="col-xs-12 {{if flatTitleMode 'col-flex-md pad-right-md'}}  center-parent">
-        <div class="player-avatar player-avatar-single"></div>
+        <div class="player-avatar player-avatar-single">
+          <div class="player-ui-jersey player">
+            <i class="icon-jersey"></i>
+            <div class="number">
+              {{component 'player-ui/jersey' player=player squad=squad }}
+            </div>
+          </div>
+        </div>
       </div>
       
       <div class="gap-sm {{if flatTitleMode 'hidden-md-up'}} divider"></div>
