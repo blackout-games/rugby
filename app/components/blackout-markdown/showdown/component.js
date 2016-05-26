@@ -46,7 +46,7 @@ export default Showdown.extend({
       }
       
     });
-    print('parts',parts);
+    //print('parts',parts);
     return parts;
     
   }),
