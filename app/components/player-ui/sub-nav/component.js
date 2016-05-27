@@ -71,6 +71,10 @@ export default Ember.Component.extend({
         value: 'lastName',
       },
       {
+        label: t('player.jersey'),
+        value: 'jersey',
+      },
+      {
         label: t('player.csr'),
         value: 'csr',
       },

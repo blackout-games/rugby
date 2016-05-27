@@ -650,6 +650,10 @@ table .player-ui-value {
     }
   }
   
+  i.icon-jersey {
+    color: $bg-dark-lighter;
+  }
+  
   &.squad {
     position: relative;
     width:50px;
