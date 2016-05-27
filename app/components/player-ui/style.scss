@@ -644,15 +644,16 @@ table .player-ui-value {
     text-align: center;
     left:0;
     
-    top:0px;
+    top:3px;
     @media #{$tablet-and-up} {
-      top:3px;
+      top:5px;
     }
   }
   
   &.squad {
     position: relative;
     width:50px;
+    top:3px;
     left: -5px;
     @media #{$tablet-and-up} {
       width:70px;
