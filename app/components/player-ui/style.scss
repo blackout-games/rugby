@@ -731,11 +731,12 @@ table .player-ui-value {
       //text-shadow: 0 0 9px black;
       //text-shadow: 0 1px 0px $bg-light-darker-4x !important;
       //text-shadow: 0 1px 0px $secondary-master !important;
-      //text-shadow: 0 1px 0px $bg-dark !important;
+      text-shadow: 0 1px 0px saturate(lighten($primary-master,10%),30%) !important;
+      //text-shadow: 0 1px 0px white !important;
       transition: color 0.150s ease(out-quad);
       color: $bg-light-darker-3x;
-      color: saturate(darken($bg-light-darker-3x,7%),44%);
-      //color: $primary-master;
+      color: saturate(darken($bg-light-darker-3x,11%),27%);
+      color: $primary-master;
     }
     
     left:-20px;
@@ -752,7 +753,7 @@ table .player-ui-value {
       font-weight: 900;
       color: $bg-light-darker-3x;
       color: $bg-dark-lighter;
-      color: $bg-dark;
+      //color: $bg-dark;
       
       font-size: 13px;
       top:5px;

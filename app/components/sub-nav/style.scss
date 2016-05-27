@@ -85,7 +85,7 @@ $animation-time: $nav-animation-time;
     }
     
     color: lighten(desaturate($color,22%),11%);
-    padding:8px 25px 7px;
+    padding:8px 25px 7px 29px;
     font-size:14px;
     &.press,&.hover {
       //color: white;
