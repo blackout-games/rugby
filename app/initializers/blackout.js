@@ -1901,7 +1901,7 @@ Array.prototype.remove = function() {
  * the mousedown event would hit items underneath the touch blocker).
  */
 
-let _preventMouseDown,_preventMouseUp,_touchMoved,_waitingForClick,_stopNextClick,_stopNextFastClick;
+let _preventMouseDown,_preventMouseUp,_touchMoved,_waitingForClick,_stopNextClick,_stopNextFastClick,_isFastClicking;
 let forceFastClick = window.os.touchOS || window.browsers.standalone;
 
 
@@ -1909,7 +1909,9 @@ document.documentElement.addEventListener('touchstart', function(){
   _preventMouseDown = true;
   _preventMouseUp = true;
   _touchMoved = false;
-  _stopNextClick = false;
+  if(!_isFastClicking){
+    _stopNextClick = false;
+  }
 }, true);
 
 document.documentElement.addEventListener('touchmove', function(){
@@ -1979,13 +1981,16 @@ if(forceFastClick){
     if(e.originalEvent){
       e = e.originalEvent;
     }
+    
     _stopNextClick = false;
     
     if(!_touchMoved && !e.isManual){
       _stopNextFastClick = false;
       if(_touchElement===e.target){
         _stopNextClick = true;
+        _isFastClicking = true;
         window.setTimeout(()=>{
+          _isFastClicking = false;
           if(!_stopNextFastClick){
             let ogStopper = _stopNextClick;
             _stopNextClick = false;

@@ -13,16 +13,22 @@
 }
 
 .bs-focus {
-  @include form-focus-glow();
-  &:active {
-    @extend .btn:active:focus;
+  &:not(.bs-custom) {
+    @include form-focus-glow();
+    &:active {
+      @extend .btn:active:focus;
+    }
+    
+    &.on-dark {
+      @include form-focus-glow-on-dark();
+      &:active {
+        @extend .btn-on-dark:active:focus;
+      }
+    }
   }
   
-  &.on-dark {
-    @include form-focus-glow-on-dark();
-    &:active {
-      @extend .btn-on-dark:active:focus;
-    }
+  &.bs-custom {
+    text-shadow: $form-focus-glow-shadow-on-dark;
   }
 }
 
@@ -32,16 +38,19 @@
 // The new select element player holder
 .bs-placeholder,.bs-placeholder:hover {
   box-sizing: border-box;
-  //cursor:default !important;
-  padding-right:50px;
-  overflow:hidden;
+  display: inline-block;
   position:relative;
+  overflow:hidden;
+  //cursor:default !important;
   
-  height:40px;
+  &:not(.bs-custom) {
+    padding-right:50px;
+    height:40px;
   
-  font-size: 16px;
-  @media #{$mobile} {
-    font-size: 15px;
+    font-size: 16px;
+    @media #{$mobile} {
+      font-size: 15px;
+    }
   }
   
 }

@@ -6,8 +6,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   // State
   disabled: false,
-  selected: null, // An object from 'options' attr
+  selected: null, // A value from an item in the 'options' attr
   classNames: ['bs-wrapper'],
+  
+  selectedItem: Ember.computed('selected',function(){
+    return this.get('options') ? this.get('options').findBy('value',this.get('selected')) : null;
+  }),
   
   // Prevent body scroll
   preventBodyScrollSelectors: ['.bs-options-scroller'],
@@ -15,7 +19,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   
   // Helps when debugging issues
   _log(){
-    //log.apply( this, arguments );
+    //console.log( arguments );
   },
   
   setup: Ember.on('didInsertElement',function(){
@@ -124,7 +128,9 @@ export default Ember.Component.extend(PreventBodyScroll,{
     let selectWidth = 'auto';
     let updateWidths = (optionsWidth)=>{
       selectWidth = (optionsWidth+55)+'px';
-      $placeholder.css('width',selectWidth);
+      if(!this.get('customPlaceholder')){
+        $placeholder.css('width',selectWidth);
+      }
       $options.removeClass('bs-options-ready').css('width',selectWidth);
     };
     if($firstOption.length){
@@ -145,11 +151,17 @@ export default Ember.Component.extend(PreventBodyScroll,{
       options += this.buildOption($(opt));
     } );
     
-    let $placeholder = $('<span class="bs-placeholder" aria-hidden="true"><span class="bs-placeholder-text"></span><span class="bs-dropdown center-parent"><i class="icon-select icon-smd"></i></span>');
     
-    let $newSel = $('<div class="bs-container no-webkit-highlight'+disabledClass+'"></div>');
-    $placeholder.addClass($sel.prop('className'));
+    let $placeholder;
+    if(this.get('customPlaceholder')){
+      $placeholder = $('<span class="bs-placeholder bs-custom btn-a" aria-hidden="true"><span class="bs-placeholder-text"></span></span>');
+    } else {
+      $placeholder = $('<span class="bs-placeholder" aria-hidden="true"><span class="bs-placeholder-text"></span><span class="bs-dropdown center-parent"><i class="icon-select icon-smd"></i></span>');
+      $placeholder.addClass($sel.prop('className'));
+    }
     $placeholder.addClass(this.get('classes'));
+    
+    let $newSel = $('<div class="bs-container '+disabledClass+'"></div>');
     $sel.prop('className','');
     
     // Temporary DOM insert to get sizes
@@ -189,7 +201,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
   },
   
   buildOption($opt){
-    return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + ' class="bs-option btn-a' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
+    return '<li data-value="' + $opt.val() + '"' + ($opt.prop('disabled')?' data-disabled="disabled"':'') + ' class="bs-option btn-events' + ($opt.prop('disabled')?' disabled':'') + '"><span>' + $opt.text() + '</span></li>';
   },
   
   optionClick(e){
@@ -423,14 +435,13 @@ export default Ember.Component.extend(PreventBodyScroll,{
   toggleSelect(force,manual){
     
     let $newSel = this.get('$newSel');
+    let $options = this.get('$options');
     
     if( force === 'close' || (force !== 'open' && this.isOpen()) ) {
       
       // ------------- Close
       
       this._log('select closed');
-      
-      let $options = this.get('$options');
       
       if(this.isOpen()){
         
@@ -448,6 +459,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
           }
           
         });
+        
+        if(this.attrs.onClose && typeof this.attrs.onClose === 'function'){
+          this.attrs.onClose();
+        }
       }
       
       // Must happen after check isOpen()
@@ -491,6 +506,8 @@ export default Ember.Component.extend(PreventBodyScroll,{
       
       // Get position of select within scrollable
       let pos = this.$().positionRelativeTo($scrollable);
+      let xMiddle = pos.left + this.$().outerWidth()*0.5;
+      pos.leftCenter = xMiddle - $options.outerWidth()*0.5;
       
       // Get distance to top of screen
       let screenPos = this.$().offsetWindow();
@@ -509,7 +526,7 @@ export default Ember.Component.extend(PreventBodyScroll,{
       }
       
       // Give padding
-      let padding = 15;
+      let padding = 22;
       distBottom = distBottom - padding;
       distTop = distTop - padding;
       
@@ -530,6 +547,12 @@ export default Ember.Component.extend(PreventBodyScroll,{
         optsHeight = distTop;
         scrollToBottom = true;
         
+        // A bit more distance for custom
+        if(this.get('customPlaceholder')){
+          top -= 7;
+          optsHeight -= 7;
+        }
+        
       } else {
         
         // Below
@@ -537,23 +560,29 @@ export default Ember.Component.extend(PreventBodyScroll,{
         aboveOrBelow = 'bs-options-below';
         optsHeight = distBottom;
         
+        // A bit more distance for custom
+        if(this.get('customPlaceholder')){
+          top += 7;
+          optsHeight -= 7;
+        }
+        
       }
       
       // Not too high
       if(optsHeight > screenHeight*0.5){
         let minHeight = Math.min(300,optsHeight);
-        optsHeight = Math.max(minHeight,screenHeight*0.5);
+        optsHeight = Math.min(optsHeight,Math.max(minHeight,screenHeight*0.8));
       }
       
       // Position and show options
-      this.get('$options').removeClass('bs-options-ready bs-options-above bs-options-below').addClass('bs-options-active '+aboveOrBelow).appendTo($scrollable).css({
+      $options.removeClass('bs-options-ready bs-options-above bs-options-below').addClass('bs-options-active '+aboveOrBelow).appendTo($scrollable).css({
         top: top,
-        left: pos.left,
+        left: pos.leftCenter,
         'max-height': optsHeight,
       });
       
       // Set height of scroller
-      this.get('$options').find('.bs-options-scroller').css({
+      $options.find('.bs-options-scroller').css({
         'max-height': optsHeight,
       });
       
@@ -578,6 +607,10 @@ export default Ember.Component.extend(PreventBodyScroll,{
         if(!window.os.touchOS){
           this.$('select').focus();
         }
+      }
+      
+      if(this.attrs.onOpen && typeof this.attrs.onOpen === 'function'){
+        this.attrs.onOpen();
       }
       
     }
@@ -628,11 +661,17 @@ export default Ember.Component.extend(PreventBodyScroll,{
     
     }
     
+    let currentOption = this.get('options')[$opt.index()];
+    
     // Set the current option
     this.set('$currentOption',$opt);
     
     // Update placeholder text
-    this.$('.bs-placeholder-text').text($opt.text());
+    if(this.get('customPlaceholder')){
+      this.$('.bs-placeholder-text').html(this.attrs.customPlaceholder(currentOption));
+    } else {
+      this.$('.bs-placeholder-text').text($opt.text());
+    }
     
     // Select the option
     $opt.addClass('bs-option-focus');

@@ -54,6 +54,9 @@ b, strong {
 }
 
 $default-link-color: darken($primary-master, 11%);
+$initial-border: 2px solid rgba(darken($primary-master, 11%),0);
+$hover-border: rgba(darken($primary-master, 11%), 0.7);
+$hover-transition: border-color $hover-animation-time, color $hover-animation-time;
 
 a {
   cursor: pointer;
@@ -63,10 +66,6 @@ a {
   &:visited {
     color: $default-link-color;
   }
-  
-  $initial-border: 2px solid rgba(darken($primary-master, 11%),0);
-  $hover-border: rgba(darken($primary-master, 11%), 0.7);
-  $hover-transition: border-color $hover-animation-time, color $hover-animation-time;
   
   transition: $hover-transition;
   border-bottom: $initial-border;
@@ -80,171 +79,6 @@ a {
   
   &.a-no-underline:hover {
     border-color: rgba(darken($primary-master, 11%),0);
-  }
-
-  &.btn-a, &.btn-a:hover {
-    
-    @include unselectable;
-    
-    // Increase touch area
-    display: inline-block;
-    border-box: content-box;
-    padding: 3px 7px;
-    margin: -3px -7px;
-    color: $default-link-color;
-    text-decoration: none;
-    border-bottom: none;
-    
-    /**
-     * For CHILDREN of the btn-a element
-     */
-    .btn-a-hover {
-      color: $default-link-color;
-      border-bottom: $initial-border;
-      transition: $hover-transition;
-    }
-
-    &.hover {
-      color: saturate(lighten($default-link-color, 11%), 11%);
-      text-decoration: none;
-      .btn-a-hover {
-        color: $default-link-color;
-        border-color: $hover-border;
-      }
-    }
-
-    &.press {
-      color: rgba($default-link-color, 0.5);
-      text-decoration: none;
-    }
-    
-    /**
-     * Disable hover on anchor
-     */
-    &.no-hover {
-      border-bottom: none;
-    }
-    
-    &.no-hover:hover {
-      border-bottom: none;
-      text-decoration: none;
-    }
-  }
-
-  &.btn-a.white, &.btn-a.white:hover {
-    color: #FFF;
-
-    &.hover {
-      color: rgba(#FFF, 0.59);
-    }
-
-    &.press {
-      color: rgba(#FFF, 0.5);
-    }
-    
-    &.go-green {
-      &.hover {
-        color: $primary-on-dark;
-      }
-
-      &.press {
-        color: pressColor($primary-on-dark);
-      }
-    }
-  }
-  
-  /**
-   * dark-on-dark is for when over a dark background,
-   * but normal color is darkish too
-   */
-  &.btn-a.dark-on-dark, &.btn-a.dark-on-dark:hover {
-    $color: desaturate(darken($secondary-master,9%),22%);
-    
-    color: $color;
-    
-    &:hover,&:active {
-      color: $primary-on-dark;
-      border: none;
-    }
-    
-  }
-  
-  /**
-   * on-dark is for when over a dark image
-   */
-  &.btn-a.on-dark, &.btn-a.on-dark:hover {
-    $color: saturate(lighten($secondary-master,27%),100%);
-    $color: $primary-on-dark;
-    color: $color;
-    
-    &:not(.no-text-shadow){
-      text-shadow: 0 0 22px rgba(black,0.88);
-    }
-    
-    &.hover {
-      color: #FFF;
-    }
-
-    &.press {
-      color: lighten($color,5%);
-    }
-  }
-  
-  /**
-   * on-light is for when over a light color, but we want a light shadow
-   */
-  &.btn-a.on-light, &.btn-a.on-light:hover {
-    &:not(.no-text-shadow){
-      text-shadow: 0 0 11px rgba($bg-dark,0.11);
-    }
-    $color: $primary-master;
-    color: $color;
-    
-    &.hover {
-      //color: lighten($color,11%);
-      color: lighten($secondary-master,11%);
-    }
-
-    &.press {
-      color: lighten($color,5%);
-    }
-  }
-  
-  /**
-   * on-panel is for when on the dark menu panel but when hovering, doesn't go primary, just lighter
-   */
-  &.btn-a.activatable, &.btn-a.activatable:hover {
-    
-    $color: desaturate(darken($secondary-master,9%),22%);
-    
-    color:$color;
-    
-    &.hover {
-      color:lighten($color,11%);
-    }
-    
-    &.active, &.active:hover {
-      color:$primary-master;
-      text-shadow: 0 0 11px rgba(lighten($primary-master,17%),0.27);
-    }
-    
-    &.secondary {
-      
-      $color: $secondary-on-dark;
-      
-      //color:$color;
-      
-      &.hover {
-        //color:lighten($color,11%);
-      }
-      
-      &.active, &.active:hover {
-        color:$color;
-        text-shadow: 0 0 11px rgba(lighten($color,22%),0.22);
-      }
-      
-    }
-    
   }
 
   &:active, &:focus {
@@ -282,6 +116,191 @@ a {
     color: darken($primary-master, 11%);
     text-decoration: none;
     border-color: $hover-border;
+  }
+  
+}
+
+.btn-a {
+
+  &, &:hover {
+    
+    @include unselectable;
+    @include no-focus;
+    
+    // Increase touch area
+    display: inline-block;
+    border-box: content-box;
+    padding: 3px 7px;
+    margin: -3px -7px;
+    color: $default-link-color;
+    text-decoration: none;
+    border-bottom: none;
+    transition: $hover-transition;
+    
+    /**
+     * For CHILDREN of the btn-a element
+     */
+    .btn-a-hover {
+      color: $default-link-color;
+      border-bottom: $initial-border;
+      transition: $hover-transition;
+    }
+
+    &.hover {
+      color: saturate(lighten($default-link-color, 11%), 11%);
+      text-decoration: none;
+      .btn-a-hover {
+        color: $default-link-color;
+        border-color: $hover-border;
+      }
+      
+      /**
+       * Disable hover on anchor
+       */
+      &.no-hover {
+        border-bottom: none;
+        color: $default-link-color;
+        text-decoration: none;
+      }
+    }
+
+    &.press {
+      color: rgba($default-link-color, 0.5);
+      text-decoration: none;
+    }
+    
+    /**
+     * Disable hover on anchor
+     */
+    &.no-hover {
+      border-bottom: none;
+    }
+    
+    &.no-hover:hover {
+      color: $default-link-color;
+      border-bottom: none;
+      text-decoration: none;
+    }
+  }
+
+  &.white, &.white:hover {
+    color: white;
+
+    &.hover {
+      color: rgba(white, 0.59);
+    }
+
+    &.press {
+      color: rgba(white, 0.5);
+    }
+    
+    &.go-green {
+      &.hover {
+        color: $primary-on-dark;
+      }
+
+      &.press {
+        color: pressColor($primary-on-dark);
+      }
+    }
+    
+    &.no-hover:hover, &.no-hover.hover {
+      color: white;
+    }
+  }
+  
+  /**
+   * dark-on-dark is for when over a dark background,
+   * but normal color is darkish too
+   */
+  &.dark-on-dark, &.dark-on-dark:hover {
+    $color: desaturate(darken($secondary-master,9%),22%);
+    
+    color: $color;
+    
+    &:hover,&:active {
+      color: $primary-on-dark;
+      border: none;
+    }
+    
+  }
+  
+  /**
+   * on-dark is for when over a dark image
+   */
+  &.on-dark, &.on-dark:hover {
+    $color: saturate(lighten($secondary-master,27%),100%);
+    $color: $primary-on-dark;
+    color: $color;
+    
+    &:not(.no-text-shadow){
+      text-shadow: 0 0 22px rgba(black,0.88);
+    }
+    
+    &.hover {
+      color: #FFF;
+    }
+
+    &.press {
+      color: lighten($color,5%);
+    }
+  }
+  
+  /**
+   * on-light is for when over a light color, but we want a light shadow
+   */
+  &.on-light, &.on-light:hover {
+    &:not(.no-text-shadow){
+      text-shadow: 0 0 11px rgba($bg-dark,0.11);
+    }
+    $color: $primary-master;
+    color: $color;
+    
+    &.hover {
+      //color: lighten($color,11%);
+      color: lighten($secondary-master,11%);
+    }
+
+    &.press {
+      color: lighten($color,5%);
+    }
+  }
+  
+  /**
+   * on-panel is for when on the dark menu panel but when hovering, doesn't go primary, just lighter
+   */
+  &.activatable, &.activatable:hover {
+    
+    $color: desaturate(darken($secondary-master,9%),22%);
+    
+    color:$color;
+    
+    &.hover {
+      color:lighten($color,11%);
+    }
+    
+    &.active, &.active:hover {
+      color:$primary-master;
+      text-shadow: 0 0 11px rgba(lighten($primary-master,17%),0.27);
+    }
+    
+    &.secondary {
+      
+      $color: $secondary-on-dark;
+      
+      //color:$color;
+      
+      &.hover {
+        //color:lighten($color,11%);
+      }
+      
+      &.active, &.active:hover {
+        color:$color;
+        text-shadow: 0 0 11px rgba(lighten($color,22%),0.22);
+      }
+      
+    }
+    
   }
   
 }

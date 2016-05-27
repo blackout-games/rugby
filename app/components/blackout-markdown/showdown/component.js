@@ -105,7 +105,7 @@ export default Showdown.extend({
     }
 
     var source = this.get('markdown') || '';
-    return new Ember.Handlebars.SafeString(this.converter.makeHtml(source));
+    return Ember.String.htmlSafe(this.converter.makeHtml(source));
   })*/
   
 });

@@ -602,13 +602,6 @@ table .player-ui-value {
   }
 }
 
-.player-ui-jersey-button {
-  &, &:hover {
-    padding: 7px 10px 17px !important;
-    margin: -7px -10px -17px !important;
-  }
-}
-
 .player-ui-jersey-number {
   font-family: $heading-font;
   font-weight: 900;
@@ -624,6 +617,18 @@ table .player-ui-value {
       font-size: 14px;
     }
   }
+  &, &:hover {
+    padding: 7px 11px 17px !important;
+    margin: -7px -11px -17px !important;
+  }
+}
+
+.player-ui-jersey-option {
+  color: $bg-dark-lighter-5x;
+  font-weight: 900;
+  font-family: $heading-font;
+  font-size: 1.1em;
+  margin-right:5px;
 }
 
 .player-ui-jersey {
@@ -687,6 +692,10 @@ table .player-ui-value {
       display: inline-block;
       text-shadow: 0 0 9px black;
       text-shadow: 0 2px 0px $bg-light-darker-4x;
+      transition: color 0.150s ease(out-quad);
+      &.hover {
+        color: $primary-master;
+      }
     }
     
     bottom:9px;
@@ -702,6 +711,12 @@ table .player-ui-value {
       @media #{$tablet-and-up} {
         top:-4px;
       }
+    }
+  }
+  
+  &.active {
+    i.icon-jersey {
+      color: $primary-master;
     }
   }
   
