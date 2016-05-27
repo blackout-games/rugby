@@ -36,8 +36,17 @@
       <a class="menu-link nowrap btn-a {{if (eq player.id currentPlayer.id) " selected"}}" id="sub-menu-link-{{player.id}}">
         <div class="row row-nowrap">
         
-          <div class="col-auto opacity-4">
-            <div class="player-avatar player-avatar-sub-nav"></div>
+          <div class="col-auto">
+            <div class="player-avatar player-avatar-sub-nav">
+              {{#if (not-eq player.jersey 255)}}
+                <div class="player-ui-jersey sub-nav">
+                  <i class="icon-jersey"></i>
+                  <div class="number">
+                    {{player.jersey}}
+                  </div>
+                </div>
+              {{/if}}
+            </div>
           </div>
           
           <div class="col-flex vc-parent right-gap-lg ellipsis">
