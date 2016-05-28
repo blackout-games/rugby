@@ -43,19 +43,22 @@
 
 
 {{#if (and canWithdraw (not transfer.deadlinePassed))}}
-  <div class="gap-sm">
-    {{#confirm-button class="btn-big" clickAction=(action 'withdrawPlayer') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.withdraw-player-message' }}{{t 'player.for-sale.withdraw'}}{{/confirm-button}}
+  <div class="row row-nowrap gap-sm">
+    <div class="col-auto">
+      {{#confirm-button class="btn-big right-gap-sm" clickAction=(action 'withdrawPlayer') isOnScreen=(readonly isOnScreen) fullWidth=false hideSiblingsOnConfirm='.withdraw-player-message' hideOnConfirm='#withdrawColumn' }}{{t 'player.for-sale.withdraw'}}{{/confirm-button}}
+    </div>
+    <div class="col-flex vc-parent" id="withdrawColumn">
+      {{t-t 'player.for-sale.withdraw-deadline'
+        date=(component 'date-ui'
+          date=withdrawDeadline
+          initial="calendar"
+          alt="fullDate"
+          class="text-bold"
+      )}}
+    </div>
   </div>
   {{error-ui error=withdrawError}}
-  <div class="gap-2x">
-    {{t-t 'player.for-sale.withdraw-deadline'
-      date=(component 'date-ui'
-        date=withdrawDeadline
-        initial="calendar"
-        alt="fullDate"
-        class="text-bold"
-    )}}
-  </div>
+  <div class="divider gap-md"></div>
 {{/if}}
 
 {{#if (and (owned-club player.club) (not transfer.deadlinePassed))}}

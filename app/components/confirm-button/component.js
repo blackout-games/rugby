@@ -255,6 +255,11 @@ export default Ember.Component.extend({
           this.$().siblings(siblings).fadeOut('222','easeOutExpo');
         }
         
+        let hideOnConfirm = this.get('hideOnConfirm');
+        if( hideOnConfirm ){
+          Ember.$(hideOnConfirm).fadeOut('222','easeOutExpo');
+        }
+        
       }
     },
     onYes(){
@@ -320,6 +325,11 @@ export default Ember.Component.extend({
       let siblings = this.get('hideSiblingsOnConfirm');
       if( siblings ){
         this.$().siblings(siblings).fadeIn('222','easeOutExpo');
+      }
+      
+      let hideOnConfirm = this.get('hideOnConfirm');
+      if( hideOnConfirm ){
+        Ember.$(hideOnConfirm).fadeIn('222','easeOutExpo');
       }
       
     }
