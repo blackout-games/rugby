@@ -33,7 +33,7 @@ $animation-time: $nav-animation-time;
     height:100vh;
     left:100%;
     
-    transition: transform $animation-time;
+    transition: transform $animation-time ease(out-expo);
     
     &.open {
       transform: translateX(-($max-panel-width + $sub-panel-mod));
@@ -61,7 +61,7 @@ $animation-time: $nav-animation-time;
   @media #{$desktop} {
     
     @if $sub-nav-on-left {
-      transition: transform $animation-time;
+      transition: transform $animation-time ease(out-expo);
       &.game-nav-open {
         transform: translateX($max-panel-width - $max-block-size);
       }
@@ -134,7 +134,7 @@ $animation-time: $nav-animation-time;
   pointer-events: none;
   display:none;
   &.ready {
-    transition: opacity $animation-time;
+    transition: opacity $animation-time ease(out-expo);
     display:block;
     opacity: 0;
     pointer-events: none;

@@ -19,12 +19,13 @@ $full-real-estate-on-mobile: true;
 $float-buttons-hug-side: true;
 
 
-$nav-animation-time: 0.333s;
+$nav-animation-time: 0.5s;
 $animation-time: $nav-animation-time;
 $topbar-height: 59px;
 $tabbar-height: 50px;
 $min-tabbar-height: 44px;
 $panel-width: 88vw;
+//ease(out-expo): ease(out-expo);
 
 // Fluid
 $max-panel-width: 333px;
@@ -166,7 +167,7 @@ $selected-arrow-pokes-out: 7px;
   background-color: rgba(black,0.444);
   display:none;
   &.ready {
-    transition: opacity $animation-time;
+    transition: opacity $animation-time ease(out-expo);
     display:block;
     opacity: 0;
     pointer-events: none;
@@ -220,7 +221,7 @@ $selected-arrow-pokes-out: 7px;
       }
     }
     &.force-transition {
-      transition: margin-left $animation-time;
+      transition: margin-left $animation-time ease(out-expo);
     }
   
   }
@@ -271,7 +272,7 @@ $selected-arrow-pokes-out: 7px;
   &.allow-blur {
     // Blur
     @media #{$nav-md-down} {
-      transition: filter $animation-time;
+      transition: filter $animation-time ease(out-expo);
       &.open {
         filter: blur(10px);
       }
@@ -419,7 +420,7 @@ body.free{
     height:100%;
     left:0;
     top:101vh;
-    transition: transform $animation-time;
+    transition: transform $animation-time ease(out-expo);
 
     &.open {
       transform: translateY(-101vh);
@@ -535,7 +536,7 @@ body.free{
   background-color: rgba($panel-color,0.95);
   background-color: $panel-color;
 
-  transition: transform $animation-time;
+  transition: transform $animation-time ease(out-expo);
 
   /**
    * For small and medium, panel starts at right edge of sidebar
@@ -567,7 +568,7 @@ body.free{
   }
 
   &.force-transition {
-    transition: transform $animation-time;
+    transition: transform $animation-time ease(out-expo);
   }
   &.resizing {
     transition: none;
