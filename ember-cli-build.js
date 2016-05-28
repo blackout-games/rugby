@@ -101,6 +101,11 @@ module.exports = function(defaults) {
    * Clipboard.js
    */
   app.import('bower_components/clipboard/dist/clipboard.js');
+  
+  /**
+   * File Saver
+   */
+  app.import('bower_components/file-saver/FileSaver.js');
 
 
   return app.toTree();

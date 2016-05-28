@@ -136,6 +136,14 @@ export default Ember.Component.extend({
           if(!this.get('isDestroyed')){
             this.$().addClass('unsucceed');
             this.$().off(Ember.Blackout.afterCSSTransition,this.afterSucceed).one(Ember.Blackout.afterCSSTransition,this,this.afterSucceed);
+            
+            // Safetynet for firefox
+            let laterId = Ember.run.later(()=>{
+              this.$().off(Ember.Blackout.afterCSSTransition);
+              this.set('laterId',false);
+              this.afterSucceed({ data: this });
+            },250);
+            this.set('laterId',laterId);
           }
         }
       },1777);
@@ -147,6 +155,13 @@ export default Ember.Component.extend({
   
   afterSucceed(e){
     let _this = e.data;
+    
+    let laterId = _this.get('laterId');
+    if(laterId){
+      Ember.run.cancel(laterId);
+      _this.set('laterId',false);
+    }
+    
     if(!_this.get('isDestroyed')){
       Ember.run.later(()=>{
         if(!_this.get('isDestroyed')){

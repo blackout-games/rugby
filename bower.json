@@ -17,6 +17,7 @@
     "dom-ruler": "0.1.13",
     "animation-frame": "~0.2.4",
     "clipboard": "^1.5.10",
-    "chartjs": "1.0.2"
+    "chartjs": "1.0.2",
+    "file-saver": "^1.2.2"
   }
 }

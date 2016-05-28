@@ -1,7 +1,7 @@
 {{#action-box flowFrom="topRight" buttonClass='on-dark' buttonHeightOffset=-5 ignore='.player-export-float-window' as |box|}}
 
   {{#box.button class="player-ui-export"}}
-    <span class="ellipsis"><span class="hidden-xxs">{{t 'buttons.export'}}</span> <i class="icon-export-alt icon-lg icon-vcenter icon-less-width gap-sm"></i></span>
+    <span class="nowrap"><span class="hidden-xxs">{{t 'buttons.export'}}</span> <i class="icon-export-alt icon-lg icon-vcenter icon-less-width gap-sm"></i></span>
   {{/box.button}}
   
   {{#box.content}}
@@ -11,7 +11,7 @@
     </h6>
     <div class="nowrap gap-lg">
       
-      {{#loader-button clickAction=(action 'downloadPlaintext') class="btn btn-right-gap" disabled=true}}
+      {{#loader-button clickAction=(action 'downloadPlaintext') class="btn btn-right-gap"}}
         {{t 'buttons.download'}}
       {{/loader-button}}
       
@@ -26,16 +26,15 @@
     </h6>
     <div class="nowrap">
       
-      {{#loader-button clickAction=(action 'downloadCSV') class="btn btn-right-gap" disabled=true}}
+      {{#loader-button clickAction=(action 'downloadCSV') class="btn btn-right-gap"}}
         {{t 'buttons.download'}}
       {{/loader-button}}
       
-      {{#loader-button clickAction=(action 'copyCSV') class="btn" disabled=true}}
+      {{#loader-button clickAction=(action 'copyCSV') class="btn"}}
         {{t 'buttons.copy-to-clipboard'}}
       {{/loader-button}}
       
     </div>
-    <div class="helper-text">{{t 'coming-soon.title'}}</div>
     
   {{/box.content}}
   

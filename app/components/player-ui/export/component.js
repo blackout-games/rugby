@@ -35,21 +35,36 @@ export default Ember.Component.extend({
   showingClipboardBox: false,
   
   actions: {
-    downloadPlaintext(){
-      //log('download plain');
+    downloadPlaintext(button){
+      let fileName;
+      if(this.get('player')){
+        fileName = this.get('player.name').replace(' ','-')+'.txt';
+      } else {
+        fileName = this.get('squad.firstObject.club.name').replace(' ','-')+'.txt';
+      }
       let text = this.generatePlaintext();
-      this.saveFile(this.get('player.name').replace(' ','-')+'.txt',text);
+      this.saveFile(fileName,text,false,button);
     },
     copyPlaintext(button){
       let text = this.generatePlaintext();
       //print(text);
       this.copyToClipboard(text,button);
     },
-    downloadCSV(){
+    downloadCSV(button){
+      let csv = this.generateCSV();
       //log('download CSV');
+      let fileName;
+      if(this.get('player')){
+        fileName = this.get('player.name').replace(' ','-')+'.csv';
+      } else {
+        fileName = this.get('squad.firstObject.club.name').replace(' ','-')+'.csv';
+      }
+      this.saveFile(fileName,csv,true,button);
     },
-    copyCSV(){
-      //log('copy CSV');
+    copyCSV(button){
+      let csv = this.generateCSV();
+      print(csv);
+      this.copyToClipboard(csv,button);
     },
     showClipboardBox(button,text){
       if(!this.get('clipboardBoxForm')){
@@ -134,18 +149,47 @@ export default Ember.Component.extend({
     
   },
   
-  saveFile(filename,text){
+  saveFile(filename,text,isCSV,button){
     
-    var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
+    let isFileSaverSupported;
+    try {
+      isFileSaverSupported = !!new window.Blob();
+    } catch (e) {}
+    
+    if(window.browsers.safari||window.os.iOS){
+      isFileSaverSupported = false;
+    }
+    
+    if(isFileSaverSupported){
+      
+      button.succeed();
+      
+      let type;
+      if(isCSV){
+        type = "text/csv;charset=utf-8";
+      } else {
+        type = "text/plain;charset=utf-8";
+      }
+      
+      var blob = new Blob([text], {type: type});
+      window.saveAs(blob, filename);
+      
+    } else {
+      
+      let http = 'https://www.';
+      let url = http+'blackoutrugby.com/file.php';
+      
+      // Post text to server
+      Ember.$.post( url, { text: text } ).done((data)=>{
+        
+        // Get text as file from server
+        window.location = http+'blackoutrugby.com/file.php?token=' + data + '&type=' + (isCSV?'csv':'text') + '&filename=' + filename;
+        
+        button.succeed();
+        
+      });
+      
+    }
     
   },
   
@@ -205,7 +249,7 @@ export default Ember.Component.extend({
     
     text += p.get('name');
     
-    // ------------------------------ Name
+    // ------------------------------ Jersey
     
     if(p.get('jersey')!==255){
       text += pipe;
@@ -324,6 +368,206 @@ export default Ember.Component.extend({
     
     return text;
     
-  }
+  },
+  
+  generateCSV(){
+    
+    let text = '';
+    let i18n = this.get('i18n');
+    let nl = "\n";
+    let c = ',';
+    
+    // ------------------------------ Headers
+    
+    text += i18n.t('misc.name').toString();
+    text += c;
+    text += i18n.t('player.jersey').toString();
+    text += c;
+    text += i18n.t('player.csr').toString();
+    text += c;
+    text += i18n.t('player.csr-change').toString();
+    text += c;
+    text += i18n.t('player.age').toString();
+    text += c;
+    text += i18n.t('player.birthday').toString();
+    text += c;
+    text += i18n.t('player.height').toString();
+    text += c;
+    text += i18n.t('player.weight').toString();
+    text += c;
+    text += i18n.t('player.handed-(left/right)').toString().ucFirst();
+    text += c;
+    text += i18n.t('player.footed-(left/right)').toString().ucFirst();
+    text += c;
+    text += i18n.t('player.salary').toString();
+    text += c;
+    text += i18n.t('player.nationality').toString();
+    text += c;
+    text += i18n.t('player.dual-nationality').toString();
+    text += c;
+    text += i18n.t('player.form').toString();
+    text += c;
+    text += i18n.t('player.energy').toString();
+    text += c;
+    text += i18n.t('player.aggression').toString();
+    text += c;
+    text += i18n.t('player.leadership').toString();
+    text += c;
+    text += i18n.t('player.discipline').toString();
+    text += c;
+    text += i18n.t('player.experience').toString();
+    text += c;
+    text += i18n.t('player.stamina').toString();
+    text += c;
+    text += i18n.t('player.handling').toString();
+    text += c;
+    text += i18n.t('player.attack').toString();
+    text += c;
+    text += i18n.t('player.defence').toString();
+    text += c;
+    text += i18n.t('player.technique').toString();
+    text += c;
+    text += i18n.t('player.strength').toString();
+    text += c;
+    text += i18n.t('player.jumping').toString();
+    text += c;
+    text += i18n.t('player.speed').toString();
+    text += c;
+    text += i18n.t('player.agility').toString();
+    text += c;
+    text += i18n.t('player.kicking').toString();
+    
+    text += nl;
+    
+    if(this.get('player')){
+      text += this.generatePlayerCSV(this.get('player'));
+    } else if(this.get('squad')){
+      this.get('squad').forEach((player,i)=>{
+        text += this.generatePlayerCSV(player);
+        if((i+1)<this.get('squad').length){
+          text += "\n";
+        }
+      });
+    }
+    
+    return text;
+    
+  },
+  
+  generatePlayerCSV(player){
+    
+    let text = '';
+    let c = ',';
+    let i18n = this.get('i18n');
+    let p = player;
+    
+    // ------------------------------ Name
+    
+    text += p.get('name');
+    
+    // ------------------------------ Jersey
+    
+    text += c;
+    text += p.get('jersey');
+    
+    // ------------------------------ CSR
+    
+    text += c;
+    text += p.get('csr');
+    
+    if(p.get('csrChange')){
+      text += c;
+      text += p.get('csrChange');
+    }
+    
+    // ------------------------------ Age
+    
+    text += c;
+    text += p.get('age');
+    
+    // ------------------------------ Birthday
+    
+    text += c;
+    text += i18n.t('player.birth-round-and-day-(short)', {round: p.get('birthRound'), day: p.get('birthDay')});
+    
+    // ------------------------------ Height
+    
+    text += c;
+    text += p.get('height');
+    
+    // ------------------------------ Weight
+    
+    text += c;
+    text += p.get('weight');
+    
+    // ------------------------------ Handed
+    
+    text += c;
+    text += p.get('handed');
+    
+    // ------------------------------ Footed
+    
+    text += c;
+    text += p.get('footed');
+    
+    // ------------------------------ Salary
+    
+    text += c;
+    text += '$' + p.get('salary');
+    
+    // ------------------------------ Nationality
+    
+    text += c;
+    text += p.get('nationality.name');
+    text += c;
+    text += p.get('dualNationality') ? p.get('dualNationality.name') : '';
+    
+    // ------------------------------ Form
+    
+    text += c;
+    text += p.get('form') + '%';
+    
+    // ------------------------------ Energy
+    
+    text += c;
+    text += p.get('energy') + '%';
+    
+    // ------------------------------ Traits
+    
+    text += c;
+    text += p.get('aggression');
+    text += c;
+    text += p.get('leadership');
+    text += c;
+    text += p.get('discipline');
+    text += c;
+    text += p.get('experience');
+    
+    // ------------------------------ Skills
+    
+    text += c;
+    text += p.get('stamina');
+    text += c;
+    text += p.get('handling');
+    text += c;
+    text += p.get('attack');
+    text += c;
+    text += p.get('defence');
+    text += c;
+    text += p.get('technique');
+    text += c;
+    text += p.get('strength');
+    text += c;
+    text += p.get('jumping');
+    text += c;
+    text += p.get('speed');
+    text += c;
+    text += p.get('agility');
+    text += c;
+    text += p.get('kicking');
+    
+    return text;
+    
+  },
   
 });
