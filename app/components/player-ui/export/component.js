@@ -468,7 +468,7 @@ export default Ember.Component.extend({
     // ------------------------------ Jersey
     
     text += c;
-    text += p.get('jersey');
+    text += p.get('jersey')===255 ? '' : p.get('jersey');
     
     // ------------------------------ CSR
     
