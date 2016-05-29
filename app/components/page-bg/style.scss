@@ -55,7 +55,7 @@
       }
     }
     &.force-transition {
-      transition: width $animation-time;
+      transition: width $animation-time ease(out-expo);
     }
   
   }
