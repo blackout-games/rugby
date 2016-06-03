@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   preferences: Ember.inject.service(),
   user: Ember.inject.service(),
   tagName: 'span',
+  classNames: ['iblock'],
   
   /**
    * e.g. manager, club, or empty for custom
@@ -24,36 +25,54 @@ export default Ember.Component.extend({
   
   /**
    * The image URL
+   * This is only required for custom images when type is not specified
+   */
+  url: null,
+  
+  /**
+   * The placeholder image URL
    * This is set automatically for special types (managers, clubs)
    */
-  imageUrl: null,
+  placeholderUrl: null,
   
-  imageClasses: ['user-image'],
+  imageWrapperClasses: ['user-image'],
+  imageClasses: ['user-image-direct'],
   
   onInit: Ember.on('init',function(){
     
     /**
      * Not sure why ember doesn't reset component properties sometimes.
      */
-    this.set('imageClasses',['user-image']);
+    this.set('imageWrapperClasses',['user-image']);
+    this.resetMe();
     
   }),
   
-  addImageClass(className){
-    let imageClasses = this.get('imageClasses');
-    imageClasses.pushObject(className);
-    imageClasses = imageClasses.uniq();
-    this.set('imageClasses',imageClasses);
+  resetMe(){
+    this.set('model',Ember.Object.create());
   },
   
-  setup: Ember.on('didInsertElement',function(){
+  addImageClass(className){
+    let imageWrapperClasses = this.get('imageWrapperClasses');
+    imageWrapperClasses.pushObject(className);
+    imageWrapperClasses = imageWrapperClasses.uniq();
+    this.set('imageWrapperClasses',imageWrapperClasses);
+  },
+  
+  onReceive: Ember.on('didReceiveAttrs',function(attrs){
     
-    Ember.run.scheduleOnce('afterRender', this, ()=>{
-      
-      this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
+    if(this.attrChanged(attrs,'incomingWrapperClass') && this.get('incomingWrapperClass')){
+      // Run next to avoid reset
+      Ember.run.next(()=>{
+        this.get('incomingWrapperClass').split(' ').forEach(className=>{
+          this.addImageClass(className);
+        });
+      });
+    }
+    
+    if(this.attrChanged(attrs,'type')){
       
       let imageUrl;
-      
       let updateImage = Ember.run.bind(this,this.updateImage);
       
       // Check for special cases
@@ -81,25 +100,47 @@ export default Ember.Component.extend({
           
         }
         
-      } else {
-        
-        // TODO: support custom images
-        log('Attempted to register custom image in user-image component');
-        //this.get('userImages').registerImage();
-        
       }
       
       // Save image URL for use with editor
       this.set('modelImageUrl',imageUrl);
       
-      // Move classes
-      let classes = this.$()[0].className.split(/\s+/);
-      Ember.$.each(classes,(i,className)=>{
-        if(className!=='ember-view'){
-          this.addImageClass(className);
-          this.$().removeClass(className);
-        }
-      });
+    }
+    
+    if(!this.get('type') && this.attrChanged(attrs,'url')){
+      
+      this.resetMe();
+      this.updateCustomImage(this.get('url'));
+      
+      // Save image URL for use with editor
+      this.set('modelImageUrl',this.get('url'));
+      
+    }
+    
+    if(!this.get('type') || this.get('type')==='custom'){
+      this.setCustomDefaults();
+    }
+    
+  }),
+  
+  setup: Ember.on('didInsertElement',function(){
+    
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+      
+      this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
+      
+      if(!this.get('editable')){
+          
+        // Move classes
+        let classes = this.$()[0].className.split(/\s+/);
+        Ember.$.each(classes,(i,className)=>{
+          if(className!=='ember-view'){
+            this.addImageClass(className);
+            this.$().removeClass(className);
+          }
+        });
+        
+      }
       
       // Add size
       if(this.get('size')){
@@ -128,6 +169,7 @@ export default Ember.Component.extend({
       club: club,
       large: this.isLargeSize(this.get('size')),
       defaultBgColor: this.get('defaultColor'),
+      bgColor: this.get('defaultColor'),
     };
     opts.url = this.get('userImages').getClubUrl(opts);
     this.updateImage(opts);
@@ -139,10 +181,37 @@ export default Ember.Component.extend({
       manager: manager,
       large: this.isLargeSize(this.get('size')),
       defaultBgColor: this.get('defaultColor'),
+      bgColor: this.get('defaultColor'),
     };
     opts.url = this.get('userImages').getManagerUrl(opts);
+    if(this.get('debug')){
+      print('opts',opts);
+    }
     this.updateImage(opts);
     return opts.url;
+  },
+  
+  updateCustomImage(url){
+    
+    let userImages = this.get('userImages');
+    let imageUrl = userImages.getCacheUrl(url,200);
+    
+    this.set('imageUrl',imageUrl);
+    
+    return imageUrl;
+    
+  },
+  
+  setCustomDefaults(){
+    
+    let userImages = this.get('userImages');
+    this.set('defaultBgColor',userImages.getDefaultColor(this.get('defaultColor')));
+    if(this.get('defaultColor')==='dark'){
+      this.set('notFoundUrl','/assets/images/user/no-image.png');
+    } else {
+      this.set('notFoundUrl','/assets/images/user/no-image-light.png');
+    }
+    
   },
   
   isLargeSize(size){
@@ -200,7 +269,7 @@ export default Ember.Component.extend({
   },
   
   // Computed property to build the model for consumption
-  editorModel: Ember.computed('model',function(){
+  editorModel: Ember.computed('modelImageUrl',function(){
     
     let model = this.get('model');
     
@@ -212,21 +281,32 @@ export default Ember.Component.extend({
     }
     
     if(!model.rollbackAttributes){
-      let originalImageType = this.get('managerImageType');
-      let originalCustomUrl = this.get('managerCustomUrl');
+      
+      let originalImageType = 'custom';
+      let originalCustomUrl = this.get('modelImageUrl');
+      
+      if( this.get('type') === 'manager' ){
+        originalImageType = this.get('managerImageType');
+        originalCustomUrl = this.get('managerCustomUrl');
+      } else if( this.get('type') === 'club' ){
+        log('Attempted to create rollbackAttributes for club user-image. (component:user-image)');
+      }
       
       model.rollbackAttributes = ()=>{
         model.set('imageType',originalImageType);
         model.set('customUrl',originalCustomUrl);
         this.send('onChangedImageType',originalImageType);
       };
+      
     }
+    
+    //this.set('model',model);
     
     return model;
     
   }),
   
-  editorForm: Ember.computed(function(){
+  editorForm: Ember.computed('model',function(){
     
     let editorForm = [];
     
@@ -264,7 +344,7 @@ export default Ember.Component.extend({
     
     let customUrlTextBox = {
       id: 'customUrl',
-      label: t('user-image-editor.custom-url'),
+      label: t('user-image-editor.image-url'),
       valuePath: 'customUrl',
       onChanged: Ember.run.bind(this,this.actions.onChangedCustomUrl),
       placeholder: 'http://',
@@ -277,6 +357,38 @@ export default Ember.Component.extend({
     }
     
     editorForm.push(customUrlTextBox);
+    
+    if(this.get('showAvatarLinks')){
+      
+      editorForm.push({
+        id: 'avatarLinksLink',
+        label: t('players.avatars.avatar-generators'),
+        type: 'link',
+      });
+      
+      let links = [
+        { url: 'http://avatarmaker.com/', label: 'avatarmaker.com' },
+        { url: 'http://doppelme.com/', label: 'doppelme.com' },
+        { url: 'http://pickaface.net/', label: 'pickaface.net' },
+        { url: 'http://www.icongenerators.net/pixelavatar.html', label: 'icongenerators.net' },
+        { url: 'http://www.faceyourmanga.com/editmangatar.php', label: 'faceyourmanga.com' },
+      ];
+      let linksHtml = '';
+      links.forEach(link=>{
+        linksHtml += `
+          <div class="gap-sm">
+            &nbsp;&nbsp;<i class="icon-right-open icon-lg icon-vcenter text-light"></i> <a href="${link.url}" target="_blank" class="show-i-on-hover">${link.label}</a> <i class="icon-link-ext icon-vcenter"></i>
+          </div>`;
+      });
+      
+      editorForm.push({
+        id: 'avatarLinks',
+        type: 'content',
+        showOnLinkId: 'avatarLinksLink',
+        content: Ember.String.htmlSafe(linksHtml),
+      });
+      
+    }
     
     return editorForm;
     
@@ -359,34 +471,13 @@ export default Ember.Component.extend({
           return;
         }
         
-        // Save image
-        return prefs.setPrefs([
-          { key:'managerCustomImageUrl', value: url },
-          { key:'managerImageType', value: 'custom' },
-          { key:'managerImageUrl', value: url },
-        ]).then(()=>{
-          
-          // Get cache urls
-          let cacheUrl = this.get('userImages').getCacheUrl(url);
-          let cacheUrlLarge = this.get('userImages').getLargeUrl(cacheUrl);
-          
-          return Ember.Blackout.preloadImages([
-            cacheUrl,
-            cacheUrlLarge
-          ]).then(()=>{
-            
-            // Refresh manager in session
-            this.get('user').refreshSessionManager().finally(()=>{
-              this.set('session.data.manager.imageUrl',url);
-              this.notifyPropertyChange('prefs');
-              this.get('userImages').updateSessionImages();
-              this.updateSavedModel();
-              succeed();
-            });
-            
-          },fail).finally(final);
-          
-        },fail);
+        if( this.get('type') === 'manager' ){
+          return this.saveManagerImage(url,succeed,fail,final);
+        } else if( this.get('type') === 'manager' ){
+          return this.saveClubImage(url,succeed,fail,final);
+        } else {
+          return this.saveCustomImage(url,succeed,fail,final);
+        }
         
         
       },()=>{
@@ -425,6 +516,60 @@ export default Ember.Component.extend({
     },
   },
   
+  saveManagerImage(url,succeed,fail,final){
+    
+    let prefs = this.get('preferences');
+      
+    // Save image
+    return prefs.setPrefs([
+      { key:'managerCustomImageUrl', value: url },
+      { key:'managerImageType', value: 'custom' },
+      { key:'managerImageUrl', value: url },
+    ]).then(()=>{
+      
+      // Get cache urls
+      let cacheUrl = this.get('userImages').getCacheUrl(url);
+      let cacheUrlLarge = this.get('userImages').getLargeUrl(cacheUrl);
+      
+      return Ember.Blackout.preloadImages([
+        cacheUrl,
+        cacheUrlLarge
+      ]).then(()=>{
+        
+        // Refresh manager in session
+        this.get('user').refreshSessionManager().finally(()=>{
+          this.set('session.data.manager.imageUrl',url);
+          this.notifyPropertyChange('prefs');
+          this.get('userImages').updateSessionImages();
+          this.updateSavedModel();
+          succeed();
+        });
+        
+      },fail).finally(final);
+      
+    },fail);
+    
+  },
+  
+  saveClubImage(url/*,succeed,fail,final*/){
+    
+    log('Attempted to save a club image. Not implemented yet. (component:user-image)',url);
+    
+  },
+  
+  saveCustomImage(url,succeed,fail,final){
+    
+    // Update local
+    this.updateCustomImage(url);
+    
+    if(this.attrs.onSave && typeof this.attrs.onSave === 'function'){
+      this.attrs.onSave(url,succeed,fail,final);
+    } else {
+      log('Tried to save a custom image, but there is no handler for the onSave action (component:user-image).');
+    }
+    
+  },
+  
   /**
    * 
    * ==== WIP
@@ -446,7 +591,9 @@ export default Ember.Component.extend({
       if(opts.isClub){
         this.set('placeholderUrl','/assets/images/user/club.png');
       }
-      
+      if(this.get('debug')){
+        log('opts.defaultBgColor',opts.defaultBgColor);
+      }
       this.set('defaultBgColor',opts.defaultBgColor);
       
       if(opts.url){

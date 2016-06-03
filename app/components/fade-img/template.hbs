@@ -16,7 +16,7 @@
 {{/if}}
 
 {{#if cover}}
-  <div class="{{if isLoadingImage 'hidden'}} fade-img fade-img-ready"></div>
+  <div class="{{if isLoadingImage 'hidden'}} fade-img fade-img-ready {{imageClassNames}}">{{yield}}</div>
 {{else}}
-  <img class="{{if isLoadingImage 'hidden'}} fade-img img-responsive fade-img-ready">
+  <img class="{{if isLoadingImage 'hidden'}} fade-img img-responsive fade-img-ready {{imageClassNames}}">
 {{/if}}

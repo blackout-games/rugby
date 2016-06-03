@@ -32,12 +32,13 @@ export default Ember.Service.extend({
   /**
    * Register a manager image (for *currently logged in* manager)
    */
-  registerManagerImage(callback,defaultBgColor,largeVersion){
+  registerManagerImage(callback,defaultBgColor,largeVersion,debug){
     
     let opts = {
       callback: callback,
       large: largeVersion,
       defaultBgColor: defaultBgColor,
+      debug: debug,
     };
     
     let url = this.getManagerUrl(opts);
@@ -69,13 +70,16 @@ export default Ember.Service.extend({
   processColors(opts){
     
     opts.bgColor = opts.defaultBgColor;
+    opts.defaultBgColor = this.getDefaultColor(opts.defaultBgColor);
     
-    if(opts.defaultBgColor==='dark'){
-      opts.defaultBgColor = Ember.$('#nav-sidebar').css('background-color');
+  },
+  
+  getDefaultColor(color){
+    if(color==='dark'){
+      return Ember.Blackout.getCSSColor('bg-dark');
     } else { // light
-      opts.defaultBgColor = Ember.Blackout.getCSSColor('bg-light');
+      return Ember.Blackout.getCSSColor('bg-light');
     }
-    
   },
   
   /**

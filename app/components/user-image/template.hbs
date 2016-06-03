@@ -4,33 +4,98 @@
   <a {{action 'showEditor'}} class="user-image-editable btn-a">
     
     <div class="has-position">
-      {{user-image type=type size=(if media.isMobile 'large' 'huge') defaultColor='light' isCurrentUserImage=isCurrentUserImage}}
-      <i class="icon-edit-circle icon-2x"></i>
-    </div>
-    
-    <div class="manager-avatar-edit top-gap-sm text-medium">
+      {{#if (or (not type) (is 'custom' type))}}
       
+        {{#user-image
+          imageUrl=imageUrl
+          placeholderUrl=placeholderUrl
+          size=(if (is 'custom' size) 'custom' (if media.isMobile 'large' 'huge'))
+          defaultColor='light'
+          imageClasses=imageClasses
+          incomingWrapperClass=incomingWrapperClass
+          as |section|}}
+          
+          {{#unless section}}
+            {{yield}}
+          {{/unless}}
+          
+        {{/user-image}}
+      
+      {{else}}
+      
+        {{#user-image
+          type=type
+          placeholderUrl=placeholderUrl
+          size=(if (is 'custom' size) 'custom' (if media.isMobile 'large' 'huge'))
+          defaultColor='light'
+          isCurrentUserImage=isCurrentUserImage
+          imageClasses=imageClasses
+          incomingWrapperClass=incomingWrapperClass
+          as |section|}}
+          
+          {{#unless section}}
+            {{yield}}
+          {{/unless}}
+          
+        {{/user-image}}
+        
+      {{/if}}
+      
+      {{#unless hideEditIndicators}}
+        <i class="icon-edit-circle icon-2x"></i>
+      {{/unless}}
+      
+      {{yield 'hasPosition'}}
+    </div>
+      
+    {{#unless hideEditIndicators}}
+    <div class="text-center top-gap-sm text-medium">
       {{t 'buttons.change'}}
-      
     </div>
+    {{/unless}}
+    
   </a>
   
   {{#float-window showWindow=(mut showingEditor) onClose=(action 'onCancel')}}
     
     <div class="row row-center gap-lg">
-      {{user-image type=type size=(if media.isMobile 'large' 'gigantic') class='avatar-editor' defaultColor='light' isCurrentUserImage=isCurrentUserImage}}
+      {{#if (or (not type) (is 'custom' type))}}
+      
+        {{user-image
+          imageUrl=imageUrl
+          placeholderUrl=placeholderUrl
+          size=(if media.isMobile 'large' 'gigantic')
+          class='avatar-editor'
+          defaultColor='light'}}
+      
+      {{else}}
+      
+        {{user-image
+          type=type
+          placeholderUrl=placeholderUrl
+          size=(if media.isMobile 'large' 'gigantic')
+          class='avatar-editor'
+          defaultColor='light'
+          isCurrentUserImage=isCurrentUserImage}}
+        
+      {{/if}}
     </div>
     
-    {{blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") onSave=(action "onSave") useCloseButton=true}}
+    {{#blackout-form form=(readonly editorForm) model=editorModel onCancel=(action "onCancel") onSave=(action "onSave") useCloseButton=true as |section|}}
+      {{#if (is 'final' section)}}
+        {{yield 'editorFinal'}}
+      {{/if}}
+    {{/blackout-form}}
     
   {{/float-window}}
   
 {{else}}
   
-  {{fade-img
+  {{#fade-img
     url=(readonly imageUrl)
     class=imageClass
     imageClasses=(readonly imageClasses)
+    imageWrapperClasses=(readonly imageWrapperClasses)
     minResolution=0
     placeholderUrl=placeholderUrl
     notFoundUrl=notFoundUrl
@@ -38,6 +103,8 @@
     cover=true
     loaderAnimation=false
   }}
+    {{yield}}
+  {{/fade-img}}
   {{!<div class="user-image"></div>}}
   
 {{/if}}

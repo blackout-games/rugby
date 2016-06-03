@@ -1,0 +1,25 @@
+{{#user-image
+  url=player.imageUrl
+  placeholderUrl='/assets/images/user/manager-light.png'
+  size=size
+  defaultColor='light'
+  editable=isOwned
+  class="gap-2x"
+  onSave=(action 'savePlayerImage')
+  showAvatarLinks=true
+  incomingWrapperClass=wrapperClass
+  hideEditIndicators=hideEditIndicators
+  as |section|
+}}
+  
+  {{#if (is 'editorFinal' section)}}
+    
+    {{#if clubIsNotPremium}}
+    <div class="color-bg-text full warning text-center gap-2x">
+      {{premium-ui messageT='premium.player-avatars' club=player.club}}
+    </div>
+    {{/if}}
+    
+  {{/if}}
+  
+{{/user-image}}

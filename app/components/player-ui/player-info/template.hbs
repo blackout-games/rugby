@@ -27,7 +27,13 @@
               </h2>
             </div>
             <div class="player-ui-avatar-wrapper">
-              <div class="player-avatar-light player-avatar-ui"></div>
+              {{user-image
+                url=player.imageUrl
+                placeholderUrl='/assets/images/user/manager-light.png'
+                size='custom'
+                defaultColor='dark'
+                incomingWrapperClass='player-avatar-ui'
+              }}
             </div>
           {{/link-to}}
         </div>

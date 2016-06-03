@@ -120,6 +120,19 @@ a {
   
 }
 
+.show-i-on-hover {
+  
+  & + i {
+    transition: opacity $hover-animation-time;
+    opacity: 0;
+  }
+  
+  &:hover + i {
+    opacity: 1;
+  }
+  
+}
+
 .btn-a {
 
   &, &:hover {

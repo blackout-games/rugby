@@ -18,7 +18,7 @@
         
           (and
             (compare item.visibleOnKey 'typeof' 'null')
-            (compare item.showOnLink 'typeof' 'null')
+            (compare item.showOnLinkId 'typeof' 'null')
           ) '===' true
           
           true
@@ -27,15 +27,15 @@
           
             (compare (get model item.visibleOnKey) '===' item.visibleOnKeyValue)
             
-            (compare item.showOnLink 'typeof' 'string'
+            (compare item.showOnLinkId 'typeof' 'string'
             
-              (compare (get linksShowing item.showOnLink) '===' true)
+              (compare (get linksShowing item.showOnLinkId) '===' true)
               
             )
           )
         )
         
-        active=(or item.visibleOnKey item.showOnLink)
+        active=(or item.visibleOnKey item.showOnLinkId)
         
         class=(concat (if item.gap (concat 'gap-' item.gap) 'gap-3x') " blackout-form-item") }}
           
@@ -97,46 +97,54 @@
                   {{/each}}
                   
                 {{else}}
-                  
-                  {{! So that we can edit the model in the sub-component }}
-                  {{#if item.valuePath}}
+                
+                  {{#if (is 'content' item.type)}}
                     
-                    {{validated-input
-                      type=item.type
-                      inputId=item.id
-                      placeholder=item.placeholder
-                      model=model
-                      valuePath=item.valuePath
-                      serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated
-                      inputClass=""
-                      onChanged=(readonly item.onChanged)
-                      options=item.options
-                      minDate=item.minDate
-                      maxDate=item.maxDate
-                      isOnScreen=(readonly isOnScreen)
-                      disabled=item.disabled
-                      readonly=item.readonly
-                      maxHeight=item.maxHeight
-                      onDark=onDark }}
+                    {{{item.content}}}
                     
                   {{else}}
                     
-                    {{validated-input
-                      type=item.type
-                      inputId=item.id
-                      placeholder=item.placeholder
-                      value=item.value serverError=(get (get serverErrors item.id) 'title')
-                      hasValidated=hasValidated
-                      inputClass=""
-                      onChanged=(readonly item.onChanged)
-                      options=item.options
-                      minDate=item.minDate
-                      maxDate=item.maxDate
-                      isOnScreen=(readonly isOnScreen)
-                      disabled=item.disabled
-                      readonly=item.readonly
-                      maxHeight=item.maxHeight
-                      onDark=onDark }}
+                    {{! So that we can edit the model in the sub-component }}
+                    {{#if item.valuePath}}
+                      
+                      {{validated-input
+                        type=item.type
+                        inputId=item.id
+                        placeholder=item.placeholder
+                        model=model
+                        valuePath=item.valuePath
+                        serverError=(get (get serverErrors item.id) 'title') hasValidated=hasValidated
+                        inputClass=""
+                        onChanged=(readonly item.onChanged)
+                        options=item.options
+                        minDate=item.minDate
+                        maxDate=item.maxDate
+                        isOnScreen=(readonly isOnScreen)
+                        disabled=item.disabled
+                        readonly=item.readonly
+                        maxHeight=item.maxHeight
+                        onDark=onDark }}
+                      
+                    {{else}}
+                      
+                      {{validated-input
+                        type=item.type
+                        inputId=item.id
+                        placeholder=item.placeholder
+                        value=item.value serverError=(get (get serverErrors item.id) 'title')
+                        hasValidated=hasValidated
+                        inputClass=""
+                        onChanged=(readonly item.onChanged)
+                        options=item.options
+                        minDate=item.minDate
+                        maxDate=item.maxDate
+                        isOnScreen=(readonly isOnScreen)
+                        disabled=item.disabled
+                        readonly=item.readonly
+                        maxHeight=item.maxHeight
+                        onDark=onDark }}
+                      
+                    {{/if}}
                     
                   {{/if}}
                   
@@ -159,6 +167,8 @@
     {{/if}}
   
   {{/each}}
+  
+  {{yield 'final'}}
   
   {{#blackout-fader showing=serverError active=true class="gap-lg blackout-form-server-error"}}
     {{error-ui error=serverError}}

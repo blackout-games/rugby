@@ -36,11 +36,12 @@ export default Ember.Component.extend({
    */
   
   classNames: ['fade-img-default-bg'],
-  classNameBindings: ['imageClassNames','cover:cover','isShowingLoader:center-parent'],
+  classNameBindings: ['imageWrapperClassNames','cover:cover','isShowingLoader:center-parent'],
   tagName: 'div',
   imageCachedTime: 100, // Milliseconds in whcih an image loads to be considered available immediately
   minResolution: 700, // At least one dimension of the image must be 700px to be displayed
   isLoadingImage: false,
+  loadedImages: [],
   
   isShowingLoader: Ember.computed.and('isLoadingImage','loaderAnimation'),
   
@@ -54,25 +55,20 @@ export default Ember.Component.extend({
     return this.get('imageClasses') ? this.get('imageClasses').join(' ') : '';
   }),
   
-  onUpdate: Ember.on('didUpdateAttrs',function(attrs){
-    if(this.attrChanged(attrs,'url')){
-      this.updateImage();
-    }
+  imageWrapperClassNames: Ember.computed('imageWrapperClasses', function(){
+    return this.get('imageWrapperClasses') ? this.get('imageWrapperClasses').join(' ') : '';
+  }),
+  
+  onUpdate: Ember.on('didUpdateAttrs',function(){
+    this.updateImage();
   }),
   
   updateImage(){
-    
     let $img = this.$('.fade-img');
     let startTime = Date.now();
     
     this.$().css('height','');
     let heightAlreadySet = this.$().css('height')!=='0px';
-    
-    if(this.get('bgColor')){
-      this.$().css('background-color',this.get('bgColor'));
-    } else {
-      this.$().css('background-color','');
-    }
     
     // Get image url
     let url = this.get('url');
@@ -83,6 +79,7 @@ export default Ember.Component.extend({
     
     this.set('prevUrl',url);
     
+    this.fadeInOtherImages();
     this.setupPlaceholder();
     
     if(url){
@@ -94,72 +91,99 @@ export default Ember.Component.extend({
       // Get secure url
       url = Ember.Blackout.secureURLIfHttps(url);
       
-      // Preload image
-      Ember.Blackout.preloadImage(url).then((size)=>{
-        let { w, h } = size;
+      if(this.get('loadedImages').indexOf(url)>=0){
         
-        if(this.assertComponentStillExists()){
+        // Add image url
+        if(this.get('cover')){
+          $img.css({
+            'background-image': 'url('+url+')',
+          });
+        } else {
+          $img.attr('src',url);
+        }
+        
+        if(!heightAlreadySet){
+          // Allow height to be auto
+          this.$().css('height','auto');
+        }
+        
+        // Load immediately
+        $img.addClass('fade-img-show');
+        this.fadeOutOtherImages();
+        this.stopLoadingImage();
+        
+      } else {
+        
+        // Preload image
+        Ember.Blackout.preloadImage(url).then((size)=>{
+          let { w, h } = size;
           
-          if(this.assertImageRes(w,h)){
+          if(this.assertComponentStillExists()){
             
-            let loadTime = Date.now() - startTime;
-          
-            if(loadTime <= this.get('imageCachedTime') && !this.get('testDelayLoad') && !this.get('testDelayFade')){
-              $img.addClass('fade-img-immediate');
+            if(this.assertImageRes(w,h)){
+              
+              let loadTime = Date.now() - startTime;
+            
+              if(loadTime <= this.get('imageCachedTime') && !this.get('testDelayLoad') && !this.get('testDelayFade')){
+                $img.addClass('fade-img-immediate');
+              }
+              
+              Ember.run.later(()=>{
+              //Ember.run.later(function(){ // For simulating a slow image
+                
+                // Add image url
+                if(this.get('cover')){
+                  $img.css({
+                    'background-image': 'url('+url+')',
+                  });
+                } else {
+                  $img.attr('src',url);
+                }
+                
+                // Remove hidden class ("hidden" class is needed initially for firefox to make sure spinner is centered)
+                this.stopLoadingImage();
+                
+                if(!heightAlreadySet){
+                  // Allow height to be auto
+                  this.$().css('height','auto');
+                }
+                
+                // Must wait again after we remove hidden class
+                // 'run.next' doesn't work and allows image to just appear
+                Ember.run.later(()=>{ 
+                  $img.addClass('fade-img-show');
+                  this.fadeOutOtherImages();
+                  
+                  this.get('loadedImages').pushObject(url);
+                  
+                },(this.get('testDelayFade') ? this.get('testDelayFade') : 111));
+                
+              },(this.get('testDelayLoad') ? this.get('testDelayLoad') : 1));
+            
             }
             
-            Ember.run.later(()=>{
-            //Ember.run.later(function(){ // For simulating a slow image
-              
-              // Add image url
-              if(this.get('cover')){
-                $img.css({
-                  'background-image': 'url('+url+')',
-                });
-              } else {
-                $img.attr('src',url);
-              }
-              
-              // Remove hidden class ("hidden" class is needed initially for firefox to make sure spinner is centered)
-              this.stopLoadingImage();
-              
-              if(!heightAlreadySet){
-                // Allow height to be auto
-                this.$().css('height','auto');
-              }
-              
-              // Must wait again after we remove hidden class
-              // 'run.next' doesn't work and allows image to just appear
-              Ember.run.later(()=>{ 
-                $img.addClass('fade-img-show');
-                this.fadeOutOtherImages();
-                
-              },(this.get('testDelayFade') ? this.get('testDelayFade') : 111));
-              
-            },(this.get('testDelayLoad') ? this.get('testDelayLoad') : 1));
-          
           }
           
-        }
-        
-      },()=>{ // Error
-        
-        if(this.get('hideOnFailure')){
-          $img.slideUp();
-        } else {
-          this.setupImageNotFound();
-        }
-        
-      });
-      
-      // If there is no specified height on the class
-      if(!heightAlreadySet){
-        Ember.run.next(()=>{
-          // Set placeholder height temporarily
-          let w = this.$().width();
-          let h = w * (9/16);
-          this.$().css('height',h+'px');
+        },()=>{ // Error
+          
+          if(this.get('hideOnFailure')){
+            $img.slideUp();
+          } else {
+            this.setupImageNotFound();
+          }
+          
         });
+        
+        // If there is no specified height on the class
+        if(!heightAlreadySet){
+          Ember.run.next(()=>{
+            // Set placeholder height temporarily
+            let w = this.$().width();
+            let h = w * (9/16);
+            this.$().css('height',h+'px');
+          });
+        }
+        
       }
       
     }
@@ -236,6 +260,22 @@ export default Ember.Component.extend({
     if($img){
       $img.addClass('fade-out');
       this.$().addClass('fade-out');
+      this.$().css('background-color','transparent');
+    }
+    
+  },
+  
+  fadeInOtherImages(){
+    
+    let $img = this.$('.fade-img-not-found,.fade-img-placeholder');
+    if($img){
+      $img.removeClass('fade-out');
+      this.$().removeClass('fade-out');
+      if(this.get('bgColor')){
+        this.$().css('background-color',this.get('bgColor'));
+      } else {
+        this.$().css('background-color','');
+      }
     }
     
   },

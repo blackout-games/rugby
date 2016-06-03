@@ -56,6 +56,21 @@ SessionService.reopen({
     return this.get('isAuthenticated') && this.get('currentClub.isPremium');
   }),
   
+  /**
+   * Check if a club is premium
+   * Works if club may not necessarily be the current active club
+   * Currently only works for current user clubs
+   */
+  clubIsPremium(clubId){
+    let store = this.get('store');
+    if(this.get('isAuthenticated')){
+      let club = store.peekRecord('club',clubId);
+      return club.get('isPremium');
+    } else {
+      return false;
+    }
+  },
+  
   ownedClub(clubId){
     let store = this.get('store');
     if(this.get('isAuthenticated')){

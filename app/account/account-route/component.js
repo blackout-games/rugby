@@ -44,7 +44,7 @@ export default Ember.Component.extend({
         label: t('account.password.new-password'),
         type: 'password',
         valuePath: 'newPassword',
-        showOnLink: 'changePassword',
+        showOnLinkId: 'changePassword',
       },
       {
         id: 'email',

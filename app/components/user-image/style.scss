@@ -1,6 +1,6 @@
 .user-image {
-  width:44px;
-  height:44px;
+  @include user-image();
+  
   &.user-image-small {
     width:28px;
     height:28px;
@@ -41,6 +41,10 @@
   vertical-align:top; // Remove space below inline-block
 }
 
+.user-image-direct {
+  background-position: center center;
+}
+
 .user-image-editable {
   
   .user-image {
@@ -50,8 +54,12 @@
   i {
     color:$bg-dark-lighter-3x;
     position:absolute;
-    bottom:-4px;
-    right:-7px;
+    bottom:-12px;
+    right:-15px;
+    @media #{$tablet-and-up} {
+      bottom:-5px;
+      right:-7px;
+    }
     //display:none;
   }
   

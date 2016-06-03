@@ -26,6 +26,10 @@ export default Ember.Component.extend({
     return this.get('class')==='left' ? this.get('previousPlayer.shortName') : this.get('nextPlayer.shortName');
   }),
   
+  thisPlayer: Ember.computed('class','currentPlayer','playersSorted',function(){
+    return this.get('class')==='left' ? this.get('previousPlayer') : this.get('nextPlayer');
+  }),
+  
   previousPlayer: Ember.computed('currentPlayer','playersSorted',function(){
     let i = this.get('playersSorted').indexOf(this.get('currentPlayer'));
     let num = this.get('playersSorted.length');

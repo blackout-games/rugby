@@ -15,6 +15,10 @@ export default Ember.Component.extend({
   inputSelectorRaw: 'form input:text, form input:password, form input[type="email"], form label:not(.x-toggle-btn), form textarea, form select',
   handlerSelector: '.touch-handler',
   
+  onInit: Ember.on('init',function(){
+    this.set('formId',Ember.Blackout.generateId());
+  }),
+  
   setup: Ember.on('didInsertElement',function(){
     
     let inputSelector = this.get('inputSelector');
@@ -213,12 +217,22 @@ export default Ember.Component.extend({
   computedForm: Ember.computed('form',function(){
     
     let form = this.get('form');
+    let formId = this.get('formId');
+    
     if(form){
       Ember.$.each(form,(key,item)=>{
         
         // Set default type if not given
         if(!item.type){
           item.type = 'text';
+        }
+        
+        // Ensure ids are unique across forms
+        if(item.id){
+          item.id += '-' + formId;
+        }
+        if(item.showOnLinkId){
+          item.showOnLinkId += '-' + formId;
         }
         
       });

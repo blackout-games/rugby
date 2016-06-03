@@ -1,1 +1,8 @@
-{{blackout-form form=(readonly personalisationsForm) model=player onSave=(action "savePersonalisations") isOnScreen=(readonly isOnScreen) hideCancelButton=true }}
+<div class="row">
+  <div class="col-xxs-12 col-auto-xs col-first-xxs col-last-xs">
+    {{component 'player-ui/avatar-editor' player=player isOwned=true}}
+  </div>
+  <div class="col-xxs-12 col-flex-xs pad-right-2x">
+    {{blackout-form form=(readonly personalisationsForm) model=player onSave=(action "savePersonalisations") isOnScreen=(readonly isOnScreen) hideCancelButton=true }}
+  </div>
+</div>

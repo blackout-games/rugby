@@ -37,7 +37,14 @@
         <div class="row row-nowrap">
         
           <div class="col-auto">
-            <div class="player-avatar player-avatar-sub-nav">
+            <div class="has-position">
+              {{user-image
+                url=player.imageUrl
+                placeholderUrl='/assets/images/user/manager-dark.png'
+                size='custom'
+                defaultColor='dark'
+                incomingWrapperClass='player-avatar-sub-nav'
+              }}
               {{#if (not-eq player.jersey 255)}}
                 <div class="player-ui-jersey sub-nav">
                   <i class="icon-jersey"></i>

@@ -799,6 +799,12 @@
       ]
     },
     {
+      "uid": "e15f0d620a7897e2035c18c80142f6d9",
+      "css": "link-ext",
+      "code": 59492,
+      "src": "fontawesome"
+    },
+    {
       "uid": "4c95899d8ee2f5b09735c3835354c056",
       "css": "country",
       "code": 59393,
