@@ -72,8 +72,12 @@ $border: none;
     border-color: pressColor($button-color);
     transform: translateY(1px);
     box-shadow: $button-inset-shadow;
+    outline: none !important;
     &:focus {
-      box-shadow: $button-inset-shadow, $form-focus-glow-shadow !important;
+      // When clicking general buttons we don't want the focus to appear briefly
+      // For some reason when mouse is down on a button, focus is applied
+      //box-shadow: $button-inset-shadow, $form-focus-glow-shadow !important;
+      box-shadow: none !important;
     }
     &:disabled {
       transform: none;
