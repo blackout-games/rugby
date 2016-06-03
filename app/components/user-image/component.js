@@ -358,26 +358,62 @@ export default Ember.Component.extend({
     
     if(this.get('showAvatarLinks')){
       
+      let i18n = this.get('i18n');
+      
       editorForm.push({
         id: 'avatarLinksLink',
-        label: t('players.avatars.avatar-generators'),
+        label: t('misc.helpful-links'),
         type: 'link',
       });
       
+      let makeLinks = (links)=>{
+        let html = '';
+        links.forEach(link=>{
+          html += `
+            <div class="gap-sm ellipsis">
+              <i class="icon-right-open icon-lg icon-vcenter text-light"></i> <a href="${link.url}" target="_blank" class="show-i-on-hover">${link.label}</a> <i class="icon-link-ext icon-vcenter"></i>
+            </div>`;
+        });
+        return html;
+      };
+      
       let links = [
-        { url: 'http://avatarmaker.com/', label: 'avatarmaker.com' },
-        { url: 'http://doppelme.com/', label: 'doppelme.com' },
-        { url: 'http://pickaface.net/', label: 'pickaface.net' },
-        { url: 'http://www.icongenerators.net/pixelavatar.html', label: 'icongenerators.net' },
-        { url: 'http://www.faceyourmanga.com/editmangatar.php', label: 'faceyourmanga.com' },
+        { url: 'http://avatarmaker.com/', label: 'Avatar Maker' },
+        { url: 'http://doppelme.com/', label: 'DoppleMe' },
+        { url: 'http://pickaface.net/', label: 'Pick a Face' },
+        { url: 'http://www.icongenerators.net/pixelavatar.html', label: 'Pixel Avatar' },
+        { url: 'http://www.faceyourmanga.com/editmangatar.php', label: 'fFace Your Manga' },
       ];
-      let linksHtml = '';
-      links.forEach(link=>{
-        linksHtml += `
-          <div class="gap-sm">
-            &nbsp;&nbsp;<i class="icon-right-open icon-lg icon-vcenter text-light"></i> <a href="${link.url}" target="_blank" class="show-i-on-hover">${link.label}</a> <i class="icon-link-ext icon-vcenter"></i>
-          </div>`;
-      });
+      
+      let avatarGeneratorsHtml = '<label>' + i18n.t('players.avatars.avatar-generators').toString() + '</label>';
+      avatarGeneratorsHtml += makeLinks(links);
+      
+      let imageHosts = [
+        { url: 'http://imgur.com/', label: 'imgur' },
+        { url: 'https://imgsafe.org/', label: 'ImgSafe' },
+      ];
+      
+      let imageHostsHtml = '<label>' + i18n.t('players.avatars.image-hosts').toString() + '</label>';
+      imageHostsHtml += makeLinks(imageHosts);
+      
+      let imageProviders = [
+        { url: 'https://images.google.com/', label: 'Google Images' },
+        { url: 'http://www.faganfinder.com/img/', label: 'Fagan Finder' },
+        { url: 'http://search.creativecommons.org/', label: 'CC Search' },
+        { url: 'http://photopin.com/', label: 'Photo Pin' },
+      ];
+      
+      let imageProvidersHtml = '<label>' + i18n.t('players.avatars.other-image-providers').toString() + '</label>';
+      imageProvidersHtml += makeLinks(imageProviders);
+      
+      let linksHtml = `
+      <div class="row row-nowrap gap-md">
+        <div class="col-6 right-pad-md">${avatarGeneratorsHtml}</div>
+        <div class="col-6">${imageHostsHtml}</div>
+      </div>
+      <div class="row row-nowrap">
+        <div class="col-12">${imageProvidersHtml}</div>
+      </div>`;
       
       editorForm.push({
         id: 'avatarLinks',
