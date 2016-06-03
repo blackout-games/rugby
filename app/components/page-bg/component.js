@@ -8,6 +8,8 @@ var imagesList = {
   //"squad": ['green2','green3','lockers','training'],
   "squad": ['training'], // Leave this bg, since it's the best. Fow now.
   "not-found": ['ball'],
+  "grounds": ['dark'], //,'club' (lacking),'lights' (nope),'stadium' (good but save for maybe stadium route?),'water' (great, but save for elsewhere)
+  //"grounds": ['water'],
 };
 
 export default Ember.Component.extend({
@@ -101,7 +103,6 @@ export default Ember.Component.extend({
       
       if( imagesList[key] ){
         
-        let session = this.get('session');
         let images = imagesList[key];
         
         let route = this.get('route');
@@ -111,7 +112,7 @@ export default Ember.Component.extend({
         
         // Check if we've been here
         let sessionKey = route+'-header-image';
-        let imageClass = session.get('data.'+sessionKey);
+        let imageClass = this.get('cache.'+sessionKey);
         
         if(!imageClass){
           
@@ -119,7 +120,7 @@ export default Ember.Component.extend({
           let image = images[Ember.Blackout.rand(1,available)-1];
           
           imageClass = key + '-' + image;
-          session.set('data.'+sessionKey,imageClass);
+          this.set('cache.'+sessionKey,imageClass);
           
         }
         

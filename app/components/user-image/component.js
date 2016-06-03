@@ -32,6 +32,7 @@ export default Ember.Component.extend({
   /**
    * The placeholder image URL
    * This is set automatically for special types (managers, clubs)
+   * But you can override here
    */
   placeholderUrl: null,
   
@@ -588,7 +589,7 @@ export default Ember.Component.extend({
         this.set('notFoundUrl','/assets/images/user/no-image-light.png');
       }
       
-      if(opts.isClub){
+      if(opts.isClub && !this.get('placeholderUrl')){
         this.set('placeholderUrl','/assets/images/user/club.png');
       }
       if(this.get('debug')){

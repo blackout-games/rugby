@@ -4,18 +4,18 @@
     
     <div class="inline-block">
       <div class="text-center">
-        {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage}}
+        {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
       </div>
       <div>
-        <span>{{if text text club.name}}</span>
+        <span class="{{clubNameClass}}">{{if text text club.name}}</span>
       </div>
     </div>
     
   {{else}}
     
     <span class="nowrap">
-      {{user-image type='club' defaultColor=defaultColor club=club isCurrentUserImage=isCurrentUserImage size='small' class="club-avatar-inline no-right-gap left-gap-xs"}}
-      <span class="btn-a-hover">{{if text text club.name}}</span>
+      {{user-image type='club' defaultColor=defaultColor club=club isCurrentUserImage=isCurrentUserImage size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder}}
+      <span class="btn-a-hover {{clubNameClass}}">{{if text text club.name}}</span>
     </span>
     
   {{/if}}
@@ -24,10 +24,10 @@
     
   <div class="{{unless stacked "row row-nowrap"}}">
     <div class="{{unless stacked "col-auto right-gap-md"}} text-center">
-      {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage}}
+      {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
     </div>
     <div class="{{unless stacked "col-auto vc-parent"}}">
-      <span>{{if text text club.name}}</span>
+      <span class="{{clubNameClass}}">{{if text text club.name}}</span>
     </div>
   </div>
   

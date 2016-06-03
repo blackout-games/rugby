@@ -207,7 +207,7 @@ a {
       color: rgba(white, 0.5);
     }
     
-    &.go-green {
+    &.go-primary {
       &.hover {
         color: $primary-on-dark;
       }
@@ -217,8 +217,34 @@ a {
       }
     }
     
+    &.go-secondary {
+      &.hover {
+        color: $secondary-on-dark-lighter-2x;
+      }
+
+      &.press {
+        color: pressColor($secondary-on-dark-lighter-2x);
+      }
+    }
+    
     &.no-hover:hover, &.no-hover.hover {
       color: white;
+    }
+  }
+
+  &.secondary, &.secondary:hover {
+    color: $secondary-on-dark-lighter-2x;
+
+    &.hover {
+      color: white;
+    }
+
+    &.press {
+      color: rgba(white, 0.5);
+    }
+    
+    &.no-hover:hover, &.no-hover.hover {
+      color: $secondary-on-dark-lighter-2x;
     }
   }
   
@@ -519,6 +545,7 @@ p {
    * otherwise we break other things like squad energy on mobile
    */
   display: block;
+  
   &.ellipsis-clip {
     text-overflow: string ".";
   }

@@ -54,6 +54,7 @@ $bg-dark-lighter-2x: desaturate(darken($secondary-master,19%),25%);
 $bg-dark-lighter-3x: desaturate(darken($secondary-master,11%),25%);
 $bg-dark-lighter-4x: desaturate(darken($secondary-master,1%),27%);
 $bg-dark-lighter-5x: desaturate(lighten($secondary-master,4%),27%);
+$bg-darker: darken($bg-dark,7%);
 $bg-light: lighten($secondary-master,44%);
 $bg-light-darker: desaturate(darken($bg-light,5%),5%);
 $bg-light-darker-2x: desaturate(darken($bg-light,10%),7%);

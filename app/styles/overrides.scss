@@ -519,3 +519,16 @@
 .opacity-7 {
   opacity: 0.7;
 }
+
+/**
+ * Border radius
+ */
+
+.no-border-radius-left {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.no-border-radius-right {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}

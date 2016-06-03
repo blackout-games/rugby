@@ -91,6 +91,7 @@ table {
   overflow: hidden;
   color: white;
   margin-bottom: 0px !important;
+  width:100%;
   
   > thead > tr {
     //border-radius: $border-radius $border-radius 0 0;
@@ -100,12 +101,24 @@ table {
   > thead > tr > th {
     //border-color: desaturate(lighten($secondary-master,1%),11%);
     border-bottom-width:0px !important;
+    font-size: 14px;
+    @media #{$tablet-and-up} {
+      font-size: 15px;
+    }
+    font-weight: 900;
+    color: desaturate($secondary-on-dark-lighter,15%);
+    font-family: $heading-font;
+    text-transform: uppercase;
   }
   
   > tbody > tr > td {
     border-color: desaturate(darken($secondary-master,7%),25%) !important;
     //border-color: desaturate(darken($secondary-master,17%),15%);
     border-top-width:1px !important;
+    font-size: 13px;
+    @media #{$tablet-and-up} {
+      font-size: 15px;
+    }
   }
   
   > tbody > tr:hover {

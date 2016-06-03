@@ -64,6 +64,11 @@ Router.map(function() {
   this.route('account');
   this.route('nope', { path: '/*path'});
   this.route('nope');
+  this.route('league', function() {
+    this.route('standings', {
+      path: ':league_id'
+    });
+  });
 });
 
 export default Router;

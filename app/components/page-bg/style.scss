@@ -229,4 +229,21 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   &.not-found-ball {
     @include header-background-image($image-folder + "stock/not-found-ball.jpg", center center);
   }
+  
+  /**
+   *  Grounds
+   */
+  
+  &.grounds-stadium {
+    @include header-background-image($image-folder + "stock/grounds-stadium.jpg", center center);
+  }
+  &.grounds-club {
+    @include header-background-image($image-folder + "stock/grounds-club.jpg", left center);
+  }
+  &.grounds-dark {
+    @include header-background-image($image-folder + "stock/grounds-dark.jpg", center center);
+  }
+  &.grounds-water {
+    @include header-background-image($image-folder + "stock/grounds-water.jpg", left center);
+  }
 }

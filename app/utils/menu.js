@@ -120,9 +120,11 @@ export default {
         tempRoute: 'coming-soon'
       },
       {
-        label: 'League',
-        route: 'league',
-        tempRoute: 'coming-soon'
+        label: 'League Standings',
+        route: 'league.standings',
+        params: {
+          id: 'me',
+        }
       },
       {
         label: 'Fixtures',

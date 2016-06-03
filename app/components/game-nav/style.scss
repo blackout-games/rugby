@@ -17,7 +17,7 @@
  */
 $full-real-estate-on-mobile: true;
 $float-buttons-hug-side: true;
-
+$page-side-padding: 11px;
 
 $nav-animation-time: 0.5s;
 $animation-time: $nav-animation-time;
@@ -292,6 +292,9 @@ $selected-arrow-pokes-out: 7px;
   // Prevents body dissappearing during scroll on some devices (usually mobile / low memory)
   @extend .make3d;
   
+  @media #{$nav-sm-up} {
+    padding: 0 $page-side-padding;
+  }
 }
 
 // Balloon

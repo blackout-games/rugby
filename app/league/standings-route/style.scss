@@ -1,0 +1,48 @@
+.standings-header-cell {
+}
+
+.standings-standing {
+  color: $secondary-on-dark-lighter-2x;
+  color: $bg-dark-lighter;
+  font-family: $heading-font;
+  font-size: 17px;
+}
+
+.standings-cell {
+  height: 54px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+.standings-club {
+  margin: -10px 0;
+}
+
+.standings-club-name {
+  max-width: 33vw;
+  //text-transform: uppercase;
+  font-weight: bold;
+}
+
+.standings-club-col {
+  //max-width: 50%;
+}
+
+.standings-center-cell {
+  text-align: center;
+  padding-left: 11px;
+  padding-right: 11px;
+}
+
+.standings-penalty-applied {
+  color: $bg-light-darker-4x;
+  padding: 11px;
+  font-weight: bold;
+  font-size: 11px;
+  @media #{$tablet-and-up} {
+    font-size: 12px;
+  }
+  text-align: right;
+  background-color: rgba($bg-dark,0.5);
+  display: inline-block;
+}
