@@ -230,6 +230,8 @@ textarea, textarea.form-control {
   }
   min-height:44px;
   
+  resize:none;
+  
   // Make scrollable
   //overflow:auto !important;
   //-webkit-overflow-scrolling: touch !important;
