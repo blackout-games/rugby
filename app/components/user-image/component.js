@@ -62,15 +62,6 @@ export default Ember.Component.extend({
   
   onReceive: Ember.on('didReceiveAttrs',function(attrs){
     
-    if(this.attrChanged(attrs,'incomingWrapperClass') && this.get('incomingWrapperClass')){
-      // Run next to avoid reset
-      Ember.run.next(()=>{
-        this.get('incomingWrapperClass').split(' ').forEach(className=>{
-          this.addImageClass(className);
-        });
-      });
-    }
-    
     if(this.attrChanged(attrs,'type')){
       
       let imageUrl;
@@ -127,6 +118,12 @@ export default Ember.Component.extend({
   setup: Ember.on('didInsertElement',function(){
     
     Ember.run.scheduleOnce('afterRender', this, ()=>{
+      
+      if(this.get('incomingWrapperClass')){
+        this.get('incomingWrapperClass').split(' ').forEach(className=>{
+          this.addImageClass(className);
+        });
+      }
       
       this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
       
