@@ -2,6 +2,10 @@
   font-family: $heading-font;
   text-transform: uppercase;
   color: $bg-light-darker-4x;
+  font-size: 15px;
+  @media #{$tablet-and-up} {
+    font-size: 17px;
+  }
 }
 
 .standings-header-cell {
