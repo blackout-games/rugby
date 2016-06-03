@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   imageSize: 'medium',
   tagName: 'span',
   hasInit: false,
-  defaultColor: 'dark',
+  defaultColor: 'light',
   
   /**
    * Get national or U20 clubs

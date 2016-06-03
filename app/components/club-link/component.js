@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   imageSize: 'medium',
   hasInit: false,
   fast: false,
-  defaultColor: 'dark',
+  defaultColor: 'light',
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){

@@ -208,6 +208,9 @@ export default Ember.Component.extend({
         $img.attr('src',url);
       }
       
+      // Hide background color
+      this.$().css('background-color','transparent');
+      
     } else {
       
       if(this.get('cover')){

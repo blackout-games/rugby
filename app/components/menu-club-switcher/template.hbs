@@ -1,6 +1,6 @@
 {{#each session.manager.clubs as |club|}}
   <a {{action 'switchToClub' club}} class="menu-link nowrap btn-a {{if (eq session.currentClub.id club.id) "selected"}}" id="club-switcher-link-{{club.id}}">
-    {{club-ui club=club}}
+    {{club-ui club=club defaultColor='dark'}}
   </a>
 {{/each}}
 
