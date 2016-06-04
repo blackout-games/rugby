@@ -7,7 +7,7 @@
         {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
       </div>
       <div>
-        <span class="{{clubNameClass}}">{{if text text club.name}}</span>
+        <span class="{{clubNameClass}}">{{if text text club.name}}{{afterName}}</span>
       </div>
     </div>
     
@@ -15,7 +15,7 @@
     
     <span class="nowrap">
       {{user-image type='club' defaultColor=defaultColor club=club isCurrentUserImage=isCurrentUserImage size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder}}
-      <span class="btn-a-hover {{clubNameClass}}">{{if text text club.name}}</span>
+      <span class="btn-a-hover {{clubNameClass}}">{{if text text club.name}}{{afterName}}</span>
     </span>
     
   {{/if}}
@@ -27,7 +27,7 @@
       {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
     </div>
     <div class="{{unless stacked "col-auto vc-parent"}}">
-      <span class="{{clubNameClass}}">{{if text text club.name}}</span>
+      <span class="{{clubNameClass}}">{{if text text club.name}}{{afterName}}</span>
     </div>
   </div>
   

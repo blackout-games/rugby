@@ -35,7 +35,7 @@
         {{/if}}
         <td class="standings-cell right-pad-lg ellipsis">
           <span class="standings-club">
-            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass="standings-club-name ellipsis" class="secondary"}}
+            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass="standings-club-name ellipsis" afterName=(if (not-eq standing.penalty 0) '*') class="secondary"}}
           </span>
         </td>
         <td class="standings-cell standings-center-cell">
