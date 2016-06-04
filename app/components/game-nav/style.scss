@@ -293,7 +293,10 @@ $selected-arrow-pokes-out: 7px;
   @extend .make3d;
   
   @media #{$nav-sm-up} {
-    padding: 0 $page-side-padding;
+    // Don't do this
+    // It makes pages like the home page have gaps down the sides
+    // This needs to be done at the dashbox level
+    //padding: 0 $page-side-padding;
   }
 }
 

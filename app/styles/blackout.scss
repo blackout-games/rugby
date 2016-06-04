@@ -78,9 +78,13 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
   
 }
 
+$page-side-padding: 11px;
 .page-container {
   width: 100%;
   margin: 0 auto;
+  @media #{$tablet-and-up} {
+    padding: 0 $page-side-padding;
+  }
 }
 .page-container-left {
   margin: 0 auto 0 0;
@@ -102,6 +106,14 @@ $splash-logo-color: darken(desaturate(adjust-hue($primary-master,6%),25%),25%);
 }
 
 .page-container-lg {
+  @extend .page-container;
+  max-width:850px;
+  @media #{$mobile} {
+    max-width:none;
+  }
+}
+
+.page-container-xl {
   @extend .page-container;
   max-width:1000px;
   @media #{$mobile} {
