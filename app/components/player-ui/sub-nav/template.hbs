@@ -4,7 +4,7 @@
     
     <div class="sub-nav-header dark">
       
-      {{#unless (current-club (get (geti players 0) 'club'))}}
+      {{#unless (or (not players.firstObject.club) (current-club players.firstObject.club))}}
         
         <div class="gap-lg text-center">
           {{club-ui club=(get (geti players 0) 'club') stacked=true imageSize='medium-2x' class="on-dark text-medium-2x"}}
@@ -45,7 +45,7 @@
                 defaultColor='dark'
                 incomingWrapperClass='player-avatar-sub-nav'
               }}
-              {{#if (not-eq player.jersey 255)}}
+              {{#if (and player.jersey (not-eq player.jersey 255))}}
                 <div class="player-ui-jersey sub-nav">
                   <i class="icon-jersey"></i>
                   <div class="number">

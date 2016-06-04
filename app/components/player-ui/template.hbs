@@ -12,7 +12,7 @@
     <div class="row row-flex">
       <div class="col-xs-12 {{if flatTitleMode 'col-flex-md pad-right-md'}}  center-parent">
         <div class="has-position">
-          {{component 'player-ui/avatar-editor' player=player wrapperClass="player-avatar-single" hideEditIndicators=true size='custom' isOwned=(owned-club player.club)}}
+          {{component 'player-ui/avatar-editor' player=player wrapperClass=(concat "player-avatar-single" (if (owned-club player.club) ' owned')) hideEditIndicators=true size='custom' isOwned=(owned-club player.club)}}
           {{#if (owned-club player.club)}}
             <div class="player-ui-jersey player">
               <i class="icon-jersey"></i>

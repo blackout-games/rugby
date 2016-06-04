@@ -45,8 +45,8 @@
     z-index:5;
     pointer-events: none;
   }
-  &:hover:after {
-    background: rgba(white,0.3);
+  &.owned:hover:after {
+    background: rgba($secondary-on-dark-lighter-2x,0.22);
   }
 }
   
