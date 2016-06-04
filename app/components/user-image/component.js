@@ -476,50 +476,58 @@ export default Ember.Component.extend({
       let url = this.get('model.customUrl');
       let minSize = 200;
       
-      // Version the image so that if the user changes the image at the source, it will refresh from the cache
-      let version = Ember.Blackout.getTimeHex();
-      let separator = Ember.Blackout.getSeparator(url);
-      
-      if(url.regexIndexOf(/[&?]v=/i)>=0){
-        url = url.replace(/v=\w+/i,'v=' + version);
-      } else {
-        url += separator + 'v=' + version;
-      }
-      
-      // Run through cache so that we get https
-      let tmpURL = this.get('userImages').getCacheUrl(url,200);
-      
-      // Load image
-      Ember.Blackout.preloadImage(tmpURL).then((size)=>{
-        let { w, h } = size;
+      if(url || (this.get('type') && this.get('type')!=='custom')){
         
-        // Check size
-        if(w < minSize || h < minSize){
+        // Version the image so that if the user changes the image at the source, it will refresh from the cache
+        let version = Ember.Blackout.getTimeHex();
+        let separator = Ember.Blackout.getSeparator(url);
+        
+        if(url.regexIndexOf(/[&?]v=/i)>=0){
+          url = url.replace(/v=\w+/i,'v=' + version);
+        } else {
+          url += separator + 'v=' + version;
+        }
+        
+        // Run through cache so that we get https
+        let tmpURL = this.get('userImages').getCacheUrl(url,200);
+        
+        // Load image
+        Ember.Blackout.preloadImage(tmpURL).then((size)=>{
+          let { w, h } = size;
           
+          // Check size
+          if(w < minSize || h < minSize){
+            
+            fail(Ember.Blackout.error({
+              item: 'customUrl',
+              title: t('user-image-editor.errors.image-too-small',{ minSize: 'minSize' }),
+              minSize: minSize,
+            }));
+            
+            return;
+          }
+          
+          if( this.get('type') === 'manager' ){
+            return this.saveManagerImage(url,succeed,fail,final);
+          } else if( this.get('type') === 'club' ){
+            return this.saveClubImage(url,succeed,fail,final);
+          } else {
+            return this.saveCustomImage(url,succeed,fail,final);
+          }
+          
+          
+        },()=>{
           fail(Ember.Blackout.error({
             item: 'customUrl',
-            title: t('user-image-editor.errors.image-too-small',{ minSize: 'minSize' }),
-            minSize: minSize,
+            title: t('user-image-editor.errors.image-not-found'),
           }));
-          
-          return;
-        }
+        });
         
-        if( this.get('type') === 'manager' ){
-          return this.saveManagerImage(url,succeed,fail,final);
-        } else if( this.get('type') === 'manager' ){
-          return this.saveClubImage(url,succeed,fail,final);
-        } else {
-          return this.saveCustomImage(url,succeed,fail,final);
-        }
+      } else {
         
+        return this.saveCustomImage(url,succeed,fail,final);
         
-      },()=>{
-        fail(Ember.Blackout.error({
-          item: 'customUrl',
-          title: t('user-image-editor.errors.image-not-found'),
-        }));
-      });
+      }
       
     },
     onChangedImageType(value){
