@@ -4,7 +4,7 @@
   size=size
   defaultColor='light'
   editable=isOwned
-  class="gap-2x"
+  class=(if isOwned 'gap-md')
   onSave=(action 'savePlayerImage')
   showAvatarLinks=true
   incomingWrapperClass=wrapperClass

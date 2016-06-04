@@ -33,8 +33,22 @@
             
             {{player.firstName}}<br>
             
-            <span class="player-ui-nickname nowrap">&quot;{{player.nickname}}&quot;{{#if (owned-club player.club)}}{{#link-to 'players.player.manage.customise' player.id class="btn-a on-dark"}}<i class="icon-edit-circle"></i>{{/link-to}}{{/if}}</span><br>
+            <span class="player-ui-nickname nowrap {{if (owned-club player.club) 'owned'}}">
             
+              {{#if (owned-club player.club)}}
+              
+                {{#link-to 'players.player.manage.customise' player.id class="btn-a secondary"}}
+                  &quot;{{player.nickname}}&quot;
+                {{/link-to}}
+              
+              {{else}}
+                
+                &quot;{{player.nickname}}&quot;
+                
+              {{/if}}
+              
+            </span><br>
+              
             {{player.lastName}}
             
           {{else}}
