@@ -63,7 +63,7 @@ export default Ember.Component.extend({
     },
     copyCSV(button){
       let csv = this.generateCSV();
-      print(csv);
+      //print(csv);
       this.copyToClipboard(csv,button);
     },
     showClipboardBox(button,text){
@@ -251,7 +251,7 @@ export default Ember.Component.extend({
     
     // ------------------------------ Jersey
     
-    if(p.get('jersey')!==255){
+    if(p.get('jersey') && p.get('jersey')!==255){
       text += pipe;
       text += '#' + p.get('jersey');
     }
@@ -332,38 +332,43 @@ export default Ember.Component.extend({
     text += nl;
     text += pad(p.get('discipline'),3) + pad(dis,padding);
     text += pad(p.get('experience'),3) + exp;
-    text += nl;
-    text += nl;
     
     // ------------------------------ Skills
     
-    let sta = i18n.t('player.stamina').toString();
-    let han = i18n.t('player.handling').toString();
-    let att = i18n.t('player.attack').toString();
-    let def = i18n.t('player.defence').toString();
-    let tec = i18n.t('player.technique').toString();
-    let str = i18n.t('player.strength').toString();
-    let jum = i18n.t('player.jumping').toString();
-    let spe = i18n.t('player.speed').toString();
-    let agi = i18n.t('player.agility').toString();
-    let kic = i18n.t('player.kicking').toString();
-    longest = getLongest([sta,han,att,def,tec,str,jum,spe,agi,kic]);
-    padding = longest + 2;
-    
-    text += pad(p.get('stamina'),3) + pad(sta,padding);
-    text += pad(p.get('handling'),3) + han;
-    text += nl;
-    text += pad(p.get('attack'),3) + pad(att,padding);
-    text += pad(p.get('defence'),3) + def;
-    text += nl;
-    text += pad(p.get('technique'),3) + pad(tec,padding);
-    text += pad(p.get('strength'),3) + str;
-    text += nl;
-    text += pad(p.get('jumping'),3) + pad(jum,padding);
-    text += pad(p.get('speed'),3) + spe;
-    text += nl;
-    text += pad(p.get('agility'),3) + pad(agi,padding);
-    text += pad(p.get('kicking'),3) + kic;
+    if(p.get('stamina') || p.get('stamina')===0){
+      
+      text += nl;
+      text += nl;
+      
+      let sta = i18n.t('player.stamina').toString();
+      let han = i18n.t('player.handling').toString();
+      let att = i18n.t('player.attack').toString();
+      let def = i18n.t('player.defence').toString();
+      let tec = i18n.t('player.technique').toString();
+      let str = i18n.t('player.strength').toString();
+      let jum = i18n.t('player.jumping').toString();
+      let spe = i18n.t('player.speed').toString();
+      let agi = i18n.t('player.agility').toString();
+      let kic = i18n.t('player.kicking').toString();
+      longest = getLongest([sta,han,att,def,tec,str,jum,spe,agi,kic]);
+      padding = longest + 2;
+      
+      text += pad(p.get('stamina'),3) + pad(sta,padding);
+      text += pad(p.get('handling'),3) + han;
+      text += nl;
+      text += pad(p.get('attack'),3) + pad(att,padding);
+      text += pad(p.get('defence'),3) + def;
+      text += nl;
+      text += pad(p.get('technique'),3) + pad(tec,padding);
+      text += pad(p.get('strength'),3) + str;
+      text += nl;
+      text += pad(p.get('jumping'),3) + pad(jum,padding);
+      text += pad(p.get('speed'),3) + spe;
+      text += nl;
+      text += pad(p.get('agility'),3) + pad(agi,padding);
+      text += pad(p.get('kicking'),3) + kic;
+      
+    }
     
     
     return text;
@@ -376,6 +381,13 @@ export default Ember.Component.extend({
     let i18n = this.get('i18n');
     let nl = "\n";
     let c = ',';
+    let p;
+    
+    if(this.get('player')){
+      p = this.get('player');
+    } else if(this.get('squad')){
+      p = this.get('squad.firstObject');
+    }
     
     // ------------------------------ Headers
     
@@ -416,26 +428,29 @@ export default Ember.Component.extend({
     text += i18n.t('player.discipline').toString();
     text += c;
     text += i18n.t('player.experience').toString();
-    text += c;
-    text += i18n.t('player.stamina').toString();
-    text += c;
-    text += i18n.t('player.handling').toString();
-    text += c;
-    text += i18n.t('player.attack').toString();
-    text += c;
-    text += i18n.t('player.defence').toString();
-    text += c;
-    text += i18n.t('player.technique').toString();
-    text += c;
-    text += i18n.t('player.strength').toString();
-    text += c;
-    text += i18n.t('player.jumping').toString();
-    text += c;
-    text += i18n.t('player.speed').toString();
-    text += c;
-    text += i18n.t('player.agility').toString();
-    text += c;
-    text += i18n.t('player.kicking').toString();
+    
+    if(p.get('stamina') || p.get('stamina')===0){
+      text += c;
+      text += i18n.t('player.stamina').toString();
+      text += c;
+      text += i18n.t('player.handling').toString();
+      text += c;
+      text += i18n.t('player.attack').toString();
+      text += c;
+      text += i18n.t('player.defence').toString();
+      text += c;
+      text += i18n.t('player.technique').toString();
+      text += c;
+      text += i18n.t('player.strength').toString();
+      text += c;
+      text += i18n.t('player.jumping').toString();
+      text += c;
+      text += i18n.t('player.speed').toString();
+      text += c;
+      text += i18n.t('player.agility').toString();
+      text += c;
+      text += i18n.t('player.kicking').toString();
+    }
     
     text += nl;
     
@@ -468,7 +483,7 @@ export default Ember.Component.extend({
     // ------------------------------ Jersey
     
     text += c;
-    text += p.get('jersey')===255 ? '' : p.get('jersey');
+    text += p.get('jersey') && p.get('jersey')===255 ? '' : p.get('jersey');
     
     // ------------------------------ CSR
     
@@ -545,26 +560,30 @@ export default Ember.Component.extend({
     
     // ------------------------------ Skills
     
-    text += c;
-    text += p.get('stamina');
-    text += c;
-    text += p.get('handling');
-    text += c;
-    text += p.get('attack');
-    text += c;
-    text += p.get('defence');
-    text += c;
-    text += p.get('technique');
-    text += c;
-    text += p.get('strength');
-    text += c;
-    text += p.get('jumping');
-    text += c;
-    text += p.get('speed');
-    text += c;
-    text += p.get('agility');
-    text += c;
-    text += p.get('kicking');
+    if(p.get('stamina') || p.get('stamina')===0){
+      
+      text += c;
+      text += p.get('stamina');
+      text += c;
+      text += p.get('handling');
+      text += c;
+      text += p.get('attack');
+      text += c;
+      text += p.get('defence');
+      text += c;
+      text += p.get('technique');
+      text += c;
+      text += p.get('strength');
+      text += c;
+      text += p.get('jumping');
+      text += c;
+      text += p.get('speed');
+      text += c;
+      text += p.get('agility');
+      text += c;
+      text += p.get('kicking');
+      
+    }
     
     return text;
     
