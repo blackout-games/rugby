@@ -76,7 +76,7 @@
         </div>
       </div>
       
-      {{#if (not-eq player.jersey 255)}}
+      {{#if (and player.jersey (not-eq player.jersey 255))}}
       <div class="col-auto center-parent">
         <div class="player-ui-jersey squad">
           <i class="icon-jersey"></i>

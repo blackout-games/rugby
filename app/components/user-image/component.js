@@ -382,7 +382,7 @@ export default Ember.Component.extend({
         { url: 'http://doppelme.com/', label: 'DoppleMe' },
         { url: 'http://pickaface.net/', label: 'Pick a Face' },
         { url: 'http://www.icongenerators.net/pixelavatar.html', label: 'Pixel Avatar' },
-        { url: 'http://www.faceyourmanga.com/editmangatar.php', label: 'fFace Your Manga' },
+        { url: 'http://www.faceyourmanga.com/editmangatar.php', label: 'Face Your Manga' },
       ];
       
       let avatarGeneratorsHtml = '<label>' + i18n.t('players.avatars.avatar-generators').toString() + '</label>';
