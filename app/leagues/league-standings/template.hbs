@@ -32,7 +32,7 @@
         {{/if}}
         <td class="standings-cell right-pad-lg ellipsis">
           <span class="standings-club">
-            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot')) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary" imageSize=(if media.isMobile 'small' 'medium')}}
+            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot')) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>
         </td>
         <td class="standings-cell standings-center-cell">

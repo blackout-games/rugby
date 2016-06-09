@@ -69,6 +69,7 @@ Router.map(function() {
       path: ':league_id'
     }, function() {
       this.route('fixtures');
+      this.route('rankings');
     });
   });
   this.route('league-country', function() {

@@ -1,0 +1,49 @@
+{{#responsive-table}}
+<table class="">
+
+  <thead>
+    <tr>
+      {{#if showNumbers}}
+        <th class="standings-header-cell ">&nbsp;</th>
+      {{/if}}
+      <th class="standings-header-cell ">&nbsp;</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'rankings.rating-points'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'rankings.average-csr'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'rankings.country-rank'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'rankings.world-rank'}}</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    
+    {{#each rankingsSorted as |club index|}}
+      <tr>
+        {{#if showNumbers}}
+          <td class="standings-cell standings-center-cell standings-standing">
+            {{add index 1}}
+          </td>
+        {{/if}}
+        <td class="standings-cell right-pad-lg ellipsis">
+          <span class="standings-club">
+            {{club-link club=club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless club.owner ' bot')) class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
+          </span>
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{club.ratingPoints}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{number club.averageTop15Csr}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{number club.countryRanking}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{number club.worldRanking}}
+        </td>
+      </tr>
+    {{/each}}
+    
+  </tbody>
+  
+</table>
+{{/responsive-table}}

@@ -12,15 +12,23 @@
         
         {{list.tab tab="league-standings-panel" name-t="league.standings" icon-class="icon-user icon-lg"}}
         
+        {{list.tab tab="league-rankings-panel" name-t="menu.global.rankings" icon-class="icon-tag icon-lg"}}
+        
         {{list.tab tab="league-fixtures-panel" name-t="menu.team.fixtures" icon-class="icon-tag icon-lg"}}
         
       {{/tabs.list}}
       
         
       {{#tabs.content as |content|}}
+      
         
         {{#content.tab id="league-standings-panel"}}
           {{component 'leagues/league-standings' standings=model}}
+        {{/content.tab}}
+        
+        
+        {{#content.tab id="league-rankings-panel"}}
+          {{component 'leagues/league-rankings' standings=model}}
         {{/content.tab}}
         
         
@@ -30,6 +38,7 @@
             registerTabLoading=tab.registerTabLoading
             finishTabLoading=tab.finishTabLoading}}
         {{/content.tab}}
+        
         
       {{/tabs.content}}
       
