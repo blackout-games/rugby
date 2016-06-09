@@ -12,7 +12,7 @@
   font-weight: bold;
   max-width:30vw;
   &.has-finished {
-    max-width:25vw;
+    max-width:24vw;
   }
   &.bot {
     color: $bg-dark-lighter;
@@ -26,7 +26,7 @@
 
 .fixture-ui-points-wrapper {
   padding: 2px 4px 0px;
-  width:24px;
+  width:29px;
   @media #{$tablet-and-up} {
     width:33px;
   }
