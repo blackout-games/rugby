@@ -24,9 +24,16 @@ export default Ember.Component.extend({
    */
   isOnScreen:true,
   
-  classNames: ['dash-box','dash-box-no-padding'],
+  classNames: ['dash-box-no-padding'],
+  classNameBindings: ['hasBox:dash-box'],
+  
+  hasBox: Ember.computed.not('boxless'),
   
   setupTabs(){
+    
+    if(this.get('boxless')){
+      this.set('noPadding',true);
+    }
     
     if(!this.get('noPadding')){
       

@@ -64,9 +64,11 @@ Router.map(function() {
   this.route('account');
   this.route('nope', { path: '/*path'});
   this.route('nope');
-  this.route('league', function() {
-    this.route('standings', {
+  this.route('leagues', function() {
+    this.route('league', {
       path: ':league_id'
+    }, function() {
+      this.route('fixtures');
     });
   });
   this.route('league-country', function() {

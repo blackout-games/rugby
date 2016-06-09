@@ -79,7 +79,12 @@
 .dash-content, .dash-footer {
   @media #{$mobile} {
     @if $full-real-estate-on-mobile {
-      margin: 0 11px 11px;
+      margin-left: 11px;
+      margin-right: 11px;
+      &:not(.sides-only) {
+        margin-top: 11px;
+        margin-bottom: 11px;
+      }
     }
   }
 }

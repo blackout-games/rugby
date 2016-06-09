@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     
     let leagueId = this.get('leagueId');
     if(leagueId){
-      Ember.Blackout.transitionTo('league.standings',leagueId);
+      Ember.Blackout.transitionTo('leagues.league',leagueId);
     }
     
   },

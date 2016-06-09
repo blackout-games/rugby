@@ -1,13 +1,7 @@
 
 
-<div class="dash-header">
-  <div class="standings-title">
-    {{league.name}}
-  </div>
-</div>
-
 {{#responsive-table}}
-<table class="no-border-radius-right">
+<table class="">
 
   <thead>
     <tr>
@@ -38,7 +32,7 @@
         {{/if}}
         <td class="standings-cell right-pad-lg ellipsis">
           <span class="standings-club">
-            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass="standings-club-name ellipsis" beforeName=(if (not-eq standing.penalty 0) '*') class="secondary"}}
+            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot')) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>
         </td>
         <td class="standings-cell standings-center-cell">
@@ -82,14 +76,14 @@
       
       <div class="divider gap-md"></div>
       
-      <div class="standings-title">
+      <h5 class="on-dark heading-font">
         {{t 'league.league-nav'}}
-      </div>
+      </h5>
       
-      {{league/nav-button league=league direction='left'}}
-      {{league/nav-button league=league direction='up'}}
-      {{league/nav-button league=league direction='down'}}
-      {{league/nav-button league=league direction='right'}}
+      {{leagues/nav-button league=league direction='left'}}
+      {{leagues/nav-button league=league direction='up'}}
+      {{leagues/nav-button league=league direction='down'}}
+      {{leagues/nav-button league=league direction='right'}}
       
       <span class="nowrap">
         <button {{action 'zoomOut' country.id}} class="btn standings-button"><i class="icon-zoom-out icon-lg icon-vcenter"></i> {{t 'buttons.view-all'}}</button> {{help-ui t='help.league.zoom-out' besideButton=true}}

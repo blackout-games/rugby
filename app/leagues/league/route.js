@@ -4,10 +4,14 @@ export default Ember.Route.extend({
   
   model(params){
     
-    let query = {};
+    let query = {
+      fields: {
+        clubs: 'name,logo,owner'
+      },
+    };
     
     if(!params.league_id){
-      this.transitionTo('league.standings','me');
+      this.transitionTo('leagues.league','me');
       return;
     }
     

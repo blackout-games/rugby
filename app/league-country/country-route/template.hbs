@@ -19,8 +19,8 @@
     }}
     
       <div class="col-fixed country-standings-container" id="country-standings-league-{{league.l}}">
-        <div class="country-standings-league-title standings-glass-panel {{if (eq fromLeague league.i) 'active'}}">
-          {{#link-to 'league.standings' league.i class=(concat "btn-a " (if (eq fromLeague league.i) 'white go-primary-on-primary' 'secondary go-primary') )}}
+        <div class="country-standings-league-title standings-glass-panel force-mobile {{if (eq fromLeague league.i) 'active'}}">
+          {{#link-to 'leagues.league' league.i class=(concat "btn-a " (if (eq fromLeague league.i) 'white go-primary-on-primary' 'secondary go-primary') )}}
             {{t 'league.league-number' league=league.l}}
           {{/link-to}}
         </div>
@@ -35,7 +35,7 @@
                   </td>
                 </tr>
               {{else}}
-                  <tr {{action 'goToClub' clbtn-other.btn-eventsub.i}} class="btn-other btn-events secondary go-primary">
+                  <tr {{action 'goToClub' club.i}} class="btn-other btn-events secondary go-primary">
                     <td class="country-standing">{{add index 1}}</td>
                     <td class="ellipsis {{if club.b 'bot'}}">
                       {{club.n}}

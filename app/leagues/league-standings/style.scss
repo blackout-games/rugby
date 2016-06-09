@@ -27,7 +27,10 @@
 }
 
 .standings-cell {
-  height: 54px;
+  height: 44px;
+  @media #{$tablet-and-up} {
+    height: 54px;
+  }
   overflow: hidden;
   vertical-align: middle;
 }
@@ -40,6 +43,9 @@
   max-width: 33vw;
   //text-transform: uppercase;
   font-weight: bold;
+  &.bot {
+    color: $bg-dark-lighter;
+  }
 }
 
 .standings-club-col {
@@ -67,7 +73,11 @@
   background-color: rgba($bg-dark,0.5);
   display: inline-block;
   @media #{$tablet-tall-and-down} {
-    background-color: rgba(darken($bg-dark,4%),0.5);
+    background-color: transparent;
+    
+    &.force-mobile {
+      background-color: rgba(darken($bg-dark,4%),0.5);
+    }
   }
 }
 

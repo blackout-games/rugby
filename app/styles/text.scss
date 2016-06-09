@@ -516,27 +516,36 @@ h3 {
 h4 {
   font-family: $heading-font;
   text-transform: uppercase;
-  font-size: 33px;
   font-weight: 900;
   margin: 27px 0 7px;
+  font-size: 27px;
+  @media #{$tablet-and-up} {
+    font-size: 33px;
+  }
 }
 
 h5 {
   font-family: $sports-font;
   font-family: $primary-font;
   //text-transform: uppercase;
-  font-size: 25px;
   font-weight: 900;
   margin: 22px 0 7px;
+  font-size: 20px;
+  @media #{$tablet-and-up} {
+    font-size: 25px;
+  }
 }
 
 h6 {
   font-family: $sports-font;
   font-family: $primary-font;
   //text-transform: uppercase;
-  font-size: 19px;
   font-weight: 900;
   margin: 20px 0 7px;
+  font-size: 15px;
+  @media #{$tablet-and-up} {
+    font-size: 19px;
+  }
 }
 
 .panel-title {
@@ -550,6 +559,15 @@ h6 {
 h1, h2, h3, h4, h5, h6 {
   &.top {
     margin-top:0;
+  }
+  
+  &.heading-font {
+    font-family: $heading-font;
+    text-transform: uppercase;
+  }
+  
+  &.on-dark {
+    color: $bg-light-darker-4x;
   }
 }
 

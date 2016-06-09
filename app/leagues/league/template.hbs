@@ -1,0 +1,41 @@
+{{outlet}}
+{{top-level images="grounds"}}
+
+<div class="page-container-lg page-container-left">
+  {{page-header title=(t 'menu.team.league') subHeader=model.firstObject.league.name}}
+  
+  <div class="dash-box-container">
+    
+    {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="league" resetOn=(readonly model) boxless=true as |tabs|}}
+      
+      {{#tabs.list as |list|}}
+        
+        {{list.tab tab="league-standings-panel" name-t="league.standings" icon-class="icon-user icon-lg"}}
+        
+        {{list.tab tab="league-fixtures-panel" name-t="menu.team.fixtures" icon-class="icon-tag icon-lg"}}
+        
+      {{/tabs.list}}
+      
+        
+      {{#tabs.content as |content|}}
+        
+        {{#content.tab id="league-standings-panel"}}
+          {{component 'leagues/league-standings' standings=model}}
+        {{/content.tab}}
+        
+        
+        {{#content.tab id="league-fixtures-panel" noPadding=false as |tab|}}
+          {{component 'leagues/league-fixtures'
+            league=model.firstObject.league
+            registerTabLoading=tab.registerTabLoading
+            finishTabLoading=tab.finishTabLoading}}
+        {{/content.tab}}
+        
+      {{/tabs.content}}
+      
+    {{/dash-tabs}}
+    
+    
+    
+  </div>
+</div>

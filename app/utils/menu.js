@@ -124,15 +124,15 @@ export default {
         tempRoute: 'coming-soon'
       },
       {
-        label: 'League Standings',
-        route: 'league.standings',
+        label: 'League',
+        route: 'leagues.league',
         params: {
           id: 'me',
         }
       },
         {
           route: 'league-country.country',
-          menuRoute: 'league.standings',
+          menuRoute: 'leagues.league',
         },
       {
         label: 'Fixtures',

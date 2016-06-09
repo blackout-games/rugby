@@ -118,6 +118,10 @@ export default Ember.Component.extend({
         Ember.Blackout.preloadImage(url).then((size)=>{
           let { w, h } = size;
           
+          if(!$img){
+            return;
+          }
+          
           if(this.assertComponentStillExists()){
             
             if(this.assertImageRes(w,h)){
@@ -129,6 +133,11 @@ export default Ember.Component.extend({
               }
               
               Ember.run.later(()=>{
+          
+              if(!$img){
+                return;
+              }
+              
               //Ember.run.later(function(){ // For simulating a slow image
                 
                 // Add image url
@@ -151,6 +160,10 @@ export default Ember.Component.extend({
                 // Must wait again after we remove hidden class
                 // 'run.next' doesn't work and allows image to just appear
                 Ember.run.later(()=>{ 
+          
+                  if(!$img){
+                    return;
+                  }
                   $img.addClass('fade-img-show');
                   this.fadeOutOtherImages();
                   
@@ -165,6 +178,10 @@ export default Ember.Component.extend({
           }
           
         },()=>{ // Error
+          
+          if(!$img){
+            return;
+          }
           
           if(this.get('hideOnFailure')){
             $img.slideUp();
@@ -193,6 +210,9 @@ export default Ember.Component.extend({
   setupPlaceholder(){
     
     let $img = this.$('.fade-img-placeholder');
+    if(!$img){
+      return;
+    }
     
     // Only show if main image is empty
     if(this.get('placeholderUrl') && !this.get('url')){
@@ -228,6 +248,9 @@ export default Ember.Component.extend({
   setupImageNotFound(){
     
     let $img = this.$('.fade-img-not-found');
+    if(!$img){
+      return;
+    }
     
     // Only show if main image is empty
     if(this.get('notFoundUrl')){
@@ -316,6 +339,10 @@ export default Ember.Component.extend({
     
     // Primary image
     $img = this.$('.fade-img');
+    if(!$img){
+      return;
+    }
+    
     if(this.get('cover')){
       $img.css('background-image','');
     } else {

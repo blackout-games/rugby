@@ -6,6 +6,19 @@ $page-header-height: 15vh;
   &.negate {
     margin: -22px -22px 0;
   }
+  @media #{$mobile} {
+    @if $full-real-estate-on-mobile {
+      padding: 15px 15px 0;
+      &.negate {
+        margin: -15px -15px 0;
+      }
+    } else {
+      padding: 24px 24px 0;
+      &.negate {
+        margin: -24px -24px 0;
+      }
+    }
+  }
 }
 
 .page-header {

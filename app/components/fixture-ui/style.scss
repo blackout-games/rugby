@@ -1,0 +1,42 @@
+.fixture-ui-v {
+  padding: 2px 7px 0px;
+  font-family: $heading-font;
+  font-size: 1.2em;
+  //text-transform: uppercase;
+  font-weight: bold;
+  color: $bg-dark;
+  //color: $bg-dark-lighter-5x;
+}
+
+.fixture-ui-club-name {
+  font-weight: bold;
+  max-width:30vw;
+  &.has-finished {
+    max-width:25vw;
+  }
+  &.bot {
+    color: $bg-dark-lighter;
+  }
+}
+
+.fixture-ui-a {
+  display: block;
+  width:100%;
+}
+
+.fixture-ui-points-wrapper {
+  padding: 2px 4px 0px;
+  width:24px;
+  @media #{$tablet-and-up} {
+    width:33px;
+  }
+  .fixture-ui-points {
+    font-size: 1.2em;
+    font-family: $heading-font;
+    color: white;
+    &.winner {
+      color: $primary-master;
+      //color: yellow;
+    }
+  }
+}

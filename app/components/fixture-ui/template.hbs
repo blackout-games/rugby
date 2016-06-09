@@ -1,0 +1,36 @@
+<div class="col-flex-even text-right">
+  {{club-ui
+    club=fixture.homeClub
+    inline=false
+    imageOnRight=true
+    imageSize='small'
+    defaultColor='dark'
+    placeholder='/assets/images/user/club-dark.png'
+    clubNameClass=(concat "fixture-ui-club-name ellipsis" (if fixture.isFinished ' has-finished') (unless fixture.homeClub.owner ' bot'))
+  }}
+</div>
+
+{{#if fixture.isFinished}}
+<div class="col-auto text-center fixture-ui-points-wrapper">
+  <div class="fixture-ui-points {{if homeWinner 'winner'}}">{{fixture.homePoints}}</div>
+</div>
+{{/if}}
+
+<div class="col-auto text-center fixture-ui-v">v</div>
+
+{{#if fixture.isFinished}}
+<div class="col-auto text-center fixture-ui-points-wrapper">
+  <div class="fixture-ui-points {{if guestWinner 'winner'}}">{{fixture.guestPoints}}</div>
+</div>
+{{/if}}
+
+<div class="col-flex-even">
+  {{club-ui
+    club=fixture.guestClub
+    inline=false
+    imageSize='small'
+    defaultColor='dark'
+    placeholder='/assets/images/user/club-dark.png'
+    clubNameClass=(concat "fixture-ui-club-name ellipsis" (if fixture.isFinished ' has-finished') (unless fixture.guestClub.owner ' bot'))
+  }}
+</div>

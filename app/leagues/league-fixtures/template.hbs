@@ -1,0 +1,23 @@
+{{#each rounds as |round|}}
+  
+  <h5 class="on-dark heading-font no-top-gap-on-first dash-content sides-only">
+    {{#if round.competition}}
+      {{t round.competitionT}}
+    {{else}}
+      {{t 'date.round-x' round=round.round}}
+    {{/if}}
+  </h5>
+  
+  <table>
+    <tbody>
+      {{#each round.fixtures as |fixture|}}
+        <tr>
+          <td>
+            {{fixture-link fixture=fixture class="btn-a secondary go-primary"}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  
+{{/each}}

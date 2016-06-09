@@ -1956,6 +1956,9 @@ document.documentElement.addEventListener('click', function(e){
     e.stopImmediatePropagation();
     _stopNextClick = false;
   }
+  if(Ember.Blackout){
+    Ember.Blackout.lastClickEvent = e;
+  }
 }, true);
 
 document.documentElement.addEventListener('mousedown', function(e){

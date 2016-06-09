@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   
-  classNames: ['dash-content'],
+  classNames: [],
   
   onInit: Ember.on('init',function(){
     let fromLeague = Number(this.get('cache.fromLeague'));
@@ -77,9 +77,9 @@ export default Ember.Component.extend({
     goBack(){
       let fromLeague = this.get('fromLeague');
       if(fromLeague){
-        Ember.Blackout.transitionTo('league.standings',fromLeague);
+        Ember.Blackout.transitionTo('leagues.league',fromLeague);
       } else {
-        Ember.Blackout.transitionTo('league.standings','me');
+        Ember.Blackout.transitionTo('leagues.league','me');
       }
     },
   },

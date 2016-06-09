@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:league/standings', 'Unit | Route | league/standings', {
+moduleFor('route:leagues/league', 'Unit | Route | leagues/league', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });
