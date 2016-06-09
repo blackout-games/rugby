@@ -64,6 +64,9 @@ export default Ember.Service.extend({
     // Set time diffs list
     this.set('timeDiffs',data.get('timeDiffs'));
     
+    // Set game date
+    this.set('gameDate',Ember.Object.extend(data.get('gameDate')).create());
+    
   },
   
 });

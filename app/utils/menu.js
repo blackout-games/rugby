@@ -114,6 +114,10 @@ export default {
           id: 'me',
         }
       },
+        {
+          route: 'players',
+          menuRoute: 'squad.club',
+        },
       {
         label: 'Academy',
         route: 'academy',
@@ -126,6 +130,10 @@ export default {
           id: 'me',
         }
       },
+        {
+          route: 'league-country.country',
+          menuRoute: 'league.standings',
+        },
       {
         label: 'Fixtures',
         route: 'fixtures',
@@ -150,10 +158,6 @@ export default {
         label: 'Cup',
         route: 'cup',
         tempRoute: 'coming-soon'
-      },
-      {
-        route: 'players',
-        menuRoute: 'squad.club',
       },
     
     ],

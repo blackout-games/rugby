@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'blackout';
-  src: url('../font/blackout.eot?62121567');
-  src: url('../font/blackout.eot?62121567#iefix') format('embedded-opentype'),
-       url('../font/blackout.woff2?62121567') format('woff2'),
-       url('../font/blackout.woff?62121567') format('woff'),
-       url('../font/blackout.ttf?62121567') format('truetype'),
-       url('../font/blackout.svg?62121567#blackout') format('svg');
+  src: url('../font/blackout.eot?39494886');
+  src: url('../font/blackout.eot?39494886#iefix') format('embedded-opentype'),
+       url('../font/blackout.woff2?39494886') format('woff2'),
+       url('../font/blackout.woff?39494886') format('woff'),
+       url('../font/blackout.ttf?39494886') format('truetype'),
+       url('../font/blackout.svg?39494886#blackout') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'blackout';
-    src: url('../font/blackout.svg?62121567#blackout') format('svg');
+    src: url('../font/blackout.svg?39494886#blackout') format('svg');
   }
 }
 */
@@ -156,3 +156,5 @@
 .icon-export-alt:before { content: '\e862'; } /* '' */
 .icon-jersey:before { content: '\e863'; } /* '' */
 .icon-link-ext:before { content: '\e864'; } /* '' */
+.icon-zoom-out:before { content: '\e865'; } /* '' */
+.icon-zoom-in:before { content: '\e866'; } /* '' */

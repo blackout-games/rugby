@@ -6,6 +6,14 @@
   @media #{$tablet-and-up} {
     font-size: 17px;
   }
+  
+  &.bigger {
+    color: white;
+    font-size: 19px;
+    @media #{$tablet-and-up} {
+      font-size: 22px;
+    }
+  }
 }
 
 .standings-header-cell {
@@ -45,14 +53,28 @@
 }
 
 .standings-penalty-applied {
-  color: $bg-light-darker-4x;
-  padding: 11px;
   font-weight: bold;
   font-size: 11px;
   @media #{$tablet-and-up} {
     font-size: 12px;
   }
   text-align: right;
+}
+
+.standings-glass-panel {
+  color: $bg-light-darker-4x;
+  padding: 11px;
   background-color: rgba($bg-dark,0.5);
   display: inline-block;
+  @media #{$tablet-tall-and-down} {
+    background-color: rgba(darken($bg-dark,4%),0.5);
+  }
+}
+
+.standings-button {
+  //text-transform: uppercase;
+  font-weight: bold;
+  i {
+    margin-top: -7px !important;
+  }
 }

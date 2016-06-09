@@ -7,6 +7,16 @@
     @media #{$tablet-and-up} {
       font-size:33px;
     }
+    &:focus {
+      outline: none;
+    }
+    margin-top: -5px
+  }
+  
+  &.help-ui-small {
+    i {
+      font-size: 22px;
+    }
   }
   
   &.hover {

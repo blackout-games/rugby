@@ -3,8 +3,16 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   defaultHeight: 150,
+  defaultWidth: 150,
   content: [],
   contentProxy: [],
+  
+  /**
+   * NOTE THIS IS NOT SUPPORTED!
+   * It's not working in smoke and mirrors, and acknowledged by runinspired himself.
+   * @type {Boolean}
+   */
+  horizontal: false,
   
   /**
    * Multiples of scroller height
@@ -22,11 +30,16 @@ export default Ember.Component.extend({
   
   onInit: Ember.on('init',function(){
     
-    let vcTagName = this.get('verticalCollectionTag');
+    let vcTagName = this.get('collectionTag');
     
     // Create a fresh css pseudo rule
-    Ember.Blackout.addCSSRule( vcTagName + ' .vertical-item', 'min-height: '+this.get('defaultHeight')+'px;');
+    if(this.get('horizontal')){
+      Ember.Blackout.addCSSRule( vcTagName + ' .horizontal-item', 'min-width: '+this.get('defaultWidth')+'px;');
+    } else {
+      Ember.Blackout.addCSSRule( vcTagName + ' .vertical-item', 'min-height: '+this.get('defaultHeight')+'px;');
+    }
     
+    // Reset our internal content proxy on init
     this.set('contentProxy',null);
   }),
   
@@ -49,10 +62,12 @@ export default Ember.Component.extend({
       if(this.get('doesLoadData')){
         Ember.run.next(()=>{
           Ember.run.next(()=>{
+        print('contetn2',this.get('content'));
             this.set('contentProxy',this.get('content'));
           });
         });
       } else {
+        print('contetn',this.get('content'));
         this.set('contentProxy',this.get('content'));
       }
     }
@@ -69,6 +84,10 @@ export default Ember.Component.extend({
   
   verticalCollectionTag: Ember.computed(function(){
     return 'vertical-collection-' + Ember.Blackout.generateId().toLowerCase();
+  }),
+  
+  collectionTag: Ember.computed(function(){
+    return 'sm-collection-' + Ember.Blackout.generateId().toLowerCase();
   }),
   
 });

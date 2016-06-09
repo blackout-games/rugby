@@ -1,0 +1,54 @@
+{{back-button toAction=(action 'goBack') class="gap-md"}}
+
+{{#each divisions as |division divisionIndex|}}
+  
+  <div id="standings-division-{{division.d}}">
+  
+    <div class="standings-title bigger">{{t 'league.division-number' division=division.d}}</div>
+    
+    {{#normal-scroll horizontal=true class=(concat 'page-header-padding negate' (unless (last divisionIndex divisions) ' gap-2x')) id=(concat "country-standings-div-" division.d) }}
+    {{#infinite-scroll-horizontal
+      content=division.ls
+      defaultWidth=222
+      bufferSize=2
+      useContentProxy=true
+      horizontal=true
+      scrollerSelector=(concat "#country-standings-div-" division.d)
+      class="row row-nowrap gap-md"
+      as |league leagueIndex|
+    }}
+    
+      <div class="col-fixed country-standings-container" id="country-standings-league-{{league.l}}">
+        <div class="country-standings-league-title standings-glass-panel {{if (eq fromLeague league.i) 'active'}}">
+          {{#link-to 'league.standings' league.i class=(concat "btn-a " (if (eq fromLeague league.i) 'white go-primary-on-primary' 'secondary go-primary') )}}
+            {{t 'league.league-number' league=league.l}}
+          {{/link-to}}
+        </div>
+        <table>
+          <tbody>
+            {{#each league.cs as |club index|}}
+              {{#if club.b}}
+                <tr>
+                  <td class="country-standing">{{add index 1}}</td>
+                  <td class="ellipsis {{if club.b 'bot'}}">
+                    {{club.n}}
+                  </td>
+                </tr>
+              {{else}}
+                  <tr {{action 'goToClub' clbtn-other.btn-eventsub.i}} class="btn-other btn-events secondary go-primary">
+                    <td class="country-standing">{{add index 1}}</td>
+                    <td class="ellipsis {{if club.b 'bot'}}">
+                      {{club.n}}
+                    </td>
+                  </tr>
+              {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{/infinite-scroll-horizontal}}
+    {{/normal-scroll}}
+    
+  </div>
+  
+{{/each}}

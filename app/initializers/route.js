@@ -4,6 +4,7 @@ let forceLoaderRoutes = [
   //{ name: 'squad.club', authenticated: true },
   { name: 'squad.club' },
   { name: 'players.player' },
+  { name: 'league-country.country' },
 ];
 
 let isForcedLoaderRoute = function( routeName, authenticated, router, newParams ){

@@ -1,11 +1,21 @@
 
 $page-header-height: 15vh;
 
+.page-header-padding {
+  padding: 22px 22px 0;
+  &.negate {
+    margin: -22px -22px 0;
+  }
+}
+
 .page-header {
+  
+  @extend .page-header-padding;
+  
   min-height: $page-header-height;
   border: none;
   position:relative;
-  padding: 22px 22px 0;
+  
   margin: 0;
   @media #{$mobile} {
     @if $full-real-estate-on-mobile {
@@ -20,12 +30,28 @@ $page-header-height: 15vh;
     color: rgba(white,0.44);
     color: white;
     font-size: 59px;
-    @media #{$mobile-tall} {
-      font-size:11vw;
+    @media #{$mobile} {
+      font-size: 44px;
+      max-width:90vw;
     }
-    max-width:700px;
     @media #{$mobile-tall} {
+      font-size: 33px;
       max-width:300px;
     }
+    width:100%;
   }
+}
+
+.page-sub-header {
+  display:block;
+  font-size:33px;
+  @media #{$mobile} {
+    font-size: 29px;
+  }
+  @media #{$mobile-tall} {
+    font-size: 25px;
+  }
+  font-family: $heading-font;
+  color: $bg-light-darker-2x;
+  text-transform: uppercase;
 }

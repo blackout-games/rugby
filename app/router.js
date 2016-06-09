@@ -69,6 +69,11 @@ Router.map(function() {
       path: ':league_id'
     });
   });
+  this.route('league-country', function() {
+    this.route('country', {
+      path: ':country_id'
+    });
+  });
 });
 
 export default Router;

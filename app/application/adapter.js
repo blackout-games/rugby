@@ -44,6 +44,15 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
     return url;
   },
   
+  urlForFindRecord(id, modelName, snapshot) {
+    let url = this._super(...arguments);
+    let query = Ember.get(snapshot, 'adapterOptions.query');
+    if (query) {
+      url += '?' + Ember.$.param(query); // assumes no query params are present already
+    }
+    return url;
+  },
+  
   /**
    * Override query so we can support /me
    * Add me: true to the query object
@@ -81,3 +90,4 @@ inflector.irregular('player-statistics', 'player-statistics');
 inflector.irregular('player-history', 'player-history');
 inflector.irregular('weather', 'weather');
 inflector.irregular('info', 'info');
+inflector.irregular('custom', 'custom');

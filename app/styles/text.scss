@@ -145,6 +145,14 @@ a {
     border-box: content-box;
     padding: 3px 7px;
     margin: -3px -7px;
+    
+  }
+}
+
+.btn-a, .btn-other {
+  
+  &, &:hover {
+  
     color: $default-link-color;
     text-decoration: none;
     border-bottom: none;
@@ -227,6 +235,26 @@ a {
       }
     }
     
+    &.go-glass {
+      &.hover {
+        color: rgba(white,0.59);
+      }
+
+      &.press {
+        color: rgba(white,0.44);
+      }
+    }
+    
+    &.go-primary-on-primary {
+      &.hover {
+        color: saturate(lighten($primary-on-dark,22%),50%);
+      }
+
+      &.press {
+        color: desaturate(darken($primary-master,22%),11%);
+      }
+    }
+    
     &.no-hover:hover, &.no-hover.hover {
       color: white;
     }
@@ -241,6 +269,16 @@ a {
 
     &.press {
       color: rgba(white, 0.5);
+    }
+    
+    &.go-primary {
+      &.hover {
+        color: $primary-master;
+      }
+
+      &.press {
+        color: pressColor($primary-master);
+      }
     }
     
     &.no-hover:hover, &.no-hover.hover {

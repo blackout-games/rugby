@@ -1,19 +1,21 @@
-{{#vertical-collection
-  tagName=verticalCollectionTag
+{{#component (if horizontal 'horizontal-collection' 'vertical-collection')
+  tagName=collectionTag
   content=contentProxy
   defaultHeight=defaultHeight
+  defaultWidth=defaultWidth
   alwaysUseDefaultHeight=false
+  alwaysUseDefaultWidth=false
   useContentProxy=useContentProxy
   lastReached=lastReached
   bufferSize=bufferSize
   containerSelector=scrollerSelectorProp
   as |item index|
 }}
-
+  
   {{#if itemClass}}
 
     {{! Be sure not to add margins to this div}}
-    <div class="clearfix">
+    <div class="{{unless horizontal 'clearfix'}}">
       <div class="{{itemClass}}">
         {{yield item index}}
       </div>
@@ -22,13 +24,13 @@
   {{else}}
 
     {{! Be sure not to add margins to this div}}
-    <div class="clearfix">
+    <div class="{{unless horizontal 'clearfix'}}">
       {{yield item index}}
     </div>
     
   {{/if}}
   
-{{/vertical-collection}}
+{{/component}}
 
 {{#if isLoadingData}}
   <div class="loader-padding">

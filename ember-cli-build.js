@@ -106,7 +106,11 @@ module.exports = function(defaults) {
    * File Saver
    */
   app.import('bower_components/file-saver/FileSaver.js');
-
+  
+  /**
+   * GZIP support
+   */
+  app.import('vendor/jsxcompressor/jsxcompressor.min.js');
 
   return app.toTree();
   

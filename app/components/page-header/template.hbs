@@ -1,6 +1,12 @@
 <div class="page-header clearfix vb-parent">
   
-  <h1><span>{{title}}</span></h1>
-  <div id="under-header"></div>
+  <div class="">
+    <h1 class="{{if subHeader 'no-gap'}}"><span>{{title}}</span></h1>
+    {{#if subHeader}}
+      <div class="page-sub-header">{{subHeader}}</div>
+    {{/if}}
+    
+    <div id="under-header"></div>
+  </div>
   
 </div>

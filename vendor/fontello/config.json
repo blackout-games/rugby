@@ -805,6 +805,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "d25d10efa900f529ad1d275657cfd30e",
+      "css": "zoom-out",
+      "code": 59493,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0b2b66e526028a6972d51a6f10281b4b",
+      "css": "zoom-in",
+      "code": 59494,
+      "src": "fontawesome"
+    },
+    {
       "uid": "4c95899d8ee2f5b09735c3835354c056",
       "css": "country",
       "code": 59393,

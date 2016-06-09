@@ -1,0 +1,9 @@
+{{top-level images="grounds"}}
+
+<div class="">
+  {{page-header title=(t 'league.country-league' country=model.country.name) subHeader=(t 'date.season-x' season=model.season)}}
+  
+  <div class="page-header-padding">
+    {{component 'league-country/country-route' divisions=model.divisions}}
+  </div>
+</div>

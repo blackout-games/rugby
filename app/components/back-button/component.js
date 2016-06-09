@@ -25,7 +25,11 @@ export default Ember.Component.extend({
   actions: {
     goBack() {
       
-      this.get('history').goBack(this.get('default'));
+      if(this.get('toAction')){
+        this.attrs.toAction();
+      } else {
+        this.get('history').goBack(this.get('default'));
+      }
       
     },
     goBackTo(to,toId) {
