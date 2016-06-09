@@ -2,94 +2,103 @@
 
 <div class="dash-header">
   <div class="standings-title">
-    {{standings.firstObject.league.name}}
+    {{league.name}}
   </div>
 </div>
 
-<div class="gap-md">
+{{#responsive-table}}
+<table class="no-border-radius-right">
 
-  {{#responsive-table}}
-  <table class="no-border-radius-right">
-
-    <thead>
+  <thead>
+    <tr>
+      {{#if showNumbers}}
+        <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
+      {{/if}}
+      <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.played'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.wins-(short)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.losses-(short)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.draws-(short)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.for'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.against'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.bt-(try-bonus-points)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.bl-(losing-bonus-points)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.points'}}</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    
+    {{#each standings as |standing|}}
       <tr>
         {{#if showNumbers}}
-          <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
+          <td class="standings-cell standings-center-cell standings-standing">
+            {{standing.standing}}
+          </td>
         {{/if}}
-        <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.played'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.wins-(short)'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.losses-(short)'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.draws-(short)'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.for'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.against'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.bt-(try-bonus-points)'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.bl-(losing-bonus-points)'}}</th>
-        <th class="standings-header-cell standings-center-cell">{{t 'standings.points'}}</th>
+        <td class="standings-cell right-pad-lg ellipsis">
+          <span class="standings-club">
+            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass="standings-club-name ellipsis" beforeName=(if (not-eq standing.penalty 0) '*') class="secondary"}}
+          </span>
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.played}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.wins}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.losses}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.draws}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.pointsFor}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.pointsAgainst}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.bt}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.bl}}
+        </td>
+        <td class="standings-cell standings-center-cell">
+          {{standing.totalPoints}}
+        </td>
       </tr>
-    </thead>
+    {{/each}}
     
-    <tbody>
-      
-      {{#each standings as |standing|}}
-        <tr>
-          {{#if showNumbers}}
-            <td class="standings-cell standings-center-cell standings-standing">
-              {{standing.standing}}
-            </td>
-          {{/if}}
-          <td class="standings-cell right-pad-lg ellipsis">
-            <span class="standings-club">
-              {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass="standings-club-name ellipsis" afterName=(if (not-eq standing.penalty 0) '*') class="secondary"}}
-            </span>
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.played}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.wins}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.losses}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.draws}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.pointsFor}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.pointsAgainst}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.bt}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.bl}}
-          </td>
-          <td class="standings-cell standings-center-cell">
-            {{standing.totalPoints}}
-          </td>
-        </tr>
-      {{/each}}
-      
-    </tbody>
-    
-  </table>
-  {{/responsive-table}}
-
-  {{#if penaltyApplied}}
-    <div class="text-right">
-      <div class="standings-penalty-applied standings-glass-panel">{{t 'standings.penalty-applied'}}</div>
-    </div>
-  {{/if}}
+  </tbody>
   
-</div>
+</table>
+{{/responsive-table}}
 
 <div class="dash-content">
-  <div class="standings-title">
-    {{t 'league.league-nav'}}
+  <div class="row row-nowrap">
+    <div class="col-flex">
+      
+      <div class="divider gap-md"></div>
+      
+      <div class="standings-title">
+        {{t 'league.league-nav'}}
+      </div>
+      
+      {{league/nav-button league=league direction='left'}}
+      {{league/nav-button league=league direction='up'}}
+      {{league/nav-button league=league direction='down'}}
+      {{league/nav-button league=league direction='right'}}
+      
+      <span class="nowrap">
+        <button {{action 'zoomOut' country.id}} class="btn standings-button"><i class="icon-zoom-out icon-lg icon-vcenter"></i> {{t 'buttons.view-all'}}</button> {{help-ui t='help.league.zoom-out' besideButton=true}}
+      </span>
+    </div>
+    <div class="col-5 text-right">
+      {{#if penaltyApplied}}
+        <div class="standings-penalty-applied standings-glass-panel">{{t 'standings.penalty-applied'}}</div>
+      {{/if}}
+    </div>
   </div>
-
-  <button {{action 'zoomOut' standings.firstObject.country.id}} class="btn standings-button"><i class="icon-zoom-out icon-lg icon-vcenter"></i> {{t 'misc.zoom-out'}}</button> {{help-ui t='help.league.zoom-out' besideButton=true}}
 </div>

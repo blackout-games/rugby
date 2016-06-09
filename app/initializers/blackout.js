@@ -1867,61 +1867,6 @@ String.prototype.strtr = function(from, to){
   return ret;
 };
 
-// LZW-compress a string
-String.prototype.lzw_encode = function() {
-  let s = this;
-  var dict = {};
-  var data = (s + "").split("");
-  var out = [];
-  var currChar;
-  var phrase = data[0];
-  var code = 256;
-  for (var i=1; i<data.length; i++) {
-      currChar=data[i];
-      if (dict[phrase + currChar] != null) {
-          phrase += currChar;
-      }
-      else {
-          out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-          dict[phrase + currChar] = code;
-          code++;
-          phrase=currChar;
-      }
-  }
-  out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-  for (var ii=0; ii<out.length; ii++) {
-      out[ii] = String.fromCharCode(out[ii]);
-  }
-  return out.join("");
-};
-
-// Decompress an LZW-encoded string
-String.prototype.lzw_decode = function() {
-  let s = this;
-  var dict = {};
-  var data = (s + "").split("");
-  var currChar = data[0];
-  var oldPhrase = currChar;
-  var out = [currChar];
-  var code = 256;
-  var phrase;
-  for (var i=1; i<data.length; i++) {
-      var currCode = data[i].charCodeAt(0);
-      if (currCode < 256) {
-          phrase = data[i];
-      }
-      else {
-         phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
-      }
-      out.push(phrase);
-      currChar = phrase.charAt(0);
-      dict[code] = oldPhrase + currChar;
-      code++;
-      oldPhrase = phrase;
-  }
-  return out.join("");
-};
-
 
 
 /**
@@ -2177,6 +2122,7 @@ function _refreshWatchers() {
     el.removeEventListener('touchstart', _hover, true);
     el.addEventListener('mouseenter', _hover, true);
     el.addEventListener('touchstart', _hover, true);
+    el.addEventListener('mousedown', _hover, true);
   });
   
   // Fastclick (Using hammertime)
@@ -2242,11 +2188,25 @@ function _hover (e) {
       e.type === 'touchstart') ||
 
     (_hoverEndEvent === 'mouseleave' &&
-      e.type === 'mouseenter')) {
+      (e.type === 'mouseenter' || e.type === 'mousedown'))) {
     
     // For determining touch screen
     if (!_hoverStartEvent) {
       _hoverStartEvent = e.type;
+    }
+    
+    // Handle 'pressed' class
+    // Used for button animations that need to last beyond mouseup / touchend
+    if(e.type === 'mousedown' || e.type === 'touchstart'){
+      $(this).removeClass('pressed');
+      window.setTimeout(()=>{
+        $(this).addClass('pressed');
+      },1);
+      
+      // No longer needed for mousedown
+      if(e.type === 'mousedown'){
+        return;
+      }
     }
     
     _hoverEventObj = e;

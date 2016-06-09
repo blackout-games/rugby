@@ -21,4 +21,12 @@ export default Ember.Component.extend({
     },
   },
   
+  league: Ember.computed('standings',function(){
+    return this.get('standings.firstObject.league');
+  }),
+  
+  country: Ember.computed('standings',function(){
+    return this.get('standings.firstObject.country');
+  }),
+  
 });
