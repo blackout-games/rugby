@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   navLastAction: 0,
   navIsOpen: false,
   selector: '',
+  resizingSelector: '',
 
   startListening: Ember.on('didInsertElement', function() {
     
@@ -66,11 +67,11 @@ export default Ember.Component.extend({
   }),
 
   handleResize() {
-    $(this.get('selector')).addClass('resizing');
+    $(this.get('resizingSelector')).addClass('resizing');
     Ember.run.debounce(this, this.cleanResize, 200);
   },
   cleanResize() {
-    $(this.get('selector')).removeClass('resizing');
+    $(this.get('resizingSelector')).removeClass('resizing');
   },
 
   smallMode: Ember.computed('media.isMobile', function() {

@@ -42,6 +42,9 @@
 
 .standings-club-name {
   max-width: 33vw;
+  @media #{$desktop} {
+    max-width: 10vw;
+  }
   //text-transform: uppercase;
   font-weight: bold;
   &.bot {

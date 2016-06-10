@@ -13,6 +13,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   disableHideSelector: '#nav-tabbar,#tabbar-balloon,#nav-sidebar,#nav-panel,#nav-touch-blocker',
   disableClassSelector: 'body,#nav-body',
   disableBottomClassSelector: 'body,#nav-body,#nav-sidebar-close,#tabbar-balloon,#nav-menu-buffer-mobile',
+  resizingSelector: '#nav-sidebar,#nav-panel,#nav-body,#nav-topbar,#page-bg,#sub-nav-panel-wrapper',
   
   // Visual settings
   alternativeAnimationMode: true,
@@ -849,7 +850,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
         }
         
         $('.nav-burger,.nav-tab-menu').addClass('nav-close');
-        $('#sub-nav-panel').addClass('game-nav-open');
+        $('#sub-nav-panel-wrapper').addClass('game-nav-open');
 
         $('#nav-touch-blocker').on('mousedown touchstart', this.bodyTouchBound);
 
@@ -879,7 +880,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       
       this.deselectAllTabs();
       $('.nav-burger,.nav-tab-menu').removeClass('nav-close');
-      $('#sub-nav-panel').removeClass('game-nav-open');
+      $('#sub-nav-panel-wrapper').removeClass('game-nav-open');
 
       this.allowBodyScroll();
 

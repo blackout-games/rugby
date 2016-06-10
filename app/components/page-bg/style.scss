@@ -24,6 +24,7 @@
   top:0;
   right:0;
   width:100%;
+  //border: 3px solid green;
 
   @media #{$nav-md},#{$nav-lg} {
   }
@@ -44,15 +45,31 @@
     }
     
     &.open {
-      width: calc( 100% - #{$max-panel-width});
+      
+      width: calc( 100% - #{$panel-width});
+      
+      @media #{$nav-sm-up} {
+        width: calc( 100% - #{$max-panel-width});
+      }
+      @media #{$laptop-and-up} {
+        width: calc( 100% - #{$panel-width-laptop});
+      }
+      @media #{$desktop} {
+        width: calc( 100% - #{$panel-width-desktop});
+      }
+      
       
       &.sub-nav-showing.page-bg-header-mode {
         width: calc( 100% - #{$max-panel-width + $sub-nav-width});
       }
       
+      
       @media #{$nav-vs} {
         width: calc(100% - ( #{$sidebar-width} + #{$max-panel-width} - #{$max-block-size} ));
       }
+      
+      min-width: calc( 100vw - #{$max-panel-width} );
+      max-width: calc( 100vw - #{$min-panel-width} );
     }
     &.force-transition {
       transition: width $animation-time ease(out-expo);

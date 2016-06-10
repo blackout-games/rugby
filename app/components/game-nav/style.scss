@@ -24,11 +24,16 @@ $animation-time: $nav-animation-time;
 $topbar-height: 59px;
 $tabbar-height: 50px;
 $min-tabbar-height: 44px;
-$panel-width: 88vw;
+
+// Panel width
+$panel-width: 88vw; // Mobile view
+$panel-width-desktop: 24vw;
+$panel-width-laptop: 30vw;
+$max-panel-width: 333px;
+$min-panel-width: 290px;
 //ease(out-expo): ease(out-expo);
 
 // Fluid
-$max-panel-width: 333px;
 $body-max-width: 1222px;
 
 // Width of window when body max width is reached
@@ -189,6 +194,8 @@ $selected-arrow-pokes-out: 7px;
   overflow-x: hidden;
   overflow-y: hidden;
   min-height: 100vh;
+  
+  //border: 3px solid #F0F;
 
   &.fixed {
     height:100vh;
@@ -203,37 +210,47 @@ $selected-arrow-pokes-out: 7px;
     -webkit-overflow-scrolling: touch;
     //-webkit-overflow-scrolling: auto;
   }
+  
+  margin-left: auto;
 
   @media #{$nav-sm},#{$nav-md} {
-    margin-left: $max-block-size;
+    &, &.fixed {
+      width: calc( 100vw - #{$max-block-size} );
+    }
   }
 
   @media #{$nav-lg} {
 
-    left:0;
-    margin-left: $max-block-size;
+    //left:0;
+    width: calc( 100vw - #{$max-block-size} );
 
     transition: none;
     &.open {
-      margin-left: $max-panel-width;
+      
+      width: calc( 100vw - #{$panel-width-desktop} );
+      
       @media #{$nav-vs} {
-        margin-left: calc(#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size});
+        //border: 4px solid tomato;
+        width: calc( 100vw - (#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size}) );
       }
+      
+      min-width: calc( 100vw - #{$max-panel-width} );
+      max-width: calc( 100vw - #{$min-panel-width} );
     }
     &.force-transition {
-      transition: margin-left $animation-time ease(out-expo);
+      transition: width $animation-time ease(out-expo);
     }
   
   }
   
   @media #{$nav-vs-not-mobile} {
-    margin-left: $sidebar-width;
+    width: calc( 100vw - #{$sidebar-width} );
   }
 
   @media #{$nav-md},#{$nav-lg} {
     &.sub-nav-showing {
       @if $sub-nav-on-left {
-        margin-left:$max-block-size + $max-panel-width + $sub-panel-mod;
+        width: calc( 100vw - #{$max-block-size + $max-panel-width + $sub-panel-mod} );
       } @else {
         margin-right:$max-panel-width + $sub-panel-mod;
       }
@@ -243,7 +260,9 @@ $selected-arrow-pokes-out: 7px;
   @media #{$tablet-wide} {
     &.sub-nav-showing {
       @if $sub-nav-on-left {
-        margin-left:$max-panel-width;
+        width: calc( 100vw - #{$panel-width-laptop} );
+        min-width: calc( 100vw - #{$max-panel-width} );
+        max-width: calc( 100vw - #{$min-panel-width} );
       }
     }
   }
@@ -252,9 +271,12 @@ $selected-arrow-pokes-out: 7px;
     &.sub-nav-showing {
       @if $sub-nav-on-left {
         &.open {
-          margin-left: $max-panel-width + $max-panel-width + $sub-panel-mod;
+          width: calc( #{100vw - $panel-width-desktop*2} - #{$sub-panel-mod} );
+          min-width: calc( 100vw - #{$max-panel-width + $max-panel-width + $sub-panel-mod} );
+          max-width: calc( 100vw - #{$min-panel-width + $min-panel-width + $sub-panel-mod} );
           @media #{$nav-vs} {
-            margin-left: calc(#{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size});
+            //border: 4px solid tomato;
+            width: calc( 100vw - #{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size} );
           }
         }
       }
@@ -266,7 +288,7 @@ $selected-arrow-pokes-out: 7px;
   }
   &.nav-disabled {
     transition: none;
-    margin-left: 0;
+    width: auto;
   }
   
   &.allow-blur {
@@ -530,14 +552,47 @@ body.free{
   z-index: 50;
   left: -$panel-width;
   height:100%;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  // -------------- WIDTH
+  
+  
   width: $panel-width;
+  
+  @media #{$nav-sm-up} {
+    width: $max-panel-width;
+  }
+  @media #{$laptop-and-up} {
+    width: $panel-width-laptop;
+  }
+  @media #{$desktop} {
+    width: $panel-width-desktop;
+  }
   
   // In general
   max-width: $max-panel-width;
+  min-width: $min-panel-width;
   // When on portrait mobile, allow panel to always take most of screen
   @media #{$mobile-tall} {
     max-width: none;
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   background-color: rgba($panel-color,0.95);
   background-color: $panel-color;
@@ -548,8 +603,6 @@ body.free{
    * For small and medium, panel starts at right edge of sidebar
    */
   @media #{$nav-sm-up} {
-    width: $max-panel-width;
-    max-width: $max-panel-width;
     left: $max-block-size - $max-panel-width;
   }
   @media #{$nav-vs-not-mobile} {

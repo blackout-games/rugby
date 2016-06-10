@@ -1,6 +1,102 @@
 $animation-time: $nav-animation-time;
 
+#sub-nav-panel-wrapper {
+  position:fixed;
+  top:0;
+  right: 0;
+  z-index:35;
+  height: 100vh;
+  max-height: none;
+  overflow: hidden;
+  width: 100vw;
+  pointer-events: none;
+  
+  //border: 3px solid blue;
+  
+
+  @media #{$nav-sm},#{$nav-md} {
+    width: calc( 100vw - #{$max-block-size} );
+  }
+
+  @media #{$nav-lg} {
+
+    //left:0;
+    width: calc( 100vw - #{$max-block-size} );
+    transition: width $animation-time ease(out-expo);
+    
+    &.game-nav-open {
+      
+      //margin-left: $max-panel-width;
+      width: calc( 100vw - #{$panel-width} );
+      
+      @media #{$nav-sm-up} {
+        width: calc( 100vw - #{$max-panel-width} );
+      }
+      @media #{$laptop-and-up} {
+        width: calc( 100vw - #{$panel-width-laptop} );
+      }
+      @media #{$desktop} {
+        width: calc( 100vw - #{$panel-width-desktop} );
+      }
+      
+      @media #{$nav-vs} {
+        width: calc( 100vw - (#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size}) );
+      }
+      
+      min-width: calc( 100vw - #{$max-panel-width} );
+      max-width: calc( 100vw - #{$min-panel-width} );
+    }
+    
+    &.resizing {
+      transition: none;
+    }
+  
+  }
+  
+  @media #{$nav-vs-not-mobile} {
+    width: calc( 100vw - #{$sidebar-width} );
+  }
+
+  @media #{$nav-md},#{$nav-lg} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        width: calc( 100vw - #{$max-block-size + $max-panel-width + $sub-panel-mod} );
+      } @else {
+        margin-right:$max-panel-width + $sub-panel-mod;
+      }
+    }
+  }
+        
+  @media #{$tablet-wide} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        width: calc( 100vw - #{$max-panel-width} );
+      }
+    }
+  }
+
+  @media #{$nav-lg} {
+    &.sub-nav-showing {
+      @if $sub-nav-on-left {
+        &.open {
+          width: calc( 100vw - #{$max-panel-width + $max-panel-width + $sub-panel-mod} );
+          @media #{$nav-vs} {
+            width: calc( 100vw - #{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size} );
+          }
+        }
+      }
+    }
+  }
+  
+  &.nav-disabled {
+    transition: none;
+    width: auto;
+  }
+}
+
 #sub-nav-panel {
+  
+  pointer-events: auto;
   
   $dark-colors: true;
   $opacity: 0.9;
@@ -13,14 +109,14 @@ $animation-time: $nav-animation-time;
     $bg-color: rgba($bg-light,$opacity);
   }
   
+  position:absolute;
+  height:100vh;
+  left:0px;
+  top:0px;
+  
   background-color: $bg-color;
   padding: 0px;
-  position:fixed;
-  top:0;
-  z-index:35;
   display:none;
-  height: 100vh;
-  max-height: none;
   overflow: hidden;
   
   &.active {
@@ -28,9 +124,6 @@ $animation-time: $nav-animation-time;
   }
   
   @media #{$tablet-tall-and-down} {
-    
-    width:$max-panel-width + $sub-panel-mod;
-    height:100vh;
     left:100%;
     
     transition: transform $animation-time ease(out-expo);
@@ -41,36 +134,37 @@ $animation-time: $nav-animation-time;
     
   }
   
-  @media #{$tablet-wide-and-up} {
-    
-    width: 100%;
-    
-    @if $sub-nav-on-left {
-      left: $max-block-size;
-    } @else {
-      right: 0%;
-    }
-    
-    max-width:$max-panel-width + $sub-panel-mod;
-  }
   
-  @media #{$tablet-wide} {
-    max-width:$max-panel-width - $max-block-size;
-  }
   
+  
+  
+  
+  // -------------- WIDTH
+  
+  
+  //width: calc( #{$panel-width} + #{$sub-panel-mod} );
+  width: calc( #{$max-panel-width} + #{$sub-panel-mod} );
+  
+  @media #{$nav-sm-up} {
+    width: calc( #{$max-panel-width} + #{$sub-panel-mod} );
+  }
+  @media #{$laptop-and-up} {
+    width: calc( #{$panel-width-laptop} + #{$sub-panel-mod} );
+  }
   @media #{$desktop} {
-    
-    @if $sub-nav-on-left {
-      transition: transform $animation-time ease(out-expo);
-      &.game-nav-open {
-        transform: translateX($max-panel-width - $max-block-size);
-      }
-      @media #{$nav-vs} {
-        margin-left: calc(#{$sidebar-width} - #{$max-block-size});
-      }
-    }
-    
+    width: calc( #{$panel-width-desktop} + #{$sub-panel-mod} );
   }
+  
+  // In general
+  max-width: $max-panel-width + $sub-panel-mod;
+  min-width: $min-panel-width + $sub-panel-mod;
+  
+  // When on portrait mobile, allow panel to always take most of screen
+  @media #{$mobile} {
+    max-width: $max-panel-width;
+    min-width: $min-panel-width;
+  }
+  
   
   &.inactive {
     transition: none;

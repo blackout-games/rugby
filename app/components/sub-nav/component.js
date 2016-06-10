@@ -204,53 +204,59 @@ export default Ember.Component.extend({
   },
 
   destroySubNav(/*id*/){
+    
+    // Ensure this can't happen during didInsertElement
+    Ember.run.scheduleOnce('afterRender', this, ()=>{
+        
+      if(!this.get('contentParent')){
+        return;
+      }
+        
+      this.$('#sub-nav-button').fadeOut();
+      let $panel = this.$('#sub-nav-panel');
+
+      // Prevent transitions
+      $panel.addClass('inactive');
+
+      // If in non-mobile mode, fade the panel out
+      Ember.Blackout.unFadeInUp($panel);
+
+      // Clear any element level styles
+      this.resetStyle($panel);
+
+      // Clear custom button icon
+      this.set('buttonIcon',null);
       
-    if(!this.get('contentParent')){
-      return;
-    }
+      // Breaks new panel-wrapper/panel setup
+      /*$panel.css({
+        position: 'fixed',
+        top: 0,
+      });*/
+
+      this.unwatchMenuLinks();
       
-    this.$('#sub-nav-button').fadeOut();
-    let $panel = this.$('#sub-nav-panel');
+      // Return sub nav content node back to it's parent
+      let $subNavContent = this.get('$subNavContent');
+      let $parent = this.get('contentParent');
+      let index = this.get('contentIndex');
+      $parent.insertAt(index,$subNavContent);
+      
+      // Return header if set
+      if(this.get('subNavHeader')){
+        let $headerContent = this.get('headerContent');
+        let $parent = this.get('headerParent');
+        let index = this.get('headerIndex');
+        $parent.insertAt(index,$headerContent);
+        this.set('subNavHeader',false);
+      }
 
-    // Prevent transitions
-    $panel.addClass('inactive');
+      this.set('navIsActive',false);
 
-    // If in non-mobile mode, fade the panel out
-    Ember.Blackout.unFadeInUp($panel);
+      Ember.$('#nav-body,#page-bg').removeClass('sub-nav-showing');
 
-    // Clear any element level styles
-    this.resetStyle($panel);
-
-    // Clear custom button icon
-    this.set('buttonIcon',null);
-
-    $panel.css({
-      position: 'fixed',
-      top: 0,
+      this.hide( true );
+      
     });
-
-    this.unwatchMenuLinks();
-    
-    // Return sub nav content node back to it's parent
-    let $subNavContent = this.get('$subNavContent');
-    let $parent = this.get('contentParent');
-    let index = this.get('contentIndex');
-    $parent.insertAt(index,$subNavContent);
-    
-    // Return header if set
-    if(this.get('subNavHeader')){
-      let $headerContent = this.get('headerContent');
-      let $parent = this.get('headerParent');
-      let index = this.get('headerIndex');
-      $parent.insertAt(index,$headerContent);
-      this.set('subNavHeader',false);
-    }
-
-    this.set('navIsActive',false);
-
-    Ember.$('#nav-body,#page-bg').removeClass('sub-nav-showing');
-
-    this.hide( true );
     
   },
   
