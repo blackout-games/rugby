@@ -6,6 +6,14 @@ export default Ember.Component.extend({
   isLoadingTab: true,
   isLoadingData: false, // Can be set on tabs consumer
   
+  spinnerColor: Ember.computed('loaderColor',function(){
+    if(this.get('loaderColor')==='onDark'){
+      return 'secondary-on-dark';
+    } else {
+      return this.get('loaderColor');
+    }
+  }),
+  
   actions: {
     
     /**

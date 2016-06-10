@@ -154,6 +154,10 @@ $finish: 100%;
   background-color:saturate(lighten($secondary-master,15%),33%);
 }
 
+.spinner.secondary-on-dark > div {
+  background-color:$bg-dark-lighter-5x;
+}
+
 .spinner.fb > div {
   background-color:saturate(lighten($secondary-master,15%),33%);
 }

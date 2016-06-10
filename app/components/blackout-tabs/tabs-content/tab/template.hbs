@@ -9,7 +9,7 @@
 
 {{#if (or isLoadingData (and loadTabsImmediatelyWithLoader isLoadingTab))}}
   <div class="{{if noPadding 'loader-padding' 'dash-loader-padding'}}">
-    {{loading-spinner color="light"}}
+    {{loading-spinner color=spinnerColor}}
   </div>
 {{/if}}
 
