@@ -32,9 +32,9 @@ $page-header-height: 15vh;
   margin: 0;
   @media #{$mobile} {
     @if $full-real-estate-on-mobile {
-      padding: 15px 15px 0;
+      padding: 30px 15px 0;
     } else {
-      padding: 24px 24px 0;
+      padding: 44px 24px 0;
     }
   }
   
@@ -52,6 +52,7 @@ $page-header-height: 15vh;
       max-width:300px;
     }
     width:100%;
+    margin-top: 0;
   }
 }
 

@@ -1,0 +1,37 @@
+{{#sub-nav-content name="leagueNav" keepSubRoutes=keepSubRoutes buttonIcon=null updateOn=league}}
+  
+  <div class="sub-nav-inner-padding">
+    
+    <div class="league-sub-nav-header sub-nav-header dark">
+      
+      <h5 class="on-dark heading-font no-top-gap">
+        {{t 'league.prize-pool'}}
+      </h5>
+      
+      <i class="icon-dollar icon-2x icon-vcenter"></i> {{money-ui value=league.prizePool class="text-big text-bold"}}
+      
+    </div>
+    
+    <div class="sub-nav-side-padding">
+      <div class="gap-md">
+      
+        <h5 class="on-dark heading-font no-top-gap">
+          {{t 'league.league-nav'}}
+        </h5>
+        
+        {{leagues/nav-button league=league direction='left'}}
+        {{leagues/nav-button league=league direction='up'}}
+        {{leagues/nav-button league=league direction='down'}}
+        {{leagues/nav-button league=league direction='right'}}
+      
+      </div>
+      
+      <span class="nowrap">
+        <button {{action 'zoomOut' country.id}} class="btn standings-button"><i class="icon-zoom-out icon-lg icon-vcenter"></i> {{t 'buttons.view-all'}}</button> {{help-ui t='help.league.zoom-out' besideButton=true}}
+      </span>
+      
+    </div>
+    
+  </div>
+    
+{{/sub-nav-content}}

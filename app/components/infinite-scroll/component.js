@@ -62,12 +62,10 @@ export default Ember.Component.extend({
       if(this.get('doesLoadData')){
         Ember.run.next(()=>{
           Ember.run.next(()=>{
-        print('contetn2',this.get('content'));
             this.set('contentProxy',this.get('content'));
           });
         });
       } else {
-        print('contetn',this.get('content'));
         this.set('contentProxy',this.get('content'));
       }
     }

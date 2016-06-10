@@ -9,6 +9,7 @@ export default DS.Model.extend({
   navRight: DS.attr('number'),
   navAbove: DS.attr('number'),
   navBelow: DS.attr('number'),
+  prizePool: DS.attr('number'),
   country: DS.belongsTo('country',{ async: false }),
   lounge: DS.belongsTo('lounge',{ async: false }),
 });

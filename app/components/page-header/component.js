@@ -16,10 +16,17 @@ export default Ember.Component.extend({
   
   setup: Ember.on( 'didInsertElement', function(){
     
+    let padding;
+    if(this.get('media.isMobile')){
+      padding = '44px'; // To show image cover
+    } else {
+      padding = '27px';
+    }
+    
     // Adjust height
     this.$().findClosest('.page-header').css({
       'min-height': this.get('height'),
-      'padding-top': '33px',
+      'padding-top': padding,
     });
     
   }),

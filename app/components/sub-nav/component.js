@@ -205,6 +205,10 @@ export default Ember.Component.extend({
 
   destroySubNav(/*id*/){
       
+    if(!this.get('contentParent')){
+      return;
+    }
+      
     this.$('#sub-nav-button').fadeOut();
     let $panel = this.$('#sub-nav-panel');
 

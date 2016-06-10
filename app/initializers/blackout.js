@@ -1318,7 +1318,7 @@ class Blackout {
   
   processAttrs(attrs){
     $.each(attrs,(i,attr)=>{
-      if(typeof(attr) === 'object' && 'value' in attr){
+      if(attr && typeof(attr) === 'object' && 'value' in attr){
         attrs[i] = attr.value;
       }
     });

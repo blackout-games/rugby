@@ -14,13 +14,6 @@ export default Ember.Component.extend({
     return penaltyApplied;
   }),
   
-  actions: {
-    zoomOut(countryId){
-      this.set('cache.fromLeague',this.get('standings.firstObject.league.id'));
-      Ember.Blackout.transitionTo('league-country.country',countryId);
-    },
-  },
-  
   league: Ember.computed('standings',function(){
     return this.get('standings.firstObject.league');
   }),

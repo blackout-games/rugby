@@ -89,3 +89,15 @@
     margin-top: -7px !important;
   }
 }
+
+.league-sub-nav-header {
+  i.icon-dollar {
+    color: $bg-dark-lighter-5x;
+    margin-left:-11px;
+    font-size: 33px;
+    @media #{$tablet-wide-and-up} {
+      font-size: 37px;
+    }
+    transform: scaleX(-1);
+  }
+}

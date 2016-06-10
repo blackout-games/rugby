@@ -70,29 +70,12 @@
 </table>
 {{/responsive-table}}
 
+{{#if penaltyApplied}}
 <div class="dash-content">
   <div class="row row-nowrap">
-    <div class="col-flex">
-      
-      <div class="divider gap-md"></div>
-      
-      <h5 class="on-dark heading-font">
-        {{t 'league.league-nav'}}
-      </h5>
-      
-      {{leagues/nav-button league=league direction='left'}}
-      {{leagues/nav-button league=league direction='up'}}
-      {{leagues/nav-button league=league direction='down'}}
-      {{leagues/nav-button league=league direction='right'}}
-      
-      <span class="nowrap">
-        <button {{action 'zoomOut' country.id}} class="btn standings-button"><i class="icon-zoom-out icon-lg icon-vcenter"></i> {{t 'buttons.view-all'}}</button> {{help-ui t='help.league.zoom-out' besideButton=true}}
-      </span>
-    </div>
-    <div class="col-5 text-right">
-      {{#if penaltyApplied}}
-        <div class="standings-penalty-applied standings-glass-panel">{{t 'standings.penalty-applied'}}</div>
-      {{/if}}
+    <div class="col-12 text-right">
+      <div class="standings-penalty-applied standings-glass-panel">{{t 'standings.penalty-applied'}}</div>
     </div>
   </div>
 </div>
+{{/if}}
