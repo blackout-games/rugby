@@ -64,12 +64,6 @@ export default Ember.Component.extend({
     }
   }),
   
-  onReceive: Ember.on('didReceiveAttrs',function(attrs){
-    if(this.attrChanged(attrs,'divisions')){
-      print('ds',this.get('divisions'));
-    }
-  }),
-  
   actions: {
     goToClub(id){
       window.location='https://www.blackoutrugby.com/game/club.lobby.php?id=' + id;
