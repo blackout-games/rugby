@@ -88,7 +88,7 @@ export default Ember.Component.extend({
   handleClick(e){
     
     // Left mouse button only
-    if(e.which!==1){
+    if(e.type==='mousedown'&&e.which!==1){
       return;
     }
     
