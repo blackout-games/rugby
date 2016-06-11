@@ -30,7 +30,7 @@ export default Ember.Component.extend({
       this.send('show');
     }
 
-    this.handleResizeBound = Ember.run.bind(this, this.handleResize);
+    this.handleResizeBound = Ember.run.bind(this, this.handleResizeResponsive);
     Ember.$(window).on('resize', this.handleResizeBound);
     
     // Bound functions
@@ -66,11 +66,11 @@ export default Ember.Component.extend({
 
   }),
 
-  handleResize() {
+  handleResizeResponsive() {
     $(this.get('resizingSelector')).addClass('resizing');
-    Ember.run.debounce(this, this.cleanResize, 200);
+    Ember.run.debounce(this, this.cleanResizeResponsive, 200);
   },
-  cleanResize() {
+  cleanResizeResponsive() {
     $(this.get('resizingSelector')).removeClass('resizing');
   },
 

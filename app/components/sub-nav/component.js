@@ -187,7 +187,7 @@ export default Ember.Component.extend({
         // Show subnav
         this.$('#sub-nav-panel').addClass('active');
 
-        Ember.$('#nav-body,#page-bg').addClass('sub-nav-showing');
+        Ember.$('#nav-body,#page-bg,#sub-nav-panel-wrapper').addClass('sub-nav-showing');
 
       }
 
@@ -252,7 +252,7 @@ export default Ember.Component.extend({
 
       this.set('navIsActive',false);
 
-      Ember.$('#nav-body,#page-bg').removeClass('sub-nav-showing');
+      Ember.$('#nav-body,#page-bg,#sub-nav-panel-wrapper').removeClass('sub-nav-showing');
 
       this.hide( true );
       

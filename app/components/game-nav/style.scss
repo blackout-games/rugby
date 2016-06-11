@@ -31,6 +31,7 @@ $panel-width-desktop: 24vw;
 $panel-width-laptop: 30vw;
 $max-panel-width: 333px;
 $min-panel-width: 290px;
+
 //ease(out-expo): ease(out-expo);
 
 // Fluid
@@ -79,6 +80,17 @@ $nav-body-width-limit: "(min-width: #{$body-max-window-width})";
 
 $topbar-color: desaturate(darken($primary-master,4%),7%);
 //$topbar-color: desaturate(darken($primary-master,4%),12%);
+
+
+
+// Classes so we can read these values into javacsript
+.gn-panel-width { width: $panel-width; }
+.gn-panel-width-desktop { width: $panel-width-desktop; }
+.gn-panel-width-laptop { width: $panel-width-laptop; }
+.gn-max-panel-width { width: $max-panel-width; }
+.gn-min-panel-width { width: $min-panel-width; }
+.gn-max-block-size { width: $max-block-size; }
+
 
 
 $panel-color: $bg-dark-lighter;
@@ -220,31 +232,33 @@ $selected-arrow-pokes-out: 7px;
   }
 
   @media #{$nav-lg} {
+    &, &.fixed {
 
-    //left:0;
-    width: calc( 100vw - #{$max-block-size} );
+      //left:0;
+      width: calc( 100vw - #{$max-block-size} );
 
-    transition: none;
-    &.open {
-      
-      width: calc( 100vw - #{$panel-width-desktop} );
-      
-      @media #{$nav-vs} {
-        //border: 4px solid tomato;
-        width: calc( 100vw - (#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size}) );
-      }
-      
-      min-width: calc( 100vw - #{$max-panel-width} );
-      max-width: calc( 100vw - #{$min-panel-width} );
-    }
-    &.force-transition {
       transition: width $animation-time ease(out-expo);
+      &.open {
+        
+        width: calc( 100vw - #{$panel-width-desktop} );
+        
+        @media #{$nav-vs-not-mobile} {
+          width: calc( 100vw - #{$panel-width-desktop} + (#{$max-block-size} - #{$sidebar-width}) );
+        }
+        
+        min-width: calc( 100vw - #{$max-panel-width} );
+        max-width: calc( 100vw - #{$min-panel-width} );
+      }
+      &.resizing {
+        transition: none;
+      }
     }
-  
   }
   
   @media #{$nav-vs-not-mobile} {
-    width: calc( 100vw - #{$sidebar-width} );
+    &, &.fixed {
+      width: calc( 100vw - #{$sidebar-width} );
+    }
   }
 
   @media #{$nav-md},#{$nav-lg} {
@@ -274,9 +288,9 @@ $selected-arrow-pokes-out: 7px;
           width: calc( #{100vw - $panel-width-desktop*2} - #{$sub-panel-mod} );
           min-width: calc( 100vw - #{$max-panel-width + $max-panel-width + $sub-panel-mod} );
           max-width: calc( 100vw - #{$min-panel-width + $min-panel-width + $sub-panel-mod} );
-          @media #{$nav-vs} {
-            //border: 4px solid tomato;
-            width: calc( 100vw - #{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size} );
+          
+          @media #{$nav-vs-not-mobile} {
+            width: calc( 100vw - #{$panel-width-desktop} - (#{$panel-width-desktop} + #{$sub-panel-mod}) + (#{$max-block-size} - #{$sidebar-width}) );
           }
         }
       }
@@ -531,6 +545,18 @@ body.free{
   }
 }
 
+#nav-panel-wrapper {
+  
+  position: fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  width:0;
+  /**
+   * NOPE, this means we're not using 3d transforms and then animation sucks
+   */
+  
+}
 
 #nav-panel {
   
@@ -550,7 +576,6 @@ body.free{
   position:fixed;
   top: 0;
   z-index: 50;
-  left: -$panel-width;
   height:100%;
   
   
@@ -587,7 +612,7 @@ body.free{
   
   
   
-  
+  //border: 3px solid green;
   
   
   
@@ -600,13 +625,16 @@ body.free{
   transition: transform $animation-time ease(out-expo);
 
   /**
-   * For small and medium, panel starts at right edge of sidebar
+   * For small and medium, right edge of panel starts at right edge of sidebar
    */
+  right: 100vw;
   @media #{$nav-sm-up} {
-    left: $max-block-size - $max-panel-width;
+    right: calc(100vw - #{$max-block-size});
+    //left: $max-block-size - $max-panel-width;
   }
   @media #{$nav-vs-not-mobile} {
-    left: calc(#{$sidebar-width} - #{$max-panel-width});
+    right: calc(100vw - #{$sidebar-width});
+    //left: calc(#{$sidebar-width} - #{$max-panel-width});
   }
   
   // Maybe add when/if shadows come back into modern design
@@ -618,12 +646,27 @@ body.free{
   }
 
   &.open {
-    @media #{$nav-xs} {
+    
+    @media #{$mobile-tall} {
       transform: translateX($panel-width);
     }
-    @media #{$nav-sm-up} {
+    @media #{$mobile-wide} {
+      transform: translateX($max-panel-width);
+    }
+    @media #{$tablet} {
       transform: translateX( #{$max-panel-width - $max-block-size});
     }
+    
+    /**
+     * Transforms for laptop/desktop sizes are now done via javascript so we can apply max width to dynamic screen based widths, within the transform
+     */
+    /* @media #{$laptop-and-up} {
+      transform: translateX( calc(#{$panel-width-laptop} - #{$max-block-size}) );
+    }
+    @media #{$desktop} {
+      transform: translateX( calc(#{$panel-width-desktop} - #{$max-block-size}) );
+    } */
+    
   }
 
   &.force-transition {

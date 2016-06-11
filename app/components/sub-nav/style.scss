@@ -16,6 +16,18 @@ $animation-time: $nav-animation-time;
 
   @media #{$nav-sm},#{$nav-md} {
     width: calc( 100vw - #{$max-block-size} );
+    
+    /**
+     * This needs to represent the difference in sidebar width
+     * May also need to tweak min and max width here
+     */
+    @media #{$nav-vs-not-mobile} {
+    //@media #{$nav-vs} {
+      //border: 3px solid purple;
+      
+      width: calc( 100vw - #{$sidebar-width});
+      
+    }
   }
 
   @media #{$nav-lg} {
@@ -26,66 +38,29 @@ $animation-time: $nav-animation-time;
     
     &.game-nav-open {
       
-      //margin-left: $max-panel-width;
-      width: calc( 100vw - #{$panel-width} );
-      
-      @media #{$nav-sm-up} {
-        width: calc( 100vw - #{$max-panel-width} );
-      }
-      @media #{$laptop-and-up} {
-        width: calc( 100vw - #{$panel-width-laptop} );
-      }
-      @media #{$desktop} {
-        width: calc( 100vw - #{$panel-width-desktop} );
-      }
-      
-      @media #{$nav-vs} {
-        width: calc( 100vw - (#{$sidebar-width} + #{$max-panel-width} - #{$max-block-size}) );
-      }
-      
+      width: calc( 100vw - #{$panel-width-desktop} );
       min-width: calc( 100vw - #{$max-panel-width} );
       max-width: calc( 100vw - #{$min-panel-width} );
+      
+      /**
+       * This needs to represent the difference in sidebar width
+       * May also need to tweak min and max width here
+       */
+      @media #{$nav-vs-not-mobile} {
+      //@media #{$nav-vs} {
+        //border: 3px solid purple;
+        
+        width: calc( 100vw + (#{$max-block-size} - #{$sidebar-width}) - #{$panel-width-desktop});
+        min-width: calc( 100vw - #{$max-panel-width} + (#{$max-block-size} - #{$sidebar-width}) );
+        max-width: calc( 100vw - #{$min-panel-width} + (#{$max-block-size} - #{$sidebar-width}) );
+        
+      }
     }
     
     &.resizing {
       transition: none;
     }
   
-  }
-  
-  @media #{$nav-vs-not-mobile} {
-    width: calc( 100vw - #{$sidebar-width} );
-  }
-
-  @media #{$nav-md},#{$nav-lg} {
-    &.sub-nav-showing {
-      @if $sub-nav-on-left {
-        width: calc( 100vw - #{$max-block-size + $max-panel-width + $sub-panel-mod} );
-      } @else {
-        margin-right:$max-panel-width + $sub-panel-mod;
-      }
-    }
-  }
-        
-  @media #{$tablet-wide} {
-    &.sub-nav-showing {
-      @if $sub-nav-on-left {
-        width: calc( 100vw - #{$max-panel-width} );
-      }
-    }
-  }
-
-  @media #{$nav-lg} {
-    &.sub-nav-showing {
-      @if $sub-nav-on-left {
-        &.open {
-          width: calc( 100vw - #{$max-panel-width + $max-panel-width + $sub-panel-mod} );
-          @media #{$nav-vs} {
-            width: calc( 100vw - #{$sidebar-width} + #{$max-panel-width + $max-panel-width + $sub-panel-mod} - #{$max-block-size} );
-          }
-        }
-      }
-    }
   }
   
   &.nav-disabled {

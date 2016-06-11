@@ -78,10 +78,15 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
   uiEvents: [
     {
       eventName: 'resize',
-      callbackName: 'updateSidebarScrollerHeight',
+      callbackName: 'handleResize',
       selector: window,
     }
   ],
+  
+  handleResize(){
+    this.updateSidebarScrollerHeight();
+    this.updateSidePanelTransforms();
+  },
   
   updateSidebarScrollerHeight() {
     var windowHeight = $(window).height();
@@ -90,6 +95,50 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       windowHeight -= $('#nav-tabbar').height();
     }
     $('#sidebar-scroller-parent,#sidebar-scroller').height(windowHeight);
+  },
+  
+  updateSidePanelTransforms(){
+    
+    let isDesktop = this.get('media.isJumbo');
+    let isLaptop = this.get('media.isDesktop');
+    let $panel = this.$('#nav-panel');
+    
+    if(isDesktop||isLaptop){
+      
+      let isOpen = this.get('cache.gameNavIsOpen');
+      
+      if(isOpen){
+        
+        let minWidth = parseInt(Ember.Blackout.getCSSValue('width','gn-min-panel-width'));
+        let maxWidth = parseInt(Ember.Blackout.getCSSValue('width','gn-max-panel-width'));
+        let sideBarSize = parseInt(Ember.Blackout.getCSSValue('width','gn-max-block-size'));
+        
+        if(isDesktop){
+          
+          let width = parseInt(Ember.Blackout.getCSSValue('width','gn-panel-width-desktop'));
+          width = Math.min(width,maxWidth);
+          width = Math.max(width,minWidth);
+          width = width - sideBarSize;
+          $panel.css('transform',`translateX( ${width}px )`);
+          return;
+          
+        } else if(isLaptop){
+          
+          let width = parseInt(Ember.Blackout.getCSSValue('width','gn-panel-width-laptop'));
+          width = Math.min(width,maxWidth);
+          width = Math.max(width,minWidth);
+          width = width - sideBarSize;
+          $panel.css('transform',`translateX( ${width}px )`);
+          return;
+          
+        }
+        
+      }
+      
+    }
+    
+    $panel.css('transform','');
+    
   },
 
   startListening: Ember.on('init', 'didInsertElement', function() {
@@ -332,6 +381,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     this.createMenus();
     this.selectCurrentMenu();
     this.updateSidebarScrollerHeight();
+    this.updateSidePanelTransforms();
 
     // For testing
     if (this.get('testSidebar')) {
@@ -870,6 +920,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       });
       
       this.set('cache.gameNavIsOpen',true);
+      this.updateSidePanelTransforms();
 
       return true;
     }
@@ -898,7 +949,8 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
       this.updateLoadingSlider(false);
       
       this.set('cache.gameNavIsOpen',false);
-
+      this.updateSidePanelTransforms();
+      
       return true;
     }
   },
