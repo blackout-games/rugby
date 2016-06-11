@@ -1,7 +1,7 @@
 
 
 {{#responsive-table}}
-<table class="">
+<table class="allow-overflow">
 
   <thead>
     <tr>
@@ -23,14 +23,25 @@
   
   <tbody>
     
-    {{#each standings as |standing|}}
+    {{#each standings as |standing index|}}
       <tr>
         {{#if showNumbers}}
           <td class="standings-cell standings-center-cell standings-standing">
             {{standing.standing}}
           </td>
         {{/if}}
-        <td class="standings-cell right-pad-lg ellipsis">
+        <td class="standings-cell standing-first-cell right-pad-lg ellipsis has-position">
+            <span id="standings-block-{{add index 1}}" class="standings-block pos-{{add index 1}}"></span>
+            
+            {{!#if showTethers}}
+              {{!#ember-tether
+                target=(concat '#standings-block-' (add index 1))
+                targetAttachment='top right'
+                attachment='top left'
+              }}
+              {{!/ember-tether}}
+            {{!/if}}
+            
           <span class="standings-club">
             {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot')) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>

@@ -86,9 +86,15 @@ table {
   //}
   
   border-color: #FFF;
-  $bg-color: desaturate(darken($secondary-master,11%),22%);
+  $bg-color: desaturate(darken($secondary-master,7%),15%);
   background-color: $bg-color;
-  overflow: hidden;
+  
+  
+  &:not(.allow-overflow) {
+    overflow: hidden;
+  }
+  
+  
   color: white;
   margin-bottom: 0px !important;
   width:100%;

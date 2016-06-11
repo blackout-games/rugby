@@ -104,3 +104,30 @@
     transform: scaleX(-1);
   }
 }
+
+.standing-first-cell {
+  padding-left: 17px;
+}
+
+.standings-block {
+  display: block;
+  position: absolute;
+  top:0;
+  left: 0px;
+  height:100%;
+  width: 7px;
+  background-color: tomato;
+  
+  &.pos-1 {
+    background-color: $primary-master;
+  }
+  &.pos-2, &.pos-3, &.pos-4 {
+    background-color: $bg-dark;
+  }
+  &.pos-5, &.pos-6 {
+    background-color: #fff000;
+  }
+  &.pos-7, &.pos-8 {
+    background-color: #ff5340;
+  }
+}

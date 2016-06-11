@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   showNumbers: false,
+  showTethers: false,
   
   penaltyApplied: Ember.computed('standings',function(){
     let penaltyApplied = false;
@@ -20,6 +21,12 @@ export default Ember.Component.extend({
   
   country: Ember.computed('standings',function(){
     return this.get('standings.firstObject.country');
+  }),
+  
+  onInsert: Ember.on('didInsertElement',function(){
+    Ember.run.later(()=>{
+      this.set('showTethers',true);
+    },777);
   }),
   
 });
