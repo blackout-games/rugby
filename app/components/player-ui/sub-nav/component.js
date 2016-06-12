@@ -33,7 +33,7 @@ export default Ember.Component.extend({
     let sorts = this.get('sorts');
     let currentSort = this.get('currentSort');
     
-    if(!sorts.findBy('value',currentSort.value)){
+    if(!currentSort || !sorts.findBy('value',currentSort.value)){
       if(!usedPrefSort){
         // Try pref
         let sortBy = this.get('preferences').getPref('squadSortBy', {camelize:true});
