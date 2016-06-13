@@ -1,8 +1,8 @@
 <i class="icon-help-circled icon-vcenter">
 </i>
-  {{#if renderTooltip}}
-    {{#tooltip-on-element event='none' class="help-ui-tooltip" tooltipIsVisible=tooltipIsVisible}}
-      {{if t (t t)}}
-      {{yield}}
-    {{/tooltip-on-element}}
-  {{/if}}
+{{#if renderTooltip}}
+  {{#tooltip-on-element event='none' class="help-ui-tooltip" tooltipIsVisible=tooltipIsVisible id=tooltipId}}
+    {{if t (t t)}}
+    {{yield}}
+  {{/tooltip-on-element}}
+{{/if}}

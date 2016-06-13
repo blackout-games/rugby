@@ -37,4 +37,12 @@
   background-color: desaturate(darken($bg-dark,7%),17%);
   color: $secondary-on-dark-lighter-3x;
   z-index: 41;
+  
+  /**
+   * Starting with display:none until the tip is shown fixes serious display issues on mobile when the tooltip is used within a fixed item like sub-nav
+   */
+  &:not(.showing) {
+    transform: translateX(0) translateY(0) !important;
+    visibility: hidden;
+  }
 }

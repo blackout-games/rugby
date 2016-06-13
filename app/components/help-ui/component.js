@@ -22,10 +22,14 @@ export default Ember.Component.extend({
     this.set('showBound',Ember.run.bind(this,this.show));
     this.set('hideBound',Ember.run.bind(this,this.hide));
     this.set('handleClickBound',Ember.run.bind(this,this.handleClick));
+    
+    // Create an id for the tooltip so we can access it later
+    let uid = Ember.Blackout.generateId();
+    this.set('uid',uid);
   }),
   
   onInsert: Ember.on('didInsertElement',function(){
-    
+      
     // Should wait a minimum of the length of time of general transition animation
     Ember.run.later(()=>{
       this.set('renderTooltip',true);
@@ -64,6 +68,13 @@ export default Ember.Component.extend({
       
       this.set('hideOnNextClick',false);
       
+      /**
+       * Starting with display:none until the tip is shown fixes serious display issues on mobile when the tooltip is used within a fixed item like sub-nav
+       */
+      Ember.run.next(()=>{
+        Ember.$('#'+this.get('tooltipId')).addClass('showing');
+      });
+      
     }
     
     if(e.type==='click' && !this.get('hideOnNextClick') && !window.os.touchOS){
@@ -78,6 +89,11 @@ export default Ember.Component.extend({
       
       this.cancelTimer();
       this.set('tooltipIsVisible',false);
+      
+      Ember.run.later(()=>{
+        Ember.$('#'+this.get('tooltipId')).removeClass('showing');
+      },250);
+      
       
       this.$('i').off(window.os.touchOS ? 'touchstart' : 'mouseleave click',this.get('hideBound'));
       Ember.$('body').off('mousedown touchstart',this.get('handleClickBound'));
@@ -113,6 +129,10 @@ export default Ember.Component.extend({
     this.set('showBound',null);
     this.set('hideBound',null);
     
+  }),
+  
+  tooltipId: Ember.computed('uid',function(){
+    return 'help-ui-tooltip-'+this.get('uid');
   }),
   
 });
