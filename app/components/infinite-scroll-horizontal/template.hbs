@@ -1,9 +1,0 @@
-{{#each content as |item index|}}
-  
-  <!--div class=""-->
-  {{#component 'infinite-scroll-horizontal/item' class=itemClass itemId=itemId item=item defaultWidth=defaultWidth bufferSize=bufferSize}}
-    {{yield item index}}
-  {{/component}}
-  
-{{/each}}
-

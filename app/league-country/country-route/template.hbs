@@ -11,13 +11,14 @@
       horizontal=true
       class=(concat 'page-header-padding negate' (unless (last divisionIndex divisions) ' gap-2x'))
     }}
-      {{#infinite-scroll-horizontal
+      {{#blackout-collection
         content=division.ls
         defaultWidth=244
         bufferSize=1
         itemClass='country-standings-container col-fixed'
         itemId='country-standings-league-{{i}}'
         class="row row-nowrap gap-md"
+        isHorizontal=true
         as |league leagueIndex|
       }}
       
@@ -48,7 +49,7 @@
           </tbody>
         </table>
         
-      {{/infinite-scroll-horizontal}}
+      {{/blackout-collection}}
     {{/normal-scroll}}
     
   </div>

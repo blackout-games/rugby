@@ -1,0 +1,14 @@
+{{#each content as |item index|}}
+  
+  {{#component 'blackout-collection/item'
+    class=itemClass
+    itemId=itemId
+    item=item
+    defaultSize=defaultSize
+    bufferSize=bufferSize
+    isHorizontal=isHorizontal}}
+    {{yield item index}}
+  {{/component}}
+  
+{{/each}}
+
