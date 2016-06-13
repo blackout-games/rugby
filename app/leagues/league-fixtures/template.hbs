@@ -1,6 +1,14 @@
-{{#each rounds as |round|}}
-  
-  <h5 class="on-dark heading-font no-top-gap-on-first dash-content sides-only">
+{{#blackout-collection
+  content=rounds
+  defaultSize=236
+  bufferSize=1.0
+  itemClass=""
+  class=""
+  isHorizontal=false
+  as |round index|
+}}
+    
+  <h5 class="on-dark heading-font {{if (eq index 0) 'no-top-gap'}} dash-content sides-only">
     {{#if round.competition}}
       {{t round.competitionT}}
     {{else}}
@@ -20,4 +28,4 @@
     </tbody>
   </table>
   
-{{/each}}
+{{/blackout-collection}}

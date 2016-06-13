@@ -3,7 +3,7 @@ import InViewportMixin from 'ember-in-viewport';
 
 export default Ember.Component.extend(InViewportMixin, {
   
-  classNames: [],
+  classNames: ['clearfix'],
   showMe: false,
   defaultSize: 150,
   attributeBindings: ['id'],
@@ -24,6 +24,7 @@ export default Ember.Component.extend(InViewportMixin, {
     Ember.setProperties(this, {
       viewportUseRAF            : true,
       viewportSpy               : window.os.touchOS,
+      //viewportSpy               : true,
       viewportScrollSensitivity : 10,
       viewportRefreshRate       : 100,
       viewportTolerance: {
@@ -50,17 +51,26 @@ export default Ember.Component.extend(InViewportMixin, {
   }),
   
   didEnterViewport() {
-    //console.log('entered');
-    this.set('showMe',true);
-    this.updateMe();
     
-    // Save real size
-    let size = this.get('isHorizontal') ? this.$().outerWidth(true) : this.$().outerHeight(true);
-    this.set('defaultSize',size);
+    /**
+     * A wait is needed for some cases, e.g. season fixtures. Otherwise it 'enters' on all items, then exits on some meaning it takes just as long.
+     */
+    Ember.run.next(()=>{
+      //print('entered');
+      this.set('showMe',true);
+      this.updateMe();
+      
+      // Save real size
+      Ember.run.next(()=>{
+        let size = this.get('isHorizontal') ? this.$().outerWidth(true) : this.$().outerHeight(true);
+        this.set('defaultSize',size);
+      });
+    });
+    
   },
 
   didExitViewport() {
-    //console.log('exited');
+    //print('exited');
     this.set('showMe',false);
     this.updateMe();
   },
@@ -71,6 +81,7 @@ export default Ember.Component.extend(InViewportMixin, {
         width: '',
         height: '',
         margin: '',
+        background: '',
       });
     } else {
       if(this.get('isHorizontal')){
@@ -80,6 +91,8 @@ export default Ember.Component.extend(InViewportMixin, {
         });
       } else {
         this.$().css({
+          width: '100%',
+          //background: 'tomato',
           height: this.get('defaultSize') + 'px',
           margin: 0,
         });

@@ -14,7 +14,7 @@ export default Ember.Route.extend({
     let currentClubLeagueId = currentClubId ? this.get(currentClubLeagueIdKey) : null;
     
     if(!params.league_id || (currentClubLeagueId && params.league_id===currentClubLeagueId)){
-      this.transitionTo('leagues.league','me');
+      this.transitionTo(Ember.Blackout.getCurrentRoute(),'me');
       return;
     }
     
