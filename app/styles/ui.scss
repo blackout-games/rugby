@@ -118,7 +118,7 @@ table {
   }
   
   > tbody > tr > td {
-    border-color: desaturate(darken($secondary-master,7%),25%) !important;
+    border-color: desaturate(lighten($bg-color,5%),1%) !important;
     //border-color: desaturate(darken($secondary-master,17%),15%);
     border-top-width:1px !important;
     font-size: 13px;
