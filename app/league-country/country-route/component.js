@@ -30,13 +30,14 @@ export default Ember.Component.extend({
   },
   
   scrollToLeague(){
-    if(this.get('fromLeague')){
+    let divisions = this.get('divisions');
+      
+    if(this.get('fromLeague') && divisions){
       
       let leagueId = this.get('fromLeague');
       let league;
       
       // Find out which division this league exists
-      let divisions = this.get('divisions');
       let scrollToDivision=0;
       divisions.forEach(division=>{
         let foundLeague = division.ls.findBy('i',leagueId);
