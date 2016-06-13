@@ -14,7 +14,8 @@
       <th class="standings-header-cell standings-center-cell">{{t 'standings.losses-(short)'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.draws-(short)'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.for'}}</th>
-      <th class="standings-header-cell standings-center-cell">{{t 'standings.against'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.against-(short)'}}</th>
+      <th class="standings-header-cell standings-center-cell">{{t 'standings.points-diff'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.bt-(try-bonus-points)'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.bl-(losing-bonus-points)'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.points'}}</th>
@@ -65,12 +66,15 @@
           {{standing.pointsAgainst}}
         </td>
         <td class="standings-cell standings-center-cell">
+          {{standing.pointsMargin}}
+        </td>
+        <td class="standings-cell standings-center-cell">
           {{standing.bt}}
         </td>
         <td class="standings-cell standings-center-cell">
           {{standing.bl}}
         </td>
-        <td class="standings-cell standings-center-cell">
+        <td class="standings-cell standings-total standings-center-cell">
           {{standing.totalPoints}}
         </td>
       </tr>
