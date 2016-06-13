@@ -436,7 +436,12 @@ export default Ember.Component.extend({
     },
     onCancel(){
       this.set('showingEditor',false);
-      this.get('editorModel').rollbackAttributes();
+      if(this.get('editorModel').rollbackAttributes){
+        this.get('editorModel').rollbackAttributes();
+      } else {
+        Ember.Logger.warn('rollbackAttributes did not exist in model');
+        print(this.get('editorModel'));
+      }
     },
     onSave(succeed,fail,final){
       

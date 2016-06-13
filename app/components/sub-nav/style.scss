@@ -145,7 +145,7 @@ $animation-time: $nav-animation-time;
     transition: none;
   }
   
-  .menu-link,.menu-link:hover {
+  .menu-link:not(.custom),.menu-link:not(.custom):hover {
     
     @if $dark-colors {
       $color: $secondary-master;

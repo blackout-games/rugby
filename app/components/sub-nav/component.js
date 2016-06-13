@@ -336,11 +336,11 @@ export default Ember.Component.extend({
 
   watchMenuLinks (){
     // Don't debounce, otherwise we can't preventDefault
-    this.$('#sub-nav-scroller a.menu-link').off('click').on('click',this,this.handleMenuLink);
+    this.$('#sub-nav-scroller a.menu-link, #sub-nav-scroller button.menu-link').off('click').on('click',this,this.handleMenuLink);
   },
 
   unwatchMenuLinks (){
-    this.$('#sub-nav-scroller a.menu-link').off('click',this.handleMenuLink);
+    this.$('#sub-nav-scroller a.menu-link, #sub-nav-scroller button.menu-link').off('click',this.handleMenuLink);
   },
 
   handleMenuLink ( e ) {
@@ -358,7 +358,7 @@ export default Ember.Component.extend({
 
   selectMenuLink ( self, $link, e, wasExternal ) {
     
-    Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
+    Ember.$('#sub-nav-scroller a.menu-link, #sub-nav-scroller button.menu-link').removeClass('selected');
     
     if($link && $link.length){
       
@@ -370,15 +370,15 @@ export default Ember.Component.extend({
           
           let linkId = $link.attr('id').replace('sub-menu-link-','');
           
-          // If on player route
+          // If on single item route (e.g. players)
           if(self && self.get('opts.keepSubRoutes')){
             let route = Ember.Blackout.getCurrentRoute();
             
             Ember.Blackout.transitionTo(route,linkId);
             
-          // If on squad route
+          // If on index route (e.g. squad)
           } else {
-            Ember.Blackout.transitionTo('players.player',linkId);
+            Ember.Blackout.transitionTo(this.get('opts.singleItemRoute'),linkId);
           }
           if(e){
             e.preventDefault();
@@ -399,7 +399,7 @@ export default Ember.Component.extend({
       }
 
     } else {
-      Ember.$('#sub-nav-scroller a.menu-link').removeClass('selected');
+      Ember.$('#sub-nav-scroller a.menu-link, #sub-nav-scroller button.menu-link').removeClass('selected');
       Ember.$(this).addClass('selected');
     }
 

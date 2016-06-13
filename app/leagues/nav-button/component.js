@@ -3,17 +3,25 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   
   tagName: 'button',
-  classNames: ['btn','btn-circle','btn-appear'],
+  classNames: ['btn','btn-circle','btn-appear','menu-link','custom'],
   classNameBindings: ['isDisabled:disabled'],
+  attributeBindings: ['id'],
   
-  click(){
+  click(e){
     
-    let leagueId = this.get('leagueId');
+    /*let leagueId = this.get('leagueId');
     if(leagueId){
       Ember.Blackout.transitionTo('leagues.league',leagueId);
-    }
+    }*/
+    
+    // This happens in components/sub-nav
+    e.preventDefault();
     
   },
+  
+  id: Ember.computed('league',function(){
+    return 'sub-menu-link-' + this.get('leagueId');
+  }),
   
   leagueId: Ember.computed('league',function(){
     let direction = this.get('direction');

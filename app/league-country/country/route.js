@@ -10,6 +10,16 @@ export default Ember.Route.extend({
       return;
     }
     
+    let club = this.get('session.currentClub');
+    let clubCountry = club ? club.get('country.id') : null;
+    
+    if(clubCountry && params.country_id && clubCountry === params.country_id){
+      this.transitionTo('league-country.country','me');
+      return;
+    } else if(params.country_id === 'me'){
+      params.country_id = clubCountry;
+    }
+    
     let query = {
       season: this.get('info.gameDate.season'),
       country: params.country_id
@@ -19,7 +29,7 @@ export default Ember.Route.extend({
     // Also add season to the hash, or just use info service directly in template?
     let hash = {
       
-      divisions: this.get('store').findRecord('custom','league-country',{ adapterOptions: { query: query }}).then((data)=>{
+      divisions: this.get('store').findRecord('custom','league-country',{ adapterOptions: { query: query }, reload: true}).then((data)=>{
         
         data = JSON.parse(window.JXG.decompress(data.get('customData')));
         

@@ -6,7 +6,7 @@
   
     <div class="standings-title bigger">{{t 'league.division-number' division=division.d}}</div>
     
-    {{#normal-scroll horizontal=true class=(concat 'page-header-padding negate' (unless (last divisionIndex divisions) ' gap-2x')) id=(concat "country-standings-div-" division.d) }}
+    {{#normal-scroll horizontal=true class=(concat 'page-header-padding negate' (unless (last divisionIndex divisions) ' gap-2x')) id=(concat 'country-standings-div-' division.d) }}
     {{#infinite-scroll-horizontal
       content=division.ls
       defaultWidth=222
@@ -35,7 +35,7 @@
                   </td>
                 </tr>
               {{else}}
-                  <tr {{action 'goToClub' club.i}} class="btn-other btn-events secondary go-primary">
+                  <tr {{action 'goToClub' club.i}} class="btn-other btn-events white go-primary">
                     <td class="country-standing">{{add index 1}}</td>
                     <td class="ellipsis {{if club.b 'bot'}}">
                       {{club.n}}

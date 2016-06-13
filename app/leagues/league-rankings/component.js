@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   
   showNumbers: true,
   
-  rankings: Ember.computed('dependent',function(){
+  rankings: Ember.computed('standings',function(){
     
     let rankings = [];
     
