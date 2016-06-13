@@ -22,8 +22,8 @@ export default Ember.Component.extend(InViewportMixin, {
       viewportScrollSensitivity : 10,
       viewportRefreshRate       : 100,
       viewportTolerance: {
-        top    : 0,
-        bottom : 0,
+        top    : 10000,
+        bottom : 10000,
         left   : this.get('bufferSize') * $viewport.innerWidth(),
         right  : this.get('bufferSize') * $viewport.innerWidth(),
       }
@@ -64,10 +64,12 @@ export default Ember.Component.extend(InViewportMixin, {
     if(this.get('showMe')){
       this.$().css({
         width: '',
+        margin: '',
       });
     } else {
       this.$().css({
         width: this.get('defaultWidth') + 'px',
+        margin: 0,
       });
     }
   },
