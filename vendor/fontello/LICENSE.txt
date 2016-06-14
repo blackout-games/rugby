@@ -10,15 +10,6 @@ Font license info
    Homepage:  http://fortawesome.github.com/Font-Awesome/
 
 
-## Entypo
-
-   Copyright (C) 2012 by Daniel Bruce
-
-   Author:    Daniel Bruce
-   License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.entypo.com
-
-
 ## Typicons
 
    (c) Stephen Hutchings 2012
@@ -62,5 +53,14 @@ Font license info
    Author:    Just Be Nice studio
    License:   SIL (http://scripts.sil.org/OFL)
    Homepage:  http://www.justbenicestudio.com/
+
+
+## Entypo
+
+   Copyright (C) 2012 by Daniel Bruce
+
+   Author:    Daniel Bruce
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.entypo.com
 
 

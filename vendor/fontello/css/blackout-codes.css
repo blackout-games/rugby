@@ -54,7 +54,7 @@
 .icon-cubes:before { content: '\e834'; } /* '' */
 .icon-facebook:before { content: '\e835'; } /* '' */
 .icon-twitter:before { content: '\e836'; } /* '' */
-.icon-menu-1:before { content: '\e837'; } /* '' */
+.icon-list-alt:before { content: '\e837'; } /* '' */
 .icon-info-1:before { content: '\e838'; } /* '' */
 .icon-flag-filled:before { content: '\e839'; } /* '' */
 .icon-warning-empty:before { content: '\e83a'; } /* '' */
@@ -77,7 +77,6 @@
 .icon-history:before { content: '\e84b'; } /* '' */
 .icon-logo-404:before { content: '\e84c'; } /* '' */
 .icon-cap:before { content: '\e84d'; } /* '' */
-.icon-list:before { content: '\e84e'; } /* '' */
 .icon-team:before { content: '\e84f'; } /* '' */
 .icon-pencil:before { content: '\e850'; } /* '' */
 .icon-edit-circle:before { content: '\e851'; } /* '' */
@@ -106,3 +105,4 @@
 .icon-dollar:before { content: '\e868'; } /* '' */
 .icon-fixture:before { content: '\e869'; } /* '' */
 .icon-fixture-circled:before { content: '\e86a'; } /* '' */
+.icon-network:before { content: '\e86b'; } /* '' */

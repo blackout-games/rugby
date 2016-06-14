@@ -569,6 +569,18 @@ h1, h2, h3, h4, h5, h6 {
   &.on-dark {
     color: $bg-light-darker-4x;
   }
+  
+  &.white-text-shadow {
+    text-shadow: 1px 1px white;
+  }
+  
+  &.dark-text-shadow {
+    text-shadow: 2px 2px $bg-dark;
+  }
+}
+
+.no-text-shadow {
+  text-shadow: none;
 }
 
 p {

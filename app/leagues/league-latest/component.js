@@ -3,6 +3,47 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   store: Ember.inject.service(),
   
+  latestResults: Ember.computed('rounds',function(){
+    
+    if(!Ember.isEmpty(this.get('rounds'))){
+      let roundWithResults,latestResults;
+      
+      Ember.$.each(this.get('rounds'),(i,round)=>{
+        if(round.fixtures[0].get('isFinished')){
+          roundWithResults = this.get('rounds')[i];
+        } else {
+          latestResults = roundWithResults;
+          return false;
+        }
+      });
+      
+      return latestResults;
+      
+    }
+    
+  }),
+  
+  nextRound: Ember.computed('rounds',function(){
+    
+    if(!Ember.isEmpty(this.get('rounds'))){
+      
+      let nextRound;
+      
+      Ember.$.each(this.get('rounds'),(i,round)=>{
+        
+        if(!round.fixtures[0].get('isFinished')){
+          nextRound = round;
+          return false;
+        }
+        
+      });
+      
+      return nextRound;
+      
+    }
+    
+  }),
+  
   rounds: Ember.computed('dataSorted',function(){
     
     let rounds = [];

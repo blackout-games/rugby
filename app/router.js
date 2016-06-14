@@ -70,6 +70,7 @@ Router.map(function() {
     }, function() {
       this.route('fixtures');
       this.route('rankings');
+      this.route('latest');
     });
   });
   this.route('league-country', function() {

@@ -1,0 +1,46 @@
+{{#if latestResults}}
+  <h5 class="heading-font on-dark no-top-gap-on-first dash-content sides-only">
+    <span class="white">{{t 'misc.latest-results'}}</span> //
+      {{#if latestResults.competition}}
+        {{t latestResults.competitionT}}
+      {{else}}
+        {{t 'date.round-x' round=latestResults.round}}
+      {{/if}}
+    
+  </h5>
+  
+  <table>
+    <tbody>
+      {{#each latestResults.fixtures as |fixture|}}
+        <tr>
+          <td>
+            {{fixture-link fixture=fixture class="btn-a secondary go-primary"}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{/if}}
+
+{{#if nextRound}}
+  <h5 class="heading-font on-dark no-top-gap-on-first dash-content sides-only">
+    <span class="white">{{t 'league.next-round'}}</span> //
+      {{#if nextRound.competition}}
+        {{t nextRound.competitionT}}
+      {{else}}
+        {{t 'date.round-x' round=nextRound.round}}
+      {{/if}}
+  </h5>
+  
+  <table>
+    <tbody>
+      {{#each nextRound.fixtures as |fixture|}}
+        <tr>
+          <td>
+            {{fixture-link fixture=fixture class="btn-a secondary go-primary"}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+{{/if}}

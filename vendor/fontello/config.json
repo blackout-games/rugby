@@ -481,12 +481,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "2cfb3f2b46b34a1790aec0aa846297b6",
-      "css": "menu-1",
-      "code": 59447,
-      "src": "entypo"
-    },
-    {
       "uid": "85fda3129wk4amvn25wrq843sbj3yzl0",
       "css": "info-1",
       "code": 59448,
@@ -509,12 +503,6 @@
       "css": "beer",
       "code": 59451,
       "src": "typicons"
-    },
-    {
-      "uid": "cy7vw87w1slwyalc4vd8cdhrb50asud3",
-      "css": "th-list",
-      "code": 59452,
-      "src": "modernpics"
     },
     {
       "uid": "a66a6e088038a1881d532b6675bf8412",
@@ -633,12 +621,6 @@
       "search": [
         "cap"
       ]
-    },
-    {
-      "uid": "3626b3f3a0b284e7f4166b815719aece",
-      "css": "list",
-      "code": 59470,
-      "src": "entypo"
     },
     {
       "uid": "509216444677a52dfd2af092284ad24f",
@@ -855,6 +837,24 @@
       "search": [
         "fixture-circled"
       ]
+    },
+    {
+      "uid": "414fe97e4af5215a06d29be0f2cecdf5",
+      "css": "network",
+      "code": 59499,
+      "src": "entypo"
+    },
+    {
+      "uid": "c819c6225685bae2eed1b8da13e629fa",
+      "css": "list-alt",
+      "code": 59447,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f805bb95d40c7ef2bc51b3d50d4f2e5c",
+      "css": "th-list",
+      "code": 59452,
+      "src": "fontawesome"
     },
     {
       "uid": "4c95899d8ee2f5b09735c3835354c056",

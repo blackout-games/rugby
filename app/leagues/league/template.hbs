@@ -10,7 +10,11 @@
       
       {{#tabs.list as |list|}}
         
-        {{list.tab tab="league-standings-panel" name-t="league.standings" icon-class="icon-award-1 icon-lg"}}
+        {{!list.tab tab="league-finals-panel" name-t="league.finals" icon-class="icon-award-1 icon-lg"}}
+        
+        {{list.tab tab="league-standings-panel" name-t="league.standings" icon-class="icon-th-list icon-lg"}}
+        
+        {{list.tab tab="league-latest-panel" name-t="misc.latest" icon-class="icon-fixture icon-md"}}
         
         {{list.tab tab="league-rankings-panel" name-t="menu.global.rankings" icon-class="icon-list-numbered icon-lg"}}
         
@@ -27,6 +31,16 @@
         {{/content.tab}}
         
         
+        {{#content.tab id="league-latest-panel" as |tab|}}
+          {{component 'leagues/league-latest'
+            league=model.firstObject.league
+            preloadedFixtures=(readonly fixtures)
+            loadedFixtures=(action 'loadFixtures')
+            registerTabLoading=tab.registerTabLoading
+            finishTabLoading=tab.finishTabLoading}}
+        {{/content.tab}}
+        
+        
         {{#content.tab id="league-rankings-panel"}}
           {{component 'leagues/league-rankings' standings=model}}
         {{/content.tab}}
@@ -35,6 +49,8 @@
         {{#content.tab id="league-fixtures-panel" noPadding=false as |tab|}}
           {{component 'leagues/league-fixtures'
             league=model.firstObject.league
+            preloadedFixtures=(readonly fixtures)
+            loadedFixtures=(action 'loadFixtures')
             registerTabLoading=tab.registerTabLoading
             finishTabLoading=tab.finishTabLoading}}
         {{/content.tab}}
