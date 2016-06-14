@@ -42,10 +42,25 @@
 }
 
 .standings-club-name {
+  
   max-width: 33vw;
   @media #{$desktop} {
     max-width: 9vw;
   }
+  
+  &.changes-exist {
+    max-width: 30vw;
+    @media #{$tablet} {
+      max-width: 19vw;
+    }
+    @media #{$laptop} {
+      max-width: 11vw;
+    }
+    @media #{$desktop} {
+      max-width: 9vw;
+    }
+  }
+  
   //text-transform: uppercase;
   font-weight: bold;
   &.bot {
@@ -59,8 +74,8 @@
 
 .standings-center-cell {
   text-align: center;
-  padding-left: 9px;
-  padding-right: 9px;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 
 .standings-penalty-applied {
@@ -135,4 +150,13 @@
 
 .standings-total {
   color: $secondary-on-dark-lighter-2x;
+}
+
+.standings-up {
+  color: $primary-master;
+}
+
+.standings-down {
+  color: #ff5340;
+  color: $error-color-on-dark;
 }

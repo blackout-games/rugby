@@ -17,9 +17,13 @@ export default Model.extend({
   divisionNumber: attr('number'),
   leagueNumber: attr('number'),
   penalty: attr('number'),
-  totalPoints: attr(),
+  totalPoints: attr('number'),
+  standingChange: attr('number'),
   pointsMargin: Ember.computed('pointsFor','pointsAgainst', function() {
     return this.get('pointsFor') - this.get('pointsAgainst');
+  }),
+  standingChangeAbs: Ember.computed('standingChange', function() {
+    return Math.abs(this.get('standingChange'));
   }),
   club: belongsTo('club',{ async: false}),
   country: belongsTo('country'),

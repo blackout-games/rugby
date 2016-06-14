@@ -9,6 +9,9 @@
         <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
       {{/if}}
       <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
+      {{#if changesExist}}
+      <th class="standings-header-cell ">&nbsp;{{!t 'standings.club'}}</th>
+      {{/if}}
       <th class="standings-header-cell standings-center-cell">{{substr (t 'standings.played') 0 1}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.wins-(short)'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'standings.losses-(short)'}}</th>
@@ -31,7 +34,7 @@
             {{standing.standing}}
           </td>
         {{/if}}
-        <td class="standings-cell standing-first-cell right-pad-lg ellipsis has-position">
+        <td class="standings-cell standing-first-cell ellipsis has-position">
             <span id="standings-block-{{add index 1}}" class="standings-block pos-{{add index 1}}"></span>
             
             {{!#if showTethers}}
@@ -44,9 +47,28 @@
             {{!/if}}
             
           <span class="standings-club">
-            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot')) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
+            {{club-link club=standing.club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless standing.club.owner ' bot') (if changesExist " changes-exist")) beforeName=(if (not-eq standing.penalty 0) '*') class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>
         </td>
+        {{#if changesExist}}
+        <td class="standings-cell standings-center-cell">
+          {{#if (gt standing.standingChange 0)}}
+            <span class="standings-up nowrap">
+              <i class="icon-up-dir"></i>{{standing.standingChange}}
+            </span>
+          {{else}}
+            
+            {{#if (lt standing.standingChange 0)}}
+              <span class="standings-down nowrap">
+                <i class="icon-down-dir"></i>{{standing.standingChangeAbs}}
+              </span>
+            {{else}}
+              &nbsp;
+            {{/if}}
+            
+          {{/if}}
+        </td>
+        {{/if}}
         <td class="standings-cell standings-center-cell">
           {{standing.played}}
         </td>

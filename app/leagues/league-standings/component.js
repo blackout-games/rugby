@@ -19,6 +19,16 @@ export default Ember.Component.extend({
     return this.get('standings.firstObject.league');
   }),
   
+  changesExist: Ember.computed('standings',function(){
+    let changesExist = false;
+    this.get('standings').forEach(standing=>{
+      if(standing.get('standingChange')!==0){
+        changesExist = true;
+      }
+    });
+    return changesExist;
+  }),
+  
   country: Ember.computed('standings',function(){
     return this.get('standings.firstObject.country');
   }),
