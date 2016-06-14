@@ -7,6 +7,9 @@
         <th class="standings-header-cell ">&nbsp;</th>
       {{/if}}
       <th class="standings-header-cell ">&nbsp;</th>
+      {{#if changesExist}}
+      <th class="standings-header-cell ">&nbsp;</th>
+      {{/if}}
       <th class="standings-header-cell standings-center-cell">{{t 'rankings.rating-points'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'rankings.average-csr'}}</th>
       <th class="standings-header-cell standings-center-cell">{{t 'rankings.country-rank'}}</th>
@@ -16,7 +19,7 @@
   
   <tbody>
     
-    {{#each rankingsSorted as |club index|}}
+    {{#each finalRankings as |club index|}}
       <tr>
         {{#if showNumbers}}
           <td class="standings-cell standings-center-cell standings-standing">
@@ -28,6 +31,25 @@
             {{club-link club=club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless club.owner ' bot')) class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>
         </td>
+        {{#if changesExist}}
+        <td class="standings-cell standings-center-cell">
+          {{#if (gt club.rankingChange 0)}}
+            <span class="standings-up nowrap">
+              <i class="icon-up-dir"></i>{{club.rankingChange}}
+            </span>
+          {{else}}
+            
+            {{#if (lt club.rankingChange 0)}}
+              <span class="standings-down nowrap">
+                <i class="icon-down-dir"></i>{{club.rankingChangeAbs}}
+              </span>
+            {{else}}
+              &nbsp;
+            {{/if}}
+            
+          {{/if}}
+        </td>
+        {{/if}}
         <td class="standings-cell standings-center-cell">
           {{club.ratingPoints}}
         </td>

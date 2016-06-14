@@ -6,7 +6,7 @@ export default Ember.Route.extend({
     
     let query = {
       fields: {
-        clubs: 'name,logo,owner,rating-points,country-ranking,world-ranking,average-top15-csr'
+        clubs: 'name,logo,owner,rating-points,previous-rating-points,country-ranking,world-ranking,average-top15-csr'
       },
     };
     let currentClubId = this.get('session.isAuthenticated') ? this.get('session.currentClub.id') : null;

@@ -8,6 +8,7 @@ export default DS.Model.extend({
   contentment: DS.attr('number'),
   isPremium: DS.attr(),
   ratingPoints: DS.attr('number'),
+  previousRatingPoints: DS.attr('number'),
   countryRanking: DS.attr('number'),
   worldRanking: DS.attr('number'),
   averageTop15Csr: DS.attr('number'),
