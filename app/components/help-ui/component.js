@@ -6,7 +6,7 @@ export default Ember.Component.extend({
   classNames: ['help-ui','btn-a','no-hover'],
   classNameBindings: ['besideButton:help-ui-beside-button','iconSize'],
   
-  hideAfterDelay: 0,//5000,
+  hideAfterDelay: 5000, //0
   
   iconSize: Ember.computed('size',function(){
     return this.get('size') === 'small' ? 'help-ui-small' : '';
@@ -52,8 +52,8 @@ export default Ember.Component.extend({
       
       this.set('tooltipIsVisible',true);
       
+      this.cancelTimer();
       if(this.get('hideAfterDelay')){
-        this.cancelTimer();
         let timeoutId = window.setTimeout(()=>{
           this.set('timeoutId',null);
           this.hide();
@@ -90,10 +90,11 @@ export default Ember.Component.extend({
       this.cancelTimer();
       this.set('tooltipIsVisible',false);
       
-      Ember.run.later(()=>{
+      let timeoutId = window.setTimeout(()=>{
+        this.set('timeoutId',null);
         Ember.$('#'+this.get('tooltipId')).removeClass('showing');
       },250);
-      
+      this.set('timeoutId',timeoutId);
       
       this.$('i').off(window.os.touchOS ? 'touchstart' : 'mouseleave click',this.get('hideBound'));
       Ember.$('body').off('mousedown touchstart',this.get('handleClickBound'));
