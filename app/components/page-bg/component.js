@@ -10,6 +10,7 @@ var imagesList = {
   "not-found": ['ball'],
   "grounds": ['dark'], //,'club' (lacking),'lights' (nope),'stadium' (good but save for maybe stadium route?),'water' (great, but save for elsewhere)
   //"grounds": ['water'],
+  "club": ['stadium'], //boardroom3 (yes!), boardroom (ok),boardroom2 (ok), green-room (good), lounge (great - but for clubrooms), office (good), stadium
 };
 
 export default Ember.Component.extend({

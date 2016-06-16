@@ -30,6 +30,7 @@ $secondary-master: adjust-hue(hsl(222,55%,50%),$hue-adjust);
 $primary-dark: adjust-hue(desaturate(darken($primary-master,15%),4%),4%);
 $primary-darker: desaturate(darken($primary-dark,10%),5%);
 $primary-on-dark: saturate(lighten($primary-master,5%),5%);
+$primary-hover-on-dark: saturate(lighten($primary-master,20%),50%);
 $primary-on-image: saturate(lighten($primary-master,1%),3%);
 
 

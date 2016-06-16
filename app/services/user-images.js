@@ -120,16 +120,8 @@ export default Ember.Service.extend({
       url = this.get('clubImageURL');
     }
     
-    if(url){
-      if(opts.large){
-        url = this.getLargeUrl(url);
-      }
-      
-      if(opts.club){
-        // Run through cloudfront
-        // Must do this after getLargeUrl
-        url = this.getCacheUrl(url);
-      }
+    if(opts.large){
+      url = this.getLargeUrl(url);
     }
     
     opts.isClub = true;
@@ -377,6 +369,8 @@ export default Ember.Service.extend({
    * Generates club html for decorate team name locations
    * @param  {object} club Club object
    * @return {string}         Html
+   * 
+   * NOT CURRENTLY USED
    */
   getClubHTML( club ){
     

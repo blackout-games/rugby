@@ -4,7 +4,7 @@
     
     <div class="inline-block">
       <div class="text-center">
-        {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
+        {{user-image defaultColor=defaultColor url=club.logo size=imageSize placeholderUrl=placeholder shadow=shadow editable=editable hideEditText=hideEditText onSave=onSaveClubImage}}
       </div>
       <div>
         <span class="{{clubNameClass}}">{{beforeName}}{{if text text club.name}}{{afterName}}</span>
@@ -16,13 +16,13 @@
     <span class="nowrap">
     
       {{#unless imageOnRight}}
-        {{user-image type='club' defaultColor=defaultColor club=club isCurrentUserImage=isCurrentUserImage size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder}}
+        {{user-image defaultColor=defaultColor url=club.logo size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder shadow=shadow editable=editable onSave=onSaveClubImage hideEditText=hideEditText}}
       {{/unless}}
       
       <span class="btn-a-hover {{clubNameClass}}">{{beforeName}}{{if text text club.name}}{{afterName}}</span>
       
       {{#if imageOnRight}}
-        {{user-image type='club' defaultColor=defaultColor club=club isCurrentUserImage=isCurrentUserImage size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder}}
+        {{user-image defaultColor=defaultColor url=club.logo size='small' class="club-avatar-inline no-right-gap left-gap-xs" placeholderUrl=placeholder shadow=shadow editable=editable onSave=onSaveClubImage hideEditText=hideEditText}}
       {{/if}}
       
     </span>
@@ -35,7 +35,7 @@
   
     {{#unless imageOnRight}}
       <div class="{{unless stacked "col-auto right-gap-md"}} text-center">
-        {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
+        {{user-image defaultColor=defaultColor url=club.logo size=imageSize placeholderUrl=placeholder shadow=shadow editable=editable onSave=onSaveClubImage hideEditText=hideEditText}}
       </div>
     {{/unless}}
     
@@ -45,7 +45,7 @@
       
     {{#if imageOnRight}}
       <div class="{{unless stacked "col-auto left-gap-md"}} text-center">
-        {{user-image type='club' defaultColor=defaultColor club=club size=imageSize isCurrentUserImage=isCurrentUserImage placeholderUrl=placeholder}}
+        {{user-image defaultColor=defaultColor url=club.logo size=imageSize placeholderUrl=placeholder shadow=shadow editable=editable onSave=onSaveClubImage hideEditText=hideEditText}}
       </div>
     {{/if}}
     

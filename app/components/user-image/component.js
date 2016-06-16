@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   classNames: ['iblock'],
   
   /**
-   * e.g. manager, club, or empty for custom
+   * manager or empty for custom
    */
   type: null,
   
@@ -31,7 +31,7 @@ export default Ember.Component.extend({
   
   /**
    * The placeholder image URL
-   * This is set automatically for special types (managers, clubs)
+   * This is set automatically for special types (managers)
    * But you can override here
    */
   placeholderUrl: null,
@@ -75,21 +75,7 @@ export default Ember.Component.extend({
           imageUrl = this.get('userImages').registerManagerImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
           
         } else {
-          
           imageUrl = this.updateManagerImage(this.get('manager'));
-          
-        }
-        
-      } else if(this.get('type')==='club'){
-        
-        if(this.get('isCurrentUserImage')){
-          
-          imageUrl = this.get('userImages').registerClubImage(updateImage,this.get('defaultColor'),this.isLargeSize(this.get('size')));
-          
-        } else {
-          
-          imageUrl = this.updateClubImage(this.get('club'));
-          
         }
         
       }
@@ -113,6 +99,8 @@ export default Ember.Component.extend({
       this.setCustomDefaults();
     }
     
+    
+    
   }),
   
   setup: Ember.on('didInsertElement',function(){
@@ -123,6 +111,10 @@ export default Ember.Component.extend({
         this.get('incomingWrapperClass').split(' ').forEach(className=>{
           this.addImageClass(className);
         });
+      }
+      
+      if(this.get('shadow')){
+        this.addImageClass('shadow');
       }
       
       this.addImageClass(this.get('type') + '-avatar' + (this.get('inline')?'-inline':''));
@@ -150,29 +142,12 @@ export default Ember.Component.extend({
   }),
   
   onUpdate: Ember.on('didUpdateAttrs',function(attrs){
-    if(this.get('type')==='club' && this.attrChanged(attrs,'club')){
-      
-      this.updateClubImage(this.get('club'));
-      
-    }
     if(this.get('type')==='manager' && this.attrChanged(attrs,'manager')){
       
       this.updateManagerImage(this.get('manager'));
       
     }
   }),
-  
-  updateClubImage(club){
-    let opts = {
-      club: club,
-      large: this.isLargeSize(this.get('size')),
-      defaultBgColor: this.get('defaultColor'),
-      bgColor: this.get('defaultColor'),
-    };
-    opts.url = this.get('userImages').getClubUrl(opts);
-    this.updateImage(opts);
-    return opts.url;
-  },
   
   updateManagerImage(manager){
     let opts = {
@@ -230,7 +205,7 @@ export default Ember.Component.extend({
       if(imageUrl===facebookUrl){
         return 'fb';
       } else if(imageUrl===gravatarImageUrl){
-        return 'gavatar';
+        return 'gravatar';
       } else {
         return 'custom';
       }
@@ -270,7 +245,6 @@ export default Ember.Component.extend({
   editorModel: Ember.computed('modelImageUrl',function(){
     
     let model = this.get('model');
-    
     model.set('customUrl',this.get('modelImageUrl'));
     
     if( this.get('type') === 'manager' ){
@@ -286,8 +260,6 @@ export default Ember.Component.extend({
       if( this.get('type') === 'manager' ){
         originalImageType = this.get('managerImageType');
         originalCustomUrl = this.get('managerCustomUrl');
-      } else if( this.get('type') === 'club' ){
-        log('Attempted to create rollbackAttributes for club user-image. (component:user-image)');
       }
       
       model.rollbackAttributes = ()=>{
@@ -296,6 +268,11 @@ export default Ember.Component.extend({
         this.send('onChangedImageType',originalImageType);
       };
       
+    }
+    
+    // Remove v= from custom URL
+    if(model.get('customUrl')){
+      model.set('customUrl',model.get('customUrl').replace(/[?&]v=[0-9a-f]+/i,''));
     }
     
     //this.set('model',model);
@@ -514,8 +491,6 @@ export default Ember.Component.extend({
           
           if( this.get('type') === 'manager' ){
             return this.saveManagerImage(url,succeed,fail,final);
-          } else if( this.get('type') === 'club' ){
-            return this.saveClubImage(url,succeed,fail,final);
           } else {
             return this.saveCustomImage(url,succeed,fail,final);
           }
@@ -598,12 +573,6 @@ export default Ember.Component.extend({
     
   },
   
-  saveClubImage(url/*,succeed,fail,final*/){
-    
-    log('Attempted to save a club image. Not implemented yet. (component:user-image)',url);
-    
-  },
-  
   saveCustomImage(url,succeed,fail,final){
     
     // Update local
@@ -633,10 +602,6 @@ export default Ember.Component.extend({
         this.set('notFoundUrl','/assets/images/user/no-image.png');
       } else {
         this.set('notFoundUrl','/assets/images/user/no-image-light.png');
-      }
-      
-      if(opts.isClub && !this.get('placeholderUrl')){
-        this.set('placeholderUrl','/assets/images/user/club.png');
       }
       if(this.get('debug')){
         log('opts.defaultBgColor',opts.defaultBgColor);

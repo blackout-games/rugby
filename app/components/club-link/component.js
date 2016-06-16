@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   hasInit: false,
   fast: false,
   defaultColor: 'light',
+  placeholder: '/assets/images/user/club.png',
   
   setupAttrs: Ember.on('didReceiveAttrs',function(){
     if(!this.get('hasInit')){
@@ -30,7 +31,7 @@ export default Ember.Component.extend({
     } else if(this.get('u20')){
       return 'https://www.blackoutrugby.com/game/global.national.php?iso=' + this.get('club.country.id') + '&type=2';
     } else {
-      return 'https://www.blackoutrugby.com/game/club.lobby.php?id=' + this.get('club.id');
+      return '/clubs/'+this.get('club.id');
     }
   }),
   
@@ -48,7 +49,7 @@ export default Ember.Component.extend({
         if(this.get('action')){
           this.sendAction();
         } else {
-          window.location.href = this.get('href');
+          this.goToClub(e);
         }
         
       });
@@ -70,7 +71,7 @@ export default Ember.Component.extend({
           this.sendAction();
           e.preventDefault();
         } else {
-          window.location.href = this.get('href');
+          this.goToClub(e);
         }
         
       });
@@ -78,6 +79,17 @@ export default Ember.Component.extend({
     }
     
   }),
+  
+  goToClub(e){
+    if(this.get('nat')){
+      window.location.href = this.get('href');
+    } else if(this.get('u20')){
+      window.location.href = this.get('href');
+    } else {
+      Ember.Blackout.transitionTo('clubs.club',this.get('club.id'));
+      e.preventDefault();
+    }
+  },
   
   actions: {
     getClub(club){

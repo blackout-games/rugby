@@ -1,0 +1,10 @@
+{{club-ui
+  club=club
+  imageSize=(if media.isMobile 'large' 'xlarge')
+  stacked=true
+  class="top-gap-3x page-title-user-image"
+  defaultColor='dark'
+  shadow=true
+  editable=(owned-club club)
+  hideEditText=true
+  onSaveClubImage=(action 'saveClubImage')}}

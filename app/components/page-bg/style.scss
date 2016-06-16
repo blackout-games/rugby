@@ -257,4 +257,34 @@ $tint-dark-at-top-and-bottom: linear-gradient(
   &.grounds-water {
     @include header-background-image($image-folder + "stock/grounds-water.jpg", left center);
   }
+  
+  /**
+   *  Club
+   */
+  
+  &.club-boardroom {
+    @include header-background-image($image-folder + "stock/club-boardroom.jpg", center center);
+  }
+  &.club-boardroom2 {
+    @include header-background-image($image-folder + "stock/club-boardroom2.jpg", center center);
+  }
+  &.club-boardroom3 {
+    @include header-background-image($image-folder + "stock/club-boardroom3.jpg", center center);
+  }
+  &.club-green-room {
+    @include header-background-image($image-folder + "stock/club-green-room.jpg", center center);
+  }
+  &.club-lobby {
+    @include header-background-image($image-folder + "stock/club-lobby.jpg", center center);
+  }
+  &.club-lounge {
+    @include header-background-image($image-folder + "stock/club-lounge.jpg", center center);
+  }
+  &.club-office {
+    @include header-background-image($image-folder + "stock/club-office.jpg", center center);
+  }
+  &.club-stadium {
+    @include header-background-image($image-folder + "stock/club-stadium.jpg", left 70%);
+  }
+  
 }

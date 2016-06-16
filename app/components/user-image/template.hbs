@@ -13,6 +13,7 @@
           defaultColor='light'
           imageClasses=imageClasses
           incomingWrapperClass=incomingWrapperClass
+          shadow=shadow
           as |section|}}
           
           {{#unless section}}
@@ -31,6 +32,7 @@
           isCurrentUserImage=isCurrentUserImage
           imageClasses=imageClasses
           incomingWrapperClass=incomingWrapperClass
+          shadow=shadow
           as |section|}}
           
           {{#unless section}}
@@ -42,13 +44,13 @@
       {{/if}}
       
       {{#unless hideEditIndicators}}
-        <i class="icon-edit-circle icon-2x"></i>
+        <i class="icon-edit-circle {{if (eq defaultColor 'dark') 'on-dark'}}"></i>
       {{/unless}}
       
       {{yield 'hasPosition'}}
     </div>
       
-    {{#unless hideEditIndicators}}
+    {{#unless (or hideEditIndicators hideEditText)}}
     <div class="text-center top-gap-sm text-medium">
       {{t 'buttons.change'}}
     </div>

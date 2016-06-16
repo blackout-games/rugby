@@ -78,6 +78,11 @@ Router.map(function() {
       path: ':country_id'
     });
   });
+  this.route('clubs', function() {
+    this.route('club', {
+      path: ':club_id'
+    });
+  });
 });
 
 export default Router;

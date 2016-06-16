@@ -12,7 +12,7 @@ export default Ember.Component.extend({
       
       if(this.get('session.currentClub.id') === club.get('id')){
         
-        // TODO: Go to club page
+        Ember.Blackout.transitionTo('clubs.club','me');
         
       } else {
         

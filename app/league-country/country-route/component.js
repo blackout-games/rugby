@@ -93,7 +93,7 @@ export default Ember.Component.extend({
   
   actions: {
     goToClub(id){
-      window.location='https://www.blackoutrugby.com/game/club.lobby.php?id=' + id;
+      Ember.Blackout.transitionTo('clubs.club',id);
     },
     goBack(){
       let fromLeague = this.get('fromLeague');

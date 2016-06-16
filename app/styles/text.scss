@@ -9,6 +9,8 @@ $heading-font: "ff-zine-slab-display-web";
 $sports-font: "proxima-nova", Helvetica, Arial, sans-serif;
 $hover-animation-time: 0.150s ease(out-quad);
 
+$text-shadow-on-dark: 0 0 22px rgba(black,0.88);
+
 
 /**
  * Primary font sizes
@@ -311,7 +313,7 @@ a {
     color: $color;
     
     &:not(.no-text-shadow){
-      text-shadow: 0 0 22px rgba(black,0.88);
+      text-shadow: $text-shadow-on-dark;
     }
     
     &.hover {
@@ -841,6 +843,29 @@ p {
   font-size: 12px;
   font-weight: bold;
   line-height: 22px;
+}
+
+.page-title-user-image {
+  font-family: $heading-font;
+  font-size:22px;
+  font-style: normal;
+  color: white;
+  margin: 11px 0 5px;
+  @media #{$tablet-and-up} {
+    font-size:29px;
+    margin: 11px 0;
+  }
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.title {
+  text-transform: uppercase;
+  font-family: $sports-font;
+  font-weight: 700;
+  //margin-bottom: -5px;
+  font-size: 0.9em;
 }
 
 /**

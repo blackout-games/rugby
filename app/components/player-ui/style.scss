@@ -5,24 +5,6 @@
   }
 }
 
-.player-ui-top {
-}
-
-.player-ui-title-club {
-  
-  span {
-    font-family: $heading-font;
-    font-size:22px;
-    font-style: normal;
-    font-weight: 900;
-    @media #{$tablet-and-up} {
-      font-size:29px;
-    }
-    color: white;
-    text-transform: uppercase;
-  }
-}
-
 .player-avatar-single {
   width:80px;
   height:80px;
@@ -190,19 +172,6 @@ body.touch .player-ui-title-link {
   
   color: white;
   color: $bg-light-darker;
-}
-
-.player-ui-title-single {
-  //font-family: $heading-font;
-  font-size:22px;
-  font-style: normal;
-  color: white;
-  margin: 11px 0 5px;
-  @media #{$tablet-and-up} {
-    font-size:29px;
-    margin: 11px 0;
-  }
-  width: 100%;
 }
 
 .player-ui-flags {

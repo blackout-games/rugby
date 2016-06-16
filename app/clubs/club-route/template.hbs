@@ -1,0 +1,40 @@
+<div class="row row-nowrap">
+  <div class="col-flex right-gap-lg">
+    
+    <p class="gap-2x">
+      <div class="text-light title">{{t 'club.owned-by'}}</div>
+      {{#if club.owner}}
+        {{manager-link manager=club.owner inline=true}}
+      {{else}}
+        {{t 'club.not-owned'}}
+      {{/if}}
+    </p>
+
+    <p class="gap-2x">
+      <div class="text-light title">{{t 'squad.title'}}</div>
+      <i class="icon-team icon-xl icon-less-left icon-vcenter"></i>{{number club.averageTop15Csr}} {{t 'rankings.average-csr'}} <span class="text-light text-small">({{t 'club.top-15'}})</span><br>
+      {{#link-to 'squad.club' (if (current-club club) 'me' club.id)}}{{t 'club.go-to-squad'}}{{/link-to}}
+    </p>
+
+    <p class="gap-2x">
+      <div class="text-light title">{{t 'menu.club.stadium'}}</div>
+      <i class="icon-stadium icon-xl icon-less-left icon-vcenter"></i>{{club.stadium}}
+      <span class="text-light text-small nowrap">({{t 'club.stadium-seats' seats=(number club.stadiumCapacity)}})</span>
+    </p>
+
+    <p class="gap-2x">
+      <div class="text-light title">{{t 'club.competes-in-(country)'}}</div>
+      <i class="icon-globe icon-2x icon-lesser-left icon-vcenter"></i>{{club.region.name}}, {{club.country.name}} {{#link-to 'leagues.league' club.league.id}}{{club.league.shortName}}{{/link-to}}
+    </p>
+    
+  </div>
+  <div class="col-auto">
+    
+    {{#if club.kit}}
+      <div class="text-light title">{{t 'club.kit-(jersey)'}}</div>
+      {{user-image url=club.kit defaultColor='light' size=(if media.isMobile 'xlarge' 'gigantic') placeholderUrl='/assets/images/user/jersey-light.png' class="gap-3x"}}
+    {{/if}}
+    
+  </div>
+</div>
+
