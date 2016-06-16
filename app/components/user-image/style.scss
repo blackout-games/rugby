@@ -2,6 +2,9 @@
   @include user-image();
   
   $shadow-color: rgba(black,0.44);
+  &.shadow {
+    box-shadow: 0 10px 30px $shadow-color;
+  }
   
   &.user-image-small {
     width:28px;
@@ -22,10 +25,16 @@
   &.user-image-medium-3x {
     width:70px;
     height:70px;
+    &.shadow {
+      box-shadow: 0 7px 21px $shadow-color;
+    }
   }
   &.user-image-medium-4x {
     width:77px;
     height:77px;
+    &.shadow {
+      box-shadow: 0 8px 24px $shadow-color;
+    }
   }
   &.user-image-large {
     width:88px;
@@ -44,10 +53,16 @@
   &.user-image-huge {
     width:124px;
     height:124px;
+    &.shadow {
+      box-shadow: 0 12px 36px $shadow-color;
+    }
   }
   &.user-image-gigantic {
     width:158px;
     height:158px;
+    &.shadow {
+      box-shadow: 0 16px 42px $shadow-color;
+    }
   }
   display: inline-block;
   vertical-align:top; // Remove space below inline-block
