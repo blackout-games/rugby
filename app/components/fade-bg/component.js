@@ -68,9 +68,10 @@ export default Ember.Component.extend({
   minResolution: 700, // At least one dimension of the image must be 700px to be displayed
   currentUrl: '',
   
-  bindFunctions: Ember.on('init',function(){
+  onInit: Ember.on('init',function(){
     this.afterFadeoutBound = Ember.run.bind(this,this.afterFadeout);
     this.fadeInImageBound = Ember.run.bind(this,this.fadeInImage);
+    Ember.run.scheduleOnce('afterRender', this, this.setup);
   }),
   
   addLoader: Ember.on('didInsertElement',function(){
@@ -326,10 +327,6 @@ export default Ember.Component.extend({
     },11);
     //},200000);
     
-  },
-  
-  didInitAttrs() {
-    Ember.run.scheduleOnce('afterRender', this, this.setup);
   },
   
   didUpdateAttrs( opts ) {

@@ -3,6 +3,7 @@ $base-image-folder: "/assets/images/home/backgrounds/";
 #home-page-player {
   
   $left:false;
+  $pos:null;
   
   @if $left {
     left:-13vh;

@@ -101,18 +101,18 @@ export default Ember.Component.extend({
       let seasonStats;
       
       if(season.value===0){
-        if(data.get('firstObject')){
-          seasonStats = data.get('firstObject').toJSON();
+        if(data){
+          seasonStats = data.toJSON();
         }
       } else {
-        seasonStats = data.get('firstObject.leagueStatistics.season-'+season.value);
+        seasonStats = data.get('leagueStatistics.season-'+season.value);
       }
       if(!seasonStats){
         seasonStats = Ember.Object.create();
       }
       cache.set(key,Blackout.camelKeys(seasonStats));
       
-      //return data.get('firstObject.leagueStatistics.season-'+season.value);
+      //return data.get('leagueStatistics.season-'+season.value);
       
     }).finally(()=>{
       // Force refresh of currentSeason stats

@@ -7,17 +7,17 @@
     "moment-timezone": "^0.5.4",
     "perfect-scrollbar": "0.6.11",
     "showdown": "1.4.1",
-    "animate.css": "3.5.1",
+    "animate.css": "3.5.2",
     "jquery-waypoints": "~2.0.5",
-    "ember": "2.5.1",
+    "ember": "2.6.0",
     "ember-cli-shims": "0.1.1",
-    "ember-cli-test-loader": "0.2.2",
     "ember-qunit-notifications": "0.1.0",
     "air-datepicker": "2.0.2",
     "dom-ruler": "0.1.13",
     "animation-frame": "~0.2.4",
     "clipboard": "^1.5.10",
     "chartjs": "1.0.2",
-    "file-saver": "^1.2.2"
+    "file-saver": "^1.2.2",
+    "tinycolor": "^1.3.0"
   }
 }

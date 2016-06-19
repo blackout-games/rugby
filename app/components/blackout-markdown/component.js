@@ -222,22 +222,18 @@ export default Ember.Component.extend({
         } else {
           
           let query = {
-            filter: {
-              id: itemid
-            },
             include: 'home-club,guest-club'
           };
           
           var type = youth?'youthFixture':(nat?'nationalFixture':(u20?'u20Fixture':'fixture')) + '';
           
           // Load fixture
-          var fixtureText = store.queryRecord(type, query )
+          var fixtureText = store.findRecord(type, itemid, { adapterOptions: { query: query }} )
           //var fixtureText = store.findRecord(type, itemid )
           .then(function(data){
             
-            var item = data.get('firstObject');
-            var homeClubName = item.get('homeClub.name');
-            var guestClubName = item.get('guestClub.name');
+            var homeClubName = data.get('homeClub.name');
+            var guestClubName = data.get('guestClub.name');
             
             var text = homeClubName + ' v ' + guestClubName;
             $('.'+className).html(text);
@@ -412,9 +408,8 @@ export default Ember.Component.extend({
             // Query item
             itemName = store.queryRecord(modelPre+'club', query).then(function(data){
               
-              let item = data.get('firstObject');
-              $('.'+className).html(item.get('name'));
-              return item.get('name');
+              $('.'+className).html(data.get('name'));
+              return data.get('name');
               
             },()=>{
               

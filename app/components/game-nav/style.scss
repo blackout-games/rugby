@@ -96,6 +96,7 @@ $topbar-color: desaturate(darken($primary-master,4%),7%);
 $panel-color: $bg-dark-lighter;
 
 // Tabbar color
+$tabbar-color: null;
 @if $colored-tabs {
   $tabbar-color: $primary-master;
 } @else {
@@ -103,6 +104,7 @@ $panel-color: $bg-dark-lighter;
 }
 
 // Sidebar color
+$sidebar-color: null;
 @if $colored-tabs {
   $sidebar-color: desaturate(darken($secondary-master,35%),25%);
 } @else {
@@ -112,7 +114,10 @@ $panel-color: $bg-dark-lighter;
 $selected-arrow-size: $max-sidebar-block-height*0.5;
 $selected-arrow-pokes-out: 7px;
 
-
+$menu-selected-color: null;
+$menu-selected-content-color: null;
+$tab-selected-color: null;
+$tab-selected-content-color: null;
 @if $colored-tabs {
   $menu-selected-color: $primary-master;
   $menu-selected-content-color: $primary-darker;
@@ -1048,6 +1053,7 @@ a.menu-link,a.menu-link:hover {
       background-color: $tabbar-color;
     }
     
+    $tab-text-color: null;
     @if $colored-tabs {
       $tab-text-color: desaturate(darken($primary-master,22%),11%);
     } @else {
@@ -1058,6 +1064,7 @@ a.menu-link,a.menu-link:hover {
       color: $tab-text-color;
     }
     
+    $tab-icon-color: null;
     @if $colored-tabs {
       $tab-icon-color: $primary-darker;
     } @else {

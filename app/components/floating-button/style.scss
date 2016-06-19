@@ -21,10 +21,9 @@
   }
 }
 
+$size: 44px;
 @if $float-buttons-hug-side {
   $size: 48px;
-} @else {
-  $size: 44px;
 }
 $gap: 2.22vh;
 $big-gap: 5vh;

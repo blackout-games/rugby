@@ -42,7 +42,7 @@ Make sure you're using `jshint` in your code editor, this will show you any synt
 
 ## Running / Development
 
-* `ember server`
+* `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ### Code Generators

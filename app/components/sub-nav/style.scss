@@ -78,10 +78,9 @@ $animation-time: $nav-animation-time;
   
   //background-color:rgba($primary-master,$opacity);
   //background-color:rgba(white,$opacity);
+  $bg-color: rgba($bg-light,$opacity);
   @if $dark-colors {
     $bg-color: rgba($bg-dark,$opacity);
-  } @else {
-    $bg-color: rgba($bg-light,$opacity);
   }
   
   position:absolute;
@@ -147,11 +146,7 @@ $animation-time: $nav-animation-time;
   
   .menu-link:not(.custom),.menu-link:not(.custom):hover {
     
-    @if $dark-colors {
-      $color: $secondary-master;
-    } @else {
-      $color: $secondary-master;
-    }
+    $color: $secondary-master;
     
     color: lighten(desaturate($color,22%),11%);
     padding:8px 25px 7px 29px;
