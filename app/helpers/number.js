@@ -10,6 +10,8 @@ function pad(num, size) {
 
 export function number(val, params={}/*, hash*/) {
   
+  let ogVal = val;
+  
   if( params.roundMillions ){
     if(val>=1000000){
       val = (Math.round(val/500000)*0.5) + 'm';
@@ -38,10 +40,18 @@ export function number(val, params={}/*, hash*/) {
     if(params.pad){
       val = pad(val, params.pad);
     }
-    val = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    val = val.toLocaleString();
+  }
+  
+  // Ordinal suffix
+  if(params.ordinalSuffix){
+    val += this.get('text').getOrdinalSuffix(ogVal);
   }
   
   return val;
 }
 
-export default Ember.Helper.helper(number);
+export default Ember.Helper.extend({
+  text: Ember.inject.service(),
+  compute: number
+});

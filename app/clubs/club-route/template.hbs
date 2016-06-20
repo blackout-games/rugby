@@ -17,6 +17,17 @@
     </p>
 
     <p class="gap-2x">
+      <div class="text-light title">{{t 'menu.global.rankings'}}</div>
+      
+      {{t-t 'club.number-of-rating-points' ratingPoints=(number club.ratingPoints)}}<br>
+      
+      <i class="icon-globe icon-2x icon-less-left icon-vcenter"></i>{{t 'club.ranking-in-world' position=(number club.worldRanking ordinalSuffix=true)}}<br>
+      
+      <i class="icon-flag-filled icon-2x icon-less-left icon-vcenter"></i>{{t 'club.ranking-in-country' position=(number club.countryRanking ordinalSuffix=true) country=club.country.name}}
+      
+    </p>
+
+    <p class="gap-2x">
       <div class="text-light title">{{t 'menu.club.stadium'}}</div>
       <i class="icon-stadium icon-xl icon-less-left icon-vcenter"></i>{{club.stadium}}
       <span class="text-light text-small nowrap">({{t 'club.stadium-seats' seats=(number club.stadiumCapacity)}})</span>
