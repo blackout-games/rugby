@@ -17,9 +17,11 @@
     </p>
 
     <p class="gap-2x">
-      <div class="text-light title">{{t 'menu.global.rankings'}}</div>
+      <div class="text-light title">{{t 'club.ranking'}}</div>
       
-      {{t-t 'club.number-of-rating-points' ratingPoints=(number club.ratingPoints)}}<br>
+      <div class="gap-sm">
+        {{t-t 'club.number-of-rating-points' ratingPoints=(safe (concat "<b>" (number club.ratingPoints) "</b>")) }}<br>
+      </div>
       
       <i class="icon-globe icon-2x icon-less-left icon-vcenter"></i>{{t 'club.ranking-in-world' position=(number club.worldRanking ordinalSuffix=true)}}<br>
       
