@@ -1,3 +1,4 @@
+{{outlet}}
 {{top-level images="club"}}
 
 <div class="show-overflow page-container-md page-container-left has-position">
@@ -6,9 +7,38 @@
     {{component 'clubs/logo-editor' club=model}}
   </div>
   
-  <div class="dash-box-container show-overflow">
-  
-    {{component 'clubs/club-route' club=model}}
+  <div class="dash-box-container">
+    
+    {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="club" resetOn=(readonly model) boxless=true as |tabs|}}
+      
+      {{#tabs.list as |list|}}
+        
+        {{list.tab tab="club-home-panel" name-t="menu.club.title" icon-class="icon-home icon-lg"}}
+        
+        {{list.tab tab="club-fixtures-panel" name-t="menu.team.fixtures" icon-class="icon-fixture-circled icon-lg"}}
+        
+      {{/tabs.list}}
+      
+        
+      {{#tabs.content as |content|}}
+      
+        
+        {{#content.tab id="club-home-panel"}}
+          {{component 'clubs/club-route' club=model}}
+        {{/content.tab}}
+        
+        
+        {{#content.tab id="club-fixtures-panel" noPadding=false as |tab|}}
+          {{component 'clubs/club-fixtures'
+            club=model
+            registerTabLoading=tab.registerTabLoading
+            finishTabLoading=tab.finishTabLoading}}
+        {{/content.tab}}
+        
+        
+      {{/tabs.content}}
+      
+    {{/dash-tabs}}
     
   </div>
   

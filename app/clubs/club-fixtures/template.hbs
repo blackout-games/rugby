@@ -1,0 +1,45 @@
+<h5 class="white heading-font no-top-gap dash-content sides-only">
+  {{t 'club.upcoming-fixtures'}}
+</h5>
+
+<table>
+  <tbody>
+    {{#each upcomingFixtures as |fixture|}}
+      <tr>
+        <td>
+          {{fixture-link fixture=fixture class="btn-a secondary go-primary"}}
+          <div class="club-fixture-info">
+          
+            <i class="icon-ball"></i> {{competition fixture.shortCompetition}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="icon-clock"></i>{{date-ui date=fixture.kickOff}}
+            
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<h5 class="white heading-font dash-content sides-only">
+  {{t 'club.recent-fixtures'}}
+</h5>
+
+<table>
+  <tbody>
+    {{#each previousFixtures as |fixture|}}
+      <tr>
+        <td>
+          {{fixture-link fixture=fixture class="btn-a secondary go-primary"}}
+          <div class="club-fixture-info">
+          
+            <i class="icon-ball"></i> {{competition fixture.shortCompetition}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="icon-clock"></i>{{date-ui date=fixture.kickOff}}
+            
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

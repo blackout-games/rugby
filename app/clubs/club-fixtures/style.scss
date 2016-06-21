@@ -1,0 +1,18 @@
+.club-fixture-info {
+  width: 100%;
+  text-align: center;
+  padding: 7px 0 0;
+  color: $bg-dark;
+  text-transform: uppercase;
+  font-size: 0.7em;
+  font-weight: bold;
+  
+  i {
+    color: $secondary-on-dark-lighter;
+    //color: $primary-master;
+    font-size: 14px;
+    &.icon-ball {
+      font-size:13px;
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { belongsTo } from 'ember-data/relationships';
 
 export default Model.extend({
   competition: attr(),
+  shortCompetition: attr(),
   season: attr('number'),
   round: attr('number'),
   kickOff: attr('date'),

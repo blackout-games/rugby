@@ -81,6 +81,8 @@ Router.map(function() {
   this.route('clubs', function() {
     this.route('club', {
       path: ':club_id'
+    }, function() {
+      this.route('fixtures');
     });
   });
 });

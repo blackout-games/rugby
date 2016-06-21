@@ -96,38 +96,29 @@ $topbar-color: desaturate(darken($primary-master,4%),7%);
 $panel-color: $bg-dark-lighter;
 
 // Tabbar color
-$tabbar-color: null;
+$tabbar-color: desaturate(darken($secondary-master,37%),25%);
 @if $colored-tabs {
   $tabbar-color: $primary-master;
-} @else {
-  $tabbar-color: desaturate(darken($secondary-master,37%),25%);
 }
 
 // Sidebar color
-$sidebar-color: null;
+$sidebar-color: $primary-master;
 @if $colored-tabs {
   $sidebar-color: desaturate(darken($secondary-master,35%),25%);
-} @else {
-  $sidebar-color: $primary-master;
 }
 
 $selected-arrow-size: $max-sidebar-block-height*0.5;
 $selected-arrow-pokes-out: 7px;
 
-$menu-selected-color: null;
-$menu-selected-content-color: null;
-$tab-selected-color: null;
-$tab-selected-content-color: null;
+$menu-selected-color: $primary-dark;
+$menu-selected-content-color: saturate(lighten($primary-master,15%),15%);
+$tab-selected-color: $primary-master;
+$tab-selected-content-color: $primary-darker;
 @if $colored-tabs {
   $menu-selected-color: $primary-master;
   $menu-selected-content-color: $primary-darker;
   $tab-selected-color: $primary-dark;
   $tab-selected-content-color: saturate(lighten($primary-master,15%),15%);
-} @else {
-  $menu-selected-color: $primary-dark;
-  $menu-selected-content-color: saturate(lighten($primary-master,15%),15%);
-  $tab-selected-color: $primary-master;
-  $tab-selected-content-color: $primary-darker;
 }
 
 
@@ -912,12 +903,10 @@ a.menu-link,a.menu-link:hover {
       }
       
       
-      color: $darker-color;
-
+      
+      color: $primary-darker;
       @if $colored-tabs {
         color: $primary-master;
-      } @else {
-        color: $primary-darker;
       }
     }
     .nav-tab-text {
@@ -1053,23 +1042,18 @@ a.menu-link,a.menu-link:hover {
       background-color: $tabbar-color;
     }
     
-    $tab-text-color: null;
+    $tab-text-color: desaturate(lighten($tabbar-color,27%),11%);
     @if $colored-tabs {
       $tab-text-color: desaturate(darken($primary-master,22%),11%);
-    } @else {
-      $tab-text-color: desaturate(lighten($tabbar-color,27%),11%);
     }
     
     .nav-tab-text {
       color: $tab-text-color;
     }
     
-    $tab-icon-color: null;
+    $tab-icon-color: $primary-master;
     @if $colored-tabs {
       $tab-icon-color: $primary-darker;
-    } @else {
-      $tab-icon-color: $primary-master;
-      //$tab-icon-color: desaturate(lighten($tabbar-color,29%),11%);
     }
 
     .nav-tab-icon {
@@ -1192,13 +1176,11 @@ a.menu-link,a.menu-link:hover {
     &.nav-close {
       background-color: $sidebar-color;
       
+      $close-color: white;
+      $close-color: $primary-dark;
       @if $colored-tabs {
         $close-color: $tabbar-color;
         $close-color: desaturate(lighten($sidebar-color,12%),5%);
-      } @else {
-        $close-color: white;
-        $close-color: $primary-dark;
-        //$close-color: $tabbar-color;
       }
       
       .nav-tab-text {
@@ -1214,10 +1196,9 @@ a.menu-link,a.menu-link:hover {
         border: none;
       }
       @media #{$nav-lg} {
+        $close-color: desaturate(lighten($tabbar-color,11%),11%);
         @if $colored-tabs {
           $close-color: $primary-dark
-        } @else {
-          $close-color: desaturate(lighten($tabbar-color,11%),11%);
         }
         background-color: transparent;
         .nav-tab-text {
