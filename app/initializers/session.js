@@ -63,6 +63,7 @@ SessionService.reopen({
    */
   clubIsPremium(clubId){
     let store = this.get('store');
+    //return false;
     if(this.get('isAuthenticated')){
       let club = store.peekRecord('club',clubId);
       return club.get('isPremium');

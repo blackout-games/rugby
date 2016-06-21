@@ -45,7 +45,7 @@
     
     {{#if club.kit}}
       <div class="text-light title">{{t 'club.kit-(jersey)'}}</div>
-      {{user-image url=club.kit defaultColor='light' size=(if media.isMobile 'xlarge' 'gigantic') placeholderUrl='/assets/images/user/jersey-light.png' class="gap-3x"}}
+      {{user-image url=club.kit defaultColor='light' size=(if media.isMobile 'xlarge' 'gigantic') placeholderUrl='/assets/images/user/jersey-light.png' class="gap-3x" editable=true onSave=(action 'saveClubKit') editableIfPremium=true}}
     {{/if}}
     
   </div>

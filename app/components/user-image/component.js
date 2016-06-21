@@ -331,6 +331,10 @@ export default Ember.Component.extend({
       customUrlTextBox.visibleOnKeyValue = 'custom';
     }
     
+    if(this.get('editableIfPremium')){
+      customUrlTextBox.isPremium = 'premium.feature-message-generic';
+    }
+    
     editorForm.push(customUrlTextBox);
     
     if(this.get('showAvatarLinks')){
