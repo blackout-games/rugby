@@ -519,6 +519,7 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
             itemLink.on('click',(e)=>{
               e.preventDefault();
               this.sendAction(action,realRoute,routeId);
+              Ember.Blackout.transitionTo(realRoute,routeId);
               this.selectMenuLink(item.route);
               return false;
             });
@@ -698,7 +699,6 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
     $('#nav-sidebar,#nav-panel').off('touchstart touchmove', this.bodyScrollPreventer);
   },
 
-  transitionAction: 'transitionToRoute',
   fbLoginAction: 'loginWithFacebook',
   logoutAction: 'invalidateSession',
   
