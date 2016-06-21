@@ -60,6 +60,9 @@ export default {
       {
         label: 'Club',
         route: 'clubs.club',
+        params: {
+          id: 'me',
+        }
       },
       {
         label: 'Squad',

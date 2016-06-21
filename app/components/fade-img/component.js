@@ -307,11 +307,15 @@ export default Ember.Component.extend({
   },
   
   startLoadingImage(){
-    this.set('isLoadingImage',true);
+    if(!this.get('isDestroying') && !this.get('isDestroyed')){
+      this.set('isLoadingImage',true);
+    }
   },
   
   stopLoadingImage(){
-    this.set('isLoadingImage',false);
+    if(!this.get('isDestroying') && !this.get('isDestroyed')){
+      this.set('isLoadingImage',false);
+    }
   },
   
   assertImageRes(w,h) {
