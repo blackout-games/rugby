@@ -952,9 +952,9 @@ a.menu-link,a.menu-link:hover {
         }
       }
     }
-    &.nav-menu-team {
+    &.nav-menu-rugby {
       i {
-        font-size: #{$base-icon-pixels*(22/20)};
+        font-size: #{$base-icon-pixels*(24/20)};
         @media #{$nav-vs} {
           font-size: #{$base-icon-viewport*(3.8/3.5)};
         }

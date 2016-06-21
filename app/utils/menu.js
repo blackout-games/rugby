@@ -9,7 +9,7 @@ export default {
     
     'manager',
     'club',
-    'team',
+    'rugby',
     'country',
     'global',
     'support',
@@ -58,6 +58,21 @@ export default {
     club: [
       
       {
+        label: 'Club',
+        route: 'clubs.club',
+      },
+      {
+        label: 'Squad',
+        route: 'squad.club',
+        params: {
+          id: 'me',
+        }
+      },
+      {
+        route: 'players',
+        menuRoute: 'squad.club',
+      },
+      {
         label: 'Staff',
         route: 'staff',
         tempRoute: 'coming-soon'
@@ -67,21 +82,23 @@ export default {
         route: 'training',
         tempRoute: 'coming-soon'
       },
-      {
+      /*{ // Merge with finances
         label: 'Sponsors',
         route: 'sponsors',
         tempRoute: 'coming-soon'
-      },
+      },*/
       {
         label: 'Stadium',
         route: 'stadium',
         tempRoute: 'coming-soon'
       },
-      {
+       
+      /*{ // Merge with stadium
         label: 'Facilities',
         route: 'facilities',
         tempRoute: 'coming-soon'
-      },
+      },*/
+      
       {
         label: 'Academy',
         route: 'academy',
@@ -92,11 +109,13 @@ export default {
         route: 'finances',
         tempRoute: 'coming-soon'
       },
-      {
+      
+      /*{ // Merge with history
         label: 'Diary',
         route: 'diary',
         tempRoute: 'coming-soon'
-      },
+      },*/
+      
       {
         label: 'History',
         route: 'history',
@@ -105,24 +124,7 @@ export default {
     
     ],
     
-    team: [
-      
-      {
-        label: 'Squad',
-        route: 'squad.club',
-        params: {
-          id: 'me',
-        }
-      },
-        {
-          route: 'players',
-          menuRoute: 'squad.club',
-        },
-      {
-        label: 'Academy',
-        route: 'academy',
-        tempRoute: 'coming-soon'
-      },
+    rugby: [
       {
         label: 'League',
         route: 'leagues.league',
@@ -130,14 +132,9 @@ export default {
           id: 'me',
         }
       },
-        {
-          route: 'league-country.country',
-          menuRoute: 'leagues.league',
-        },
       {
-        label: 'Fixtures',
-        route: 'fixtures',
-        tempRoute: 'coming-soon'
+        route: 'league-country.country',
+        menuRoute: 'leagues.league',
       },
       {
         label: 'Statistics',
