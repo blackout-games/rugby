@@ -7,7 +7,7 @@ export function competition(params/*, hash*/) {
   let comp = params[0].dasherize();
   let translated = this.get('i18n').t('competitions.' + comp);
   
-  if(translated.toString().indexOf('missing translation')>=0){
+  if(translated.toString().toLowerCase().indexOf('missing translation')>=0){
     return params[0];
   } else {
     return translated;

@@ -54,7 +54,7 @@ export default Ember.Component.extend({
         size: 4,
       },
       include: 'home-club,guest-club',
-      sort: 'id',
+      sort: 'kick-off',
     };
     
     hash.future = this.get('store').query('fixture',futureQuery);
@@ -72,7 +72,7 @@ export default Ember.Component.extend({
         size: 4,
       },
       include: 'home-club,guest-club',
-      sort: '-id',
+      sort: '-kick-off',
     };
     
     hash.past = this.get('store').query('fixture',pastQuery);
