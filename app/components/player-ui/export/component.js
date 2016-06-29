@@ -490,8 +490,8 @@ export default Ember.Component.extend({
     text += c;
     text += p.get('csr');
     
+    text += c;
     if(p.get('csrChange')){
-      text += c;
       text += p.get('csrChange');
     }
     
