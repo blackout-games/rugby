@@ -1,0 +1,92 @@
+.league-finals-semi {
+  &.top {
+    margin-bottom: 44px;
+  }
+}
+
+.league-finals-lines {
+  width: auto;
+  min-width: 40px;
+  max-width: 70px;
+  
+  &.short {
+    min-width: 30px;
+    max-width: 50px;
+  }
+}
+
+$line-width: 4px;
+$line-color: $primary-master;
+$line-color: white;
+$line-color: $secondary-on-dark-lighter-2x;
+
+.league-finals-lines-l {
+  position:relative;
+  &:before {
+    position:absolute;
+    top:77px;
+    @media #{$tablet-and-up} {
+      top:82px;
+    }
+    left:0;
+    width:100%;
+    height: 140px;
+    content: "";
+    border-width: $line-width $line-width $line-width 0;
+    border-color: $line-color;
+    border-style: solid;
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+}
+
+.league-finals-lines-r {
+  position:relative;
+  &:before {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 149px;
+    @media #{$tablet-and-up} {
+      height: 152px;
+    }
+    content: "";
+    border-width: 0 0 $line-width 0;
+    border-color: $line-color;
+    border-style: solid;
+  }
+    
+  &.bronze:before {
+    height: 101px;
+    @media #{$tablet-and-up} {
+      height: 105px;
+    }
+  }
+}
+
+.league-finals-final {
+  padding-top:71px;
+  @media #{$tablet-and-up} {
+    padding-top:69px;
+  }
+}
+
+.league-trophy {
+  width:120px;
+  height: 120px;
+}
+
+.league-finals-winner {
+  padding-top:5px;
+  @media #{$tablet-and-up} {
+    padding-top:7px;
+  }
+}
+
+.league-bronze-winner {
+  padding-top:77px;
+  @media #{$tablet-and-up} {
+    padding-top:81px;
+  }
+}

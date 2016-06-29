@@ -139,6 +139,11 @@ export default Ember.Service.extend({
      * For giving a size to cloudfront, see getCacheUrl
      */
     
+    if(!url){
+      Ember.Logger.warn('URL was empty in user-images.js:getSmallUrl()');
+      return;
+    }
+    
     let isGravatar = url.indexOf('gravatar.com')>=0;
     let separator = Ember.Blackout.getSeparator(url);
     
@@ -167,6 +172,11 @@ export default Ember.Service.extend({
      * Supports gravatar and facebook URLs
      * For giving a size to cloudfront, see getCacheUrl
      */
+    
+    if(!url){
+      Ember.Logger.warn('URL was empty in user-images.js:getLargeUrl()');
+      return;
+    }
     
     let isGravatar = url.indexOf('gravatar.com')>=0;
     let separator = Ember.Blackout.getSeparator(url);
@@ -250,6 +260,11 @@ export default Ember.Service.extend({
   },
   
   processManagerUrl(url,imageType='custom'){
+    if(!url){
+      Ember.Logger.warn('URL was empty in user-images.js:processManagerUrl()');
+      return;
+    }
+    
     let isGravatar = url.indexOf('gravatar.com')>=0;
     
     if(isGravatar){

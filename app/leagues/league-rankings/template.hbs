@@ -26,7 +26,7 @@
             {{add index 1}}
           </td>
         {{/if}}
-        <td class="standings-cell right-pad-lg ellipsis">
+        <td class="standings-cell right-pad-lg">
           <span class="standings-club">
             {{club-link club=club defaultColor='dark' placeholder='/assets/images/user/club-dark.png' clubNameClass=(concat "standings-club-name ellipsis" (unless club.owner ' bot')) class="secondary go-primary" imageSize=(if media.isMobile 'small' 'medium')}}
           </span>

@@ -71,6 +71,7 @@ Router.map(function() {
       this.route('fixtures');
       this.route('rankings');
       this.route('latest');
+      this.route('finals');
     });
   });
   this.route('league-country', function() {

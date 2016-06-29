@@ -519,7 +519,13 @@ export default ResponsiveNav.extend(PreventBodyScroll,{
             itemLink.on('click',(e)=>{
               e.preventDefault();
               this.sendAction(action,realRoute,routeId);
-              Ember.Blackout.transitionTo(realRoute,routeId);
+              
+              if(routeId){
+                Ember.Blackout.transitionTo(realRoute,routeId);
+              } else {
+                Ember.Blackout.transitionTo(realRoute);
+              }
+              
               this.selectMenuLink(item.route);
               return false;
             });

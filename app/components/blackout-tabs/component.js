@@ -110,13 +110,13 @@ export default Ember.Component.extend({
     
   },
   
-  deregisterTab(id){
+  deregisterTab(id,updateUrl){
     
     // Add id to list
     this.get('tabIds').removeObject(id);
     
     if(this.get('yieldTab') === id){
-      this.send('selectTab',this.get('indexTab'));
+      this.send('selectTab',this.get('indexTab'),false,false,false,updateUrl);
     }
     
   },
@@ -125,16 +125,24 @@ export default Ember.Component.extend({
     return this.get('tabIds.firstObject');
   }),
   
+  defaultIndexTab: Ember.computed('indexTab',function(){
+    if(this.get('defaultTab')){
+      return this.get('defaultTab');
+    } else {
+      return this.get('indexTab');
+    }
+  }),
+  
   selectDefaultTab: Ember.on('didInsertElement',function(){
     
-    if( this.get('indexTab') ){
+    if( this.get('defaultIndexTab') ){
       
       // Select default
       Ember.run.next(()=>{
         // If a tab hasn't been selected by some other method (e.g. blackout-tab-selector)
         // Must use yieldTab since 'selectedTab' can be overwritten with the default value from the parent component *after* a tab has already been selected via URL (eventbus)
         if(!this.get('yieldTab')){
-          this.send('selectTab',this.get('indexTab'),false,false,true);
+          this.send('selectTab',this.get('defaultIndexTab'),false,false,true);
         } else {
           // Don't do this or it creates multiple calls to selectTab in one loop (e.g. when loading the player page direct from url)
           // If a default tab is not being selected, ensure an index route exists which uses blackout-tab-selector
@@ -147,6 +155,8 @@ export default Ember.Component.extend({
     
   }),
   
+  defaultTabHasBeenSet: false,
+  
   actions: {
     receivePanels( panels ){
       if(this.attrs.receiveTabs){
@@ -156,8 +166,8 @@ export default Ember.Component.extend({
     registerTab(id/*, name*/){
       this.registerTab(id);
     },
-    deregisterTab(id){
-      this.deregisterTab(id);
+    deregisterTab(id,updateUrl){
+      this.deregisterTab(id,updateUrl);
     },
     selectTabFromURL( panelId ){
       if(!this.get('URLSet')){
@@ -170,7 +180,7 @@ export default Ember.Component.extend({
         this.set('URLSet',false);
       }
     },
-    selectTab( tabId, wasExternal, wasViaURL, forceImmediate=false ){
+    selectTab( tabId, wasExternal, wasViaURL, forceImmediate=false, forceUpdateUrl=false ){
       
       if(Date.now() - this.get('tabLastSelected') >= 111){
         
@@ -241,8 +251,7 @@ export default Ember.Component.extend({
         let wasManual = wasExternal;
         //log('tab1',tabId);
         // Set route (later so that it doesn't slow down animation)
-        if(this.get('tabRoute') && !wasViaURL && wasManual){
-          //log('tab2',tabId);
+        if(this.get('tabRoute') && ((!wasViaURL && wasManual) || forceUpdateUrl)){
           Ember.run.later(()=>{
             
             let route = Ember.Blackout.getCurrentRoute();
@@ -287,12 +296,29 @@ export default Ember.Component.extend({
             }
             
             if(success && newRoute!==route){
-            //log('tab6','newRoute',newRoute);
               this.set('URLSet',true);
               Ember.Blackout.transitionTo(newRoute);
             }
             
           },50);
+          
+        } else {
+          
+          if(this.get('defaultTab') && !this.get('defaultTabHasBeenSet')){
+            
+            this.set('URLSet',true);
+            let newRoute = tabId.replace(new RegExp(this.get('tabGroup')+'-|-panel', 'g'),'');
+            let indexRoute = this.get('indexTab').replace(new RegExp(this.get('tabGroup')+'-|-panel', 'g'),'');
+            let currentRoute = Ember.Blackout.getCurrentRoute();
+            let fullRoute = currentRoute;
+            if(indexRoute!==newRoute){
+              fullRoute = currentRoute.replace('.index','.'+newRoute);
+            }
+            Ember.Blackout.transitionTo(fullRoute);
+            
+            this.set('defaultTabHasBeenSet',true);
+            
+          }
           
         }
         

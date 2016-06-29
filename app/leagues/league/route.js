@@ -14,7 +14,7 @@ export default Ember.Route.extend({
     let currentClubLeagueId = currentClubId ? this.get(currentClubLeagueIdKey) : null;
     
     if(!params.league_id || (currentClubLeagueId && params.league_id===currentClubLeagueId)){
-      this.transitionTo(Ember.Blackout.getCurrentRoute(),'me');
+      this.transitionTo('leagues.league','me');
       return;
     }
     
@@ -44,7 +44,7 @@ export default Ember.Route.extend({
         } else {
           
           data.forEach(standing=>{
-            if(standing.get('club.id')===currentClubId){
+            if(standing.get('club.id')===currentClubId && standing.get('club.league.id')===standing.get('league.id')){
               this.set(currentClubLeagueIdKey,standing.get('league.id'));
             }
           });
@@ -53,6 +53,7 @@ export default Ember.Route.extend({
       }
         
       return data;
+      
     });
     
   },

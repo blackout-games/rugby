@@ -78,6 +78,7 @@
 }
 .dash-content, .dash-footer {
   @media #{$mobile} {
+    display: inline-block;
     @if $full-real-estate-on-mobile {
       margin-left: 11px;
       margin-right: 11px;

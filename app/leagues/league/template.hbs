@@ -2,17 +2,17 @@
 {{top-level images="grounds"}}
 
 <div class="page-container-lg page-container-left">
-  {{page-header title=(t 'menu.rugby.league') subHeader=model.firstObject.league.name}}
+  {{page-header title=(t 'menu.rugby.league') subHeader=league.name}}
   
   <div class="dash-box-container">
     
-    {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="league" resetOn=(readonly model) boxless=true as |tabs|}}
+    {{#dash-tabs class="no-gap show-overflow" onTabChange=(action 'tabChanged') tabGroup="league" resetOn=(readonly model) boxless=true defaultTab=defaultTab as |tabs|}}
       
       {{#tabs.list as |list|}}
         
-        {{!list.tab tab="league-finals-panel" name-t="league.finals" icon-class="icon-award-1 icon-lg"}}
-        
         {{list.tab tab="league-standings-panel" name-t="league.standings" icon-class="icon-th-list icon-lg"}}
+        
+        {{list.tab tab="league-finals-panel" name-t="league.finals" icon-class="icon-award-1 icon-lg" hide=(not league.finalsCreated)}}
         
         {{list.tab tab="league-latest-panel" name-t="misc.latest" icon-class="icon-fixture icon-md"}}
         
@@ -22,18 +22,28 @@
         
       {{/tabs.list}}
       
-        
+      
       {{#tabs.content as |content|}}
       
         
         {{#content.tab id="league-standings-panel"}}
           {{component 'leagues/league-standings' standings=model}}
         {{/content.tab}}
+      
+        
+        {{#content.tab id="league-finals-panel" as |tab|}}
+          {{component 'leagues/league-finals'
+            league=league
+            preloadedFixtures=(readonly fixtures)
+            loadedFixtures=(action 'loadFixtures')
+            registerTabLoading=tab.registerTabLoading
+            finishTabLoading=tab.finishTabLoading}}
+        {{/content.tab}}
         
         
         {{#content.tab id="league-latest-panel" as |tab|}}
           {{component 'leagues/league-latest'
-            league=model.firstObject.league
+            league=league
             preloadedFixtures=(readonly fixtures)
             loadedFixtures=(action 'loadFixtures')
             registerTabLoading=tab.registerTabLoading
@@ -48,7 +58,7 @@
         
         {{#content.tab id="league-fixtures-panel" noPadding=false as |tab|}}
           {{component 'leagues/league-fixtures'
-            league=model.firstObject.league
+            league=league
             preloadedFixtures=(readonly fixtures)
             loadedFixtures=(action 'loadFixtures')
             registerTabLoading=tab.registerTabLoading
@@ -65,4 +75,4 @@
   </div>
 </div>
 
-{{leagues/sub-nav league=model.firstObject.league country=model.firstObject.country keepSubRoutes=true}}
+{{leagues/sub-nav league=league country=model.firstObject.country keepSubRoutes=true}}

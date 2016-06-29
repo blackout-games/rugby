@@ -75,6 +75,8 @@ blockquote {
  * Tables
  */
 
+$table-bg-color: desaturate(darken($secondary-master,7%),15%);
+
 table {
   
   @extend .table;
@@ -86,7 +88,7 @@ table {
   //}
   
   border-color: #FFF;
-  $bg-color: desaturate(darken($secondary-master,7%),15%);
+  $bg-color: $table-bg-color;
   background-color: $bg-color;
   
   

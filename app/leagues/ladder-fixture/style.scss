@@ -1,0 +1,41 @@
+.ladder-fixture-block {
+  background-color: darken($table-bg-color,1%);
+  background: linear-gradient(to bottom right, lighten($table-bg-color,11%) , darken($table-bg-color,11%)); /* Standard syntax */
+  &.top{
+    margin-bottom: 7px;
+  }
+  border-radius: $border-radius;
+  width:100%;
+  min-width: 120px;
+  
+  &.no-club {
+    height:44px;
+  }
+}
+
+.ladder-fixture-club-cell {
+  min-width: 120px;
+}
+
+.ladder-fixture-score {
+  background-color: $bg-dark-lighter;
+  width: 44px;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  //text-align: center;
+  font-family: $heading-font;
+  font-size: 17px;
+  color: white;
+  
+  &.winner {
+    color: $primary-master;
+  }
+}
+
+.ladder-fixture-club {
+  max-width: 111px;
+}
+
+.ladder-fixture-cell {
+  padding: 4px 7px;
+}

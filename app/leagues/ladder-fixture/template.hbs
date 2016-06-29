@@ -1,0 +1,20 @@
+<div class="ladder-fixture-block {{unless fixture 'no-club'}} top row row-nowrap">
+  <div class="col-flex ladder-fixture-cell ladder-fixture-club-cell">
+    {{#if fixture}}
+      {{club-ui club=fixture.homeClub clubNameClass="ellipsis ladder-fixture-club standings-club-name"}}
+    {{/if}}
+  </div>
+  <div class="col-fixed ladder-fixture-cell ladder-fixture-score center-parent {{if (is fixture.winner.id fixture.homeClub.id) 'winner'}}">
+    {{fixture.homePoints}}
+  </div>
+</div>
+<div class="ladder-fixture-block {{unless fixture 'no-club'}} row row-nowrap">
+  <div class="col-flex ladder-fixture-cell ladder-fixture-club-cell">
+    {{#if fixture}}
+      {{club-ui club=fixture.guestClub clubNameClass="ellipsis ladder-fixture-club standings-club-name"}}
+    {{/if}}
+  </div>
+  <div class="col-fixed ladder-fixture-cell ladder-fixture-score center-parent {{if (is fixture.winner.id fixture.guestClub.id) 'winner'}}">
+    {{fixture.guestPoints}}
+  </div>
+</div>

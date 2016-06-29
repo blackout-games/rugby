@@ -88,6 +88,7 @@ var blackoutRouter = {
     
     Ember.Blackout.stopLoading();
     this.set('_forceNormalTransitionTo',false);
+    
     this._super.apply(this, arguments);
     
     

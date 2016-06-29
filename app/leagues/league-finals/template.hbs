@@ -1,0 +1,74 @@
+
+{{#normal-scroll horizontal=true}}
+  <div class="dash-content">
+    <div class="row row-nowrap">
+      <div class="col-auto">
+        <h5 class="white no-top-gap heading-font">{{t 'league.semi-finals'}}</h5>
+        {{#each semiFinals as |fixture index|}}
+          <div class="league-finals-semi {{if (eq index 0) 'top'}}">
+            {{component 'leagues/ladder-fixture' fixture=fixture}}
+          </div>
+        {{/each}}
+        
+      </div>
+      
+      
+      <div class="col-flex row league-finals-lines">
+        <div class="col-6 league-finals-lines-l"></div>
+        <div class="col-6 league-finals-lines-r"></div>
+      </div>
+      
+      
+      <div class="col-auto league-finals-final">
+        <h5 class="white no-top-gap heading-font">{{t 'competitions.final'}}</h5>
+        {{component 'leagues/ladder-fixture' fixture=final}}
+      </div>
+      
+      <div class="col-flex league-finals-lines short">
+        <div class="col-12 league-finals-lines-r"></div>
+      </div>
+      
+      <div class="col-auto league-finals-winner">
+        
+        <div class="text-center">
+          <img src="/assets/images/league/trophy.png" class="league-trophy">
+        </div>
+        <div class="ladder-fixture-block {{unless bronzeFinal.winner 'no-club'}}">
+          <div class="ladder-fixture-cell">
+            {{#if bronzeFinal.winner}}
+              {{club-link club=final.winner class="secondary go-primary" clubNameClass="ellipsis ladder-fixture-club standings-club-name"}}
+            {{/if}}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+{{/normal-scroll}}
+
+<div class="dash-content">
+  <div class="row row-nowrap">
+  
+    <div class="col-auto">
+      <h5 class="white heading-font">{{t 'competitions.bronze-final'}}</h5>
+      {{component 'leagues/ladder-fixture' fixture=bronzeFinal}}
+    </div>
+    
+    <div class="col-auto league-finals-lines short">
+      <div class="col-12 league-finals-lines-r bronze"></div>
+    </div>
+    
+    <div class="col-auto league-bronze-winner">
+      <div class="ladder-fixture-block {{unless bronzeFinal.winner 'no-club'}}">
+        <div class="ladder-fixture-cell">
+        {{#if bronzeFinal.winner}}
+          {{club-link club=bronzeFinal.winner class="secondary go-primary" clubNameClass="ellipsis ladder-fixture-club standings-club-name"}}
+        {{/if}}
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+

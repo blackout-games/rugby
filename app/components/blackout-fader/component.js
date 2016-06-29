@@ -52,6 +52,8 @@ export default Ember.Component.extend({
       this.$().show();
       Ember.run.next(()=>{
         
+        if(!this.$()||!this.$().length){ return; }
+        
         this.set('height',size.height);
         
         this.$().css('overflow','visible');
@@ -88,6 +90,9 @@ export default Ember.Component.extend({
       this.$().addClass('no-margin');
     }
     Ember.run.next(()=>{
+        
+      if(!this.$()||!this.$().length){ return; }
+      
       this.$().removeClass('no-transition');
       this.$().addClass('no-margin');
       if(this.$().height()>0){

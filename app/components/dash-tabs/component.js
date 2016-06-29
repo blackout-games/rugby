@@ -103,8 +103,8 @@ export default Ember.Component.extend({
     registerTab(id/*, name*/){
       this.get('registerTab')(id);
     },
-    deregisterTab(id){
-      this.get('deregisterTab')(id);
+    deregisterTab(id,updateUrl){
+      this.get('deregisterTab')(id,updateUrl);
     },
     
     receiveTabs( tabs ){

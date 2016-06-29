@@ -16,6 +16,12 @@ export default Ember.Component.extend({
   hasInit: false,
   
   isSelected: Ember.computed('selectedTab',function(){
+    
+    // Detect a hidden tab trying to show
+    if(this.get('selectedTab') === this.get('tab') && this.get('hide')){
+      this.attrs.deregisterTab( this.get('tab'), true );
+    }
+    
     return this.get('selectedTab') === this.get('tab');
   }),
   

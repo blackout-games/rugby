@@ -1,4 +1,6 @@
-import DS from 'ember-data';
+import Model from 'ember-data/model';
+import { hasMany } from 'ember-data/relationships';
+import attr from 'ember-data/attr';
 import t from "rugby-ember/utils/translation-macro";
 import { validator, buildValidations } from 'ember-cp-validations';
 
@@ -26,20 +28,20 @@ const Validations = buildValidations({
   ],
 });
 
-export default DS.Model.extend(Validations,{
-  numberId: DS.attr(),
-  username: DS.attr(),
-  password: DS.attr(),
-  newPassword: DS.attr(),
-  email: DS.attr(),
-  dateRegistered: DS.attr(),
-  lastActive: DS.attr(),
-  mainClub: DS.attr(),
-  currentClub: DS.attr(),
-  imageUrl: DS.attr(),
-  gravatarImageUrl: DS.attr(),
-  facebookImageUrl: DS.attr(),
-  facebookId: DS.attr(),
-  isPremium: DS.attr(),
-  clubs: DS.hasMany('club'),
+export default Model.extend(Validations,{
+  numberId: attr(),
+  username: attr(),
+  password: attr(),
+  newPassword: attr(),
+  email: attr(),
+  dateRegistered: attr(),
+  lastActive: attr(),
+  mainClub: attr(),
+  currentClub: attr(),
+  imageUrl: attr(),
+  gravatarImageUrl: attr(),
+  facebookImageUrl: attr(),
+  facebookId: attr(),
+  isPremium: attr(),
+  clubs: hasMany('club'),
 });
